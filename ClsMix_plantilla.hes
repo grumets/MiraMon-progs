@@ -1,0 +1,83 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>ClsMix: Clasificación mixta de imágenes</title>
+  <!-- Traduït per Teresa Mata -->
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+<p>Así, partiendo de una imagen donde hay diversas áreas de entrenamiento, y de una
+  imagen producida mediante algún método de clasificación no supervisada se
+  crea una nueva imagen clasificada. Como método de clasificación no
+  supervisada sugerimos el módulo <a href="ISoMM.htm">IsoMM</a> de MiraMon</p>
+
+  <p>La imagen con las clases obtenidas por clasificación no supervisada tiene
+  que ser de tipo <i>byte</i> o <i>integer</i>, comprimida o no. Las clases no
+  supervisadas empezarán con un valor 1, quedando reservado el valor cero por
+  si hay píxeles de la imagen que no fueron clasificados.<br/>
+  La imagen con las áreas de entrenamiento tiene que ser del mismo ámbito y
+  resolución que la imagen producida mediante la clasificación no supervisada,
+  y tiene que ser <i>byte</i>, comprimida o no. Las clases de áreas de
+  entrenamiento tendrán que estar enumeradas consecutivamente desde el número
+  1 (el valor cero será para todos los píxeles de la imagen que no estén
+  dentro de ningún área de entrenamiento).</p>
+
+  <p>El módulo creará un fichero de texto donde, para cada clase temática
+  (grupo de áreas de entrenamiento que son muestras de un mismo tipo de
+  cubierta), se dará las proporciones de las diferentes clases espectrales
+  (clases obtenidas a partir de la clasificación no supervisada) que la
+  representan (ved, más adelante, el concepto de representatividad). Se dará
+  también, para cada clase espectral, las proporciones de las diferentes
+  clases temáticas a las cuales podría contribuir. Si hay diversas posibles
+  clases temáticas, se cogerá la que tenga la frecuencia mayor. Utilizando
+  unos umbrales de frecuencia dados por el usuario (fidelidad y
+  representatividad), a cada clase espectral se le hará corresponder una clase
+  temática concreta o se decidirá dejarla como no clasificada. Con estos
+  resultados se creará la imagen producto de esta clasificación mixta. A los
+  píxeles no clasificados se les dará valor cero.</p>
+
+  <p>Conceptos clave del clasificador:</p>
+
+  <ol>
+    <li>FIDELIDAD de la clase espectral a la clase temática: Mínima proporción
+    con que una clase espectral está dentro de la clase temática a la cual se
+    asignará finalmente. La proporción se expresa con respecto a la clase
+    espectral. Para comprender este concepto, piense que cada clase espectral
+    se acabará asignando a la clase temática a la cual el cruce de las
+    imágenes revele que la clase espectral se corresponde más frecuentemente;
+    sin embargo, quizás no interese que esta asignación se produzca si la
+    clase temática con máxima frecuencia de correspondencia sólo contiene un
+    20% de los píxeles de la clase espectral. Normalmente tiene que ser un
+    número entre 0.5 y 1, pero con 1 difícilmente la clase espectral se
+    asignará a ninguna clase temática, ya que la exigencia es demasiado
+    fuerte.</li>
+
+    <li>REPRESENTATIVIDAD de la clase espectral en la clase temática. Es la
+    mínima proporción de la clase espectral dentro de la clase temática. Por
+    ejemplo se puede indicar que una clase espectral no merece pertenecer a
+    ninguna clase temática si con la clase con la cual presenta más
+    correspondencia presenta una correspondencia de sólo 0.01%: la clase
+    espectral es tan poco representativa que no vale la pena correr el riesgo
+    de utilizarla. Normalmente tiene que ser un número muy pequeño, a menos
+    que se esté muy seguro de correspondencia biunívoca entre las clases
+    temáticas y espectrales.</li>
+  </ol>
+  <hr/>
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+AREASGN ?
+--></p>
+  </exclusiva>
+
+</body>
+</html>

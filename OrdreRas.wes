@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:OrdreRas:1</ows:Identifier>
+		<ows:Title>Ordenación de los valores de un ráster.</ows:Title>
+		<ows:Abstract>Este módulo genera un ráster de índices según el orden (ascendente o descendente) que corresponde a los valores del ráster origen a ordenar.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Ordenación de los valores de un ráster"/>
+		<ows:Metadata xlink:title="Abstract:Este módulo genera un ráster de índices según el orden (ascendente o descendente) que corresponde a los valores del ráster origen a ordenar."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ordre</ows:Identifier>
+				<ows:Title>Orden</ows:Title>
+				<ows:Abstract><![CDATA[<li><ul>A para ordenar ascendentemente.</li><li>   D para ordenar descendentemente.</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Orden"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>A</ows:Value>
+						<ows:Value>D</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>A</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerRAS</ows:Identifier>
+				<ows:Title>Fichero ráster</ows:Title>
+				<ows:Abstract>Fichero origen ráster IMG.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroRAS"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>LIM_INF</ows:Identifier>
+				<ows:Title>Límite Inferior</ows:Title>
+				<ows:Abstract>Valor límite de las celdas hasta donde se quiere ordenar. Se debe añadir "/LIM_INF=" antes del valor límite si se quiere ordenar los valores superiores o iguales al valor límite.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>LIM_SUP</ows:Identifier>
+				<ows:Title>Límite Superior</ows:Title>
+				<ows:Abstract>Valor límite de las celdas hasta donde se quiere ordenar. Se debe añadir "/LIM_SUP=" si se quiere ordenar los valores inferiores o iguales al valor límite.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>LIM_PIX</ows:Identifier>
+				<ows:Title>Número de píxeles</ows:Title>
+				<ows:Abstract>Número máximo de niveles que de desea obtener.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESEMPAT_POSICIO</ows:Identifier>
+				<ows:Title>Desempate en posición</ows:Title>
+				<ows:Abstract>Si no se quieren valores empatados, se puede indicar /DESEMPAT_POSICIO y se dará prioridad a la celda en posición más baja para el caso ascendente y en posición más alta para el descendiente. Si las celdas están en la misma fila, se dará prioridad a la celda de más a la izquierda para el caso ascendente y en la de más a la derecha para el descendiente. Esta opción proporciona resultados como el módulo Rank del software Idrisi.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerOrdenat</ows:Identifier>
+				<ows:Title>Fichero ordenado</ows:Title>
+				<ows:Abstract>Fichero de salida que contendrá los valores de las celdas ordenadas según los valores originales.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroOrdenado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

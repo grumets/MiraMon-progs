@@ -1,0 +1,145 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Traduït per Agustí Escobar-->
+
+  <title>ANSIOEM: Programa para convertir entre ficheros ANSI (Windows) y OEM
+  (MS-DOS) [Juego 850]</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p>Debido a la gran diversidad de caracteres que hay en los diferentes
+  idiomas del mundo, a la necesidad de escribir símbolos especiales, y a la
+  propia historia de la informática, se ha utilizado diferentes conjuntos de
+  caracteres en diferentes países y bajo diferentes sistemas operativos. Como
+  resultado de esto, es frecuente ver caracteres extraños, por ejemplo cuando
+  leemos con un editor de texto llano, como el bloc de notas del Windows, un
+  texto creado con un editor de texto llano de otro sistema operativo, como
+  por ejemplo el EDIT del antiguo MS-DOS.</p>
+
+  <p>Este problema también podemos encontrarlo en las bases de datos, en las
+  cuales hay campos de tipo texto en que los contenidos han sido escritos de
+  acuerdo con alguno de los diversos conjuntos de caracteres existentes. En el
+  caso concreto de las bases de datos en formato DBF hay una marca interna
+  que, si está activada (valor mayor que cero), nos indica en qué conjunto de
+  caracteres están escritos los textos, con lo cual es posible interpretarlos
+  correctamente.</p>
+  
+  <p>Este programa tiene tres opciones:
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+</p>
+ 
+  <p>Muchos caracteres son transformables entre conjuntos de caracteres
+  diferentes; por ejemplo tanto el conjunto de caracteres OEM-850 del MS-DOS
+  como el ANSI 1252 de Windows contienen todas las letras mayúsculas y
+  minúsculas acentuadas. Asimismo algunos caracteres sólo existen en algunos
+  conjuntos de caracteres; por ejemplo, el símbolo de marca registrada (TM),
+  que en la tabla ANSI 1252 se puede representar con un solo carácter volado,
+  no tiene representación en la tabla OEM-850. En estos últimos casos la
+  conversión no es posible y hay que poner un carácter substituto arbitrario
+  que nos indicará que en la traducción el conjunto de caracteres de destino
+  no tiene ningún carácter suficientemente parecido al carácter en el conjunto
+  de caracteres original.</p>
+
+  <p>ATENCIÓN:</p>
+
+  <blockquote>
+    ¡¡No intente convertir un fichero que no sea de texto plano o DBF o
+    corromperá su contenido!! Ejemplos de ficheros de texto plano son los REL
+    y MMM de MiraMon, los ficheros TXT, BAT, etc.
+  </blockquote>
+
+  <p>Notas:</p>
+
+  <ul>
+    <li>Conjunto de caracteres ANSI: El programa utiliza el conjunto de
+    caracteres 1252 de Windows, correspondiente a Europa Occidental y los
+    Estados Unidos de América. En el caso de los ficheros DBF el programa los
+    marca con el valor 88 (0x58), que en dBASE corresponde a 'WEurope
+    ANSI'.</li>
+  </ul>
+
+  <div style="margin-left: 4em">
+    <p>Algunas marcas posibles para ANSI en tablas DBF son:</p>
+    <pre>
+         'ascii   ANSI'  87  (0x57)   (dBASE)
+         'WEurope ANSI'  88  (0x58)   (dBASE)  [defecto del programa]
+         'Spanish ANSI'  89  (0x59)   (dBASE)
+         'FoxPro  ANSI'   3  (0x03)   (FoxPro)
+</pre>
+
+    <p>Para marcar una tabla de acuerdo con uno de estos conjuntos de
+    caracteres indique el valor numérico decimal (por ejemplo 3 para FoxPro
+    ANSI). MiraMon y MiraDades reconocen todas estas marcas.<br/></p>
+  </div>
+
+  <ul>
+    <li>Conjunto de caracteres OEM: El programa utiliza el conjunto de
+    caracteres OEM-850 DOS, también llamado &quot;Latin 1&quot; y extensamente
+    usado en muchos países del mundo por su riqueza en caracteres acentuados.
+    En el caso de los ficheros DBF el programa los marca con el valor 20
+    (0x14), que en dBASE corresponde a 'dbSPANISH2
+    dBASEESPcp850'.</li>
+  </ul>
+
+  <div style="margin-left: 4em">
+    <p>Algunas marcas posibles para OEM-850 en tablas DBF son:</p>
+    <pre>
+         'dbDUTCH2      dBASENLDcp850'  10  (0x0A)   (dBASE)
+         'dbFRENCH2     dBASEFRAcp850'  14  (0x0E)   (dBASE)
+         'dbFRENCHCAN2  dBASEFRCcp850'  29  (0x1D)   (dBASE)
+         'dbGERMAN2     dBASEDEUcp850'  16  (0x10)   (dBASE)
+         'dbITALIAN2    dBASEITAcp850'  18  (0x12)   (dBASE)
+         'dbPORTUGUESE2 dBASEPTBcp850'  37  (0x25)   (dBASE)
+         'dbSPANISH2    dBASEESPcp850'  20  (0x14)   (dBASE)  [defecto]
+         'dbSWEDISH2    dBASESVEcp850'  22  (0x16)   (dBASE)
+         'dbUK2         dBASEENGcp850'  26  (0x1A)   (dBASE)
+         'dbUS2         dBASEENUcp850'  55  (0x37)   (dBASE)
+         'FoxPro  OEM-850'               2  (0x02)   (FoxPro)
+</pre>
+
+    <p>Para marcar una tabla de acuerdo con uno de estos conjuntos de
+    caracteres indique el valor numérico decimal (por ejemplo 14 para
+    FRENCH2). MiraMon y MiraDades reconocen todas estas marcas.<br/></p>
+  </div>
+
+  <ul>
+    <li>Cuando se marca con un nuevo conjunto de caracteres el programa
+    informa de cuál era el valor previo.<br/></li>
+
+    <li>Para conocer qué valor tiene la marca de un fichero DBF puede utilizar
+    el menú Información del MiraDades.</li>
+  </ul>
+  <hr/>
+
+  <exclusiva>
+    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+    <p>Ejemplos:</p>
+    <pre>
+   ANSIOEM   C:\COPIA\LEE.TXT    D:\LEE.TXT   1
+   ANSIOEM   C:\COPIA\LEE.TXT    D:\LEE.TXT   1   _
+   ANSIOEM   C:\BASES\COMAR.DBF  A:\COMAR     3
+   ANSIOEM   C:\BASES\MUNICIP    ANSI
+   ANSIOEM   C:\BASES\MUNICIP    5
+</pre><!-- $$EXCLUSIVA
+
+Para obtener la ayuda completa escriba:
+ANSIOEM ?
+-->
+  </exclusiva>
+  <hr/>
+  <pre>
+Borland, dBASE, DOS, FoxPro y Windows son marcas registradas de sus respectivos 
+propietarios.
+
+</pre>
+</body>
+</html>

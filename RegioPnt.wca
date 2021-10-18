@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:RegioPNT:1</ows:Identifier>
+		<ows:Title>Agrupació de punts en polígons</ows:Title>
+		<ows:Abstract>Aquest mòdul genera una capa vectorial de polígons a partir de l'agrupació temàtica i espacial de punts. Típicament s'usa en la determinació de regions d'activitat, influència, presència, etc, d'una determinada espècie biològica o variable a partir de mostres captades en localitzacions puntuals. Per a efectuar l'agrupació, el mòdul utilitza un conjunt de punts que poden ser tots o bé ser seleccionats en funció d'algun atribut de la base de dades (tanmateix, un cop feta la selecció dels punts que intervenen, els seus atributs esdevenen irrellevants en el resultat).</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Agrupació de punts en polígons"/>
+		<ows:Metadata xlink:title="Abstract:Aquest mòdul genera una capa vectorial de polígons a partir de l'agrupació temàtica i espacial de punts. Típicament s'usa en la determinació de regions d'activitat, influència, presència, etc, d'una determinada espècie biològica o variable a partir de mostres captades en localitzacions puntuals. Per a efectuar l'agrupació, el mòdul utilitza un conjunt de punts que poden ser tots o bé ser seleccionats en funció d'algun atribut de la base de dades (tanmateix, un cop feta la selecció dels punts que intervenen, els seus atributs esdevenen irrellevants en el resultat)."/>
+		<DataInputs>
+	<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[<li>1. per mode simple: es genera una única regió amb un únic atribut percentual, total del 100% o parcial.</li><li>2. per mode múltiple: es generen diferents regions amb superposicions, des d'un percetatge inferior a superior segons un increment constant.</li>]]>
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+			<LiteralData>
+				<ows:AllowedValues>
+				<ows:Value>1</ows:Value>
+				<ows:Value>2</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>
+			</Input>			
+	<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PuntsOrigen</ows:Identifier>
+				<ows:Title>Punts Origen</ows:Title>
+				<ows:Abstract>Nom del fitxer origen de les localitzacions puntuals en format PNT.
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+			<ComplexData>
+				<Default>
+					<Format>
+					<MimeType>application/x-VEC</MimeType>
+								<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+					<MimeType>application/x-VEC</MimeType>
+								<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>
+			</Input>
+	<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercentInf</ows:Identifier>
+				<ows:Title>Percentatge Inferior</ows:Title>
+				<ows:Abstract>Percentatge inferior per a l'opció múltiple o únic percentatge per l' opció simple. Per a una regió amb la totalitat dels punts aquest paràmetre prendrà el valor 100.
+</ows:Abstract>
+	<ows:Metadata xlink:title="Param4"/>
+			<LiteralData>
+				<ows:AnyValue/>
+			</LiteralData>
+			</Input>
+	<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PercentSup</ows:Identifier>
+				<ows:Title>Percentatge Superior</ows:Title>
+				<ows:Abstract>Percentatge superior per a l'opció múltiple. Si l'increment total des de percentatge inferior no és múltiple d'Increment, la regió de màxim percentatge serà en realitat un valor menor que si és múltiple.
+</ows:Abstract>
+			<LiteralData>
+			<ows:AnyValue/>
+			</LiteralData>
+			</Input>
+	<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Increment</ows:Identifier>
+				<ows:Title>Increment</ows:Title>
+				<ows:Abstract>Increment constant del percentatge de punts per a generar les diferents regions.
+</ows:Abstract>
+			<LiteralData>
+			<ows:AnyValue/>
+			</LiteralData>
+			</Input>
+	<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CRITERI_SEL</ows:Identifier>
+				<ows:Title>Criteri de seleccio</ows:Title>
+				<ows:Abstract> Per a preseleccions segons distribució espacial on cal restringir un determinat percentatge del total de punts , l'usuari pot escollir entre els següents criteris:<![CDATA[<ul><li>1: Distàncies respecte el centroide de la distribució de punts. És l'opció per defecte.</li><li>2: Distàncies d'un punt respecte la resta de la distribució.</li><li>3: Distàncies respecte el centre de l'àmbit de la distribució de punts.</li></ul>]]>
+</ows:Abstract>
+			<LiteralData>
+			<ows:AnyValue/>
+			</LiteralData>
+			</Input>
+		</DataInputs>
+			<ProcessOutputs>
+					<Output>
+					<ows:Identifier>RegionsResultat</ows:Identifier>
+					<ows:Title>RegionsResultat</ows:Title>
+					<ows:Abstract>Nom del fitxer destí de polígons amb les regions generades a partir dels punts seleccionats. Pot ser en format VEC o POL.</ows:Abstract>
+					<ows:Metadata xlink:title="Param2"/>
+					<ComplexOutput>
+						<Default>
+							<Format>
+								<MimeType>application/x-VEC</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-VEC</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-pol</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+						</Supported>
+					</ComplexOutput>
+				</Output>
+			</ProcessOutputs>
+		</ProcessDescription>
+</wps:ProcessDescriptions>

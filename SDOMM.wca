@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SDOMM:1</ows:Identifier>
+		<ows:Title>Opció 0</ows:Title>
+		<ows:Abstract>Crea una llista de les taules que conté la base de dades espacial SDO indicada.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Importació de capes en una base de dades Spatial Oracle al format del MiraMon"/>
+		<ows:Metadata xlink:title="Abstract:Aquest programa importa una capa emmagatzemada en una base de dades Spatial Oracle al format estructurat del MiraMon (PNT, ARC/NOD, POL)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Llista de les taules que conté la base de dades espacial SDO indicada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>F_DSN_in</ows:Identifier>
+				<ows:Title>Nom DSN</ows:Title>
+				<ows:Abstract>Nom del fitxer DSN que conté la informació de la base de dades espacial (<![CDATA[<i>geoadatabase</i>]]>).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:nomDSN"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ORDENAR_LLISTA</ows:Identifier>
+				<ows:Title>Ordenar la llista</ows:Title>
+				<ows:Abstract>Permet ordenar la llista de capes alfabèticament.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MOSTRA_TIPUS_CAPA</ows:Identifier>
+				<ows:Title>Tipus de capa</ows:Title>
+				<ows:Abstract>Opcionalment es pot fer es mostri el tipus de cada una de les capes. Si això no es fa el procés serà molt més ràpid.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>F_Info</ows:Identifier>
+				<ows:Title>Fitxer informació</ows:Title>
+				<ows:Abstract>Fitxer informació de capes del servidor. Pren l'extensió '.ini' i contindrà la llista de capes disponibles en aquesta base de dades.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:fitxerInfo"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-ini</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ini</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SDOMM:2</ows:Identifier>
+		<ows:Title>Opció 1 i 2</ows:Title>
+		<ows:Abstract>Importació al format del MiraMon d'una capa emmagatzemada en una base de dades Spatial Oracle (amb i sense estructuració topològica, respectivament).</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[<ul>
+				<li>1: Importació al format del MiraMon i estructuració topològica (recomanat, però més lent): importa una capa SDO de la mateixa manera que ho fa l'opció 2, però estructura el fitxer importat per tal que tingui la topologia verificada. Per al cas de capes SDO de polígons es genera topologia de polígons: el fitxer d'arcs no presenta vores duplicades (el fitxer d'arcs ocupa pràcticament la meitat) i el fitxer de polígons no presenta superposicions. També és possible eliminar els eventuals micropolígons. Com s'ha dit, aquesta opció és la recomanada. Per al cas de capes SDO de línies es genera topologia arc/node: s'eliminen interseccions i superposicions. En el cas de capes SDO de punts s'unifiquen en un sol punt tots aquells objectes situats pràcticament al mateix lloc (dintre d'una tolerància infinitesimal). En tots els casos, si els registres de la base de dades d'objectes originals que han estat unificats en una mateixa ubicació geogràfica per raons de tolerància són diferents, la taula principal creada conté registre múltiple per a cada objecte gràfic en què sigui necessari, de forma que es preserva tota la informació alfanumèrica associada.</li>
+				<li>2: Importació al format del MiraMon: realitza una simple importació del format sense modificar la geometria o la topologia de les entitats gràfiques: es generen fitxers que poden presentar punts en posicions semblants (tolerància infinitesimal) o idèntiques, interseccions entre línies que no expliciten un node en la intersecció, superposicions de polígons o altres situacions no desitjades en un model topològic convencional. Si desitgeu construir posteriorment la topologia sobre la capa resultant de la importació cal que feu un ús combinat de les eines d'estructuració topològica adequades segons es tracti d'estructurar punts (amb <a href="vecpnt.htm">VecPNT</a>), arcs (amb <a href="linarc.htm">LinARC</a>) o polígons (fent un nou ciclat de polígons amb <a href="ciclar.htm">Ciclar</a> i transferint els atributs entre polígons amb <a href="atritop.htm">AtriTop</a>).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>F_DSN_in</ows:Identifier>
+				<ows:Title>Nom DSN</ows:Title>
+				<ows:Abstract>Nom del fitxer DSN que conté la informació de la base de dades espacial (<![CDATA[<i>geoadatabase</i>]]>).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:nomDSN"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>capaSDO</ows:Identifier>
+				<ows:Title>Capa SDO</ows:Title>
+				<ows:Abstract>Nom de la capa o de la selecció de la capa (mitjançant una sentència en SQL) que es vol importar de la base de dades SDO.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:capaSDO"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ORDENAR_LLISTA</ows:Identifier>
+				<ows:Title>Ordenar la llista</ows:Title>
+				<ows:Abstract>Permet ordenar la llista de capes alfabèticament.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MOSTRA_TIPUS_CAPA</ows:Identifier>
+				<ows:Title>Tipus de capa</ows:Title>
+				<ows:Abstract>Opcionalment es pot fer es mostri el tipus de cada una de les capes. Si això no es fa el procés serà molt més ràpid.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_MIN</ows:Identifier>
+				<ows:Title>Àrea Mínima</ows:Title>
+				<ows:Abstract>Mínima àrea permesa a per a un polígon. Per sota d'aquest valor, el polígon no s'importa o, si s'ha creat durant l'estructuració, s'elimina.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_PERI_MIN</ows:Identifier>
+				<ows:Title>Àrea perímetre mínima</ows:Title>
+				<ows:Abstract>Mínima relació àrea/perímetre permesa per a un polígon. Per sota d'aquest valor, el polígon no s'importa o, si s'ha creat durant l'estructuració, s'elimina.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NEXE_CRITERIS</ows:Identifier>
+				<ows:Title>Criteris de nexe</ows:Title>
+				<ows:Abstract>En cas d'indicar els dos criteris anteriors, no importar o eliminar els polígons que compleixen les dues condicions alhora (AND), o els que en compleixen com a mínim una (OR). El valor per defecte és AND.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>AND</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FONDRE</ows:Identifier>
+				<ows:Title>Fondre micropolígons</ows:Title>
+				<ows:Abstract> Indica a quin polígon s'assigna l'espai ocupat pel micropolígon que desapareix en els casos anteriorment descrits d'eliminació. Cal indicar POL_GRAN si voleu assignar l'espai al polígon contigu d'àrea més gran. El valor per defecte és FRONTERA_MES_LLARGA, que vol dir que s'elimina l'arc més llarg del micropolígon que desapareix.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>POL_GRAN</ows:Value>
+						<ows:Value>FRONTERA_MES_LLARGA</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>FRONTERA_MES_LLARGA</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATRIB_ELIM</ows:Identifier>
+				<ows:Title>Eliminar per atribut</ows:Title>
+				<ows:Abstract>El polígon que absorbeix al micropolígon hereta els seus atributs temàtics (no els geomètrico-topològics) si el valor és 1, generant registre múltiple si eren diferents dels del polígon gran. El valor per defecte és 0, que vol dir que els atributs del micropolígon es perden.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ALGORISME</ows:Identifier>
+				<ows:Title>Algorisme</ows:Title>
+				<ows:Abstract>Aquest paràmetre serveix per a determinar el tipus d'algorisme que l'aplicació emprarà per a tallar els vectors en l'estructuració topològica. <![CDATA[<ul><li>ESCOMBRATGE: basat en la intersecció de segments de Bentley-Ottmann.</li><li>DIRECTE: basat en l'exploració de tots els segments contra tots per a determinar les interseccions entre vectors.</li><li>AUTOMATIC: el programa decideix automàticament quin dels dos algorismes s'utilitzarà.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ESCOMBRATGE</ows:Value>
+						<ows:Value>DIRECTE</ows:Value>
+						<ows:Value>AUTOMATIC</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>AUTOMATIC</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
+				<ows:Title>Simplifica vèrtexs</ows:Title>
+				<ows:Abstract>Simplifica els vèrtexs intermedis dels arcs, sempre i quan això no signifiqui un canvi en la topologia.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>F_capaMiraMon</ows:Identifier>
+				<ows:Title>Fitxer capa del MiraMon</ows:Title>
+				<ows:Abstract>Nom de fitxer de punts, arcs/nodes o polígons de sortida.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:capaMiraMon"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>NOM_REL_DE_CAPA</ows:Identifier>
+				<ows:Title>Rel de capa</ows:Title>
+				<ows:Abstract>Opcionalment es pot afegir el nom del REL de capa que es genera i que vincula amb la capa capaSDO.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>Ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>Ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>NOM_FITXER_LLISTA_CAPES</ows:Identifier>
+				<ows:Title>Fitxer informació</ows:Title>
+				<ows:Abstract>Opcionalment es pot afegir el nom del fitxer d'informació de capes del servidor. Pren l'extensió '.ini' i contindrà la llista de capes disponibles en aquesta base de dades.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-ini</MimeType>
+							<Encoding>Ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ini</MimeType>
+							<Encoding>Ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SDOMM:3</ows:Identifier>
+		<ows:Title>Opció 3</ows:Title>
+		<ows:Abstract>Generació d'un REL de capa.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Generació d'un REL de capa: no realitza cap importació sinó que genera un REL de capa. Aquest REL pot ser modificat per tal que l'usuari hi introdueixi descripcions dels camps o qualsevol altra metadada referent a la capa SDO.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>F_DSN_in</ows:Identifier>
+				<ows:Title>Nom DSN</ows:Title>
+				<ows:Abstract>Nom del fitxer DSN que conté la informació de la base de dades espacial (<![CDATA[<i>geoadatabase</i>]]>).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:nomDSN"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>capaSDO</ows:Identifier>
+				<ows:Title>Capa SDO</ows:Title>
+				<ows:Abstract>Nom de la capa o de la selecció de la capa (mitjançant una sentència en SQL) que es vol importar de la base de dades SDO.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:capaSDO"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ORDENAR_LLISTA</ows:Identifier>
+				<ows:Title>Ordenar la llista</ows:Title>
+				<ows:Abstract>Permet ordenar la llista de capes alfabèticament.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MOSTRA_TIPUS_CAPA</ows:Identifier>
+				<ows:Title>Tipus de capa</ows:Title>
+				<ows:Abstract>Opcionalment es pot fer que es mostri el tipus de cada una de les capes. Si això no es demana el procés serà molt més ràpid.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>REL_Capa</ows:Identifier>
+				<ows:Title>Rel de capa</ows:Title>
+				<ows:Abstract>Nom del REL de capa que es genera i que vincula amb la capa capaSDO.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:relCapa"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>Ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>Ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>NOM_FITXER_LLISTA_CAPES</ows:Identifier>
+				<ows:Title>Fitxer informació</ows:Title>
+				<ows:Abstract>Opcionalment es pot afegir el nom del fitxer d'informació de capes del servidor. Pren l'extensió '.ini' i contindrà la llista de capes disponibles en aquesta base de dades.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-ini</MimeType>
+							<Encoding>Ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ini</MimeType>
+							<Encoding>Ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

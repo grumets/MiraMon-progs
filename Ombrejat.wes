@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Ombrejat:Param1:1</ows:Identifier>
+		<ows:Title>Generación de una imágen sombreada (JPG)</ows:Title>
+		<ows:Abstract>Esta opción genera una imagen sombreada en formato JPEG.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Generación de imágenes sombreadas"/>
+		<ows:Metadata xlink:title="Abstract:Este módulo permite obtener una imagen sombreada (con degradación de luz) en función del relieve y de la posición del Sol. La localización del Sol queda determinada por los ángulos (en grados) de elevación respecto al horizonte y de acimut respecto al Norte en sentido horario (0º indica el Norte). Se debe especificar estos ángulos cuando haya que generar los modelos derivados del Modelo Digital de Elevaciones (MDE). Estos modelos derivados son el Modelo Digital de Iluminaciones, que calcula el coseno del ángulo de incidencia, y el Modelo Digital de Sombras, que determina el ángulo de elevación a partir del cual cada punto del terreno ya recibe luz directa del Sol. Estos modelos pueden precalcularse con las correspondientes aplicaciones: Illum y Ombra. En cualquier caso, la aplicación puede generar los modelos derivados necesarios, de forma temporal y borrándolos al final, o guardándolos para posteriores usos, a partir del MDE. Hay que tener en cuenta que el cálculo del Modelo de Sombras puede llegar a ser un proceso largo y necesitar elevados recursos de memoria, y por tanto, si se desea se puede no usar este modelo lo que dará lugar a un resultado aceptable, aunque de menor calidad."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Resultado en formato JPG.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fichero Origen</ows:Title>
+				<ows:Abstract>Es la capa a sombrear y puede ser un ráster en formato IMG o un vector estructurado de polígonos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Qualitat</ows:Identifier>
+				<ows:Title>Calidad</ows:Title>
+				<ows:Abstract>Un valor que va de 5 (mínima calidad y máximo grado de compresión) a 95 (máxima calidad y mínimo grado de compresión).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Calidad"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>95</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MinimaIlluminacio</ows:Identifier>
+				<ows:Title>Mínima Iluminación</ows:Title>
+				<ows:Abstract>Corresponde al porcentaje mínimo al que puede oscurecerse un color en el espacio HSI. Valores inferiores se saturarán. Si se permite un porcentaje demasiado bajo, los colores oscurecidos no se diferenciarán. Un valor genérico recomendado es el 5%, pero hará falta ajustarlo según el caso.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:MinimaIluminacion"/>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MaximaIluminació</ows:Identifier>
+				<ows:Title>Máxima Iluminación</ows:Title>
+				<ows:Abstract>Corresponde al porcentaje máximo de iluminación al que puede llegar un color en el espacio HSI. Valores superiores se saturarán. Si se permite un porcentaje demasiado alto, los colores muy claros no se diferenciarán. Un valor genérico recomendado es el 95%, pero hará falta ajustarlo según el caso.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:MáximaIluminación"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>IncrementIlluminacio</ows:Identifier>
+				<ows:Title>Incremento Iluminación</ows:Title>
+				<ows:Abstract>Corresponde al nivel constante de iluminación con que se incrementa toda la imagen para a contrarrestar globalmente la disminución variable de iluminación debida a la aplicación del modelo de sombras y el modelo de iluminaciones. Un valor genérico recomendado es el 33%, pero hará falta ajustarlo según el caso.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:IncrementoIluminacion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>33</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE</ows:Identifier>
+				<ows:Title>Modelo Digital de Elevaciones</ows:Title>
+				<ows:Abstract>Modelo digital de elevaciones a partir del cual se generaran los modeles derivados.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ILLUM_ORI</ows:Identifier>
+				<ows:Title>Iluminaciones original</ows:Title>
+				<ows:Abstract>Modelo digital de iluminaciones previamente generado.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ILLUM_DEST</ows:Identifier>
+				<ows:Title>Iluminaciones destino</ows:Title>
+				<ows:Abstract>Nombre con el que se guardará el modelo digital de iluminaciones generado. Si no se indica, se generará en un directorio temporal y será borrado al acabar.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OMBRA_ORI</ows:Identifier>
+				<ows:Title>Sombra original</ows:Title>
+				<ows:Abstract>Modelo digital de sombras previamente generado (siempre que no esté activado el parámetro /NO_OMBRES).</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OMBRA_DEST</ows:Identifier>
+				<ows:Title>Sombra destino</ows:Title>
+				<ows:Abstract>Nombre con el que se guardará el modelo digital de sombras generado. Si no se indica, se generará en un directorio temporal y será borrado al acabar (siempre que no esté activado el parámetro /NO_OMBRES).</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PAL</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Nombre de la paleta (p25, pal, p65) o tabla de simbolización (dbf) que determina la asignación de colores de la capa origen a sombrear.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ELEV</ows:Identifier>
+				<ows:Title>Elevación</ows:Title>
+				<ows:Abstract>Ángulo, en grados, de elevación del Sol respecto al horizonte, necesario cuando hay que generar los modelos derivados del MDE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MES_BANDA</ows:Identifier>
+				<ows:Title>Añadir bandas</ows:Title>
+				<ows:Abstract>Indicador para añadir los canales del JPG resultado como bandas del ráster origen (no válido si FicheroOrigen es un POL).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_OMBRES</ows:Identifier>
+				<ows:Title>No sombras</ows:Title>
+				<ows:Abstract>Parámetro que indica que no se quiere usar el modelo de sombras para oscurecer al mínimo de iluminación las zonas que no reciben luz directa debido a las sombras proyectadas.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AZIMUT</ows:Identifier>
+				<ows:Title>Azimut</ows:Title>
+				<ows:Abstract>Angulo, en grados, respeto al Norte y en sentido horario de posición solar, necessario cuando hace falta generar los modelos derivados del MDE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PERCENT_FOSC</ows:Identifier>
+				<ows:Title>Porcentaje oscurecimiento</ows:Title>
+				<ows:Abstract>Oscurecimiento addicional (en porcentaje) de las zonas a sombra, este oscurecimiento no se satura y por defecto se usa un 25%.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>ImatgeResultat</ows:Identifier>
+				<ows:Title>Imagen Resultado</ows:Title>
+				<ows:Abstract>Es el modelo resultado sombreado en formato ráster JPG.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:ImagenResultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>image/jpeg</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>image/jpeg</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Ombrejat:Param1:3</ows:Identifier>
+		<ows:Title>Generación de imágenes sombreadas (RGB)</ows:Title>
+		<ows:Abstract>Esta opción genera una imagen sombreada en formato RGB.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Resultado en formato RGB, o sea 3 ficheros IMG uno para el canal rojo, un para el canal verde y uno para el canal azul.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fichero Origen</ows:Title>
+				<ows:Abstract>Es la capa a sombrear y puede ser un ráster en formato IMG o un vector estructurado de polígonos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Qualitat</ows:Identifier>
+				<ows:Title>Calidad</ows:Title>
+				<ows:Abstract>Un valor que va de 5 (mínima calidad y máximo grado de compresión) a 95 (máxima calidad y mínimo grado de compresión).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Calidad"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>95</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MinimaIlluminacio</ows:Identifier>
+				<ows:Title>Mínima Iluminación</ows:Title>
+				<ows:Abstract>Corresponde al porcentaje mínimo al que puede oscurecerse un color en el espacio HSI. Valores inferiores se saturarán. Si se permite un porcentaje demasiado bajo, los colores oscurecidos no se diferenciarán. Un valor genérico recomendado es el 5%, pero hará falta ajustarlo según el caso.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:MinimaIluminacion"/>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MaximaIluminació</ows:Identifier>
+				<ows:Title>Máxima Iluminación</ows:Title>
+				<ows:Abstract>Corresponde al porcentaje máximo de iluminación al que puede llegar un color en el espacio HSI. Valores superiores se saturarán. Si se permite un porcentaje demasiado alto, los colores muy claros no se diferenciarán. Un valor genérico recomendado es el 95%, pero hará falta ajustarlo según el caso.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:MáximaIluminación"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>IncrementIlluminacio</ows:Identifier>
+				<ows:Title>Incremento Iluminación</ows:Title>
+				<ows:Abstract>Corresponde al nivel constante de iluminación con que se incrementa toda la imagen para a contrarrestar globalmente la disminución variable de iluminación debida a la aplicación del modelo de sombras y el modelo de iluminaciones. Un valor genérico recomendado es el 33%, pero hará falta ajustarlo según el caso.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:IncrementoIluminacion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>33</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE</ows:Identifier>
+				<ows:Title>Modelo Digital de Elevaciones</ows:Title>
+				<ows:Abstract>Modelo digital de elevaciones a partir del cual se generaran los modeles derivados.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ILLUM_ORI</ows:Identifier>
+				<ows:Title>Iluminaciones original</ows:Title>
+				<ows:Abstract>Modelo digital de iluminaciones previamente generado.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ILLUM_DEST</ows:Identifier>
+				<ows:Title>Iluminaciones destino</ows:Title>
+				<ows:Abstract>Nombre con el que se guardará el modelo digital de iluminaciones generado. Si no se indica, se generará en un directorio temporal y será borrado al acabar.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OMBRA_ORI</ows:Identifier>
+				<ows:Title>Sombra original</ows:Title>
+				<ows:Abstract>Modelo digital de sombras previamente generado (siempre que no esté activado el parámetro /NO_OMBRES).</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OMBRA_DEST</ows:Identifier>
+				<ows:Title>Sombra destino</ows:Title>
+				<ows:Abstract>Nombre con el que se guardará el modelo digital de sombras generado. Si no se indica, se generará en un directorio temporal y será borrado al acabar (siempre que no esté activado el parámetro /NO_OMBRES).</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PAL</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Nombre de la paleta (p25, pal, p65) o tabla de simbolización (dbf) que determina la asignación de colores de la capa origen a sombrear.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ELEV</ows:Identifier>
+				<ows:Title>Elevación</ows:Title>
+				<ows:Abstract>Ángulo, en grados, de elevación del Sol respecto al horizonte, necesario cuando hay que generar los modelos derivados del MDE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MES_BANDA</ows:Identifier>
+				<ows:Title>Añadir bandas</ows:Title>
+				<ows:Abstract>Indicador para añadir los canales del JPG resultado como bandas del ráster origen (no válido si FicheroOrigen es un POL).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_OMBRES</ows:Identifier>
+				<ows:Title>No sombras</ows:Title>
+				<ows:Abstract>Parámetro que indica que no se quiere usar el modelo de sombras para oscurecer al mínimo de iluminación las zonas que no reciben luz directa debido a las sombras proyectadas.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AZIMUT</ows:Identifier>
+				<ows:Title>Azimut</ows:Title>
+				<ows:Abstract>Angulo, en grados, respeto al Norte y en sentido horario de posición solar, necessario cuando hace falta generar los modelos derivados del MDE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PERCENT_FOSC</ows:Identifier>
+				<ows:Title>Porcentaje oscurecimiento</ows:Title>
+				<ows:Abstract>Oscurecimiento addicional (en porcentaje) de las zonas a sombra, este oscurecimiento no se satura y por defecto se usa un 25%.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>CanalRResultat</ows:Identifier>
+				<ows:Title>Canal Rojo Resultado</ows:Title>
+				<ows:Abstract>Nombre del fichero resultado que corresponde al canal rojo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:CanalRResultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>CanalGResultat</ows:Identifier>
+				<ows:Title>Canal Verde Resultado</ows:Title>
+				<ows:Abstract>Nombre del fichero resultado que corresponde al canal verde.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:CanalGResultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>CanalBResultat</ows:Identifier>
+				<ows:Title>Canal Azul Resultado</ows:Title>
+				<ows:Abstract>Nombre del fichero resultado que corresponde al canal azul.</ows:Abstract>
+				<ows:Metadata xlink:title="Param9"/>
+				<ows:Metadata xlink:title="Name:CanalBResultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

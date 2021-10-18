@@ -1,0 +1,102 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Ciclar: Creating polygons with topology</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p>This program works on a family of topologically structured files
+  containing arcs (ARC) and nodes (NOD) to produce a family of topologically
+  structured files containing polygons (POL). ARC and NOD files can be
+  generated through the <a href="LinArc.htm">LinArc</a> program. In addition, it is able to 
+apply the process straightly to POL files to obtain new polygons that correspond to the originals 
+grouped by some criterion; also it converts POL files without topological structure from VEC files, 
+and also it allows to transform POL files into VEC files (a non-topological format) and viceversa.</p>
+  
+  <p>The main objective of the program is to build all the possible
+  topological polygons present in the arcs file; this process is called
+  'cycling'. In the cycling process each polygon is described as a
+  sequence of arcs that delimits a closed area (exterior border); if the
+  polygon presents interior holes, these are also described by the
+  corresponding arcs (interior border).</p>
+
+  <p>Arcs involved in the cycling of one polygon are not written in the POL
+  file, but they are read from the ARC file; this implies a saving of disk
+  space and ensures a higher geometric consistency for all the database. In
+  addition, this strategy allows having several polygon databases being cycled
+  upon the same ARC file, as we will explain later.</p>
+
+<p>In the modes in which the program generates a POL file, this is  followed by a P.dbf (main attributes table) 
+and a P.rel file (containing  metadata, and that may contain the eventual relationships with other alphanumerical 
+tables which are additional to the main one, as well as the  symbolization by default). In older versions of the 
+program (1.x) a DVP file that  contained a very basic metadata was generated; that has been totally overcome 
+nowadays. </p>
+  
+<p>After the cycling process, the only attributes the polygons have are the geometric-topological ones (area, 
+perimeter, number of arcs and number of elemental polygons composing the polygon,  etc) 
+and the graphic identifier that, in a unique way, references each polygon. The attributes of thematic nature 
+(vegetation present in the polygon, owner, etc) can be added transferring attributes from point labels placed 
+in each polygon or introducing them directly from MiraMon attribute edition mode. When choosing the attribute 
+transference through labels, when labels are in VEC format it will be done through the <a href="AtriPol.htm">AtriPol</a> 
+program, but when they are in PNT format it will be done through the <a href="AtriTop.htm">AtriTop</a> program.</p>
+
+<p>Although some options tolerate the arcs file to contain final nodes (endnodes) and line nodes (pseudonodes), their presence can be due to errors. An arc that has endnodes is not cyclable. In order to control the nodes, it is possible to visualize them with MiraMon or use the <a href="InfoTop.htm">InfoTop</a> utility to know their topological relationships.</p>
+
+<p>When the program makes operations based on polygon files to generate other polygons, this is called <b>recycling</b>.</p>  
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).--><!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+<p>After this first selection through the 'Option' parameter, the 'e' parameter lets apply a selection that removes the arcs with endnodes (arcs that do not connect to any other arc neither with themselves).</p>
+
+<p>In addition, the selection allows ignoring those arcs having the same polygon on both sides (dumb-bells).</p>
+
+<p>As we stated above, the application of the 'e' parameter allows cycling arc files containing non cyclable arcs (arcs with endnodes and dumb-bells). These arcs can be included in the file in a voluntary way, but they can also come from errors in the digitizing process. Therefore, the 'e' parameter  has to be used in an accurate and conscious way.</p>
+
+<p><!---
+El paràmetre [1] (opcional) només es fa servir en
+màquines amb poca memòria, o amb fitxers molt grans. Quan s'indica, el programa no carrega en memòria una part dels fitxers.
+Aquesta part suposa normalment al voltant d'un 15% de mida total dels fitxers ARC i NOD.
+=--></p>
+
+<p>The program creates the PERIMETRE and AREA fields in the database, indicating the perimeter and the
+ area respectively of each polygon. In the case of PERIMETRE this also includes interior perimeters. The values of the PERIMETRE and AREA fields are calculated based on the coordinates in the (map) projection and, therefore, do not give the perimeters and areas on the Earth but as they appear on the map, calculated as they would normally be by a computer assisted drawing (CAD) program. In projections such as UTM these calculations are accurate enough for most purposes. For example, within a UTM zone the perimeter on the map may differ from the perimeter on the terrestrial ellipsoid by a factor between 0.9996 and 1.0009811009).</p>
+
+<p>When the cartographic projection is known (list of known projections can be consulted in the help for the <a href="CanviPrj.htm">CanviPrj</a> program), the program creates as well as the PERIMETRE and AREA fields, the PERIMETREE and AREAE fields, that indicate the real perimeter and area of each polygon as calculated over the terrestrial ellipsoid using accurate geodesic criteria. These new fields are especially relevant for cartographic projections in which the calculations made on the maps give clearly different values from the real values over the Earth's surface (for example, the Mercator projection) or in map projections where the difference may be small but significant errors may be accumulated when dealing with large polygons.</p>
+
+<p>According to the map projection used the program makes PERIMETRE or PERIMETREE and AREA or AREAE visible and hides the other fields, depending on which is the most commonly used measure of perimeter and area in that projection. These display criteria may be changed in the REL file with the Universal Geospatial Metadata Manager <a href="..\GeMPlus\GeMPlus.htm">GeM+</a>.</p>
+<hr/>
+
+<exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+CICLAR ?
+--></p>
+<hr/>
+  <h3>INI field format is indicated at the parametre /FITXER_ORDRE_GRUP</h3>
+  <pre>
+[ORDRE_GRUP]
+Atributte1=
+Atributte2=
+Atributte3=
+...
+</pre>(The index atributte must be correlative. The key values
+is the atributte value of the polygons.
+
+  </exclusiva>
+  <hr/>
+  This program support REL v.4 format and ARC v. 1.1 format with or without 3d
+  coordinates.<br/>
+
+  <center>
+    <a href="LinArc.htm"><img src="LinArc.gif"/></a><a href="AtriPol.htm"><img src="AtriPol.gif"/></a>
+  </center>
+</body>
+</html>

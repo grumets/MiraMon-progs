@@ -1,0 +1,80 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Ombrejat: Ombreig topogràfic </title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<p>Aquest mòdul permet obtenir una imatge ombrejada (amb gradació de llum) en funció 
+del relleu i de la posició del Sol. La localització del Sol queda determinada pels 
+angles (en graus) d'elevació respecte a l'horitzó i d'azimut respecte al Nord en sentit 
+horari (amb 0° indicant el Nord) Caldrà especificar aquests angles quan calgui generar els 
+models derivats del Model Digital d'Elevacions (MDE). Aquests models derivats són el Model Digital 
+d'Il·luminacions que calcula el cosinus de l'angle d'incidència i el Model Digital d'Ombres que 
+determina l'angle d'elevació solar a partir del qual cada punt del terreny ja rep llum directa 
+del Sol. Aquests models poden precalcular-se amb les aplicacions corresponents: Illum i Ombra. 
+En qualsevol cas, l'aplicació pot generar els models derivats necessaris, de forma temporal i 
+esborrar-los al final, o desar-los per a posteriors usos, a partir del MDE. Cal tenir en compte 
+que el càlcul del Model d'Ombres pot arribar a ser un procés llarg i que necessiti elevats recursos 
+de memòria, i per tant, si es desitja, es pot no usar aquest model, que donarà lloc a un resultat 
+acceptable, però de menys qualitat que si es té en compte aquest factor. El mòdul presenta dues opcions:</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <p>El model a ombrejar pot ser un ràster o un vector estructurat de
+  polígons. Si és ràster, pot ser en qualsevol format IMG, i pot ser un model
+  categòric on se sobreentén una assignació directa entre valors i colors, o
+  un model continu on s'estableix un escalat lineal entre el valor màxim i
+  el mínim i el nombre de símbols per a l'assignació entre valors i
+  colors. Si és vector, cal especificar quin és el camp pel qual se simbolitza
+  el seu color d'interiors i que donarà lloc al model ràster temporal
+  equivalent que s'ombrejarà. La rasterització serà totalment interna i es
+  farà en funció de l'àmbit i costat de cel·la del Model Digital
+  d'Elevacions (o d'Il·luminacions si el MDE no és necessari). Sigui
+  quin sigui l'origen, en l'actual versió és necessari especificar la
+  paleta o taula de simbolització que s'està usant i a partir de la qual
+  es construirà la nova gamma de colors.</p>
+
+  <p>El resultat és una imatge en format JPG, la qualitat de la qual és un
+  paràmetre configurable, variable entre 5 (mínima qualitat i màxima
+  compressió) i 95 (màxima qualitat i mínima compressió). Si el model a
+  ombrejar és un ràster, hi ha la possibilitat d'afegir el resultat com a
+  3 noves bandes (un canal per color) d'un ràster multibanda.
+  Alternativament també es pot generar un resultat en format RGB de 24 bits,
+  per tant es generaran 3 fitxers IMG de sortida un per a cada canal
+  cromàtic.</p>
+
+  <p>L'algorisme d'ombreig es basa fonamentalment en la transformació
+  del color RGB (vermell, verd i blau) en els seus components HSI (color
+  principal, saturació i intensitat), la modulació del component
+  d'intensitat (il·luminació) segons el cosinus de l'angle
+  d'incidència per les zones que reben llum directa i enfosquides segons
+  un percentatge (<i>/PERCENT_FOSC=</i>) a les zones a l'ombra i, sense
+  alterar els altres components, (color principal i saturació) el retorn a
+  l'espai RGB. L'usuari pot determinar uns valors percentuals màxim i
+  mínim, per a acotar el component d'intensitat i, d'aquesta manera,
+  evitar que no es puguin diferenciar els colors quan estan força o poc
+  il·luminats. Com la modulació de la il·luminació en funció del cosinus de
+  l'angle d'incidència representa, en la majoria dels casos, una
+  disminució d'aquest component, és convenient pujar aquesta intensitat un
+  determinat nivell, que caldrà ajustar en funció del relleu i de la posició
+  solar.<br/>
+  Les zones sense dades (NODATA), tant dels models d'elevacions o
+  derivats, com del fitxer origen, no intervindran en aquesta gradació, i
+  quedaran transformades al color blanc (color per defecte del NODATA per a
+  ràsters).</p>
+  <hr/>
+  <exclusiva>
+ <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->   
+<!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+Ombrejat ?
+-->
+  </exclusiva>
+</body>
+</html>

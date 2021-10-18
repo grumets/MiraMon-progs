@@ -1,0 +1,167 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>TiraVec: Rasterización de ficheros vectoriales</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p>Este programa rasteritza un fichero vectorial:</p>
+   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>Aunque para facilitar el uso del programa se soportan todos los formatos
+  vectoriales de MiraMon, para el caso de polígonos se recomienda el uso de
+  los formatos estructurados, ya que estos soportan agujeros interiores y no
+  presentan superposiciones de polígonos (excepto los grupos no topológicos,
+  que pueden presentarlas). Además, los formatos vectoriales estructurados
+  permiten la vinculación con una base de datos, lo que permite un mejor
+  control sobre los atributos a rasterizar y la generación automática de las
+  categorías. Si rasteriza un fichero no estructurado de polígonos cuando hay
+  superposiciones, el valor del último polígono prevalece sobre los
+  anteriores.</p>
+
+  <p>A partir de vectores estructurados de MiraMon, el programa soporta la
+  rasterización de atributos de campos de tipo Numérico ('N'), Lógico
+  ('L'), Carácter ('C') o Fecha ('D'). Para campos de
+  tipo Numérico ('N') se rasteriza directamente el valor numérico y
+  para campos de tipo Lógico ('L') se rasteriza 1 para verdadero y 0
+  para falso. En este caso TiraVec permite indicar otro campo (numérico,
+  alfanumérico, fecha, ...) para definir las categorías ráster. Asimismo, si
+  el campo a rasterizar es de tipo Carácter ('C') o Fecha
+  ('D') el programa genera automáticamente un índice numérico que se
+  rasteriza como valor del ráster y se documentan las categorías del ráster
+  con las equivalencias entre el índice numérico y los atributos
+  alfanuméricos.<br/>
+  A partir de vectores no estructurados se soportan atributos vectoriales
+  &quot;integer&quot; (long), &quot;real&quot; o &quot;string&quot;. Para
+  atributos tipo &quot;integer&quot; y &quot;real&quot;, solamente se
+  rasterizarán los atributos que sean o puedan ser transformados a numéricos.
+  Para atributos de tipo &quot;string&quot;, el programa también genera
+  automáticamente un índice numérico que se completa con la descripción de las
+  categorías del ráster, tal como se ha explicado para los vectores
+  estructurados.</p>
+
+  <p>Aparte de los diferentes formatos vectoriales comentados, también permite 
+  la rasterización de un modelo TIN (red irregular de triángulos). En este caso, 
+  el fichero de entrada debe ser un fichero de polígonos estructurados donde cada 
+  polígono tiene que ser triangular y con cota en cada uno de los vértices. Al 
+  rasterizar esta capa, para cada celda de la capa resultado se le asignará la 
+  cota interpolada a partir de los tres vértices del polígono donde está contenido.</p>
+  
+  <p>TiraVec puede rasterizar sobre todos los ficheros ráster de MiraMon, es
+  decir, de tipo &quot;bit&quot;, &quot;byte&quot;, &quot;integer&quot;,
+  &quot;long&quot; y &quot;real&quot;, y también sobre los formatos
+  comprimidos &quot;byte-RLE&quot;, &quot;integer-RLE&quot;,
+  &quot;long-RLE&quot; y &quot;real-RLE&quot;.<br/>
+  En caso de que el valor numérico esté fuera del rango de valores admitidos
+  por la imagen ráster se podrá optar por saturar al valor máximo o mínimo, o
+  para descartar el valor fuera de rango. Estos son los valores admitidos para
+  cada tipo de ráster, ya sea RLE o descomprimido:</p>
+
+  <ul>
+    <li>bit: rasteriza a 1 excepto si el atributo es 0.</li>
+
+    <li>byte: se redondea y se rasteriza si 0 &lt;= atributo &lt;= 255.</li>
+
+    <li>integer: se redondea y se rasteriza si -32768 &lt;= atributo &lt;=
+    32767.</li>
+
+    <li>long: se redondea y se rasteriza si -2147483648 &lt;= atributo &lt;=
+    2147483647</li>
+
+    <li>real: se rasteriza tal cual.</li>
+  </ul>
+
+  <p>Para el caso de polígonos estructurados no se rasteriza el polígono 0 (el
+  polígono universal, externo a todos los demás).</p>
+
+  <p>Si se indica un campo para definir las categorías, y ya había categorías
+  predefinidas, la definición de la categoría en el fichero DOC será:
+  'Nueva' / 'Vieja'. Hay que recordar que los ficheros ráster
+  de tipo &quot;real&quot; no soportan categorías.</p>
+
+  <p>En caso de que el REL del fichero vectorial describa las unidades (REL v4
+  o superior), se documenta convenientemente en el fichero de documentación
+  del ráster resultante. En caso contrario, el nombre del campo usado para
+  definir las categorías se coloca como 'value units' en el fichero
+  DOC del ráster o, en su defecto, el nombre del campo numérico
+  rasterizado.</p>
+
+  <p>Para el caso de ficheros de <b>polígonos</b> hay dos criterios básicos de
+  rasterización: el de área y el de punto central; y uno combinado.<br/>
+  El primero asigna el valor de la celda a la categoría que ocupa más área de
+  este; esto se aproxima examinando una línea horizontal que atraviesa la
+  celda. El segundo criterio simplemente asigna el valor de la celda a la
+  categoría que ocupa su centro, sin considerar la porción de área de celda
+  que representa esta categoría.<br/>
+  En el caso de un TIN, se usará por defecto el criterio del punto central.<br/>
+  A veces, cuando se rasterizan polígonos aislados mucho más delgados que un
+  solo píxel sobre un fondo NODATA, ninguno de los criterios explicados
+  anteriormente resultan satisfactorios en el modo normal. En este caso,
+  resulta útil combinar este criterio con el modo polígonos como polígonos con
+  borde.</p>
+
+  <ul>
+    <li>El criterio de punto central (2) es menos preciso, pero garantiza
+    totalmente la continuidad espacial y es más rápido.</li>
+
+    <li>El criterio de área (1), a pesar de ser más preciso, NO garantiza
+    totalmente la contigüidad entre polígonos adyacentes en los nodos donde
+    convergen 3 o más polígonos.</li>
+  </ul>
+
+  <p>Por este último motivo, existe un criterio combinado del 1 y el 2 donde
+  se utiliza el criterio 1 como básico, y el 2 solamente para llenar las
+  eventuales celdas que hayan quedado como valor de fondo y arreglar posibles
+  discontinuidades. Este método es el <b>recomendado</b> si el ráster es de
+  nueva creación o bien hay un valor de fondo definido.</p>
+
+  <p>Por otra parte, el criterio de punto central con valor de fondo
+  ('2' y parámetro fondo) está recomendado para llenar vacíos de
+  continuidad que quedan en ficheros generados mediante el criterio de área,
+  pero puede tener otras aplicaciones.</p>
+
+  <p>Para el caso de ficheros de <b>líneas</b>, hay tres criterios (1, 2 y
+  4):</p>
+
+  <ul>
+    <li>El método 1 rasteriza con más perfección en las inmediaciones de los
+    vértices, por lo que es preferible en líneas cortas o rásters muy bastos.
+    Es el método <b>recomendado</b> si se quieren líneas finas de una sola
+    celda de grosor. Trata las coordenadas como números reales.</li>
+
+    <li>El método 2 rasteriza bien las zonas intermedias entre vértices pero
+    puede provocar errores geográficos graves cerca de los vértices (celdas
+    afectadas sobre los que no pasa la línea y al revés). Es el proceso típico
+    del mundo del procesamiento de imágenes. Se trabaja directamente en
+    coordenadas centro de celda. No se recomienda su uso al ser menos preciso
+    que el anterior.</li>
+
+    <li>El método 4 es esencialmente diferente de los dos anteriores dado que
+    no minimiza el número de celdas afectadas sinó que rasteriza, empleando
+    coordenadas reales, toda celda que sea tocada por el trazado geométrico
+    del vector. Es el método aconsejado si se quiere rasterizar todas las
+    celdas afectadas por una línea, aunque las toque sólo ligeramente.</li>
+  </ul>Para el caso de ficheros de <b>puntos</b>, la celda rasterizada del
+  ráster es aquella donde geométricamente se encuentra el punto.
+
+  <p>Este programa incluye y amplía las funcionalidades de los programas
+  TiraLin y TiraPol que han desaparecido en la versión 4 de MiraMon.</p>
+  <hr/>
+
+  <exclusiva>
+     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+	<!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+TiraVec ?
+-->
+  </exclusiva>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:IMGPNT</ows:Identifier>
+		<ows:Title>Ceación de un fichero PNT a partir de un ráster monobanda o multibanda.</ows:Title>
+		<ows:Abstract>Este módulo permite obtener un fichero de punts a partir de un fichero ráster monobanda o multibanda, de manera que el valor de cada celda del ráster quedará registrado en un campo de la tabla de la base de datos del fichero de puntos.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Creación de un fichero PNT a partir de un ráster monobanda o multibanda."/>
+		<ows:Metadata xlink:title="Abstract:Este módulo permite obtener un fichero de punts a partir de un fichero ráster monobanda o multibanda, de manera que el valor de cada celda del ráster quedará registrado en un campo de la tabla de la base de datos del fichero de puntos."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>En este caso, solo puede valer 1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerIMG</ows:Identifier>
+				<ows:Title>Fichero ráster de entrada</ows:Title>
+				<ows:Abstract>Fichero ráster de entrada que puede ser monobanda o multibanda.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroIMG"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPNT</ows:Identifier>
+				<ows:Title>Fichero de puntos de salida</ows:Title>
+				<ows:Abstract>Fichero de puntos (que puede ser preexistente) donde se guardará en cada punto los valores de la celda de una o de todas las bandas del fichero de entrada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroPNT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Multibanda</ows:Identifier>
+				<ows:Title>Multibanda</ows:Title>
+				<ows:Abstract>Parámetro que indica que se quieren guardar los valores de todas las bandas del fichero de entrada.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Afegir</ows:Identifier>
+				<ows:Title>Añadir al fichero de puntos preexistente.</ows:Title>
+				<ows:Abstract>Parámetro que indica que se quiere guardar los nuevos puntos en un fichero preexistente.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<!-- Els inputs COND#_ estan copiats tal com estan fets al Ciclar -->
+			<Input minOccurs="0" maxOccurs="50">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Condición o operador</ows:Title>
+				<ows:Abstract>Selección del operador lógico que actuará sobre /COND_CAMP(campo) para filtrar los  elementos para ser ciclados.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>EQ_SUBCADENA</ows:Value>
+						<ows:Value>NO_EQ_SUBCADENA</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="50">
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
+				<ows:Title>Campos de la condición</ows:Title>
+				<ows:Abstract>Selección del campo sobre el cual se aplicará la /COND_OP.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="50">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Valor de la condición</ows:Title>
+				<ows:Abstract>Valor del  /COND_CAMP sobre el que se aplicará la /COND_OP. Hacen falta comillas si lleva espacios.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="50">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Nexo entre condiciones</ows:Title>
+				<ows:Abstract>Nexo entre las condiciones # y #+1. Puede ser AND (y) o OR (o).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>OR</ows:Value>
+						<ows:Value>AND</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPNT</ows:Identifier>
+				<ows:Title>Fichero de puntos de salida</ows:Title>
+				<ows:Abstract>Fichero de puntos (que puede ser preexistente) donde se guardará en cada punto los valores de la celda de una o de todas las bandas del fichero de entrada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroPNT"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

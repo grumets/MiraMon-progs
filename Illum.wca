@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+		<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Illum:1</ows:Identifier>
+		<ows:Title>Illum</ows:Title>
+		<ows:Abstract>Aquest programa calcula, a partir d'un Model Digital d'Elevacions (MDE), la il·luminació que rep cada punt del terreny quan el Sol ocupa una certa posició a la volta celeste. Aquesta posició es pot donar:<![CDATA[<ul><li>A partir d'una elevació i azimut solars en graus (per exemple 74.82 i 170.34, el programa Astres us donarà aquesta informació si no la coneixeu) que són constants a tot l'àmbit del MDE. Correspon a l'opció 1 del programa.</li><li>A partir d'uns fitxers d'elevació (o angle respecte del zenit) i azimut solars en graus o en unitats múltiples de grau (definint el factor corresponent en la sintaxi), per exemple tal i com es proporciona en el productes de MODIS MOD09 (podeu consultar Surface Reflectance User_s Guide). Correspon a les opcions 2 i 3 del programa.</li></ul>]]> 
+</ows:Abstract>
+<ows:Metadata xlink:title="Title:Càlcul de la il_luminació en cada punt d'un Model Digital d'Elevacions"/>
+<ows:Metadata xlink:title="Abstract:Aquest programa calcula, a partir d'un Model Digital d'Elevacions (MDE), la il_luminació que rep cada punt del terreny quan el Sol ocupa una certa posició a la volta celeste."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Defineix les opcions principals del programa:<![CDATA[<ul><li>1. Elevació i azimut són paràmetres constants per tot l'àmbit. </li><li>2: Elevació i azimut són fitxers ràster.</li><li>3. Variant de l'opció 2, on es proporciona un fitxer d'angles solars respecte del zenit en comptes de respecte l'horitzó (elevacions). L'angle zenital i el d'elevació són angles complementaris </li></ul>]]>
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param1" />
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AllowedValues>
+				<ows:Value>1</ows:Value>
+				<ows:Value>2</ows:Value>
+				<ows:Value>3</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MDE</ows:Identifier>
+				<ows:Title>Model digital d'elevacions</ows:Title>
+				<ows:Abstract>Model digital d'elevacions en format ràster IMG. 
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+					<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>
+			</Input>		
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ElevacioSol</ows:Identifier>
+				<ows:Title>Elevació Sol</ows:Title>
+				<ows:Abstract>Valor o fitxer que determina l'elevació solar (excepte en l_opció 3, que és un fitxer d_angles zenitals). En el cas de ser un fitxer, ha de ser ràster IMG i no necessàriament amb la mateixa resolució del model d'Il·luminacions que es desitja generar. </ows:Abstract>
+			<ows:Metadata xlink:title="Param4" />
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+					<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AzimutSol</ows:Identifier>
+				<ows:Title>Azimut Sol</ows:Title>
+				<ows:Abstract>Valor o fitxer que determina l'azimut solar. En el cas de ser un fitxer, ha de ser ràster IMG i no necessàriament amb la mateixa resolució del model d'Il_luminacions que es desitja generar.
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param5" />
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+					<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>N_veïns_o_grau</ows:Identifier>
+				<ows:Title>N_veïns_o_grau</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>4. S'usen 4 veïns pel càlcul de la normal a la superfície del terreny. En aquesta opció, el model d'il_luminacions generat serà de la mateixa resolució i àmbit que l_MDE.</li><li>8. S'usen 8 veïns pel càlcul de la normal a la superfície del terreny. Mateixes condicions que l'opció 4.</li><li>1. Es defineix una superfície de tendència local de grau 1 pel càlcul de la normal a la superfície del terreny. En aquesta opció l_MDE té una resolució espacial superior (costat de cel_la menor) al model d'il_luminacions generat, el qual hereta l'àmbit i el costat de cel_la d'un fitxer Patró.</li><li>2. Es defineix una superfície de tendència local de grau 2 pel càlcul de la normal a la superfície del terreny. Mateixes condicions que l'opció 1.</li><li>  3. Es defineix una superfície de tendència local de grau 3 pel càlcul de la normal a la superfície del terreny. Mateixes condicions que l'opció 1.</li></ul>]]>
+</ows:Abstract>
+<ows:Metadata xlink:title="Param6" />
+<LiteralData>
+	<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+			<ows:AllowedValues>
+				<ows:Value>1</ows:Value>
+				<ows:Value>2</ows:Value>
+				<ows:Value>3</ows:Value>
+				<ows:Value>4</ows:Value>
+				<ows:Value>8</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>		
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Patro</ows:Identifier>
+				<ows:Title>Patró</ows:Title>
+				<ows:Abstract>Paràmetre obligatori per les opcions 1, 2, 3 de l'anterior paràmetre N_veïns_o_grau, que indica el fitxer ràster patró que serveix per definir l'àmbit i el costat de cel_la del model d'il_luminacions resultat. 
+</ows:Abstract>
+<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+					<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Multibanda</ows:Title>
+				<ows:Abstract>Si l_MDE és multibanda (habitualment d'àmbit semblant i diferents costats de cel·la entre les bandes), aquest paràmetre indica que es desitja un model d'il·luminacions resultat també multibanda. Si no s_indica s_efectua el càlcul d_il·luminacions sobre el fitxer de més resolució del conjunt multibanda.
+</ows:Abstract>
+			<LiteralData>
+				<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+			</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>Defineix el prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers corregits per al cas /MULTIBANDA. Per defecte aquest prefix és i_ .
+</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>
+			</Input>		
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FACTOR</ows:Identifier>
+				<ows:Title>Factor</ows:Title>
+				<ows:Abstract>Indica el factor multiplicatiu per passar de les unitats dels valors del fitxers d'elevacions i azimuts a graus. Per exemple per un ràster on les unitats són dècimes de grau (com en els fitxers proporcionats per a MODIS), cal definir /FACTOR=0.01. Aquest paràmetre és opcional (per defecte el factor serà 1) i només té sentit per a les opcions principals 2 i 3. 
+</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>
+			</Input>		
+		</DataInputs>
+		<ProcessOutputs>	
+			<Output>
+				<ows:Identifier>Resultat</ows:Identifier>
+				<ows:Title>IMG Resultat</ows:Title>
+				<ows:Abstract>Model d'il_luminacions resultat en format ràster IMG. 
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+						<Format>
+						<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Default>
+					<Supported>
+						<Format>
+						<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

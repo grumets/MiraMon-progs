@@ -1,0 +1,89 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ClasSup:Clasificación supervisada de imágenes</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<p>ClasSup realiza una clasificación supervisada en base a clasificadores clásicos como: mínima distancia euclidiana,
+mínima distancia de Manhattan y máxima verosimilitud.</p>
+<!--GC: La descripció general de l'aplicació sempre ha d'anar abans que el tag "wpsopcions", ja que aquest especifica les diferents modalitats de la MSA. sempre que es pugui, afegir una frase tipus, "Aquesta aplicació cosnta de dues opcions:" o alguna cosa per l'estil per enllaçar--> 
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>Las signaturas que definen cada clase se leen de ficheros SGN, que típicamente deberán estado generados 
+a partir de la aplicación AreaSGN, o bien como resultado de una ejecución del IsoMM.</p>
+
+<p>Los tiempos de ejecución son muy diferentes entre los diferentes métodos clasificadores. Así, en una prueba sobre 30
+ficheros BYTE de 1517 columnas * 1311 filas en un portátil con los datos leídos y escritos en un disco externo
+USB3, los tiempos son del orden de 5.25" en distancia euclidiana y de 6.5" en distancia de Manhattan, mientras
+que en máxima verosimilitud los tiempos se multiplican prácticamente por 10.</p>
+
+<p>Si se desea, el clasificador también genera un ráster con la distancia (o probabilidad, según el clasificador
+utilizado) que ha estado utilizada como mínima distancia (o como máxima probabilidad) para clasificar
+cada píxel del mapa. En los clasificadores de distancia la generación de este ráster adicional puede implicar un
+incremento de tiempo de ejecución alrededor de un 60%, mientras que en el de máxima verosimilitud de un 11%.
+En visualizar esta imagen con una paleta de grises hay que tener presente lo siguiente:
+<ul>
+<li>Clasificadores por mínima distancia: Los píxeles clasificados de manera más fiable son aquellos que presentan
+ 		colores más oscuros (valores más bajos), ya que son a una distancia más cercana (menor valor) al
+        centro de la clase finalmente asignada. Así mismo, si habéis efectuado la clasificación indicando
+        que permitís clasificar el píxel aunque no disponga de información en todas las variables, aquellos
+        píxeles clasificados en base a menos variables (porque en algunas de ellas encontramos valores NODATA) pueden presentar
+        valores más bajos simplemente porque su dimensionalidad es menor y, por tanto, eso puede inducir erróneamente
+        a pensar que su fiabilidad es más alta.</list>
+<li>Clasificadores por máxima verosimilitud: Los píxeles clasificados de manera más fiable son aquellos que presentan
+ 		colores más claros (valores más altos), ya que presentan una probabilidad de pertenencia más alta a la
+        clase finalmente asignada. Como en el caso anterior, si habéis efectuado la clasificación indicando
+        que permitís clasificar el píxel aunque no disponga de información en todas las variables, aquellos
+        píxeles clasificados en base a menos variables (porque en algunas de ellas encontramos valores NODATA) podemos presentar
+        valores más altos simplemente porque su dimensionalidad es menor y, por lo tanto, esto puede inducir erróneamente
+        a pensar que su fiabilidad es más alta. Por otra parte, y dado que los valores de probabilidad
+        pueden llegar a ser muy y muy diferentes (diversos órdenes de magnitud), os sugerimos que utilicéis CalcIMG
+        para aplicar un logaritmo en base 10 a los valores de las celdas de toda la imagen, la cual cosa permite
+        tener una visualización más fácilmente comprensible. Recordad también que en los comentarios de los aspectos técnicos
+        de los metadatos podéis encontrar factores de escalado que el MiraMon haya aplicado con el fin de poder meter los
+        valores de probabilidad en una imagen de tipo float.</list></ul></p>
+
+<p>En el caso de los clasificadores de mínima distancia se trabaja a partir de los centros de clases deseados. Si
+deseáis trabajar con distancias normalizadas, normalizad las variables de entrada.<br />
+En el caso de máxima verosimilitud se utiliza el criterio clásico de probabilidad Bayesiana
+a partir de los centros de clases deseados y sus matrices de variancia-covariancia.</p>
+<br>
+<hr>
+<p><b>Orientación sobre el significado de las distancias utilizadas en los procesos de clasificación</b></P>
+<p>En algunas opciones del ClasSup, así como en otros clasificadores como IsoMM o KNN, se hacen cálculos de distancias estadísticas como la distancia euclídea. En este caso se calcula la distancia euclidiana desde un píxel problema a unos &lsaquo; &lsaquo; valores centrales de referencia &rsaquo; &rsaquo; los que pueden ser el vector de medias de un centro de clase (por ejemplo en el caso de un clasificador por mínima distancia o al IsoMM), o pueden ser el vector de valores de un píxel de entrenamiento (por ejemplo en un clasificador KNN).</p>
+<p>Estas distancias para la categoría "ganadora" se pueden obtener, en cada píxel, en el fichero de distancias que proporcionan algunas aplicaciones de clasificación digital de imágenes de MiraMon. La tabla siguiente muestra cómo interpretar varios valores de estas distancias; en todos los casos se trata de un a clasificación con 36 variables y en la que en algunos píxeles en vez de hacerse la clasificación con 36 variables se ha tenido que hacer con 24 variables (por ejemplo porque en alguna de las diferentes fechas utilizadas para la clasificación, en aquellos píxeles había nubes). Además, las variables presentan valores reales (no enteros) acotados entre 0 y 100; un ejemplo de esta transformación sería que los píxeles de una variable que es un índice de vegetación de diferencia normalizada, NDVI, típicamente, entre -1 y 1, se han transformado (multiplicándolos por 50 y sumándolos 50) para que sus valores estén entre 0 y 100; un segundo ejemplo sería que bandas de reflectancia, típicamente entre 0 y 1, se han convertido en valores entre 0 y 100 (multiplicándolos por 100 y convirtiéndose en porcentajes de reflectancia).</p>
+
+<img src="calcul_orientatiu_dist_mitjana_esp.png" width="75%" height="75%">
+<p>Empezamos por interpretar una distancia 35.8 obtenida en un píxel clasificado gracias a 36 variables disponibles. En este caso podemos imaginar que la situación puede oscilar • lar entre que el píxel problema sea "medianamente lejos" de los valores centrales de referencia al que nos hemos referido más arriba, o que el píxel sea muy cercano (prácticamente a distancia 0) de todas las variables utilizadas, excepto de una, que acumule prácticamente toda la distancia. Me el primer caso vemos en la tabla que la distancia hay que interpretarla como una distancia media de 6.0; realmente es bastante probable que el píxel esté mal clasificado, porque con diferencias espectrales medias, en todas aquellas variables que son respuestas en bandas espectrales en las diferentes fechas en que se han captado las imágenes, de un 6% de reflectancia, difícilmente el píxel es "similar" a la clase. En el segundo caso vemos en la tabla que la distancia de una de las variables es 35.8 (sobre un recorrido total de 100); realmente también es bastante probable que el píxel esté mal clasificado si en una de las variables tiene un valor tan alejado del valor de referencia. Si este valor de distancia 35.8 ha sido obtenido en una píxel clasificado gracias a 24 variables disponibles la situación de "distancia media a las diferentes variables" todavía es peor, porque deviene de un 7.3 en vez de un 6.</p>
+<p>A continuación podemos interpretar una situación en el otro extremo: un píxel clasificado con una distancia 5.8 en base a 36 variables. Como se puede ver en la tabla, la distancia media es sólo de 1.0, es decir, sumamente cercana, y si pensamos que fuera una sola de las 36 variables que fuera muy diferente mientras las otras fueran prácticamente idénticas, esta variable "discordante "sólo estaría a una distancia 5.8 (en un recorrido total de 100). Si el píxel se ha clasificado gracias a 24 variables disponibles la situación no es mucho peor: en el caso de distancia media tenemos un valor de 1.2, que también nos indica una similitud media muy cercano en las 24 variables.</p>
+<p>El resto de casos intermedios de la tabla pueden ayudar a pensar, en los mismos términos, en casos en que obtengamos valores de distancia intermedios entre los dos ejemplos comentados (35.8 y 5.8).</p>
+<hr>
+<p>El número máximo de variables a considerar, ni el tamaño de los ficheros, no están acotados
+excepto por las capacidades del sistema. Por ejemplo, el septiembre de 2013 se han hecho clasificadores de
+máxima verosimilitud en base a 47 imágenes "integer" de 8115 columnas x 8757 filas, con
+resultados satisfactorios en unos 90' de ejecución a pesar de que contenían valores NODATA y que también
+se generaba una imagen de probabilidades simultánea a la clasificación en sí.</p>
+
+<p>Adicionalmente, el módulo permite el cálculo de la Divergencia Transformada (DT), que
+en vez de hacer una clasificación escribe en un fichero los valores de las matrices de covariancia y de correlaciones
+para cada clase, así como la DT entre todas las signaturas (clases) proporcionadas.</p>
+
+<p>Para información técnica adicional, consulten los comentarios de los módulos IsoData.c y IsoMM.c</p>
+
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+CLASSUP ?
+-->
+  </exclusiva>
+</body>
+</html>

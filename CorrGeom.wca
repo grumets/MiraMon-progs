@@ -1,0 +1,1593 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param6</ows:Identifier>
+		<ows:Title>Ajust polinòmic de primer o de segon grau</ows:Title>
+		<ows:Abstract>En aquest cas, el mètode no considera les zetes (elevacions). És típic per a corregir fitxers vectorials i ràsters amb poca deformació, com ara imatges, i mapes escannejats ja corregits (com ortofotos o mapes topogràfics) o imatges de satèl·lit de zones amb poc relleu, abast territorial moderat i píxel relativament gros respecte a l'alçada de vol del satèl·lit. L'aplicació d'aquests mètodes a fotografies aèries escannejades o imatges de satèl·lit de relatiu detall (com ara Landsat-TM o SPOT) i extensió només és adequada en zones de relleu pla si es vol obtenir cartografia d'alta qualitat geomètrica.</ows:Abstract>
+<ows:Metadata xlink:title="Title:Correcció geomètrica de fitxers ràsters i vectorials"/>
+<ows:Metadata xlink:title="Abstract:Aquest programa permet corregir geomètricament ràsters (IMG i JPG: imatges de satèl·lit, fotografia aèria, mapes escannejats...) o capes vectorials (VEC, PNT, ARC i els seus derivats POL i NOD) a partir de n punts de control dels quals es coneixen les Coordenades en el sistema de referència origen i les coordenades en el sistema de referencia escollit." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[<li>1. Ajust polinòmic de primer grau</li><li>2.  Ajust polinòmic de segon grau.</li>]]></ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor</ows:Identifier>
+				<ows:Title>Control</ows:Title>
+				<ows:Abstract>És el fitxer que conté els punts de control en format COR.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor_s</ows:Identifier>
+				<ows:Title>Control error</ows:Title>
+				<ows:Abstract>És el nom del fitxer COR que contindrà les equacions i els errors de l'ajust i el test. Podeu indicar NUL per correccions automàtiques on no desitgeu generar aquest fitxer.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.img</ows:Identifier>
+				<ows:Title>Fitxer Imatge</ows:Title>
+				<ows:Abstract>És el fitxer a corregir (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>int</ows:Identifier>
+				<ows:Title>Tipus Interpolació</ows:Title>
+				<ows:Abstract>Criteri per a decidir el valor del píxel de sortida (tipus d'interpolació), només s'utilitza en imatges ràster:<![CDATA[<ul><li>0: Veí més proper (mapes temàtics; preservar radiometria original).</li><li>1: Interpolació bilineal (imatges per a fotointerpretació; MDE).</li><li>2: Interpolació bicúbica (com 1; resultats suavitzats però més lent).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>xm</ows:Identifier>
+				<ows:Title>X Mínima</ows:Title>
+				<ows:Abstract>És la coordenada Xmínima. Indiqueu 'x x x x' si voleu que el programa les calculi (es corregirà tot el ràster origen).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>xM</ows:Identifier>
+				<ows:Title>X Màxima</ows:Title>
+				<ows:Abstract>És la coordenada X màxima.Indiqueu 'x x x x' si voleu que el programa les calculi (es corregirà tot el ràster origen).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ym</ows:Identifier>
+				<ows:Title>Y mínima</ows:Title>
+				<ows:Abstract>És la coordenada Y mínima. Indiqueu 'x x x x' si voleu que el programa les calculi (es corregirà tot el ràster origen).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>yM</ows:Identifier>
+				<ows:Title>Y màxima</ows:Title>
+				<ows:Abstract>És la coordenada Y màxima. Indiqueu 'x x x x' si voleu que el programa les calculi (es corregirà tot el ràster origen).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>Valor del NODATA per a la imatge corregida. Si l'usuari sap que amb tota seguretat (avaluant la geometria de la transformació, l'àmbit i rang del MDE...) no hi haurà NODATA pot usar-se el valor "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Paleta (p25, pal, p65) o taula de simbolització (dbf) que determinarà quin índex de color és el color més proper a l'índex del NODATA per a la imatge corregida.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda i generar com a resultat un ràster multibanda amb les corresponents bandes corregides.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>Prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers corregits per al cas multibanda. Per defecte aquest prefix és c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Model Digital Elevacions MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda que tenen diferents costats de píxel amb un MDE que té una banda per a cada valor no repetit de costat de píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>n_decimals</ows:Identifier>
+				<ows:Title>Nombre de decimals</ows:Title>
+				<ows:Abstract>Nombre de xifres decimals en les coordenades del vector de sortida.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Fitxer Sortida</ows:Title>
+				<ows:Abstract>És el nom del fitxer corregit (sense extensió) o el nom del directori dels fitxers corregits pel cas multibanda.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param05" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param7</ows:Identifier>
+		<ows:Title>Ajust polinòmic amb zetes</ows:Title>
+		<ows:Abstract>En aquest cas, l'ajust de les columnes es fa utilitzant un polinomi que té en compte simultàniament X,Y i Z. Pel que fa a les files, es pot fer de tres maneres diferents: considerant que no hi ha capcineig del sensor durant la presa de la imatge, considerant, que el capcineig és constant o, considerant que és variable segons un model lineal. Per a més detall vegeu::<![CDATA[<li>
+PALÀ, V. &amp; X. PONS (1995) "Incorporation of relief into geometric corrections based on polynomials" Photogrammetric Engineering &amp; Remote Sensing, 61(7):935-944.</li>]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[<li>3. Ajust amb polinomi amb Z per a les columnes i polinomi de 1r grau sense Z per a les files</li><li>4. Com 3 però amb capcineig constant i Z per a les files.</li><li>5. Com 3 però amb capcineig variable i Z per a les files.</li>]]></ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+						<ows:Value>5</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor</ows:Identifier>
+				<ows:Title>Control</ows:Title>
+				<ows:Abstract>És el fitxer que conté els punts de control en format COR.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor_s</ows:Identifier>
+				<ows:Title>Control error</ows:Title>
+				<ows:Abstract>És el nom del fitxer COR que contindrà les equacions i els errors de l'ajust i el test. Podeu indicar NUL per correccions automàtiques on no desitgeu generar aquest fitxer.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.img</ows:Identifier>
+				<ows:Title>Fitxer Imatge</ows:Title>
+				<ows:Abstract>És el fitxer a corregir (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>int</ows:Identifier>
+				<ows:Title>Tipus Interpolació</ows:Title>
+				<ows:Abstract>Criteri per a decidir el valor del píxel de sortida (tipus d'interpolació), nomès s'utilitza en imatges ràster:<![CDATA[<ul><li>0: Veí més proper (mapes temàtics; preservar radiometria original).</li><li>1: Interpolació bilineal (imatges per a fotointerpretació; MDE).</li><li>2: Interpolació bicúbica (com 1; resultats suavitzats però més lent).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MDE</ows:Identifier>
+				<ows:Title>Model Digital d'Elevacions</ows:Title>
+				<ows:Abstract>Fitxer ràster amb el model digital d'elevacions de la zona.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>Valor del NODATA per a la imatge corregida. Si l'usuari sap que amb tota seguretat (avaluant la geometria de la transformació, l'àmbit i rang del MDE...) no hi haurà NODATA pot usar-se el valor "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Paleta (p25, pal, p65) o taula de simbolització (dbf) que determinarà quin índex de color és el color més proper a l'índex del NODATA per a la imatge corregida.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda i generar com a resultat un ràster multibanda amb les corresponents bandes corregides.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>Prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers corregits per al cas multibanda. Per defecte aquest prefix és c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Model Digital Elevacions MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda que tenen diferents costats de píxel amb un MDE que té una banda per a cada valor no repetit de costat de píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Fitxer Sortida</ows:Title>
+				<ows:Abstract>És el nom del fitxer corregit (sense extensió) o el nom del directori dels fitxers corregits pel cas multibanda.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param8</ows:Identifier>
+		<ows:Title>Ajust mitjançant equacions de col·linearitat</ows:Title>
+		<ows:Abstract>Els paràmetres implicats en les equacions de col·linearitat són: posició (Xc, Yc, Zc) i actitud (omega, fi, kappa) de la cambra o sensor, focal de la cambra (f) i coordenades del punt principal (x_pp, y_pp) de la imatge.
+D'aquests paràmetres, l'usuari pot decidir quins cal ajustar i quins vénen fixats. Sobre els que cal ajustar, és útil donar uns paràmetres estimats que ajuden al programa a convergir més ràpidament. En algun cas, si el paràmetre inicial és totalment desconegut o l'estimació és poc adequada, pot ser que el sistema no convergeixi vers cap solució o que trobi unes solucions poc satisfactòries. Si es coneixen i es fixen tots els paràmetres, s'aplica la transformació sense tenir en compte els punts de control i usant els punts de test per a avaluar l'error de l'ajust.Aquest són els valors inicials dels paràmetres de vol en la primera iteració:<![CDATA[<ul><li>Aleteig: omega = 0</li><li>Capcineig: fi = 0</li><li>Deriva: kappa = Es proven diferents valors i s'agafa el que doni un RMS més petit en les primeres iteracions.</li><li>Xc = Mitjana de les coordenades X (destí) dels punts de control.</li><li>Yc = Mitjana de les coordenades Y (destí) dels punts de control.</li><li>Zc = Zc mitjana + altitud de vol, aprox. 2000-3000 m.</li></ul>Quan s'hagi d'ajustar el punt principal (x_pp, y_pp), el programa pren com a valors inicials:<ul><li>x_pp = Mitjana de les coordenades x (origen) del punts de control o punt mitjà del ràster.</li><li>y_pp = Mitjana de les coordenades y (origen) del punts de control o punt mitjà del ràster.</li></ul>Tanmateix, algunes vegades aquestes mitjanes poden quedar força allunyades del punt principal real i en aquest cas el programa pot no convergir (p.ex. si s'escannegeu només un fragment lateral d'una fotografia aèria analògica). El programa ofereix a l'usuari la possibilitat de canviar el valor per un altre estimat a ull en l'encreuament de les marques fiducials; tingueu en compte que heu d'usar sempre el mateix sistema de medició, coherent amb les coordenades del sistema de referència origen.<br/>Per a l'ajust de la focal, cal triar un valor inicial proper al real, típicament entre 15 i 35 mm per a càmeres digitals i entre 50 i 250 mm per càmeres analògiques.<br/>Addicionalment caldrà saber els punts per polzada (ppp o dpi) d'escanneig de la imatge (1 polzada = 25.4 mm). En el cas de fotografies analògiques són valors freqüents entre 400 i 200 dpi. En fotografies digitals convindrà consultar les especificacions tècniques (per exemple la càmera AA497-AMDC 28.0 de 2024 columnes x 2041 files i mida del sensor de 18x18 mm dóna lloc a una resolució de 2811x2835 dpi) .]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>6. Equacions de col·linearitat</ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer ">integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>6</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor</ows:Identifier>
+				<ows:Title>Control</ows:Title>
+				<ows:Abstract>És el fitxer que conté els punts de control en format COR.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor_s</ows:Identifier>
+				<ows:Title>Control error</ows:Title>
+				<ows:Abstract>És el nom del fitxer COR que contindrà les equacions i els errors de l'ajust i el test. Podeu indicar NUL per correccions automàtiques on no desitgeu generar aquest fitxer.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.img</ows:Identifier>
+				<ows:Title>Fitxer Imatge</ows:Title>
+				<ows:Abstract>És el fitxer a corregir (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>int</ows:Identifier>
+				<ows:Title>Tipus Interpolació</ows:Title>
+				<ows:Abstract>Criteri per a decidir el valor del píxel de sortida (tipus d'interpolació), nomès s'utilitza en imatges ràster:<![CDATA[<ul><li>0: Veí més proper (mapes temàtics; preservar radiometria original).</li><li>1: Interpolació bilineal (imatges per a fotointerpretació; MDE).</li><li>2: Interpolació bicúbica (com 1; resultats suavitzats però més lent).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MDE</ows:Identifier>
+				<ows:Title>Model Digital d'Elevacions</ows:Title>
+				<ows:Abstract>Fitxer ràster amb el model digital d'elevacions de la zona.</ows:Abstract>
+				<ows:Metadata xlink:title="Param07" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>dpi</ows:Identifier>
+				<ows:Title>Resolució</ows:Title>
+				<ows:Abstract>És la resolució en ppp (píxels per polzada o dpi) per imatges escannejades o fotografies digitals.
+.</ows:Abstract>
+				<ows:Metadata xlink:title="Param08" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>iter</ows:Identifier>
+				<ows:Title>Iteraccions</ows:Title>
+				<ows:Abstract>Nombre màxim d'iteracions en el càlcul de l'ajust dels paràmetres de col·linearitat (suggerim 20).
+.</ows:Abstract>
+				<ows:Metadata xlink:title="Param09" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>op_posicio</ows:Identifier>
+				<ows:Title>Opcions de posició</ows:Title>
+				<ows:Abstract>Opcions que defineixen si els paràmetres implicats en les equacions de col·linearitat són coneguts i fixats (3), són estimats (2) o són desconeguts (0). El valor (1) és pel cas especial de la posició quan només es té un estimació de l'altitud de vol, però no de la posició X,Y de l'avió.</ows:Abstract>
+				<ows:Metadata xlink:title="Param10" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XCAM</ows:Identifier>
+				<ows:Title>X camara</ows:Title>
+				<ows:Abstract>Coordenada X de la càmera o sensor en el sistema de referència destí, tant si són posicions ja conegudes, com valors estimats. Si només s'indica /ZCAM, es fa referència a un valor estimat de l'altitud de vol.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YCAM</ows:Identifier>
+				<ows:Title>Y camara</ows:Title>
+				<ows:Abstract>Coordenada Y de la càmera o sensor en el sistema de referència destí, tant si són posicions ja conegudes, com valors estimats. Si només s'indica /ZCAM, es fa referència a un valor estimat de l'altitud de vol.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ZCAM</ows:Identifier>
+				<ows:Title>Z camara</ows:Title>
+				<ows:Abstract>Coordenada Z de la càmera o sensor en el sistema de referència destí, tant si són posicions ja conegudes, com valors estimats. Si només s'indica /ZCAM, es fa referència a un valor estimat de l'altitud de vol.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>op_actitud</ows:Identifier>
+				<ows:Title>Opcions d'actitud</ows:Title>
+				<ows:Abstract>Opcions que defineixen si els paràmetres implicats en les equacions de col·linearitat són coneguts i fixats (3), són estimats (2) o són desconeguts (0). El valor (1) és pel cas especial de la posició quan només es té un estimació de l'altitud de vol, però no de la posició X,Y de l'avió.</ows:Abstract>
+				<ows:Metadata xlink:title="Param11" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>WCAM</ows:Identifier>
+				<ows:Title>Omega</ows:Title>
+				<ows:Abstract>Indiquen, en graus, els tres angles d'actitud del sensor siguin fixats o estimats.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FCAM</ows:Identifier>
+				<ows:Title>Fi</ows:Title>
+				<ows:Abstract>Indiquen, en graus, els tres angles d'actitud del sensor siguin fixats o estimats.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>KCAM</ows:Identifier>
+				<ows:Title>Kappa</ows:Title>
+				<ows:Abstract>Indiquen, en graus, els tres angles d'actitud del sensor siguin fixats o estimats.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>op_focal</ows:Identifier>
+				<ows:Title>Opcions focal</ows:Title>
+				<ows:Abstract>Opcions que defineixen si els paràmetres implicats en les equacions de col·linearitat són coneguts i fixats (3), són estimats (2) o són desconeguts (0). El valor (1) és pel cas especial de la posició quan només es té un estimació de l'altitud de vol, però no de la posició X,Y de l'avió.</ows:Abstract>
+				<ows:Metadata xlink:title="Param12" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FOCAL</ows:Identifier>
+				<ows:Title>Focal</ows:Title>
+				<ows:Abstract>Distància focal en mm</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ANALOG</ows:Identifier>
+				<ows:Title>Cambra Analògica</ows:Title>
+				<ows:Abstract>Cambra Analògica</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIGITAL</ows:Identifier>
+				<ows:Title>Cambra Digital</ows:Title>
+				<ows:Abstract>Cambra Digital</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>op_ppral</ows:Identifier>
+				<ows:Title>Opcions punt pricipal</ows:Title>
+				<ows:Abstract>Opcions que defineixen si els paràmetres implicats en les equacions de col·linearitat són coneguts i fixats (3), són estimats (2) o són desconeguts (0). El valor (1) és pel cas especial de la posició quan només es té un estimació de l'altitud de vol, però no de la posició X,Y de l'avió.</ows:Abstract>
+				<ows:Metadata xlink:title="Param13" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XPP</ows:Identifier>
+				<ows:Title>XPP</ows:Title>
+				<ows:Abstract>Coordenada X conegudes o inicials del punt principal en el sistema de referència origen</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YPP</ows:Identifier>
+				<ows:Title>YPP</ows:Title>
+				<ows:Abstract>Coordenada Y conegudes o inicials del punt principal en el sistema de referència origen</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PMPCONTROL</ows:Identifier>
+				<ows:Title>Punt mitjà punts de control</ows:Title>
+				<ows:Abstract>Si la localització del punt principal és desconeguda, es pot indicar si els valors inicials es calcularan a partir de la mitjana dels punts de control o del punt mitjà de l'envolupant del ràster a corregir</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PMRASTER</ows:Identifier>
+				<ows:Title>Punt mitjà raster</ows:Title>
+				<ows:Abstract>Punt mitjà ràster</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>Valor del NODATA per a la imatge corregida. Si l'usuari sap que amb tota seguretat (avaluant la geometria de la transformació, l'àmbit i rang del MDE...) no hi haurà NODATA pot usar-se el valor "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Paleta (p25, pal, p65) o taula de simbolització (dbf) que determinarà quin índex de color és el color més proper a l'índex del NODATA per a la imatge corregida.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda i generar com a resultat un ràster multibanda amb les corresponents bandes corregides.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+				<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>Prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers corregits per al cas multibanda. Per defecte aquest prefix és c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Model Digital Elevacions MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda que tenen diferents costats de píxel amb un MDE que té una banda per a cada valor no repetit de costat de píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Fitxer Sortida</ows:Title>
+				<ows:Abstract>És el nom del fitxer corregit (sense extensió) o el nom del directori dels fitxers corregits pel cas multibanda.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param1:7&amp;Param6</ows:Identifier>
+		<ows:Title>Transformacions geomètriques (afins i perspectiva)</ows:Title>
+		<ows:Abstract><![CDATA[Aquests tipus de transformacions segueixen una filosofia diferent a les anteriors: en comptes d_ajustar la transformació a través d_uns punts de control, volem indicar nosaltres els paràmetres de la transformació ja que els coneixem a priori. Així, pot ser que haguem escannejat un document girat 90º per causa de caber-hi més bé a l_escànner un cop rotat; en aquest cas serà més fàcil indicar que volem efectuar una rotació de 90º per tornar-lo a posar en la posició original i veure_l de forma _natural_ (potser abans de col_locar punts de control per a un ajust fi de la geometria). Un segon exemple seria el cas que disposem d_una base vectorial antiga, provinent d_un software que emmagatzemava les coordenades amb precisió simple (com PC-Arc/Info) i per aquesta causa s_havia truncat la xifra més significativa quan era constant per a tota la capa (per exemple a Catalunya en UTM-31N era habitual suprimir el 4 de la coordenada Y, per la qual cosa una coordenada com ara 4619254.734 s_escrivia 619254.734 i així es podia mantenir una precisió decimètrica; en aquest cas podrem recuperar les coordenades originals indicant una transformació de tipus translació de magnitud 4000000. Finalment, un tercer exemple seria disposar d_una base en què les unitats del sistema de referència horitzontal son km i volem tenir-les en m, per a la qual cosa aplicarem un escalat de valor 1000.<br/>
+    Els tipus d'operacions que s'ofereixen són: translacions, escalats, inclinacions, rotacions, perspectives i miralls. Per a les transformacions afins (totes menys la perspectiva) es pot especificar un origen de transformació i per la perspectiva es pot especificar un envolupant sobre el qual actuar. Es dóna la possibilitat d'escollir-ho perquè si volem modificar una capa vectorial sobre un ràster ja modificat, es pugui usar l'envolupant del ràster i superposar així perfectament la capa vectorial transformada sobre el ràster modificat.<br/>
+    És possible realitzar un seguit de transformacions i/o perspectiva una darrera l'altra sobre un ràster o vector amb la única restricció que només es pot usar una perspectiva.]]>
+</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>7. Transformacions geomètriques (afins i perspectiva)</ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>7</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.img</ows:Identifier>
+				<ows:Title>Fitxer Imatge</ows:Title>
+				<ows:Abstract>És el fitxer a corregir (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>int</ows:Identifier>
+				<ows:Title>Tipus Interpolació</ows:Title>
+				<ows:Abstract>Criteri per a decidir el valor del píxel de sortida (tipus d'interpolació), nomès s'utilitza en imatges ràster:<![CDATA[<ul><li>0: Veí més proper (mapes temàtics; preservar radiometria original).</li><li>1: Interpolació bilineal (imatges per a fotointerpretació; MDE).</li><li>2: Interpolació bicúbica (com 1; resultats suavitzats però més lent).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T</ows:Identifier>
+				<ows:Title>Translació</ows:Title>
+				<ows:Abstract>Indica que la transformació geomètrica a efectuar és una translació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Tx</ows:Identifier>
+				<ows:Title>Valor X</ows:Title>
+				<ows:Abstract>Valor en les unitats del fitxer d'origen per a la component horitzontal de la translació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ty</ows:Identifier>
+				<ows:Title>Valor Y</ows:Title>
+				<ows:Abstract>Valor en les unitats del fitxer d'origen per a la component vertical de la translació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>E</ows:Identifier>
+				<ows:Title>Escalat</ows:Title>
+				<ows:Abstract> Indica que la transformació geomètrica a efectuar és un escalat.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ex</ows:Identifier>
+				<ows:Title>Valor X</ows:Title>
+				<ows:Abstract>Raó d'escalat horitzontal.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ey</ows:Identifier>
+				<ows:Title>Valor Y</ows:Title>
+				<ows:Abstract> Raó d'escalat vertical. Ex i Ey no poden valer 0 o 1 simultàniament.Ni Ex ni Ey no poden valer 0 perquè no es permet col·lapsar el resultat en un punt i per tant el programa no accepta aquests valors.</ows:Abstract>
+								<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>				
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>I</ows:Identifier>
+				<ows:Title>Inclinació</ows:Title>
+				<ows:Abstract> Indica que la transformació geomètrica a efectuar és una inclinació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Id</ows:Identifier>
+				<ows:Title>Eix inclinació</ows:Title>
+				<ows:Abstract>Si volem inclinar en direcció horitzontal el paràmetre ha de ser "x". Si volem inclinar en direcció vertical el paràmetre ha de ser "y"</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>x</ows:Value>
+						<ows:Value>y</ows:Value>	
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ir</ows:Identifier>
+				<ows:Title>Raó inclinació</ows:Title>
+				<ows:Abstract>Indica la raó d'inclinació. El valor 0 indica que no hi ha inclinació i com més alta és la raó més inclinació tenim. També accepta un nombre negatiu. Valors positius indiquen inclinació cap a la dreta (sentit horitzontal) o cap amunt (sentit vertical) i valors negatius indiquen inclinació cap a l'esquerra (sentit horitzontal) o cap avall (sentit vertical).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>		
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>R</ows:Identifier>
+				<ows:Title>Rotació</ows:Title>
+				<ows:Abstract>Indica que la transformació geomètrica a efectuar és una rotació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>g</ows:Identifier>
+				<ows:Title>graus</ows:Title>
+				<ows:Abstract>Indica els graus de rotació en el sentit horari. Si volem fer-ho en sentit antihorari cal posar el signe "menys" ("-") davant. El rang permès és de -360 a 360 graus.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>P</ows:Identifier>
+				<ows:Title>Prespectiva</ows:Title>
+				<ows:Abstract>Indica que la transformació geomètrica a efectuar és una perspectiva.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Pr</ows:Identifier>
+				<ows:Title>Raó prespectiva</ows:Title>
+				<ows:Abstract>Indica la raó de perspectiva. El valor que pren ha de ser un real major o igual que zero i menor estricte que 1. Si el valor és 0, el resultat no es modifica i com més proper a l'1 és, més es deforma tendint un punt de fuga infinit.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AllowedValues>
+				<ows:Value>0</ows:Value>
+				<ows:Value>1</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>M</ows:Identifier>
+				<ows:Title>Mirall</ows:Title>
+				<ows:Abstract>Indica que la transformació geomètrica a efectuar és un mirall.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Md</ows:Identifier>
+				<ows:Title>Direcció mirall</ows:Title>
+				<ows:Abstract>Indica la direcció de mirall. Si volem fer un mirall respecte l'eix horitzontal cal usar el valor 'x' (o bé 'X'). Si volem fer un mirall respecte l'eix vertical cal usar el valor 'y' (o bé 'Y').</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AllowedValues>
+				<ows:Value>y</ows:Value>
+				<ows:Value>x</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>Valor del NODATA per a la imatge corregida. Si l'usuari sap que amb tota seguretat (avaluant la geometria de la transformació, l'àmbit i rang del MDE...) no hi haurà NODATA pot usar-se el valor "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Paleta (p25, pal, p65) o taula de simbolització (dbf) que determinarà quin índex de color és el color més proper a l'índex del NODATA per a la imatge corregida.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda i generar com a resultat un ràster multibanda amb les corresponents bandes corregides.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>Prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers corregits per al cas multibanda. Per defecte aquest prefix és c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Model Digital Elevacions MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda que tenen diferents costats de píxel amb un MDE que té una banda per a cada valor no repetit de costat de píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>			
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Fitxer Sortida</ows:Title>
+				<ows:Abstract>És el nom del fitxer corregit (sense extensió) o el nom del directori dels fitxers corregits pel cas multibanda.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:!Param6</ows:Identifier>
+		<ows:Title>Ajust polinòmic de primer o de segon grau</ows:Title>
+		<ows:Abstract>En aquest cas, el mètode no considera les zetes (elevacions). És típic per a corregir fitxers vectorials i ràsters amb poca deformació, com ara imatges, i mapes escannejats ja corregits (com ortofotos o mapes topogràfics) o imatges de satèl·lit de zones amb poc relleu, abast territorial moderat i pixel relativament gros respecte a l'alçada de vol del satèl·lit. L'aplicació d'aquests mètodes a fotografies aèries escannejades o imatges de satèl·lit de relatiu detall (com ara Landsat-TM o SPOT) i extensió només és adequada en zones de relleu pla si es vol obtenir cartografia d'alta qualitat geomètrica.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[<li>1:Ajust polinòmic de primer grau</li><li>2: Ajust polinòmic de segon grau.</li>]]></ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor</ows:Identifier>
+				<ows:Title>Control</ows:Title>
+				<ows:Abstract>És el fitxer que conté els punts de control en format COR.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor_s</ows:Identifier>
+				<ows:Title>Control error</ows:Title>
+				<ows:Abstract>És el nom del fitxer COR que contindrà les equacions i els errors de l'ajust i el test. Podeu indicar NUL per correccions automàtiques on no desitgeu generar aquest fitxer.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.vectorial</ows:Identifier>
+				<ows:Title>Fitxer a corretgir</ows:Title>
+				<ows:Abstract>És el fitxer a corregir (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-ARC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-ARC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+								<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+								<Format>
+								<MimeType>application/x-VEC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>Valor del NODATA per a la imatge corregida. Si l'usuari sap que amb tota seguretat (avaluant la geometria de la transformació, l'àmbit i rang del MDE...) no hi haurà NODATA pot usar-se el valor "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Paleta (p25, pal, p65) o taula de simbolització (dbf) que determinarà quin índex de color és el color més proper a l'índex del NODATA per a la imatge corregida.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda i generar com a resultat un ràster multibanda amb les corresponents bandes corregides.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>Prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers corregits per al cas multibanda. Per defecte aquest prefix és c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Model Digital Elevacions MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda que tenen diferents costats de píxel amb un MDE que té una banda per a cada valor no repetit de costat de píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Fitxer Sortida</ows:Title>
+				<ows:Abstract>És el nom del fitxer corregit (sense extensió) o el nom del directori dels fitxers corregits pel cas multibanda.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param05" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-ARC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ARC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-PNT</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param1:7</ows:Identifier>
+		<ows:Title>Transformacions geomètriques (afins i perspectiva)</ows:Title>
+		<ows:Abstract><![CDATA[Aquests tipus de transformacions segueixen una filosofia diferent a les anteriors: en comptes d_ajustar la transformació a través d_uns punts de control, volem indicar nosaltres els paràmetres de la transformació ja que els coneixem a priori. Així, pot ser que haguem escannejat un document girat 90º per causa de caber-hi més bé a l_escànner un cop rotat; en aquest cas serà més fàcil indicar que volem efectuar una rotació de 90º per tornar-lo a posar en la posició original i veure_l de forma _natural_ (potser abans de col_locar punts de control per a un ajust fi de la geometria). Un segon exemple seria el cas que disposem d_una base vectorial antiga, provinent d_un software que emmagatzemava les coordenades amb precisió simple (com PC-Arc/Info) i per aquesta causa s_havia truncat la xifra més significativa quan era constant per a tota la capa (per exemple a Catalunya en UTM-31N era habitual suprimir el 4 de la coordenada Y, per la qual cosa una coordenada com ara 4619254.734 s_escrivia 619254.734 i així es podia mantenir una precisió decimètrica; en aquest cas podrem recuperar les coordenades originals indicant una transformació de tipus translació de magnitud 4000000. Finalment, un tercer exemple seria disposar d_una base en què les unitats del sistema de referència horitzontal son km i volem tenir-les en m, per a la qual cosa aplicarem un escalat de valor 1000.<br/>
+    Els tipus d'operacions que s'ofereixen són: translacions, escalats, inclinacions, rotacions, perspectives i miralls. Per a les transformacions afins (totes menys la perspectiva) es pot especificar un origen de transformació i per la perspectiva es pot especificar un envolupant sobre el qual actuar. Es dóna la possibilitat d'escollir-ho perquè si volem modificar una capa vectorial sobre un ràster ja modificat, es pugui usar l'envolupant del ràster i superposar així perfectament la capa vectorial transformada sobre el ràster modificat.<br/>
+    És possible realitzar un seguit de transformacions i/o perspectiva una darrera l'altra sobre un ràster o vector amb la única restricció que només es pot usar una perspectiva.]]>
+</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>7. Transformacions geomètriques (afins i perspectiva)</ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>7</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.vectorial</ows:Identifier>
+				<ows:Title>Fitxer vectorial</ows:Title>
+				<ows:Abstract>És el fitxer a corregir (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-ARC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-ARC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+								<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-VEC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T</ows:Identifier>
+				<ows:Title>Translació</ows:Title>
+				<ows:Abstract>Indica que la transformació geomètrica a efectuar és una translació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Tx</ows:Identifier>
+				<ows:Title>Valor X</ows:Title>
+				<ows:Abstract>Valor en les unitats del fitxer d'origen per a la component horitzontal de la translació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ty</ows:Identifier>
+				<ows:Title>Valor Y</ows:Title>
+				<ows:Abstract>Valor en les unitats del fitxer d'origen per a la component vertical de la translació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>E</ows:Identifier>
+				<ows:Title>Escalat</ows:Title>
+				<ows:Abstract> Indica que la transformació geomètrica a efectuar és un escalat.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ex</ows:Identifier>
+				<ows:Title>Valor X</ows:Title>
+				<ows:Abstract>Raó d'escalat horitzontal.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ey</ows:Identifier>
+				<ows:Title>Valor Y</ows:Title>
+				<ows:Abstract> Raó d'escalat vertical. Ex i Ey no poden valer 0 o 1 simultàniament.Ni Ex ni Ey no poden valer 0 perquè no es permet col·lapsar el resultat en un punt i per tant el programa no accepta aquests valors.</ows:Abstract>
+								<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>				
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>I</ows:Identifier>
+				<ows:Title>Inclinació</ows:Title>
+				<ows:Abstract> Indica que la transformació geomètrica a efectuar és una inclinació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Id</ows:Identifier>
+				<ows:Title>Eix inclinació</ows:Title>
+				<ows:Abstract>Si volem inclinar en direcció horitzontal el paràmetre ha de ser "x". Si volem inclinar en direcció vertical el paràmetre ha de ser "y"</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>x</ows:Value>
+						<ows:Value>y</ows:Value>	
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ir</ows:Identifier>
+				<ows:Title>Raó inclinació</ows:Title>
+				<ows:Abstract>Indica la raó d'inclinació. El valor 0 indica que no hi ha inclinació i com més alta és la raó més inclinació tenim. També accepta un nombre negatiu. Valors positius indiquen inclinació cap a la dreta (sentit horitzontal) o cap amunt (sentit vertical) i valors negatius indiquen inclinació cap a l'esquerra (sentit horitzontal) o cap avall (sentit vertical).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>		
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>R</ows:Identifier>
+				<ows:Title>Rotació</ows:Title>
+				<ows:Abstract>Indica que la transformació geomètrica a efectuar és una rotació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>g</ows:Identifier>
+				<ows:Title>graus</ows:Title>
+				<ows:Abstract>Indica els graus de rotació en el sentit horari. Si volem fer-ho en sentit antihorari cal posar el signe "menys" ("-") davant. El rang permès és de -360 a 360 graus.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>P</ows:Identifier>
+				<ows:Title>Prespectiva</ows:Title>
+				<ows:Abstract>Indica que la transformació geomètrica a efectuar és una perspectiva.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Pr</ows:Identifier>
+				<ows:Title>Raó prespectiva</ows:Title>
+				<ows:Abstract>Indica la raó de perspectiva. El valor que pren ha de ser un real major o igual que zero i menor estricte que 1. Si el valor és 0, el resultat no es modifica i com més proper a l'1 és, més es deforma tendint un punt de fuga infinit.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AllowedValues>
+				<ows:Value>0</ows:Value>
+				<ows:Value>1</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>M</ows:Identifier>
+				<ows:Title>Mirall</ows:Title>
+				<ows:Abstract>Indica que la transformació geomètrica a efectuar és un mirall.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Md</ows:Identifier>
+				<ows:Title>Direcció mirall</ows:Title>
+				<ows:Abstract>Indica la direcció de mirall. Si volem fer un mirall respecte l'eix horitzontal cal usar el valor 'x' (o bé 'X'). Si volem fer un mirall respecte l'eix vertical cal usar el valor 'y' (o bé 'Y').</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AllowedValues>
+				<ows:Value>y</ows:Value>
+				<ows:Value>x</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>Valor del NODATA per a la imatge corregida. Si l'usuari sap que amb tota seguretat (avaluant la geometria de la transformació, l'àmbit i rang del MDE...) no hi haurà NODATA pot usar-se el valor "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Paleta (p25, pal, p65) o taula de simbolització (dbf) que determinarà quin índex de color és el color més proper a l'índex del NODATA per a la imatge corregida.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda i generar com a resultat un ràster multibanda amb les corresponents bandes corregides.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>Prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers corregits per al cas multibanda. Per defecte aquest prefix és c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Model Digital Elevacions MULTIBANDA</ows:Title>
+				<ows:Abstract>Per a corregir alhora ràsters multibanda que tenen diferents costats de píxel amb un MDE que té una banda per a cada valor no repetit de costat de píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>			
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Fitxer Sortida</ows:Title>
+				<ows:Abstract>És el nom del fitxer corregit (sense extensió) o el nom del directori dels fitxers corregits pel cas multibanda.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-ARC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ARC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-PNT</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	</wps:ProcessDescriptions>

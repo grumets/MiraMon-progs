@@ -1,0 +1,200 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>IsoMDE: Generación de Modelos Digitales del Terreno a partir de
+  isolíneas</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>El método que utiliza el programa para obtener el ráster a partir de las
+  isolíneas no consta de un único algoritmo, sino que consiste en un conjunto
+  de procedimientos y reglas seleccionados heurísticamente de entre varios de
+  los planteados en la bibliografía especializada. El procedimiento madre es
+  el trazado de perfiles entre las curvas de nivel. Considerando la especial
+  disposición de los datos en las curvas de nivel, con muchos datos de igual
+  valor muy cercanos pero alineados y grandes zonas sin ningún dato entre
+  ellas, este método suele ser mejor que la aplicación de interpoladores entre
+  puntos cuando los datos de que disponemos son curvas de nivel.</p>
+
+  <p>El trazado de estos perfiles se efectúa utilizando diferentes tipos de
+  funciones (valores constantes, funciones lineales, funciones cúbicas, etc)
+  según el entorno de cada punto del territorio; de esta manera se evitan los
+  problemas de excesiva simplicidad derivados de la aplicación de solamente
+  funciones lineales (las cumbres y valles quedan siempre como planos
+  horizontales), pero también se evitan los artefactos y la lentitud de
+  cálculo que pueden aparecer si se aplican funciones cúbicas o splines en
+  todo momento. En cualquier caso, IsoMDE permite indicar cuál es la
+  equidistancia entre las curvas de nivel para evitar que una función no
+  lineal llegue a dar valores exageradamente altos o bajos en zonas de cumbre
+  o de valle.</p>
+
+  <p>Otra característica de IsoMDE es que calcula los trazados sobre las
+  curvas originales en formato vectorial, sin pasar por una rasterización
+  previa. Esto comporta una determinación mucho más precisa de los valores
+  interpolados a lo largo de los trazados (los métodos que previamente
+  rasterizan acaban realizando los cálculos a partir de posiciones originales
+  desplazadas hacia los centros de celda del ráster que se pretende obtener).
+  Una ventaja adicional del cálculo vectorial del trazado es que no es
+  necesario preocuparse por la escala original de los datos y el lado de celda
+  del ráster resultante. En efecto, si se opta por una rasterización previa,
+  cuando dos o más curvas de nivel pasan por la misma celda de un ráster
+  solamente una de ellas acaba teniéndose en cuenta en el cálculo final, y
+  resulta determinante en el resultado cuál será la escogida, hecho sobre el
+  que no suele tenerse un control adecuado (la mayoría de programas de
+  rasterización de líneas simplemente asignan a la celda el valor de la última
+  o de la primera línea que afecta a la celda).</p>
+
+  <p>Una segunda ventaja de la realización de cálculo vectorial es que permite
+  fácilmente incorporar en la interpolación curvas situadas fuera del ráster a
+  obtener y tenerlas en cuenta sin necesidad de realizar el proceso sobre un
+  ráster de más extensión territorial, el cual debería recortarse
+  posteriormente.<br/>
+  Una tercera ventaja de la realización de cálculo vectorial es que evita que
+  cuando una curva pasa inclinada 45 grados se rasterice en píxels en diagonal
+  , ya que en este caso los perfiles trazados en la diagonal contraria no ven
+  la curva y la ignoran.</p>
+
+  <p>El cálculo vectorial puede ser tachado de lento, pero hay que tener en
+  cuenta que durante el proceso de rasterización de las isolíneas también se
+  efectúa el análisis de las intersecciones una vez, y que lo que aquí se
+  propone simplemente multiplica aproximadamente por 4 el tiempo de este
+  proceso. A cambio, sin embargo, nos evitamos escribir un ráster en disco y
+  proporcionamos una base de cálculo mucho más precisa para la determinación
+  de los valores interpolados. En cualquier caso, este incremento de tiempo no
+  es nunca crítico para el proceso conjunto que pasa las curvas de nivel al
+  MDE final.</p>
+
+  <p>A pesar de su nombre, IsoMDE no está limitado a las isolíneas como
+  información de base para el proceso de interpolación. En efecto, y aunque
+  las curvas de nivel constituyen su principal fuente de datos, el programa
+  también puede utilizar la valiosa información adicional que se halla en el
+  trazado de líneas de cresta y de vaguada, como pusieron de relieve las
+  experiencias de Peuker. En particular, note que la información relativa a la
+  posición de las vaguadas está a menudo disponible incluso de forma explícita
+  ya que los mapas topográficos suelen recoger las líneas de ríos y
+  torrentes.</p>
+
+  <p>IsoMDE permite tener en cuenta la existencia de líneas de cresta y
+  vaguadas simplemente indicando los ficheros de arcos correspondientes.
+  Cuando el análisis de los perfiles intersecta con una de estas líneas,
+  IsoMDE determina que en aquel punto hay que ubicar un máximo o un mínimo,
+  respectivamente si las líneas no son 3D, o a partir de la versión 4 de
+  MiraMon, con la posibilidad de disponer de información altimétrica para cada
+  vértice, si la línea de cresta o vaguada contiene valores Z, éstos son
+  convenientemente interpolados cuando un perfil intersecta con una línea de
+  cresta o de vaguada. Si la línea no dispone de valores Z en cada vértice,
+  serà igualmente útil para IsoMDE ya que podrá determinar mucho mejor la
+  morfología del relieve. Las mejoras en el resultado son especialmente
+  espectaculares en las zonas planas, con pocas curvas de nivel y donde el
+  conocimiento de la línea de mínimo (río) ayuda de forma notable a evitar los
+  artefactos producidos por la falta de información. Insistimos en la
+  conveniencia de incorporar elementos de vaguada en el proceso, y recordemos
+  que a pesar de que este tipo de información raramente está disponible en
+  cartografía digital antigua o en la obtenida para digitalización de mapas
+  topográficos en papel, actualmente la mayoría de procesos de restitución
+  fotogramétrica ya proporcionan la cota de los vértices de los elementos
+  restituidos, con lo cual las líneas de vaguada (y de cresta si las hay) son
+  líneas 3D con información altimétrica que será usada por IsoMDE.</p>
+
+  <p>El programa traza 4 perfiles desde cada celda (horizontal, vertical, y
+  diagonales a 45º y 135º) para encontrar información de su alrededor (curvas
+  de nivel, vaguadas, etc), de forma similar a como operan otros algoritmos
+  previamente propuestos, esencialmente basados en el de Douglas. También
+  puede pedirse que el programa haga perfiles adicionales a 22.5º, 67.5º, etc;
+  recomendamos vivamente trazar también estos perfiles adicionales. Asimismo,
+  en IsoMDE el valor final de una celda del ráster no se determina a partir
+  del valor obtenido con uno solo de los perfiles (típicamente el de más
+  pendiente) sino que todos los perfiles se utilizan para determinar el valor
+  final. Esto permite un resultado mucho menos facetado que el obtenido con
+  los métodos de elección simple y nos evita tener que suavizar el MDE final
+  mediante la aplicación de filtros de media. Hay que recordar que la
+  aplicación de estos filtros hace que se desvirtúen incluso los valores de
+  las celdas donde realmente se disponía de información original debido al
+  hecho de que eran atravesadas por una curva de nivel, hecho que se agrava
+  cuando la aplicación del filtro de media se produce más de una vez para
+  intentar limar los artefactos en estrella que se aprecian en el aspecto
+  final cuando solamente se escoge un solo perfil para cada celda y se
+  producen cambios súbitos en el relieve por el simple hecho de efectuar un
+  cambio de criterio sobre cuál es la línea que suministra la información
+  final.</p>
+
+  <p>La manera en que cada perfil interviene en el valor final de cada celda
+  puede escogerse entre la simple media entre los valores o una ponderación
+  que favorece las curvas más cercanas a cada punto (método por defecto y
+  recomendado). Éste último proceso puede llevarse a cabo porque durante el
+  trazado de los perfiles, IsoMDE también obtiene información sobre su
+  posición relativa en el espacio. Gracias a esto, IsoMDE resulta en un
+  interpolador exacto, y obtenemos los valores originales en todos los centros
+  de celda que se hallen situados en el mismo punto que un dato original.</p>
+
+  <p>A pesar de la relativa complejidad del método, se ha tenido especial
+  cuidado en su implementación, de manera que IsoMDE resulta tanto o más
+  rápido que otros programas similares.</p>
+
+  <p>Para los mejores resultados, use un tamaño de píxel de entre 1 y 0.2
+  milímetros en escala del mapa original. Por ejemplo, si la fuente de las
+  isolíneas es un mapa topográfico 1:50000, use un píxel entre 50 y 10 m.
+  Nuestra experiencia nos muestra que para evitar artefactos resultantes de la
+  falta de información en zonas llanas en relación con la equidistancia entre
+  curvas en los mapas topográficos típicos, suele ser mejor optar por obtener
+  el MDE con un lado de celda de dimensiones equivalentes a 1 mm en la escala
+  del mapa (por ejemplo si la fuente es un mapa 1:50000, obtenga un MDE de
+  píxel de 50 m) y, si necesita un MDE con la celda menor densifique el ráster
+  al tamaño deseado con DensRas (menú &quot;Herramientas | Organización
+  espacial | Densificación de rásters&quot;.<br/>
+  En mapas con relieves abruptos (alta densidad de curvas) obtendrá resultados
+  razonablemente buenos interpolando directamente a dimensiones equivalentes a
+  0.5 mm (25 m en isolíneas provenientes de un 1:50000). Desaconsejamos
+  intentar calcular MDE con dimensiones más detalladas, ya es dudoso que
+  muchos mapas topográficos contengan información suficientemente buena por
+  debajo del medio milímetro y, en cambio, aparecen más artefactos resultantes
+  de la poca información disponible a tanto detalle. En cualquier caso, no
+  intente nunca generar el MDE con un píxel de menos de 0.2 mm ya que ningún
+  mapa topográfico suministra esta precisión y únicamente conseguirá que el
+  proceso tarde más y augmenten dramáticamente los artefactos; si necesita un
+  píxel final menor, utilice siempre DensRas a partir de las dimensiones de
+  píxel antes recomendadas.</p>
+
+  <p>Si obtiene en alguna zona líneas que &quot;rompen&quot; inapropiadamente
+  el relieve (aspecto facetado, angularidades), digitalice isolíneas
+  intermedias o, si los artefactos aparecen cerca de los bordes, trabaje con
+  una zona más ancha para ayudar al interpolador con un buen conocimiento de
+  la zona circundante. Como recurso adicional, puede pasar un filtro de media
+  sobre el resultado, aunque esto no debería ser necesario si se suministra un
+  buen material de base y sigue las indicaciones antes señaladas. Piense que
+  filtrar la imagen suaviza el relieve, y esto puede llegar a ser muy poco
+  realista. En las pruebas realizadas al desarrollar IsoMDE se vió que con
+  buen material y generando el modelo a 1 mm en la escala del mapa original
+  nunca debería ser necesario pasar un filtro de media o, como mucho, en una
+  sola iteración.</p>
+
+  <p>El programa asume que las unidades en que está expresada la altitud en el
+  campo de la base de datos son las mismas que las del sistema de referencia.
+  Si no fuese así, sería necesario realizar previamente la operación adecuada
+  de conversión. Para métodos alternativos de interpolación vea también
+  <a href="InterPNT.htm">InterPNT</a> y <a href="densras.htm">DensRas</a>. 
+  <!--- No continuo desenvolupant en aquesta direcció, però NO ESBORRAR
+                PER SI MAI ES RESUSSCITA SABER L'ORDRE DELS PARÀMETRES si es
+            parteix d'un ràster de corbes rasteritzades
+        "Sintaxi ràster:\n  FitxerOrigen RasterResultat Equid Z_NW Z_NE Z_SW Z_SE CodiTalveg  =--></p>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+   <!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+IsoMDE ?
+-->
+  </exclusiva>
+</body>
+</html>

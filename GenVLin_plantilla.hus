@@ -1,0 +1,77 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>GenVLin: Line generalization</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+	<i>Sorry, this document will be translated soon</i>
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <p>Aquesta aplicació generalitza les línies d'una capa de linies (ARC o VEC de línies). Per defecte, l'aplicació 
+  garanteix que el procés de generalització dels arcs no produeixi interseccions entre 
+  ells, col·lapses d'arcs individuals que formen un recinte tancat (evitant que un anell esdevingui 
+  un punt) o altres canvis que alterin les relacions topològiques entre les objectes arc.</p>
+  <p>Cal que el fitxer que conté la capa d'arcs a generar sigui diferent del fitxer original.</p>
+  <p>El programa treballa amb fitxers en format ARC i VEC d'arcs. Si us cal aplicar-lo sobre un fitxer en altres formats, 
+  podeu importar-lo amb les eines del menú "Fitxer | Importació".</p>
+  <p>En el seu funcionament recomanat com a eina de generalització el programa procedeix encadenant dos algorismes:</p>
+  <p>En el primer d'aquests algorismes per a cada arc, el programa aplica a cada vèrtex un filtre de mitjana 
+  mòbil sobre la seva posició (sobre les seves coordenades XY); aquest filtre pren en consideració dos, quatre 
+  o sis vèrtexs veïns en el mateix arc (un, dos o tres a cada banda del vèrtex en qüestió, a escollir). 
+  Els vèrtexs de l'extrem de l'arc (nodes) no modifiquen la seva posició en cap cas. D'altra banda, quan el 
+  nombre de vèrtexs de la mitjana mòbil desitjada és menor al nombre de vèrtexs del polisegment analitzat, 
+  aquest polisegment no resulta modificat (per exemple un arc de cinc vèrtexs (comptant els nodes) no resultarà 
+  amb cap vèrtex modificat si apliquem una mitjana mòbil de sis vèrtexs). A més, mai un vèrtex és mogut més 
+  enllà de la tolerància indicada per l'usuari (en les mateixes unitats planimètriques de la capa, típicament 
+  en metres). Noteu que la mitjana mòbil suavitza la línia canviant la posició dels vèrtexs però no 
+  n'augmenta ni en redueix el seu nombre.</p>
+  <p>A continuació s'aplica el segon algorisme, que és el de Douglas-Peucker (que també té una tolerància 
+  particular, anomenada èpsilon), el qual sí que permet reduir el nombre de vèrtexs, però no 
+  modifica la posició dels vèrtexs que hagin romàs. Vegeu la referència de 1973 per a detalls sobre el 
+  seu funcionament.</p>
+
+  <p>Els dos algorismes, però, poder ser aplicats separadament per interessos de recerca o de docència, 
+  tot i que, com s'ha dit, els millors resultats s'obtenen amb la combinació consecutiva de tots dos.</p>
+
+  <p>GenVLin també permet indicar que si un objecte resultat interseca amb qualsevol dels preexistents, 
+  la generalització no s'accepta i es fa un segon intent de generalització tractant-lo en polisegments 
+  de 8 vèrtexs si és que és possible; després d'aquest segon intent, si algun d'aquests polisegments 
+  interseca amb algun objecte preexistent, s'adopta el polisegment de línia original.</p>
+  
+  <p>En el cas del filtre de mitjana mòbil, l'usuari pot escollir els pesos que s'apliquen a cadascun 
+  dels vèrtexs anteriors i posteriors (és a dir, es pot modular la influència que tindran les coordenades 
+  dels vèrtexs veïns al llarg del mateix arc). Les possibilitats són:
+  <ul>
+  <li>Pesos iguals per a tots els vèrtexs de la mitjana mòbil.</li>
+  <li>Pesos automàtics, afavorint la posició dels vèrtexs centrals de la mitjana mòbil, 
+  però no canviant els pesos en funció de les distàncies entre vèrtexs.</li>
+  <li>Pesos automàtics a cada vèrtex en funció de l'invers de la distància 
+  planimètrica al vèrtex central de la mitjana mòbil. Aquesta és la opció per defecte si no s'indica l'opció desitjada.</li>
+  <li>Pesos de valors i distribució indicats per l'usuari (i en tal cas els pesos han de sumar 1).</li>
+  </ul></p>
+
+  <p>Vegeu també l'aplicació <a href="micropol.htm">MicroPol</a> per a l'eliminació de polígons petits.</p>
+  
+  <p>Referència: Douglas, D, T Peucker (1973)  "<b>Algorithms for the reduction of the number of points 
+  required to represent a digitized line or its caricature</b>", <i>The Canadian Cartographer</i>, 10(2), 112–122. 
+  doi:10.3138/FM57-6770-U75U-7727</p>
+  <hr/>
+
+  <exclusiva>
+     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+    <p><!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+GENVLIN ?
+--></p>
+  </exclusiva>
+  <hr/>
+</body>
+</html>

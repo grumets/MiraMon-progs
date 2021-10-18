@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+		<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Rutes:Param1:1</ows:Identifier>
+		<ows:Title>Mínima distáncia</ows:Title>
+		<ows:Abstract>Esta opción calcula la distáncia mìnima acumulada.</ows:Abstract>
+<ows:Metadata xlink:title="Title:Determinación de la ruta óptima."/>
+<ows:Metadata xlink:title="Abstract:ste programa determina las rutas óptimas entre un conjunto de localizaciones origen y un conjunto de posibles localizaciones destino. La ruta óptima entre un par de localizaciones origen-destino será aquella que minimice el desplazamiento para ir del origen al destino, ya sea en tiempo, distancia o por un campo numérico definido por el usuario que represente cualquier otra variable que pondere el coste del desplazamiento."/>
+		<DataInputs>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcion</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>1. Para mínima distáncia acumulada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+			<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:Value>1</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>				
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ArchivoArcos</ows:Identifier>
+				<ows:Title>Archivo Arcos</ows:Title>
+				<ows:Abstract>Es el nombre del fichero estructurado de arcos que contiene la red de caminos</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+					<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampoTipoNodo</ows:Identifier>
+				<ows:Title>Campo Tipo Nodo</ows:Title>
+				<ows:Abstract>Es el campo alfanumérico de la base de datos del fichero de nodos de ArchivoArcos que indica si un nodo es origen (valor "O"), destino (valor "D"), o ambos casos a la vez (valor "A").</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>DistanciaMaxima</ows:Identifier>
+				<ows:Title>Distancia Maxima</ows:Title>
+				<ows:Abstract>Representa el umbral máximo (en metros) para que las rutas que lo superen en longitud acumulada sean descartadas.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_LONG</ows:Identifier>
+				<ows:Title>CampLongAlternativo</ows:Title>
+				<ows:Abstract>Si se especifica, indica el campo de la base de datos de ArchivoArcos que contiene las longitudes de cada arco utilizadas en vez de los valores topológicos que figuran por defecto en la base de datos.</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_VINCULAR</ows:Identifier>
+				<ows:Title>NO_VINCULAR</ows:Title>
+				<ows:Abstract>Este parámetro elimina el comportamiento por defecto que vincula la tabla DBF resultado a la base de datos asociada del achivo de nodos origen.</ows:Abstract>
+			<LiteralData>
+<ows:AllowedValues>		
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>	
+			</LiteralData>			
+		</Input>
+		</DataInputs>
+			<ProcessOutputs>	
+	      		<Output>
+				<ows:Identifier>BDResultados</ows:Identifier>
+				<ows:Title>BD Resultados </ows:Title>
+				<ows:Abstract>Es el nombre del fichero DBF que establece las relaciones entre nodos origen y destino y recoge los valores acumulados de distancia y/o tiempo.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Default>
+					<Supported>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs> 
+	</ProcessDescription>
+		<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Rutes:Param1:2</ows:Identifier>
+		<ows:Title>Tiempo acumulado</ows:Title>
+		<ows:Abstract>Esta opción calcula el mínimo tiempo acumulado.</ows:Abstract>
+		<DataInputs>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcion</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>2. Para mínimo tiempo acumulado.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+			<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:Value>2</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>				
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ArchivoArcos</ows:Identifier>
+				<ows:Title>Archivo Arcos</ows:Title>
+				<ows:Abstract>Es el nombre del fichero estructurado de arcos que contiene la red de caminos</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+					<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampoTipoNodo</ows:Identifier>
+				<ows:Title>Campo Tipo Nodo</ows:Title>
+				<ows:Abstract>Es el campo alfanumérico de la base de datos del fichero de nodos de ArchivoArcos que indica si un nodo es origen (valor "O"), destino (valor "D"), o ambos casos a la vez (valor "A").</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>TiempoMaximo</ows:Identifier>
+				<ows:Title>Tiempo Maximo</ows:Title>
+				<ows:Abstract>Obligatorio en esta opción, representa el umbral máximo (en las mismas unidades temporales que CampoTiempo) para que las rutas que lo superen en tiempo de recorrido sean descartadas.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampoTiempo</ows:Identifier>
+				<ows:Title>Campo Tiempo</ows:Title>
+				<ows:Abstract>Es el campo de la base de datos de ArchivoArcos que contiene los tiempos de recorrido asociados a cada arco. Los valores deben definrse en segundos, minutos o en horas.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_VINCULAR</ows:Identifier>
+				<ows:Title>NO_VINCULAR</ows:Title>
+				<ows:Abstract>Este parámetro elimina el comportamiento por defecto que vincula la tabla DBF resultado a la base de datos asociada del achivo de nodos origen.</ows:Abstract>
+			<LiteralData>
+<ows:AllowedValues>		
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>	
+			</LiteralData>			
+		</Input>
+		</DataInputs>
+			<ProcessOutputs>	
+	      		<Output>
+				<ows:Identifier>BDResultados</ows:Identifier>
+				<ows:Title>BD Resultados</ows:Title>
+				<ows:Abstract>Es el nombre del fichero DBF que establece las relaciones entre nodos origen y destino y recoge los valores acumulados de distancia y/o tiempo.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Default>
+					<Supported>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs> 
+	</ProcessDescription>
+		<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Rutes:Param1:3</ows:Identifier>
+		<ows:Title>Mínimo tiempo acumulado</ows:Title>
+		<ows:Abstract>Esta opción calcula para  cada tramo como quociente entre longitud i velocidad.</ows:Abstract>
+		<DataInputs>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcion</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>3. Para mínimo tiempo acumulado, cada tramo se obtiene como a quociente entre longitud y velocidad.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+			<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:Value>3</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>				
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ArchivoArcos</ows:Identifier>
+				<ows:Title>Archivo Arcos</ows:Title>
+				<ows:Abstract>Es el nombre del fichero estructurado de arcos que contiene la red de caminos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+					<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampoTipoNodo</ows:Identifier>
+				<ows:Title>Campo Tipo Nodo</ows:Title>
+				<ows:Abstract>Es el campo alfanumérico de la base de datos del fichero de nodos de ArchivoArcos que indica si un nodo es origen (valor "O"), destino (valor "D"), o ambos casos a la vez (valor "A").</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>DistanciaMaxima</ows:Identifier>
+				<ows:Title>Distancia Máxima</ows:Title>
+				<ows:Abstract>Representa el umbral máximo (en metros) para que las rutas que lo superen en longitud acumulada sean descartadas.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampoTiempo</ows:Identifier>
+				<ows:Title>Campo Tiempo</ows:Title>
+				<ows:Abstract>Es el campo de la base de datos de ArchivoArcos que contiene los tiempos de recorrido asociados a cada arco. Los valores deben definrse en segundos, minutos o en horas.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_VINCULAR</ows:Identifier>
+				<ows:Title>NO_VINCULAR</ows:Title>
+				<ows:Abstract>Este parámetro elimina el comportamiento por defecto que vincula la tabla DBF resultado a la base de datos asociada del achivo de nodos origen.</ows:Abstract>
+			<LiteralData>
+<ows:AllowedValues>		
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>	
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_LONG</ows:Identifier>
+				<ows:Title>Camp Long Alternativo</ows:Title>
+				<ows:Abstract>Si se especifica, indica el campo de la base de datos de ArchivoArcos que contiene las longitudes de cada arco utilizadas en vez de los valores topológicos que figuran por defecto en la base de datos.</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		</DataInputs>
+			<ProcessOutputs>	
+	      		<Output>
+				<ows:Identifier>BDResultados</ows:Identifier>
+				<ows:Title>BD Resultados</ows:Title>
+				<ows:Abstract>BDResultados es el nombre del fichero DBF que establece las relaciones entre nodos origen y destino y recoge los valores acumulados de distancia y/o tiempo.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Default>
+					<Supported>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs> 
+	</ProcessDescription>
+		<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Rutes:Param1:4</ows:Identifier>
+		<ows:Title>Mínimo coste acumulado</ows:Title>
+		<ows:Abstract>Esta opción calcula el  mínimo coste acumulado, el coste queda definido para el usuario para un campo que el mide el esfuerzo del desplaçamiento.</ows:Abstract>
+		<DataInputs>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcion</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>4. Para mínimo tiempo acumulado, cada tramo se obtiene como  cociente entre longitud y velocidad.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+			<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:Value>4</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>				
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ArchivoArcos</ows:Identifier>
+				<ows:Title>Archivo Arcos</ows:Title>
+				<ows:Abstract>es el nombre del fichero estructurado de arcos que contiene la red de caminos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+					<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampoTipoNodo</ows:Identifier>
+				<ows:Title>Campo Tipo Nodo</ows:Title>
+				<ows:Abstract>Es el campo alfanumérico de la base de datos del fichero de nodos de ArchivoArcos que indica si un nodo es origen (valor "O"), destino (valor "D"), o ambos casos a la vez (valor "A").</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CosteMaximo</ows:Identifier>
+				<ows:Title>Coste Maximo</ows:Title>
+				<ows:Abstract>Representa el umbral máximo para que las rutas que lo superen en coste acumulado sean descartadas.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampoCoste</ows:Identifier>
+				<ows:Title>Campo Coste</ows:Title>
+				<ows:Abstract>Es el campo de la base de datos de ArchivoArcos que se utilizará para calcular el coste de cada ruta. No hace falta que el campo tenga ninguna unidad de medida asociada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_VINCULAR</ows:Identifier>
+				<ows:Title>NO_VINCULAR</ows:Title>
+				<ows:Abstract>Este parámetro elimina el comportamiento por defecto que vincula la tabla DBF resultado a la base de datos asociada del achivo de nodos origen.</ows:Abstract>
+			<LiteralData>
+<ows:AllowedValues>		
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>	
+			</LiteralData>			
+		</Input>
+		</DataInputs>
+		<ProcessOutputs>	
+	      		<Output>
+				<ows:Identifier>BDResultados</ows:Identifier>
+				<ows:Title>BD Resultados</ows:Title>
+				<ows:Abstract>Es el nombre del fichero DBF que establece las relaciones entre nodos origen y destino y recoge los valores acumulados de distancia y/o tiempo.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Default>
+					<Supported>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs> 
+	</ProcessDescription>	
+</wps:ProcessDescriptions>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ETIQUETA:1</ows:Identifier>
+		<ows:Title>ETIQUETA</ows:Title>
+		<ows:Abstract>Este programa permite la generación de puntos que son etiquetas de polígonos a partir de un fichero POL o de un fichero VEC de polígonos explícitos. Las nuevas etiquetas pueden heredar o no los atributos preexistentes de los polígonos y tienen el mismo orden que los polígonos originales. El programa permite poner o no una etiqueta sobre el polígono 0 (el polígono exterior que envuelve a todos los demás).</ows:Abstract>
+<ows:Metadata xlink:title="Title:Generación de etiquetas en el interior de un polígono" />
+<ows:Metadata xlink:title="Abstract:Este programa permite la generación de puntos que son etiquetas de polígonos a partir de un fichero POL o de un fichero VEC de polígonos explícitos. Las nuevas etiquetas pueden heredar o no los atributos preexistentes de los polígonos y tienen el mismo orden que los polígonos originales. El programa permite poner o no una etiqueta sobre el polígono 0 (el polígono exterior que envuelve a todos los demás)." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcion</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>1: Crea un fichero PNT donde cada punto está dentro de un polígono del fichero Fichero_Polígonos (POL). Se transfieren a la base de datos de puntos todos los registros de la base de datods del polígono correspondiente a cada punto.</li><li>2: Crea un fichero PNT donde cada punto está dentro de un polígono del fichero Fichero_Polígonos (POL). La base de datos resultante sólo contiene un registro con el identificador gráfico para cada punto y no se transfiere ninguna información de la tabla de polígonos.</li><li>3: Crea un fichero de puntos (VEC) con las etiquetas de los polígonos del fichero Fichero_Polígonos (VEC). Cada punto tiene como atributo el atributo del polígono correspondiente.</li><li>4: Como la opción 3 pero se verifica que a cada polígono le corresponda una sola etiqueta del fichero de puntos. Todos los problemas detectados son descritos en pantalla.</li></ul>]]>
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param1" />
+				<LiteralData>
+				<ows:AllowedValues>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer ">integer</ows:DataType>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fichero_Polígonos</ows:Identifier>
+				<ows:Title>Fichero Polígonos</ows:Title>
+				<ows:Abstract>Es el fichero de polígonos a partir del cual se generará la capa de etiquetas.
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-pol</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+					<MimeType>application/x-pol</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>
+			</Input>		
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Posicion</ows:Identifier>
+				<ows:Title>Posición</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>
+   1: La etiqueta está a una distancia Tolerancia (en X) desde el borde izquierdo.</li><li>
+   2: La etiqueta está centrada entre el borde derecho y el izquierdo (la Tolerancia sólo se aplica en la posición del polígono 0 que queda a una distancia Tolerancia (en X) a la izquierda del borde X mínimo del envolvente). Es la opción recomendada para ficheros POL.</li><li>
+  3: La etiqueta está a una distancia Tolerancia (en X) desde el borde derecho.</li></ul>]]>
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param4" />
+	<LiteralData>
+				<ows:AllowedValues>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer ">integer</ows:DataType>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tolerancia</ows:Identifier>
+				<ows:Title>Tolerancia</ows:Title>
+				<ows:Abstract>Distancia (en X) para la localización de las etiquetas. 
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param4" />
+	<LiteralData>
+	<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float ">float</ows:DataType>
+				<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>p_cero</ows:Identifier>
+				<ows:Title>Etiqueta polígono cero</ows:Title>
+				<ows:Abstract>(sólo válido para ficheros POL) <![CDATA[<ul><li>
+    0: No quiero etiqueta sobre el polígono 0 (opción por defecto).</li><li>
+    1: Quiero etiqueta sobre el polígono 0.</li><li>
+    2: Quiero etiqueta sobre el polígono 0 con una posición x muy negativa sin que sea tenida en cuenta para el cálculo de la envolvente.</li></ul>]]>
+</ows:Abstract>
+	<LiteralData>
+				<ows:AllowedValues>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+	<ProcessOutputs>	
+		<Output>
+				<ows:Identifier>Ficher_Puntos</ows:Identifier>
+				<ows:Title>Fichero de Puntos</ows:Title>
+				<ows:Abstract>Fichero de puntos de generado
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+							<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+	</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

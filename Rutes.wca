@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+		<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Rutes:Param1:1</ows:Identifier>
+		<ows:Title>Mínima distància</ows:Title>
+		<ows:Abstract>Aquesta opció calcula la distància mìnima acumulada.</ows:Abstract>
+<ows:Metadata xlink:title="Title:Determinació de la ruta òptima."/>
+<ows:Metadata xlink:title="Abstract:Aquest programa determina les rutes òptimes entre un conjunt de localitzacions origen i un conjunt de possibles localitzacions destí. La ruta òptima entre un parell de localitzacions origen-destí serà aquella que minimitza el desplaçament per anar de l'origen al destí, ja sigui en termes de distància, temps, o bé per un camp numèric definit per l'usuari que representi qualsevol altra variable que ponderi el cost del desplaçament."/>
+		<DataInputs>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>1. Per mínima distància acumulada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+			<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:Value>1</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>				
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerArcs</ows:Identifier>
+				<ows:Title>Fitxer Arcs</ows:Title>
+				<ows:Abstract>És el nom del fitxer estructurat d'arcs que conté la xarxa de camins.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+					<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampTipusNode</ows:Identifier>
+				<ows:Title>Camp Tipus Node</ows:Title>
+				<ows:Abstract>És el camp alfanumèric de la base de dades del fitxer de nodes de FitxerArcs que indica si un node és origen (valor "O"), destí (valor "D"), o ambdós casos alhora, origen i destí, (valor "A").</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>DistànciaMàxima</ows:Identifier>
+				<ows:Title>Distància Màxima</ows:Title>
+				<ows:Abstract>Representa el llindar màxim (en metres) perquè les rutes que superin aquesta longitud acumulada siguin descartades.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_LONG</ows:Identifier>
+				<ows:Title>CAMP LONG</ows:Title>
+				<ows:Abstract>CampLongAlternatiu: si s'especifica, indica el camp de la base de dades de FitxerArcs que contindrà les longituds de cada arc, que es faran servir en comptes dels valors topològics que figuren per defecte a la base de dades.</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_VINCULAR</ows:Identifier>
+				<ows:Title>NO_VINCULAR</ows:Title>
+				<ows:Abstract>Aquest paràmetre elimina el comportament per defecte de vincular la taula DBF resultat a la base de dades associada del fitxer de nodes origen.</ows:Abstract>
+			<LiteralData>
+<ows:AllowedValues>		
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>	
+			</LiteralData>			
+		</Input>
+		</DataInputs>
+			<ProcessOutputs>	
+	      		<Output>
+				<ows:Identifier>BDResultats</ows:Identifier>
+				<ows:Title>BD Resultats</ows:Title>
+				<ows:Abstract>És el nom del fitxer DBF que establirà les relacions entre nodes origen i destí i recollirà els valors acumulats de distància i/o temps.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Default>
+					<Supported>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs> 
+	</ProcessDescription>
+		<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Rutes:Param1:2</ows:Identifier>
+		<ows:Title>Temps acumulat</ows:Title>
+		<ows:Abstract>Aquesta opció calcula el mìnim temps acumulat.</ows:Abstract>
+		<DataInputs>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>2. Per mínim temps acumulat.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+			<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:Value>2</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>				
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerArcs</ows:Identifier>
+				<ows:Title>Fitxer Arcs</ows:Title>
+				<ows:Abstract>És el nom del fitxer estructurat d'arcs que conté la xarxa de camins.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+					<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampTipusNode</ows:Identifier>
+				<ows:Title>Camp Tipus Node</ows:Title>
+				<ows:Abstract>És el camp alfanumèric de la base de dades del fitxer de nodes de FitxerArcs que indica si un node és origen (valor "O"), destí (valor "D"), o ambdós casos alhora, origen i destí, (valor "A").</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>TempsMàxim</ows:Identifier>
+				<ows:Title>Temps Màxim</ows:Title>
+				<ows:Abstract>Obligatori en aquesta opció, representa el llindar màxim (en les mateixes unitats temporals del CampTemps) perquè les rutes que superin aquest temps de recorregut siguin descartades,</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampTemps</ows:Identifier>
+				<ows:Title>Camp Temps</ows:Title>
+				<ows:Abstract>És el camp de la base de dades de FitxerArcs que conté els temps de recorregut associats a cada arc. Els valors han d'estar definits en segons, minuts o en hores.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_VINCULAR</ows:Identifier>
+				<ows:Title>NO_VINCULAR</ows:Title>
+				<ows:Abstract>Aquest paràmetre elimina el comportament per defecte de vincular la taula DBF resultat a la base de dades associada del fitxer de nodes origen.</ows:Abstract>
+			<LiteralData>
+<ows:AllowedValues>		
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>	
+			</LiteralData>			
+		</Input>
+		</DataInputs>
+			<ProcessOutputs>	
+	      		<Output>
+				<ows:Identifier>BDResultats</ows:Identifier>
+				<ows:Title>BD Resultats</ows:Title>
+				<ows:Abstract>És el nom del fitxer DBF que establirà les relacions entre nodes origen i destí i recollirà els valors acumulats de distància i/o temps.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Default>
+					<Supported>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs> 
+	</ProcessDescription>
+		<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Rutes:Param1:3</ows:Identifier>
+		<ows:Title>Mínim temps acumulat</ows:Title>
+		<ows:Abstract>Aquesta opció calcula per  cada tram s'obté com a quocient entre longitud i velocitat.</ows:Abstract>
+		<DataInputs>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>3. Per mínim temps acumulat, cada tram s'obté com a quocient entre longitud i velocitat.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+			<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:Value>3</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>				
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerArcs</ows:Identifier>
+				<ows:Title>Fitxer Arcs</ows:Title>
+				<ows:Abstract>És el nom del fitxer estructurat d'arcs que conté la xarxa de camins.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+					<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampTipusNode</ows:Identifier>
+				<ows:Title>Camp Tipus Node</ows:Title>
+				<ows:Abstract>És el camp alfanumèric de la base de dades del fitxer de nodes de FitxerArcs que indica si un node és origen (valor "O"), destí (valor "D"), o ambdós casos alhora, origen i destí, (valor "A").</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>DistànciaMàxima</ows:Identifier>
+				<ows:Title>Distància Màxima</ows:Title>
+				<ows:Abstract>Representa el llindar màxim (en metres) perquè les rutes que superin aquesta longitud acumulada siguin descartades.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampTemps</ows:Identifier>
+				<ows:Title>Camp Temps</ows:Title>
+				<ows:Abstract>És el camp de la base de dades de FitxerArcs que conté els temps de recorregut associats a cada arc. Els valors han d'estar definits en segons, minuts o en hores.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_VINCULAR</ows:Identifier>
+				<ows:Title>NO_VINCULAR</ows:Title>
+				<ows:Abstract>Aquest paràmetre elimina el comportament per defecte de vincular la taula DBF resultat a la base de dades associada del fitxer de nodes origen.</ows:Abstract>
+			<LiteralData>
+<ows:AllowedValues>		
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>	
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_LONG</ows:Identifier>
+				<ows:Title>CAMP LONG</ows:Title>
+				<ows:Abstract>CampLongAlternatiu: si s'especifica, indica el camp de la base de dades de FitxerArcs que contindrà les longituds de cada arc, que es faran servir en comptes dels valors topològics que figuren per defecte a la base de dades.</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		</DataInputs>
+			<ProcessOutputs>	
+	      		<Output>
+				<ows:Identifier>BDResultats</ows:Identifier>
+				<ows:Title>BD Resultats</ows:Title>
+				<ows:Abstract>És el nom del fitxer DBF que establirà les relacions entre nodes origen i destí i recollirà els valors acumulats de distància i/o temps.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Default>
+					<Supported>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs> 
+	</ProcessDescription>
+		<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Rutes:Param1:4</ows:Identifier>
+		<ows:Title>Mínim cost acumulat</ows:Title>
+		<ows:Abstract>Aquesta opció calcula Per mínim cost acumulat, el cost queda definit per l'usuari per un camp que el mesura l'esforç del desplaçament.</ows:Abstract>
+		<DataInputs>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>4. Per mínim temps acumulat, cada tram s'obté com a quocient entre longitud i velocitat.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+			<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:Value>4</ows:Value>
+				</ows:AllowedValues>
+			</LiteralData>				
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerArcs</ows:Identifier>
+				<ows:Title>Fitxer Arcs</ows:Title>
+				<ows:Abstract>És el nom del fitxer estructurat d'arcs que conté la xarxa de camins.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+					<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+						<MimeType>application/x-Arc</MimeType>
+							<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampTipusNode</ows:Identifier>
+				<ows:Title>Camp Tipus Node</ows:Title>
+				<ows:Abstract>És el camp alfanumèric de la base de dades del fitxer de nodes de FitxerArcs que indica si un node és origen (valor "O"), destí (valor "D"), o ambdós casos alhora, origen i destí, (valor "A").</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CostMàxim</ows:Identifier>
+				<ows:Title>Cost Màxim</ows:Title>
+				<ows:Abstract>Representa el llindar màxim perquè les rutes que superin aquest cost siguin descartades.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampCost </ows:Identifier>
+				<ows:Title>Camp Cost </ows:Title>
+				<ows:Abstract>És el camp de la base de dades de FitxerArcs que es farà servir per calcular el cost de cada ruta. No cal que el camp tingui cap unitat de mesura associada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>			
+		</Input>
+		<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_VINCULAR</ows:Identifier>
+				<ows:Title>NO_VINCULAR</ows:Title>
+				<ows:Abstract>Aquest paràmetre elimina el comportament per defecte de vincular la taula DBF resultat a la base de dades associada del fitxer de nodes origen.</ows:Abstract>
+			<LiteralData>
+<ows:AllowedValues>		
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>	
+			</LiteralData>			
+		</Input>
+		</DataInputs>
+		<ProcessOutputs>	
+	      		<Output>
+				<ows:Identifier>BDResultats</ows:Identifier>
+				<ows:Title>BD Resultats</ows:Title>
+				<ows:Abstract>És el nom del fitxer DBF que establirà les relacions entre nodes origen i destí i recollirà els valors acumulats de distància i/o temps.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Default>
+					<Supported>
+						<Format>
+						<MimeType>application/x-DBF</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs> 
+	</ProcessDescription>	
+</wps:ProcessDescriptions>

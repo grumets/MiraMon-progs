@@ -1,0 +1,291 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Traduït per Agustí Escobar-->
+
+  <title>LinArc: Conversión entre ficheros VEC (líneas) y ficheros
+  ARC/NOD</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p>Este programa hace la transformación entre ficheros vectoriales de líneas
+  de tipo VEC y ficheros ARC y NOD del formato vectorial estructurado Top-MM.
+  Ambos formatos son soportados por MiraMon. Los ficheros VEC son una
+  ampliación de los ficheros VEC de Idrisi.</p>
+
+  <p>Los ficheros vectoriales de líneas de tipo VEC son de ficheros ASCII que
+  no presentan topología (como mínimo ésta no está explicitada) y no están
+  vinculados a bases de datos (cada objeto gráfico soporta un solo atributo).
+  Los acompaña un fichero de documentación (DVC).</p>
+
+  <p>Los ficheros estructurados Top-MM de tipo ARC y NOD son ficheros
+  binarios, habitualmente con topología arco-nodo y que están vinculados a una
+  base de datos relacional (A.REL, A.DBF, N.REL y N.DBF). En la versión 3.x
+  los acompaña un fichero de documentación (DVA y DVN), el cual queda
+  integrado en el correspondiente fichero REL en las versiones
+  posteriores.</p>
+
+  <p>Si tenemos una familia de vectores estructurados como la antes descrita,
+  se puede convertir al formato VEC de líneas con la <u>opción 1</u> del
+  programa LINARC. Esto es útil para digitalizar y cuando se quiere el fichero
+  en un formato de texto.</p>
+
+  <p>Hasta la versión 3.x de MiraMon, la digitalización de líneas se realiza
+  sobre ficheros no estructurados. La estructuración topológica de arcos y
+  nodos posterior a la digitalización es un proceso tan complejo que resulta
+  casi imposible llevar a cabo manualmente, tarea que realiza la <u>opción
+  2</u> del programa Linarc.</p>
+
+  <p>A veces un fichero VEC de líneas puede contener arcos y nodos de forma
+  implícita, por ejemplo cuando proviene de una conversión de una familia de
+  ficheros arco-nodo a VEC a través de LINARC con la opción 1. En este caso
+  podemos indicar a LINARC, a través de la <u>opción 3</u>, que no realice los
+  cálculos de estructuración topológica, lo cual es mucho más rápido. Esta
+  opción sólo puede utilizarse cuando la estructura topológica no es esencial,
+  como sucede a veces en las capas de líneas como las curvas de nivel. En una
+  capa sobre la que es necesario construir polígonos solo se puede aplicar
+  esta opción cuando el fichero VEC contiene estructura arco-nodo implícita,
+  ya que las relaciones topológicas son esenciales para poder <a href="ciclar.htm">ciclar</a> polígonos. El análisis de redes es otro caso donde
+  la topología es esencial.</p>
+
+  <p>La opción 2 del programa soporta un fichero VEC de polígonos como fichero
+  de entrada, pero la opción 3 no. En el primer caso, los contornos de los
+  polígonos se tratan simplemente como líneas.</p>
+
+  <p><a id="ellipsoide" name="ellipsoide">El programa crea en la base de datos
+  el campo LONG_ARC, que indica la longitud de cada arco. Los valores de los
+  campo LONG_ARC se calculan sobre las coordenadas de la proyección (del mapa)
+  y, por tanto, no dan distancias sobre la Tierra sino sobre el mapa,
+  calculadas como lo haría normalmente un programa de dibujo asistido por
+  ordenador (CAD). En proyecciones como la UTM, estos valores son
+  suficientemente precisos para la mayor parte de propósitos. Por ejemplo,
+  dentro de un huso UTM, una distancia sobre el mapa puede diferir de la
+  distancia sobre el elipsoide terrestre en un factor entre 0.9996 y
+  1.0009811009).
+
+  <p>Cuando la proyección cartográfica es conocida (vea listado de <a href="../mm32/ap6.htm">proyecciones conocidas</a>), además del campo LONG_ARC, el
+  programa también crea el campo LONG_ARCE, que indica la longitud real de
+  cada arco calculada sobre el elipsoide terrestre con criterios geodésicos
+  precisos. Este nuevo campo resulta especialmente indicado en proyecciones
+  cartográficas en las que los cálculos sobre el mapa dan valores claramente
+  diferentes a los reales sobre la superficie terrestre (por ejemplo, la
+  proyección Mercator) o en proyecciones en mapas en los que la diferencia es
+  pequeña pero aparecen líneas largas que pueden acumular errores importantes.</p>
+
+  <p>Según la proyección cartográfica utilizada el programa declara visible
+  LONG_ARC o LONG_ARCE y deja oculto el otro campo, según sea el más
+  comúnmente usado como medida de longitud en aquella proyección. Puede
+  cambiar estos criterios de visibilidad en el fichero REL.</p>
+ <hr/>
+
+  <exclusiva>
+    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+LINARC ?
+--></p>
+   
+  </exclusiva>
+
+  <h3>Descripción detallada de las opciones:</h3>
+
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>En las opciones 2 y 3, el programa elimina las coordenadas repetidas
+  (sólo se conserva una). Por otro lado, las entidades formadas por un solo
+  vértice son eliminadas.</p>
+  <hr/>
+
+  <h3>Tipos de tolerancia y su aplicación en el programa LinArc.</h3>
+  <p>LinArc define 6 tipos de tolerancias diferentes para 6 casos que se
+  pueden encontrar en la estructuración de un fichero vectorial. Esta sección
+  explica a qué situación geométrica corresponde cada tipo de tolerancia y
+  cómo se aplica dentro del programa LinArc (sólo en la opción 2).</p>
+
+<p>Muy importante: todos estos tipos de tolerancias son habitualmente 
+ innecesarias si se digitaliza utilizando correctamente las herramientas de
+  conexión de MiraMon. Sin embargo, cuando un fichero ha sido digitalizado sin
+  seguir estas normas básicas de conexión, o bien ha estado generado con
+ otro <i>software</i> que no conecta correctamente los elementos, puede ser
+  necesario aplicar estas tolerancias.</p>
+  
+  <dl>
+    <dt>Precisión (Tolerancia borrosa/<i>Fuzzy tolerance)</i> [Prec]</dt>
+
+    <dd>Mínima distancia entre vértices. Tiene que ser un valor muy pequeño, prácticamente infinitesimal.</dd>
+
+    <dt>Tolerancia de pseudogeneralización. [T_Psgen]</dt>
+
+    <dd>Tolerancia para eliminar vértices situados sobre un mismo trazado rectilíneo (fig 1.a). (Es una definición local en cada arco)</dd>
+
+	<dt>Tolerancia entre arcos<i>(Arc snap tolerance)</i> [T_Arc]</dt>
+	
+	<dd>Distancia que un vértice se puede mover (fig 1.b1) o un segmento se puede doblar, generándose un nuevo vértice (fig 1.b2) para conectar con otro (implica una relación entre un arco y los otros).</dd>
+	
+    <dt>Tolerancia de acortamiento (fig 1.c) <i>(Arc snap tolerance)</i> [T_Esc]</dt>
+
+	<dd>Distancia que se puede mover un nodo final para conectarse con un arco. El movimiento del nodo efectúa de forma que el desplazamiento sea mínimo. (Implica una relación entre un nodo final y los arcos.)</dd>
+	
+    <dt>Tolerancia entre nodos (fig 1.d) <i>(Node snap tolerance)</i> [T_Nod]</dt>
+
+    <dd>Distancia mínima entre dos nodos. Es la distancia a la que un nodo absorbe o es absorbido por sus vecinos. (Implica una relación entre un nodo y los otros.)</dd>
+
+    <dt>Tolerancia de alargamiento (fig 1.e) <i>(Dangle tolerance)</i> [T_Allg]</dt>
+
+    <dd>Los arcos que son más cortos que esta tolerancia serán eliminados si presentan uno o dos nodos finales. (Es una definición local a un solo arco)</dd>
+  </dl>
+
+  <center>
+    <img alt="Diagrama de toleràcies" src="toleran1.gif"/><br/>
+
+    <table width="60%">
+      <tr>
+        <td>
+          <small>Fig 1. La figura muestra los vectores originales en negro y el resultado del proceso de estructuración topológica en rojo.</small>
+
+          <ol type="a">
+            <li><small>La tolerancia de pseudogeneralització reduce el número de vértices de los vectores, eliminando alineaciones.</small></li>
+
+            <li><small>La tolerancia entre arcos tiende a conectar vectores que están próximos. El vértice del vector digitalizado con posterioridad se mueve para conectarse sobre el otro (1). El 
+            segmento superior se dobla para conectarse al vértice próximo digitalizado con anterioridad (2).</small></li>
+
+            <li><small>La tolerancia de acortadas conecta un vértice final que ha quedado cerca de otro arco. En la figura el vector superior ha sido digitalizado antes que el otro.</small></li>
+
+            <li><small>La tolerancia entre nodos mueve el nodo inferior para conectarlo con el superior, que había sido generado anteriormente.</small></li>
+
+            <li><small>La tolerancia de alargadas hace desaparecer el trozo de vector que sobresale de otro vector sobre el que se quería conectar.</small></li>
+          </ol>
+        </td>
+      </tr>
+    </table>
+  </center>
+
+  <center>
+    <img src="toleran2.gif"/><br/>
+
+    <table width="60%">
+      <tr>
+        <td><small>Fig 2. Cuando tres objetos están a una distancia inferior a la tolerancia de acortadas, no se busca un trazado intermedio entre ellos, sino que el objeto que ha sido digitalizado primero permanece inmóvil (en la figura el superior) mientras que el que ha sido digitalizado en segundo lugar (el de la izquierda) se mueve hasta encontrarse con el primero, y el tercero, se mueve hasta conectar con los otros dos en el mismo punto.</small></td>
+      </tr>
+    </table>
+  </center>
+  
+  <h4>¿Cómo se pueden definir todas estas tolerancias?.</h4>
+  <pre>
+LINARC 2 F_Ori F_Arc T_Arc DescriptorCamp NomCamp Prec T_Psgen T_Esc T_Nod T_Allg
+</pre>
+Para garantizar un resultado óptimo, es muy recomendable seguir las indicaciones siguientes:
+
+  <ol>
+    <li>Prec &lt;= T_Psgen &lt;= T_Acor &lt;= T_Nod &lt;= T_Alarg</li>
+
+    <li>Prec T_Psgen infinitesimal (a la práctica ponga 0).</li>
+  </ol>Para la eliminación de nodos finales, se recomienda utilizar:  
+  <ol>
+    <li>Prec=T_Psgen=T_Arc=T_Nod=0</li>
+
+    <li>T_Esc con un valor moderado y T_Allg de valor alto.</li>
+  </ol>En la sintaxis simplificada, el parámetro <i>tolerancia</i> es equivalente a las tolerancias ampliadas siguientes:
+  
+  <ol>
+    <li>T_Nod=T_Acor=T_Alarg=Tolerancia</li>
+
+    <li>Prec=T_Psgen=1e-5</li>
+  </ol>Si en alguna de las tolerancias se indica 0 (excepto en la precisión), se elimina el procesado del módulo referente a aquella tolerancia, lo que resulta en una ejecución más rápida. Esto se recomienda en caso de saber que el fichero o ficheros a procesar no presentan algún determinado tipo de problema. En el caso de la precisión, 0 resulta en 1e-5. Si en la notación simplificada se indica <i>tolerancia</i>=0 el resultado es: 
+  <ol>
+    <li>T_Arc=T_Nod=T_Esc=T_Allg=0</li>
+
+    <li>Prec=T_Psgen=1e-5</li>
+  </ol>IMPORTANTE: Habitualmente, estas tolerancias bastan en ficheros digitalizados en otros softwares o digitalizados en MiraMon sin utilizar adecuadamente las herramientas de conexión. Cuando se digitaliza correctamente con MiraMon una tolerancia simplificada y de valor 0 es la elección adecuada, resultando en procesos rápidos y sin problemas:
+  <pre>
+LINARC 2 F_Vec F_Arc 0
+</pre>
+  <hr/>
+
+  <h3>Formato del fichero lista (para estructuración de diversos ficheros a la
+  vez).</h3>
+
+  <h4>Formato simple</h4>Este formato es una lista de nombres de ficheros escritos uno tras otro separados por retornos de carro o espacios (si algún nombre de fichero contiene espacios es necesario especificarlo entre comillas dobles). Esta posibilidad es simple pero no permite el nivel de control ni las posibilidades que permite el segundo formato.
+  <h5>Ejemplo de formato simple</h5>
+  <pre>
+primer.arc
+segon.vec
+tercer.vec
+</pre>
+
+  <h4>Formato avanzado</h4>Este formato se basa en el formato INI del fichero
+  de configuración de Windows o en los formatos PAR de MiraMon. Está
+  constituido por una sección [FITXERS] i diversas secciones [FITXER_#] (#representa un valor numérico). La sección [FITXERS] sólo tiene una clave
+  'Llista' que es igual a los valores numéricos '#' de cada  una de las secciones [FITXER_#] separados por una coma. La sección
+  [FITXER_#] tiene 5 claves posibles:
+
+  <ul>
+    <li>'NomFitxer' es el nombre de un fichero VEC (extensión optativa) o ARC (extensión obligatoria). Debe estar siempre presente.</li>
+
+    <li>'NomCamp' es el nombre del campo de la base de datos (A.DBF) a crear donde se escribirá el atributo del fichero VEC (obligatorio para VEC's).</li>
+
+    <li>'DescriptorCamp' es el descriptor del 'NomCamp' anterior (obligatorio para VEC's).</li>
+
+    <li>'Marc' indica si el fichero actúa como marco de corte. Si vale 1 una vez cortados se ignoran todos los vectores de otros ficheros que
+    queden fuera del marco. En este caso, 'NomFitxer' debe ser un fichero VEC de polígonos. Por defecto vale 0.</li>
+
+    <li>'Incloure' indica si es necesario incluir este marco en el
+    fichero resultado. En caso de valer 0, el fichero se usa como límite de corte pero sus elementos no se incluyen en la salida. Por defecto vale 1.</li>
+  </ul>Las secciones [FITXER_#] no precisan estar ordenadas (el orden se establece en la clave 'Llista') o pueden no estar presente en la clave 'Llista' y en este caso los ficheros no se usarán (cuidado, pues, de no olvidar la inclusión en la llista).
+
+  <p>En el siguiente ejemplo presentamos un fichero lista, con un fichero VEC y un fichero ARC. El fichero ARC se procesará antes que el VEC.</p>
+
+  <h5>Ejemplo de formato avanzado</h5>
+  <pre>
+[FITXERS]
+Llista=2,1,3
+
+[FITXER_1]
+NomFitxer=segundo.vec
+NomCamp=ATRIBUTO
+DescriptorCamp=Atributo
+
+[FITXER_2]
+NomFitxer=primero.arc
+
+[FITXER_3]
+NomFitxer=marco.vec
+NomCamp=ATRIBUTO
+DescriptorCamp=Atributo
+Marc=1
+Incloure=1
+
+</pre>Si la clave Llista de [FITXERS] supera los 255 caracteres, es posible escribir la lista en diversas líneas haciendo:
+  <pre>
+[FITXERS]
+Llista=1,2,3,4,5,6,7,8,9,10,11,12
+Llista2=13,14,15,16,17,18,19,20,21,22,23,24
+Llista3=25,26
+...
+</pre>
+  <hr/>
+     <h4>¿Cómo saber qué tipo de algoritmo utilizar en la opción 2? (modificador opcional /ALGORITMO=) </h4>
+     Consulte sintaxis general para más información.
+  <hr/>
+  Este programa soporta formato REL v.4 y formato ARC v. 1.1 con o sin
+  coordenadas 3D.
+
+  <p>Idrisi es un programario © de J.Ronald Eastman and Clark
+  University.<br/>
+  MiraMon es un programario © de Xavier Pons.<br/></p>
+
+  <center>
+    <a href="vecpnt.htm"><img src="vecpnt.gif"/></a><a href="ciclar.htm"><img src="ciclar.gif"/></a>
+  </center><!--
+         1         2         3         4         5         6         7        
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+--></a></p>
+</body>
+</html>

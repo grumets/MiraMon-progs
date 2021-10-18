@@ -1,0 +1,95 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Corregit per Teresa Mata-->
+
+  <title>Mosaic: Combining layers</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p>Given a set of layers that cover a determined region, for example a set
+  of sheets of a certain cartographic cut, the program generates a resulting
+  layer by combining the original layers. The layers can be rasters in IMG
+  format (of any type and either RLE compressed or not) or JPG format,
+  non-structured VEC vectors or structured PNT, ARC, POL and NOD files. All
+  input files have to be of the same type and format. The format of the output
+  file is the same as that of the input file except in the case of mosaics of
+  VECs that generate an ARC file (use LinArc 1 to convert it into a VEC) and
+  the NOD Mosaic that results in a PNT file. To make using the program easier,
+  the list of files to be mosaicked can be set out as a sequence of file names
+  in a command line (last parameter) or as a plain text file with each file
+  name in a line. The name of the list file can have any extension that is not
+  the same as a layer even though .txt or .lst may be preferable.</p>
+   
+  <p>The program can automatically determine the geographical extent of the
+  set of layers. It is also possible to specify a clip region (coordinates X 
+  minimum, X maximum, y minimum and Y maximun) or an irregular
+  mask file (only for vectors). In this case the program examines each file to
+  be mosaicked and uses the useful part for the specified region. When a file
+  is completely outside the region it is not considered. A typical application
+  is to create a new overlaying layer with four sheets of a cartographic
+  series. When using very large cartographic series cut into sheets, you can
+  have a single list listing all the sheets and select the region that you
+  want to explore each time in order to extract the zone of interest
+  quicker. The program have several options:</p>
+  
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <p>In the case of superposition, the program acts differently for rasters
+  and vectors. In the case of rasters, if the metadata of the preexisting
+  files indicate that they contain a NODATA, this value is not written in the
+  destination file. This allows images that contain areas outside the region
+  to be overlaid correctly. In the same way, when overlaying consists of
+  values that are not background, the program DOES NOT make sure that they are
+  equal: the values of the last file that affects the region will be the ones
+  used.  It is possible to specify the value of the NODATA of the output
+  image. If it is not specified this will be the value of the NODATA of the
+  first image. In the case of vectors, superposing is more delicate because
+  one sheet does not dominate over another. In the case of superposed objects
+  where the sheets do not coincide exactly, the result could be a duplication,
+  discontinuity in the lines, or double borders in the case of polygons.</p>
+
+  <p>Given that the program does not interpolate any values, the cell sides of
+  all source files have to be equal; the destination file will have the same
+  cell side. At the same time, all source files have to be coregistered, that
+  is, they must have x minimum coordinates that are an exact multiple of the
+  cell side apart. The same applies for the y minima. If the output
+  coordinates requested by the user do not fulfill this requirement they are
+  adapted to it, the coordinates that are finally used include those
+  requested, so that no fragment of the territory requested is lost. This
+  capacity to adapt is regulated by a tolerance parameter. This parameter only
+  applies for rasters. To make vectorial objects fit between sheets it is
+  necessary to use LinArc with advanced tolerances.</p>
+
+  <p>In general, the metadata is based heavily on the metadata from the first
+  layer. As an example, for categorical raster images, the description of the
+  legend categories is also taken from the first file read.</p>
+
+  <p>When you mosaic raster files with the palette indicated in the REL, the palette is inherited
+  for the output file. This also works with multiband files in which each band
+  has its own palette.
+  <hr/>
+
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+<p><!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+Mosaic ?
+--></p>
+  </exclusiva>
+  <hr/>
+
+  <center>
+    <a href="Retalla.htm"><img src="Retalla.gif"/></a><a href="UnirVec.htm"><img src="UnirVec.gif"/></a>
+  </center>
+</body>
+</html>

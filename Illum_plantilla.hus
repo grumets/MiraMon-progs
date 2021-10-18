@@ -1,0 +1,106 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Illum: Calculation of the illumination image from a Digital Elevation
+  Model</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+  <p>This program calculates, from a Digital Elevation Model (DEM), the
+  illumination received by a point in the terrain when the Sun occupies a
+  certain position in the celestial sphere. This position can be defined:</p>
+
+  <ul>
+    <li>From the Sun elevation and azimuth, in degrees (for example 74.82 and
+    170.34); the <a href="Astres.htm">Astres</a> program will give you this
+    information if it is unknown, which are constant throughout the extent of
+    the DEM. This corresponds to option 1 of the program.
+    </li>
+
+    <li>From the elevation values (or zenith angle) and solar azimuth in
+    degrees or in multiple degree units (defined by the corresponding syntax)
+    as calculated for MODIS products, for example MOD09 (for more information
+    see the <i>Surface Reflectance User's Guide</i>). It is related to program
+    options 2 and 3.</li>
+  </ul>
+<p>The program have two options:</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>The output file contains values being the cosine of the angle of
+  incidence, <i>i.e.</i>, the cosine of the angle between the vector normal to
+  the maximum slope plane and the solar vector (given by the solar azimuth and
+  elevation). From the two possible angles (i&lt;180º and i'&gt;180º,
+  i+i'=360º) the cosine of the smaller is given.</p>
+
+  <p>The DEM may have byte, (short) integer or real format, compressed or
+  uncompressed. By default, the DEM extent and spatial resolution will be
+  carried over to the illumination model output, but it can also be calculated
+  at a finer scale and in that case the model will approximate a small surface
+  of local tendency to the combined elevation pixels that contribute toeach
+  output pixel. The normal vector of this suface will provide the calculations
+  related to solar position.</p>
+
+  <p>
+  <!-- Aquest paràmetre ja es llegeix sempre de les metadades i no té sentit
+If the parameter "Conv_heights->Map_units" is 'x', the program will try to 
+deduce its value from the field "value units" of the DEMFile documentation; for
+example, if the reference system units are meters ('m') and the value units 
+are decimeters ('dm'), the program will infer that it has to apply a factor 
+0.1 to heights if they are to be comparable with the DEM planimetry. If you 
+indicate a conversor (for example 1 if both reference system and heights have 
+the same units), this value will be used without considering the file 
+documentation.
+<P>
+--></p>
+
+  <p>The output file is always in byte format and it contains values
+  'v' of the cosine of the incidence angle scaled as: v*100+100. This
+  way, cosine values, that should be in the interval [-1,1], go to the
+  interval [0,200]. This is suitable for byte format and takes in three
+  significant figures for the cosine values, enough for most applications. So,
+  an output value of 173 should be interpreted as a cosine value of 0.73,
+  corresponding of an angle of incidence of 43º.</p>
+
+  <p>If the DEM has flag values and they are correctly documented, pixels that
+  are affected by a flag value in the input DEM will get the value 255,
+  documented as NODATA in the output file. This will cause a little reduction
+  of the useful area in the borders between flag and elevation values. This is
+  due to the fact that flag values do not allow to perform a rigorous
+  calculation of the illumination. A way to mitigate this problem is to
+  iterate once the program <a href="FagoVal.htm">FagoVal</a> before executing
+  ILLUM. This allows the enlargement the area with &quot;reasonable&quot;
+  height values. In this execution use the flag value as the value to be
+  eliminated and use the mean criterion to substitute this value.</p>
+
+  <p>The program allow for calculations taking 4 (up-down and left-right) or 8
+  (up-down, left-right and diagonals) nearest neighbours at each point. In the
+  last case, the weight of the diagonal neighbours is smaller in proportion to
+  the distance to the center of the point to evaluate.</p>
+
+  <p>If the DEM is a multiband raster with pixels of different size for each
+  band, the <i>/MULTIBANDA</i> parameter must be used and a resulting
+  multiband raster with the corresponding illumination models must be
+  generated. It should be noted that with Option 1 solar position is
+  considered unique for all bands. If the geographical extends were
+  excessively separated between them a unique execution for all bands with the
+  solar position at the center of the extend ought to be done. For the
+  multiband case, it is possible to add a prefix to the original file
+  names.</p>
+  <hr/>
+
+  <exclusiva>
+  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+ILLUM ?
+--></p>
+  </exclusiva>
+</body>
+</html>

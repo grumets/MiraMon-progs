@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:TIRAVEC:param4</ows:Identifier>
+		<ows:Title>TIRAVEC NOU</ows:Title>
+		<ows:Abstract>Toma un fichero vectorial de puntos, líneas/arcos, polígonos o nodos (estructurado topológicamente o no) y lo rasteriza sobre uno nuevo.
+</ows:Abstract>
+<ows:Metadata xlink:title="Title:Rasterización de ficheros vectoriales " />
+<ows:Metadata xlink:title="Abstract:Este programa incluye y amplía las funcionalidades de los programas TiraLin y TiraPol que han desaparecido en la versión 4 de MiraMon." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>r</ows:Identifier>
+				<ows:Title>Criterio de rasteritzación</ows:Title>
+			<ows:Abstract>Su significado varía en función de si se rasterizan los objetos como polígonos, líneas, o puntos.<![CDATA[<ul><li>Para polígonos es el criterio de delimitación del polígono:</li><ul><li> '1' Cada celda se rasteriza si el polígono ocupa más de la mitad de su área (estimada en un perfil horizontal a su parte central).</li><li>''2' Cada celda se rasteriza solamente si el polígono afecta exactamente al punto central de la celda.</li><li>' '3' Se aplica primero el criterio '1' y después el criterio '2', pero solamente sobre el valor de fondo..</li></ul><li>Para líneas es el criterio de trazado de la línea: </li><ul><li>'1' Líneas de una sola celda de grosor con máxima fidelidad en el trazado de la línea. </li><li>'2' Como 1 pero se rasterizan las coordenadas redondeando al centro de celda (criterio de procesamiento de imágenes, no recomendado).</li><li> '4' Se rasterizan líneas gruesas, es decir todas las celdas que tocan la línea.</li></ul> 
+<li>Para puntos indique siempre 1.</li></ul> ]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param01" />
+				<ows:Metadata xlink:title="Name:r"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_VEC </ows:Identifier>
+				<ows:Title>Fichero vectorial</ows:Title>
+				<ows:Abstract>Es el fichero vectorial a rasteritzar. Se indica con extensión.</ows:Abstract>
+			<ows:Metadata xlink:title="Param02" />
+			<ows:Metadata xlink:title="Name:f_VEC"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RasOri</ows:Identifier>
+				<ows:Title>Imagen Origen</ows:Title>
+				<ows:Abstract>Se permite que el ráster no exista. En este caso, ponga '*' y le hará falta indicar el parámetro adicional /COSTAT= y se pueden indicar el envolvente y el tipo de datos del ráster de salida: /XMIN=, /XMAX=, /YMIN=, /YMAX= y /TIPUS_DADA=. Si no se indica el envolvente, se toma la del fichero vectorial. Los posibles valores para /TIPUS_DADA= son: "bit", "byte", "integer", "long", "real", "byte-RLE", "integer-RLE", "long-RLE" y "real-RLE". Si no indica /TIPUS_DADA= o pone "auto", el programa determina el tipo de dato de salida óptimo que permite rasterizar todos los valores del vector sin que se produzcan saturaciones. Cuando no se indica ráster de entrada, el programa rasteriza sobre un fichero inicializado a valor de fondo.
+				</ows:Abstract>
+			<ows:Metadata xlink:title="Param03" />
+			<ows:Metadata xlink:title="Name:RasOri"/>
+				<ComplexData>
+					<Default>
+							<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+				<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>m</ows:Identifier>
+				<ows:Title>Modos</ows:Title>
+				<ows:Abstract>Permite considerar:<![CDATA[<ul><li>'0' modo normal: polígonos como polígonos, arcos y líneas como líneas, puntos y nodos como puntos.</li><li>'1' polígonos como líneas o líneas como puntos.</li><li>'2' polígonos como puntos (rasteriza los vértices).</li><li>'3' polígonos como polígonos con borde.</li></ul>]]></ows:Abstract>
+			<ows:Metadata xlink:title="Param05" />
+			<ows:Metadata xlink:title="Name:m"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>					
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>s</ows:Identifier>
+				<ows:Title>Saturación</ows:Title>
+				<ows:Abstract>Criterio de saturación:<![CDATA[<ul><li>'0' Se desestiman los vectores con atributo fuera del rango de valores posibles en el ráster.</li><li>'1' No se desestima ningún vector, saturando el valor en caso de desbordamiento del rango.</li></ul>]]> 
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<ows:Metadata xlink:title="Name:s"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>				
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+				<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>vf</ows:Identifier>
+				<ows:Title>Valor de fondo</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>''0' Rasterizar sobre todos los valores previos de la imagen.</li><li>'1' Rasterizar solamente sobre el valor de fondo.</li></ul> ]]>
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param07" />
+				<ows:Metadata xlink:title="Name:vf"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>				
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_DATA</ows:Identifier>
+				<ows:Title>Tipo de Datos</ows:Title>
+				<ows:Abstract>Tipología de los datos</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>auto</ows:Value	>						
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMIN</ows:Identifier>
+				<ows:Title>X mínima</ows:Title>
+				<ows:Abstract>Es el envolvente del fichero ráster de salida en caso de no existir ráster de entrada. Si no se indica, se toma el envolvente del vector. En caso de existir ráster de entrada, no se puede indicar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+							<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMAX</ows:Identifier>
+				<ows:Title>X máxima</ows:Title>
+				<ows:Abstract>Es el envolvente del fichero ráster de salida en caso de no existir ráster de entrada. Si no se indica, se toma el envolvente del vector. En caso de existir ráster de entrada, no se puede indicar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMIN</ows:Identifier>
+				<ows:Title>Y Mínima</ows:Title>
+				<ows:Abstract>Es el envolvente del fichero ráster de salida en caso de no existir ráster de entrada. Si no se indica, se toma el envolvente del vector. En caso de existir ráster de entrada, no se puede indicar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMAX</ows:Identifier>
+				<ows:Title>Y Máxima</ows:Title>
+				<ows:Abstract>Es el envolvente del fichero ráster de salida en caso de no existir ráster de entrada. Si no se indica, se toma el envolvente del vector. En caso de existir ráster de entrada, no se puede indicar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+							<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Tamaño del pixel</ows:Title>
+				<ows:Abstract>Define el tamaño de la celda del ráster. Hay que indicarlo si no hay ráster de entrada.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+						<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Tabla</ows:Title>
+				<ows:Abstract>/TAULA indica el campo de la base de datos elegida. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de</ows:Abstract>
+				 <ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxis general."/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Campo</ows:Title>
+				<ows:Abstract>/CAMP indique el campo de la base de datos elegida. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de</ows:Abstract>
+				 <ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxis general."/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_CAT</ows:Identifier>
+				<ows:Title>Categorías de la tabla</ows:Title>
+				<ows:Abstract>Si se quieren categorias se puede  indicar la base y el campo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_CAT</ows:Identifier>
+				<ows:Title>Categorías del campo</ows:Title>
+				<ows:Abstract>Si se quieren categorias se puede  indicar la base y el campo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_VORA</ows:Identifier>
+				<ows:Title>Tabla  límites</ows:Title>
+				<ows:Abstract>Tabla para rasteritzar los límites.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_VORA</ows:Identifier>
+				<ows:Title>Campo límites</ows:Title>
+				<ows:Abstract>Campo para rasteritzar los límites.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR_CONSTANT_VORA</ows:Identifier>
+				<ows:Title>Valor limíte</ows:Title>
+				<ows:Abstract>Se rasteritza el limíte  del poligono con el valor constante indicado. 
+				</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Resgistro repetición</ows:Title>
+				<ows:Abstract>Indica qué registro es escogido cuando hay más de un registro para un identificador gráfico (registro múltiple). Para saber más sobre los valores de este parámetro siga las consideraciones del documento de sintaxis general.
+</ows:Abstract>
+ 	 <ows:Metadata xlink:href="general.htm#Repe" xlink:title="sintaxis general."/>
+				<LiteralData>
+				<ows:AllowedValues>##blank##</ows:AllowedValues>
+				<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPERADOR</ows:Identifier>
+				<ows:Title>Cambia la manera de funcionar del programa segun su valor.</ows:Title>
+				<ows:Abstract> Para campos de tipo 'N' (o VECs de tipo "integer" o "real") el valor por defecto es CAP. Para campos de tipo 'C', 'D' o 'L' (o VECs de tipo "string") el valor por defecto es TRACTAR_C_COM_N, que indica que se convierte a numérico el valor de la celda y cuando esto es posible se rasteriza el elemento. Para campos de tipo 'C', 'D' o 'L' (o VECs de tipo "string") puede indicar PROJECTAR_CAMP para generar un índice numérico automáticamente y emplear los valores de los campos para definir las categorías. Puede generar un ráster máscara de los polígonos con valor igual a uno en concreto indicado EQ o diferentes de uno en concreto indicado NO_EQ; entonces, hay que indicar el valor a comparar con /VALOR=. Para ficheros estructurados de polígonos el polígono 0 no se rasteriza nunca; puedeu indicar NOMES_POLIGON_0 para rasterizar una máscara con valores 0 en el polígono 0 y 1 sobre todos los demás polígonos (es decir, una máscara de los agujeros del polígono 0).
+</ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>CAP</ows:Value>
+						<ows:Value>TRACTAR_C_COM_N</ows:Value>
+						<ows:Value>PROJECTAR_CAMP</ows:Value>
+						<ows:Value>NOMES_POLIGON_0</ows:Value>						
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR</ows:Identifier>
+				<ows:Title>Valor a comparar </ows:Title>
+				<ows:Abstract>valor a comparar.  
+</ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR_CONSTANT</ows:Identifier>
+				<ows:Title>Valor constante indicado</ows:Title>
+				<ows:Abstract> Se rasteriza el valor constante indicado.
+				</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+					</Input>	
+					<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>3D</ows:Identifier>
+				<ows:Title>Valor Altura</ows:Title>
+				<ows:Abstract>Se rasteriza el valor de la altura que hay en la información 3d del fichero vectorial binario.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+					</Input>
+					<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_RASTER</ows:Identifier>
+				<ows:Title>Tipo ráster</ows:Title>
+				<ows:Abstract>Es el tipo de datos del ráster de salida en caso de no existir ráster de entrada. Los valores posibles han sido indicados anteriormente.
+</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>auto</ows:Value	>						
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EXAGERACIO</ows:Identifier>
+				<ows:Title>Exageración o ensanchamiento.</ows:Title>
+				<ows:Abstract>De momento, sólo aplica en puntos. Permite rasterizar puntos como cuadrados de un cierto tamaño. La exageración está en unitades mapa y se aplica en los dos sentidos, estando condicionado por el tamaño de píxel. Por lo tanto, el tamaño del cuadrado que representa un punto determinado es aproximadamente el doble de la exageración pero redondeado a un múltiplo cercano del tamaño de píxel.
+</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+	</DataInputs>
+	<ProcessOutputs>
+			<Output>
+				<ows:Identifier>RasSor</ows:Identifier>
+				<ows:Title>Ráster Salida</ows:Title>
+				<ows:Abstract> es el fichero resultado. Puede no existir y puede ser el mismo que RásOri.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+				<ows:Metadata xlink:title="Name:RasSal"/>
+				<ComplexOutput>
+					<Default>
+							<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:TIRAVEC:!param4</ows:Identifier>
+		<ows:Title>TIRAVEC</ows:Title>
+		<ows:Abstract>Toma un fichero vectorial de puntos, líneas/arcos, polígonos o nodos (estructurado topológicamente o no) y lo rasteriza sobre un raster prexistent.
+</ows:Abstract>
+<ows:Metadata xlink:title="Title:Rasterización de ficheros vectoriales " />
+<ows:Metadata xlink:title="Abstract:Este programa incluye y amplía las funcionalidades de los programas TiraLin y TiraPol que han desaparecido en la versión 4 de MiraMon." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>r</ows:Identifier>
+				<ows:Title>Criterio de rasteritzación</ows:Title>
+				<ows:Abstract>Su significado varía en función de si se rasterizan los objetos como polígonos, líneas, o puntos.<![CDATA[<ul><li>Para polígonos es el criterio de delimitación del polígono:</li><ul><li> '1' Cada celda se rasteriza si el polígono ocupa más de la mitad de su área (estimada en un perfil horizontal a su parte central).</li><li>''2' Cada celda se rasteriza solamente si el polígono afecta exactamente al punto central de la celda.</li><li>' '3' Se aplica primero el criterio '1' y después el criterio '2', pero solamente sobre el valor de fondo..</li></ul><li>Para líneas es el criterio de trazado de la línea: </li><ul><li>'1' Líneas de una sola celda de grosor con máxima fidelidad en el trazado de la línea. </li><li>'2' Como 1 pero se rasterizan las coordenadas redondeando al centro de celda (criterio de procesamiento de imágenes, no recomendado).</li><li> '4' Se rasterizan líneas gruesas, es decir todas las celdas que tocan la línea.</li></ul> 
+<li>Para puntos indique siempre 1.</li></ul> ]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param01" />
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_VEC </ows:Identifier>
+				<ows:Title>Fichero vectorial</ows:Title>
+				<ows:Abstract>Es el fichero vectorial a rasteritzar. Se indica con extensión.</ows:Abstract>
+			<ows:Metadata xlink:title="Param02" />
+			<ows:Metadata xlink:title="Name:f_VEC"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RasOri</ows:Identifier>
+				<ows:Title>Imagen sobre la que se comienza a rasterizar</ows:Title>
+				<ows:Abstract>Se permite que el ráster no exista. En este caso, ponga '*' y le hará falta indicar el parámetro adicional /COSTAT= y se pueden indicar el envolvente y el tipo de datos del ráster de salida: /XMIN=, /XMAX=, /YMIN=, /YMAX= y /TIPUS_DADA=. Si no se indica el envolvente, se toma la del fichero vectorial. Los posibles valores para /TIPUS_DADA= son: "bit", "byte", "integer", "long", "real", "byte-RLE", "integer-RLE", "long-RLE" y "real-RLE". Si no indica /TIPUS_DADA= o pone "auto", el programa determina el tipo de dato de salida óptimo que permite rasterizar todos los valores del vector sin que se produzcan saturaciones. Cuando no se indica ráster de entrada, el programa rasteriza sobre un fichero inicializado a valor de fondo.
+				</ows:Abstract>
+			<ows:Metadata xlink:title="Param03" />
+			<ows:Metadata xlink:title="Name:RasOri"/>
+				<ComplexData>
+					<Default>
+							<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+				<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>m</ows:Identifier>
+				<ows:Title>Modos</ows:Title>
+				<ows:Abstract>Permite considerar:<![CDATA[<ul><li>'0' modo normal: polígonos como polígonos, arcos y líneas como líneas, puntos y nodos como puntos.</li><li>'1' polígonos como líneas o líneas como puntos.</li><li>'2' polígonos como puntos (rasteriza los vértices).</li><li>'3' polígonos como polígonos con borde.</li></ul>]]></ows:Abstract>
+			<ows:Metadata xlink:title="Param05" />
+			<ows:Metadata xlink:title="Name:m"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>					
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>s</ows:Identifier>
+				<ows:Title>Saturación</ows:Title>
+				<ows:Abstract>Criterio de saturación:<![CDATA[<ul><li>'0' Se desestiman los vectores con atributo fuera del rango de valores posibles en el ráster.</li><li>'1' No se desestima ningún vector, saturando el valor en caso de desbordamiento del rango.</li></ul>]]> 
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<ows:Metadata xlink:title="Name:s"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>				
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+				<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>vf</ows:Identifier>
+				<ows:Title></ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>''0' Rasterizar sobre todos los valores previos de la imagen.</li><li>'1' Rasterizar solamente sobre el valor de fondo.</li></ul> ]]>
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param07" />
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>				
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_DATA</ows:Identifier>
+				<ows:Title>Tipo de Datos</ows:Title>
+				<ows:Abstract>Tipología de los datos</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>auto</ows:Value	>						
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMIN</ows:Identifier>
+				<ows:Title>X mínima</ows:Title>
+				<ows:Abstract>Es el envolvente del fichero ráster de salida en caso de no existir ráster de entrada. Si no se indica, se toma el envolvente del vector. En caso de existir ráster de entrada, no se puede indicar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+							<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMAX</ows:Identifier>
+				<ows:Title>X màxima</ows:Title>
+				<ows:Abstract>Es el envolvente del fichero ráster de salida en caso de no existir ráster de entrada. Si no se indica, se toma el envolvente del vector. En caso de existir ráster de entrada, no se puede indicar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMIN</ows:Identifier>
+				<ows:Title>Y Mínima</ows:Title>
+				<ows:Abstract>Es el envolvente del fichero ráster de salida en caso de no existir ráster de entrada. Si no se indica, se toma el envolvente del vector. En caso de existir ráster de entrada, no se puede indicar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+				<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMAX</ows:Identifier>
+				<ows:Title>Y Màxima</ows:Title>
+				<ows:Abstract>Es el envolvente del fichero ráster de salida en caso de no existir ráster de entrada. Si no se indica, se toma el envolvente del vector. En caso de existir ráster de entrada, no se puede indicar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+							<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Tamaño pixel</ows:Title>
+				<ows:Abstract>Define el tamaño de la celda del ráster. Hay que indicarlo si no hay ráster de entrada.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+						<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Selección tabla</ows:Title>
+				<ows:Abstract>/TAULA indica el campo de la base de datos elegida. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de</ows:Abstract>
+				 <ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxis general."/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Selección campo</ows:Title>
+				<ows:Abstract>/CAMP indique el campo de la base de datos elegida. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de</ows:Abstract>
+				 <ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxis general."/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_CAT</ows:Identifier>
+				<ows:Title>Categorias tabla</ows:Title>
+				<ows:Abstract>Si se quieren categorias se puede  indicar la base y el campo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_CAT</ows:Identifier>
+				<ows:Title>Categorias campo</ows:Title>
+				<ows:Abstract>Si se quieren categorias se puede  indicar la base y el campo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_VORA</ows:Identifier>
+				<ows:Title>Tabla límites</ows:Title>
+				<ows:Abstract>Tabla para rasteritzar los límites.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_VORA</ows:Identifier>
+				<ows:Title>Campo límites</ows:Title>
+				<ows:Abstract>Campo para rasteritzar los límites.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR_CONSTANT_VORA</ows:Identifier>
+				<ows:Title>Valor limite</ows:Title>
+				<ows:Abstract>Se rasteritza el limíte  del polígono con el valor constante indicado. 
+				</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Resgistro repetición</ows:Title>
+				<ows:Abstract>Indica qué registro es escogido cuando hay más de un registro para un identificador gráfico (registro múltiple). Para saber más sobre los valores de este parámetro siga las consideraciones del documento de sintaxis general.
+</ows:Abstract>
+ 	 <ows:Metadata xlink:href="general.htm#Repe" xlink:title="sintaxis general."/>
+				<LiteralData>
+				<ows:AllowedValues>##blank##</ows:AllowedValues>
+				<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPERADOR</ows:Identifier>
+				<ows:Title>Funcionalidad según su valor.</ows:Title>
+				<ows:Abstract> Para campos de tipo 'N' (o VECs de tipo "integer" o "real") el valor por defecto es CAP. Para campos de tipo 'C', 'D' o 'L' (o VECs de tipo "string") el valor por defecto es TRACTAR_C_COM_N, que indica que se convierte a numérico el valor de la celda y cuando esto es posible se rasteriza el elemento. Para campos de tipo 'C', 'D' o 'L' (o VECs de tipo "string") puede indicar PROJECTAR_CAMP para generar un índice numérico automáticamente y emplear los valores de los campos para definir las categorías. Puede generar un ráster máscara de los polígonos con valor igual a uno en concreto indicado EQ o diferentes de uno en concreto indicado NO_EQ; entonces, hay que indicar el valor a comparar con /VALOR=. Para ficheros estructurados de polígonos el polígono 0 no se rasteriza nunca; puedeu indicar NOMES_POLIGON_0 para rasterizar una máscara con valores 0 en el polígono 0 y 1 sobre todos los demás polígonos (es decir, una máscara de los agujeros del polígono 0).
+</ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>CAP</ows:Value>
+						<ows:Value>TRACTAR_C_COM_N</ows:Value>
+						<ows:Value>PROJECTAR_CAMP</ows:Value>
+						<ows:Value>NOMES_POLIGON_0</ows:Value>						
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR</ows:Identifier>
+				<ows:Title>Valor a comparar </ows:Title>
+				<ows:Abstract>valor a comparar.  
+</ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR_CONSTANT</ows:Identifier>
+				<ows:Title>Valor indicado</ows:Title>
+				<ows:Abstract> Se rasteriza el valor constante indicado.
+				</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+					</Input>	
+					<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>3D</ows:Identifier>
+				<ows:Title>Valor Altura</ows:Title>
+				<ows:Abstract>Se rasteriza el valor de la altura que hay en la información 3d del fichero vectorial binario.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+					</Input>
+					<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_RASTER</ows:Identifier>
+				<ows:Title>Tipo ráster</ows:Title>
+				<ows:Abstract>Es el tipo de datos del ráster de salida en caso de no existir ráster de entrada. Los valores posibles han sido indicados anteriormente.
+</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>auto</ows:Value	>						
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EXAGERACIO</ows:Identifier>
+				<ows:Title>Exageración o ensanchamiento.</ows:Title>
+				<ows:Abstract>De momento, sólo aplica en puntos. Permite rasterizar puntos como cuadrados de un cierto tamaño. La exageración está en unitades mapa y se aplica en los dos sentidos, estando condicionado por el tamaño de píxel. Por lo tanto, el tamaño del cuadrado que representa un punto determinado es aproximadamente el doble de la exageración pero redondeado a un múltiplo cercano del tamaño de píxel.
+</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+				<ows:Identifier>RasOri</ows:Identifier>
+				<ows:Title>Imagen raster de salidas</ows:Title>
+				<ows:Abstract>Es la imagen ráster de entrada transformada y convertida en imagen ráster de salida.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ows:Metadata xlink:title="Name:RasOri"/>
+				<ComplexOutput>
+					<Default>
+							<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>		
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

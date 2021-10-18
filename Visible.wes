@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:visible:1</ows:Identifier>
+		<ows:Title>Visible</ows:Title>
+		<ows:Abstract>El módulo de análisis de visibilidad de MiraMon determina, a partir del Modelo Digital de Elevaciones (MDE), qué píxeles son visibles y cuales no desde un conjunto de observadores o puntos de vista. En esta versión, los observadores tienen que ser objetos de tipo punto en formato estructurado PNT; pueden ser 3D y por tanto conocida su altura (puede ser sobre el terreno, como en una torre), o 2D y entonces se determina su altura a partir del MDE proporcionado. El cálculo de esta altura, así como las alturas de los puntos que determinan los perfiles topográficos, se puede hacer por el vecino más próximo, interpolación bilineal o interpolación bicúbica.
+Sobre la altura del observador, 3D o calculada, puede añadirse una altura complementaria (igual para todos los puntos) que eleve a los observadores con el objetivo de obtener un mejor campo de visualización.</ows:Abstract>
+<ows:Metadata xlink:title="Title:Análisis de visibilidad"/>
+<ows:Metadata xlink:title="Abstract:El módulo de análisis de visibilidad de MiraMon determina, a partir del Modelo Digital de Elevaciones (MDE), qué píxeles son visibles y cuales no desde un conjunto de observadores o puntos de vista. En esta versión, los observadores tienen que ser objetos de tipo punto en formato estructurado PNT; pueden ser 3D y por tanto conocida su altura (puede ser sobre el terreno, como en una torre), o 2D y entonces se determina su altura a partir del MDE proporcionado. El cálculo de esta altura, así como las alturas de los puntos que determinan los perfiles topográficos, se puede hacer por el vecino más próximo, interpolación bilineal o interpolación bicúbica.
+Sobre la altura del observador, 3D o calculada, puede añadirse una altura complementaria (igual para todos los puntos) que eleve a los observadores con el objetivo de obtener un mejor campo de visualización." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MDE</ows:Identifier>
+				<ows:Title>Modelo Digital de Elevaciones</ows:Title>
+				<ows:Abstract>Modelo Digital de Elevaciones en formato ráster IMG a partir del cual se calculará el modelo derivado de análisis de visibilidad.</ows:Abstract>
+						<ows:Metadata xlink:title="Param1" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PuntosDeVista</ows:Identifier>
+				<ows:Title>Puntos De Vista</ows:Title>
+				<ows:Abstract>Vector estructurado de puntos con las localizaciones de los puntos de vista o observadores. Si el fichero es 3D se usa la coordenada Z y si es 2D se usa el MDE para determinar la altura del observador.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AlturaExtra</ows:Identifier>
+				<ows:Title>Altura Extra</ows:Title>
+				<ows:Abstract>Elevación adicional sobre la altura original del observador. Los perfiles topográficos se generarán hasta la suma de estas alturas.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ModeInterpol</ows:Identifier>
+				<ows:Title>Mode Interpolación</ows:Title>
+				<ows:Abstract>ModeInterpolacion:<![CDATA[<ul><li>0: Vecino más próximo</li><li>1: Interpolación bilineal</li><li>2:  Interpolación bicúbica</li></ul>]]>
+</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COTES3D</ows:Identifier>
+				<ows:Title>Cotas 3D</ows:Title>
+				<ows:Abstract>Indicador para usar la coordenada Z si el observador es 3D.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>		
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Màxima distància</ows:Title>
+				<ows:Abstract>Distancia (en las unidades planimétricas del sistema de referencia, típicamente metros) a partir de la cual un píxel se considera no visible si la distancia entre el centro del píxel y el observador es mayor.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASCARA</ows:Identifier>
+				<ows:Title>Mascara</ows:Title>
+				<ows:Abstract>Ráster o fichero vectorial de polígonos que limita la zona de análisis. Si el fichero es ráster no se analizará la zona con valores NODATA y si es un fichero de polígonos se puede aplicar una condición lógica que limite la zona de estudio (ver la sintaxis de las condiciones en el documento de sintaxis general para más detalles).</ows:Abstract>
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-POL</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_VISIBLE</ows:Identifier>
+				<ows:Title>Tipo Visibilidad</ows:Title>
+				<ows:Abstract>Indica que se desea tener en categorías separadas aquellos píxeles visibles desde todos los puntos de aquellos que solo son visibles desde alguno de los puntos (sin especificar qué puntos).</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RES_PERFIL</ows:Identifier>
+				<ows:Title>Número de cálculos</ows:Title>
+				<ows:Abstract>Número de cálculos de visibilidad por lado de píxel a lo largo del perfil topográfico. Por defecto toma el valor 1.</ows:Abstract>
+		<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>			
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FicherDestino</ows:Identifier>
+				<ows:Title>Fichero Destino</ows:Title>
+				<ows:Abstract>Ráster categórico en formato IMG con el resultado del análisis. Tiene el mismo ámbito y lado de píxel que el MDE.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	</wps:ProcessDescriptions>

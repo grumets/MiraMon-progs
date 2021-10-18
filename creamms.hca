@@ -1,0 +1,289 @@
+<HTML>
+<HEAD>
+<TITLE>CREAMMS: Preparació de capes per a la seva publicació amb el servidor de mapes</TITLE>
+</HEAD>
+<BODY>
+<H1>CREAMMS: Preparació de capes per a la seva publicació amb el servidor de mapes</H1>
+<P>
+Aquest programa serveix per preparar una capa de punts per a ser visualitzada
+com a un nivell de zoom raster en el servidor de mapes de MiraMon.
+<br>
+  La opció 2 serveix per a preparar un nivell de zoom per a la visualització sobre 
+  el navegador. Donat que els zoom prepreparats són més ràpids que els interpolats 
+  directament pel programa, caldrà preparar tots els nivells de zoom que sigui 
+  més probable que el navegador ofereix-hi. Generalment es preparen els nivells 
+  de zoom múltiples de 1, 2 i 5. La preparació d'un nivell de zoom genera una carpeta 
+  amb un conjunt de fitxers JPEG, IMG o GIF. Com que el format JPEG és un format amb 
+  degradació, el programa decideix generar IMG's quan el fitxer d'entrada és vectorial 
+  (o per tant temàtic) o quan el fitxer ràster va acompanyat d'una paleta. Quan 
+  desitgem preparar un nivell de zoom per una ortofoto de 8 bits (amb paleta), 
+  caldrà especificar /FORMAT=JPEG per millorar el comportament per defecte. En 
+  el cas d'un ràster IMG sense paleta o d'una combinació RGB, el programa decideix 
+  generar JPEG de grisos i de color respectivament. 
+<P>
+En la opció 1 tots els gif's han de compartir la mateixa paleta per evitar canvis
+de color.
+<HR>
+<EXCLUSIVA>
+<a name="sintaxi"></a> 
+Sintaxi:<BR>
+CreaMMS 1 Directori FitxerLST costat FitxerPNT<BR>
+CreaMMS 2 Directori FitxerLST ncol nfil Fitxer [NomPaleta]<BR>
+CreaMMS 2 Directori FitxerLST ncol nfil FitxerIMG<BR>
+CreaMMS 2 Directori FitxerLST ncol nfil FitxerR FitxerG FitxerB<BR>
+CreaMMS 3 FitxerIMGSortida costat exageracio FitxerTop
+<P>
+
+<ul>
+<li>Opció 1: Prepara una capa de punts per ser visualitzada.
+<ul>
+   <li>Directori: Directori on es crearan tots fitxers que formen el nivell de zoom generat.
+   <li>FitxerLST: Fitxer s'escriurà la llista de noms de fitxer que formen el nivell de zoom 
+	generat. Generalment cal col·locar-lo al directori anterior.
+   <li>costat: És la mida de píxel del ràster del nivell de zoom que estem generant.
+   <li>FitxerPNT: Fitxer PNT origen a preparar com a un nivell de zoom del mms.
+   <li>/TRACTAMENT=S per punts com a símbols (icones GIF). Per defecte val S.
+   <ul>
+       <li>/VALOR_CONSTANT= Nom del fitxer del símbol GIF per a representar tots els punts. No useu junt amb /CAMP.
+       <li>/CAMP= Camp de la base de dades a l'estil BD4. No useu junt amb /VALOR_CONSTANT.
+	Per saber més sobre els valors d'aquests paràmetres seguiu 
+	les consideracions del document de <a href="general.htm#TaulaCamp">sintaxi general</a>.
+       <li>/TAULA_SIMBOLS= És el nom del fitxer dbf que fa de taula de simbolització on hi ha 
+		el camp clau d'enllaç, els nom de fitxer símbol GIF/PNG per a representar cada punt i 
+		una eventual descripció (no usada per aquest programa) . No useu junt amb /VALOR_CONSTANT.
+   </ul>
+   <li>/TRACTAMENT=T per punts com a textos. 
+   <ul>
+       <li>/CAMP_TEXT_MOSTRAR= Camp la base de dades a l'estil BD4 que conté els textos que volem mostrar, els textos que apareixeran en cada punt de la capa.</li>
+       <li>/VALOR_CONSTANT= Format de la font en que es representaran tots els textos rasteritzats. No useu junt amb /CAMP.
+       <li>/CAMP= Camp de la base de dades a l'estil BD4 que indica el format de la font per a cada valor de text rasteritzat. No useu junt amb /VALOR_CONSTANT.
+	Per saber més sobre els valors d'aquests paràmetres seguiu 
+	les consideracions del document de <a href="general.htm#TaulaCamp">sintaxi general</a>.
+       <li>/TAULA_SIMBOLS= És el nom del fitxer dbf que fa de taula de simbolització de textos on hi ha 
+       el camp que enllaça amb el camp indicat anteriorment i el format de la font per cada un dels valors del camp. No useu junt amb /VALOR_CONSTANT.
+   </ul>
+</ul>
+
+<li>Opció 2: Prepara una capa ràster temàtica, continua o un vector per a ser visualitzada. En 
+	qualsevol d'aquesta casos, la capa pot estar formada per una llista de fitxers.
+<ul>
+   <li>Directori: Directori on es crearan tots fitxers que formen el nivell de zoom generat.
+   <li>FitxerLST: Fitxer on escric la llista de noms de fitxer que formen el nivell de zoom generat. 
+	General cal col·locar-lo al directori anterior.
+   <li>ncol: Nombre de columnes de cada tessel·la generada. Generalment s'usa el valor 800.
+   <li>nfil: Nombre de files de cada tessel·la generada. Generalment s'usa el valor 800 (o 48000 quan el format és JPEG indexat).
+   <li>Alguns paràmetres depenen del tipus de capa o llista de capes d'origen.
+   <ul>
+       <li>Origen ràster
+       <ul>
+           <li><i>/CANVI_COSTAT=</i> És el factor sencer de expansió/contracció de les imatges. Segueix els 
+		criteris de <a href="canvires.htm">CanviRes</a>. En aquest context només té sentit un valor negatiu.
+		El valor per defecte és no aplicar cap expansió/contracció i respectar la mida cel·la original.
+		El programa aplica un criteri de mitjana per imatges RGB o grisos o una moda en 
+		per a les imatges amb paleta.
+       <ul>
+           <li><i>/CRITERI_INTERPOL</i> Fa servir la mateixa sintaxi del programa CanviRes. Se suporta
+		'C' per valor central, 'm' per mitjana, 'M' per moda i 'd' per mediana. El programa pren
+		el criteri de mitjana per imatges RGB i moda per imatges amb paleta. Quan les imatges 
+		amb paleta representen objectes lineals, el criteri de moda és poc adient donat que 
+		genera línies trencades; tampoc ho es per imatges de variaciò continua amb paleta. 
+		Aquest paràmetre permet imposar un criteri de mitjana en aquests casos o usar la mediana
+		que dona millors interpolacions quan el canvi de costat és gran. Remplaça el paràmetre 
+		/IMPOSA_CANVIRES_MITJANA que desapareix.
+       </ul>	
+           <li>La feina de lectura d'imatges originals necessària per a un canvi de píxel superior
+		a 5 és prou alta per a justificar de guardar els resultats intermedis per reaprofitar-los en la
+		generació de canvis de costat encara més grans. El programa decideix guardar els resultats
+		intermedis, encara que no se l'hi indiqui, a partir de canvi de costat de píxel més gran que 5.
+		Les imatges no optimitzades intermèdies guardades resideixen en directoris que comencen per a la lletra i
+	   <ul>
+               <li><i>/INTERMEDI=</i> El valor 1 força a guardar resultats intermedis per a posterior generació
+		de zooms de costat de píxel més grans, encara que el canvi de costat sol·licitat sigui inferior a 5. 
+		El valor 0 indica 
+		que els resultats intermedis no es volen guardar mai, fins hi tot per a canvis de costat majors
+		a 5. Quan l'entrada és un JPEG o una llista de JPEG's aquest paràmetre no aplica donat que
+		es pot fer servir qualsevol zoom de costat inferior per generar un qualsevol nivell de full
+                superior.
+	   </ul>
+	   <li><i>/VORA=</i> Indica que cal ignorar una vora de n cel·les de cadascuna de les imatges originals. 
+		Serveix per eliminar una possible vora negra o blanca de les imatges originals o qualsevol altre
+		efecte de vora d'una imatge tractada per fulls. Aquest problema s'ha observat en les ortofotos 25k
+		d'algunes versions.
+           <li>Origen ràster d'imatge fotogràfica o imatge de teledetecció.
+           <ul>
+               <li><i>/QUALITAT=</i> Coincideix amb el paràmetre de <a href="jpegimg.htm">JPEGIMG</a> i 
+		només aplica per a una sortida JPEG (generalment la usada en rasters continus). Es recomana un valor 
+		de qualitat entre 75 i 85.
+	       <li>Quan es generen canvis de costat de píxel més gran que 5 la degradació cromàtica de les imatges 
+		pot ser excessiva, donant imatges poc contrastades, marronosa (per imatges de color) o grises (per 
+		imatges de grisos). Aquesta degradació es pot corregir aplicant optimitzacions de contrast sobre
+		les imatges dels resultats intermedis guardats, per tal de que la generació dels canvis de costat 
+		majors es pugui fer amb millor qualitat. Cal insistir que les optimitzacions s'apliquen sobre
+		els resultats intermedis guardats i no sobre la tessel·lació generada durant aquesta execució.
+		Els paràmetres següents governen aquest grau d'optimització. Les imatges optimitzades intermèdies 
+		guardades resideixen en directoris que comencen per la lletra o.
+	       <ul>
+                 <li><i>/OPCIO_OPTI=</i> Indica que es vol aplicar la optimització i el tipus d'optimització 
+		de l'histograma aplicat als resultats intermedis guardats. 1 per optimització global de 
+		l'histograma, 2 per a optimització de l'histograma de finestres flotants (recomanat) i 
+		0 per no optimitzar. El valor per defecte és 0.
+                 <li><i>/COSTAT_OPTI=</i> Costat de la finestra d'optimització en la opció d'optimització 2. 
+		El valor per defecte és 301. No aplica per optimitzacions 1 o 0.
+	         <li><i>/PERCENT_BAIX=</i> Percentatge a ignorar de la cua baixa de l'histograma d'optimització. 
+		Els valors dins d'aquest percentatge són saturats al valor mínim. Per defecte val 1.5.
+                 <li><i>/PERCENT_ALT=</i> Percentatge a ignorar de la cua alta de l'histograma d'optimització. 
+		Els valors dins d'aquest percentatge són saturats al valor màxim. Per defecte val 1.5.
+                 <li><i>/IGNOR_NODATA=</i> Ignorar la definició dels NODATA durant les optimitzacions. 0 per 
+		fer cas a la definió de valor de fons indicat a les metadades de les imatges, 1 per considerar 
+		el valor 0 i 2 per a considerar 255. El valor per defecte és 0.
+	       </ul>
+	       <li>Alguns paràmetres depenen del format de la imatge
+	       <ul>
+	          <li>Origen ràster color a partir de 3 canals IMG (24 bits) (p.ex. Ortofoto color).
+	          <ul>
+                      <li>FitxerR, FitxerG, FitxerB: Els tres canals IMG byte per construir un JPEG de color real.
+	          </ul>
+	          <li>Origen ràster color a partir d'una fitxer IMG de 8 bits amb paleta (generalment optimitzada).
+	          <ul>
+	             <li>Fitxer: fitxer IMG (o llista de fitxers IMG).
+                     <li>NomPaleta: Nom de la paleta de color.
+                     <li><i>/FORMAT=JPEG</i> Per qualsevol mode la opció 2 podeu indicar el format de sortida 
+	            que voleu, indicant GIF o JPEG. En general, no s'ha indicar aquest paràmetre, donat que el
+		    format es decideix automàticament, però és útil en aquest mode, donat que el programa decidiria 
+		    una sortida GIF i un tractament categòric però resulta millor un format JPEG i un tractament continu.
+                  </ul>
+	          <li>Origen ràster de grisos (p.ex. Ortofoto B/N) o imatge JPEG (ja sigui de color o de grisos).
+	          <ul>
+	             <li>FitxerIMG: Imatge IMG byte (o llista de fitxers IMG byte)
+	          </ul>
+	          <li>Origen ràster JPEG (ja sigui de color real o de grisos).
+	          <ul>
+	             <li>FitxerIMG: Imatge JPEG de color o de grisos (o llista de fitxers JPEG).
+	          </ul>
+              </ul>
+           </ul>
+           <li>Origen ràster categòric/temàtic (p.ex. un ràster d'usos del sol) amb paleta o continu amb paleta (p.ex. un Model digital de terreny com podria ser un mapa de temperatures).
+           <ul>
+               <li>Fitxer: fitxer IMG (o llista de fitxers IMG).
+               <li>NomPaleta: Nom de la paleta de color.
+               <li><i>/VALOR_MIN=</i> Valor mínim que es fa servir per estirar la paleta de colors. Per defecte es fa servir el valors mínim de cada full. Només resulta útil per imatges continues amb paleta.
+               <li><i>/VALOR_MAX=</i> Valor màxim que es fa servir per estirar la paleta de colors. Per defecte es fa servir el valors màxim de cada full. Només resulta útil per imatges continues amb paleta.
+	       <li><i>/EXAGERACIO=</i> És el factor de exageració o regruiximent. Per a un fitxer que representi punts, el radi de punt és (exageracio+0.5)*costat. Per a un fitxer que representi línies, el gruix de la línia és (2*exageracio+1)*costat. 
+           </ul>
+       </ul>
+       <li>Origen vector de línies o polígons (Si voleu punts useu l'opció 1).
+       <ul>
+           <li>Fitxer: Nom del fitxer vectorial estructurat de línies o polígons.
+           <li>NomPaleta: Nom de la paleta de color. S'ha d'indicar si s'una /CAMP= i no si s'usa /COLOR_CONSTANT=.
+           <li><i>/COSTAT=</i> És la mida de píxel a rasteritzar.
+           <li><i>/COLOR_CONSTANT=</i> Per a fitxers de línies rasteritzar un color constant. 
+	   Per a fitxer de polígons rasteritzar un color constant en l'interior del polígon.
+           El valor ha de ser un color escrit com (r,g,b) (on r, g i b representen la intensitat de vermell,
+           verd i blau respectivament de 0 a 255). No useu junt amb <i>/CAMP</i>.
+           <li><i>/CAMP=</i> Camp de la base de dades a l'estil BD4. Conté el camp que indexa el color, és a dir, els
+	   valors dels índexs de la paleta que es fan servir per pintar cada objecte de tipus línia o els interiors dels objectes de tipus polígons.
+	   No useu junt amb <i>/VALOR_CONSTANT</i>
+	    Per saber més sobre els valors d'aquests paràmetres seguiu 
+	    les consideracions del document de <a href="general.htm#TaulaCamp">sintaxi general</a>.
+	    <li><i>/COLOR_CONSTANT_VORA=</i> Només per a fitxers de polígons on indica el rasteritzar un color constant a la vora del polígon.
+           El valor ha de ser un color escrit com (r,g,b) (on r, g i b representen la intensitat de vermell,
+           verd i blau respectivament de 0 a 255).No useu junt amb <i>/CAMP_VORA</i>
+           <li><i>/CAMP_VORA=</i> Només per a fitxers de polígons on és el camp de la base de dades a l'estil BD4 que indexa el color que es fa servir per pintar
+	   les vores dels polígons.
+	   No useu junt amb <i>/VALOR_CONSTANT_VORA</i>
+	    Per saber més sobre els valors d'aquests paràmetres seguiu 
+	    les consideracions del document de <a href="general.htm#TaulaCamp">sintaxi general</a>.
+	    <li>En el cas de fitxers de polígons si no s'indica <i>/COLOR_CONSTANT</i> ni <i>/CAMP</i> l'interior del polígon no es pintarà. I el mateix per les vores, si no s'indica ni <i>/COLOR_CONSTANT_VORA</i> ni <i>/CAMP_VORA</i> no es pintarà la vora del polígons. Però és obligatòri indicar almenys una de les dues coses.
+	    <li>En el cas de fitxers de línies s'ha d'indicar o bé <i>/COLOR_CONSTANT</i> o bé <i>/CAMP</i>.
+           <li><i>/MANTENIR_VECTORS</i> Els vectors que s'han necessitat es mantenen en memòria fins al final. Això fa 
+		les execucions una mica més ràpides però necessiten més memòria.
+           <li><i>/EXAGERACIO=</i> És el factor de exageració o regruiximent de línies; el gruix de la línia és (2*exageracio+1)*costat.
+       </ul>
+       <li>Origen mapa o capa de MiraMon.
+       <ul>
+           <li>Fitxer: Nom del mapa o capa (preferiblement amb la simbolització definides des de MiraMon dins del mapa o el rel de la capa).
+           <li><i>/MM32</i> Indica que la capa ha de ser tractada amb la simbolització de MiraMon. Si la capa és una mapa sempre es tracta el mapa amb la simbolització de MiraMon i no cal aquesta opció.
+           <li><i>/COSTAT=</i> És la mida de píxel a rasteritzar.
+           <li>Nota: aquesta opció presenta algunes restriccions sobre altres paràmetres. Així:
+           <ul>
+               <li>/IMATGE_BUIDA= és ignorat i sempre es creen les tessel·les encara que siguin buides.
+               <li>ncol i nfil no poden superar la mida de la pantalla i ncol no pot ser més petit de 150.
+           </ul>
+       </ul>
+   <li><i>/IMATGE_BUIDA=</i> Coincideix amb el paràmetre de <a href="mosaic.htm">Mosaic</a> i serveix per eliminar
+		les tessel·les buides que no aporten informació. Els valors més útils provoquen que s'esborri la tessel·la si:
+   <ul>
+       <li>0: tots els valors són iguals. 
+       <li>1: tots els valors són NODATA. 
+       <li>2: no s'esborren les tessel·les encara que tots els valors siguin iguals o NODATA.
+       <li>si no s'indica aquest paràmetre, no es generen imatges buides.
+   </ul>
+   <li><i>/TESSELLA_SENCERA</i> Si s'indica aquest paràmetre totes les tessel·les tindran la mateixa mida, tot i que superin l'àmbit de la capa original, on no hi hagi dades s'omplirà amb NODATA. Per defecte (sense aquest paràmetre) les tessel·les s'ajusten a l'àmbit de la capa, com que la divisió comença a d'alt i a l'esquerra, les tessel·les del marge dret o del marge inferior poden tenir una mida inferior a la indicada.
+   <li><i>/ORIGEN_INFERIOR_ESQUERRA</i> Per defecte la tesselació commença per la part superior esquerra. Si s'indica aquest paràmetre la tesselació comença per a la part inferior esquerra.
+   <li>Noms de les tesseles
+   <ul>
+       <li>Comportament per defecte: Els noms de fitxer de la tesselació tenen un nom accendent de 0 a n-1 que es correspon amb l'índex de cel·la linea. A partir de n>500 els fitxers s'acumulen en subdirectories de 500 fitxers per a facilitar la gestió de fitxers. 
+       <li><i>/INDEXA_J_I</i> Els noms de tesselació s'estructuren amb subdirectoris que tenen índexs de files i noms que són índex de columnes.
+       <li><i>/INDEXA_I_J</i> Els noms de tesselació s'estructuren amb subdirectoris que tenen índexs de columnes i noms que són índex de files.
+   </ul>
+   <li><i>/MINX=,/MAXX=,/MINY=,/MAXY=</i> Per defecte l'origen de la indexació es calcula a partir de l'àmbit de les imatges originals. Amb aquests paràmetres es força una indexació en base l'envolupant donada. Resulta especialment indicat per a permetre regerarar una part d'una preparació prèvia o quan els índexs són importants, com en el cas del WMTS.
+   <li><i>/METATILE=</i> El nombre de tessel·les que es generen al mateix temps en una matriu de n*n. Aixi si indique 4 es generen 16 tiles a l'hora. Resultat útil per accelerar les preparacions que es fan des de fitxers JPEG. Per defecte val 1.
+   <li><i>/REVISIO</i> Permet revisar la preparació de capes. Aquest mode revisa les tessel·les ja creades i regenera les tessel·les que puguin faltar, creant les llistes finals de nou. És particularment útil quan el prepara una capa molt gran si cal interrompre el procés i reprendre’l més tard; quan es distribueix una preparació entre diverses màquines (per assegurar-se que el producte unificat és complet i regenerar la llista) o quan es descobreix que algunes tessel·les s’han creat malament per algun defecte de les capes originals (un cop corregit el defecte i esborrades les tessel•les afectades es pot executar una revisió). Es possible combinar-ho amb un proces de generació de tessel·lats parcials però no es recomana.
+   <li>Paràmetres que cal indicar per a generar fitxers segons l'estandard WMTS
+   <ul>
+       <li>/IMATGE_BUIDA=2 /TESSELLA_SENCERA /FORMAT=PNG /INDEXA_J_I
+   </ul>
+   Si ho prefereiu, podeu fer servir el paràmetre /WMTS que és equivalent a /IMATGE_BUIDA=2 /TESSELLA_SENCERA /INDEXA_J_I i deixa sense posar /ORIGEN_INFERIOR_ESQUERRA. També podeu fer servir /WMTS_I_J per intercanviar els índex I i J, la qual cosa és útil pel "WMTS simple".
+   <li>Generació de tessel·lats parcials.
+   <ul>
+       <li>Generació parcial en base un àmbit. El programa regenerarà com a mínim l'envolupant indicada. Com que l'espai està tesselat, l'envolupant finalment regenerada pot ser més gran (particularment si es fan servir metatiles. La principal gràcia d'aquesta alternativa és que si es vol regenerar
+una àrea a diferents nivells de zoom, l'àmbit és independent del nivell de zoom.
+       <ul>
+	   <li><i>/MINX_TROS=, /MAXX_TROS=, /MINY_TROS=, /MAXY_TROS=</i> Defineix l'envolupant mínima que està regenerada. No cal indicar tots 4 paràmetres. En cas de no indicar-se es fa servir el criteri habitual per determinar aquesta frontera.
+       </ul>
+       <li>Per defecte es genera una tessel·lació de l'espai des de la part superior esquerra fins a la part inferior dreta de 
+	   l'àmbit cobert per totes les imatges d'origen (Aquest criteri canvia si useu /ORIGEN_INFERIOR_ESQUERRA). A més, cada tessel·la té un índex de fila-columna i un índex de cel·la lineal.
+       <li>Generació parcial d'unes quantes files linials des d'un origen a un destí determinat per índexs de fila i columna.
+       <ul>
+	   <li><i>/COL_MIN_TROS=</i> Índex de columna dels trossos de la tessel·lació per on iniciar a tallar. Per defecte val 0.
+	   <li><i>/FIL_MIN_TROS=</i> Índex de fila dels trossos de la tessel·lació per on iniciar a tallar. Per defecte val 0.
+	   <li><i>/COL_MAX_TROS=</i> Índex de columna dels trossos de la tessel·lació per on acabar de tallar. Per defecte val el nombre de trossos per columna menys 1.
+	   <li><i>/FIL_MAX_TROS=</i> Índex de fila dels trossos de la tessel·lació per on acabar de tallar. Per defecte val el nombre de trossos per fila menys 1.
+       </ul>
+       <li>Generació parcial d'unes quantes tessel·les de dins d'un rectangle determinat per índexs de fila i columna mínims i màxims.
+       <ul>
+	   <li><i>/MIN_MAX_TROS_RECTANGLE</i> Indica que els 4 paràmetres posteriors defineixen un rectangle. Canvia el significat de /COL_MIN_TROS pel que es descriu a continuació.
+	   <li><i>/COL_MIN_TROS=</i> Índex de columna mínim dels trossos de la tessel·lació que es regeneraran. Per defecte val 0.
+	   <li><i>/COL_MAX_TROS=</i> Índex de columna màxim dels trossos de la tessel·lació que es regeneraran. Per defecte val el nombre de trossos per columna menys 1.
+	   <li><i>/FIL_MIN_TROS=</i> Índex de fila mínim dels trossos de la tessel·lació que es regeneraran. Per defecte val 0.
+	   <li><i>/FIL_MAX_TROS=</i> Índex de fila màxim dels trossos de la tessel·lació que es regeneraran. Per defecte val el nombre de trossos per fila menys 1.
+       </ul>
+       <li>Generació parcial d'unes quantes files des d'un origen a un destí determinat per índexs de tessel·la (que es correspon amb el nom de fitxer si no s'ha indicat /INDEXA_J_I).
+       <ul>
+	   <li><i>/I_MIN_TROS=</i> Índex de tros dels trossos de la tessel·lació per on iniciar a tallar. No aplica si s'indica /MIN_MAX_TROS_RECTANGLE. Per defecte val 0.
+	   <li><i>/I_MAX_TROS=</i> Índex de tros dels trossos de la tessel·lació per on acabar de tallar. No aplica si s'indica /MIN_MAX_TROS_RECTANGLE. Per defecte val el nombre de trossos menys 1.
+       </ul>
+    </ul>
+</ul>
+<li>Opció 3: Prepara una capa de punts/línies o polígons per a ser consultada per localització.
+<ul>
+   <li>FitxerIMGSortida: És un fitxer ràster temàtic d'identificadors gràfics.
+   <li>costat: És la mida de píxel del ràster del nivell de zoom que estem generant.
+   <li>exageracio: És el factor de exageració. Per a un fitxer de punts, el radi de punt és (exageracio+0.5)*costat. Per a un fitxer de línies, el gruix de la línia és (2*exageracio+1)*costat. Per a un fitxer de polígons no aplica. Indiqueu 0.
+   <li>FitxerTop: Fitxer topològic a preparar per a la consulta d'un nivell de zoom del servidor.
+</ul>
+</ul>
+
+<P>
+Aquest programa només suporta fitxers REL4.
+<P>
+<!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+CREA_MMS ?
+-->
+
+</EXCLUSIVA>
+</BODY>
+</HTML>
+

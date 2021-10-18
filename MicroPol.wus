@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:MicroPol:1</ows:Identifier>
+		<ows:Title>Option 1 (Vectorial local)</ows:Title>
+		<ows:Abstract>This option makes a study of each local micropolygon without considering that may be in contact with other micropolygons. To remove micropolygons, the program only removes one of the arches that makes border. The program eliminates the longest arc or arc bordering the largest polygon, as a parameter. However, the polygon 0 (or zero polygon: outer border) is an exception to these criteria because it presupposes that in general the boundary of the polygon 0 is better defined. This is especially important in the polygon files that come from a map series and the border polygon 0 is usually a rectangle or a trapezoid and it is desirable that the sides are no longer straight. That is why the program only removes an arc bordering the polygon 0 if it is the only way to eliminate the micropolygon. However, when removing micropolygons end nodes and arcs with halters are generated in complex cases. These structures are not cyclable and are removed automatically. This forces the program to eliminate some extra boundary arcs..</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Delete micropolygons (sliver polygons) from a polygon file or a categorical raster"/>
+		<ows:Metadata xlink:title="Abstract:This program allows three options to eliminate micropolygons."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>This option makes a study of each local micropolygon without considering that may be in contact with other micropolygons.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Origin polygon file</ows:Title>
+				<ows:Abstract>It is the name of the polygon file to process.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:PolOriginFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FONDRE</ows:Identifier>
+				<ows:Title>Melt</ows:Title>
+				<ows:Abstract><![CDATA[Indicates to which neighboring polygon the area occupied by the micropolygon should be assigned. Select one of these values: <ul><li>POL_GRAN to assign the space to the biggest neighbor.</li><li>FRONTERA_MES_LLARGA so that the longest arc of the disappearing micropolygons is eliminated. It is the default value.</li><li>POL_PETIT to assign the space to the contiguous polygon with a smaller area. It groups small polygons among themselves (option 2 only).</li><li>FRONTERA_MES_CURTA to erase the smallest arc from the disappearing micropolygon. (option 2 only).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>POL_GRAN</ows:Value>
+						<ows:Value>FRONTERA_MES_LLARGA</ows:Value>
+						<ows:Value>POL_PETIT</ows:Value>
+						<ows:Value>FRONTERA_MES_CURTA</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>POL_GRAN</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_MIN</ows:Identifier>
+				<ows:Title>Minimum area</ows:Title>
+				<ows:Abstract>Value of the minimum area that a polygon can have.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_PERI_MIN</ows:Identifier>
+				<ows:Title>Area/Perimeter</ows:Title>
+				<ows:Abstract>Minimum area/perimeter ratio value.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SENSE_ATRIBUT</ows:Identifier>
+				<ows:Title>Without attributes</ows:Title>
+				<ows:Abstract>Indicates that polygons without thematic attributes should be deleted.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_LOGIC</ows:Identifier>
+				<ows:Title>Logical field</ows:Title>
+				<ows:Abstract><![CDATA[Corresponds to the logical field that indicates whether a polygon should be deleted. This should be a logical field (L). In each register of the polygon principal table, 'true' is shown if the polygon is to be deleted, and 'false' if it is to be preserved. To learn more about the values of these parameters follow the considerations in <a href="general.htm#TaulaCamp">general syntax</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NEXE_CRITERIS</ows:Identifier>
+				<ows:Title>Criteria nexus</ows:Title>
+				<ows:Abstract>Indicate 'OR' if it is only necessary to satisfy one of the criteria in order to delete a polygon. The default value is 'AND', which means that all the criteria should be satisfied at the same time.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>OR</ows:Value>
+						<ows:Value>AND</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>AND</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_LOGIC_ARC</ows:Identifier>
+				<ows:Title>Logical arcs table</ows:Title>
+				<ows:Abstract><![CDATA[Table that contains the logical field from the arc database with 'true' to stablish the arcs that can be eliminated in case of becoming micropolygon boundary. When this parameter is missing, all arcs can be eliminated. To learn more about the values of this parameter the considerations in <a href="general.htm#TaulaCamp">general syntax</a> can be followed.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_LOGIC_ARC</ows:Identifier>
+				<ows:Title>Logical arcs field</ows:Title>
+				<ows:Abstract><![CDATA[logical field from the arc database with 'true' to stablish the arcs that can be eliminated in case of becoming micropolygon boundary. When this parameter is missing, all arcs can be eliminated. To learn more about the values of this parameter the considerations in <a href="general.htm#TaulaCamp">general syntax</a> can be followed.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATRIB_ELIM</ows:Identifier>
+				<ows:Title>Inherits attributes</ows:Title>
+				<ows:Abstract>Indicates that the polygon that absorbs the micropolygon inherits its attributes. If this parameter is missing then the attributes of the micropolygon will be lost. It must be noted that there is no need to state which is the field or fields that define if the polygon has attributes: it is considered that the polygon has no attributes if all non-geometrical-topological fields are empty, in exception of, indeed, CAMP_LOGIC_ARC, if this criterion is also activated.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Output polygon file</ows:Title>
+				<ows:Abstract>It is the name of the polygon file resulting from the process of eliminating micropolygons (the files PolOriginFile and OutputPolFile cannot be the same).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:OutputPolFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:MicroPol:2</ows:Identifier>
+		<ows:Title>Option 2 (Vectorial global)</ows:Title>
+		<ows:Abstract>The second option generates a study of the layer removing micropolygons starting with the smallest of all and progressing until there are no polygons with a smaller area than indicated. Furthermore, this mode performs a previous analysis of polygons with narrow areas. These narrow zones are truncated in new polygons to be removed later if they become small polygons. It also incorporates a thematic affinities table that allows prioritizing to merge certain categories when the micropolygon is in contact with more than one adjacent polygon, allowing the micropolygon to be merged into a class that makes more thematically sense. In case of a tie it also uses the longest border or largest area criteria to determine in which adjacent polygon it will be absorbed. The merger removes all arcs of contact between the two polygons to be merged. The attributes of the arcs are always recovered to multiple record of the greater polygon. It also keeps the area occupied by each attribute before merging polygons. Finally a revision is made that, by default, merges polygons that have the first same attribute. This behavior can be changed in the /RESPECTAR_1_REG parameter that prevents merging a monorecord polygon with another multirecord polygon, or with the /RESPECTAR_N_REG parameter that prevents merging polygons that have not exactly the same thematic attributes in multirecord fields.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>The second option generates a study of the layer removing micropolygons starting with the smallest of all and there is no progress until polygon area smaller than indicated.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Origin polygon file</ows:Title>
+				<ows:Abstract>It is the name of the polygon file to process.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:PolOriginFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AreaMin</ows:Identifier>
+				<ows:Title>Minimum area</ows:Title>
+				<ows:Abstract>It is the minimum area below which the polygons must disappear.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:MinArea"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AmpleMin</ows:Identifier>
+				<ows:Title>Minimum width</ows:Title>
+				<ows:Abstract>Minimum width of a polygon area under which the polygon breaks into a totally narrower fragment than the stated width. This fragment will be erased if it shows a smaller area than AreaMin.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:WidthMin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AreaParcial</ows:Identifier>
+				<ows:Title>Partial area</ows:Title>
+				<ows:Abstract>It is the field name that contains or it is desired to contain the partial area of each register of the resulting polygons in case that it shows multiple registers. This field allows knowing the occupied area by each register before the micropolygon fusion. In the case that this field does not exist, the program will create it.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:PartialArea"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FONDRE</ows:Identifier>
+				<ows:Title>Melt</ows:Title>
+				<ows:Abstract><![CDATA[Indicates to which neighboring polygon the area occupied by the micropolygon should be assigned. Select one of these values: <ul><li>POL_GRAN to assign the space to the biggest neighbor.</li><li>FRONTERA_MES_LLARGA so that the longest arc of the disappearing micropolygons is eliminated. It is the default value.</li><li>POL_PETIT to assign the space to the contiguous polygon with a smaller area. It groups small polygons among themselves (option 2 only).</li><li>FRONTERA_MES_CURTA to erase the smallest arc from the disappearing micropolygon. (option 2 only).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>POL_GRAN</ows:Value>
+						<ows:Value>FRONTERA_MES_LLARGA</ows:Value>
+						<ows:Value>POL_PETIT</ows:Value>
+						<ows:Value>FRONTERA_MES_CURTA</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>POL_GRAN</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FITXER_AFIN</ows:Identifier>
+				<ows:Title>Affinities file</ows:Title>
+				<ows:Abstract><![CDATA[It is the DBF file that defines the affinities between thematic attributes. This file must have, at least, 3 fields, with names:<ul><li>The field coinciding with the name of the thematic field of the polygon main table to consider its affinity with neighbors. More than one field can be included if required.</li><li>ABSOR1 field including the thematic field values neighboring to the considered polygon. More than one field can be included (ABSOR2, ABSOR3, etc) if required.</li><li>PRIORIDAD field containing a numerical indicator of the priority (or order) by which the correspondence value of the aforementioned fields is applied.</li></ul>.]]></ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AFIN_ORDRE</ows:Identifier>
+				<ows:Title>Affinities order</ows:Title>
+				<ows:Abstract>If this parameter is stated, it assumes that a smaller number in the PRIORIDAD field of the affinity table has a higher affinity than a higher number. In its absence it is assumed that a higher number represents a higher affinity.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESCARTA_POL_0</ows:Identifier>
+				<ows:Title>Discard outside polygon</ows:Title>
+				<ows:Abstract>Indicates that the outside polygon will not be modified.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESCARTA_POL_LLINDA_AMB_0</ows:Identifier>
+				<ows:Title>Discard outer edge polygons</ows:Title>
+				<ows:Abstract>Indicates that any polygon that is in contact directly with polygon 0, will not be merged.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FONDRE_PER_ARC_ESTRET</ows:Identifier>
+				<ows:Title>Narrow arc merge</ows:Title>
+				<ows:Abstract>The program tries to avoid merging polygons by an arc considered narrow, leaving this as the last alternative. If this parameter is indicated narrow arcs are considered equal to others for merging polygons unless the arches have been created during the polygon fragmentation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>sufix _ARC_POL_0</ows:Identifier>
+				<ows:Title>Parameters selection of graphical objects</ows:Title>
+				<ows:Abstract><![CDATA[Parameters of graphical objects selection by attributes of the database with the suffix _ARC_POL_0 arcs. Refine behavior /DESCARTA_POL_LLINDA_AMB_0 to polygons bordering the polygon 0 from arcs that fulfill the conditions specified for the base data arches. This option is typically useful for eliminating micropolygons bordering coastlines but keep waiting a mosaic with an adjacent sheet with polygons in contact with the edge of a map sheet. For more information about the specific syntax see <a href="general.htm#SelecAtrib">here</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_TEMATIC</ows:Identifier>
+				<ows:Title>Thematic field</ows:Title>
+				<ows:Abstract><![CDATA[Indicates which field of polygons database will be used to determine the thematic equality between polygons. By default, ALL thematic areas are considered to determine thematic equality between polygons and attributes to merge. To learn more about the values of these parameters the general considerations of the document of the <a href="general.htm#TaulaCamp">general syntax</a> can be followed.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_TEMATIC_QUALITAT</ows:Identifier>
+				<ows:Title>Quality thematic field</ows:Title>
+				<ows:Abstract>Indicates the thematic field of the polygons database on which the quality of generalization about the field will be studied. This study is stored in an HTML file with the same name as the destination file but with the .htm. extension. If this parameter is not indicated, the program does not carry out the study.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_AREA_TPERCENT</ows:Identifier>
+				<ows:Title>Percentage field</ows:Title>
+				<ows:Abstract>In addition to the partial area, it indicates that a field with the percentage of covering for each record of any multirecord of the main attributes of the table is added.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TPERCENT_AREA_MIN</ows:Identifier>
+				<ows:Title>Minimum percentage area</ows:Title>
+				<ows:Abstract>Indicates not to keep a record with partial area percentage minor to this value. The proportion of partial area lost is distributed among the other records that exceed this threshold. If all the records have a partial area smaller than the one indicated, only the one with the largest area will be preserved.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RESPECTAR_1_REG</ows:Identifier>
+				<ows:Title>Respect a record</ows:Title>
+				<ows:Abstract>Indicates that the program tries to preserve as much as possible the monorecords. So, it avoids to merge multirecords polygons with monorecords polygons so it only will merge polygons where both have monorecord or polygons where both have multirecord. / RESPECTAR_N_REG indicated that the program multirecord try to preserve as much as possible. So, avoid sources multirecord polygons together when some attributes multirecord is different</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RESPECTAR_N_REG</ows:Identifier>
+				<ows:Title>Respect N register</ows:Title>
+				<ows:Abstract>Indicates that the program will try to preserve multirecord as much as possible. So, it will avoid merging multirecord polygons with different multirecord attributes.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COEF_ESTRET</ows:Identifier>
+				<ows:Title>Narrow coefficient</ows:Title>
+				<ows:Abstract>In the case of the removal of fragments of narrow objects, it indicates the approximate ratio between the minimum width and the minimum length necessary to remove the object. 1 to remove all fragments of narrow polygons. For example 20, the narrow object has to be ample_min*20 long to be removed. The default value is 3.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FITXER_EXCEP_MIDES</ows:Identifier>
+				<ows:Title>DBF file</ows:Title>
+				<ows:Abstract><![CDATA[DBF file for exception of AreaMin and AmpleMin parameters. It only has to be used if the parameter /FITXER_AFIN= is also indicated (an empty table has to be created to define any affinity). This file must have at least 3 fields:<ul><li>The field that matches the name of the subject field of the main table of polygons to consider. More than one field can be included if required but the number of fields must match the table affinities.</li><li>AREAMIN field that contains the value of the minimum area threshold to this category or white to indicate that it is necessary to use the general value specified in the AreaMin compulsory parameter.</li><li>AMPLEMIN that contains the value of the minimum width threshold to this category or white to indicate that it is necessary to use the general value specified in the AmpleMin compulsory parameter.</li></ul>]]></ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>_ARC_PROTEGIT</ows:Identifier>
+				<ows:Title>Protected arc</ows:Title>
+				<ows:Abstract><![CDATA[Prevent the merger from polygons connecting arcs that fulfill the condition. This lets you dial arches that mark major divisions on the territory and cannot be suppressed. For more information about the specific syntax see  <a href="general.htm#SelecAtrib">here</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FITXER_ARCS_A_AFEGIR</ows:Identifier>
+				<ows:Title>Protected arc</ows:Title>
+				<ows:Abstract>Allows to add to the arc file arches in order to generate polygons and closed areas which must be preserved independently from others. Generally it is useful to manually digitize boundaries in places that are small polygons with equal or similar attributes and form its own entity separate from the rest of the matrix but the conventional generalization process should completely merged with the matrix (since they are no physically connected). These new boundaries are included after the clipping process and before the merging process. The arches have to be digitized to close areas, by defining either rings or polygons to connect with other preexisting lines or created during the process of breaking polygons. If more than one line has to be digitized to define a certain area, consecutive digitization is required. The main table of these arc files must have the same structure as the main table of the arcs on which the polygons are structured. It should be noted that these added arcs could still disappear during the polygons merging process; to avoid this effect, the selecting parameter with suffix _ARC_PROTEGIT should be indicated as previously explained and check the added arcs with attributes that make them protected.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Output polygon file</ows:Title>
+				<ows:Abstract>It is the name of the polygon file resulting from the process of eliminating micropolygons (the files PolOriginFile and OutputPolFile cannot be the same).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:OutputPolFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:MicroPol:3</ows:Identifier>
+		<ows:Title>Option 3 (Raster)</ows:Title>
+		<ows:Abstract>This option removes groups of cells present in a categorical raster (for example, a map of the ground cover) and assimilate them to the most abundant category in an immediate environment of 3x3 cells, 5x5 cells, etc.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>This option removes groups of cells present in a categorical raster of an area smaller than the number of cells indicated by the user.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerIMGOrigen</ows:Identifier>
+				<ows:Title>Input raster file</ows:Title>
+				<ows:Abstract>It is the categorical raster file name to process.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:InputIMGfile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Area_max</ows:Identifier>
+				<ows:Title>Maximum area to be deleted in cells</ows:Title>
+				<ows:Abstract>Indicates which maximum area in cells [or pixels] will be deleted. For example, if 1 is written (the smallest admitted value) isolated cells will be deleted, if 2 is written both isolated cells and groups of 2 adjacent cells will be deleted, etc.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Area_max"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fin_convol</ows:Identifier>
+				<ows:Title>Convolution window</ows:Title>
+				<ows:Abstract>Convolution window side. It must be an odd number, typically 3 or 5. Equivalent to the homonymous parameter of the FagoVal module.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Fin_convol"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>IGNORAR_VEINS_DIAG</ows:Identifier>
+				<ows:Title>Ignore diagonal neighbors</ows:Title>
+				<ows:Abstract>Indicates whether, in the computation of area of the raster polygons, the contact of two cells of equal value by the diagonal implies that they are considered part of the same polygon. Equivalent to the parameter /NO_AGRUPAR_POLIGONS_PER_NODES of the RasTop module.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerIMGDesti</ows:Identifier>
+				<ows:Title>Output raster file</ows:Title>
+				<ows:Abstract>It is the name of the output categoric raster file from the process of removing micropolygons. It must be a different file than the origin file.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:OutputIMGFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

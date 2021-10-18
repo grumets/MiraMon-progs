@@ -1,0 +1,244 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CombiCap: Combinació analítica de capes ràsters i vectorials</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+ 
+  <h3>Enfocament vectorial</h3>
+  Tant si s'indiquen dues capes vectorials
+  d'entrada, una capa vectorial i un ràster o dos ràsters categòrics, es
+  podrà optar per un enfocament vectorial de la combinació de capes. En aquest cas,
+  el fitxer vectorial de sortida i el seu tipus i contingut dependran del
+  fitxer d'entrada. Així, un ràster categòric pot ser considerat un fitxer
+  de polígons amb el valor del ràster com únic atribut temàtic vinculat a un
+  tesaure de categories. El mòdul <a href="RasTop.htm">RasTop</a> inclou més detalls sobre d'aquesta
+  equivalència. Una excepció són
+  el casos IMG + PNT = PNT (o IMG + NOD = PNT) i IMG + POL = POL  que seran comentats a l'apartat <a href="#enfoc_mixt">enfocament mixt</a>.
+
+  <dl>
+    <dt>POL + POL = POL</dt>
+
+    <dt>IMG + IMG = POL</dt>
+
+    <dd>El fitxer de sortida és un fitxer de polígons que
+    s'obté de la fragmentació de l'espai produïda per la unió de les
+    vores dels fitxers de polígons originals. Cada fragment hereta tots els
+    atributs de tots dos polígons origen que el contenen.</dd>
+
+    <dt>POL + ARC = ARC</dt>
+
+    <dt>IMG + ARC = ARC</dt>
+
+    <dd>Cada arc és partit en fragments a partir de les vores del fitxer de
+    polígons derivat de l'IMG. A més dels seus propis atributs d'arc,
+    cada fragment hereta els atributs del polígon que el conté.</dd>
+
+    <dt>POL + ARC = POL</dt>
+
+    <dt>IMG + ARC = POL</dt>
+
+    <dd>La geometria del fitxer de polígons resta inalterada però els seus
+    registres es veuen enriquits pels atributs de cada arc que els travessa o
+    que està enterament o parcialment en el seu interior.</dd>
+
+    <dt>POL + PNT = PNT</dt>
+
+    <dd>La geometria del fitxer de punts resta inalterada però cada punt
+    adquireix els atributs del polígon que el conté.</dd>
+
+    <dt>POL + PNT = POL</dt>
+
+    <dt>IMG + PNT = POL</dt>
+
+    <dd>La geometria del fitxer de polígons resta inalterada però els seus
+    registres es veuen enriquits pels atributs dels punts continguts a cada
+    polígon.</dd>
+
+    <dt>POL + NOD = PNT</dt>
+
+    <dd>El fitxer de nodes és tractat com un fitxer de punts on cada punt
+    adquireix els atributs del polígon que el conté.</dd>
+
+    <dt>POL + NOD = POL</dt>
+
+    <dt>IMG + NOD = POL</dt>
+
+    <dd>La geometria del fitxer de polígons resta inalterada però els seus
+    registres es veuen enriquits pels atributs dels nodes continguts a cada
+    polígon.</dd>
+  </dl>
+  Cal fer notar que en el cas de combinacions vectorials que tenen com a resultat un vector, es
+  tenen en compte tots els atributs de les taules principals dels dos vectors
+  així com les seves relacions amb les taules associades.
+
+  <p>Quan les capes analitzades presentin noms de camp iguals en la taula
+  principal, aquests són modificats afegint _A per la primera capa i _B per a
+  la segona per tal de poder-los diferenciar. Això resulta especialment útil en
+  el cas d'estudis dels mateixos paràmetres en 2 moments en el temps (per
+  exemple comparar dos mapes de vegetació de diferents dates).</p>
+
+  <p>En les combinacions de polígons on les vores no provenen de la mateixa
+  font poden aparèixer petites regions indesitjades que anomenem
+  micropolígons. El programa permet l'eliminació selectiva d'aquest
+  artefactes definint una àrea mínima i/o una relació perímetre/àrea llindar.
+  Per més detalls es pot consultar <a href="MicroPol.htm">MicroPol</a>. 
+  <a id="enfoc_mixt" name="enfoc_mixt"></a></p>
+
+  <h3>Enfocament mixt</h3>
+
+  <p>IMG + PNT = PNT o IMG + NOD = PNT</p>
+
+  <p>Els fitxers de punts o nodes poden ser combinats amb ràsters categòrics o
+  de variació continua per donar un fitxer PNT. En aquest cas, la geometria del
+  fitxer de punts resta inalterada però cada punt adquireix el valor de la
+  cel·la o cel·les de ràster properes a ell a un màxim d'un costat de
+  píxel de distància. Aquest valors s'hereten com a un camp nou dins la
+  base de dades. És possible triar entre la cel·la més propera o la moda de
+  les cel·les a menys d'un píxel de distància per a ràsters categòrics o
+  la interpolació bilineal entre 4 veïns o bicúbica entre 16 veïns per a
+  ràsters de variació continua.</p>
+
+  <p>IMG + POL =POL amb estadístics</p>
+
+  <p>En aquest cas es calculen valors estadístics dels píxels del ràster dins
+  de cada polígon i aquests valors estadístics es transfereixen als registres
+  corresponents de la taula principal del polígon (sense alterar la geometria
+  dels objectes gràfics). A les vores del polígon, els valors del ràster es
+  tindran en compte segons la combinació dels criteris d'àrea i punt
+  central. Per a més informació sobre aquests criteris es pot consultar
+  <a href="TiraVec.htm">TiraVec</a>.<br/>
+  Els estadístics implementats per a un ràster quantitatiu continu són: nombre
+  total de píxels, mitjana, desviació estàndard, variància, sumatori, mínim,
+  màxim i rang. Els estadístics implementats per a un ràster categòric són:
+  nombre total de píxels, moda, percentatge de la moda sobre el total, índex
+  de Shannon, mínim, màxim i rang. Cal remarcar que el valors NODATA del
+  ràster no participa en cap dels càlculs estadístics.</p>
+
+  <p align="center"><img src="ishannon.gif"/> <font size="-1"><br/>
+  càlcul de l'índex de Shannon</font></p><a id="enfoc_raster" name="enfoc_raster"></a>
+
+  <h3>Enfocament ràster</h3>
+  En el cas de combinar dues imatges de tipus ràster,
+  aquestes han de correspondre al mateix àmbit geogràfic, han de tenir la
+  mateixa resolució i les mateixes unitats referides al mateix sistema de
+  referència. En el cas de combinar una capa ràster i una vectorial la primera
+  defineix l'àmbit i la resolució de sortida. En cas de combinar dues
+  capes vectorials, cal especificar l'àmbit de la zona d'estudi i la
+  resolució del ràster de sortida. La finestra WCombica permet indicar un
+  fitxer ràster com a patró per aquests paràmetres. Quan es combinen dues
+  imatges ràster, aquestes poden ser de diferent tipus (s'exclou el tipus
+  real ja que mai no hauria de representar dades categòriques) i no importa el
+  grau de compressió.
+
+  <p>Com hem dit, el resultat pot ser un ràster i/o un informe. En cas que es
+  triï generar un <b>ràster</b>, aquest serà sempre en format extracomprimit i
+  de tipus byte, integer o long segons el nombre de combinacions que hagin
+  resultat en l'encreuament de les dues capes inicials.</p>
+
+  <p>Les noves categories del ràster resultat es presentaran ordenades per les
+  categories de la primera capa, excloent aquells encreuaments que, encara que
+  teòricament possibles, no es donin en cap posició geogràfica. El ràster
+  resultat generarà un valor NODATA en el cas que en aquella posició les dues
+  capes tinguin valor NODATA (ja sigui perquè el ràster d'entrada presenta
+  valors indicat com a tals o ja sigui perquè el fitxer vectorial no presenta
+  cap polígon en aquell punt). El valor d'aquest NODATA dependrà del tipus
+  de sortida escollit automàticament. L'encreuament d'un NODATA amb un
+  valor permès generarà un valor permès i s'informarà en la llegenda
+  d'aquesta categoria que correspon a aquest encreuament especial. A la
+  llegenda del fitxer resultat s'especifiquen les categories de què prové
+  cada nova categoria; si una categoria d'un fitxer origen no té
+  descripció, s'especifica el seu valor numèric.</p>
+
+  <p><a id="informe" name="informe"></a></p>
+
+  <h4>Informes</h4>
+  Per a les capes ràster (o tractades com a ràster)
+  s'analitza l'encreuament de cada valor amb els que presenta
+  l'altra capa. Donat que les capes vectorials resultants tindran
+  típicament molts camps i fer-ne les estadístiques de tots seria confús,
+  només es pot generar un informe si no es tria capa de sortida (indicant els
+  camps de les capes vectorials a creuar com a ràster) o si la capa de sortida
+  és ràster; si la capa de sortida és vectorial, es poden fer consultes per
+  atribut en el MiraMon per obtenir les informacions desitjades. Si bé quan no es
+  tria capa de sortida es genera un informe relatiu als sengles camps de les
+  capes implicades, cal tenir en compte que els càlculs de superfície de cada
+  ocurrència són obtinguts a partir de la resolució d'un hipotètic ràster
+  de sortida. En la primera taula es recull el nombre total d'ocurrències
+  per a cada parella de valors resultant de la combinació de les dues capes. A
+  continuació es generen dues taules de percentatges. Primerament,
+  s'indica com un determinat valor de la primera capa, es reparteix en
+  l'encreuament amb els diferents valors de la segona capa. Per tant, el
+  sumatori d'una columna valdrà el 100%. La segona taula de percentatges
+  té el mateix significat però mostrant com es reparteix la segona capa sobre
+  la primera; en aquest cas és el sumatori per files que valdrà el 100%.
+
+  <p>Finalment es generen dues taules més, que recullen la superfície total de
+  cada encreuament. La primera d'elles s'expressa en les unitats de
+  referència particulars de les capes que participen en l'anàlisi
+  (paràmetre &quot;ResolutionUnits&quot; del fitxer .REL per a ràsters) i la segona
+  en les unitats de superfície especificades en el fitxer de paràmetres del
+  MiraMon (paràmetre &quot;UnitArea&quot; del MiraMon.PAR).</p>
+
+  <p>El <b>fitxer en format CSV</b> detalla la mateixa informació que el
+  fitxer de text. Aquest format està preparat per a ser llegit per un full de
+  càlcul com ara Microsoft Excel® . És un format de text on un caràcter
+  determinat actua de separador de columnes. Aquest separador pot
+  especificar-se en les opcions avançades de l'aplicació WCombica, prenent
+  el seu valor per defecte del configurat com a separador de llistes en el
+  Tauler de Control del Windows. De la mateixa manera que pel format TXT, és
+  possible limitar l'amplada de l'informe i així evitar sobrepassar
+  el nombre màxim de columnes suportat pel full de càlcul, quan el nombre de
+  categories en joc és força elevat.</p>
+
+  <p>En cas que es triï un <b>fitxer de text</b> (format TXT), aquest consta
+  de cinc taules de fins a tantes columnes com valors té la primera capa i de
+  fins a tantes files com valors té la segona capa. En la fila i columna
+  inicials de cadascuna d'aquestes taules s'especifiquen els valors
+  numèrics de cada categoria, i al final de la primera taula es llisten els
+  seus descriptors corresponents. La presentació pot paginar-se escollint el
+  nombre màxim de columnes que caben en l'amplada de l'informe; el seu
+  valor per defecte és 80 columnes (categories).</p>
+
+  <p>Si es desitja reduir el volum d'informació dels informes, es pot aplicar
+  algun dels paràmetres per a ignorar determinades taules (<i>/NO_FREQ,
+  /NO_PERCENT, /NO_AREA</i>).</p>
+
+  <center>
+  <table border="1">
+ <tr align="center" valign="middle">  
+  <td><img src="combiesq.gif"/></td>
+  </tr>
+   <tr align="center" valign="middle">  
+   <td>Esquema figuratiu de les principals possibilitats<br/>
+    de la combinació analítica de capes. </td>
+  </tr>
+  </table>
+  <p>
+  <table  border="1">
+ <tr align="center" valign="middle">  
+  <td><img src="combies2.gif"/></td>
+  </tr>
+   <tr align="center" valign="middle">  
+   <td> Exemple d'ús del mode mixt.</td>
+    </tr>
+  </table>   
+  </center>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+COMBICAP ?
+-->
+  </exclusiva>
+</body>
+</html>

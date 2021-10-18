@@ -1,0 +1,265 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>InterPNT: Interpolate between points</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>This application generates a raster in which the value of each cell 
+  is obtained from the interpolation of the values of a numeric field in the 
+  database of a point file or from the or the value of the third coordinate of each point
+   (in the case of 3d files).
+  The generated raster corresponds to a continuous surface, 
+  it does not make sense to use this method pretending to obtain a raster of categorical 
+  values. This point file has to be structured (PNT format). You can exclude points from 
+  the total set for different criteria, both globally and locally. It is also supported 
+  that a point has more than one registry associated with the database (eg water 
+  measurements performed on different dates on the same source).</p>
+
+  <p>As for most of the calculation procedures, interpolation between points
+  can give widely different results according to the choice of options in the
+  program. The chosen method, the threshold distance, the weighting applied,
+  the use of exclusion masks, etc., can help to improve results enormously.
+  Knowledge of the data to be processed and the use of trial runs with varying
+  parameters can be a great help in order to select how best to use these
+  parameters. Furthermore, if possible, it is useful to keep back a set of
+  randomly distributed and independent points in order to carry out a
+  quantitative evaluation (test) of the results.</p>
+
+  <p>In the current version there are five possible interpolation methods: the
+  inverse distance and the <i>'spline'</i> function, tendency surfaces, kriging 
+  and neighborhood statistics. For the inverse
+  distance method, the interpolation of each point (pixel) is carried out by
+  assigning weights to the values of the sample points in inverse proportion
+  to the distance that separates each sample point from the centre of the
+  pixel. This distance can be calculated as a Euclidean distance or using the
+  simplified (Manhattan/Taxi Cab) distance. For the <i>'spline'</i>
+  method a regular, continuous and derivable function, or set of functions if
+  the area is divided into different regions, is determined which best adapts
+  to the sample points without loosing its property of continuity. For more
+  information on the analytical expression of this function consult: Helena
+  Mitasova and Lubos Mitas (1993) &quot;Interpolation by Regularized Spline
+  with Tension&quot; Mathematical Geology. vol. 25 nº 6 p. 641-655.<br/>
+  <br/></p>
+  <CENTER>
+  <img alt="Inverse distance formula" src="inversd.gif">
+  </CENTER>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+  <small>B exponential power of the distance
+  </small><CENTER><small>
+  <BR>Calculation of the interpolated value using the inverse distance method</small>
+  </CENTER><P><CENTER>
+  <BR><BR><img alt="Equations for the 'spline' function" src="spline.gif">
+  </center>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+  <small>T(x,y) is flattening and fi tension
+  </small><CENTER><small>
+  <BR>Equations for the <I>'spline'</I> functions</small><P>
+  </CENTER>
+  
+   <p>By the method of generating trend surfaces, it is about adjusting a 
+   polynomial function with respect to the X, Y of degree 1, 2 or 3 that 
+   will result in a smooth, continuous and derivable surface resulting from 
+   the adjustment. This adjustment is done by least squares and will allow 
+   to determine the coefficients of each term of the polynomial.</p>
+
+  <div align="center"><br/>
+  <br/>
+  <img alt="Expressions for polynomial functions " src="trend.gif"/></div>
+
+  <center>
+    <small>Expressions for linear polynomial functions (grade 1),
+quadratic (grade 2) and cubic (grade 3).</small>
+  </center>
+   
+  <p>With the neighborhood statistics method, each cell is assigned the designated statistic 
+  (mean, median, maximum, minimum, range, standard deviation, mean of the absolute deviations 
+  with respect to the median or number of occurrences), calculated considering all the points 
+  that are within a circle defined by a radius, or within a square defined on one side, located 
+  in the center of each cell that is to be interpolated. Unlike other methods of InterPNT, and 
+  in particular of the method that makes the interpolation by weighting the inverse of the high 
+  distance to an exponent determined by the user but also limits this calculation to a certain 
+  distance radius (maximum distance), in the new neighborhood statistics mode once all the points 
+  present within the scope (circular or square) indicated are selected, no weighting is done but 
+  the requested calculation is made directly, which can be a measure of the centrality of the 
+  different values (average or median), of dispersion of these values (maximum, minimum, range, 
+  standard deviation, mean of the absolute deviations with respect to the median) or, simply, a 
+  count of the number of available values (number of occurrences).</p>
+  
+  <p><b><u>Procedure</u></b><br/>
+  <br/>
+  First of all it is necessary to choose whether to use the value of the third 
+  coordinate (in the case of 3D files) or to select a field to interpolate 
+  the database associated with the points file. In the case of choosing a database 
+  field, you must select a numeric field. Although the values of this field are integers, 
+  the interpolator will treat these data as real double-accuracy in all internal calculations 
+  and generate a result raster with real precision.</p>
+   
+  <p>The selection of registers is the first filter that chooses which
+  registers in the database of the points file will be considered in the
+  interpolation. The default option is <b>'All registers'</b>, but
+  often the quality and speed of the interpolation can be improved if those
+  registers that we do not want to influence the result are excluded. The
+  choice of registers is made by constructing a logical sentence based on any
+  combination of the fields in the database associated with the points file.
+  Notice that the fields involved in the selection do not necessarily have to
+  be used in the interpolation. For example, in a file containing atmospheric
+  emissions one field could indicate the district where each industry is
+  located and, if we wish to interpolate values of a certain pollutant, we
+  could choose to interpolate only the values for a particular district. We
+  recommend using the option that can be opened from the <b>'Apply
+  selection'</b> option in order to construct the logical sentence, based
+  on a selection of fields, operators, values, links and orders of priority
+  using the buttons and the corresponding pull-down menus. In the section on
+  the 'Syntax' of the command line, the elements of this sentence are
+  detailed. This works in a similar way to queries on MiraMon attributes.</p>
+
+  <p>The output file will be an uncompressed real value raster (except when
+  exclusion masks are defined, in which case it will be compressed and real).
+  This raster will have a predefined background, or NODATA, value in those
+  cells for which no value could be calculated because at that location it was
+  not possible to satisfy the criteria of the <b>'Advanced
+  Options'</b>, either because the point was inside an exclusion mask or
+  because it did not have a minimum of points within the maximum allowable
+  distance.<br/>
+  <br/>
+  It is necessary to define the extent and cell size for the output raster by
+  either giving the corner co-ordinates or by adjusting the extent to the area
+  covered by the point file. It should be noted that the speed of the process
+  is very sensitive to these values. A small cell size in a large
+  interpolation area without any defined mask will give very precise values
+  (that vary smoothly as a function of distance), but the number of
+  calculations will be very large and the execution time will be long.</p>
+
+  <p><b><u>Inverse distance options:</u></b><br/>
+  <br/>
+  It is necessary to define, firstly, how to calculate distances; whether as a
+  Euclidean distance, or as a 'Manhattan' distance (see previous
+  section for the definitions of both distances). The value assigned to each
+  cell is a weighted average of the values of the points under consideration.
+  The weight given to each point is proportional to the inverse of an
+  exponential power of the distance between the point and the centre of the
+  pixel. The default value of this exponential power is 2, but this parameter
+  can be changed in the way that the user considers most appropriate. The
+  bigger the value, the more weight given to the points nearest to the pixel
+  and the less weight given to more distant points.</p>
+
+  <p>The maximum distance is a commonly used parameter. It establishes the
+  region of influence of each point as a circle centred on the point and with
+  a radius equal to the maximum distance. Thus, for each cell we have a
+  distance beyond which the original points play no part in the interpolation
+  process. It is advisable to always use this parameter since, apart from
+  intuitively making sense in the interpolation process, it also allows the
+  execution time to be reduced considerably.</p>
+
+  <p>Another interesting criterion is to define a maximum number of points to
+  use in the interpolation. Evidently these will always be the 'n'
+  points nearest to the centre of the pixel. The repeated ranking process
+  needed to apply this criterion slows down the calculation considerably, but
+  the use of this criterion assures that only the 'n' nearest points
+  are taken into account. To make sure that the calculation is done with a
+  sufficient sample it is also possible to define a minimum number of points
+  for the interpolation at each cell. If this minimum is not reached the
+  cell's value will be NODATA.</p>
+
+  <p><b><u><i>'Spline'</i> options:</u></b><br/>
+  <br/>
+  Interpolation by <i>splines</i> can be very sensitive to the configuration
+  parameters, depending on the sample points. The <b>tension</b> parameter
+  modulates the smoothing of the function; its default value is 40 and
+  excessively high or low tensions can lead to unexpected effects. The
+  <b>flattening</b> parameter adjusts the noise of the sample, the default
+  value is 0 which implies that the function passes exactly through the sample
+  points (exact interpolation). The <b>analysis block size</b> parameter
+  limits the fit by dividing the area into analysis blocks and restricting the
+  solution of the <i>spline</i> functions to this region. This parameter
+  speeds up the process considerably. It is recommended when there are many
+  points available, but it can produce unwanted discontinuities if the block
+  size is too small (analysis window too local).<br/>
+  The <i>spline</i> interpolation method works optimally for samples without
+  excessive disturbances. However, when points are close to each other and
+  have abrupt variations for the variable to interpolate this method may
+  result in values which are well outside the expected range. In this case, it
+  is recommended to increase the tension value and to choose the complementary
+  option that enforces the output results to be between a maximum and a
+  minimum. Thus, it will be necessary to define parameters <i>/MIN_VAL</i> i
+  <i>/MAX_VAL</i>.</p>
+
+  <p><b><u>Options for trend surfaces:</u></b><br/>
+  <br/>
+  The main parameter of this option is the degree that determines the order of 
+  the polynomial to adjust. In the current version it is possible to generate 
+  first-degree or linear, second-degree or quadratic and third-degree or cubic 
+  surfaces.<br/>
+  In the same way that for <i>spline</i> it is possible to generate different 
+  solutions, not strictly continuous, by dividing the global scope into more 
+  local sub-regions. These sub-regions are defined by the <b>side of the 
+  analysis block</b> parameter.</p>
+  
+  <p><b><u>Options for neighborhood statistics:</u></b><br/>
+  <br/>
+  Two parameters must be defined: the statistical function to be used and the 
+  maximum distance at which a point is considered to be part of the set of points 
+  that provide the values for the calculation of the statistics to be transferred 
+  to the cell of the raster output.<br/>
+  The statistical functions available are the average, the median, the maximum, 
+  the minimum, the rank, the standard deviation, the average of the absolute deviations 
+  from the median and the number of occurrences.<br/>
+  For the maximum distance there are two possible options: maximum distance as 
+  maximum radius of a circle and maximum distance as half of the side of a square.<br/>
+  </p> 
+
+  <p><b><u>Advanced Options:</u></b><br/>
+  <br/>
+  The advanced options allow finer adjustment of the parameters of some of the
+  global interpolation procedures.<br/>
+  <br/>
+  For the case where there is more than one register associated with a chosen
+  point (eg. where there are various measurements at different times at the
+  same source), we can choose how to interpolate the value from this point:
+  The options are a) ignore this point as a multiple register (as though it
+  did not form part of the selection); b) select the value of the first
+  register that satisfies the selection conditions; c) take the average of the
+  registers; d) take the sum of the values.<br/>
+  Another possibility is to select points so that those that fall outside the
+  area of the raster are ignored. This option is not recommended if the values
+  near the borders of the raster are important.</p>
+
+  <p>Finally, we can also decide whether, for some regions inside the area of
+  the raster, it is necessary or not to know the results of the interpolation.
+  Using a file that acts as an <b>exclusion mask</b> and so determining which
+  areas are useful and which are not, we can accelerate considerably the
+  calculation process and we obtain more coherent results for pointless
+  exclusion zones; for example, if we are interpolating elevations from spot
+  heights we can exclude all sea areas. This mask may be a raster in which the
+  regions to be excluded will be those with NODATA values in the cells. The
+  mask may also be a structured or unstructured polygon vector file. In this
+  case the area to be excluded will be, by default, the universal polygon,
+  otherwise the mask will include those polygons with attributes equal to or
+  different from some explicitly defined value. For structured vectors it is
+  also necessary to specify which field will define the mask.</p>
+
+  <p>If the analysis block size is not defined, a single solution is found for
+  the whole region covered by the raster (the window is the same as the raster
+  extent). If the size is small the area is divided into many independent
+  regions.</p>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<P>   <!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+InterPnt ?
+--></p>
+  </exclusiva>
+</body>
+</html>

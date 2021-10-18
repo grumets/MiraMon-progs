@@ -1,0 +1,187 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>BUFDIST: Generació de <i>buffers</i> i mapes de distàncies</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  El programa permet tant generar mapes de distàncies contínues (resultat ràster)
+com zones ràster o vectorials (<i>buffers</i>) a una certa distància de les
+entitats diana.
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>Les entitats diana poden ser tant de tipus ràster com vectorial. En el
+  cas ràster, qualsevol cel·la de valor diferent a NODATA es considera una
+  cel·la diana. En el cas vectorial, qualsevol entitat (punt, línia o polígon)
+  es considera una entitat diana (en el tractament ràster d'aquests
+  <i>buffers</i> de vectors, també es pot indicar que només siguin considerades com a
+  diana les entitats vectorials amb un cert atribut); en el cas de ràsters, si
+  només desitgeu usar com a diana uns certs elements, realitzeu una consulta
+  per atributs des del MiraMon i deseu el resultat en un nou fitxer, o bé
+  utilitzeu <a href="CalcIMG.htm">CalcIMG</a>; igualment, si heu de fer un
+  procés massiu amb molts fitxers, podeu automatitzar el procés de selecció de
+  les entitats diana des de CalcIMG o des de <a href="VecSelec.htm">VecSelec</a>.</p>
+
+  <p>Els <i>buffers</i> resultants poden ser ràsters o
+  vectorials; en el cas vectorial es pot fer un tractament totalment vectorial o
+  un tractament ràster on el resultat és la vectorització del cas ràster i,
+  per tant, necessita els paràmetres que defineixen l'àmbit del ràster
+  temporal.<br/>
+  Sempre que es demani un <i>buffer</i> i el fitxer origen sigui un ràster, el
+  programa igualment comença generant el mapa de distàncies i, posteriorment,
+  selecciona les zones a l'interval de distàncies demanat.</p>
+
+  <p>En el model ràster, les distàncies es calculen a través del <b>CAMÍ MÉS
+  CURT</b> des del centre de cada cel·la al centre de la cel·la diana més
+  propera, la qual cosa implica la utilització de càlculs de curvatura
+  geodèsica quan convé.</p>
+
+  <p>Les distàncies s'expressen en les unitats del sistema de referència
+  (vegeu, però, la secció NOTES IMPORTANTS, més avall).</p>
+
+  <p>A diferència d'altres programes de SIG, que realitzen aquest càlcul
+  en precisió simple i que perden precisió amb cel·les petites o valors de
+  coordenades molt grans, BufDist el duu a terme en doble precisió i amb un
+  tractament òptim dels valors numèrics, amb la qual cosa les distàncies
+  resulten ben calculades fins i tot en fitxers molt grans (amb moltes files i
+  columnes). Hem pogut detectar que en fitxers de 341 files x 341 columnes i
+  un costat de cel·la de 50 m en projecció UTM, els nostres resultats diferien
+  d'altres programes en fins a 10 cel·les, en què els altres programes
+  detectaven com a més properes cel·les equivocades i donaven valors erronis
+  de distància de fins a 3.3 m.</p>
+
+  <p>Si es demana obtenir un mapa de distàncies contínues:</p>
+
+  <ul>
+    <li>El fitxer resultant és de tipus ràster (IMG) i "real".</li>
+
+    <li>El títol del fitxer resultant esdevé "Distàncies derivades de
+    FITXER" (on FITXER és el nom del fitxer que conté les entitats
+    diana).</li>
+  </ul>Si es demana obtenir un mapa "<i>buffer</i>":
+
+  <ul>
+    <li>El fitxer resultant és de tipus ràster "byte-RLE" o bé de
+    tipus vector estructurat de polígons.</li>
+
+    <li>El títol del fitxer resultant esdevé "Zones a distàncies
+    compreses entre [N,M] UNITATS de les entitats de FITXER" (on N i M
+    són les distàncies mínima i màxima considerades, respectivament, UNITATS
+    són les unitats del sistema de referència i FITXER és el nom del fitxer
+    que conté les entitats diana). N i M defineixen un interval tancat.</li>
+
+    <li>La llegenda de la capa ràster resultant conté els següents valors:
+
+      <ul>
+        <li>1: "Entitats diana originals"</li>
+
+        <li>2: "Zones a distàncies [M,N] UNITATS"</li>
+
+        <li>3: "Zones excloses"</li>
+      </ul>o, quan M=0:
+
+      <ul>
+        <li>1: "Entitats diana originals"</li>
+
+        <li>2: "Zones a distàncies &lt;= N UNITATS"</li>
+
+        <li>3: "Zones a distàncies &gt; N UNITATS"</li>
+      </ul>
+    </li>
+
+    <li>El resultat d'un tractament vectorial és un fitxer de polígons que
+    hereta els atributs dels punts o arcs diana originals. Si s'ha
+    demanat un <i>buffer</i> per interval [M,N] (on M és diferent de 0) s'afegeix
+    un atribut addicional a la taula principal (camp BUFFER) que pot contenir
+    els següents valors:
+
+      <ul>
+        <li>i: Zones interiors al <i>buffer</i>, és a dir, de distància menor a
+        M.</li>
+
+        <li>b: Zones de <i>buffer</i>, és a dir, a distàncies entre M i N.</li>
+      </ul>En aquest cas, les zones a distàncies &gt; N s'agrupen al
+      polígon 0 i no tenen atributs.
+    </li>
+  </ul>
+  <b>NOTES IMPORTANTS</b>: En projeccions cartogràfiques com UTM, Gauss,
+  Cònica de Lambert, o qualsevol altra que sigui raonablement equidistant en
+  totes direccions, les distàncies s'expressen en les unitats del sistema
+  de referència, i això no presenta normalment cap problema en la presa
+  de decisions sobre les distàncies obtingudes en el càlcul.
+
+  <p>En canvi, en certes projeccions cartogràfiques amb forta asimetria en les
+  distàncies projectades -Mercator, Equirectangular "lat/long",
+  etc-, els càlculs podrien tenir errors importants si les distàncies es
+  calculessin de forma cartesiana (rectangular), degut a les característiques
+  de la pròpia projecció. És per això que BufDist, quan detecta projeccions
+  "Mercator", "Equirectangular" (latitud/longitud en
+  graus), etc, fa les correccions pertinents per tal que els resultats siguin
+  realistes.</p>
+
+  <p>Si en el cas de projeccions aproximadament equidistants (per exemple UTM)
+  voleu càlculs de precisió centimètrica, podeu forçar el càlcul de distàncies
+  d'alta precisió indicant el paràmetre /DIST_GEOD=1. Amb aquest
+  procediment s'obtenen resultats pràcticament idèntics a, en el cas UTM,
+  aplicar el factor de deformació lineal (K) als càlculs de distàncies (vegeu,
+  per exemple, Estruch 1996, pàg. 93, per a un exemple numèric).<br/></p>
+
+  <ul>
+    <li>Estruch, M. (1996) "Cartografía minera" Edicions UPC.
+    Barcelona. 238 p. ISBN: 84-89636-0208<br/></li>
+  </ul>Cal tenir en compte, però, que el càlcul de distàncies és MOLT MÉS LENT
+  quan s'indica /DIST_GEOD=1.
+
+  <p>Com s'ha explicat prèviament, en les projeccions de tipus "Mercator" i
+  "Equirectangular" sempre es realitzen els càlculs com si es
+  demanés /DIST_GEOD=1 ja que en cas contrari els resultats són molt poc
+  realistes. Si, tanmateix, desitgeu forçar el càlcul de forma cartesiana i,
+  no geodèsica, indiqueu /DIST_GEOD=0.</p>
+
+  <p>Llevat que s'indiqui el contrari, BufDist NO preveurà circularitats en els
+  càlculs (és a dir, en mapes que representin el món sencer, no preveu que les
+  distàncies extremes esquerra i dreta són més properes i fa el càlcul sobre
+  el pla cartogràfic). Si s'estan calculant distàncies sobre tot el món,
+  cal utilitzar el paràmetre /MAPAMUNDI per indicar a BufDist que cal que
+  consideri circularitats. Abans d'utilitzar /MAPAMUNDI, cal tenir present
+  que:</p>
+
+  <ul>
+    <li>L'execució serà considerablement MÉS LENTA, per la qual cosa es poden
+    obtenir ràpidament uns primers resultats temptatius sense aquest
+    paràmetre.</li>
+
+    <li>El paràmetre /MAPAMUNDI no té cap efecte si /DIST_GEOD no està actiu
+    (/DIST_GEOD=0) (és a dir, en distàncies cartesianes no té cap funció).</li>
+  </ul>
+
+  <p>En resum, i com a aspectes més importants, cal recordar que BufDist calcula
+  distàncies cartesianes sobre el sistema de referència i fa càlculs geodèsics
+  rigorosos en el cas de projeccions com "Mercator" o
+  "Equirectangular" (en aquests casos especials, en pantalla
+  s'indicarà que s'estan efectuant les correccions adequades) o quan
+  se li demana explícitament a través de /DIST_GEOD=1.</p>
+
+  <p>Si s'utilitza una projecció que no és ni UTM, ni Mercator ni
+  Equirectangular, cal assegurar-se que la projecció utilitzada permet distàncies
+  cartesianes sense errors importants. Si és necessari, es pot consultar a 
+  <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>.</p>
+
+  <hr/>
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+BUFDIST ?
+-->
+  </exclusiva>
+  <h4>Com saber quin tipus d'algorisme utilitzar en les opcions avançades? (modificador opcional /ALGORISME=)</h4>
+Trobareu més informació a <a href=general.htm>sintaxi general</a>.
+ <hr/>
+</body>
+</html>

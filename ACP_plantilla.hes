@@ -1,0 +1,140 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>ACP: Análisis de componentes principales</title>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  <p align="justify">Este programa permite realizar un Análisis de Componentes
+  Principales (ACP) sobre imágenes ráster (que se tratan como variables), basado en la matriz de
+  varianzas - covarianzas o en la de correlaciones, mediante el cálculo de los
+  correspondientes valores propios y vectores propios.</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->  
+   <style type="text/css">
+/*<![CDATA[*/
+  <!--
+  .Estilo2 {
+        font-size: 32px;
+        font-weight: bold;
+  }
+  .Estilo5 {font-size: 16px}
+  .Estilo7 {font-size: 14}
+  .Estilo8 {font-size: 12px}
+  -->
+  /*]]>*/
+  </style>
+  <p align="justify">Hay que considerar que, en caso de correlación entre
+  algunas bandas, las primeras componentes principales recogen la mayor
+  cantidad de variabilidad de los datos, y cada componente posterior recoge una parte de la
+  variabilidad remanente. El número de componentes a obtener
+  será indicado por el usuario y no puede ser mayor que el número de bandas
+  introducidas en el análisis. La opción de realizar el ACP mediante variables
+  no estandarizadas (matriz de varianzas - covarianzas) o mediante variables
+  estandarizadas (matriz de correlaciones) dependerá del objetivo que se
+  busque. Si el objetivo es ponderar de la misma manera todas las bandas, se
+  deberá usar la matriz de correlaciones, mientras que si se desea dar mayor
+  relevancia a aquellas bandas que tienen mayor varianza, debe usarse la
+  matriz de varianzas - covarianzas.</p>
+
+  <div align="justify">
+    Las aplicaciones del ACP son muy variadas: realce previo a la
+    interpretación visual (Figura 1), procesamiento anterior a la
+    clasificación como técnica muy útil para la reducción de la
+    dimensionalidad de los datos en casos de análisis multitemporales o
+    de datos hiperespectrales, eliminación de ruido, etc.
+  </div>
+
+  <p align="center"><img height="237" src="landsat%20copy.gif" width="334"/><img height="237" src="landsat_2%20copy.gif" width="334"/></p>
+
+  <blockquote>
+    <blockquote>
+      <blockquote>
+        <blockquote>
+          <p align="center">Figura 1: Combinación RGB de una imagen Landsat-5
+          (a) frente a la Componente 1 del ACP (b) realizado con dicha imagen.
+          La Componente 1 evidencia la presencia del área quemada.</p>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+
+  <p align="justify">Cada valor propio representa la proporción de información
+  que recoge la componente principal, mientras que el vector propio indica la
+  ponderación que debe aplicarse a cada una de las bandas para obtener la
+  componente principal (equivalente a los coeficientes de regresión en una
+  transformación lineal estándar, siendo las bandas de la imagen las variables
+  independientes y las componentes principales, las dependientes). El fichero
+  de estadísticas genera una tabla (Tabla 1) que consiste en una lista de los
+  vectores propios asociados a cada valor propio como una columna.Las
+  filas de esta matriz sirven para realizar la transformación inversa a partir
+  de componentes y obtener las bandas originales. También indica los
+  valores propios asociados a cada vector propio y el porcentaje de varianza
+  explicada por esa componente.</p>
+
+  <div align="center">
+    <p><img height="210" src="tabla.gif" width="467"/></p>
+
+    <blockquote>
+      <blockquote>
+        <blockquote>
+          <p>Tabla 1: Matriz de valores propios, vectores propios y porcentaje de
+          varianza asociados a cada componente principal.</p>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </div>
+
+  <p align="justify">Por tanto la componente 1 estará explicada por la función
+  lineal:</p>
+
+  <p align="center">C_1 =-0.167* X<span class="Estilo7">1</span> + 0.182* X2+
+  0.162* X3+ 0.105* X4+ 0.913* X5 + 0.138* X6 -0.221* X7</p>
+
+  <p align="justify">El proceso inverso del ACP ofrece la posibilidad de
+  eliminar el ruido (bandeado o <em>striping,</em> por ejemplo) de algunas
+  imágenes en procesos de reconstrucción de las imágenes originales. Para
+  ello, se realiza el ACP en modo no estandarizado con todas las bandas y,
+  posteriormente, se utiliza la tabla que se crea para identificar las
+  componentes con la mayor cantidad de varianza explicada (las tres primeras
+  en este caso absorben más del 95% de la varianza). Así, en este ejemplo
+  se podrían usar sólo estas tres componentes para obtener las imágenes
+  originales eliminando el ruido de las últimas componentes. La operación que
+  se tendría que realizar para obtener la primera banda sería:</p>
+
+  <p align="center">Banda 1 = -0.167*C_1 + 0.611*C_2 - 0.247*C_3</p>
+
+  <p align="justify">Y así sucesivamente con las demás bandas.</p>
+
+  <p align="justify">Los cálculos se efectuaran en doble precisión para una
+  mayor robustez frente a bandas altamente correlacionadas. Los valores sindatos
+  son excluidos del cálculo.</p>
+
+  <p align="justify">Las imágenes originales deben estar en formato entero,
+  para poder realizar los cálculos requeridos. Los datos de las imágenes de
+  salida son siempre de tipo real, siendo además RLE extra comprimidas.</p>
+  
+  <p align="left"><u>NOTA IMPORTANTE</u>: En el <b>TXTSalida</b> el orden en que se dan los coeficientes
+   de las bandas es el orden en que se presentan en el archivo <b>ListaImg</b>, con independencia del orden
+   en que estén presentadas en los metadatos cuando las bandas pertenecen a un mismo REL multibanda.
+   Esta observación es relevante puesto que en determinados sensores, como el TM de algunos satélites Landsat, el orden
+   de numeración de las bandas no es el orden espectral y, por lo tanto, si se quieren utilizar los coeficientes se debe estar atento
+   a aplicarlos en el orden de la lista (que, por otra parte, también es el orden proporcionado en el informe).</p>
+  
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p>
+<!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+ACP ?
+-->
+</p>
+</exclusiva>
+</body>
+</html>

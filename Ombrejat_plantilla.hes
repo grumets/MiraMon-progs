@@ -1,0 +1,78 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Traduït per Teresa Mata-->
+
+  <title>Ombrejat: Sombreado topográfico</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.--> 
+<p>Este módulo permite obtener una imagen sombreada (con degradación de luz) en función del relieve y de la posición del Sol. 
+La localización del Sol queda determinada por los ángulos (en grados) de elevación respecto al horizonte y de acimut respecto 
+al Norte en sentido horario (0º indica el Norte). Se debe especificar estos ángulos cuando haya que generar los modelos derivados 
+del Modelo Digital de Elevaciones (MDE). Estos modelos derivados son el Modelo Digital de Iluminaciones, que calcula el coseno 
+del ángulo de incidencia, y el Modelo Digital de Sombras, que determina el ángulo de elevación a partir del cual cada punto del 
+terreno ya recibe luz directa del Sol. Estos modelos pueden precalcularse con las correspondientes aplicaciones: Illum y Ombra. 
+En cualquier caso, la aplicación puede generar los modelos derivados necesarios, de forma temporal y borrándolos al final, o 
+guardándolos para posteriores usos, a partir del MDE. Hay que tener en cuenta que el cálculo del Modelo de Sombras puede llegar 
+a ser un proceso largo y necesitar elevados recursos de memoria, y por tanto, si se desea se puede no usar este modelo lo que 
+dará lugar a un resultado aceptable, aunque de menor calidad que si se tiene en cuenta este factor. El módulo presenta dos opciones:
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>El modelo a sombrear puede ser un ráster o un vector estructurado de
+  polígonos. Si es ráster, en cualquiera de los formatos IMG, puede ser un
+  modelo categórico, sobreentendiéndose una asignación directa entre valores y
+  colores, o un modelo continuo estableciéndose un escalado lineal entre los
+  valores máximo y mínimo y el número de símbolos para la asignación entre
+  valores y colores. Si es vector, es necesario especificar qué campo
+  simboliza el color de interiores que dará lugar al modelo ráster temporal
+  equivalente a sombrear. La rasterización será totalmente interna y se
+  realizará en función del ámbito y lado de celda del Modelo Digital de
+  Elevaciones (o de Iluminaciones si el MDE no es necesario). Sea cual sea el
+  origen, en la versión actual es necesario especificar la paleta o tabla de
+  simbolización que se está usando y a partir de la cual se construirá la
+  nueva gama de colores.</p>
+
+  <p>El resultado es una imagen en formato JPG cuya calidad es un parámetro
+  configurable, variable entre 5 (mínima calidad y máxima compresión) y 95
+  (máxima calidad y mínima compresión). Si el modelo a sombrear es un ráster,
+  existe la posibilidad de añadir el resultado como 3 nuevas bandas (un canal
+  por color) de un ráster multibanda. Alternativamente también es posible
+  generar un resultado en formato RGB de 24 bits, y por consiguiente se
+  generarán 3 ficheros IMG de salida, uno para cada canal cromático.</p>
+
+  <p>El algoritmo de sombreado se basa fundamentalmente en la transformación
+  del color RGB (rojo, verde y azul) en sus componentes HSI (color principal,
+  saturación e intensidad), la modulación del componente de intensidad
+  (iluminación) según el coseno del ángulo de incidencia para las zonas que
+  reciben luz directa y oscurecidas según un porcentaje
+  (<i>/PERCENT_FOSC=</i>) en las zonas en sombra y, sin alterar los otros
+  componentes (color principal y saturación), el retorno al espacio RGB. El
+  usuario puede determinar unos valores porcentuales máximo y mínimo para
+  acotar el componente de intensidad y, así, evitar la confusión de colores
+  cuando están demasiado iluminados o demasiado poco. Como la modulación de la
+  iluminación en función del coseno del ángulo de incidencia representa, en la
+  mayoría de casos, una disminución de este componente, es conveniente subir
+  esta intensidad a un nivel determinado que se deberá ajustar en función del
+  relieve y de la posición solar.<br/>
+  Las zonas sin datos (NODATA), tanto de los modelos de elevaciones o
+  derivados, como del fichero origen, no intervienen en esta gradación y
+  quedan transformadas en color blanco (color por defecto del NODATA para
+  rásters).</p>
+  <hr/>
+
+  <exclusiva>
+    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+	<!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+Ombrejat ?
+-->
+  </exclusiva>
+</body>
+</html>

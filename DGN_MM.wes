@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:DGN_MM:1</ows:Identifier>
+		<ows:Title>DGN_MM</ows:Title>
+		<ows:Abstract>Este módulo transforma los datos en formato DGN a MiraMon. El formato DGN (ISFF _ Intergraph Standard File Format) es propio del programa de dibujo asistido por ordenador Microstation, de Bentley (http://www.microstation.com), muy utilizado en los campos de ingeniería y arquitectura. Actualmente se leen ficheros DGN de la versión 7 y anteriores.</ows:Abstract>
+<ows:Metadata xlink:title="TitleI:Importación del formato DGN de Microstation a MiraMon." />
+<ows:Metadata xlink:title="Abstract:A>Este módulo transforma los datos en formato DGN a MiraMon."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FITXER_DGN</ows:Identifier>
+				<ows:Title>Fichero DGN.</ows:Title>
+				<ows:Abstract>Nombre del fichero DGN</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+			<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-DGN</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-DGN</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+		</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>INFORME</ows:Identifier>
+				<ows:Title>Informe</ows:Title>
+				<ows:Abstract>Se guarda el informe del contenido del DGN en el fichero de texto.</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>					
+					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COMPRIMIR</ows:Identifier>
+				<ows:Title>Comprimir</ows:Title>
+				<ows:Abstract>Se depura el contenido del DGN; se eliminan los objetos marcados y se sitúa el nuevo final de fichero. Antes de hacer la compresión, se hace una copia de seguridad del fichero original (con extensión DG$). Si durante la lectura de los objetos se acumulan varios errores, automáticamente se inicia una compresión del fichero.</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>					
+					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SIST_DEST</ows:Identifier>
+				<ows:Title>Sistema de referencia</ows:Title>
+				<ows:Abstract>Debe ser una cadena de texto con el sistema de referencia cartográfico (conocido por MiraMon) o bien un sistema de referencia local.</ows:Abstract>
+				
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FACTORK</ows:Identifier>
+				<ows:Title>Factor de Transformación</ows:Title>
+				<ows:Abstract>Hay que especificar el factor de transformación entre el sistema de referencia escogido y las unidades (principales o secundarias) del fichero. Sólo es necesario indicar este parámetro cuando la aplicación no ha sido capaz de hallarlo de forma automática.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASTER_UNITS</ows:Identifier>
+				<ows:Title>Unidades del DGN</ows:Title>
+				<ows:Abstract>Cuando se indica un sistema de referencia local, hay que especificar qué unidades del fichero DGN hay que tener en cuenta.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AllowedValues>
+					<ows:UOM>nm</ows:UOM>
+							<ows:Value>µm</ows:Value>
+							<ows:Value>mm</ows:Value>
+							<ows:Value>cm</ows:Value>
+							<ows:Value>dm</ows:Value>
+							<ows:Value>dam</ows:Value>
+							<ows:Value>hm</ows:Value>
+							<ows:Value>km</ows:Value>
+							<ows:Value>inch</ows:Value>
+							<ows:Value>ft</ows:Value>
+							<ows:Value>yd</ows:Value>
+							<ows:Value>S.M.</ows:Value>
+							<ows:Value>N.M.</ows:Value>
+							<ows:Value>píxels</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SUB_UNITS</ows:Identifier>
+				<ows:Title>SUB_UNITS</ows:Title>
+				<ows:Abstract>Cuando se indica un sistema de referencia local, hay que especificar qué unidades del fichero DGN hay que tener en cuenta.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AllowedValues>
+					<ows:UOM>nm</ows:UOM>
+							<ows:Value>µm</ows:Value>
+							<ows:Value>mm</ows:Value>
+							<ows:Value>cm</ows:Value>
+							<ows:Value>dm</ows:Value>
+							<ows:Value>dam</ows:Value>
+							<ows:Value>hm</ows:Value>
+							<ows:Value>km</ows:Value>
+							<ows:Value>inch</ows:Value>
+							<ows:Value>ft</ows:Value>
+							<ows:Value>yd</ows:Value>
+							<ows:Value>S.M.</ows:Value>
+							<ows:Value>N.M.</ows:Value>
+							<ows:Value>píxels</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ESCALAT</ows:Identifier>
+				<ows:Title>Factor de escalado</ows:Title>
+				<ows:Abstract>Factor de escalado</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESPX</ows:Identifier>
+				<ows:Title>Valor X de desplazamiento X</ows:Title>
+				<ows:Abstract>Valor de desplazamiento de todas las coordenadas X</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESPY</ows:Identifier>
+				<ows:Title>Valor de desplazamiento Y</ows:Title>
+				<ows:Abstract>Valor Y de desplazamiento de todas las coordenadas Y</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SELECCIO_NIVELL</ows:Identifier>
+				<ows:Title>Selección Nivel</ows:Title>
+				<ows:Abstract>Valores entre 0 y 63. Se aceptan valores múltiples, separados por una coma (p.ej. /SELECCIO_NIVELL=6,10,34). Si esta opción está presente, sólo se transformarán los elementos de los niveles indicados.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+							<ows:Value>0</ows:Value>
+							<ows:Value>1</ows:Value>
+							<ows:Value>2</ows:Value>
+							<ows:Value>3</ows:Value>
+							<ows:Value>4</ows:Value>
+							<ows:Value>5</ows:Value>
+							<ows:Value>6</ows:Value>
+							<ows:Value>7</ows:Value>
+							<ows:Value>8</ows:Value>
+							<ows:Value>9</ows:Value>
+							<ows:Value>10</ows:Value>
+							<ows:Value>11</ows:Value>
+							<ows:Value>12</ows:Value>
+							<ows:Value>13</ows:Value>
+							<ows:Value>14</ows:Value>
+							<ows:Value>15</ows:Value>
+							<ows:Value>16</ows:Value>
+							<ows:Value>17</ows:Value>
+							<ows:Value>18</ows:Value>
+							<ows:Value>19</ows:Value>
+							<ows:Value>20</ows:Value>
+							<ows:Value>21</ows:Value>
+							<ows:Value>22</ows:Value>
+							<ows:Value>23</ows:Value>
+							<ows:Value>24</ows:Value>
+							<ows:Value>25</ows:Value>
+							<ows:Value>26</ows:Value>
+							<ows:Value>27</ows:Value>
+							<ows:Value>28</ows:Value>
+							<ows:Value>29</ows:Value>
+							<ows:Value>30</ows:Value>
+							<ows:Value>31</ows:Value>
+							<ows:Value>32</ows:Value>
+							<ows:Value>33</ows:Value>
+							<ows:Value>34</ows:Value>
+							<ows:Value>35</ows:Value>
+							<ows:Value>36</ows:Value>
+							<ows:Value>37</ows:Value>
+							<ows:Value>38</ows:Value>
+							<ows:Value>39</ows:Value>
+							<ows:Value>40</ows:Value>
+							<ows:Value>41</ows:Value>
+							<ows:Value>42</ows:Value>
+							<ows:Value>43</ows:Value>
+							<ows:Value>44</ows:Value>
+							<ows:Value>45</ows:Value>
+							<ows:Value>46</ows:Value>
+							<ows:Value>47</ows:Value>
+							<ows:Value>48</ows:Value>
+							<ows:Value>49</ows:Value>
+							<ows:Value>50</ows:Value>
+							<ows:Value>51</ows:Value>
+							<ows:Value>52</ows:Value>
+							<ows:Value>53</ows:Value>
+							<ows:Value>54</ows:Value>
+							<ows:Value>55</ows:Value>
+							<ows:Value>56</ows:Value>
+							<ows:Value>57</ows:Value>
+							<ows:Value>58</ows:Value>
+							<ows:Value>59</ows:Value>
+							<ows:Value>60</ows:Value>
+							<ows:Value>61</ows:Value>
+							<ows:Value>62</ows:Value>
+							<ows:Value>63</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SELECCIO_ELEMENT</ows:Identifier>
+				<ows:Title>Selección Elemento</ows:Title>
+				<ows:Abstract>Valores entre 1 y 100. Corresponden a los códigos numéricos de los diferentes elementos de un fichero DGN. Se aceptan valores múltiples separados por una coma (p.ej. /SELECCIO_ELEMENT=10,2,5).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+							<ows:Value>0</ows:Value>
+							<ows:Value>1</ows:Value>
+							<ows:Value>2</ows:Value>
+							<ows:Value>3</ows:Value>
+							<ows:Value>4</ows:Value>
+							<ows:Value>5</ows:Value>
+							<ows:Value>6</ows:Value>
+							<ows:Value>7</ows:Value>
+							<ows:Value>8</ows:Value>
+							<ows:Value>9</ows:Value>
+							<ows:Value>10</ows:Value>
+							<ows:Value>11</ows:Value>
+							<ows:Value>12</ows:Value>
+							<ows:Value>13</ows:Value>
+							<ows:Value>14</ows:Value>
+							<ows:Value>15</ows:Value>
+							<ows:Value>16</ows:Value>
+							<ows:Value>17</ows:Value>
+							<ows:Value>18</ows:Value>
+							<ows:Value>19</ows:Value>
+							<ows:Value>20</ows:Value>
+							<ows:Value>21</ows:Value>
+							<ows:Value>22</ows:Value>
+							<ows:Value>23</ows:Value>
+							<ows:Value>24</ows:Value>
+							<ows:Value>25</ows:Value>
+							<ows:Value>26</ows:Value>
+							<ows:Value>27</ows:Value>
+							<ows:Value>28</ows:Value>
+							<ows:Value>29</ows:Value>
+							<ows:Value>30</ows:Value>
+							<ows:Value>31</ows:Value>
+							<ows:Value>32</ows:Value>
+							<ows:Value>33</ows:Value>
+							<ows:Value>34</ows:Value>
+							<ows:Value>35</ows:Value>
+							<ows:Value>36</ows:Value>
+							<ows:Value>37</ows:Value>
+							<ows:Value>38</ows:Value>
+							<ows:Value>39</ows:Value>
+							<ows:Value>40</ows:Value>
+							<ows:Value>41</ows:Value>
+							<ows:Value>42</ows:Value>
+							<ows:Value>43</ows:Value>
+							<ows:Value>44</ows:Value>
+							<ows:Value>45</ows:Value>
+							<ows:Value>46</ows:Value>
+							<ows:Value>47</ows:Value>
+							<ows:Value>48</ows:Value>
+							<ows:Value>49</ows:Value>
+							<ows:Value>50</ows:Value>
+							<ows:Value>51</ows:Value>
+							<ows:Value>52</ows:Value>
+							<ows:Value>53</ows:Value>
+							<ows:Value>54</ows:Value>
+							<ows:Value>55</ows:Value>
+							<ows:Value>56</ows:Value>
+							<ows:Value>57</ows:Value>
+							<ows:Value>58</ows:Value>
+							<ows:Value>59</ows:Value>
+							<ows:Value>60</ows:Value>
+							<ows:Value>61</ows:Value>
+							<ows:Value>62</ows:Value>
+							<ows:Value>63</ows:Value>
+							<ows:Value>64</ows:Value>
+							<ows:Value>65</ows:Value>
+							<ows:Value>66</ows:Value>
+							<ows:Value>67</ows:Value>
+							<ows:Value>68</ows:Value>
+							<ows:Value>69</ows:Value>
+							<ows:Value>70</ows:Value>
+							<ows:Value>71</ows:Value>
+							<ows:Value>72</ows:Value>
+							<ows:Value>73</ows:Value>
+							<ows:Value>74</ows:Value>
+							<ows:Value>75</ows:Value>
+							<ows:Value>76</ows:Value>
+							<ows:Value>77</ows:Value>
+							<ows:Value>78</ows:Value>
+							<ows:Value>79</ows:Value>
+							<ows:Value>80</ows:Value>
+							<ows:Value>81</ows:Value>
+							<ows:Value>82</ows:Value>
+							<ows:Value>83</ows:Value>
+							<ows:Value>84</ows:Value>
+							<ows:Value>85</ows:Value>
+							<ows:Value>86</ows:Value>
+							<ows:Value>87</ows:Value>
+							<ows:Value>88</ows:Value>
+							<ows:Value>89</ows:Value>
+							<ows:Value>90</ows:Value>
+							<ows:Value>91</ows:Value>
+							<ows:Value>92</ows:Value>
+							<ows:Value>93</ows:Value>
+							<ows:Value>94</ows:Value>
+							<ows:Value>95</ows:Value>
+							<ows:Value>96</ows:Value>
+							<ows:Value>97</ows:Value>
+							<ows:Value>98</ows:Value>
+							<ows:Value>99</ows:Value>
+							<ows:Value>100</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SELECCIO_COLOR</ows:Identifier>
+				<ows:Title>Selección Color</ows:Title>
+				<ows:Abstract>Valores entre 0 y 255. Corresponden al índice de identificación del color en la paleta utilizada en este fichero DGN. Se aceptan valores múltiples separados por una coma (p.ej. /SELECCIO_COLOR=1,2,56,200).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+							<ows:Value>0</ows:Value>
+							<ows:Value>1</ows:Value>
+							<ows:Value>2</ows:Value>
+							<ows:Value>3</ows:Value>
+							<ows:Value>4</ows:Value>
+							<ows:Value>5</ows:Value>
+							<ows:Value>6</ows:Value>
+							<ows:Value>7</ows:Value>
+							<ows:Value>8</ows:Value>
+							<ows:Value>9</ows:Value>
+							<ows:Value>10</ows:Value>
+							<ows:Value>11</ows:Value>
+							<ows:Value>12</ows:Value>
+							<ows:Value>13</ows:Value>
+							<ows:Value>14</ows:Value>
+							<ows:Value>15</ows:Value>
+							<ows:Value>16</ows:Value>
+							<ows:Value>17</ows:Value>
+							<ows:Value>18</ows:Value>
+							<ows:Value>19</ows:Value>
+							<ows:Value>20</ows:Value>
+							<ows:Value>21</ows:Value>
+							<ows:Value>22</ows:Value>
+							<ows:Value>23</ows:Value>
+							<ows:Value>24</ows:Value>
+							<ows:Value>25</ows:Value>
+							<ows:Value>26</ows:Value>
+							<ows:Value>27</ows:Value>
+							<ows:Value>28</ows:Value>
+							<ows:Value>29</ows:Value>
+							<ows:Value>30</ows:Value>
+							<ows:Value>31</ows:Value>
+							<ows:Value>32</ows:Value>
+							<ows:Value>33</ows:Value>
+							<ows:Value>34</ows:Value>
+							<ows:Value>35</ows:Value>
+							<ows:Value>36</ows:Value>
+							<ows:Value>37</ows:Value>
+							<ows:Value>38</ows:Value>
+							<ows:Value>39</ows:Value>
+							<ows:Value>40</ows:Value>
+							<ows:Value>41</ows:Value>
+							<ows:Value>42</ows:Value>
+							<ows:Value>43</ows:Value>
+							<ows:Value>44</ows:Value>
+							<ows:Value>45</ows:Value>
+							<ows:Value>46</ows:Value>
+							<ows:Value>47</ows:Value>
+							<ows:Value>48</ows:Value>
+							<ows:Value>49</ows:Value>
+							<ows:Value>50</ows:Value>
+							<ows:Value>51</ows:Value>
+							<ows:Value>52</ows:Value>
+							<ows:Value>53</ows:Value>
+							<ows:Value>54</ows:Value>
+							<ows:Value>55</ows:Value>
+							<ows:Value>56</ows:Value>
+							<ows:Value>57</ows:Value>
+							<ows:Value>58</ows:Value>
+							<ows:Value>59</ows:Value>
+							<ows:Value>60</ows:Value>
+							<ows:Value>61</ows:Value>
+							<ows:Value>62</ows:Value>
+							<ows:Value>63</ows:Value>
+							<ows:Value>64</ows:Value>
+							<ows:Value>65</ows:Value>
+							<ows:Value>66</ows:Value>
+							<ows:Value>67</ows:Value>
+							<ows:Value>68</ows:Value>
+							<ows:Value>69</ows:Value>
+							<ows:Value>70</ows:Value>
+							<ows:Value>71</ows:Value>
+							<ows:Value>72</ows:Value>
+							<ows:Value>73</ows:Value>
+							<ows:Value>74</ows:Value>
+							<ows:Value>75</ows:Value>
+							<ows:Value>76</ows:Value>
+							<ows:Value>77</ows:Value>
+							<ows:Value>78</ows:Value>
+							<ows:Value>79</ows:Value>
+							<ows:Value>80</ows:Value>
+							<ows:Value>81</ows:Value>
+							<ows:Value>82</ows:Value>
+							<ows:Value>83</ows:Value>
+							<ows:Value>84</ows:Value>
+							<ows:Value>85</ows:Value>
+							<ows:Value>86</ows:Value>
+							<ows:Value>87</ows:Value>
+							<ows:Value>88</ows:Value>
+							<ows:Value>89</ows:Value>
+							<ows:Value>90</ows:Value>
+							<ows:Value>91</ows:Value>
+							<ows:Value>92</ows:Value>
+							<ows:Value>93</ows:Value>
+							<ows:Value>94</ows:Value>
+							<ows:Value>95</ows:Value>
+							<ows:Value>96</ows:Value>
+							<ows:Value>97</ows:Value>
+							<ows:Value>98</ows:Value>
+							<ows:Value>99</ows:Value>
+							<ows:Value>100</ows:Value>
+							<ows:Value>101</ows:Value>
+							<ows:Value>102</ows:Value>
+							<ows:Value>103</ows:Value>
+							<ows:Value>104</ows:Value>
+							<ows:Value>105</ows:Value>
+							<ows:Value>106</ows:Value>
+							<ows:Value>107</ows:Value>
+							<ows:Value>108</ows:Value>
+							<ows:Value>109</ows:Value>
+							<ows:Value>110</ows:Value>
+							<ows:Value>111</ows:Value>
+							<ows:Value>112</ows:Value>
+							<ows:Value>113</ows:Value>
+							<ows:Value>114</ows:Value>
+							<ows:Value>115</ows:Value>
+							<ows:Value>116</ows:Value>
+							<ows:Value>117</ows:Value>
+							<ows:Value>118</ows:Value>
+							<ows:Value>119</ows:Value>
+							<ows:Value>120</ows:Value>
+							<ows:Value>121</ows:Value>
+							<ows:Value>122</ows:Value>
+							<ows:Value>123</ows:Value>
+							<ows:Value>124</ows:Value>
+							<ows:Value>125</ows:Value>
+							<ows:Value>126</ows:Value>
+							<ows:Value>127</ows:Value>
+							<ows:Value>128</ows:Value>
+							<ows:Value>129</ows:Value>
+							<ows:Value>130</ows:Value>
+							<ows:Value>131</ows:Value>
+							<ows:Value>132</ows:Value>
+							<ows:Value>133</ows:Value>
+							<ows:Value>134</ows:Value>
+							<ows:Value>135</ows:Value>
+							<ows:Value>136</ows:Value>
+							<ows:Value>137</ows:Value>
+							<ows:Value>138</ows:Value>
+							<ows:Value>139</ows:Value>
+							<ows:Value>140</ows:Value>
+							<ows:Value>141</ows:Value>
+							<ows:Value>142</ows:Value>
+							<ows:Value>143</ows:Value>
+							<ows:Value>144</ows:Value>
+							<ows:Value>145</ows:Value>
+							<ows:Value>146</ows:Value>
+							<ows:Value>147</ows:Value>
+							<ows:Value>148</ows:Value>
+							<ows:Value>149</ows:Value>
+							<ows:Value>150</ows:Value>
+							<ows:Value>151</ows:Value>
+							<ows:Value>152</ows:Value>
+							<ows:Value>153</ows:Value>
+							<ows:Value>154</ows:Value>
+							<ows:Value>155</ows:Value>
+							<ows:Value>156</ows:Value>
+							<ows:Value>157</ows:Value>
+							<ows:Value>158</ows:Value>
+							<ows:Value>159</ows:Value>
+							<ows:Value>160</ows:Value>
+							<ows:Value>161</ows:Value>
+							<ows:Value>162</ows:Value>
+							<ows:Value>163</ows:Value>
+							<ows:Value>164</ows:Value>
+							<ows:Value>165</ows:Value>
+							<ows:Value>166</ows:Value>
+							<ows:Value>167</ows:Value>
+							<ows:Value>168</ows:Value>
+							<ows:Value>169</ows:Value>
+							<ows:Value>170</ows:Value>
+							<ows:Value>171</ows:Value>
+							<ows:Value>172</ows:Value>
+							<ows:Value>173</ows:Value>
+							<ows:Value>174</ows:Value>
+							<ows:Value>175</ows:Value>
+							<ows:Value>176</ows:Value>
+							<ows:Value>177</ows:Value>
+							<ows:Value>178</ows:Value>
+							<ows:Value>179</ows:Value>
+							<ows:Value>180</ows:Value>
+							<ows:Value>181</ows:Value>
+							<ows:Value>182</ows:Value>
+							<ows:Value>183</ows:Value>
+							<ows:Value>184</ows:Value>
+							<ows:Value>185</ows:Value>
+							<ows:Value>186</ows:Value>
+							<ows:Value>187</ows:Value>
+							<ows:Value>188</ows:Value>
+							<ows:Value>189</ows:Value>
+							<ows:Value>190</ows:Value>
+							<ows:Value>191</ows:Value>
+							<ows:Value>192</ows:Value>
+							<ows:Value>193</ows:Value>
+							<ows:Value>194</ows:Value>
+							<ows:Value>195</ows:Value>
+							<ows:Value>196</ows:Value>
+							<ows:Value>197</ows:Value>
+							<ows:Value>198</ows:Value>
+							<ows:Value>199</ows:Value>
+							<ows:Value>200</ows:Value>
+							<ows:Value>201</ows:Value>
+							<ows:Value>202</ows:Value>
+							<ows:Value>203</ows:Value>
+							<ows:Value>204</ows:Value>
+							<ows:Value>205</ows:Value>
+							<ows:Value>206</ows:Value>
+							<ows:Value>207</ows:Value>
+							<ows:Value>208</ows:Value>
+							<ows:Value>209</ows:Value>
+							<ows:Value>210</ows:Value>
+							<ows:Value>211</ows:Value>
+							<ows:Value>212</ows:Value>
+							<ows:Value>213</ows:Value>
+							<ows:Value>214</ows:Value>
+							<ows:Value>215</ows:Value>
+							<ows:Value>216</ows:Value>
+							<ows:Value>217</ows:Value>
+							<ows:Value>218</ows:Value>
+							<ows:Value>219</ows:Value>
+							<ows:Value>220</ows:Value>
+							<ows:Value>221</ows:Value>
+							<ows:Value>222</ows:Value>
+							<ows:Value>223</ows:Value>
+							<ows:Value>224</ows:Value>
+							<ows:Value>225</ows:Value>
+							<ows:Value>226</ows:Value>
+							<ows:Value>227</ows:Value>
+							<ows:Value>228</ows:Value>
+							<ows:Value>229</ows:Value>
+							<ows:Value>230</ows:Value>
+							<ows:Value>231</ows:Value>
+							<ows:Value>232</ows:Value>
+							<ows:Value>233</ows:Value>
+							<ows:Value>234</ows:Value>
+							<ows:Value>235</ows:Value>
+							<ows:Value>236</ows:Value>
+							<ows:Value>237</ows:Value>
+							<ows:Value>238</ows:Value>
+							<ows:Value>239</ows:Value>
+							<ows:Value>240</ows:Value>
+							<ows:Value>241</ows:Value>
+							<ows:Value>242</ows:Value>
+							<ows:Value>243</ows:Value>
+							<ows:Value>244</ows:Value>
+							<ows:Value>245</ows:Value>
+							<ows:Value>246</ows:Value>
+							<ows:Value>247</ows:Value>
+							<ows:Value>248</ows:Value>
+							<ows:Value>249</ows:Value>
+							<ows:Value>250</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SELECCIO_GRUIX</ows:Identifier>
+				<ows:Title>Selección Grosor</ows:Title>
+				<ows:Abstract>Valores entre 0 y 31. Corresponden al índice de grosor de los elementos. Se aceptan valores múltiples separados por una coma (p.ej. /SELECCIO_GRUIX=1,30).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+							<ows:Value>0</ows:Value>
+							<ows:Value>1</ows:Value>
+							<ows:Value>2</ows:Value>
+							<ows:Value>3</ows:Value>
+							<ows:Value>4</ows:Value>
+							<ows:Value>5</ows:Value>
+							<ows:Value>6</ows:Value>
+							<ows:Value>7</ows:Value>
+							<ows:Value>8</ows:Value>
+							<ows:Value>9</ows:Value>
+							<ows:Value>10</ows:Value>
+							<ows:Value>11</ows:Value>
+							<ows:Value>12</ows:Value>
+							<ows:Value>13</ows:Value>
+							<ows:Value>14</ows:Value>
+							<ows:Value>15</ows:Value>
+							<ows:Value>16</ows:Value>
+							<ows:Value>17</ows:Value>
+							<ows:Value>18</ows:Value>
+							<ows:Value>19</ows:Value>
+							<ows:Value>20</ows:Value>
+							<ows:Value>21</ows:Value>
+							<ows:Value>22</ows:Value>
+							<ows:Value>23</ows:Value>
+							<ows:Value>24</ows:Value>
+							<ows:Value>25</ows:Value>
+							<ows:Value>26</ows:Value>
+							<ows:Value>27</ows:Value>
+							<ows:Value>28</ows:Value>
+							<ows:Value>29</ows:Value>
+							<ows:Value>30</ows:Value>
+							<ows:Value>31</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SELECCIO_ESTIL</ows:Identifier>
+				<ows:Title>Selección Estilo</ows:Title>
+				<ows:Abstract>Valores entre 0 y 7. Corresponden al índice de identificación del estilo de línea. Se aceptan valores múltiples separados por una coma (p.ej. /SELECCIO_ESTIL=1,6,5).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+							<ows:Value>0</ows:Value>
+							<ows:Value>1</ows:Value>
+							<ows:Value>2</ows:Value>
+							<ows:Value>3</ows:Value>
+							<ows:Value>4</ows:Value>
+							<ows:Value>5</ows:Value>
+							<ows:Value>6</ows:Value>
+							<ows:Value>7</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SELECCIO_CELLULA</ows:Identifier>
+				<ows:Title>Selección Célula</ows:Title>
+				<ows:Abstract>Nombres de las células seleccionadas, separadas por comas. Si aparece este parámetro, OBLIGATORIAMENTE /SELECCIO_ELEMENT debe contener únicamente "2". El resto de parámetros (COLOR, GRUIX, ESTIL) se ignoran, excepto el NIVELL. NOTA IMPORTANTE: Si se indica más de una opción de selección (p.ej. /SELECCIO_ESTIL y /SELECCIO_NIVELL, se aplica un operador AND entre las dos condiciones, nunca un operador OR. </ows:Abstract>
+				<LiteralData>
+						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>1NIVELL_1FITXER</ows:Identifier>
+				<ows:Title>1 nivel fichero</ows:Title>
+				<ows:Abstract>Todo el contenido de cada uno de los niveles DGN se transforma en una capa de MiraMon (fichero ARC y/o fichero PNT) y se generan tantas capas como niveles. Los nombres de los diferentes ficheros se obtienen de FICHERO_MM con un sufijo numérico, que corresponde al número del nivel (p.ej. FICHERO_MM01, FICHERO_MM12...). Si no se indica este parámetro, todo el fichero DGN se transforma en un solo fichero ARC y/o PNT.</ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>					
+					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>BD_ESTESA</ows:Identifier>
+				<ows:Title>Base de Datos Extendida</ows:Title>
+				<ows:Abstract>La base de datos asociada a los objetos gráficos (ARC y PNT) contiene información extendida (conectable, modificado, bloqueo, sólido...), además de la básica (nivel, color, grosor y estilo). Si no se indica esta opción sólo se genera la base de datos básica.¿Cómo tratar las células? </ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>					
+					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CEL_OBJ_PRIMITIUS</ows:Identifier>
+				<ows:Title>Células Objetos Primitivos</ows:Title>
+				<ows:Abstract>Se transforman los objetos primitivos de las células. Las opciones de visualización son las de los objetos individuales, no las de las células. Si no se indica ningún parámetro (defecto): se genera un punto para cada célula, y se guarda su nombre y otras características en la base de datos.</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>					
+					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETACOLOR</ows:Identifier>
+				<ows:Title>Paleta de color</ows:Title>
+				<ows:Abstract>Si se indica un nombre de fichero de paleta de Microstation (extensión TBL), se convierte ésta a MiraMon y se le vinculan automáticamente los ficheros gráficos adecuados. Si no se indica este parámetro, se transforma, si existe, la paleta de colores activa interna del fichero DGN.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-TBL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-TBL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+		</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_SIMB_TEXT</ows:Identifier>
+				<ows:Title>Tabla de simbolitzación de textos</ows:Title>
+				<ows:Abstract>Por defecto se crea la tabla de simbolización de textos en el mismo directorio de resultados, pero usando este parámetro se puede especificar una nueva ubicación y nombre para la tabla (el fichero pnt queda vinculado con la tabla, y esta deberá ser accesible siempre que la capa se abra). La tabla puede existir previamente, y en este caso la simbolización de los tipos de letra que ya figuraban será respectada; lo que si que puede pasar es que el fichero se amplíe con nuevos tipos de letra que eventualmente se hallen en la capa que se está procesando (el programa informa de ello).</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-DBF</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-DBF</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+		</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COORD_TEXT_TOPO</ows:Identifier>
+				<ows:Title>Texto significado topológico</ows:Title>
+				<ows:Abstract>Por defecto, los puntos de inserción de los textos se modifican ligeramente para solventar los pequeños desplazamientos entre los formatos de caracteres de Microstation i Windows. Cuando el texto tiene un significado topológico( ex: centroides de polígonos) se recomienda utilizar este parámetro para impedir el desplazamiento estético.</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>					
+					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FITXER_MM</ows:Identifier>
+				<ows:Title>Fichero Mapa de MiraMon </ows:Title>
+				<ows:Abstract>Nombre del fichero Mapa de MiraMon (MMM) de salida (sin extensión) Se crea un directorio en el mismo nivel del mapa y con el mismo nombre en el que se guardan todas las capas, tanto si escoge la opción de separar cada nivel del DGN en diferentes capas como no. Cuando se indica el parámetro optativo /INFORME este parámetro es el nombre del fichero informe sin extensión.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+						<LiteralOutput>
+						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
+						</LiteralOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

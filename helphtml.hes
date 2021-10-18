@@ -1,0 +1,264 @@
+<HTML>
+<HEAD>
+<TITLE>HelpHTML: Programa de lectura de documentos html desde sesiones DOS
+</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1><img src="vecras.gif"> HelpHTML: Programa de lectura de documentos html desde sesiones DOS</H1>
+<P>
+Este programa es un pequeño lector de documentos html que
+funciona en una sesión de DOS. Inicialmente ha sido pensado
+para que otros programas lo llamen y utilicen para
+mostrar la ayuda de manera fácil, pero puede hacerse
+un uso totalmente general del mismo. Por ejemplo, si descarga un documento
+html via ftp puede mirarlo desde una sesión de DOS, o
+desde su explorador de Internet, indistintamente.
+<P>
+El primer parámetro es el nombre de fichero htm con path y extensión.
+Además se puede indicar una sección del documento con un '#' como por ejemplo:
+"ayuda.htm#seccion2".
+<P>
+El segundo parámetro (opcional) hace que en al llamar a HelpHTML
+desde otra aplicación, ésta pueda enseñar la portada
+en la primera página de la ayuda. Está previsto que
+los programas llamen a un fichero con el mismo nombre que el ejecutable
+pero con extensión HTM y que se halla en el mismo
+disco y directorio. En lenguaje C esto se puede hacer a través
+de una función como ésta:
+<PRE>
+/*Retorna 0 si todo ha ido bien.
+          1 si no se puede reservar memoria.
+          2 si no se puede hacer la llamada al sistema.*/
+#define TITOL_PROG_HELP TITOL_PROG
+int muestra_helphtml(const char *nombre_exe, int lineas_portada)
+{
+    char *nombre_helphtml, *tamcomando;
+
+    if (NULL==(nombre_helphtml=strdup(nombre_exe)))
+        return 1;
+    strcpy(nombre_helphtml+strlen(nombre_helphtml)-4,".HTM");
+    if (NULL==(tamcomando=malloc(256)))
+    {
+        free(nombre_helphtml);
+        return 1;
+    }
+    sprintf(tamcomando, TITOL_PROG_HELP" %s 0 %d 0", nombre_helphtml, lineas_portada);
+    free(nombre_helphtml);
+    if (-1==system(tamcomando))
+    {
+        free(tamcomando);
+        return 2;
+    }
+    free(tamcomando);
+    return 0;
+}
+
+</PRE>
+Para llamar a la función anterior hay que hacer:
+<PRE>
+#define LINEAS_PORTADA 6
+portada();                    /* Falta definir la función portada */
+if (muestra_helphtml(argv[0],LINEAS_PORTADA))
+{
+    puts("\n\aError en la llamada a la ayuda del programa.");
+    exit(EXIT_FAILURE);
+}
+
+</PRE>
+<P>
+No todos los comandos html son soportados por el programa,
+pero las que no se soportan sencillamente se ignoran.<BR>
+Este es el listado de comandos soportados hasta el momento:
+<BR>
+<PRE>
+&lt;pre> y &lt;/pre>                texto preformateado  (no se toleran tabulaciones)
+&lt;blockquote> y &lt;/blockquote>  texto sangrado
+&lt;title> y &lt;/title>            título
+&lt;p>                           fin de párrafo
+&lt;br>                          fin de línea
+&lt;hr>                          línea horizontal
+</PRE>
+<P>
+Se soportan los tipos de listados ordenados, no ordenados y de definiciones,
+a través de los comandos html siguientes:<BR>
+<PRE>
+&lt;ul>   lista no indexada
+&lt;ol>   lista indexada  (sólo números)
+&lt;li>   entrada de lista
+&lt;dl>   lista de definiciones
+&lt;dt>   entrada a definir
+&lt;dd>   definición de la entrada
+&lt;/dl>  final de la lista de definiciones
+</PRE>
+<P>
+Las listas sólo se soportan hasta un nivel de anidamiento
+16.
+<P>
+Se soportan, sólo parcialmente, los siguientes comandos:
+<BR>
+<PRE>
+&lt;h1>  &lt;h2>  &lt;h3>  &lt;h4>  &lt;h5>  &lt;h6>
+&lt;/h1> &lt;/h2> &lt;/h3> &lt;/h4> &lt;/h5> &lt;/h6> 
+   un cambio de tipo de letra equivale a un cambio de párrafo.
+</PRE>
+<P>
+También se soporta la referencia a una figura:
+<PRE>
+&lt;img src="c:/img.gif" alt="Texto alternativo" >
+    En este caso se muestra el <B>texto alternativo</B>.
+
+</PRE>
+<HR>
+<P>
+Este programa soporta que los ficheros HTML contengan una sección,
+llamada 'exclusiva', que será la única leída
+cuando así se indique en la línea de comandos de HelpHTML.
+La sección exclusiva se indica en el fichero HTML entre los
+comandos
+<PRE>
+&lt;exclusiva>
+&lt;/exclusiva>
+
+</PRE>
+<P>
+Esta sección es leída normalmente por los lectores
+HTML estándar y por la opción de lectura normal del
+programa. Se puede usar para hacer aparecer sólo
+la sección de sintaxis general de una ayuda escrita en formato
+html, ignorando así el resto del fichero HTML. Para hacerlo dentro
+de un programa se puede usar la siguiente función
+en lenguaje C:
+<PRE>
+int muestra_sintaxishtml(const char *nombre_exe, int lineas_portada)
+{
+    char *nombre_helphtml, *tamcomando;
+
+    if (NULL==(nombre_helphtml=strdup(nombre_exe)))
+        return 1;
+    strcpy(nombre_helphtml+strlen(nombre_helphtml)-4,".HTM");
+    if (NULL==(tamcomando=malloc(256)))
+    {
+        free(nombre_helphtml);
+        return 1;
+    }
+    sprintf(tamcomando, TITOL_PROG_HELP" %s 1 %d 0", nombre_helphtml, lineas_portada);
+    free(nombre_helphtml);
+    if (-1==system(tamcomando))
+    {
+        free(tamcomando);
+        return 2;
+    }
+    free(tamcomando);
+    return 0;
+}
+</PRE>
+Para llamar a la anterior función hay que hacer:
+<PRE>
+#define LINEAS_PORTADA 6
+portada();                    /* Falta definir la función portada */
+if (muestra_sintaxishtml(argv[0],LINEAS_PORTADA))
+    puts("\n\aError en la llamada a la sintaxis del programa.");
+exit(EXIT_FAILURE);
+
+
+</PRE>
+NOTA: Actualmente las funciones aquí explicadas se han sofisticado para controlar
+más situaciones. Consulte con Joan Masó Pau para conocer la sintaxis mejorada.
+<HR>
+<P>
+Este es el listado de caracteres especiales soportados:
+<PRE>
+&amp;lt;        &lt;
+&amp;gt;        >
+&amp;amp;       &amp;
+&amp;quot;      "
+&amp;copy;      ©
+&amp;reg;       ®
+
+&amp;Agrave;    À
+&amp;agrave;    à
+&amp;Aacute;    Á
+&amp;aacute;    á
+&amp;Egrave;    È
+&amp;egrave;    è
+&amp;Eacute;    É
+&amp;eacute;    é
+&amp;Iacute;    Í
+&amp;iacute;    í
+&amp;Ograve;    Ò
+&amp;ograve;    ò
+&amp;Oacute;    Ó
+&amp;oacute;    ó
+&amp;Uacute;    Ú
+&amp;uacute;    ú
+&amp;Ccedil;    Ç
+&amp;ccedil;    ç
+&amp;Ntilde;    Ñ
+&amp;ntilde;    ñ
+&amp;Iuml;      Ï
+&amp;iuml;      ï
+&amp;Uuml;      Ü
+&amp;uuml;      ü
+
+&amp;Acirc;     Â
+&amp;acirc;     â
+&amp;Auml;      Ä
+&amp;auml;      ä
+&amp;Aelig;     æ
+&amp;aelig;     æ
+&amp;Ouml;      Ö
+&amp;ouml;      ö
+&amp;Oslash;    Ø
+&amp;oslash;    ø
+&amp;szlig;     ß
+&amp;#183;      ·   (punto volado para la ele geminada)
+&amp;yuml;      &yuml;   (falta la titlla)
+</PRE>
+<P>
+La principal carencia de este programa es que no
+soporta hipertexto. A pesar de esto es puede escribir la ayuda
+(help) en hipertexto, y no molesta al programa (como cualquier otro
+comando no reconocido, es ignorado), con la ventaja de que
+en un navegador estándar sí tendría efecto.
+<BR>
+<P>
+Limitaciones =>> Comando más largo: 5000 caracteres,
+título más largo: 80 caracteres.
+<HR>
+<P>
+La sintaxis general es:<BR>
+<EXCLUSIVA> 
+<a name="sintaxi"></a>
+SINTAXIS: Fichero_html [n] [Despl] [p]
+<UL>
+<LI>FicheroHTML es un fichero html estándar. 
+<LI>[n] 
+<UL>
+<LI>0 si se quiere leer todo el fichero html (valor por defecto).
+<LI>1 si se quiere leer sólo la sección exclusiva.
+</UL>
+<LI>[Despl] és el número de líneas que ocupa un
+texto escrito por una aplicación anterior y que se quiere mantener
+en la primera página del documento html, como por ejemplo la portada
+de un programa anterior que llamado por HelpHTML. Por defecto vale
+0. 
+<LI>[p] Cada página lleva una cabecera y un pie de página...
+<UL>
+<LI>1 si se quiere hacer aparecer la cabecera de la
+página 1 y el pie de página de la última (valor por defecto)
+<LI>0 si no se quiere la cabecera de la página 1 ni el pie
+de la última (opción pensada para llamadas desde otra aplicación). 
+</UL>
+</UL>
+<P>
+
+<!-- $$EXCLUSIVA
+Para obtener la ayuda completa escriba:<BR>
+HelpHTML ?
+-->
+
+</EXCLUSIVA>
+</BODY>
+</HTML>

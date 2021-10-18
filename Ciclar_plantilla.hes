@@ -1,0 +1,135 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Traduït per Agustí Escobar-->
+
+  <title>Ciclar: Creación de polígonos con estructura topológica</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p>Este programa trabaja sobre una familia de ficheros topológicamente
+  estructurados de arcos (ARC) y nodos (NOD) para dar lugar a una familia de
+  ficheros topológicamente estructurados de polígonos (POL). Los ficheros ARC
+  y NOD pueden generarse con el programa <a href="LinArc.htm">LinArc</a>.
+  Además, el programa es capaz de aplicar el proceso directamente a ficheros
+  POL para obtener nuevos polígonos que corresponden a los originales agrupados por algún criterio, obtener directamente ficheros POL sin estructura topológica desde fichers VEC, y también puede transformar ficheros POL en ficheros VEC (un formato no
+  topológico) y viceversa.el programa presenta 8 opciones distintas:</p>
+ 
+  <p>El objetivo principal del programa es construir todos los polígonos
+  topológicos presentes en el fichero de arcos; este proceso se denomina
+  'ciclado'. En el proceso de ciclado, cada polígono queda descrito
+  como una secuencia de arcos que delimita un área cerrada (borde exterior);
+  si el polígono presenta agujeros interiores, estos también quedan descritos
+  por los arcos correspondientes (bordes interiores).</p>
+
+  <p>Los arcos implicados en el ciclado de un polígono no se escriben en el
+  fichero POL, sino que se leen del propio fichero ARC, lo cual supone un
+  ahorro de espacio de disco y una gran consistencia geométrica de todos los
+  datos. Además, esta estrategia permite tener diversas bases de polígonos
+  cicladas sobre una misma base de arcos, como se comenta más adelante.</p>
+
+  <p>En los modos en qué el programa genera un fichero POL, este va acompañado 
+  de un fichero P.dbf (tabla principal de atributos), un fichero P.rel (que contiene 
+  los metadatos, y que puede contener las eventuales relaciones con otras 
+  tablas alfanuméricas adicionales a la principal, así como simbolización por defecto). 
+En versiones antiguas del programa (1.x) se generaba un fichero DVP (este último solo en la v. 1.x), 
+que contiene unos metadatos muy básicos y que actualmente se ha superado totalmente.</p>
+
+  <p>Después del proceso de ciclado, los únicos atributos que tienen los
+  polígonos son los geométrico-topológico (área, perímetro, numero de arcos y numero de polígonos elementales que formen el polígono etc) y el identificador
+  gráfico que, de forma única, hace referencia a cada polígono. Los atributos
+  de tipo temático (qué vegetación contiene el polígono, propietario, etc) se
+  añaden transfiriendo atributos de etiquetas puntuales situadas en el
+  interior de cada polígono, o introduciendolos directamente desde el modo de edición de atributos del MiraMon. Si se opta por la transferéncia de atributos a través las etiquetas, cuando estas son de tipo VEC se realiza con el programa ATRIPOL , mientras que si són de tipo PNT se hace con el programa ATRITOP. Si las etiquetas son de tipo VEC esto se realiza
+  con el programa <a href="AtriPol.htm">AtriPol</a> y si son de tipo PNT con
+  el programa <a href="AtriTop.htm">AtriTop</a>.</p>
+
+  <p>Aunque en algunas opciones se tolera que el fichero de arcos contenga
+  nodos finales y nodos de línea (pseudo-nodos), su presencia puede ser debida
+  a errores. Un arco que contiene nodos finales no es ciclable. Si quiere
+  controlar los nodos puede visualizarlos con MiraMon (vía Fichero/Abrir
+  vector estructurado, y seleccionando tipo de fichero &quot;NOD&quot;) o
+  recurrir a la utilidad <a href="InfoTop.htm">InfoTop.htm</a> para conocer sus relaciones topológicas.</p>
+  <p>Cuando el programa realiza operaciones en que parte de ficheros de polígonos para generar otros polígonos decimos que realiza un reciclado.</p>
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+  <span id="wpsopcions"/>
+  <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>Después de esta primera selección a través del parámetro
+  'Opción', el parámetro 'e' permite aplicar una selección que
+  elimina los arcos con nodos finales (arcos que no conectan con ningún otro
+  arco ni con ellos mismos).</p>
+
+  <p>Además, en la selección pueden eliminarse automáticamente los arcos que
+  tendrían el mismo polígono a ambos lados (mancuernas).</p>
+
+  <p>Como hemos comentado, la aplicación del parámetro 'e' permite
+  ciclar ficheros de arcos que contienen arcos no ciclables (arcos con nodos
+  finales y mancuernas). Estos arcos pueden estar incluidos en el fichero de
+  una manera voluntaria, pero también pueden provenir de errores en la
+  digitalización. Por tanto se debe aplicar el parámetro 'e' de forma
+  cuidadosa y consciente.</p><!---
+<P>
+El parámetro [1] (opcional) sólo se usa en máquinas con poca memoria, o con ficheros 
+muy grandes. Cuando se indica, el programa no carga en memoria una parte de los ficheros. 
+Esta parte supone normalmente alrededor de un 15% del tamaño total de los ficheros ARC y 
+NOD.
+==-->
+  <a id="ellipsoide" name="ellipsoide"></a>El programa crea en la base de
+  datos los campos PERIMETRE y AREA, que indican, respectivamente, el
+  perímetro y el área de cada polígono. En el caso del PERIMETRE se incluyen
+  los perímetros interiores. Los valores de los campos PERIMETRE y AREA se
+  calculan sobre las coordenadas de la proyección (del mapa) y, por tanto, no
+  dan perímetros y áreas sobre la Tierra sino sobre el mapa, calculadas como lo
+  haría normalmente un programa de dibujo asistido por ordenador (CAD). En
+  proyecciones como la UTM, estos valores son suficientemente precisos para la
+  mayor parte de propósitos. Por ejemplo, dentro de un huso UTM, un perímetro
+  sobre el mapa puede llegar a diferir del perímetro sobre el elipsoide
+  terrestre en un factor entre 0.9996 y 1.0009811009).</p>
+
+  <p>Cuando la proyección cartográfica es conocida (se puede consultar el listado de
+  proyecciones conocidas en la ayuda del programa <a href="CanviPrj.htm">CanviPrj</a>), además de los campos PERIMETRE y AREA, el
+  programa también crea los campos PERIMETREE y AREAE, que indican el
+  perímetro y área reales de cada polígono calculadas sobre el elipsoide
+  terrestre con criterios geodésicos precisos. Estos nuevos campos resultan
+  especialmente indicados en proyecciones cartográficas en las que los
+  cálculos sobre el mapa dan valores claramente diferentes a los reales sobre
+  la superficie terrestre (por ejemplo, la proyección Mercator) o en
+  proyecciones en mapas en los que la diferencia es pequeña pero aparecen
+  grandes polígonos que pueden acumular errores importantes.</p>
+
+  <p>Según la proyección cartográfica utilizada el programa declara visible
+  PERIMETRE o PERIMETREE y AREA o AREAE y deja oculto el otro campo, según sea
+  el más comunmente usado como medida de perímetro y área en aquella
+  proyección. Se pueden cambiar estos criterios de visibilidad en el fichero
+  REL con el Gestor Universal de Metadatos Geoespaciales, <a href="..\GeMPlus\GeMPlus.htm">GeM+.</a>.</p>
+
+<hr/>
+<exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<p> <!-- $$EXCLUSIVA
+Para obtener la ayuda completa escriba:<BR>
+Ciclar ? 
+--></p>
+  </exclusiva>
+  </hr>
+  <h3>Formato del fichero INI indicado al parámetro /FITXER_ORDRE_GRUP</h3>
+  <pre>
+[ORDRE_GRUP]
+Atributo1=
+Atributo2=
+Atributo3=
+...
+</pre>(El índice de el atributo ha de ser correlativo. El valor de las claves
+es el valor de el atributo de los polígonos)
+    <hr/>
+  Este programa soporta formato REL v.4 y formato ARC v. 1.1 con o sin
+  coordenadas 3D.<br/>
+
+  <p align="center"><a href="LinArc.htm"><img src="LinArc.gif"/></a><a href="AtriPol.htm"><img src="AtriPol.gif"/></a></p>
+</body>
+</html>

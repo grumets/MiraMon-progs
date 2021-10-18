@@ -1,0 +1,117 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>NDFIMG: Transforma rásters en formato NDF al formato IMG de
+  MiraMon</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.--> 
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+  
+  <br/>
+  &quot;NATIONAL LAND ARCHIVE PRODUCTION SYSTEM (NLAPS). SYSTEMATIC FORMAT
+  DESCRIPTION DOCUMENT&quot;. United States Geological Survey Format
+  Specifications for Geometrically Corrected Landsat Level 1 Digital Data
+  Products (July 2000)<br/>
+  <br/>
+  &quot;Level 1 Product Output Files. Data Format Control Book&quot;. Volume
+  5, Book 2. Revision 5. April 2001<br/></p>
+
+  <p>Las imágenes se convierten al formato IMG de la v. 4 de MiraMon, de forma
+  que las diferentes bandas espectrales se almacenan en tantos ficheros IMG
+  como bandas espectrales contenga la imagen original. Todos los ficheros IMG
+  convertidos se ubican en un mismo directorio, por lo que se solicita al
+  usuario que facilite un nombre de directorio y no un nombre de salida para
+  cada banda espectral. El programa comprime las imágenes en formato RLE
+  extracomprimido.</p>
+
+  <p>El nombre de los ficheros IMG que contendrán las diferentes bandas o
+  canales espectrales se asigna según el patrón siguiente:
+  orbita&amp;imagen_fecha_Nbanda.img. Un ejemplo podría ser: 197031_13062002_1
+  correspondiente a la órbita 197, imagen 031, tomada el 13 de junio de 2002
+  en el canal espectral 1 (azul).</p>
+
+  <p>En el caso de imágenes flotantes, los ficheros de cabecera NDF indican la
+  escena de inicio y final con un decimal. Esta información se utiliza para
+  obtener el número de escena identificador de la escena, a partir de la media
+  redondeada a entero del número de escena inicial y final.</p>
+
+  <p>Por ejemplo si el fichero de Report (*.WO) dice:</p>
+  <pre>
+   Path/Strip no.:     197                        Start Row no.:      030.9
+                                                  End Row no.:        031.9
+</pre>los nombres de las diferentes bandas seguirán el patrón:
+197031_13062002_?.
+
+  <p>Los metadatos contenidos en los ficheros que habitualmente se encuentran
+  en un CD-ROM de distribución de datos ETM+/TM/MSS, como por ejemplo fecha y
+  hora de captación, detalles de preprocesamiento, etc, se almacenan en un
+  fichero I.rel ubicado en el mismo directorio donde se decidió guardar las
+  imágenes. Este fichero de metadatos multibanda diferencia adecuadamente los
+  datos específicos de cada banda (como la región espectral que cubren), de
+  los datos comunes a todas las bandas (como la fecha de captación) y de las
+  que se encuentran en una situación mixta (como el número de columnas y
+  filas, que es general para todas las bandas multiespectrales pero que suele
+  ser doble en la banda pancromática presente en imágenes ETM+).</p>
+
+  <p>Las diferentes bandas se presentan en el fichero de metadatos en el orden
+  que nos ha parecido más lógico implementar:</p>
+
+  <div style="margin-left: 2em">
+    * <u>ETM+ y TM</u>
+
+    <div style="margin-left: 2em">
+      - En primer lugar la PAN (banda 8), por ser la de más resolución
+      espacial y singular respecto al conjunto. Esta banda sólo está
+      disponible en el sensor ETM+, no en TM.
+    </div>
+
+    <div style="margin-left: 2em">
+      - A continuación las bandas 1-2-3-4, que proporcionan la respuesta en
+      las regiones espectrals azul - verde - rojo - infrarrojo cercano.
+    </div>
+
+    <div style="margin-left: 2em">
+      - A continuación las bandas 5-7, que proporcionan la respuesta en la
+      región espectral infrarrojo intermedio.
+    </div>
+
+    <div style="margin-left: 2em">
+      - Finalmente la banda 6, correspondiente al infrarrojo térmico, que
+      presenta una resolución de 60 m en ETM+ y de 120 m en TM, pero que se
+      distribuye remuestreada a 30. En el caso de imátgenes ETM+, a veces se
+      sirve adicionalmente una banda 9, que corresponde al propio canal
+      térmico pero con una calibración radiométrica de alta ganancia.
+    </div>
+  </div>
+
+  <div style="margin-left: 2em">
+    * <u>MSS</u>
+
+    <div style="margin-left: 2em">
+      - Las bandas 1-2-3-4-5, que proporcionan la respuesta en las regiones
+      espectrales verde - rojo - infrarrojo cercano 1 - infrarrojo intermedio
+      2 - térmico. La banda 5 sólo está disponible en el sensor MSS de la
+      misión Landsat-3.
+    </div>
+  </div>Puede utilizar el Gestor de Metadatos de MiraMon (GeMM) para efectuar
+  los cambios y/o retoques que considere necesarios una vez importadas las
+  imágenes.
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+NDFIMG ?
+--></p>
+
+  </exclusiva>
+</body>
+</html>

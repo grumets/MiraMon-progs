@@ -1,0 +1,146 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>IsoMM: Classificación no supervisada de imagenes</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <p>En la implementación del clasificador a MiraMon (IsoMM), el programa
+  empiza por un cierto nombre de categorías <i> clusters </i> sugerido por
+  el usuario. La ubicación inicial de estas categorías se distribuye
+  inicialmente siguiendo cuatro grandes criterios:</p>
+
+  <ol>
+    <li>A lo largo de la diagonal multivariante de los datos, repartidas de forma
+    equidistante. Se puede restringir el rango en cada variable utilizando un
+    criterio basado en los datos más cercanas a la media de cada banda.
+    El usuario tiene que definir este rango a partir de cuántas veces (n) admite
+    la desviación alrededor de la media; a tal fin, de cada una
+    de las bandas (variables) originales se calcula su media (M) y
+    desviación estándar (DE) y se define el intervalo así: (M-n * D, M + n * D).
+    Finalmente, el intervalo es dividido en tantas partes como categorías haya
+    pedido del usuario. Si se indica n = 0, se toma todo el rango en cada
+    variable (<i>NClusterInicialDiagonal</i>).</li>
+
+    <li>Aleatoriamente en todo el espacio multivariante
+    (<i>NClusterInicialAleatorio</i>).</li>
+
+    <li>A partir de un muestreo sobre la imagen, de número/resolución
+    configurable (<i>NClusterInicialuestreo</i>).</li>
+
+    <li>Un cuarto opcional. A partir de un cierto número de firmas
+    espectrales proporcionados en un fichero lista
+    (<i>/FICHERO_SIGNATURAS=</i>), que puede ser con direcciones relativas.</li>
+  </ol>
+
+  <p>Se puede pedir entre 0 y 32767 categorías de cada criterio 1 y 2, pero la
+  suma de todas las categorías iniciales siguiendo todos los criterios no puede
+  exceder 32767. Si se produce exceso debido a un muestreo excesivo, el
+  programa reducirá la densidad de muestreo; en cualquier caso, la densidad de
+  muestreo es adaptada por el programa a un múltiplo del lado de píxel. Asimismo,
+  es obligatorio que la suma del número de categorías pedidas por todos los
+  criterios sea al menos 1.</p>
+
+  <p>En imágenes grandes se aconseja utilizar un número de, por ej., 250
+  categorías del criterio 1 y de nbandes * 50 del criterio 2, aunque el criterio
+  2 se puede dejar a cero si se indica una cierta densidad de muestreo
+  sistemático. Otra estrategia que suele dar buenos resultados es pedir 0 o
+  pocas categorías en el criterio 1, 0 en el criterio 2, y un muestreo que
+  implique obtener entre 250 y 500 categorías (&quot; N300 &quot;, por ejemplo).
+  En cualquier caso, un número muy elevado de categorías suele dar buenos
+  resultados pero suele implicar una primera iteración muy lenta. Tenga
+  paciencia.<br/>
+  Nótese que aumentando el parámetro <i> Mínima similitud entre clases </i>
+  puede obtener una fusión de las clases más cercanas en sucesivas
+  iteraciones. Este parámetro embargo, sólo está implementado en las clases que
+  provengan del criterio <i> NClusterInicialMuestreo</i>
+
+.</p>
+
+  <p>Todas estas categorías formarán los <i> clusters </i> iniciales. para
+  cada una de las bandas utilizadas, se mide la distancia a cada uno de los
+  centros de <i> cluster </i> y se asigna el píxel al <i> cluster </i> más
+  próximo. El programa ofrece la posibilidad de calcular la distancia con los
+  siguientes criterios:</p>
+
+  <ul>
+    <li>Distancia euclidiana</li>
+
+    <li>Distancia de ensanche</li>
+  </ul>
+
+  <p>Una vez se han asignado todos los píxeles de la imagen se recalculan
+  los centros de <i> cluster </i>, calculando su centro de gravedad en
+  el espacio multidimensional formado por las diferentes bandas utilizadas.
+  De una forma iterativa se vuelve a repetir el proceso de asignación de los
+  píxeles en los centros de <i> cluster </i>, y se vuelve a calcular los centros de
+  <I> cluster </i>. Esta iteración se lleva a cabo un cierto número de veces
+  que el usuario establece, a menos que el proceso se detenga antes en
+  llegar a una situación de muy poco cambio de los centros de <i> cluster </i>
+  entre iteraciones. Después de cada iteración se mira si ninguno de los
+  <I> clusters </i> está compuesto por un número de píxeles más bajo que un mínimo
+  dado por el usuario; si es así, el <i> cluster </i> es eliminado, y los
+  pixels son reasignados a otros <i> clusters </i>.</p>
+
+  <p>En cada iteración también se analiza si existen clases que se
+  considere que tienen una distancia estadística demasiado cercana para ser
+  consideradas diferentes y, en este caso, se tratan como una sola.</p>
+
+  <p>La imagen de salida mantiene en valor 0 los valores NODATA en alguna de las
+  bandas originales y los documenta como tales. Si el número de categorías
+  finales es superior a 255, la imagen de salida es integer, mientras que será
+  byte de lo contrario. En cualquiera de los dos casos (<i> byte </i> o
+  y <i> ntegro </i>) la imagen de salida es RLE. El clasificador puede trabajar
+  con imágenes de cualquier tipo (<i> byte </i>, <i> integer </i>, <i> real </i>,
+  etc), comprimidas o no.</p>
+
+  <p>Las características estadísticas de cada categoría obtenida
+  almacenan en un directorio de nombre SGN_aaaammdd_hhmmss (firmas
+  obtenidas el año-mes-día a la hora-minuto-segundo). Este directorio se
+  crea en el mismo directorio que la imagen clasificada.</p>
+
+  <p>Se permite clasificar los píxeles aunque presenten valores NODATA en
+  algunas variables (bandas). Esto se gobierna con el parámetro
+  MaxBandesNODATA, que indica el número de variables con NODATA que se
+  tolerará antes de marcar el píxel como no clasificado. Este valor puede
+  oscilar entre 0 y n_bandes-1:</p>
+
+  <ul>
+    <li>0: Valor equivalente al que se hacía en las versiones anteriores a la 4.5:
+    sólo que una variable sea NODATA el píxel se considera no clasificado.
+    Genera las imágenes con más píxeles sin clasificar.</li>
+
+    <li>n_bandes-1: Esta es la situación más tolerante, y un píxel se
+    clasifica sólo que tenga una variable diferente a NODATA. se puede
+    escribir MAX en este parámetro y el programa calculará directamente
+    &quot; n_bandes-1 &quot;.</li>
+  </ul>
+
+  <p>Con independencia del valor de MaxBandesNODATA, las clases (y las
+  firmas) se definen en función de todos los píxeles; en los individuos
+  incompletos (los que no presentan información a todas las bandas) la
+  clasificación sólo tiene en cuenta las bandas en las que hay datos y las clases
+  se recalculan en función de todos los datos disponibles en cada banda. en el
+  cálculo de las estadísticas finales, los individuos incompletos son completados
+  con la media correspondiente a su banda y categoría.</p>
+  
+  <p align="justify">Para interpretar los valores de distancia que utiliza este clasificador, recomendamos leer el apartado "Orientación sobre el significado de las distancias utilizadas en los procesos de clasificación" en la ayuda del módulo ClasSup.</p> 
+  <hr/>
+
+  <exclusiva>
+    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+IsoMM ?
+-->
+  </exclusiva>
+</body>
+</html>

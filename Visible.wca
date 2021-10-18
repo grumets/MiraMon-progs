@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:visible:1</ows:Identifier>
+		<ows:Title>Visible</ows:Title>
+		<ows:Abstract>El mòdul d'anàlisi de visibilitat de MiraMon determina, a partir del Model Digital d'Elevacions (MDE), quins píxels són visibles i quins no, des d'un conjunt d'observadors o punts de vista. En aquesta versió, els observadors han de ser objectes puntuals en format estructurat PNT; poden ser 3D i per tant ja és coneguda la seva alçada (pot ser per sobre del terreny, com en una torre), o 2D i llavors es determina la seva alçada a partir del MDE proporcionat. El càlcul d'aquesta alçada, així com les alçades dels punts que determinen els perfils topogràfics, pot fer-se per veí més proper, interpolació bilineal o interpolació bicúbica.
+Sobre l'alçada de l'observador, 3D o calculada, pot afegir-se una alçada complementària (única per a tots els punts) que elevi els observadors amb l'objectiu d'obtenir un millor camp de visualització.</ows:Abstract>
+<ows:Metadata xlink:title="Title:Anàlisi de visibilitat"/>
+<ows:Metadata xlink:title="Abstract:El mòdul d'anàlisi de visibilitat de MiraMon determina, a partir del Model Digital d'Elevacions (MDE), quins píxels són visibles i quins no, des d'un conjunt d'observadors o punts de vista. En aquesta versió, els observadors han de ser objectes puntuals en format estructurat PNT; poden ser 3D i per tant ja és coneguda la seva alçada (pot ser per sobre del terreny, com en una torre), o 2D i llavors es determina la seva alçada a partir del MDE proporcionat. El càlcul d'aquesta alçada, així com les alçades dels punts que determinen els perfils topogràfics, pot fer-se per veí més proper, interpolació bilineal o interpolació bicúbica. Sobre l'alçada de l'observador, 3D o calculada, pot afegir-se una alçada complementària (única per a tots els punts) que elevi els observadors amb l'objectiu d'obtenir un millor camp de visualització." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MDE</ows:Identifier>
+				<ows:Title>Model Digital d'Elevacions</ows:Title>
+				<ows:Abstract>Model Digital d'Elevacions en format ràster IMG a partir del qual es calcularà el model derivat d'anàlisi de visibilitat.</ows:Abstract>
+						<ows:Metadata xlink:title="Param1" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PuntsDeVista</ows:Identifier>
+				<ows:Title>Punts De Vista</ows:Title>
+				<ows:Abstract>Vector estructurat de punts amb les localitzacions dels punts de vista o observadors. Si el fitxer és 3D s'usa la coordena Z i si és 2D s'usa el MDE per a determinar l'alçada de l'observador.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AlturaExtra</ows:Identifier>
+				<ows:Title>Altura Extra</ows:Title>
+				<ows:Abstract>Elevació addicional sobre l'altura original de l'observador. Els perfils topogràfics es generaran fins a la suma d'aquestes alçades.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ModeInterpol</ows:Identifier>
+				<ows:Title>Mode Interpol·lació</ows:Title>
+				<ows:Abstract>ModeInterpol:<![CDATA[<ul><li>0: Veí més proper</li><li>1: Interpolació bilineal</li><li>2: Interpolació bicúbica</li></ul>]]>
+</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COTES3D</ows:Identifier>
+				<ows:Title>COTES3D</ows:Title>
+				<ows:Abstract>Indicador per usar la coordenada Z si l'observador és 3D.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>		
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Màxima distància</ows:Title>
+				<ows:Abstract>Distància (en les unitats planimètriques del sistema de referència, típicament metres) a partir del qual un píxel es considera no visible si la distància entre el seu centre i l'observador estan més allunyats.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASCARA</ows:Identifier>
+				<ows:Title>Mascara</ows:Title>
+				<ows:Abstract>Ràster o fitxer vectorial de polígons que limita la zona d'anàlisi. Si el fitxer és ràster no es calcularà allà on el ràster tingui valors NODATA, i si és un fitxer de polígons es pot aplicar una condició lògica que limitarà la zona d'estudi; accediu a general per a més detalls. </ows:Abstract>
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-POL</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_VISIBLE</ows:Identifier>
+				<ows:Title>Tipus Visibilitat</ows:Title>
+				<ows:Abstract> Indica que es desitja tenir en categories separades aquells píxels que són visibles des de tots els punts respecte a aquells píxels que són visibles des d'alguns punts i no-visibles des d'altres.</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RES_PERFIL</ows:Identifier>
+				<ows:Title>Nombre Càlculs</ows:Title>
+				<ows:Abstract>Nombre de càlculs de visibilitat per costat de píxel al llarg del perfil topogràfic. Per defecte s'usa el valor 1.</ows:Abstract>
+		<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>			
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDesti</ows:Identifier>
+				<ows:Title>Fitxer Desti</ows:Title>
+				<ows:Abstract>Ràster categòric en format IMG amb el resultat de l'anàlisi. Té el mateix àmbit i costat de píxel que el MDE.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	</wps:ProcessDescriptions>

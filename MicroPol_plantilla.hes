@@ -1,0 +1,72 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>MicroPol: Eliminación de micropolígonos de un fichero de
+  polígonos o de un ráster categórico</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.--> 
+
+<p>Este programa permite tres opciones para eliminar micropolígonos:</p>
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+<h3><p><u>CASO POLÍGONOS</u></p></h3> 
+
+  <p>Una de las características de las bases gráficas de polígonos topológicamente estructuradas es la descripción exhaustiva de todo su espacio interior, con lo cual se posee un conocimiento completo de cada uno de los objetos gráficos (polígonos) que las forman, tanto desde el punto de vista geométrico como temático. A veces una base de polígonos puede contener "agujeros" temáticos en su interior, es decir, polígonos que no tienen ningún atributo temático asignado y que deseamos visualizar como "transparentes" e ignorarlos temáticamente ("no consultables"); podría ser el caso, por ejemplo, del interior de un atolón en medio del océano. Esta situación es topológicamente correcta y soportada por MiraMon. Sin embargo, esta no es la situación más frecuente, y muchas veces la presencia de polígonos sin etiquetas temáticas responde simplemente a un descuido o quizás a la existencia de pequeñas zonas resultado de imprecisiones y errores en la base gráfica.</p>
+
+  <p>En el primer caso, cuando la falta de atributos corresponde a un descuido, la simple consulta por atributos desde MiraMon, solicitando aquellos elementos con atributos "en blanco", y de una superficie razonablemente grande, permitirá identificarlos sin problema. La identificación visual resulta especialmente fácil si se pide, en el botón <i>Avanzadas...</i> de visualización, que se dejen transparentes (no se pinten) los polígonos sin atributo. Una vez identificados los polígonos, se etiquetan y el problema queda resuelto.</p>
+
+  <p>El segundo caso, en cambio, suele estar formado por polígonos de dimensiones muy reducidas que reciben el nombre de <b>micropolígonos</b>. Este programa pretende ayudar a la detección y eliminación de micropolígonos, tarea frecuentemente pesada por el hecho de que en determinadas circunstancias pueden aparecer en gran cantidad. En efecto, si cuando se genera cartografía se respetan unas reglas básicas, como el uso de herramientas de conexión (<i>Edición|Conectar sobre vector previo</i> en MiraMon), prácticamente nunca aparecerán micropolígonos, pero en caso contrario, o cuando se importan ficheros que provienen de otras fuentes (especialmente desde un programa de CAD, o desde formatos sin topología, como SHP), quizás sea necesario aplicar este filtro.</p>
+
+  <p>Este programa permite eliminar los micropolígonos que cumplen una serie de condiciones. En general, un micropolígono es un objeto pequeño, a veces alargado y, a menudo, sin etiqueta temática. Por ello, presenta un área pequeña, una relación área/perímetro pequeña (perímetro grande y área pequeña) y no ha sido etiquetado. Este programa incorpora estos tres criterios y un criterio adicional para poder marcar un polígono como eliminable mediante un campo lógico de la base de datos principal de polígonos.</p>
+
+  <p>MicroPol genera una nueva capa de polígonos seleccionando los arcos necesarios de la base original de arcos, que permanece intacta. Una vez ejecutado este programa es posible que se desee obtener una base de arcos filtrada, formada únicamente por los arcos necesarios para construir los polígonos. Esta puede generarse con el programa <a href="Emancipa.HTM">Emancipa</a>.</p>
+  
+  
+ <h3>Formato del archivo de afinidades</h3> La tabla de afinidades, sólo necesaria en usos altamente profesionales de eliminación de micropolígonos, es una tabla DBF con la siguiente estructura:
+
+ <ul>
+  <li>[NOM_CAMP1]: coincide con un nombre de campo de la tabla principal del archivo de polígonos. Su contenido son los valores de los campos de los micropolígonos a eliminar.</li>
+
+  <li>[NOM_CAMP#]: coincide con el enésimo nombre de campo.</li>
+
+  <li>...</li>
+
+  <li>ABSOR1: este campo, de nombre fijado, contiene los valores del campo de la tabla principal de nombre NOM_CAMP1 de los polígonos que absorbe.</li>
+
+  <li>ABSOR#: lo mismo para el enésimo campo. El número de campos de este nombre incremental es el mismo que el número de nombres de campo libres del principio de la tabla.</li>
+
+  <li>...</li>
+
+  <li>PRIORITAT: es el índice de prioridad de esta combinación de atributos. Valores altos representan alta afinidad. El parámetro <i>/AFIN_ORDRE</i> de sintaxis permite invertir esta interpretación. Es posible asignar el mismo valor a varias combinaciones. </li>
+ </ul> 
+ Es importante notar que este esquema permite definir prioridades asimétricas, es decir, que si el valor de micropolígonos A se absorbe con B con prioridad 1, un micropolígonos de valor B puede quedar absorbido en un polígono de valor A con prioridad 15 o ni siquiera tener prioridad asignada (combinación no presente en la tabla).
+ 
+ 
+ <h3><p><u>CASO RÁSTER</u></p></h3> 
+
+	<p>Este modo permite eliminar grupos de pocas celdas presentes en un ráster categórico (por ejemplo un mapa de cubiertas del suelo) y asimilarlos a la categoría más abundante en un entorno inmediato (de 3x3 celdas, de 5x5 celdas, etc).</p>
+
+	<p>Internamente, el programa realiza una vectorización del ráster categórico de entrada teniendo en cuenta la presencia o no del parámetro <i>Ignorar_veins_diagonal</i> y a continuación lo vuelve a rasterizar pero convirtiendo en un valor diferente cualquiera de los valores existentes en el ráster (incluido el sindatos) en todos los polígonos que tienen un área en celdas menor o igual a <i>Area_max</i>. Una vez creado este nuevo ráster que contiene un nuevo valor "bandera" para todos los polígonos ráster con área considerada micropolígonos, se realiza una	ejecución equivalente a la que haría el módulo <a href="FagoVal.HTM">FagoVal</a> con una ventana de convolución de valor <i>Fin_convol</i>,	con un criterio de moda iterando hasta el máximo posible, evitando la asignación a sindatos tanto en eliminar un valor aislado como cuando el sindatos es mayoritario en la ventana de convolución y sin un valor modal mínimo para sustituir el valor central de la ventana de convolución.</p>
+
+	<p>Debe notarse que el modo 3 es diferente a los modos que parten de bases vectoriales ya que en el modo 3 la vecindad analizada es inmediata, a distancia de 1 celda (si <i>Fin_convol</i> vale 3), de dos celdas (si <i>Fin_convol</i> vale 5), etc. En cambio, en los modos que parten de bases vectoriales el criterio es diferente (área más grande de todo el polígono en contacto con el micropolígono). Si se desea eliminar los micropolígonos de un ráster con el mismo criterio que en una capa vectorial de polígonos, se debe vectorizar el ráster con <a href="RasTop.HTM">RasTop</a> y continuar a partir de la base de polígonos obtenida.</p>
+
+  <br/>
+
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+MicroPol ?
+--></p>
+  </exclusiva>
+</body>
+</html>

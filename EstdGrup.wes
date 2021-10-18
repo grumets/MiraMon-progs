@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:EstdGrup:Param1:HTM</ows:Identifier>
+		<ows:Title>EstdGrup HTM</ows:Title>
+		<ows:Abstract>Esta opción realiza cálculos estadísticos para uno o más campos de una base de datos (típicamente la relacionada con una capa vectorial estructurada), con la particularidad de que las variables estadísticas se calculan y clasifican según unas agrupaciones definidas por el usuario. Los resultados de los cálculos estadísticos se guardan en un fichero en formato HTML.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Estadística de campos agrupando los registros en función de los valores presentes en otros campos"/>
+		<ows:Metadata xlink:title="Abstract:Este módulo realiza cálculos estadísticos para uno o más campos de una base de datos (típicamente la relacionada con una capa vectorial estructurada), con la particularidad de que las variables estadísticas se calculan y clasifican según unas agrupaciones definidas por el usuario"/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>HTM (o 1): Se genera un informe del resultado de los cálculos estadísticos en formato HTML.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>HTM</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>HTM</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fichero Origen</ows:Title>
+				<ows:Abstract>Fichero REL correspondiente a la base de datos de una capa vectorial estructurada, o tabla DBF, a partir de la cual se realizarán los cálculos estadísticos seleccionados.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>GRP_#</ows:Identifier>
+				<ows:Title>Campo Agrupador #</ows:Title>
+				<ows:Abstract><![CDATA[Nombre del campo que actúa como agrupador con orden de prioridad #. El valor de esta variable contendrá un texto alfanumérico construido a partir del nombre del campo y sus relaciones desde la tabla principal. Se pueden usar N campos agrupadores (GRP_#), donde # es el número del campo agrupador (GRP_1, GRP_2,...). El orden de prioridad empieza por el valor 1, que indica el nivel de agrupación más general. Más consideraciones en <a href=general.htm>sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>ESTD_#</ows:Identifier>
+				<ows:Title>Campo estadísticas #</ows:Title>
+				<ows:Abstract>Nombre del campo sobre el que se realizan diferentes cálculos estadísticos identificados por el índice #, que solo tiene el significado de orden en que se muestran los diferentes campos calculados. Se pueden calcular estadísticos sobre N campos (ESTD_#). Su valor se constituye de la misma manera que /GRP_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>CAT_#</ows:Identifier>
+				<ows:Title>Tratamiento categórico</ows:Title>
+				<ows:Abstract>Indica tratamiento categórico del campo identificado por /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>NUM_#</ows:Identifier>
+				<ows:Title>Tratamiento cuantitativo</ows:Title>
+				<ows:Abstract>Indica tratamiento cuantitativo del campo identificado por /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_TOTALS_#</ows:Identifier>
+				<ows:Title>Registros totales</ows:Title>
+				<ows:Abstract>Para el campo identificado por /ESTD_# se desea conocer cuál es el número de registros totales (incluye registros vacíos, blancos o sindatos).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_DADES_#</ows:Identifier>
+				<ows:Title>Número de registros con datos</ows:Title>
+				<ows:Abstract>Para el campo identificado por /ESTD_# se desea conocer cuál es el número de registros con datos (sin incluir registros vacíos, blancos o sindatos).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_MODA_#</ows:Identifier>
+				<ows:Title>Porcentaje Moda</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el porcentaje de ocurrencia del valor modal para el campo identificado por /ESTD_# en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MODA_#</ows:Identifier>
+				<ows:Title>Cálculo Moda</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la moda para el campo identificado por /ESTD_# en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>I_SHAN_#</ows:Identifier>
+				<ows:Title>Índice de Shannon</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo del índice de Shannon para el campo identificado por /ESTD_# en un tratamiento categórico. Se pueden calcular estadísticos # campos (I_SHAN_#, ESTD_#).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MITJANA_#</ows:Identifier>
+				<ows:Title>Cálculo mediana</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la mediana para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>DESV_STD_#</ows:Identifier>
+				<ows:Title>Desviación estándar</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la desviación estándar para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>VAR_#</ows:Identifier>
+				<ows:Title>Varianza</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la varianza para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>SUMA_#</ows:Identifier>
+				<ows:Title>Sumatorio</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el sumatorio de todos los valores para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MIN_#</ows:Identifier>
+				<ows:Title>Mínimo</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el valor mínimo para el campo identificado por /ESTD_# en un tratamiento cuantitativo, o el primer valor de una ordenación alfabética ascendente en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MAX_#</ows:Identifier>
+				<ows:Title>Màximo</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el valor máximo para el campo identificado por /ESTD_# en un tratamiento cuantitativo, o el último valor de una ordenación alfabética ascendente en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_#</ows:Identifier>
+				<ows:Title>Número de valores válidos</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el número de valores de un elemento de la proyección en relación al número total de valores para el campo identificado por /ESTD_# . En este cálculo no se consideran los valores sindatos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_NODATA_#</ows:Identifier>
+				<ows:Title>Número de valores considerando el sindatos</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el porcentaje del valor respecto al número total de valores de la proyección para el campo identificado por /ESTD_# . En este cálculo sí se consideran los valores sindatos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_#</ows:Identifier>
+				<ows:Title>Mediana</ows:Title>
+				<ows:Abstract>Indica que se desea conocer la mediana de todos los valores para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESV_MEDIANA_#</ows:Identifier>
+				<ows:Title>Media de la desviación absoluta respecto la mediana</ows:Title>
+				<ows:Abstract>Indica que se desea conocer la media de la desviación absoluta respecto la mediana de todos los valores para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_EMPAT_#</ows:Identifier>
+				<ows:Title>Desempate de la mediana</ows:Title>
+				<ows:Abstract><![CDATA[En caso que se escoja calcular la mediana o la media de la desviación absoluta respecto la mediana, se indica el tipo de desempate:<li>1 para escoger valor alternado.</li><li>2 para escoger valor inferior.</li><li>3 para escoger valor superior.</li><li>4 para escoger la media de los valores centrales.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DECIMALS</ows:Identifier>
+				<ows:Title>Número de dígitos decimales</ows:Title>
+				<ows:Abstract>Es el número de cifras decimales para los resultados de las estadísticas que corresponen a un valor numérico no-entero. Si no se especifica, se usa el valor definido en el fichero de configuración MiraMon.par.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerSortida</ows:Identifier>
+				<ows:Title>Fichero Salida</ows:Title>
+				<ows:Abstract>Para las opciones HTM (1) y CSV (3) es el fichero que contendrá los resultados de los cálculos estadísticos indicados.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroSalida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>text/html</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/html</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:EstdGrup:Param1:DBF</ows:Identifier>
+		<ows:Title>EstdGrup DBF</ows:Title>
+		<ows:Abstract>Esta opción realiza cálculos estadísticos para uno o más campos de una base de datos (típicamente la relacionada con una capa vectorial estructurada), con la particularidad de que las variables estadísticas se calculan y clasifican según unas agrupaciones definidas por el usuario. Los resultados de los cálculos estadísticos se guardan en formato DBF en el directorio de destino.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>DBF (o 2): Se generan tantas tablas en formato DBF como campos agrupadores en el directorio de destino. Cada tabla contiene los resultados estadísticos del correspondiente campo agrupador.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>DBF</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>DBF</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fichero Origen</ows:Title>
+				<ows:Abstract>Fichero REL correspondiente a la base de datos de una capa vectorial estructurada, o tabla DBF, a partir de la cual se realizarán los cálculos estadísticos seleccionados.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>GRP_#</ows:Identifier>
+				<ows:Title>Campo Agrupador #</ows:Title>
+				<ows:Abstract><![CDATA[Nombre del campo que actúa como agrupador con orden de prioridad #. El valor de esta variable contendrá un texto alfanumérico construido a partir del nombre del campo y sus relaciones desde la tabla principal. Se pueden usar N campos agrupadores (GRP_#), donde # es el número del campo agrupador (GRP_1, GRP_2,...). El orden de prioridad empieza por el valor 1, que indica el nivel de agrupación más general. Más consideraciones en <a href=general.htm>sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>ESTD_#</ows:Identifier>
+				<ows:Title>Campo estadísticas #</ows:Title>
+				<ows:Abstract>Nombre del campo sobre el que se realizan diferentes cálculos estadísticos identificados por el índice #, que solo tiene el significado de orden en que se muestran los diferentes campos calculados. Se pueden calcular estadísticos sobre N campos (ESTD_#). Su valor se constituye de la misma manera que /GRP_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>CAT_#</ows:Identifier>
+				<ows:Title>Tratamiento categórico</ows:Title>
+				<ows:Abstract>Indica tratamiento categórico del campo identificado por /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>NUM_#</ows:Identifier>
+				<ows:Title>Tratamiento cuantitativo</ows:Title>
+				<ows:Abstract>Indica tratamiento cuantitativo del campo identificado por /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_TOTALS_#</ows:Identifier>
+				<ows:Title>Registros totales</ows:Title>
+				<ows:Abstract>Para el campo identificado por /ESTD_# se desea conocer cuál es el número de registros totales (incluye registros vacíos, blancos o sindatos).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_DADES_#</ows:Identifier>
+				<ows:Title>Número de registros con datos</ows:Title>
+				<ows:Abstract>Para el campo identificado por /ESTD_# se desea conocer cuál es el número de registros con datos (sin incluir registros vacíos, blancos o sindatos).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_MODA_#</ows:Identifier>
+				<ows:Title>Porcentaje Moda</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el porcentaje de ocurrencia del valor modal para el campo identificado por /ESTD_# en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MODA_#</ows:Identifier>
+				<ows:Title>Cálculo Moda</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la moda para el campo identificado por /ESTD_# en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>I_SHAN_#</ows:Identifier>
+				<ows:Title>Índice de Shannon</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo del índice de Shannon para el campo identificado por /ESTD_# en un tratamiento categórico. Se pueden calcular estadísticos # campos (I_SHAN_#, ESTD_#).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MITJANA_#</ows:Identifier>
+				<ows:Title>Cálculo mediana</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la mediana para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>DESV_STD_#</ows:Identifier>
+				<ows:Title>Desviación estándar</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la desviación estándar para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>VAR_#</ows:Identifier>
+				<ows:Title>Varianza</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la varianza para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>SUMA_#</ows:Identifier>
+				<ows:Title>Sumatorio</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el sumatorio de todos los valores para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MIN_#</ows:Identifier>
+				<ows:Title>Mínimo</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el valor mínimo para el campo identificado por /ESTD_# en un tratamiento cuantitativo, o el primer valor de una ordenación alfabética ascendente en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MAX_#</ows:Identifier>
+				<ows:Title>Màximo</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el valor máximo para el campo identificado por /ESTD_# en un tratamiento cuantitativo, o el último valor de una ordenación alfabética ascendente en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_#</ows:Identifier>
+				<ows:Title>Número de valores válidos</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el número de valores de un elemento de la proyección en relación al número total de valores para el campo identificado por /ESTD_# . En este cálculo no se consideran los valores sindatos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_NODATA_#</ows:Identifier>
+				<ows:Title>Número de valores considerando el sindatos</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el porcentaje del valor respecto al número total de valores de la proyección para el campo identificado por /ESTD_# . En este cálculo sí se consideran los valores sindatos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_#</ows:Identifier>
+				<ows:Title>Mediana</ows:Title>
+				<ows:Abstract>Indica que se desea conocer la mediana de todos los valores para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESV_MEDIANA_#</ows:Identifier>
+				<ows:Title>Media de la desviación absoluta respecto la mediana</ows:Title>
+				<ows:Abstract>Indica que se desea conocer la media de la desviación absoluta respecto la mediana de todos los valores para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_EMPAT_#</ows:Identifier>
+				<ows:Title>Desempate de la mediana</ows:Title>
+				<ows:Abstract><![CDATA[En caso que se escoja calcular la mediana o la media de la desviación absoluta respecto la mediana, se indica el tipo de desempate:<li>1 para escoger valor alternado.</li><li>2 para escoger valor inferior.</li><li>3 para escoger valor superior.</li><li>4 para escoger la media de los valores centrales.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DECIMALS</ows:Identifier>
+				<ows:Title>Número de dígitos decimales</ows:Title>
+				<ows:Abstract>Es el número de cifras decimales para los resultados de las estadísticas que corresponen a un valor numérico no-entero. Si no se especifica, se usa el valor definido en el fichero de configuración MiraMon.par.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>DirectoriDesti</ows:Identifier>
+				<ows:Title>Directorio Destino</ows:Title>
+				<ows:Abstract>Es el directorio donde se escribirán los resultados en las correspondientes tablas DBF generadas para cada campo agrupador.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:DirectorioDestino"/>
+				<LiteralOutput>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
+				</LiteralOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:EstdGrup:Param1:CSV</ows:Identifier>
+		<ows:Title>EstdGrup CSV</ows:Title>
+		<ows:Abstract>Esta opción realiza cálculos estadísticos para uno o más campos de una base de datos (típicamente la relacionada con una capa vectorial estructurada), con la particularidad de que las variables estadísticas se calculan y clasifican según unas agrupaciones definidas por el usuario. Los resultados de los cálculos estadísticos se guardan en un fichero en formato CSV.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>CSV (o 3): Se genera una hoja de cálculo en formato CSV (que delimita los campos por un separador de listas) con el resultado de los cálculos estadísticos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>CSV</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>CSV</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fichero Origen</ows:Title>
+				<ows:Abstract>Fichero REL correspondiente a la base de datos de una capa vectorial estructurada, o tabla DBF, a partir de la cual se realizarán los cálculos estadísticos seleccionados.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>GRP_#</ows:Identifier>
+				<ows:Title>Campo Agrupador #</ows:Title>
+				<ows:Abstract><![CDATA[Nombre del campo que actúa como agrupador con orden de prioridad #. El valor de esta variable contendrá un texto alfanumérico construido a partir del nombre del campo y sus relaciones desde la tabla principal. Se pueden usar N campos agrupadores (GRP_#), donde # es el número del campo agrupador (GRP_1, GRP_2,...). El orden de prioridad empieza por el valor 1, que indica el nivel de agrupación más general. Más consideraciones en <a href=general.htm>sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>ESTD_#</ows:Identifier>
+				<ows:Title>Campo estadísticas #</ows:Title>
+				<ows:Abstract>Nombre del campo sobre el que se realizan diferentes cálculos estadísticos identificados por el índice #, que solo tiene el significado de orden en que se muestran los diferentes campos calculados. Se pueden calcular estadísticos sobre N campos (ESTD_#). Su valor se constituye de la misma manera que /GRP_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>CAT_#</ows:Identifier>
+				<ows:Title>Tratamiento categórico</ows:Title>
+				<ows:Abstract>Indica tratamiento categórico del campo identificado por /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>NUM_#</ows:Identifier>
+				<ows:Title>Tratamiento cuantitativo</ows:Title>
+				<ows:Abstract>Indica tratamiento cuantitativo del campo identificado por /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_TOTALS_#</ows:Identifier>
+				<ows:Title>Registros totales</ows:Title>
+				<ows:Abstract>Para el campo identificado por /ESTD_# se desea conocer cuál es el número de registros totales (incluye registros vacíos, blancos o sindatos).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_DADES_#</ows:Identifier>
+				<ows:Title>Número de registros con datos</ows:Title>
+				<ows:Abstract>Para el campo identificado por /ESTD_# se desea conocer cuál es el número de registros con datos (sin incluir registros vacíos, blancos o sindatos).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_MODA_#</ows:Identifier>
+				<ows:Title>Porcentaje Moda</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el porcentaje de ocurrencia del valor modal para el campo identificado por /ESTD_# en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MODA_#</ows:Identifier>
+				<ows:Title>Cálculo Moda</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la moda para el campo identificado por /ESTD_# en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>I_SHAN_#</ows:Identifier>
+				<ows:Title>Índice de Shannon</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo del índice de Shannon para el campo identificado por /ESTD_# en un tratamiento categórico. Se pueden calcular estadísticos # campos (I_SHAN_#, ESTD_#).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MITJANA_#</ows:Identifier>
+				<ows:Title>Cálculo mediana</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la mediana para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>DESV_STD_#</ows:Identifier>
+				<ows:Title>Desviación estándar</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la desviación estándar para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>VAR_#</ows:Identifier>
+				<ows:Title>Varianza</ows:Title>
+				<ows:Abstract>Indica que se desea el cálculo de la varianza para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>SUMA_#</ows:Identifier>
+				<ows:Title>Sumatorio</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el sumatorio de todos los valores para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MIN_#</ows:Identifier>
+				<ows:Title>Mínimo</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el valor mínimo para el campo identificado por /ESTD_# en un tratamiento cuantitativo, o el primer valor de una ordenación alfabética ascendente en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MAX_#</ows:Identifier>
+				<ows:Title>Màximo</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el valor máximo para el campo identificado por /ESTD_# en un tratamiento cuantitativo, o el último valor de una ordenación alfabética ascendente en un tratamiento categórico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_#</ows:Identifier>
+				<ows:Title>Número de valores válidos</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el número de valores de un elemento de la proyección en relación al número total de valores para el campo identificado por /ESTD_# . En este cálculo no se consideran los valores sindatos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_NODATA_#</ows:Identifier>
+				<ows:Title>Número de valores considerando el sindatos</ows:Title>
+				<ows:Abstract>Indica que se desea conocer el porcentaje del valor respecto al número total de valores de la proyección para el campo identificado por /ESTD_# . En este cálculo sí se consideran los valores sindatos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_#</ows:Identifier>
+				<ows:Title>Mediana</ows:Title>
+				<ows:Abstract>Indica que se desea conocer la mediana de todos los valores para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESV_MEDIANA_#</ows:Identifier>
+				<ows:Title>Media de la desviación absoluta respecto la mediana</ows:Title>
+				<ows:Abstract>Indica que se desea conocer la media de la desviación absoluta respecto la mediana de todos los valores para el campo identificado por /ESTD_# en un tratamiento cuantitativo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_EMPAT_#</ows:Identifier>
+				<ows:Title>Desempate de la mediana</ows:Title>
+				<ows:Abstract><![CDATA[En caso que se escoja calcular la mediana o la media de la desviación absoluta respecto la mediana, se indica el tipo de desempate:<li>1 para escoger valor alternado.</li><li>2 para escoger valor inferior.</li><li>3 para escoger valor superior.</li><li>4 para escoger la media de los valores centrales.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DECIMALS</ows:Identifier>
+				<ows:Title>Número de dígitos decimales</ows:Title>
+				<ows:Abstract>Es el número de cifras decimales para los resultados de las estadísticas que corresponen a un valor numérico no-entero. Si no se especifica, se usa el valor definido en el fichero de configuración MiraMon.par.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerSortida</ows:Identifier>
+				<ows:Title>Fichero Salida</ows:Title>
+				<ows:Abstract>Para las opciones HTM (1) y CSV (3) es el fichero que contendrá los resultados de los cálculos estadísticos indicados.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroSalida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>text/html</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/html</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

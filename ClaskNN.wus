@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CLASKNN:1</ows:Identifier>
+		<ows:Title>Classification by number of nearest neighbors</ows:Title>
+		<ows:Abstract/>
+		<ows:Metadata xlink:title="Title:Classification by number of nearest neighbors."/>
+		<ows:Metadata xlink:title="Abstract:This module allows do a classification of an image (monoband or multiband) by a number of more similar pixels in the training areas for every pixel of the input image."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>TipusCalcul</ows:Identifier>
+				<ows:Title>Calculation Type</ows:Title>
+				<ows:Abstract><![CDATA[Method of calculation of the predominant class: <ul><li>1 Using the mode.</li></ul><ul><li>2 Using the mode and applying a weight relative distance.</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:CalculationType"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>LlistaFitxersIMG</ows:Identifier>
+				<ows:Title>List of input raster files</ows:Title>
+				<ows:Abstract>List of raster input files.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:ListofIMGfiles"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerAE</ows:Identifier>
+				<ows:Title>Training areas file</ows:Title>
+				<ows:Abstract>Training areas file.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:TAfile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NumVeins</ows:Identifier>
+				<ows:Title>Number of neighbors</ows:Title>
+				<ows:Abstract>Parameter of the number of nearest neighbors.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NumNeighbors"/>
+				<LiteralData>
+					<ows:DataType>integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MaxDist</ows:Identifier>
+				<ows:Title>Maximum distance to be a candidate as one of the k neighbors</ows:Title>
+				<ows:Abstract>Maximum distance over which a pixel in an area of training cannot be a candidate to become one of the k neighbors.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType>float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NVeinsMin</ows:Identifier>
+				<ows:Title>Minimum number of neighbors to classify a pixel</ows:Title>
+				<ows:Abstract>Minimum number of neighbors to classify a pixel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType>int</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MaxBandesNODATA</ows:Identifier>
+				<ows:Title>Variable tolerance with NODATA</ows:Title>
+				<ows:Abstract>Maximum number of variables with NODATA value to classify a pixel and not consider it NODATA. If you want to use the maximum allowance, indicate MAX. If the special MAX parameter is indicated, it automatically classifies with this parameter initialized to the number of bands minus 1. On the contrary, if the parameter is not indicated, it is equivalent to indicating a 0 (that is, that only a single data is missing in the multivariate set, the pixel is not classified).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AEAmbNODATA</ows:Identifier>
+				<ows:Title>Accept training areas with NODATA</ows:Title>
+				<ows:Abstract>Accept training areas with NODATA in any of the variables.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PertMax</ows:Identifier>
+				<ows:Title>Maximum membership</ows:Title>
+				<ows:Abstract>Maximum membership to calculate the uncertainty map. Only applicable if MapaFKM or MapaIncert. Perhaps the sum of belongings of the pixel (default value) or a user-defined value.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VariablesAE</ows:Identifier>
+				<ows:Title>>List of variables TA</ows:Title>
+				<ows:Abstract>List of variables where the values ​​of the Training Areas will be read to classify. If none is indicated, the input variables (those of the 'FileAE' parameter) will be used.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Disc</ows:Identifier>
+				<ows:Title>Forcing not to upload the images to classify in memory</ows:Title>
+				<ows:Abstract>Useful for computers with a very short memory in relation to the size of the files to be classified. In general it is not necessary to apply as if the program runs out of memory automatically switches to this mode.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NProces</ows:Identifier>
+				<ows:Title>Number of processor cores to use</ows:Title>
+				<ows:Abstract>You can specify a specific number of processor or "MAX" (to use all processors) or "SUB_MAX" (to use all processors minus one).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>SUB_MAX</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>2_CLASSES_RESULT</ows:Identifier>
+				<ows:Title>To generate raster classification in second instance</ows:Title>
+				<ows:Abstract>To generate a second raster with the result of the classification in second instance.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>	
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerClass</ows:Identifier>
+				<ows:Title>Output raster file of the result of the classification</ows:Title>
+				<ows:Abstract>Output raster file of the result of the classification.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:ClassFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaDistMin</ows:Identifier>
+				<ows:Title>Map of minimum distance</ows:Title>
+				<ows:Abstract>Minimum distance map of training areas which has been taken the decision to classify the pixel in a particular class.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaDistMax</ows:Identifier>
+				<ows:Title>Map of maximum distance</ows:Title>
+				<ows:Abstract>Map of maximum distance from the training areas which has taken the decision to classify the pixel in a particular class.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+			<ows:Identifier>MapaMedianDist</ows:Identifier>
+				<ows:Title>Map of the median of distances</ows:Title>
+				<ows:Abstract>Map of the median of distances from the training areas which has taken the decision to classify the pixel in a particular class.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaNPixAE</ows:Identifier>
+				<ows:Title>Map of the number of pixels of the training areas</ows:Title>
+				<ows:Abstract>Map of the number of pixels of the training areas which has taken the decision to classify the pixel in a particular class.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaIncert</ows:Identifier>
+				<ows:Title>Uncertanty map</ows:Title>
+				<ows:Abstract>Uncertanty map.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaFKM</ows:Identifier>
+				<ows:Title>Fussy k-means maps</ows:Title>
+				<ows:Abstract>Mapa fussy k-means (similar to uncertanty map).</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

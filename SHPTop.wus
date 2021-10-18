@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SHPTop:Param1:0</ows:Identifier>
+		<ows:Title>Information SHP</ows:Title>
+		<ows:Abstract>Information of the SHP file.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Convert Shape files to MiraMon topological files."/>
+		<ows:Metadata xlink:title="Abstract:Convert Shape files to MiraMon topological files."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>Information</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerSHP</ows:Identifier>
+				<ows:Title>SHP File</ows:Title>
+				<ows:Abstract>The ShapeFile to be imported, without extension.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:SHPFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Stdout</ows:Identifier>
+				<ows:Title>Output Standard</ows:Title>
+				<ows:Abstract>Information of the shapefile.
+				</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-display</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-display</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SHPTop:Param1:1</ows:Identifier>
+		<ows:Title>Import and topologic structuration</ows:Title>
+		<ows:Abstract>Option 1 of the program imports the SHP polyline file and generates arc/node topology, eliminating intersections and superpositions. For SHP polygon files it generates polygon topology; the arc file does not contain duplicated borders (the arc file is smaller) and the polygon file has no superpositions. It is also possible to eliminate any micropolygons that may occur. This is the recommended option.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>Import to MiraMon format and create topological structure (recommended).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerSHP</ows:Identifier>
+				<ows:Title>SHP File</ows:Title>
+				<ows:Abstract>The ShapeFile to be imported, without extension.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:SHPFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_MIN</ows:Identifier>
+				<ows:Title>Minimum Area</ows:Title>
+				<ows:Abstract>Minimum permitted polygon area.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_PERI_MIN</ows:Identifier>
+				<ows:Title>Minimum permitted area</ows:Title>
+				<ows:Abstract>Minimum permitted area/perimeter ratio.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NEXE_CRITERIS</ows:Identifier>
+				<ows:Title>Condition</ows:Title>
+				<ows:Abstract>Should both criteria be selected, eliminate polygons that satisfy both conditions simultaneously (AND), or that satisfy either condition (OR). Default value is AND.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FONDRE</ows:Identifier>
+				<ows:Title>Melt</ows:Title>
+				<ows:Abstract>Indicates to which polygon the area covered by a micropolygon should be assigned. Select POL_GRAN to assign the area to the biggest neighbouring polygon. The default values is FRONTERA_MES_LLARGA, which eliminates the longest side of the micropolygon.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>POL_GRAN</ows:Value>
+						<ows:Value>FRONTERA_MES_LLARGA</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATRIB_ELIM</ows:Identifier>
+				<ows:Title>Delete atributte</ows:Title>
+				<ows:Abstract>If set to 1 the polygon that absorbs the micropolygon inherits its attributes. The default value is 0, and the attributes are lost.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ESCALAT</ows:Identifier>
+				<ows:Title>Escale</ows:Title>
+				<ows:Abstract>The scale applied to the X,Y coordinates; by default 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESPLAC_X</ows:Identifier>
+				<ows:Title>X Desplacement</ows:Title>
+				<ows:Abstract>The displacement applied to the X coordinates; by default 0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESPLAC_Y</ows:Identifier>
+				<ows:Title>Y Desplacement</ows:Title>
+				<ows:Abstract>The displacement applied to the Y coordinates; by default 0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SLD</ows:Identifier>
+				<ows:Title>SLD File</ows:Title>
+				<ows:Abstract>Symbology file in SLD format (Styled Layer Descriptor).</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/vnd.ogc.sld+xml</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/vnd.ogc.sld+xml</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerTOP</ows:Identifier>
+				<ows:Title>TOP File</ows:Title>
+				<ows:Abstract>Output filename, without extension. The extension of the output filename is selected by the program as a function of the type of SHP layer.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:TopFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SHPTop:Param1:2</ows:Identifier>
+		<ows:Title>Import</ows:Title>
+		<ows:Abstract>Option 2 of the program carries out a simple import of the format without modifying the geometry or the topology of the graphical entities. For SHP polygon files an ARC/NOD file is generated that may include intersections between lines, superpositions and other undesired effects for a topological model. For SHP polygon files an ARC file is generated in which each polygon is represented by a closed arc with the polygon border (or more than one arc if this polygon contains holes or exterior enclaves) and, therefore, the borders of the polygon may be duplicated if the polygons are adjacent (as occurs in the SHP file). A file is also generated containing the group of non-topological polygons POL (explicit polygons) in the same order as they appear in the SHP file. Since this process performs no transformation it is faster than that corresponding to option 1 and can be visualised with MiraMon. However, since it contains no topological information the analysis tools may not accept them as input. To construct the topology from this file would imply the combined use of topological structuring tools: to structure the arcs with LINARC and, if the file is a polygon file, make a new "cycle" of polygons with CICLAR and transfer the attributes between polygons with ATRITOP.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>Import to MiraMon format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerSHP</ows:Identifier>
+				<ows:Title>SHP File</ows:Title>
+				<ows:Abstract>The ShapeFile to be imported, without extension.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:SHPFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_MIN</ows:Identifier>
+				<ows:Title>Minimum area</ows:Title>
+				<ows:Abstract>Minimum permitted area for a polygon.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_PERI_MIN</ows:Identifier>
+				<ows:Title>Minimum area/perimeter</ows:Title>
+				<ows:Abstract>Minimum permitted area/perimeter ratio.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NEXE_CRITERIS</ows:Identifier>
+				<ows:Title>Nex</ows:Title>
+				<ows:Abstract>If both criteria are specified, eliminates those polygons that satisfy both conditions (AND) or those that satisfy one or other of the conditions (OR). Default value is AND.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>AND</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FONDRE</ows:Identifier>
+				<ows:Title>Fusion</ows:Title>
+				<ows:Abstract> Indicates to which polygon should be assigned the space occupied by the deleted micropolygon. Select POL_GRAN to assign the space to the largest adjacent polygon. The default is FRONTERA_MES_LLARGA, which means that the longest arc of the micropolygon is deleted.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>POL_GRAN</ows:Value>
+						<ows:Value>FRONTERA_MES_LLARGA</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>FRONTERA_MES_LLARGA</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATRIB_ELIM</ows:Identifier>
+				<ows:Title>Absorbs micropolygon</ows:Title>
+				<ows:Abstract>The polygon that absorbs the micropolygon inherits its attributes if the value is 1. The default is 0, meaning that the micropolygon's attributes are lost.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ALGORISME</ows:Identifier>
+				<ows:Title>Algorithm</ows:Title>
+				<ows:Abstract>This parameter is used to determine the type of algorithm that the application will use to cut the vectors in the topological structure.<![CDATA[<ul><li> ESCOMBRATGE Based on the intersection of segments Bentley-Ottmann. </li><li>DIRECTE: Based on the exploration of all segments against all segments to determine the intersections between Victor by the topological structure.</li><li>AUTOMATIC: MiraMon automatically decides which of the two algorithms used.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ESCOMBRATGE</ows:Value>
+						<ows:Value>DIRECTE</ows:Value>
+						<ows:Value>AUTOMATIC</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>AUTOMATIC</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
+				<ows:Title>Simplify vertices</ows:Title>
+				<ows:Abstract>Simplify intermediate line vertices if it doesn't mean a change on the topology.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ESCALAT</ows:Identifier>
+				<ows:Title>Scale</ows:Title>
+				<ows:Abstract>The scale applied to the X,Y coordinates; by default 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESPLAC_X</ows:Identifier>
+				<ows:Title>X Displacement</ows:Title>
+				<ows:Abstract>The displacement applied to the X coordinates; by default 0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESPLAC_Y</ows:Identifier>
+				<ows:Title>Y Displacement</ows:Title>
+				<ows:Abstract>The displacement applied to the Y coordinates; by default 0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SLD</ows:Identifier>
+				<ows:Title>SLD File</ows:Title>
+				<ows:Abstract>Symbology file in SLD format (Styled Layer Descriptor).</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/vnd.ogc.sld+xml</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/vnd.ogc.sld+xml</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerTOP</ows:Identifier>
+				<ows:Title>TOPFile</ows:Title>
+				<ows:Abstract>Output filename, without extension. The extension of the output filename is selected by the program as a function of the type of SHP layer.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:TopFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SHPTop:Param1:3</ows:Identifier>
+		<ows:Title>Export to ArcView format</ows:Title>
+		<ows:Abstract>The option 3 program exports MiraMon files (PNT, ARC / NOD, POL) to a SHP file (Shapefile) of ArcView generating three files with the same name and the extensions SHP, SHX and DBF. The main table is transformed into the table associated with the SHP file, eliminating the multiregistre according to the specifications of the DBF format SHP-geometric and topological fields, MiraMon own format.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>Export to ArcView (SHP) format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerTOPMM</ows:Identifier>
+				<ows:Title>Fitxer TOPMM</ows:Title>
+				<ows:Abstract>Filename, with extension, of the file to export: PNT, ARC o POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:TopMMFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ESCALAT</ows:Identifier>
+				<ows:Title>Scale</ows:Title>
+				<ows:Abstract>The scale applied to the X,Y coordinates; by default 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESPLAC_X</ows:Identifier>
+				<ows:Title>X Desplacement</ows:Title>
+				<ows:Abstract>The displacement applied to the X coordinates; by default 0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESPLAC_Y</ows:Identifier>
+				<ows:Title>Y Desplacement</ows:Title>
+				<ows:Abstract>The displacement applied to the Y coordinates; by default 0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VULL_CAMPS_GEOTOPO</ows:Identifier>
+				<ows:Title>Geometric-topological fields</ows:Title>
+				<ows:Abstract>Geometric-topological fields, MiraMon own format, are kept in DBF of the Shape. By default these fields are eliminated.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VULL_TAULES_ASSOCIADES</ows:Identifier>
+				<ows:Title>Linked tables</ows:Title>
+				<ows:Abstract>Linked tables fields are kept in DBF of Shape (not as linked tables). A maximum of 255 fields are included. By default these fields are not exported.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerSHPMM</ows:Identifier>
+				<ows:Title>SHPMM File</ows:Title>
+				<ows:Abstract>Output SHP filename.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:SHPMMFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

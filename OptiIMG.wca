@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:OptiIMG:1</ows:Identifier>
+		<ows:Title>Millorament d'imatge per optimització de l'histograma</ows:Title>
+		<ows:Abstract>Aquest mòdul realitza un millorament de la imatge optimitzant l'histograma globalment o optimizant localment l'histograma a partir d'una finestra de mida definida per l'usuari. Aquesta segona opció dóna resultats molt més contrastats, tot i que és més lenta.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Millorament d'imatge per optimització de l'histograma"/>
+		<ows:Metadata xlink:title="Abstract:Aquest mòdul realitza un millorament de la imatge optimitzant l'histograma globalment o optimizant localment l'histograma a partir d'una finestra de mida definida per l'usuari. Aquesta segona opció dóna resultats molt més contrastats, tot i que és més lenta. "/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opcio</ows:Title>
+				<ows:Abstract><![CDATA[<li>1. per a optimització global.</li><li>2. per finestra.</li>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fitxer Origen</ows:Title>
+				<ows:Abstract>Fitxer IMG o llista de fitxers IMG que es vol millorar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Funcio</ows:Identifier>
+				<ows:Title>Funcio</ows:Title>
+				<ows:Abstract>Funció a utilitzar per millorar la imatge d'entrada. Únicament pot ser "lin" (de moment única opció).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Funcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>lin</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NivellsDeGris</ows:Identifier>
+				<ows:Title>Nivells de Gris</ows:Title>
+				<ows:Abstract>Nombre de nivells de gris. Típicament 256.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NivellsDeGris"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>256</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercenBaix</ows:Identifier>
+				<ows:Title>Percentatge Baix</ows:Title>
+				<ows:Abstract>Percentatge que permet calcular el valor mínim a ignorar a l'extrem inferior de la cua de l'histograma. Els valors menors o iguals al mínim s'assignen al nou valor mínim i els valors majors o iguals al màxim s'assignen al nou valor màxim, mentre que els valors intermedis s'escalen linealment entre el nou mínim i el nou màxim. El nou mínim sempre és 0.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:%Baix"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercenAlt</ows:Identifier>
+				<ows:Title>Percentatge Alt</ows:Title>
+				<ows:Abstract>Percentatge que permet calcular el valor màxim a ignorar a l'extrem superior de la cua de l'histograma. Els valors menors o iguals al mínim s'assignen al nou valor mínim i els valors majors o iguals al màxim s'assignen al nou valor màxim, mentre que els valors intermedis s'escalen linealment entre el nou mínim i el nou màxim. El nou màxim és el paràmetre NivellsDeGris-1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:%Alt"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ignor</ows:Identifier>
+				<ows:Title>Ignorar</ows:Title>
+				<ows:Abstract>Indiqueu 0 si voleu usar el valor NODATA de la imatge (si no en té considerarà tots els valors com a vàlids), 1 si voleu ignorar la indicació de NODATA i assumir que el valor 0 és el valor NODATA, i 2 si voleu ignorar la indicació de NODATA i assumir que el valor 255 és el valor NODATA.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:Ignor"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>COSTAT</ows:Title>
+				<ows:Abstract>És el costat de la finestra (senar). El valor per defecte és 301. Aquest paràmetre només aplica quan l'opció és 2.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>301</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_PENDENT</ows:Identifier>
+				<ows:Title>MAX_PENDENT</ows:Title>
+				<ows:Abstract>Màxim pendent d'un ajust d'una finestra concreta. Per defecte val 13. Aquest paràmetre només aplica quan l'opció és 2.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>13</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerOpti</ows:Identifier>
+				<ows:Title>Fitxer de sortida</ows:Title>
+				<ows:Abstract>És un fitxer img de sortida o un directori si FitxerOri és una llista.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerOpti"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

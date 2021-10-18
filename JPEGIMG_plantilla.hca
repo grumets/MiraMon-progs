@@ -1,0 +1,99 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>JPEGIMG: Conversió entre fitxers ràster JPEG i IMG o BMP</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>Joint Photographic Experts Group (JPEG) es refereix a un estandard de
+  compressió d'imatges que té diversos modes d'operació. El mode usat
+  pel &quot;Independent JPEG Group's (IJPEG)&quot; és la construcció
+  seqüencial (sequential buildup, conegut com a JFIF). En aquest mode, cada
+  component d'una imatge és codificat en escombrats de esquerra a dreta i
+  de dalt a baix. El mode seqüencial és degradatiu, el que vol dir que quan es
+  comprimeix una imatge es perd informació. La raó de que el mode seqüencial
+  del JPEG sigui degradatiu és que l'algorisme comprimeix la imatge
+  eliminant informació visualment no significativa, colors que l'ull humà
+  no pot detectar. El comitè del JPEG (JPEG committee) no ha especificat un
+  format de fitxer estandard i, en conseqüència, algunes implementacions de
+  l'algorisme JPEG usen el seu format proprietari. Malgrat això, el format
+  JFIF s'ha anat consolidant, amb els anys, com un estandard 'de
+  facto'. Per això MiraMon ha decidit incorporar aquesta implementació del
+  format JPEG com a format d'imatges ràster.</p>
+
+  <p>MiraMon usa el format IMG per a ràsters categòrics o de valors continus
+  ja sigui en format no comprimit (en molts casos compatible amb Idrisi 16) o
+  en el format extracomprimit RLE. També usa el format IMG per a les
+  combinacions RGB de MiraMon. Per a més detalls sobre els formats IMG i com
+  convertir-los entre ells podeu consultar l'ajuda de <a href="imgimg.htm">ImgImg</a> o el manual de MiraMon. La compressió RLE usada en
+  el format IMG és no degradativa, el que vol dir que el ràster pot ser
+  comprimit i posteriorment descomprimit recuperant-se la imatge original
+  sense cap canvi en els valors de les cel·les. En les imatge categòriques
+  aquesta propietat resulta essencial, donat que dos valors numèricament molt
+  propers poden representar categories totalment diferents. També és important
+  en imatges radiomètriques (teledetecció) on el valor del píxel és una mesura
+  física de radiació electromagnètica.</p>
+
+  <p>En canvi, la implementació del IJPEG del format JEPG és un format
+  d'alta compressió però que presenta degradació; els valors de la imatge
+  descomprimida s'aproximen als de la imatge original però no sempre són
+  els mateixos. El nivell de degradació pot ser controlat amb un paràmetre
+  (/QUALITAT) durant la compressió, però no pot ser mai eliminat de tot.
+  Visualment el resultat és prou satisfactori fins i tot amb nivells de
+  qualitat baixos (compressions elevades), per la qual cosa aquest format
+  resulta indicat per a imatges fotogràfiques com les ortofotografies aèries
+  b/n o color (ja siguin de 24 bits o de 8 bits amb paleta). També podria
+  servir per imatges de variació contínua quan simplement es desitgi una alta
+  compressió amb un aspecte visual correcte però perdent els valors originals
+  de la imatge.</p>
+
+  <p>Per al format JPEG l'aplicació desa les metadades (i per tant la
+  georeferència) en un fitxer REL v.4. Gràcies a aquesta propietat, MiraMon
+  pot visualitzar fitxers georeferenciats en format JPEG, que necessiten un
+  molt menor espai de disc i estan perfectament integrats en el SIG. També és
+  possible importar o exportar fitxers sense metadades per a comunicació amb
+  programes de tractament d'imatges.</p>
+
+  <p>En generar un JPEG el programa respecta la definició de NODATA i, si és
+  possible, reserva un color per a representar aquest valor.</p>
+
+  <p>En aquesta versió només se suporten i es generen paletes en format P25.
+  Convertiu-les des del mateix MiraMon si és necessari amb l'opció
+  'Desar paleta'. Les combinacions RGB han de ser formades per 3
+  fitxers en format IMG byte o byte-RLE. Si necessiteu combinacions amb altres
+  formats visualitzeu una combinació de 24 bits des de MiraMon i deseu la
+  vista com a BMP des del menú de fitxer de MiraMon; finalment, convertiu el
+  BMP a JPEG.</p>
+
+  <p>MiraMon també introduiex un format nou de JPEG que anomenem JPEG Indexat
+  i que permet accés ràpid a una part de la imatge. Aquesta posibilitat no la
+  suporta el JPEG clàssic. Cal tenir present que aquest format es exclusiu de
+  MiraMon i no pot ser intercanviat amb altres aplicacions però resulta més
+  ràpid de visualitzar un fragment de la imatge que el JPEG clàssic.</p>
+  <hr/>
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+JPEGIMG ?
+--></p>
+</exclusiva>
+
+  </exclusiva>
+  <hr/>
+  Aquest programa suporta i genera REL v.4<br/>
+  Les rutines emprades per a la compressió i descompressió del format JPEG
+  estan basades, en part, en la tasca del &quot;Independent JPEG Group&quot;
+  (IJPEG).<br/>
+  Idrisi es un programari © de J.Ronald Eastman and Clark University<br/>
+</body>
+</html>

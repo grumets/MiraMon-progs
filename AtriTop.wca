@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ATRITOP:!Param5</ows:Identifier>
+		<ows:Title>AtriTop</ows:Title>
+		<ows:Abstract>Transferència d'atributs des d'una base gràfica a una altra a través d'una relació geomètrica entre elles.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Transferència d&apos;atributs entre fitxers estructurats"/>
+		<ows:Metadata xlink:title="Abstract:Aquest programa transfereix atributs des d&apos;una base gràfica a una altra a través d&apos;una relació geomètrica entre elles."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>1. Transferència per superposició d'objectes.</li><li>2. Transferència per adjacència de polígons.</li><li>3. Criteri de proximitat en la transferència de punts a nodes.</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomDon</ows:Identifier>
+				<ows:Title>Donador d'Atributs</ows:Title>
+				<ows:Abstract>És el nom del fitxer donador d'atributs (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:NomDon"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomRecep1</ows:Identifier>
+				<ows:Title>Receptor d'Atribut</ows:Title>
+				<ows:Abstract>És el nom del fitxer receptor d'atributs (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NomRecep1"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CCAMP</ows:Identifier>
+				<ows:Title>Fitxer de correspondències</ows:Title>
+				<ows:Abstract>És el nom del fitxer que conté les correspondències entre els camps de la base de dades. No s'ha d'indicar si es volen correspondències automàtiques entre tots els camps temàtics.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Màxima distància</ows:Title>
+				<ows:Abstract>En la transferència d'atributs entre fitxers de punts i nodes, és la distància planimètrica màxima a partir de la qual ja no es busquen més punts per afegir els seus atributs al node</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CREA_NODES</ows:Identifier>
+				<ows:Title>Crea nodes</ows:Title>
+				<ows:Abstract>En la transferència d'atributs entre fitxers de punts i nodes, si per a un punt no es pot trobar un node receptor dins la distància màxima especificada, el programa intenta crear un nou node a l'arc que estigui més a prop dins aquesta distància màxima. Per a protegir la base receptora original, en aquest mode no es permet que el fitxer receptor i el fitxer resultat siguin el mateix fitxer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VORA</ows:Identifier>
+				<ows:Title>Vora</ows:Title>
+				<ows:Abstract>En les transferències d'atributs de polígons a arcs, d'arcs a polígons, de punts a polígons o de polígons a punts, un arc o punt que coincideix exactament amb la vora d'un polígon es considera que pertany als dos polígons. Si no s'indica aquest paràmetre es considera que l'arc o el punt no pertany a cap dels polígons.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>F_REP</ows:Identifier>
+				<ows:Title>Nom fitxer</ows:Title>
+				<ows:Abstract><![CDATA[Indica el nom del fitxer que el programa omple amb un llistat de comentaris sobre la qualitat de les correspondències entre objectes. El nom per defecte és: NomResul1.TXT. S'hi indiquen:<ul><li>Les correspondències entre camps. Els objectes que etiqueten el polígon 0.</li><li>Els objectes no etiquetats, ja sigui amb etiqueta pràvia o no.</li><li>Els objectes etiquetats amb més d'un objecte donador ja sigui de manera incoherent, incompleta o coherent.</li><li>Els objectes etiquetats que ja tenien prèviament alguna etiqueta, ja sigui incoherent, incompleta o coherent.</li></ul>]]></ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>M_DON</ows:Identifier>
+				<ows:Title>Múltiples Objectes Donadors</ows:Title>
+				<ows:Abstract><![CDATA[Indica quin objecte donador cal considerar quan múltiples objectes donadors corresponen a un objecte receptor donat:<ul><li>0. Només escriure els registres del primer.</li><li>1. Escriure tots els registres de tots els objectes. (valor per defecte).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DT_RECEP</ows:Identifier>
+				<ows:Title>Dades prèvies per un objecte</ows:Title>
+				<ows:Abstract><![CDATA[Indica què cal fer quan ja hi ha dades prèvies per un objecte gràfic del receptor:<ul><li>0 No afegir les noves.</li><li>1 Sobreescriure-les.</li><li>2 Afegir les noves. (valor per defecte).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DON_REC_PROP</ows:Identifier>
+				<ows:Title>Donador a receptor més proper</ows:Title>
+				<ows:Abstract>Cada donador transfereix atributs al receptor més proper. Només aplica en transferències d'atributs de punts a punts.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REC_N_DON_PROP</ows:Identifier>
+				<ows:Title>Receptor rep de N donadors</ows:Title>
+				<ows:Abstract>Cada receptor rep atributs d'un nombre 'n' de donadors més propers. En el cas que sigui 1, es transfereix els atributs del donador més proper al receptor mentre que si és major d'1, es fa una mitjana (en el cas d'un camp numèric) o una moda (en la resta de tipus de camp) dels atributs dels donadors a considerar. Només aplica en transferències d'atributs de punts a punts.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>NomResul1</ows:Identifier>
+				<ows:Title>Fitxer Resultat</ows:Title>
+				<ows:Abstract>És el nom del fitxer resultat. Pot ser el mateix fitxer que el receptor i ha de portar la mateixa extensió. Si el fitxer receptor és de nodes i diferent al fitxer resultant, es duplicarà tota l'estructura d'arcs i polígons vinculats.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NomResul1"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ATRITOP:Param5</ows:Identifier>
+		<ows:Title>AtriTop</ows:Title>
+		<ows:Abstract>Transferència d'atributs des d'un base gràfica a una altra a través d'una relació geomètrica entre elles, pel cas que el fitxer donador i el receptor són de polígons.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>1. Transferència per superposició d'objectes.</li><li>2. Transferència per adjacència de polígons.</li><li>3. Criteri de proximitat en la transferència de punts a nodes.</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomDon</ows:Identifier>
+				<ows:Title>Donador d'Atributs</ows:Title>
+				<ows:Abstract>És el nom del fitxer donador d'atributs (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:NomDon"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomRecep1</ows:Identifier>
+				<ows:Title>Receptor d'Atribut</ows:Title>
+				<ows:Abstract>És el nom del fitxer receptor d'atributs (amb extensió).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NomRecep1"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomRecep2</ows:Identifier>
+				<ows:Title>Receptor d'Atribut 2</ows:Title>
+				<ows:Abstract>És el nom del fitxer receptor d'atributs 2 (amb extensió). Pel cas de fitxer donador i receptor de polígons, s'ha d'indicar un segon fitxer de d'etiquetes (punts) generat amb el programa ETIQUETA a partir del fitxer de polígons (amb el mateix nombre d'elements gràfics i en el mateix ordre que en el fitxer de polígons original). En aquest cas es fan servir NomRecep2 NomResul2 NomCCamp2 com a fitxer receptor, resultat i de correspondències entre camps del fitxer d'etiquetes. S'ha d'obtenir amb la sintaxi següent: ETIQUETA 2 NomRecep1 NomRecep2 2 0 1</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NomRecep2"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CCAMP</ows:Identifier>
+				<ows:Title>Fitxer de correspondències</ows:Title>
+				<ows:Abstract>És el nom del fitxer que conté les correspondències entre els camps de la base de dades. No s'ha d'indicar si es volen correspondències automàtiques entre tots els camps temàtics.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CCAMP_PNT</ows:Identifier>
+				<ows:Title>Fitxer de correspondències 2</ows:Title>
+				<ows:Abstract>És el nom del fitxer que conté les correspondències entre els camps de la base de dades. No s'ha d'indicar si es volen correspondències automàtiques entre tots els camps temàtics. Pel cas de fitxer donador i receptor de polígons, s'ha d'indicar un segon fitxer de d'etiquetes (punts) generat amb el programa ETIQUETA a partir del fitxer de polígons (amb el mateix nombre d'elements gràfics i en el mateix ordre que en el fitxer de polígons original). En aquest cas es fan servir NomRecep2 NomResul2 NomCCamp2 com a fitxer receptor, resultat i de correspondències entre camps del fitxer d'etiquetes.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Màxima distància</ows:Title>
+				<ows:Abstract>En la transferència d'atributs entre fitxers de punts i nodes, és la distància planimètrica màxima a partir de la qual ja no es busquen més punts per afegir els seus atributs al node</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CREA_NODES</ows:Identifier>
+				<ows:Title>Crea nodes</ows:Title>
+				<ows:Abstract>En la transferència d'atributs entre fitxers de punts i nodes, si per a un punt no es pot trobar un node receptor dins la distància màxima especificada, el programa intenta crear un nou node a l'arc que estigui més a prop dins aquesta distància màxima. Per a protegir la base receptora original, en aquest mode no es permet que el fitxer receptor i el fitxer resultat siguin el mateix fitxer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VORA</ows:Identifier>
+				<ows:Title>Vora</ows:Title>
+				<ows:Abstract>En les transferències d'atributs de polígons a arcs, d'arcs a polígons, de punts a polígons o de polígons a punts, un arc o punt que coincideix exactament amb la vora d'un polígon es considera que pertany als dos polígons. Si no s'indica aquest paràmetre es considera que l'arc o el punt no pertany a cap dels polígons.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>F_REP</ows:Identifier>
+				<ows:Title>Nom fitxer</ows:Title>
+				<ows:Abstract><![CDATA[Indica el nom del fitxer que el programa omple amb un llistat de comentaris sobre la qualitat de les correspondències entre objectes. El nom per defecte és: NomResul1.TXT. S'hi indiquen:<ul><li>Les correspondències entre camps. Els objectes que etiqueten el polígon 0.</li><li>Els objectes no etiquetats, ja sigui amb etiqueta pràvia o no.</li><li>Els objectes etiquetats amb més d'un objecte donador ja sigui de manera incoherent, incompleta o coherent.</li><li>Els objectes etiquetats que ja tenien prèviament alguna etiqueta, ja sigui incoherent, incompleta o coherent.</li></ul>]]></ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>M_DON</ows:Identifier>
+				<ows:Title>Múltiples Objectes Donadors</ows:Title>
+				<ows:Abstract><![CDATA[Indica quin objecte donador cal considerar quan múltiples objectes donadors corresponen a un objecte receptor donat:<ul><li>0. Només escriure els registres del primer.</li><li>1. Escriure tots els registres de tots els objectes. (valor per defecte).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DT_RECEP</ows:Identifier>
+				<ows:Title>Dades prèvies per un objecte</ows:Title>
+				<ows:Abstract><![CDATA[Indica què cal fer quan ja hi ha dades prèvies per un objecte gràfic del receptor:<ul><li>0 No afegir les noves.</li><li>1 Sobreescriure-les.</li><li>2 Afegir les noves. (valor per defecte).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>NomResul1</ows:Identifier>
+				<ows:Title>Fitxer Resultat</ows:Title>
+				<ows:Abstract>És el nom del fitxer resultat. Pot ser el mateix fitxer que el receptor i ha de portar la mateixa extensió. Si el fitxer receptor és de nodes i diferent al fitxer resultant, es duplicarà tota l'estructura d'arcs i polígons vinculats.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NomResul1"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>NomResul2</ows:Identifier>
+				<ows:Title>Fitxer Resultat 2</ows:Title>
+				<ows:Abstract>És el nom del fitxer resultat 2. Pel cas de fitxer donador i receptor de polígons, s'ha d'indicar un segon fitxer de d'etiquetes (punts) generat amb el programa ETIQUETA a partir del fitxer de polígons (amb el mateix nombre d'elements gràfics i en el mateix ordre que en el fitxer de polígons original). En aquest cas es fan servir NomRecep2 NomResul2 NomCCamp2 com a fitxer receptor, resultat i de correspondències entre camps del fitxer d'etiquetes.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:NomResul2"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

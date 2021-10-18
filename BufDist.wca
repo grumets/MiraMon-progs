@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:BufDist:Param3</ows:Identifier>
+		<ows:Title><![CDATA[<i>Buffer</i>]]></ows:Title>
+		<ows:Abstract><![CDATA[Genera zones d'influència (<i>buffers</i>) a una certa distància al voltant d'entitats predefinides en un fitxer ràster o vectorial. Les entitats a partir de les quals es calculen les distàncies i, eventualment, es generen els <i>buffers</i> s'anomenen "entitats diana". L'aplicació generarà un <i>Buffer</i> i no un Mapa de distàncies degut a la presència del modificador "LimitInfBuffer".]]></ows:Abstract>
+		<ows:Metadata xlink:title="Title:Generació de buffers i mapes de distàncies"/>
+		<ows:Metadata xlink:title="Abstract:El programa permet tant generar mapes de distàncies contínues (resultat ràster) com zones ràster o vectorials (buffers) a una certa distància de les entitats diana."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerAmbEntitatsDiana</ows:Identifier>
+				<ows:Title>Fitxer ràster o vector que conté les entitats a partir de les quals es calculen les distàncies</ows:Title>
+				<ows:Abstract><![CDATA[Les entitats diana poden ser tant de tipus ràster com vectorial. En el cas ràster, qualsevol cel·la de valor diferent a NODATA es considera una cel·la diana. En el cas vectorial, qualsevol entitat (punt, línia o polígon) es considera una entitat diana (en el tractament ràster d'aquests <i>buffers</i> de vectors, també es pot indicar que només siguin considerades com a diana les entitats vectorials amb un cert atribut); en el cas de ràsters, si només es desitja usar com a diana uns certs elements, cal realitzar una consulta per atributs des del MiraMon i desar el resultat en un nou fitxer, o bé utilitzar CalcIMG; igualment, si s'ha de fer un procés massiu amb molts fitxers, es pot automatitzar el procés de selecció de les entitats diana des de CalcIMG o des de VecSelec.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:FitxerAmbEntitatsDiana"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>LimitInfBuffer</ows:Identifier>
+				<ows:Title><![CDATA[Límit Inferior del <i>Buffer</i>]]></ows:Title>
+				<ows:Abstract><![CDATA[Distància inferior emprada per al càlcul del <i>Buffer</i>. La presència d'aquest modificador determina que el programa realitzi un <i>Buffer</i> i no un Mapa de distàncies.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:LimitInfBuffer"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>LimitSupBuffer</ows:Identifier>
+				<ows:Title><![CDATA[Límit Superior del <i>Buffer</i>]]></ows:Title>
+				<ows:Abstract><![CDATA[Distància superior emprada per al càlcul del <i>Buffer</i>.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:LimitSupBuffer"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIST_GEOD</ows:Identifier>
+				<ows:Title>Càlcul cartesià o geodèsic</ows:Title>
+				<ows:Abstract>Per a un càlcul cartesià de distàncies, cal indicar 0; per a un càlcul geodèsic de distàncies cal indicar 1. Si no s'indica (mode automàtic), el programa pren la decisió en funció del tipus de projecció cartogràfica del fitxer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAPAMUNDI</ows:Identifier>
+				<ows:Title>Mapa Mundi</ows:Title>
+				<ows:Abstract>Indica considerar circularitats, necessari per a càlculs de distàncies sobre tot el món. Cal /DIST_GEOD=1 perquè això sigui possible.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TRACT_RASTER</ows:Identifier>
+				<ows:Title>Tractament ràster</ows:Title>
+				<ows:Abstract>Força un tractament ràster per a fitxers de punts o arcs i sortida vectorial. Per defecte es realitza un tractament totalment vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Indica la taula</ows:Title>
+				<ows:Abstract><![CDATA[Indica la taula de la base de dades escollida. Per a REL1 és obligatori per fitxers estructurats. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <a href="general.htm">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Indica el Camp</ows:Title>
+				<ows:Abstract><![CDATA[Indica el camp de la base de dades escollida. És obligatori per fitxers estructurats. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <a href="general.htm">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Elecció de registre en cas de multi-registre</ows:Title>
+				<ows:Abstract><![CDATA[Indica quin registre és escollit quan hi ha més d'un registre per un identificador gràfic (registre múltiple). Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <a href="general.htm">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPER_DIANA</ows:Identifier>
+				<ows:Title>Restringir les entitats diana</ows:Title>
+				<ows:Abstract>Pot ser EQ o NO_EQ per, d'aquesta manera, restringir les entitats diana a només aquelles que verifiquin aquesta operació d'igualtat o desigualtat respecte /ATR_DIANA=.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATR_DIANA</ows:Identifier>
+				<ows:Title>Atribut</ows:Title>
+				<ows:Abstract>Atribut que defineix l'operació lògica que limita els possibles valors de les cel·les candidates a entitat diana.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMIN</ows:Identifier>
+				<ows:Title>Coordenada X mínima</ows:Title>
+				<ows:Abstract>Coordenada X mínima de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMAX</ows:Identifier>
+				<ows:Title>Coordenada X màxima</ows:Title>
+				<ows:Abstract>Coordenada X màxima de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMIN</ows:Identifier>
+				<ows:Title>Coordenada Y mínima</ows:Title>
+				<ows:Abstract>Coordenada Y mínima de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMAX</ows:Identifier>
+				<ows:Title>Coordenada Y màxima</ows:Title>
+				<ows:Abstract>Coordenada Y màxima de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Tamany de cel·la</ows:Title>
+				<ows:Abstract>Defineix el costat de cel·la del ràster resultat o temporal quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TOLERANCIA</ows:Identifier>
+				<ows:Title>Tolerància</ows:Title>
+				<ows:Abstract><![CDATA[És el màxim error tolerat per a la traducció d'arcs de cercle a seqüències de vèrtexs, per al tractament vectorial de <i>buffers</i>. Només aplica si FitxerAmbEntitatsDiana és una capa vectorial i el tractament és vectorial.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ALGORISME</ows:Identifier>
+				<ows:Title>Algorisme</ows:Title>
+				<ows:Abstract><![CDATA[Aquest paràmetre serveix per a determinar el tipus d'algorisme intern que l'aplicació emprarà per a generar les àrees d'influència. <ul><li>ESCOMBRATGE: Basat en la intersecció de segments de Bentley-Ottmann.</li><li>DIRECTE: Basat en l'exploració de tots els segments contra tots els segments per a determinar les interseccions entre vectors en l'estructuració topològica. </li><li>AUTOMATIC: El MiraMon decideix automàticament quin dels dos algorismes s'utilitzarà.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ESCOMBRATGE</ows:Value>
+						<ows:Value>DIRECTE</ows:Value>
+						<ows:Value>AUTOMATIC</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>AUTOMATIC</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerBuffer</ows:Identifier>
+				<ows:Title>Zones a distàncies compreses entre [N,M] UNITATS de les entitats de FITXER.</ows:Title>
+				<ows:Abstract><![CDATA[El fitxer resultant és de tipus ràster "byte-RLE" o bé de tipus vector estructurat de polígons. Els <i>buffers</i> resultants poden ser ràsters o vectorials; en el cas vectorial es pot fer un tractament totalment vectorial o un tractament ràster on el resultat és la vectorització del cas ràster i, per tant, necessita els paràmetres que defineixen l'àmbit del ràster temporal.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerBuffer"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:BufDist:!Param3</ows:Identifier>
+		<ows:Title>Mapa de distàncies</ows:Title>
+		<ows:Abstract><![CDATA[Genera mapes de distància a una certa distància al voltant d'entitats predefinides en un fitxer ràster o vectorial. Les entitats a partir de les quals es calculen les distàncies s'anomenen "entitats diana". La aplicació generarà un Mapa de distàncies i no un <i>Buffer</i> degut a la no presència del modificador "LimitInfBuffer".]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerAmbEntitatsDiana</ows:Identifier>
+				<ows:Title>Fitxer ràster o vector que conté les entitats a partir de les quals es calculen les distàncies</ows:Title>
+				<ows:Abstract><![CDATA[Les entitats diana poden ser tant de tipus ràster com vectorial. En el cas ràster, qualsevol cel·la de valor diferent a NODATA es considera una cel·la diana. En el cas vectorial, qualsevol entitat (punt, línia o polígon) es considera una entitat diana (en el tractament ràster d'aquests <i>buffers</i> de vectors, també es pot indicar que només siguin considerades com a diana les entitats vectorials amb un cert atribut); en el cas de ràsters, si només es desitja usar com a diana uns certs elements, cal realitzar una consulta per atributs des del MiraMon i desar el resultat en un nou fitxer, o bé utilitzar CalcIMG; igualment, si s'ha de fer un procés massiu amb molts fitxers, es pot automatitzar el procés de selecció de les entitats diana des de CalcIMG o des de VecSelec.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:FitxerAmbEntitatsDiana"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIST_GEOD</ows:Identifier>
+				<ows:Title>Càlcul cartesià o geodèsic</ows:Title>
+				<ows:Abstract>Per a un càlcul cartesià de distàncies, cal indicar 0; per a un càlcul geodèsic de distàncies cal indicar 1. Si no s'indica (mode automàtic), el programa pren la decisió en funció del tipus de projecció cartogràfica del fitxer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAPAMUNDI</ows:Identifier>
+				<ows:Title>Mapa Mundi</ows:Title>
+				<ows:Abstract>Indica considerar circularitats, necessari per a càlculs de distàncies sobre tot el món. Cal /DIST_GEOD=1 perquè això sigui possible.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TRACT_RASTER</ows:Identifier>
+				<ows:Title>Tractament ràster</ows:Title>
+				<ows:Abstract>Força un tractament ràster per a fitxers de punts o arcs i sortida vectorial. Per defecte es realitza un tractament totalment vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Indica la taula</ows:Title>
+				<ows:Abstract><![CDATA[Indica la taula de la base de dades escollida. Per a REL1 és obligatori per fitxers estructurats. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <a href="general.htm">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Indica el Camp</ows:Title>
+				<ows:Abstract><![CDATA[Indica el camp de la base de dades escollida. És obligatori per fitxers estructurats. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <a href="general.htm">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Elecció de registre en cas de multi-registre</ows:Title>
+				<ows:Abstract><![CDATA[Indica quin registre és escollit quan hi ha més d'un registre per un identificador gràfic (registre múltiple). Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <a href="general.htm">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPER_DIANA</ows:Identifier>
+				<ows:Title>Restringir les entitats diana</ows:Title>
+				<ows:Abstract>Pot ser EQ o NO_EQ per, d'aquesta manera, restringir les entitats diana a només aquelles que verifiquin aquesta operació d'igualtat o desigualtat respecte /ATR_DIANA=.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATR_DIANA</ows:Identifier>
+				<ows:Title>Atribut</ows:Title>
+				<ows:Abstract>Atribut que defineix l'operació lògica que limita els possibles valors de les cel·les candidates a entitat diana.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMIN</ows:Identifier>
+				<ows:Title>Coordenada X mínima</ows:Title>
+				<ows:Abstract>Coordenada X mínima de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMAX</ows:Identifier>
+				<ows:Title>Coordenada X màxima</ows:Title>
+				<ows:Abstract>Coordenada X màxima de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMIN</ows:Identifier>
+				<ows:Title>Coordenada Y mínima</ows:Title>
+				<ows:Abstract>Coordenada Y mínima de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMAX</ows:Identifier>
+				<ows:Title>Coordenada Y màxima</ows:Title>
+				<ows:Abstract>Coordenada Y màxima de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Tamany de cel·la</ows:Title>
+				<ows:Abstract>Defineix el costat de cel·la del ràster resultat o temporal quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TOLERANCIA</ows:Identifier>
+				<ows:Title>Tolerància</ows:Title>
+				<ows:Abstract><![CDATA[És el màxim error tolerat per a la traducció d'arcs de cercle a seqüències de vèrtexs, per al tractament vectorial de <i>buffers</i>. Només aplica si FitxerAmbEntitatsDiana és una capa vectorial i el tractament és vectorial.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDistancies</ows:Identifier>
+				<ows:Title>Distàncies derivades de FITXER</ows:Title>
+				<ows:Abstract>El fitxer resultant és de tipus ràster (IMG) i "real".</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerDistancies"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

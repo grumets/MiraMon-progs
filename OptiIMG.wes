@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:OptiIMG:1</ows:Identifier>
+		<ows:Title>Mejora de imágenes mediante optimización del histograma</ows:Title>
+		<ows:Abstract>Este módulo realiza una mejora de las imágenes optimizando globalmente el histograma o localmente a partir de una ventana de tamaño definido por el usuario. Esta segunda opción da resultados mucho más contrastados, aunque es más lenta.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Mejora de imágenes mediante optimización del histograma"/>
+		<ows:Metadata xlink:title="Abstract:Este módulo realiza una mejora de las imágenes optimizando globalmente el histograma o localmente a partir de una ventana de tamaño definido por el usuario. Esta segunda opción da resultados mucho más contrastados, aunque es más lenta."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[<li>1. Para la optimización global.</li><li>2. Para una ventana.</li>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fichero Origen</ows:Title>
+				<ows:Abstract>Fichero IMG o lista de ficheros IMG que se quiere mejorar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Funcio</ows:Identifier>
+				<ows:Title>Función</ows:Title>
+				<ows:Abstract>Función a utilizar para mejorar la imagen de entrada. Únicamente puede ser "lin" (de momento única opción).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Funcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>lin</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NivellsDeGris</ows:Identifier>
+				<ows:Title>Niveles de Gris</ows:Title>
+				<ows:Abstract>Número de niveles de gris. Típicamente 256.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NivelesDeGris"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>256</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercenBaix</ows:Identifier>
+				<ows:Title>Percentaje Bajo</ows:Title>
+				<ows:Abstract>Porcentaje que permite calcular el valor mínimo a ignorar en el extremo inferior de la cola del histograma. Los valores menores o iguales al mínimo asignan al nuevo valor mínimo y los valores mayores o iguales al máximo asignan al nuevo valor máximo, mientras que los valores intermedios se escalan linealmente entre el nuevo mínimo y el nuevo máximo. El nuevo mínimo siempre es 0.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:%Bajo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercenAlt</ows:Identifier>
+				<ows:Title>Percentaje Alto</ows:Title>
+				<ows:Abstract>Porcentaje que permite calcular el valor máximo a ignorar en el extremo superior de la cola del histograma. Los valores menores o iguales al mínimo asignan al nuevo valor mínimo y los valores mayores o iguales al máximo asignan al nuevo valor máximo, mientras que los valores intermedios se escalan linealmente entre el nuevo mínimo y el nuevo máximo. El nuevo máximo es el parámetro NivellsDeGris-1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:%Alto"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ignor</ows:Identifier>
+				<ows:Title>Ignorar</ows:Title>
+				<ows:Abstract>Indique 0 si quiere usar el valor NODATA de la imagen (si no existe se considerarán todos los valores como válidos), 1 si quiere ignorar la indicación de NODATA y asumir que el valor 0 es el valor NODATA, y 2 si quiere ignorar la indicación de NODATA y asumir que el valor 255 es el valor NODATA.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:Ignor"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Lado</ows:Title>
+				<ows:Abstract>Es el lado de la ventana (impar). El valor por defecto es 301. Este parámetro sólo aplica cuando la opción es 2.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>301</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_PENDENT</ows:Identifier>
+				<ows:Title>MAX_PENDENT</ows:Title>
+				<ows:Abstract>Màxima pendiente de un ajuste de una ventana concreta. Por defecto vale 13. Este parámetro sólo aplica cuando la opción es 2.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>13</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerOpti</ows:Identifier>
+				<ows:Title>Fichero Optimizado</ows:Title>
+				<ows:Abstract>Es un fichero img de salida o un directorio si FicheroOrigen es una lista de ficheros img.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroOptimizado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

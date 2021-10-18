@@ -1,0 +1,124 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>IdrMM: Transformation of raster files between Idrisi-32 and
+  MiraMon.</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->    
+
+  <p>The types of transformations that can be carried out are:</p>
+
+  <ul>
+    <li>Export of a band of any MiraMon IMG format to Idrisi-32 RST
+    format.</li>
+
+    <li>Import of Idrisi-32 in RST monoband format to MiraMon IMG.</li>
+
+    <li>Export of MiraMon georeferenced JPEGs (<i>J.rel</i>) to a three-RGB
+    band RST file of Idrisi-32.</li>
+  </ul>
+
+  <p>Both files, IMG and RST, are binary, but MiraMon is not only compatible
+  with Idrisi-32 types. Idrisi-32 can run byte, integer and real types, while
+  MiraMon also runs bit and long types and the corresponding <a href="https://webmail.uab.es/mm32/AP1.htm">RLE</a> (byte-RLE, integer-RLE...)
+  compressions. As Idrisi-32 cannot run long type, it is possible to decide
+  that the data of the transformed Idrisi-32 file are <b>integer</b> or
+  <b>real</b> by means of an optional parameter. When exporting a MiraMon
+  long-type raster to an integer-type Idrisi-32 file, it is necessary to use
+  the <i>/LONG_SHORT</i> optional parameter and when exporting to a real-type
+  Idrisi-32 parameter it is necessary to select the <i>/LONG_REAL</i> optional
+  parameter. If no optional parameter is selected, the default parameter
+  applied by the module is <i>/LONG_REAL.</i></p>
+
+  <p>When carrying out a transformation from MiraMon to Idrisi-32 with the
+  <i>/LONG_SHORT</i> optional parameter, the application saturates the origin
+  raster values greater than 32767 or less than -32768. The saturation is
+  performed by following the following protocol:</p>
+
+  <ul>
+    <li>If the raster contains NODATA values greater than 32766 or less than
+    -32767, the application will set the NODATA value at 32767 for the first
+    case and at -32768 for the second. The remaining values of the origin
+    raster that are greater than 32766 or less than -32767 are assigned to
+    32766 or -32767 respectively.</li>
+
+    <li>If the origin raster does not contain NODATA values, values greater
+    than 32766 or less than -32767 are assigned to 32767 or -32768
+    respectively.</li>
+  </ul>
+
+  <p>It should be noted that this module does not carry out file exports with
+  bit-type data files. In order to do this, it is necessary to transform the
+  data into byte-type using the <a href="https://webmail.uab.es/attach/imgimg.htm">ImgImg</a> application and then
+  export to RST. It does not import Idrisi-32 24-bit RST files (three-band
+  compositions) to MiraMon format. In order to do this it is advisable to use
+  a TIFF format (georeferenced as GeoTIFF) as an intermediary and then use the
+  <a href="https://webmail.uab.es/attach/tifimg.htm">TifImg</a> module to
+  obtain the corresponding 24-bit IMG.</p>
+
+  <p>Regarding the Idrisi-16 raster files, it should be noted that they have
+  the same format as the MiraMon files. Consequently, all the Idrisi-16 RST
+  raster files which are binary and not compressed can be read directly by
+  MiraMon by means of the &quot;File | Open raster&quot; option. However,
+  there are a number of special situations, which are described below:</p>
+
+  <p>From Idrisi-16 to MiraMon:</p>
+
+  <ul>
+    <li>If the file is ASCII or compressed (&quot;packed&quot;), it is
+    necessary to convert it to binary non-compressed using the Idrisi-16
+    CONVERT application (for ASCII it is also possible to use, from MiraMon,
+    &quot;File | Import | ASCII-&gt;IMG&quot;).</li>
+
+    <li>If one wishes to enlarge the metadata model of the Idrisi-16 DOC file,
+    this should be carried out using GeMM, with the possibility of maintaining
+    both formats (DOC and REL).</li>
+  </ul>
+
+  <p>From MiraMon to Idrisi-16:</p>
+
+  <ul>
+    <li>If the MiraMon raster file is byte and RLE, it is necessary to check
+    that it is not extra-compressed and that it is not indexed (<a href="https://webmail.uab.es/attach/imgimg.htm">ImgImg</a>) as well as changing
+    the documentation that appears in the DOC. This is because MiraMon
+    specifies that the data are compressed (RLE) in the same data-type field
+    (e.g. byte-RLE) and Idrisi-16 writes the RLE in another field.
+    </li>
+
+    <li>If the MiraMon raster file contains metadata in REL format, it is
+    necessary to use the metadata manager (GeMM) to transform them into DOC
+    format.</li>
+
+    <li>If the MiraMon raster file is of long or long-RLE type, it is
+    necessary to take into account the information relating to the
+    transformations between MiraMon and Idrisi-32.</li>
+
+    <li>If the MiraMon raster file is of short or long type with categories
+    (with values greater than 255), it cannot be transformed into
+    Idrisi-16.</li>
+  </ul>
+  <hr/>	
+
+  <exclusiva>
+    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+   
+<p><!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+IDRMM ?
+--></p>
+  </exclusiva>
+  <hr/>
+  MiraMon is a program registered by Xavier Pons<br/>
+  Idrisi is a ©program by J.Ronald Eastman and Clark University
+</body>
+</html>

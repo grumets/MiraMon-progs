@@ -1,0 +1,95 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Ciclar: Creació de polígons amb estructura topològica</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<p>Aquest programa treballa sobre una família de fitxers topològicament estructurats d'arcs (ARC) i nodes (NOD) per a donar lloc a una família de fitxers topològicament estructurats de polígons (POL). 
+Els fitxers ARC i NOD poden ser generats amb el programa <a href="LinArc.htm">LinArc</a>. A més, el programa és capaç d'aplicar el procés directament a fitxers POL per tal d'obtenir nous polígons que corresponen 
+als originals agrupats per algun criteri, obtenir directament fitxers POL sense estructura topològica des de fitxers VEC, i també pot transformar fitxers POL en fitxers VEC (un format no topològic) i viceversa.</p>
+
+<p>L'objectiu principal del programa és construir tots els polígons topològics presents en el fitxer d'arcs; aquest procés s'anomena 'ciclat'. En el procés de ciclat, cada polígon queda descrit com una seqüència d'arcs 
+que delimita una àrea tancada (vora exterior); si el polígon presenta forats interiors, aquests també queden descrits pels arcs corresponents (vores interiors).</p>
+
+<p>Els arcs implicats en el ciclat d'un polígon no s'escriuen en el fitxer POL, sinó que es llegeixen del propi fitxer ARC, la qual cosa suposa un estalvi d'espai de disc i una gran consistència geomètrica de totes les dades. 
+A més, aquesta estratègia permet tenir diverses bases de polígons ciclades sobre una mateixa base d'arcs, com es comenta més endavant.</p>
+
+<p>En els modes en què el programa genera un fitxer POL, aquest va acompanyat d'un fitxer P.dbf (taula principal d'atributs) i d'un fitxer P.rel (que conté les metadades, i que pot contenir les eventuals relacions amb altres 
+taules alfanumèriques addicionals a la principal, així com simbolització per defecte). En versions antigues del programa (1.x) es generava un fitxer DVP, que contenia unes metadades molt bàsiques i que actualment ha 
+estat totalment superat.</p>
+
+<p>Després del procés de ciclat, els únics atributs que tenen els polígons són els geomètrico-topològics (àrea, perímetre, nombre d'arcs i nombre de polígons elementals que formen el polígon, etc) i l'identificador gràfic 
+que, de forma única, fa referència a cada polígon. Els atributs de tipus temàtic (quina vegetació conté el polígon, propietari, etc) s'afegeixen transferit atributs d'etiquetes puntuals situades a l'interior de cada polígon, 
+o introduint-los directament des del mode d'edició d'atributs del MiraMon. Si s'opta per la transferència d'atributs a través d'etiquetes, quan aquestes són de tipus VEC es realitza amb el programa <a href="AtriPol.htm">AtriPol</a> 
+mentre que si són de tipus PNT es fa amb el programa <a href="AtriTop.htm">AtriTop</a>.</p>
+
+<p>Tot i que en algunes opcions es tolera que el fitxer d'arcs contingui nodes finals i nodes de línia (pseudo-nodes), la seva presència pot ser deguda a errors. 
+Un arc que conté nodes finals no és ciclable. Per controlar, aquests es poden visualitzar amb el MiraMon o recórrer a la utilitat <a href="InfoTop.htm">InfoTop</a> per a conèixer les seves relacions topològiques.</p>
+
+<p>Quan el programa realitza operacions en què parteix de fitxers de polígons per generar altres polígons es parla de <b>reciclat</b>.</p>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+<p>Després d'aquesta primera selecció a través del paràmetre 'Opció', el paràmetre 'e' permet aplicar una selecció que elimina els arcs amb nodes finals (arcs que no connecten amb cap altre arc ni amb ells mateixos).</p>
+
+<p>A més, en la selecció es poden eliminar automàticament als arcs que tindrien el mateix polígon als dos costats (halters).</p>
+
+<p>Com hem comentat, l'aplicació del paràmetre 'e' permet ciclar fitxers d'arcs que contenen arcs no ciclables (arcs amb nodes finals i halters). Aquests arcs poden estar inclosos en el fitxer d'una manera voluntària, 
+però també poden provenir d'errors en la digitalització. Per tant cal aplicar el paràmetre 'e' de forma acurada i conscient.</p>
+
+  <p><!---
+El paràmetre [1] (opcional) només es fa servir en
+màquines amb poca memòria, o amb fitxers molt grans. Quan s'indica,
+el programa no carrega en memòria una part dels fitxers.
+Aquesta part suposa normalment al voltant d'un 15% de mida total dels fitxers 
+ARC i NOD.
+=--></p>
+
+<p>El programa crea a la base de dades els camps PERIMETRE i AREA, que indiquen, respectivament, el perímetre i l'àrea de cada polígon. En el cas del PERIMETRE s'inclouen els perímetres interiors. Els valors dels camps PERIMETRE 
+i AREA es calculen sobre les coordenades de la projecció (del mapa) i, per tant, no donen perímetres i àrees sobre la Terra sinó sobre el mapa, calculades com ho faria normalment un programa de dibuix assistit per ordinador (CAD). 
+En projeccions com la UTM, aquestes valors són suficientment precisos per a la major part de propòsits. Per exemple, dintre d'un fus UTM, un perímetre sobre el mapa pot arribar a diferir del perímetre sobre l'el·lipsoide terrestre 
+en un factor entre 0.9996 i 1.0009811009).</p>
+
+<p>Quan la projecció cartogràfica és coneguda (vegeu llistat de projeccions conegudes a l'ajuda del programa <a href="CanviPrj.htm">CanviPrj</a>), a més dels camps PERIMETRE i AREA, el programa també crea els camps PERIMETREE i AREAE, 
+que indiquen el perímetre i àrea reals de cada polígon calculats sobre l'el·lipsoide terrestre amb criteris geodèsics acurats. Aquests nous camps resulten especialment indicats en projeccions cartogràfiques en què els càlculs sobre 
+el mapa donen valors clarament diferents dels reals sobre la superfície terrestre (per exemple, la projecció Mercator) o en projeccions en mapes en què la diferència és petita però on apareixen grans polígons que poden acumular 
+errors importants.</p>
+
+<p>Segons la projecció cartogràfica utilitzada el programa declara visible PERIMETRE o PERIMETREE i AREA o AREAE i deixa ocult l'altre camp, segons el més comunament usat com a mesura de perímetre i àrea en aquella projecció. 
+Podeu canviar aquests criteris de visibilitat en el fitxer REL amb el Gestor Universal de Metadades Geoespacials, <a href="..\GeMPlus\GeMPlus.htm">GeM+.</a>.</p>
+<hr/>
+
+<exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+Ciclar ?
+--></p>
+</exclusiva>
+<hr/>
+
+  <h3>Format del fitxer INI indicat al paràmetre /FITXER_ORDRE_GRUP</h3>
+  <pre>
+[ORDRE_GRUP]
+Atribut1=
+Atribut2=
+Atribut3=
+...
+</pre>(L'índex d'atribut ha de ser correlatiu. El valor de les claus
+és el valor de l'atribut dels polígons)
+  <hr/>
+  Aquest programa suporta format REL v.4 i format ARC v. 1.1 amb o sense
+  coordenades 3D.<br/>
+
+  <center>
+    <a href="LinArc.htm"><img src="LinArc.gif"/></a><a href="AtriPol.htm"><img src="AtriPol.gif"/></a>
+  </center>
+</body>
+</html>

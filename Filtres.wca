@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Filtres:1</ows:Identifier>
+		<ows:Title>Filtres</ows:Title>
+		<ows:Abstract>Aquest mòdul genera un ràster a partir de l'aplicació d'un determinat filtre no selectiu sobre el ràster original. Cada píxel del ràster original és substituït en el ràster destí pel resultat del càlcul definit segons el filtre; en aquest càlcul participen els píxels del seu entorn dins d'una determinada finestra quadrada de costat senar definit per l'usuari.</ows:Abstract>
+<ows:Metadata xlink:title="Title:Programa de filtrat d'imatges" />
+<ows:Metadata xlink:title="Abstract:Aquest mòdul genera un ràster a partir de l'aplicació d'un determinat filtre no selectiu sobre el ràster original. Cada píxel del ràster original és substituït en el ràster destí pel resultat del càlcul definit segons el filtre; en aquest càlcul participen els píxels del seu entorn dins d'una determinada finestra quadrada de costat senar definit per l'usuari." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[<li>1. per a un filtre de moda.</li><li>2. de mitjana.</li><li> 3. desviació estàndard.</li><li>4. de variabilitat.</li><li> 5. de mínim.</li><li> 6. de màxim.</li><li>7. laplacià 3x3.</li><li>8. de matriu predefinida.</li><li>9. matriu d'usuari.</li><li>10. de mediana.</li>]]>
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param1" />
+				<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+						<ows:Value>5</ows:Value>
+						<ows:Value>6</ows:Value>
+						<ows:Value>7</ows:Value>
+						<ows:Value>8</ows:Value>
+						<ows:Value>9</ows:Value>
+						<ows:Value>10</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fitxer Origen</ows:Title>
+				<ows:Abstract>És el ràster origen.
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param2" />
+			<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-img</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+					<MimeType>application/x-img</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>
+			</Input>		
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FinConvol</ows:Identifier>
+				<ows:Title>Finestra Convolció</ows:Title>
+				<ows:Abstract>És el costat de la finestra de convolució (nombre senar).
+</ows:Abstract>
+			<ows:Metadata xlink:title="Param4" />
+	<LiteralData>
+		<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_MAJORITARI</ows:Identifier>
+				<ows:Title>Assigna No Data</ows:Title>
+				<ows:Abstract>Assignarà NODATA quan la mostra dels valors vàlids en la finestra de convolució definida és minoritària.
+</ows:Abstract>
+	<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NOMES_SOBRE_NODATA</ows:Identifier>
+				<ows:Title>Només Nodata</ows:Title>
+				<ows:Abstract>Aplica el filtre només sobre els píxels NODATA..
+</ows:Abstract>
+	<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+				<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RECLASS_NODATA</ows:Identifier>
+				<ows:Title>Reclassifica Nodata</ows:Title>
+				<ows:Abstract>Valor vàlid al qual s'assignaran les zones NODATA per a després també poder aplicar el filtre corresponent en aqustes zones tal com s'aplica en les zones de valors vàlids
+</ows:Abstract>
+	<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+				<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RLE</ows:Identifier>
+				<ows:Title>Comprimir e indexà</ows:Title>
+				<ows:Abstract>El ràster resultat es comprimirà i s'indexarà.
+</ows:Abstract>
+	<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+				<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS</ows:Identifier>
+				<ows:Title>Pesos</ows:Title>
+				<ows:Abstract>Seqüència en ordre fila, columna dels elements de la matriu de pesos, o sigui els seus valors numèrics separats pel caràcter _. Si un element no està definit i per tant no cal aplicar-lo, es marcarà amb el caràcter x, encara que en la majoria de casos és esquivalent a un pes zero.
+</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NORMALITZAR</ows:Identifier>
+				<ows:Title>Normalitzar</ows:Title>
+				<ows:Abstract>Implica que sobre tots els elements de la matriu de pesos s'aplicarà un factor divisor addicional, de manera que la suma de pesos esdevingui 1.
+</ows:Abstract>
+	<LiteralData>
+				<ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<ows:Value>##blank##</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIVISOR</ows:Identifier>
+				<ows:Title>Divisor</ows:Title>
+				<ows:Abstract>Factor constant que dividirà tots els elements de la matriu per a obtenir els pesos definitius. És útil per no haver de definir pesos amb decimals (com en el cas de decimals periòdics, on és més precís indicar la fracció que no el número en si).
+</ows:Abstract>
+	<LiteralData>
+		<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>
+			</Input>
+				<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>F_PESOS</ows:Identifier>
+				<ows:Title>Fitxer de pesos</ows:Title>
+				<ows:Abstract>Fitxer de pesos on es fixen tots els paràmetres anteriorment descrits de la matriu de pesos a aplicar (a més a més d'un títol idiomàtic).
+</ows:Abstract>
+	<LiteralData>
+		<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyUri">anyUri</ows:DataType>
+				<ows:AnyValue/>
+			</LiteralData>
+			</Input>
+		</DataInputs>
+	<ProcessOutputs>	
+		<Output>
+				<ows:Identifier>FitxerDestí</ows:Identifier>
+				<ows:Title>Fitxer Destí</ows:Title>
+				<ows:Abstract>És el ràster resultat.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+				<ComplexOutput>
+					<Default>
+							<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+	</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

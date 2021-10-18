@@ -1,0 +1,89 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ClasSup:Classificació supervisada d'imatges</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<p>ClasSup fa una classificació supervisada en base a classificadors clàssics com: mínima distància euclidiana,
+mínima distància de l'Eixample i màxima versemblança.</p>
+<!--GC: La descripció general de l'aplicació sempre ha d'anar abans que el tag "wpsopcions", ja que aquest especifica les diferents modalitats de la MSA. sempre que es pugui, afegir una frase tipus, "Aquesta aplicació cosnta de dues opcions:" o alguna cosa per l'estil per enllaçar--> 
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>Les signatures que defineixen cada classe es llegeixen de fitxers SGN, que típicament hauran estat generats
+a partir de l'aplicació AreaSGN, o bé com a resultat d'una execució d'IsoMM.</p>
+
+<p>El temps d'execució és molt diferent entre els diferents mètodes classificadors. Així, en una prova sobre 30
+fitxers BYTE de 1517 columnes * 1311 files en un portàtil amb les dades escrites i llegides a un disc extern
+USB3 els temps són de l'ordre de 5.25" en distància euclidiana i de 6.5" en distància de l'Eixample, mentre
+que en màxima versemblança els temps es multipliquen pràcticament per 10.</p>
+
+<p>Si es desitja, el classificador també genera un ràster amb la distància (o probabilitat, segons el classificador
+emprat) que ha estat utilitzada com a mínima distància (o com a màxima probabilitat) per a classificar
+cada píxel del mapa. En els classificadors de distància la generació d'aquest ràster addicional pot implicar un
+increment de temps d'execució al voltant d'un 60%, mentre que en el de màxima versemblança d'un 11%.
+En visualitzar aquesta imatge amb una 
+paleta de grisos cal tenir present el següent:
+<ul>
+<li>Classificadors per mínima distància: Els píxels classificats de manera més fiable són aquells que presenten
+ 		colors més foscos (valors més baixos), ja que són a una distància més propera (menor valor) al
+        centre de la classe finalment assignada. Tanmateix, si heu efectuat la classificació indicant
+        que permeteu classificar el píxel encara que no disposi d'informació en totes les variables, aquells
+        píxels classificats en base a menys variables (perquè en algunes d'elles trobem sensedades) poden presentar
+        valors més baixos simplement perquè la seva dimensionalitat és menor i, per tant, això pot induir, erròniament,
+        a pensar que la seva fiabilitat és més alta.</list>
+<li>Classificadors per màxima versemblança: Els píxels classificats de manera més fiable són aquells que presenten
+ 		colors més clars (valors més alts), ja que presenten una probabilitat de pertinença més alta a la
+        classe finalment assignada. Com en el cas anterior, si heu efectuat la classificació indicant
+        que permeteu classificar el píxel encara que no disposi d'informació en totes les variables, aquells
+        píxels classificats en base a menys variables (perquè en algunes d'elles trobem sensedades) poden presentar
+        valors més alts simplement perquè la seva dimensionalitat és menor i, per tant, això pot induir, erròniament,
+        a pensar que la seva fiabilitat és més alta. D'altra banda, i donat que els valors de probabilitat
+        poden arribar a ser molt i molt diferents (diversos ordres de magnitud), us suggerim que utilitzeu CalcIMG
+        per a aplicar un logaritme en base 10 a als valors de les cel·les de tota la imatge, la qual cosa permet
+        tenir una visualització més fàcilment comprensible. Recordeu també que en els comentaris dels aspectes tècnics
+        de les metadades podeu trobar factors d'escalat que el MiraMon hagi aplicat per tal de poder encabir els
+        valors de probabilitat en una imatge de tipus float.</list></ul></p>
+
+<p>En el cas dels classificadors de mínima distància es treballa a partir dels centres de classes desitjats. Si
+desitgeu treballar amb distàncies normalitzades, normalitzeu les variables d'entrada.<br />En el cas del de màxima versemblança s'utilitza el criteri clàssic de probabilitat Bayesiana
+a partir dels centres de classes desitjats i les seves matrius de variància-covariància.</p>
+<br>
+<hr>
+<p><b>Orientació sobre el significat de les distàncies emprades en els processos de classificació</b></P>
+<p>En algunes opcions del ClasSup, així com en altres classificadors com IsoMM o kNN, es fan càlculs de distàncies estadístiques com la distància euclidiana. En aquest cas es calcula la distància euclidiana des d'un píxel problema a uns &lsaquo;&lsaquo;valors centrals de referència &rsaquo;&rsaquo; els qual poden ser el vector de mitjanes d'un centre de classe (per exemple en el cas d'un classificador per mínima distància o a l'IsoMM), o poden ser el vector de valors d'un píxel d'entrenament (per exemple en un classificador kNN).</p>
+<p>Aquestes distàncies per a la categoria "guanyadora" es poden obtenir, en cada píxel, en el fitxer de distàncies que proporcionen algunes aplicacions de classificació digital d'imatges del MiraMon. La taula següent mostra com interpretar diversos valors d'aquestes distàncies; en tots els casos es tracta d'un a classificació amb 36 variables i en la qual en alguns píxels en comptes de fer-se la classificació amb 36 variables s'ha hagut de fer amb 24 variables (per exemple perquè en alguna de les diferents dates utilitzades per a la classificació, en aquells píxels hi havia núvols). A més, les variables presenten valors reals (no enters) acotats entre 0 i 100; un exemple d'aquesta transformació seria que els píxels d'una variable que és un índex de vegetació de diferència normalitzada, NDVI, típicament, entre -1 i 1, s'han transformat (multiplicant-los per 50 i sumant-los 50) per tal que els seus valors estiguin entre 0 i 100; un segon exemple seria que bandes de reflectància, típicament entre 0 i 1, s'han convertit en valors entre 0 i 100 (multiplicant-los per 100 i esdevenint percentatges de reflectància).</p>
+
+<img src="calcul_orientatiu_dist_mitjana_cat.png" width="75%" height="75%">
+<p>Comencem per interpretar una distància 35.8 obtinguda en un píxel classificat gràcies a 36 variables disponibles. En aquest cas podem imaginar que la situació pot oscil•lar entre que el píxel problema sigui "mitjanament lluny" dels valors centrals de referència a què ens hem referit més amunt, o que el píxel sigui molt proper (pràcticament a distància 0) de totes les variables utilitzades, excepte d'una, que acumuli pràcticament tota la distància. Em el primer cas veiem a la taula que la distància cal interpretar-la com una distància mitjana de 6.0; realment és força probable que el píxel estigui mal classificat, perquè amb diferències espectrals mitjanes, en totes aquelles variables que són respostes en bandes espectrals en les diferents dates en què s'han captat les imatges, d'un 6 % de reflectància, difícilment el píxel és "similar" a la classe. En el segon cas veiem a la taula que la distància d'una de les variables és 35.8 (sobre un recorregut total de 100); realment també és força probable que el píxel estigui mal classificat si en una de les variables té un valor tan allunyat del valor de referència. Si aquest valor de distància 35.8 ha estat obtingut en una píxel classificat gràcies a 24 variables disponibles la situació de "distància mitjana a les diferents variables" encara és pitjor, perquè esdevé d'un 7.3 en comptes d'un 6.</p>
+<p>A continuació podem interpretar una situació a l'altre extrem: un píxel classificat amb una distància 5.8 en base a 36 variables. Com es pot veure a la taula, la distància mitjana és només d'1.0, és a dir, summament propera, i si pensem que fos una sola de les 36 variables que fos molt diferent mentre les altres fossin pràcticament idèntiques, aquesta variable "discordant" només estaria a una distància 5.8 (en un recorregut total de 100). Si el píxel s'ha classificat gràcies a 24 variables disponibles la situació no és gaire pitjor: en el cas de distància mitjana tenim un valor d'1.2, que també ens indica una similitud mitjana molt proper en les 24 variables.</p>
+<p>La resta de casos intermedis de la taula poden ajudar a pensar, en els mateixos termes, en casos en què obtinguem valors de distància intermedis entre els dos exemples comentats (35.8  i 5.8).</p>
+<hr>
+<p>El nombre màxim de variables a considerar, ni la grandària dels fitxers, no estan acotats
+excepte per les capacitats del sistema. Per exemple, el setembre de 2013 s'han fet classificacions de
+màxima versemblança en base a 47 imatges "integer" de 8115 columnes x 8757 files, amb
+resultats satisfactoris en uns 90' d'execució malgrat que contenien sensedades i que també
+es generava una imatge de probabilitats simultània a la classificació en si.</p>
+
+<p>Addicionalment, el mòdul permet el càlcul de la Divergència Transformada (DT), que
+en comptes de fer una classificació escriu en un fitxer els valors de les matrius de covariància i de correlacions
+per a cada classe, així com la DT entre totes les signatures (classes) proporcionades.</p>
+
+<p>Per a informció tècnica addicional, consulteu els comentaris dels mòduls IsoData.c i IsoMM.c</p>
+
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+CLASSUP ?
+-->
+  </exclusiva>
+</body>
+</html>

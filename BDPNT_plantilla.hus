@@ -1,0 +1,100 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>BDPNT: Extract PNT points from a database</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/>
+</head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>This is particularly
+  useful when the user has a table in which each register consists of the
+  (X,Y) location of a single point and one or more attributes (for example,
+  pollution levels in wells). In such cases the program converts the table
+  into a graphical information layer (PNT) with associated alphanumeric
+  information (either maintaining the link to the original database or by
+  exporting the data to a DBF table associated with the point file).</p>
+
+  <p>The table may be stored in any of a number of databases, eg. DBF, ACCESS,
+  ORACLE, DB2, EXCEL... For all these databases, except DBF, the access is
+  performed via ODBC (<i>Open DataBase Connectivity</i>). For those databases
+  stored in a file (eg MDB files for ACCESS, XLS files for EXCEL, etc.) the
+  file can be accessed directly. For those databases stored on a server (eg
+  ORACLE, INFORMIX, DB2, etc.) it is necessary to use a special DSN (Data
+  Source Name) file, which can be generated using the &quot;<i>Orígenes de
+  Datos</i> (ODBC)&quot; WINDOWS tool (search for ODBC in WINDOWS
+  for more information). In the cases where a databases is accessed via ODBC
+  it is possible to select either any existing table or view (predefined
+  query) in the database, or to choose to use a SQL statement to dynamically
+  generate the desired table.</p>
+
+  <p>A special case for the use of this program is for recovering the labels
+  that were used to assign attributes to a polygon layer as the
+  polygon database (P.DBF) often contains, in the MAPX and MAPY fields, the
+  coordinates of the labels.</p>
+
+  <p>Thus, the input table may be a DBF format table, a DBF table associated
+  with a polygon database (P.DBF), or a table from any of a number of
+  databases (ACCESS, EXCEL, ORACLE, DB2, SQL-Server, etc). Whatever the case,
+  the input table must have two fields that contain the X and the Y
+  coordinates of the point respectively. When the points are extracted from a
+  DBF file or table in a generic database, these fields may have any name;
+  however they must be called MAPX and MAPY when dealing with a DBF file
+  associated with a polygon database (the default option in the MiraMon
+  topology structuring process).</p>
+
+  <p>When the points are extracted from a DBF file or table in a generic
+  database, all the fields are exported to the points database (T.DBF) only in
+  those cases where the user has chosen not to maintain the link with the
+  original database. On the other hand, when the labels are extracted from a
+  structured polygon file (P.DBF) the only fields that are exported to the
+  T.DBF are those fields that do NOT refer to the geometric and topological
+  characteristics of the polygons (fields like AREA, PERIMETRE, N_VERTEXS,
+  etc, are not exported). If it is necessary to select just a few fields, then
+  use a SQL sentence via ODBC.</p>
+
+  <p>The fields containing the X and Y coordinates can be numeric (N) (eg. 4500120.0 for UTMY or 12.01 degrees) or
+  character (C) fields. In the latter case, the format of degrees, minutes
+  and seconds is suported: Dº M' S&quot;.</p>
+
+  <p>At the end of the process the program applies the user-defined tolerance.
+  When, as a result of this, points merge or overlap, a multiple register is
+  generated in the associated database except where the registers are
+  identical. In the case where the link to the original database is maintained
+  via ODBC, such multiple registers are naturally created and the program does
+  not try to delete identical registers.</p>
+
+  <hr/>
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<BR><BR>
+<B>NOTES:</B><BR>
+<B>For DBF files:</B><BR>
+The field names CAMPX, CAMPY, CAMPID must follow the DBF specifications.<BR>
++ Valid characters are: upper case letters [A-Z], figures [0-9] and the character '_', but not in the initial position.<BR>
++ Blank spaces are not permitted.<BR>
++ The maximum number of characters is 10.<BR><BR>
+
+<B>For databases accessed via ODBC:</B><BR>
++ If the CAMPX, CAMPY, CAMPID field names do not satisfy the dBase standards they are modified and the original name is left as a field descriptor in the REL.<BR>
++ In cases using a SQL sentence, it is possible to use aliases for the fields. <BR><BR>
+<B>For example:</B><BR>
+/CAMPX=X<BR>
+/CAMPY=Y<BR>
+/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntitat AS IDE FROM DataFile.TXT"<BR><BR>
+
+    <!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+BDPNT ?
+-->
+
+  </exclusiva>
+  <hr/>
+</body>
+</html>

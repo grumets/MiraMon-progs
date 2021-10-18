@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ATRITOP:!Param5</ows:Identifier>
+		<ows:Title>AtriTop</ows:Title>
+		<ows:Abstract>Transfer of attributes from one graphical layer to another based on a geometrical relation between both of them.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Transfer of attributes between structured files"/>
+		<ows:Metadata xlink:title="Abstract:This program transfers attributes from one graphical layer to another based on a geometrical relation between both of them."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>1.Transfer by object overlay.</li><li> 2.Transfer by adjacency (polygons).</li><li>3.Transfer by proximity (points to nodes).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomDon</ows:Identifier>
+				<ows:Title>Donor file</ows:Title>
+				<ows:Abstract>Is the name of the attribute donor file (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:DonName"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomRecep1</ows:Identifier>
+				<ows:Title>Receptor file</ows:Title>
+				<ows:Abstract>Is the name of the attribute receptor file (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:RecepName1"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CCAMP</ows:Identifier>
+				<ows:Title>Correspondences</ows:Title>
+				<ows:Abstract>Is the name of the file that contains the correspondences between the fields in the database. If authomatic correspondences between all thematic fields are desired, do not indicate it.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Maximum distance</ows:Title>
+				<ows:Abstract>In the attributes tranfer between points and nodes, this parameter is the planimetric distance from attributes will be discarted.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CREA_NODES</ows:Identifier>
+				<ows:Title>Insert Nodes</ows:Title>
+				<ows:Abstract>In the attributes tranfer between points and nodes, for those points with no receptor nodes within the maximum distance, the process tries to insert a new node inside the closest arc whitin this maximun distance. In order to protect the original receptor base, the receptor and resulting filenames must be different.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VORA</ows:Identifier>
+				<ows:Title>Border</ows:Title>
+				<ows:Abstract>When transfering attributes from polygons to arcs, from arcs to polygons, de points to polygons or from polygons to points, an arc or point that exactly coincides with a polygon border it is considered to apply to both polygons. If it is not indicated it is considered that the arc or point do not apply to any of the polygons.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>F_REP</ows:Identifier>
+				<ows:Title>File Name</ows:Title>
+				<ows:Abstract><![CDATA[FileName indicates the name of the file that the program fills with a list of comments on the quality of the correspondences between objects. Its default name is: NomResul1.TXT What is indicated is:<ul><li>Correspondences between fields.</li><li>Objects that label polygon 0.</li><li>Non-labelled objects, whether with previous label or not</li><li>Objects labelled with more than a donor object, be it an incoherent way, incomplete or coherent.</li><li>Labelled objects which already had label(s), be them incoherent, incomplete or coherent.</li></ul>]]></ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>M_DON</ows:Identifier>
+				<ows:Title>Multiple Donor Objects</ows:Title>
+				<ows:Abstract><![CDATA[Indicates which donor object must be considered when multiple donor objects correspond to a given receptor object: <ul><li>0 Overwrite only registries of the first.</li><li>1 Write all registries of all objects (default value).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DT_RECEP</ows:Identifier>
+				<ows:Title>Previous data for a object</ows:Title>
+				<ows:Abstract><![CDATA[Indicates what must be done when there exist previous data for a graphical object of the receptor:<ul><li>0 Do not add new data.</li><li>1 Overwrite. </li><li>2 Add new data. (default value)</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DON_REC_PROP</ows:Identifier>
+				<ows:Title>Donor to nearest receptor</ows:Title>
+				<ows:Abstract>In point-to-point attribute transfers, each donor transfers attributes to the nearest receptor.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REC_N_DON_PROP</ows:Identifier>
+				<ows:Title>Receptor receives from N donors</ows:Title>
+				<ows:Abstract>In point-to-point attribute transfers, each receptor receives attributes from a number of nearest donors. In the case its value is 1, the attributes of the nearest donor to the receptor are transferred whereas if it is greater than 1, it applies a mean (in the case of a numeric field) or a mode (in the rest of field types) of the attributes of the donors to consider.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>NomResul1</ows:Identifier>
+				<ows:Title>Resulting file1</ows:Title>
+				<ows:Abstract>Is the name of the resulting file. It can be the same as the receptor file and must have the same extension.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ResulName1"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ATRITOP:Param5</ows:Identifier>
+		<ows:Title>AtriTop</ows:Title>
+		<ows:Abstract>Transfer of attributes from one graphical layer to another based on a geometrical relation between both of them, where donor file and receptor file are polygons.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>1.Transfer by object overlay.</li><li> 2.Transfer by adjacency (polygons).</li><li>3.Transfer by proximity (points to nodes).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomDon</ows:Identifier>
+				<ows:Title>Donor file</ows:Title>
+				<ows:Abstract>Is the name of the attribute donor file (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:DonName"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomRecep1</ows:Identifier>
+				<ows:Title>Receptor file</ows:Title>
+				<ows:Abstract>Is the name of the attribute receptor file (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:RecepName1"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomRecep2</ows:Identifier>
+				<ows:Title>Receptor file 2</ows:Title>
+				<ows:Abstract>Is the name of the attribute receptor file (with extension). In the case of the file that is donor and receptor of polygons, a second file of labels (points) generated by the program ETIQUETA from the polygons file (with the same number of graphical elements and the same order as in the original polygons file) must be indicated. In this case RecepName2 ResulName2 CName2 as receptor, result and correspondeces file between the fields of the labels file are used. The following syntax is to be obtained: LABEL 2 RecepName1 RecepName2 2 0 1</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:RecepName2"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CCAMP</ows:Identifier>
+				<ows:Title>Correspondences</ows:Title>
+				<ows:Abstract>Is the name of the file that contains the correspondences between the fields in the database. If authomatic correspondences between all thematic fields are desired, do not indicate it.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CCAMP_PNT</ows:Identifier>
+				<ows:Title>Correspondences 2</ows:Title>
+				<ows:Abstract>Is the name of the file that contains the correspondences between the fields in the database. If authomatic correspondences between all thematic fields are desired, do not indicate it. In the case of the file that is donor and receptor of polygons, a second file of labels (points) generated by the program ETIQUETA from the polygons file (with the same number of graphical elements and the same order as in the original polygons file) must be indicated. In this case RecepName2 ResulName2 CName2 as receptor, result and correspondeces file between the fields of the labels file are used.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Maximum distance</ows:Title>
+				<ows:Abstract>In the attributes tranfer between points and nodes, this parameter is the planimetric distance from attributes will be discarted.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CREA_NODES</ows:Identifier>
+				<ows:Title>Insert Nodes</ows:Title>
+				<ows:Abstract>In the attributes tranfer between points and nodes, for those points with no receptor nodes within the maximum distance, the process tries to insert a new node inside the closest arc whitin this maximun distance. In order to protect the original receptor base, the receptor and resulting filenames must be different.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VORA</ows:Identifier>
+				<ows:Title>Border</ows:Title>
+				<ows:Abstract>When transfering attributes from polygons to arcs, from arcs to polygons, de points to polygons or from polygons to points, an arc or point that exactly coincides with a polygon border it is considered to apply to both polygons. If it is not indicated it is considered that the arc or point do not apply to any of the polygons.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>F_REP</ows:Identifier>
+				<ows:Title>File Name</ows:Title>
+				<ows:Abstract><![CDATA[FileName indicates the name of the file that the program fills with a list of comments on the quality of the correspondences between objects. Its default name is: NomResul1.TXT What is indicated is:<ul><li>Correspondences between fields.</li><li>Objects that label polygon 0.</li><li>Non-labelled objects, whether with previous label or not</li><li>Objects labelled with more than a donor object, be it an incoherent way, incomplete or coherent.</li><li>Labelled objects which already had label(s), be them incoherent, incomplete or coherent.</li></ul>]]></ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>M_DON</ows:Identifier>
+				<ows:Title>Multiple Donor Objects</ows:Title>
+				<ows:Abstract><![CDATA[Indicates which donor object must be considered when multiple donor objects correspond to a given receptor object: <ul><li>0 Overwrite only registries of the first.</li><li>1 Write all registries of all objects (default value).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DT_RECEP</ows:Identifier>
+				<ows:Title>Previous data for a object</ows:Title>
+				<ows:Abstract><![CDATA[Indicates what must be done when there exist previous data for a graphical object of the receptor:<ul><li>0 Do not add new data.</li><li>1 Overwrite. </li><li>2 Add new data. (default value)</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>NomResul1</ows:Identifier>
+				<ows:Title>Resulting file1</ows:Title>
+				<ows:Abstract>Is the name of the resulting file. It can be the same as the receptor file and must have the same extension.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ResulName1"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>NomResul2</ows:Identifier>
+				<ows:Title>Resulting file2</ows:Title>
+				<ows:Abstract>Is the name of the resulting file. It can be the same as the receptor file and must have the same extension. In the case of the file that is donor and receptor of polygons, a second file of labels (points) generated by the program ETIQUETA from the polygons file (with the same number of graphical elements and the same order as in the original polygons file) must be indicated. In this case RecepName2 ResulName2 CName2 as receptor, result and correspondeces file between the fields of the labels file are used.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:ResulName2"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

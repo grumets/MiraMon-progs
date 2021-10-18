@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GenVLin:Param1:1</ows:Identifier>
+		<ows:Title>GenVLin (mitjana mòbil + Douglas-Peucker)</ows:Title>
+		<ows:Abstract>Opció per aplicar a cada vèrtex un filtre de mitjana mòbil sobre la seva posició (sobre les seves coordenades XY) seguit de l'algorisme de simplificació de vèrtexs de Douglas-Peucker.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Arc generalitzation"/>
+		<ows:Metadata xlink:title="Abstract:Aquesta aplicació generalitza les línies d'una capa de linies (ARC o VEC de línies). Per defecte, l'aplicació garanteix que el procés de generalització dels arcs no produeixi interseccions entre ells, col·lapses d'arcs individuals que formen un recinte tancat (evitant que un anell esdevingui un punt) o altres canvis que alterin les relacions topològiques entre les objectes arc."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Aplica el filtre de mitjana mòbil seguit de l'algorisme de Douglas-Peucker.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Fitxer origen</ows:Title>
+				<ows:Abstract>Nom del fitxer vectorial a generalitzar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerPolOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ToleranciaLM</ows:Identifier>
+				<ows:Title>Tolerància</ows:Title>
+				<ows:Abstract>Tolerància del filtre de mitjana mòbil. Està expressada en les unitats del sistema de referència de la capa origen.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ToleranciaLM"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ToleranciaDP</ows:Identifier>
+				<ows:Title>Tolerància Douglas-Peucker</ows:Title>
+				<ows:Abstract>Tolerància (èpsilon) aplicada en l'algorisme de Douglas-Peucker. Està expressada en les unitats del sistema de referència de la capa origen.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:ToleranciaDP"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NumPesos</ows:Identifier>
+				<ows:Title>Nombre de pesos</ows:Title>
+				<ows:Abstract>Nombre de pesos per al filtre de mitjana mòbil.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:NumPesos"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+						<ows:Value>5</ows:Value>
+						<ows:Value>7</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS_IGUALS</ows:Identifier>
+				<ows:Title>Pesos iguals.</ows:Title>
+				<ows:Abstract>Pesos iguals per a tots els vèrtexs de la mitjana mòbil.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS_CENTR</ows:Identifier>
+				<ows:Title>Pesos centrals.</ows:Title>
+				<ows:Abstract>Pesos automàtics, afavorint la posició dels vèrtexs centrals de la mitjana mòbil, però no canviant els pesos en funció de les distàncies entre vèrtexs.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS_INV_DIST</ows:Identifier>
+				<ows:Title>Pesos invers de la distància.</ows:Title>
+				<ows:Abstract>Pesos automàtics a cada vèrtex en funció de l'invers de la distància planimètrica al vèrtex central de la mitjana mòbil.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS_USR</ows:Identifier>
+				<ows:Title>Pesos indicats per l'usuari.</ows:Title>
+				<ows:Abstract>Pesos de valors i distribució indicats per l'usuari. Hi ha d'haver tants valors com "NumPesos", han d'estar separats per comes "," i han de sumar 1. Per exemple 0.25,0.50,0.25. </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_PRESERVAR_TOPOLOGIA</ows:Identifier>
+				<ows:Title>No preservar topologia.</ows:Title>
+				<ows:Abstract>Implica no preservar la topologia del resultat. El fitxer es marcarà amb topologia no verificada i no es vigilarà que els objectes puguin intersecar amb altres obejctes.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title> Fitxer destí</ows:Title>
+				<ows:Abstract>Nom del fitxer generalitzat resultat. Els FitxerPolOrigen i FitxerPolDestí no poden ser iguals.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerPolDesti"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GenVLin:Param2:2</ows:Identifier>
+		<ows:Title>GenVLin (mitjana mòbil)</ows:Title>
+		<ows:Abstract>Opció per aplicar a cada vèrtex un filtre de mitjana mòbil sobre la seva posició (sobre les seves coordenades XY).</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Aplica només el filtre de mitjana mòbil.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Fitxer origen</ows:Title>
+				<ows:Abstract>Nom del fitxer vectorial a generalitzar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerPolOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ToleranciaLM</ows:Identifier>
+				<ows:Title>Tolerància</ows:Title>
+				<ows:Abstract>Tolerància del filtre de mitjana mòbil. Està expressada en les unitats del sistema de referència de la capa origen.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ToleranciaLM"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NumPesos</ows:Identifier>
+				<ows:Title>Nombre de pesos</ows:Title>
+				<ows:Abstract>Nombre de pesos per al filtre de mitjana mòbil.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NumPesos"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+						<ows:Value>5</ows:Value>
+						<ows:Value>7</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS_IGUALS</ows:Identifier>
+				<ows:Title>Pesos iguals.</ows:Title>
+				<ows:Abstract>Pesos iguals per a tots els vèrtexs de la mitjana mòbil.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS_CENTR</ows:Identifier>
+				<ows:Title>Pesos centrals.</ows:Title>
+				<ows:Abstract>Pesos automàtics, afavorint la posició dels vèrtexs centrals de la mitjana mòbil, però no canviant els pesos en funció de les distàncies entre vèrtexs.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS_INV_DIST</ows:Identifier>
+				<ows:Title>Pesos invers de la distància.</ows:Title>
+				<ows:Abstract>Pesos automàtics a cada vèrtex en funció de l'invers de la distància planimètrica al vèrtex central de la mitjana mòbil.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS_USR</ows:Identifier>
+				<ows:Title>Pesos indicats per l'usuari.</ows:Title>
+				<ows:Abstract>Pesos de valors i distribució indicats per l'usuari. Hi ha d'haver tants valors com "NumPesos", han d'estar separats per comes "," i han de sumar 1. Per exemple 0.25,0.50,0.25. </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_PRESERVAR_TOPOLOGIA</ows:Identifier>
+				<ows:Title>No preservar topologia.</ows:Title>
+				<ows:Abstract>Implica no preservar la topologia del resultat. El fitxer es marcarà amb topologia no verificada i no es vigilarà que els objectes puguin intersecar amb altres obejctes.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title> Fitxer destí</ows:Title>
+				<ows:Abstract>Nom del fitxer generalitzat resultat. Els FitxerPolOrigen i FitxerPolDestí no poden ser iguals.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerPolDesti"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GenVLin:Param3:3</ows:Identifier>
+		<ows:Title>GenVLin (Douglas-Peucker)</ows:Title>
+		<ows:Abstract>Opció per aplicar l'algorisme de simplificació de vèrtexs de Douglas-Peucker.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Generalització de línies"/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Aplica només l'algorisme de simplificació de vèrtexs Douglas-Peucker.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Fitxer origen</ows:Title>
+				<ows:Abstract>Nom del fitxer vectorial a generalitzar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerPolOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ToleranciaDP</ows:Identifier>
+				<ows:Title>Tolerància Douglas-Peucker</ows:Title>
+				<ows:Abstract>Tolerància (èpsilon) aplicada en l'algorisme de Douglas-Peucker. Està expressada en les unitats del sistema de referència de la capa origen.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ToleranciaDP"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_PRESERVAR_TOPOLOGIA</ows:Identifier>
+				<ows:Title>No preservar topologia.</ows:Title>
+				<ows:Abstract>Implica no preservar la topologia del resultat. El fitxer es marcarà amb topologia no verificada i no es vigilarà que els objectes puguin intersecar amb altres obejctes.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title> Fitxer destí</ows:Title>
+				<ows:Abstract>Nom del fitxer generalitzat resultat. Els FitxerPolOrigen i FitxerPolDestí no poden ser iguals.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerPolDesti"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

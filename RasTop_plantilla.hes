@@ -1,0 +1,54 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>RasTop: Vectorización de rásters categóricos</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.--> 
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>RasTop genera líneas vectoriales que pasan entre píxeles de valores diferentes recorriendo su borde. El programa determina automáticamente la topología de estas líneas y genera los ficheros de arcos y nodos correspondientes. Sin embargo, ni la base de datos de arcos resultante, ni la de nodos, no contendrá ningún atributo temático, sino sólo relaciones topológicas. En cambio, los atributos temáticos (las categorías) del ráster de entrada serán la base de polígonos resultante, junto con sus relaciones topológicas. Una vez determinados los polígonos existentes, se asocia a cada uno, como atributo temático, el valor que tiene esa posición geográfica en el ráster.</p> 
+
+  <p>En efecto, el valor del ráster (numérico) está indicado en la tabla principal de polígonos en un campo de nombre igual al nombre del ráster en los metadatos. Si el ráster está vinculado a una tabla de tipo tesauro donde existe la descripción de categorías para cada código numérico, esta vinculación queda también automáticamente establecida en la tabla principal de polígonos a través de un enlace al tesauro al cual está vinculado en origen.  De este modo, para cada polígono se obtendrá la descripción de la categoría que contenía en el ráster.</p>  
+  
+    <p>Nótese que la vectorización de un ráster categórico permite obtener información muy valiosa para un primer análisis, por ejemplo, en Ecología del paisaje. En efecto, el resultado del RasTop aporta datos sobre cuántos polígonos diferentes tiene la zona informada por el ráster de entrada, cuál es el de mayor área, el de menor área, qué área media o mediana tienen las categorías de la zona, qué perímetros y relaciones área/perímetro tienen, cuántas islas (agujeros topológicos) existen, cuál es el máximo nivel de anidamiento (cuantas islas dentro de islas), etc.</p>
+  
+    <p>Si el ráster contiene celdas sindatos, su valor numérico también se traslada como atributo numérico al campo de la tabla principal de polígonos que recoge el valor del ráster. No obstante, cuando el ráster no está vinculado a un tesauro, en la tabla principal de polígonos para aquellos polígonos con píxeles con valor sindatos se deja el contenido de la celda "en blanco" (vacía) (un valor blanco en las tablas de atributos es un concepto equivalente a un valor de fondo en los rásters). Se puede hacer que MiraMon deje transparentes los polígonos con atributos "blancos" a través del botón de opciones avanzadas de la ventana de visualización de polígonos, o haciendo aparecer la categoría del sindatos en la leyenda para poder editar el color y indicar que le corresponde "transparente".</p>
+
+  <p>Continuando con el caso en que el ráster contiene celdas con sindatos, en ser vectorizadas, éstas se asocian al polígono 0 formando un grupo. Finalmente, en un ráster consistente en una o más manchas (conjuntos de píxeles) sobre un fondo de celdas etiquetadas con sindatos, el programa no genera ningún marco que incluya todo el ráster sino que el polígono 0 delimita directamente el conjunto de manchas del ráster (en otras palabras, los polígonos del ráster quedan "flotando" dentro el polígono 0, sin ningún marco rectangular correspondiente al ráster original).</p>
+
+  <p>Es posible generar una capa vectorial a partir de diversas capas ráster simultáneamente. El fichero vectorial resultado, generará un borde entre polígonos diferentes si uno o más valores de los rásters son diferentes a lado y lado. La base de datos de polígonos contendrá los valores de cada ráster en campos independientes. Estos campos se asociarán a los tesauros correspondientes si los valores de los rásters estaban asociados a tesauros. Cuando hay varios rásters, es necesario que todos sean del mismo ámbito y resolución. Se puede usar el módulo <a href="AdapRas.htm">AdapRas</a> para ajustar el ámbito y la resolución entre distintos rásters.</p>
+
+  <p>El programa calcula las longitudes de los arcos sobre la proyección y las guarda en el campo LONG_ARC de la tabla principal de arcos. Si la proyección es conocida como proyección cartográfica, también añade la longitud sobre el elipsoide anotada en el campo LONG_ARCE. Igualmente, para cada polígono se determina su perímetro y área, documentando estos valores en los campos PERIMETRE y AREA de la tabla principal de polígonos, y si la proyección es cartográfica, también se anota el perímetro y el área sobre el elipsoide en los campos PERIMETREE y AREAE.</p>
+  
+ <p>En función de la proyección cartográfica utilizada, el programa declara visible PERIMETRE o PERIMETREE y AREA o AREAE y deja oculto el otro campo, siguiendo el criterio más comúnmente usado como medición de perímetro y área en dicha proyección. Se puede cambiar este criterio de visibilidad en el fichero REL a través del gestor de metadatos (GeMM).</p>
+ 
+ <p>Para una descripción más detallada de los tipos de longitudes se puede consultar la ayuda del programa <a href="LinArc.htm#ellipsoide">LinArc</a>; y para los tipos de perímetro y área, en la ayuda del programa <a href="Ciclar.htm#ellipsoide">Ciclar</a>.</p>
+
+  <p>Para conseguir una máxima fidelidad al ráster original y, al mismo tiempo, un tamaño de archivo vectorial de arcos tan pequeño como sea posible, este programa no realiza ninguna suavización de líneas. Sin embargo, es posible activar la opción "generalizar" y conseguir unos bordes de polígonos más suavizados.</p>
+  
+  <p>La generalización se lleva a cabo aplicando los algoritmos de generalización por media móvil y Douglas-Peucker del módulo <a href="GenVPol.htm">GenVPol</a> en el modo de "pesos automáticos en función del inverso de la distancia al vértice central de la media móvil con tolerancia igual al lado del ráster original", "tamaño de la media móvil de 3" y "épsilon igual a la décima parte del lado de píxel del ráster original", que suelen proporcionar buenos resultados; sin embargo, si el resultado no es suficientemente satisfactorio, se puede pedir a RasTop que genere el resultado sin generalizar y, a continuación, generalizar el resultado con GenVPol con los parámetros que resulten más convenientes.</p>
+  
+  <p>RasTop permite, optativamente, hacer que los polígonos de igual atributo que están en contacto por un nodo sean agrupados (equivalente al reciclado para nodos del módulo <a href="Ciclar.htm">Ciclar</a>), lo que es conveniente en ciertos análisis de paisaje y/o en generalización cartográfica (por ejemplo después de clasificación digital de imágenes, a fin de eliminar pequeños grupos de píxeles de la misma categoría y en contacto por lado o por vértice). En este caso, el número final de polígonos obtenido es, obviamente, inferior (el programa informa al terminar).</p>
+  
+  <p>RasTop también permite vectorizar sin generar polígonos (sólo trazando los bordes entre ellos en forma de arcos).</p>
+  
+	<hr/>
+  <exclusiva>
+ <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+ <p><!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+RasTop ?
+--></p>
+  </exclusiva>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>BDPNT: Extracción de puntos PNT a partir de una base de datos</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <p>Esto es particularmente útil cuando se dispone de una tabla
+  que describe para cada registro la localización (X,Y) del punto y uno o más
+  atributos (por ejemplo niveles de contaminantes en pozos). En este caso
+  se puede convertir la tabla en una capa de información gráfica (PNT) con su
+  información alfanumérica asociada (manteniendo el vínculo con la base de
+  datos original o bien exportando los datos a una tabla DBF asociada al
+  fichero de puntos).</p>
+
+  <p>La tabla puede residir en cualquier base de datos, p.ej. DBF, ACCESS,
+  ORACLE, DB2, EXCEL... Para todas aquellas bases de datos diferentes a DBF,
+  el acceso se realiza mediante ODBC (<i>Open DataBase Connectivity</i>).
+  Es posible dirigirse directamente a aquellas bases de datos localizadas en un
+  fichero (p.ej. ficheros MDB de ACCESS, ficheros XLS de EXCEL, etc). Para las bases de datos residentes en un servidor (p.ej.
+  ORACLE, INFORMIX, DB2, etc) se debe utilizar un fichero especial, el
+  fichero DSN (<i>Data Source Name</i>), que puede generarse con la herramienta
+  &quot;Orígenes de Datos (ODBC)&quot; del propio WINDOWS (se puede buscar ODBC en la
+  ayuda de WINDOWS para más información). En los casos en que se accede a una
+  base de datos via ODBC se puede optar por indicar cualquier tabla o vista
+  (consulta predefinida) existente en la base de datos o bien optar por
+  utilizar una sentencia SQL que genere dinámicamente la tabla deseada.</p>
+
+  <p>Un caso particular de aplicación de este programa es la recuperación de
+  las etiquetas que se usaron para asignar atributos a una capa de polígonos,
+  ya que la base de polígonos (P.DBF) a menudo contiene, en los campos MAPX y
+  MAPY, las coordenadas de las etiquetas.</p>
+
+  <p>La tabla origen, por tanto, puede ser una tabla en formato DBF, una tabla
+  DBF asociada a una base de polígonos (P.DBF), o una tabla en cualquier base
+  de datos (ACCESS, EXCEL, ORACLE, DB2, SQL-Server, etc). En cualquier caso, la
+  tabla origen debe presentar dos campos que contengan, respectivamente, las
+  coordenadas X e Y del punto. Cuando se extraen los puntos de un DBF o de una
+  tabla en cualquier base de datos genérica, estos campos pueden tener
+  cualquier nombre; en cambio, deben llamarse MAPX y MAPY cuando se trata del
+  DBF asociado a una base de polígonos (opción por defecto en el proceso de
+  estructuración topológica de MiraMon).</p>
+
+  <p>Cuando se extraen los puntos de un DBF o de una tabla en una base de
+  datos genérica cualquiera, se exportan todos los campos hacia la base de
+  puntos (T.DBF) solo en aquellos casos en los que se ha indicado que no se
+  desea mantener el vínculo con la base de datos original. En cambio, cuando
+  se extraen las etiquetas de un fichero de polígonos estructurado
+  topológicamente (P.DBF), solamente se exportarán al T.DBF aquellos campos
+  que NO hacen referencia a las características geométricas ni topológicas de
+  los polígonos (los campos como AREA, PERIMETRE, N_VERTEXS, etc, no se
+  exportan). Si se debe escoger solamente algunos campos debe utilizarse una
+  sentencia SQL vía ODBC.</p>
+
+  <p>Los campos que contienen las coordenadas X e Y de los puntos pueden ser
+  de tipo numérico (N) (p.ej. contener la coordenada Y en UTM31N 4500120.0
+  para las UTMY o bien en grados decimales 12.01 grados) o de tipo carácter
+  (C). En este último caso, se soporta el formato de grados, minutos y
+  segundos con la forma siguiente: Gº M' S&quot;.</p>
+
+  <p>Al final de la extracción de los puntos de la base de datos el programa
+  aplica la tolerancia solicitada por el usuario. En caso de que, como
+  resultado de aplicar la tolerancia, se fusionen puntos, se genera registro
+  múltiple en la base de datos asociada a los puntos, excepto cuando el
+  contenido de los registros es idéntico. En caso de mantener el vínculo a la
+  base de datos original via ODBC, este registro múltiple se crea de manera
+  natural: en este caso no se intenta eliminar los registros idénticos.</p>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<BR><BR>
+<B>NOTAS:</B><BR>
+<B>En el caso de ficheros de tipo DBF:</B><BR>
+Los nombres de los campos CAMPX, CAMPY, CAMPID deben seguir las especificaciones del formato DBF.<BR>
++ Los caracteres válidos son: letras mayúsculas [A-Z], cifras [0-9] y el carácter '_', 
+pero no al inicio.<BR>
++ No se toleran espacios en blanco.<BR>
++ El máximo número de caracteres es 10.<BR><BR>
+
+<B>En el caso de bases de datos via ODBC:</B><BR>
++ Si los nombres de los campos CAMPX, CAMPY, CAMPID no cumplen los estándares de dBase, 
+son modificados, y el nombre original pasa a ser el descriptor del campo en el REL.<BR>
++ En caso de que se utilice una sentencia SQL, pueden utilizarse alias para los nombres de los campos.<BR><BR>
+<B>Por ejemplo:</B><BR>
+/CAMPX=X<BR>
+/CAMPY=Y<BR>
+/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntidad AS IDE FROM FicheroConLosDatos.TXT"<BR><BR>
+
+    <!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+BDPNT ?
+-->
+  </exclusiva>
+  <hr/>
+</body>
+</html>

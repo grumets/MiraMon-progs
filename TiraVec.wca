@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:TIRAVEC:param4</ows:Identifier>
+		<ows:Title>TIRAVEC NOU</ows:Title>
+		<ows:Abstract>Pren un fitxer vectorial de punts, línies/arcs, polígons o nodes (estructurat topològicament o no) i el rasteritza sobre un ràster nou.
+</ows:Abstract>
+<ows:Metadata xlink:title="Title:Rasterització de fitxers vectorials" />
+<ows:Metadata xlink:title="Abstract:Aquest programa inclou i amplia les funcionalitats dels programes TiraLin i TiraPol que han desaparegut en la versió 4 de MiraMon." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>r</ows:Identifier>
+				<ows:Title>Criteri de Rasterització</ows:Title>
+				<ows:Abstract>El seu significat varia en funció de si es rasteritzen els objectes com a polígons, línies, o punts. <![CDATA[<ul><li>Per polígons és el criteri de delimitació del polígon:</li><ul><li>'1' Cada cel·la es rasteritza si el polígon ocupa més de la meitat de la seva àrea (estimada en un perfil horitzontal a la seva part central).</li><li>'2' Cada cel·la es rasteritza només si el polígon afecta exactament el punt central de la cel·la.</li><li>'3' S'aplica primer el criteri '1' i després el criteri '2', però només sobre el valor de fons.</li></ul><li>Per línies és el criteri de traçat de la línia:</li><ul><li> '1' Línies d'una sola cel·la de gruix amb màxima fidelitat al traçat de la línia.</li><li> '2' Com 1 però rasteritzan les coordenades arrodonint-les al centre de cel·la (criteri de processament d'imatges, no recomanat).</li><li> '4' Es rasteritzan línies gruixudes, és a dir totes les cel·les que toquen la línia.</li></ul> 
+<li> Per punts indiqueu sempre 1</li> </ul> ]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param01" />
+				<ows:Metadata xlink:title="Name:r"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_VEC</ows:Identifier>
+				<ows:Title>Fitxer Vectorial</ows:Title>
+				<ows:Abstract>és el fitxer vectorial a rasteritzar. S'indica amb extensió.</ows:Abstract>
+			<ows:Metadata xlink:title="Param02" />
+			<ows:Metadata xlink:title="Name:f_VEC"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RasOri</ows:Identifier>
+				<ows:Title>És la imatge sobre la qual es comença a rasteritzar</ows:Title>
+				<ows:Abstract>Es permet que el ràster no existeixi. En aquest cas, poseu '*' i us caldrà indicar el paràmetre addicional /COSTAT= i es poden indicar l'envolupant i el tipus de dades del ràster de sortida: /XMIN=, /XMAX=, /YMIN=, /YMAX= i /TIPUS_DADA=. Si no s'indica l'envolupant, es pren la del fitxer vectorial. Els possibles valors per a /TIPUS_DADA= són: "bit", "byte", "integer", "long", "real", "byte-RLE", "integer-RLE", "long-RLE" i "real-RLE". Si no indiqueu /TIPUS_DADA= o poseu "auto", el programa determina el tipus de dada de sortida òptim que permet rasteritzar tots els valors del vector sense produir-se saturacions. Quan no s'indica ràster d'entrada, el programa rasteritza sobre un fitxer inicialitzat a valor de fons. 
+				</ows:Abstract>
+			<ows:Metadata xlink:title="Param03" />
+			<ows:Metadata xlink:title="Name:RasOri"/>
+				<LiteralData>
+					<ows:AllowedValues>*</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>m</ows:Identifier>
+				<ows:Title>Modes</ows:Title>
+				<ows:Abstract>Permet considerar diferents modes:<![CDATA[<ul><li> '0' normal: polígons com a polígons, arcs i línies com a línies, punts i nodes com a punts.</li><li> '1' polígons com a línies o linies com a punts.</li><li> '2' polígons com a punts (rasteritza els vertexs).</li><li> '3' polígons com a polígons amb vora.</li></ul>]]></ows:Abstract>
+			<ows:Metadata xlink:title="Param05" />
+			<ows:Metadata xlink:title="Name:m"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>					
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>s</ows:Identifier>
+				<ows:Title>Criteri de Saturació</ows:Title>
+				<ows:Abstract>Criteri de saturació:<![CDATA[<ul><li> '0' Es desestimen els vectors amb atribut fora del rang de valors possibles al raster.</li><li>'1' No es desestima cap vector, saturant el valor en cas de desbordament del rang.</li></ul>]]> 
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<ows:Metadata xlink:title="Name:s"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>				
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>vf</ows:Identifier>
+				<ows:Title>Valors de Fons</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>'0' Rasteritzar sobre tots els valors previs de la imatge.</li><li>'1' Rasteritzar només sobre el valor de fons.</li></ul> ]]>
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param07" />
+				<ows:Metadata xlink:title="Name:vf"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>				
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_DATA</ows:Identifier>
+				<ows:Title>Tipus de Data</ows:Title>
+				<ows:Abstract>Tipologia de Data.</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>auto</ows:Value	>						
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMIN</ows:Identifier>
+				<ows:Title>X mínima</ows:Title>
+				<ows:Abstract>Definició de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+							<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMAX</ows:Identifier>
+				<ows:Title>X màxima</ows:Title>
+				<ows:Abstract>Definició de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+								<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMIN</ows:Identifier>
+				<ows:Title>Y Mínima</ows:Title>
+				<ows:Abstract>Definició de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMAX</ows:Identifier>
+				<ows:Title>Y Màxima</ows:Title>
+				<ows:Abstract>Definició de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Costat</ows:Title>
+				<ows:Abstract>Defineix el costat de pixel del ràster resultat o temporal quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Selecció d'un  de la taula en el format vectorial pol</ows:Title>
+				<ows:Abstract>/TAULA= indica el camp de la base de dades del criteri de selecció. En REL1, és obligatori per fitxers estructurats. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de</ows:Abstract>
+				 <ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxi general."/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Selecció d'un camp de la taula en el format vectorial pol</ows:Title>
+				<ows:Abstract>/CAMP= indiquen el camp de la base de dades del criteri de selecció. És obligatori per fitxers estructurats. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de</ows:Abstract>
+				<ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxi general."/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_CAT</ows:Identifier>
+				<ows:Title>Categories de la Taula</ows:Title>
+				<ows:Abstract>Si es volen categories es pot indicar la base i el camp.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_CAT</ows:Identifier>
+				<ows:Title>Categories del Camp</ows:Title>
+				<ows:Abstract>Si es volen categories es pot indicar la base i el camp.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_VORA</ows:Identifier>
+				<ows:Title>Taula per rasteritzar les vores</ows:Title>
+				<ows:Abstract>Si es volen categories es pot indicar la base i el camp.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_VORA</ows:Identifier>
+				<ows:Title>Camp per rasteritzar les vores.</ows:Title>
+				<ows:Abstract>Indiquen el camp de la base de dades escollida per a rasteritzar les vores </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR_CONSTANT_VORA</ows:Identifier>
+				<ows:Title>Valor Constant de la Vora</ows:Title>
+				<ows:Abstract> Es rasteritza la vora del polígon amb el valor constant indicat. 
+				</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Resgistre escollit quan hi mès d'un index</ows:Title>
+				<ows:Abstract>Indica quin registre és escollit quan hi ha més d'un registre per un identificador gràfic (registre múltiple). Per saber més sobre els valors d'aquest paràmetre seguiu les consideracions del document de
+</ows:Abstract>
+	<ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxi general."/>
+				<LiteralData>
+				<ows:AllowedValues>##blank##</ows:AllowedValues>
+				<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPERADOR</ows:Identifier>
+				<ows:Title>Canvia la manera de funcionar del programa segons el seu valor.</ows:Title>
+				<ows:Abstract> Per camps de tipus 'N' (o VEC's de tipus "integer" o "real") el valor per defecte és CAP. Per camps de tipus 'C', 'D' o 'L' (o VEC's de tipus "string") el valor per defecte és TRACTAR_C_COM_N, que indica que es converteix a numèric el valor de la cel·la i quan això és possible es rasteritza l'element. Per camps de tipus 'C', 'D' o 'L' (o VEC's de tipus "string") podeu indicar PROJECTAR_CAMP per generar un index numèric automàticament i emprar els valors dels camps per definir les categories. Podeu generar un ràster màscara dels polígons amb valor igual a un de concret indicat EQ o diferents d'un de concret indicat NO_EQ; llavors, cal indicar el valor a comparar amb /VALOR=. Per a fitxer estructurats de polígons el polígon 0 no es rasteritza mai; podeu indicar NOMES_POLIGON_0 per rasteritzar una màscara amb valors 0 en el polígon 0 i 1 sobre tots els altres polígons (és a dir, una màscara dels forats del polígon 0). 
+</ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>CAP</ows:Value>
+						<ows:Value>TRACTAR_C_COM_N</ows:Value>
+						<ows:Value>PROJECTAR_CAMP</ows:Value>
+						<ows:Value>NOMES_POLIGON_0</ows:Value>						
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR</ows:Identifier>
+				<ows:Title>valor a comparar </ows:Title>
+				<ows:Abstract>Valor a comparar.  
+</ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR_CONSTANT</ows:Identifier>
+				<ows:Title>Es rasteritza el valor constant indicat</ows:Title>
+				<ows:Abstract>Es rasteritza el valor constant indicat. 
+				</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+					</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>3D</ows:Identifier>
+				<ows:Title>Es rasteritza el valor de l'alçada que hi ha en la informació 3d del fitxer vectorial binari.</ows:Title>
+				<ows:Abstract>Es rasteritza el valor de l'alçada que hi ha en la informació 3d del fitxer vectorial binari.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+					</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_RASTER</ows:Identifier>
+				<ows:Title>Tipus de Data del ràster</ows:Title>
+				<ows:Abstract>És el tipus de dades del ràster de sortida en cas de no existir ràster d'entrada. Els valors possibles han estat indicats anteriorment. 
+</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>auto</ows:Value	>						
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EXAGERACIO</ows:Identifier>
+				<ows:Title>És l'exageració o regruiximent</ows:Title>
+				<ows:Abstract>De moment, només aplica per a punts. Permet rasteritzar punts com a quadrats d'una certa mida. L'exageració està en unitats mapa i s'aplica en els dos sentits i està condicionat per la mida de píxel. Per tant, el costat del quadrat que representa un punt donat és aproximadament el doble de l'exageració però arrodonit a un múltiple proper del costat de píxel. 
+</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<UOMs>
+						<Default>
+							<ows:UOM ows:reference="http://www.ec.gc.ca/data_donnees/standards/schemas/napec/schema/resources/uom/gmxUom.xml">m</ows:UOM>
+						</Default>
+						<Supported>
+							<ows:UOM ows:reference="http://www.ec.gc.ca/data_donnees/standards/schemas/napec/schema/resources/uom/gmxUom.xml">degree</ows:UOM>
+							<ows:UOM>nm</ows:UOM>
+							<!--falta referenciar el schema de les dades suportades-->
+							<ows:UOM>µm</ows:UOM>
+							<ows:UOM>mm</ows:UOM>
+							<ows:UOM>cm</ows:UOM>
+							<ows:UOM>dm</ows:UOM>
+							<ows:UOM>dam</ows:UOM>
+							<ows:UOM>hm</ows:UOM>
+							<ows:UOM>km</ows:UOM>
+							<ows:UOM>inch</ows:UOM>
+							<ows:UOM>ft</ows:UOM>
+							<ows:UOM>yd</ows:UOM>
+							<ows:UOM>S.M.</ows:UOM>
+							<ows:UOM>N.M.</ows:UOM>
+							<ows:UOM>píxels</ows:UOM>
+						</Supported>
+					</UOMs>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+	</DataInputs>
+	<ProcessOutputs>		
+		<Output>
+				<ows:Identifier>RasSor</ows:Identifier>
+				<ows:Title>Ràster Sortida</ows:Title>
+				<ows:Abstract>És el fitxer resultat. Pot no existir i pot ser el mateix que el RàsOri.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+				<ows:Metadata xlink:title="Name:RasSor"/>
+				
+				<ComplexOutput>
+					<Default>
+							<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:TIRAVEC:!param4</ows:Identifier>
+		<ows:Title>TIRAVEC</ows:Title>
+		<ows:Abstract>Pren un fitxer vectorial de punts, línies/arcs, polígons o nodes (estructurat topològicament o no) i el rasteritza sobre un ràster preexistent.
+</ows:Abstract>
+<ows:Metadata xlink:title="Title:Rasterització de fitxers vectorials" />
+<ows:Metadata xlink:title="Abstract:Aquest programa inclou i amplia les funcionalitats dels programes TiraLin i TiraPol que han desaparegut en la versió 4 de MiraMon." />
+		<DataInputs>
+<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>r</ows:Identifier>
+				<ows:Title>Criteri de Rasterització</ows:Title>
+				<ows:Abstract>El seu significat varia en funció de si es rasteritzen els objectes com a polígons, línies, o punts. <![CDATA[<ul><li>Per polígons és el criteri de delimitació del polígon:</li><ul><li>'1' Cada cel·la es rasteritza si el polígon ocupa més de la meitat de la seva àrea (estimada en un perfil horitzontal a la seva part central).</li><li>'2' Cada cel·la es rasteritza només si el polígon afecta exactament el punt central de la cel·la.</li><li>'3' S'aplica primer el criteri '1' i després el criteri '2', però només sobre el valor de fons.</li></ul><li>Per línies és el criteri de traçat de la línia:</li><ul><li> '1' Línies d'una sola cel·la de gruix amb màxima fidelitat al traçat de la línia.</li><li> '2' Com 1 però rasteritzan les coordenades arrodonint-les al centre de cel·la (criteri de processament d'imatges, no recomanat).</li><li> '4' Es rasteritzan línies gruixudes, és a dir totes les cel·les que toquen la línia.</li></ul> 
+<li> Per punts indiqueu sempre 1</li> </ul> ]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param01" />
+				<ows:Metadata xlink:title="Name:r"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_VEC</ows:Identifier>
+				<ows:Title>Fitxer Vectorial</ows:Title>
+				<ows:Abstract>és el fitxer vectorial a rasteritzar. S'indica amb extensió.</ows:Abstract>
+			<ows:Metadata xlink:title="Param02" />
+			<ows:Metadata xlink:title="Name:f_VEC"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+							<!--s'ha d'especificar tots els formats-->
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+							<!--s'ha d'especificar tots els formats-->
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+							<!--s'ha d'especificar tots els formats-->
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>Binary</Encoding>
+							<!--s'ha d'especificar tots els formats-->
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RasOri</ows:Identifier>
+				<ows:Title>És la imatge sobre la qual es comença a rasteritzar</ows:Title>
+				<ows:Abstract>Es permet que el ràster no existeixi. En aquest cas, poseu '*' i us caldrà indicar el paràmetre addicional /COSTAT= i es poden indicar l'envolupant i el tipus de dades del ràster de sortida: /XMIN=, /XMAX=, /YMIN=, /YMAX= i /TIPUS_DADA=. Si no s'indica l'envolupant, es pren la del fitxer vectorial. Els possibles valors per a /TIPUS_DADA= són: "bit", "byte", "integer", "long", "real", "byte-RLE", "integer-RLE", "long-RLE" i "real-RLE". Si no indiqueu /TIPUS_DADA= o poseu "auto", el programa determina el tipus de dada de sortida òptim que permet rasteritzar tots els valors del vector sense produir-se saturacions. Quan no s'indica ràster d'entrada, el programa rasteritza sobre un fitxer inicialitzat a valor de fons. 
+				</ows:Abstract>
+			<ows:Metadata xlink:title="Param03" />
+			<ows:Metadata xlink:title="Name:RasOri"/>
+				<ComplexData>
+					<Default>
+							<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+				<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>m</ows:Identifier>
+				<ows:Title>Modes</ows:Title>
+				<ows:Abstract>Permet considerar diferents modes:<![CDATA[<ul><li> '0' normal: polígons com a polígons, arcs i línies com a línies, punts i nodes com a punts.</li><li> '1' polígons com a línies o linies com a punts.</li><li> '2' polígons com a punts (rasteritza els vertexs).</li><li> '3' polígons com a polígons amb vora.</li></ul>]]></ows:Abstract>
+			<ows:Metadata xlink:title="Param05" />
+			<ows:Metadata xlink:title="Name:m"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>					
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>s</ows:Identifier>
+				<ows:Title>Criteri de Saturació</ows:Title>
+				<ows:Abstract>Criteri de saturació:<![CDATA[<ul><li> '0' Es desestimen els vectors amb atribut fora del rang de valors possibles al raster.</li><li>'1' No es desestima cap vector, saturant el valor en cas de desbordament del rang.</li></ul>]]> 
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<ows:Metadata xlink:title="Name:s"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>				
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>vf</ows:Identifier>
+				<ows:Title>Valor de fons</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>'0' Rasteritzar sobre tots els valors previs de la imatge.</li><li>'1' Rasteritzar només sobre el valor de fons.</li></ul> ]]>
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param7" />
+				<ows:Metadata xlink:title="Name:vf"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>				
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_DATA</ows:Identifier>
+				<ows:Title>Tipus de Data</ows:Title>
+				<ows:Abstract>Tipologia de Data.</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>auto</ows:Value	>						
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMIN</ows:Identifier>
+				<ows:Title>X mínima</ows:Title>
+				<ows:Abstract>Definició de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMAX</ows:Identifier>
+				<ows:Title>X màxima</ows:Title>
+				<ows:Abstract>Definició de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMIN</ows:Identifier>
+				<ows:Title>Y Mínima</ows:Title>
+				<ows:Abstract>Definició de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMAX</ows:Identifier>
+				<ows:Title>Y Màxima</ows:Title>
+				<ows:Abstract>Definició de l'envolupant del fitxer ràster de sortida, o del ràster temporal que donarà lloc al vector resultat, quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Costat</ows:Title>
+				<ows:Abstract>Defineix el costat de pixel del ràster resultat o temporal quan FitxerAmbEntitatsDiana és una capa vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Selecció d'un  de la taula en el format vectorial pol</ows:Title>
+				<ows:Abstract>/TAULA= indica el camp de la base de dades del criteri de selecció. En REL1, és obligatori per fitxers estructurats. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de</ows:Abstract>
+				 <ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxi general."/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Selecció d'un camp de la taula en el format vectorial pol</ows:Title>
+				<ows:Abstract>/CAMP= indiquen el camp de la base de dades del criteri de selecció. És obligatori per fitxers estructurats. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de</ows:Abstract>
+				<ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxi general."/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_CAT</ows:Identifier>
+				<ows:Title>Categories de la Taula</ows:Title>
+				<ows:Abstract>Si es volen categories es pot indicar la base i el camp.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_CAT</ows:Identifier>
+				<ows:Title>Categories del Camp</ows:Title>
+				<ows:Abstract>Si es volen categories es pot indicar la base i el camp.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_VORA</ows:Identifier>
+				<ows:Title>Taula per rasteritzar les vores</ows:Title>
+				<ows:Abstract>Si es volen categories es pot indicar la base i el camp.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string" >String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_VORA</ows:Identifier>
+				<ows:Title>Camp per rasteritzar les vores.</ows:Title>
+				<ows:Abstract>Indiquen el camp de la base de dades escollida per a rasteritzar les vores </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR_CONSTANT_VORA</ows:Identifier>
+				<ows:Title>Valor Constant de la Vora</ows:Title>
+				<ows:Abstract> Es rasteritza la vora del polígon amb el valor constant indicat. 
+				</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Resgistre escollit quan hi mès d'un index</ows:Title>
+				<ows:Abstract>Indica quin registre és escollit quan hi ha més d'un registre per un identificador gràfic (registre múltiple). Per saber més sobre els valors d'aquest paràmetre seguiu les consideracions del document de
+</ows:Abstract>
+	<ows:Metadata xlink:href="general.htm#TaulaCamp" xlink:title="sintaxi general."/>
+				<LiteralData>
+				<ows:AllowedValues>##blank##</ows:AllowedValues>
+				<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPERADOR</ows:Identifier>
+				<ows:Title>Canvia la manera de funcionar del programa segons el seu valor.</ows:Title>
+				<ows:Abstract> Per camps de tipus 'N' (o VEC's de tipus "integer" o "real") el valor per defecte és CAP. Per camps de tipus 'C', 'D' o 'L' (o VEC's de tipus "string") el valor per defecte és TRACTAR_C_COM_N, que indica que es converteix a numèric el valor de la cel·la i quan això és possible es rasteritza l'element. Per camps de tipus 'C', 'D' o 'L' (o VEC's de tipus "string") podeu indicar PROJECTAR_CAMP per generar un index numèric automàticament i emprar els valors dels camps per definir les categories. Podeu generar un ràster màscara dels polígons amb valor igual a un de concret indicat EQ o diferents d'un de concret indicat NO_EQ; llavors, cal indicar el valor a comparar amb /VALOR=. Per a fitxer estructurats de polígons el polígon 0 no es rasteritza mai; podeu indicar NOMES_POLIGON_0 per rasteritzar una màscara amb valors 0 en el polígon 0 i 1 sobre tots els altres polígons (és a dir, una màscara dels forats del polígon 0). 
+</ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>CAP</ows:Value>
+						<ows:Value>TRACTAR_C_COM_N</ows:Value>
+						<ows:Value>PROJECTAR_CAMP</ows:Value>
+						<ows:Value>NOMES_POLIGON_0</ows:Value>						
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR</ows:Identifier>
+				<ows:Title>valor a comparar </ows:Title>
+				<ows:Abstract>Valor a comparar.  
+</ows:Abstract>
+					<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR_CONSTANT</ows:Identifier>
+				<ows:Title>Valor constant</ows:Title>
+				<ows:Abstract>Es rasteritza el valor constant indicat. 
+				</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+					</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>3D</ows:Identifier>
+				<ows:Title>Valor alçada</ows:Title>
+				<ows:Abstract>Es rasteritza el valor de l'alçada que hi ha en la informació 3d del fitxer vectorial binari.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer">integer</ows:DataType>
+					<ows:AnyValue></ows:AnyValue>
+				</LiteralData>
+					</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_RASTER</ows:Identifier>
+				<ows:Title>Tipus ràster</ows:Title>
+				<ows:Abstract>És el tipus de dades del ràster de sortida en cas de no existir ràster d'entrada. Els valors possibles han estat indicats anteriorment. 
+</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>auto</ows:Value	>						
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EXAGERACIO</ows:Identifier>
+				<ows:Title>Exageració o regruiximent</ows:Title>
+				<ows:Abstract>De moment, només aplica per a punts. Permet rasteritzar punts com a quadrats d'una certa mida. L'exageració està en unitats mapa i s'aplica en els dos sentits i està condicionat per la mida de píxel. Per tant, el costat del quadrat que representa un punt donat és aproximadament el doble de l'exageració però arrodonit a un múltiple proper del costat de píxel. 
+</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+	</DataInputs>
+	<ProcessOutputs>
+		<Output>
+				<ows:Identifier>RasOri</ows:Identifier>
+				<ows:Title>Imatge ràster de sortida</ows:Title>
+				<ows:Abstract>Es la imatge ràster d'entrada transformada i convertida en imatge ràster de sortida.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ows:Metadata xlink:title="Name:RasOri"/>
+				<ComplexOutput>
+					<Default>
+							<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>		
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

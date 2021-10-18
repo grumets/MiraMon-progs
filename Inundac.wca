@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Inundac:Param01:1</ows:Identifier>
+		<ows:Title>Càlcul de les zones inundades a partir d'un MDT i de les mesures i estacions indicades (Opció 1)</ows:Title>
+		<ows:Abstract>Càlcul de les zones inundades en una data determinada a partir d'un MDT i de les mesures i estacions indicades per l'usuari en el procés(Opció 1). Les mesures puntuals de les estacions s'espacialitzen mitjançant polígons de Thiessen.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Càlcul de les zones inundades."/>
+		<ows:Metadata xlink:title="Abstract:Càlcul de les zones inundades en una data determinada, a partir del nivell hidrològic en format WML2 o provinents de serveis SOS. El sistema té un conjunt de conques predefinides per les quals es disposa d'un MDT i altres paràmetres que varien segons l'opció triada. El resultat és un fitxer GML de tipus polígon on els polígons amb valor 1 contenen les zones inundades."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Basin</ows:Identifier>
+				<ows:Title>Identificador de la conca hidrogràfica</ows:Title>
+				<ows:Abstract>Nom de la conca hidrogràfica predefinida al servidor, per cada conca hi ha un MDT i/o les dades de les estacions, els polígons de Thiessen per les estacions i un mapa d'usos del sòl.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:Conca"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>Scheldt</ows:Value>
+						<ows:Value>Severn</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ISODateTime</ows:Identifier>
+				<ows:Title>Data-hora ISO</ows:Title>
+				<ows:Abstract>Data-hora en que es vol fer el càlcul indicada en format ISO</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:DataHoraISO"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>SampleData</ows:Identifier>
+				<ows:Title>Dades mesurades</ows:Title>
+				<ows:Abstract>Dades mesurades en les estacions de mostreig, pot ser en diversos formats; un fitxer de dades del sensors en WML2, un fitxer amb les dades de la resposta d'una petició de tipus 'GetObservation' d'un SOS versió 2.0.0,  una URL directament a una petició de tipus 'GetObservation' a un servei SOS; o bé una fitxer llista de fitxers WML2 o de peticions a SOS o de resultats de peticions SOS.</ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:DadesMesurades"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/waterml/2.0/waterml2.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Stations</ows:Identifier>
+				<ows:Title>Estacions de mostreig</ows:Title>
+				<ows:Abstract>Estacions de mostreig, potser en diversos formats: un fitxer de punts de mostreig PNT o SHP, un fitxer en format WML2,  la URL d'una petició de tipus 'GetFeatureOfInterest' d'un SOS versió 2.0.0 d'on extreure els punts o el fitxer del resultat de la resposta de la petició a un servei SOS.</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
+				<ows:Metadata xlink:title="Name:Estacions"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-shp</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/waterml/2.0/waterml2.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ID_ENTITAT</ows:Identifier>
+				<ows:Title>Camp Entitat</ows:Title>
+				<ows:Abstract>Nom del camp de la taula principal del camp entitat (identificador de l'estació o punt de mostreig) en el fitxer d'entrada. Si el camp entitat es troba en una taula relacionada caldrà indicar la cadena a accés a camp BD4. Es tracta d'un paràmetre obligatori en el cas de punts de mostreig en format SHP, opcional en el cas de punts de mostreig en format PNT, si el PNT té marcat quin és el seu camp entitat i ignorat en el cas de punts de mostreig en format WML2, ja que aquest ja té una clau amb el valor del camp entitat.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SHP</ows:Identifier>
+				<ows:Title>Generar Shape de sortida</ows:Title>
+				<ows:Abstract>Es generarà un fitxer en format shape amb el mateix nom que el GML de sortida però amb extensió SHP.Conté un camp que indica 1 si el polígon està inundat. </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>INCREASE_WL</ows:Identifier>
+				<ows:Title>Modificador de les mesures</ows:Title>
+				<ows:Abstract>Valor que incrementa o disminueix les alçades de totes les mesures. Serveix per calibrar millor el model o per fer simulacions amb valors exagerats.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>OutputFile</ows:Identifier>
+				<ows:Title>Fitxer de sortida</ows:Title>
+				<ows:Abstract>Fitxer de sortida de tipus polígon i en format GML. Conté un camp que indica 1 si el polígon està inundat. Si existeix el mapa d'usos del sòl per la conca seleccionada, inclou la categoria d'usos per cada polígon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:FitxerSortida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Inundac:Param01:2</ows:Identifier>
+		<ows:Title>Càlcul de les zones inundades a partir d'un MDT i de les mesures de les estacions indicades (estacions predefinides) (Opció 2)</ows:Title>
+		<ows:Abstract>Càlcul de les zones inundades en una data determinada a partir d'un MDT i les mesures de les estacions indicades. Les estacions són predefinides en el servidor (Opció 2). Aquesta opció no genera els polígons de Thiessen, aquest també és un paràmetre predefinit al servidor.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Basin</ows:Identifier>
+				<ows:Title>Identificador de la conca hidrogràfica</ows:Title>
+				<ows:Abstract>Nom de la conca hidrogràfica predefinida al servidor, per cada conca hi ha un MDT i/o les dades de les estacions, els polígons de Thiessen per les estacions i un mapa d'usos del sòl.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:Conca"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>Scheldt</ows:Value>
+						<ows:Value>Severn</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ISODateTime</ows:Identifier>
+				<ows:Title>Data-hora ISO</ows:Title>
+				<ows:Abstract>Data-hora en que es vol fer el càlcul indicada en format ISO</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:DataHoraISO"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>SampleData</ows:Identifier>
+				<ows:Title>Dades mesurades</ows:Title>
+				<ows:Abstract>Dades mesurades en les estacions de mostreig, pot ser en diversos formats; un fitxer de dades del sensors en WML2, un fitxer amb les dades de la resposta d'una petició de tipus 'GetObservation' d'un SOS versió 2.0.0,  una URL directament a una petició de tipus 'GetObservation' a un servei SOS; o bé una fitxer llista de fitxers WML2 o de peticions a SOS o de resultats de peticions SOS.</ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:DadesMesurades"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/waterml/2.0/waterml2.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SHP</ows:Identifier>
+				<ows:Title>Generar Shape de sortida</ows:Title>
+				<ows:Abstract>Es generarà un fitxer en format shape amb el mateix nom que el GML de sortida però amb extensió SHP.Conté un camp que indica 1 si el polígon està inundat. </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>INCREASE_WL</ows:Identifier>
+				<ows:Title>Modificador de les mesures</ows:Title>
+				<ows:Abstract>Valor que incrementa o disminueix les alçades de totes les mesures. Serveix per calibrar millor el model o per fer simulacions amb valors exagerats.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>OutputFile</ows:Identifier>
+				<ows:Title>Fitxer de sortida</ows:Title>
+				<ows:Abstract>Fitxer de sortida de tipus polígon i en format GML. Conté un camp que indica 1 si el polígon està inundat. Si existeix el mapa d'usos del sòl per la conca seleccionada inclou la categoria d'usos per cada polígon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:FitxerSortida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Inundac:Param01:3</ows:Identifier>
+		<ows:Title>Càlcul de les zones inundades a partir d'un MDT i de les mesures de les estacions indicades (estacions i mesures predefinides) (Opció 3)</ows:Title>
+		<ows:Abstract>Càlcul de les zones inundades en una data determinada a partir d'un MDT i les mesures de les estacions indicades. Les estacions i les mesures són predefinides en el servidor (Opció 3). Aquesta opció no genera els polígons de Thiessen, aquest també és un paràmetre predefinit al servidor.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Basin</ows:Identifier>
+				<ows:Title>Identificador de la conca hidrogràfica</ows:Title>
+				<ows:Abstract>Nom de la conca hidrogràfica predefinida al servidor, per cada conca hi ha un MDT i/o les dades de les estacions, els polígons de Thiessen per les estacions i un mapa d'usos del sòl.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:Conca"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>Maritsa</ows:Value>
+						<ows:Value>Scheldt</ows:Value>
+						<ows:Value>Severn</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ISODateTime</ows:Identifier>
+				<ows:Title>Data-hora ISO</ows:Title>
+				<ows:Abstract>Data-hora en que es vol fer el càlcul indicada en format ISO</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:DataHoraISO"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SHP</ows:Identifier>
+				<ows:Title>Generar Shape de sortida</ows:Title>
+				<ows:Abstract>Es generarà un fitxer en format shape amb el mateix nom que el GML de sortida però amb extensió SHP.Conté un camp que indica 1 si el polígon està inundat. </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>INCREASE_WL</ows:Identifier>
+				<ows:Title>Modificador de les mesures</ows:Title>
+				<ows:Abstract>Valor que incrementa o disminueix les alçades de totes les mesures. Serveix per calibrar millor el model o per fer simulacions amb valors exagerats.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>OutputFile</ows:Identifier>
+				<ows:Title>Fitxer de sortida</ows:Title>
+				<ows:Abstract>Fitxer de sortida de tipus polígon i en format GML. Conté un camp que indica 1 si el polígon està inundat. Si existeix el mapa d'usos del sòl per la conca seleccionada inclou la categoria d'usos per cada polígon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:FitxerSortida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

@@ -1,0 +1,252 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Traduït per Agustí Escobar-->
+
+  <title>AtriTop: Transferencia de atributos entre ficheros
+  estructurados</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+ <p>Este programa transfiere atributos desde una base gráfica a otra a través 
+ de una relación geométrica entre ellas. Así, puede transferir atributos desde 
+ una base de puntos a una base de polígonos o, viceversa, transferir a los puntos 
+los atributos del polígono en el cual se encuentran. </p>
+
+  <p>Otro ejemplo es la transferencia de atributos desde una base de arcos a
+  una base de polígonos. En este caso los polígonos pueden recibir los
+  atributos de los arcos que están enteramente en su interior o bien los arcos
+  recibir los atributos del polígono donde se encuentran.</p>
+
+  <p>AtriTop permite efectuar operaciones muy sofisticadas de transferencia de
+  atributos, aunque algunas de ellas nunca serán necesarias. Probablemente
+  algunos ejemplos o consideraciones que realicemos en esta ayuda les resulten
+  complicados o innecesarios para su aplicación concreta, por lo cual les
+  hacemos notar que la comprensión de todos los ejemplos no es imprescindible
+  para la correcta utilización del programa. Sólo aquellos usuarios con
+  necesidades avanzadas (por ejemplo reetiquetar polígonos que presentan
+  registros múltiples a partir de puntos que también presentan registros
+  múltiples y con tablas de atributos de estructura no idéntica) deberían
+  intentar comprender a fondo la lógica y potencialidades de este
+  programa.</p>
+  
+  <p>
+  En el caso de la transferencia de atributos de un fichero de puntos a otro, 
+  se permite dos opciones. La primera opción es que cada emisor transfiere atributos 
+  al receptor más cercano y la segunda opción es que cada receptor reciba atributos 
+  del emisor más cercano. En este último caso, es necesario asignar un número de 
+  emisores más cercanos a considerar. Si el número es 1, se transfiere directamente 
+  el atributo del emisor más cercano al receptor mientras que si el número es mayor de 1, se hace 
+  un promedio (en el caso de un campo numérico) o una moda (en el resto de tipos de campo) 
+  de los atributos de los emisores a considerar.
+  Si se encuentra un emisor multiregistro, se hace previamente un promedio/moda de los
+  atributos para cada objeto emisor que pasará a ser un objeto emisor con un solo registro 
+  y sus valores de promedio/moda de su único nuevo registro recalculado serán los que entrarán 
+  en el cálculo de promedio/moda con los otros emisores más cercanos a consideradas.  
+  </p>
+
+  <p>Note que AtriTop NO efectúa cambios en la geometría o topología de los
+  ficheros; simplemente transfiere atributos en base a su posición
+  geométrico-topológica. Por tanto, en los casos de transferencia de atributos
+  entre polígonos, o entre arcos y polígonos, se deben haber cortado
+  previamente los arcos y/o bordes de polígono con la opción 2 del programa
+  LINARC. Si tomamos el ejemplo de arcos y polígonos esto se traduce en el
+  hecho de que hace falta que todos los arcos estén enteramente dentro de un
+  solo polígono.</p>
+
+  <p>Cuando se intenta etiquetar una base de arcos con su propia base de
+  polígonos. el comportamiento del programa cambia, y en este este caso, se
+  crea una nueva tabla que relaciona cada arco con el polígono izquierdo y
+  derecho y se establece un vinculo dinámico entre las tres tablas de
+  datos.<br/>
+  Del mismo modo, cuando se intenta etiquetar una una base de polígonos con su
+  propia base de arcos, se crea una tabla que relaciona cada polígono con los
+  arcos que forman el borde como registro múltiple. Esta tabla también informa
+  si el arco forma parte del borde exterior, debe girarse para construir el
+  polígono y su índice de anillo. En estos dos últimos casos el parámetro
+  NomResul1 es el nombre de esta nueva tabla, en lugar del nombre de la capa
+  de salida. Esta información solo está contenida en el fichero binario de
+  polígonos pero este procedimiento permite explicitarlo para poder realizar
+  operaciones de vecindad entre arcos y polígonos.</p>
+
+  <p>La transferencia de atributos entre ficheros de puntos y nodos se lleva a
+  cabo mediante un criterio de proximidad, pudiendo fijar el usuario la
+  distancia planimétrica máxima a partir de la cual no se buscan más puntos
+  para añadir sus atributos al nodo. Se creará un nuevo campo en la base de
+  datos con la distancia entre el punto donante y el nodo receptor. Dentro de
+  este modo de transferencia de atributos entre ficheros de puntos y nodos se
+  puede solicitar que, para aquellos puntos que no tengan algún nodo
+  suficientemente cerca, se intente generar un nuevo nodo, dentro de la misma
+  distancia máxima, siguiendo el trazado de uno de los arcos que ya existan
+  en la base receptora. Se intentará cortar el arco por alguno de sus
+  vértices, y si esto no da resultado, se cortará el arco por el lugar más
+  cercano al punto donante. Estos nuevos nodos serán ignorados por el resto de
+  puntos del fichero donante. Tanto en el informe del proceso como en la base
+  de datos resultante, se marcarán los nuevos nodos con &quot;V&quot; si el
+  nuevo nodo origina de un vértice, o &quot;T&quot; si es resultado de la
+  división de un arco.</p>
+
+  <p>En la explicación siguiente hablamos de fichero dador, como fichero
+  etiquetador, de fichero receptor como fichero etiquetado y de fichero
+  resultado como fichero resultado del proceso de etiquetado. El fichero
+  resultado tiene los mismos elementos gráficos que el fichero receptor
+  (idéntico gráficamente) pero tiene una base de datos alfanumérica que es una
+  mezcla de la contribución de la base dadora y de la base receptora.</p>
+
+  <p>El usuario puede escoger el contenido de la base resultado indicando el
+  NOMBRE de los campos que formarán la base resultado y el NOMBRE del campo de
+  la base dador y/o receptora al cual corresponden. A partir de ahora nos
+  referimos a los campos enlazados por esta correspondencia como campos
+  ligados y al fichero que los describe como fichero de correspondencias entre
+  campos.<br/>
+  Este procedimiento otorga una máxima flexibilidad, porque no obliga a que el
+  campo origen y destino tengan el mismo nombre. También permite la
+  eliminación de campos irrelevantes y el cambio de orden de los campos entre
+  la base receptora y la base resultado. En caso de no especificar este
+  fichero, el programa generará la base resultado a partir de TODOS los campos
+  de la base receptora y de TODOS los campos 'temáticos' de la base
+  dadora. Los nombres de campos iguales entre la base receptora y dadora se
+  consideran enlazables. El ancho del campo resultado será el máximo de los
+  dos y si uno de ellos es de tipo carácter, el resultado será de tipo
+  carácter. En caso de enlace entre dos campos numéricos, el número de
+  decimales es el máximo de los dos campos implicados.</p>
+
+  <p>Los nombres de los campos se escogen a través de un fichero con el
+  formato siguiente:</p>
+  <pre>
+[BASE_RESULTAT]
+Camp1=NOM_RES1,NOM_REC1,NOM_DON1
+Camp2=NOM_RES2,NOM_REC7,NOM_DON4
+Camp3=NOM_RES2,NOM_REC3
+Camp4=NOM_RES3,,NOM_DON2
+</pre>La correspondencia entre el campo identificador gráfico de la base
+resultado y la base receptora está implícita y no hace falta indicarla(sería
+una correspondencia como Camp0=ID_GRAFIC,ID_GRAFIC).
+
+  <p>Esta elección sólo podrá hacerse sobre los campos de la base principal
+  pero se conservarán los ficheros asociados de los campos de la base dadora y
+  receptora, teniendo prioridad la base dadora en caso de contradicción.</p>
+
+  <p>Note que este procedimiento permite tanto la inclusión de nuevas
+  etiquetas sobre un fichero que ya ha sido previamente etiquetado, como el
+  reetiquetado desde cero de un campo: Sólo hay que mencionarlo o no en el
+  fichero de correspondencias entre campos:</p>
+
+  <p>Si quieren incluirse nuevas etiquetas sobre el campo A hay que hacer:</p>
+  <pre>
+[BASE_RESULTAT]
+Camp1=A,A,A
+</pre>Si se quiere reetiquetar totalmente (desde cero) el campo A hay que
+hacer:
+  <pre>
+[BASE_RESULTAT]
+Camp1=A,,A
+</pre>esto hace desaparecer todos los atributos A de la base receptora.
+
+  <p>El algoritmo seguido para la mezcla de campos es el siguiente:</p>
+
+  <ul>
+    <li>Se parte de un elemento gráfico de la base receptora, que puede
+    presentar registro múltiple (relaciones 1 a n entre objetos gráficos y
+    tabla alfanumérica). Este elemento gráfico corresponde a un elemento
+    gráfico de la base dadora, que también puede presentar registro múltiple.
+    En todo el proceso se consideran solamente los campos que deben aparecer
+    en la base resultado según se ha especificado en el fichero de
+    correspondencias (todos si no se ha especificado este fichero).</li>
+
+    <li>Para cada registro de la base receptora se recorren los registros de
+    la base dadora buscando los campos ligados, que puedan tener el mismo
+    valor.
+
+      <ul>
+        <li>Si se encuentran, se completa la información del registro receptor
+        y se guarda como un registro de la base resultado. (caso 1)</li>
+
+        <li>Si no se encuentran,
+
+          <ul>
+            <li>Si existen registros receptores que NO tengan información
+            sobre ninguno de los campos de la base dadora, se generan todas
+            las combinaciones diferentes entre estos registros y los registros
+            de la base dadora. (caso 2)</li>
+
+            <li>Si no existen los registros del caso 2, se genera un registro
+            resultado sólo con los campos de la base dadora. (caso 3)</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+    <li>Los registros de la base receptora que no se han incluidos ni en el
+    caso 1 ni en el caso 2, generarán nuevos registros de la base resultado
+    con los campos de la base dadora vacíos.</li>
+  </ul>En caso que en el resultado existan registros idénticos, se eliminan
+  las repeticiones de registros. Estas repeticiones pueden ser fruto tanto de
+  repeticiones en las bases originales como de combinaciones de campos de las
+  dos bases que convergen en un mismo resultado.
+
+  <p>A continuación mostramos algunos ejemplos del funcionamiento de este
+  algoritmo: En todos ellos suponemos que existe una correspondencia entre el
+  objeto gráfico 1 de la base receptora y el objeto gráfico 2 de la base
+  dadora. Tan sólo mostramos los registros de estos dos objetos. Todos los
+  campos de la base receptora y dadora han sido incluidos a excepción del
+  identificador gráfico de la base dadora. Todos los nombres de campo iguales
+  están ligados.</p>
+
+  <p>Ejemplo 1:</p>
+  <pre>
+Receptor                 Dador                  Resultado
+ID_G  A  B  C  D         ID_G  A  B  E  F        ID_G  A  B  C  D  E  F
+ 1    a  b  c  d          2    a2 b2 e  f         1    a  b  c  d      
+ 1    a  b1 c  d1         2    a  b1 e1 f1        1    a  b1 c  d1 e1 f1
+                                                  1    a2 b2       e  f
+</pre>Ejemplo 2
+  <pre>
+Receptor                 Dador                   Resultado
+ID_G  A                  ID_G  A  B              ID_G  A  B
+ 1    a                   2    a  b               1    a  b
+ 1    a1                  2    a  b1              1    a  b1
+                                                  1    a1
+</pre>Ejemplo 3
+  <pre>
+Receptor                 Dador                   Resultado
+ID_G  A  B               ID_G  A  D              ID_G  A  B  D
+ 1    a  b1               2    a  d               1    a  b1 d
+ 1    a  b                2    a  d1              1    a  b  d
+                                                  1    a  b1 d1
+                                                  1    a  b  d1
+</pre>Ejemplo 4
+  <pre>
+Receptor                 Dador                   Resultado
+ID_G  A  B               ID_G  E  F              ID_G  A  B  E  F
+ 1    a  b                2    e  f               1    a  b  e  f
+ 1    a1 b1               2    e1 f1              1    a  b  e1 f1
+                                                  1    a1 b1 e  f
+                                                  1    a1 b1 e1 f1
+</pre>Ejemplo 5
+  <pre>
+Receptor                 Dador                   Resultado
+ID_G  A  B  E            ID_G  E  F              ID_G  A  B  E  F
+ 1    a  b                2    e  f               1    a  b  e  f
+ 1    a1 b1 e1            2    e1 f1              1    a  b  e1 f1
+ 1    a1 b1 e2                                    1    a1 b1 e1 f1
+                                                  1    a1 b1 e2
+</pre>
+  <hr/>
+
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->   
+
+   <!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+ATRITOP ?
+-->
+  </exclusiva>
+  <hr/>
+</body>
+</html>

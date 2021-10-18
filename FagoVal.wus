@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:FagoVal</ows:Identifier>
+		<ows:Title>Program for selectively substituting certain values of an IMG file</ows:Title>
+		<ows:Abstract><![CDATA[This program takes a raster and substitutes the cells (pixels) which have a value equal to a previously selected value (value to substitute) with the value of the majority of the cells surrounding that cell (mode) or the average of the neighboring values. The neighborhood is defined by the convolution window, which is square and has an odd number of pixels. The file to be processed is a raster in any format (<i>byte, short integer, unsigned integer o real</i>), compressed or uncompressed. The result of the process will be another raster in the same format.]]></ows:Abstract>
+		<ows:Metadata xlink:title="Title:Program for selectively substituting certain values of an IMG file"/>
+		<ows:Metadata xlink:title="Abstract:This program takes a raster and substitutes the cells (pixels) which have a value equal to a previously selected value (value to substitute) with the value of the majority of the cells surrounding that cell (mode) or the average of the neighboring values. The neighborhood is defined by the convolution window, which is square and has an odd number of pixels. The file to be processed is a raster in any format (byte, short integer, unsigned integer or real), compressed or uncompressed. The result of the process will be another raster in the same format."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Raster input file</ows:Title>
+				<ows:Abstract>Is the raster file with values to be substituted.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:OriginFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fin_convol</ows:Identifier>
+				<ows:Title>Convolution window</ows:Title>
+				<ows:Abstract>The number of pixels in the side of the convolution window (an odd number), typically 3 or 5.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Convol_Win"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Valor_a_fagocitar</ows:Identifier>
+				<ows:Title>Value to phagocytize</ows:Title>
+				<ows:Abstract>Represents the value to be substituted by the statistical calculation performed within its convolution window. It can be "NoData" to process the NoData value.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Value_phago"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Estad</ows:Identifier>
+				<ows:Title>Statistic</ows:Title>
+				<ows:Abstract>The statistic to use in the calculation: M (mode), m (mean) or d (median).</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Statistic"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>M</ows:Value>
+						<ows:Value>m</ows:Value>
+						<ows:Value>d</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AILLAT_NODATA</ows:Identifier>
+				<ows:Title>Isolated as NoData</ows:Title>
+				<ows:Abstract>The value to be processed will be marked as background value (NoData) when it be completely surrounded by NoData values, that is, when the convolution window contains the pixel being processed in the form of a valid value and the rest of the window with NoData values. If this parameter is omitted, the value surrounded by NoData will never be processed, except if the process is repeated with a bigger convolution window.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_MAJORITARI</ows:Identifier>
+				<ows:Title>Assign to NoData</ows:Title>
+				<ows:Abstract>The pixel to be processed will be assigned to NoData value when the sample of valid values within the convolution window is inferior to half the number of cells in it. If this option is omitted then calculations will be performed in all cases when there is at least a single valid value. In this case, NoData values will simply be ignored.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ITERAR_AUTO</ows:Identifier>
+				<ows:Title>Indefinite iterations</ows:Title>
+				<ows:Abstract>Perform an indefinite number of iterations in order to keep reducing the number of pixels to be processed. The process will end when there are no more values to be processed or there are only isolated values which could not be processed in further iterations (this will only happen in the absence of the /AILLAT_NODATA parameter). If this parameter is not present, the user is prompted after each iteration in order to know whether to continue the process or stop it.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_ITERAR</ows:Identifier>
+				<ows:Title>One iteration</ows:Title>
+				<ows:Abstract>Apply only one iteration step even if there are pixels left to process.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>Process NoData values</ows:Title>
+				<ows:Abstract>Process NoData values</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NMIN</ows:Identifier>
+				<ows:Title>Minimum number of pixels presenting the modal value to proceed phagocytizing</ows:Title>
+				<ows:Abstract>Minimum number of pixels presenting the modal value to proceed phagocytizing. It can only be used in the case of mode and must be between 1 and (side of the window)^2 - 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerFagocitat</ows:Identifier>
+				<ows:Title>Raster output file</ows:Title>
+				<ows:Abstract>The resulting raster file after the substitution process.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

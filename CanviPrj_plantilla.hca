@@ -1,0 +1,116 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CanviPrj: Canvi de Sistema de Referència Geogràfica</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  <h3>Introducció</h3>La informació cartogràfica pretén expressar
+  característiques o paràmetres mesurables del nostre món tridimensional en
+  mapes de paper que són plans. Per aconseguir-ho es fan servir sistemes de
+  projecció. En cartografia entenem que un <b>sistema de projecció</b> és una
+  transformació del sistema de coordenades tridimensional de la Terra a una
+  superfície bidimensional. Les propietats més importants que podem demanar a
+  un sistema de projecció són: que conservi l'escala, la forma (conforme)
+  i l'àrea (equivalent). Resulta impossible definir un sistema de
+  projecció que conservi alhora les tres propietats i, per tant, la projecció
+  òptima depèn de l'àmbit de la zona a cartografiar i de l'aplicació
+  que tindrà el mapa. Per exemple, es pot fer servir UTM per projeccions
+  precises d'àmbit regional i Goode Homolosine per projeccions d'àmbit
+  global. En aplicacions de navegació (on les direccions són importants) es
+  pot fer servir Lambert cònica conforme i en aplicacions temàtiques (on
+  l'àrea és important) es pot fer servir Lambert equivalent azimutal.
+
+  <p>Un <b>sistema de referència</b> queda definit per una projecció, un
+  conjunt de paràmetres per aquesta projecció, un dàtum i un el·lipsoide. Per
+  exemple, en la projecció UTM cal fixar el fus i l'hemisferi de la
+  zona. 
+  Així, per a Catalunya s'escollirà el sistema de referència UTM-31N i el dàtum
+  ETRS85 sobre l'el·lipsoide de Hayford, mentre que per a Portugal s'utilitzarà
+  el sistema UTM-29N i a Lesotho el UTM-35S.</p>
+
+  <p>Resulta molt útil que tots els mapes de què es disposen estiguin en el
+  mateix sistema de referència, per tal de poder creuar informacions de manera
+  fàcil en el Sistema d'Informació Geogràfica (SIG). De fet, la major part
+  de SIG digitals només permeten superposar diferents capes d'informació
+  si estan en el mateix sistema de referència. En els sistemes digitals és
+  possible desenvolupar una rutina per canviar de sistema de referència, com
+  ara CanviPrj del MiraMon.</p>
+  <hr/>
+
+  <h3>CanviPrj</h3>
+  <p>Aquest programa permet el pas d'un sistema de projecció
+  a un altre així com el canvi de sistema de referència actuant sobre els
+  paràmetres de la projecció, el dàtum, l'el·lipsoide, etc. És possible
+  canviar de sistema de referència de fitxers ràster (IMG), vectors no
+  estructurats (VEC) i vectors estructurats de punts (PNT), d'arcs (ARC) i
+  de polígons (POL). Per a transformar fitxers de nodes (NOD) cal transformar el
+  fitxer d'arcs associat.</p>
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>Si el mapa original no té cap sistema de referència cartogràfic és perquè
+  no ha estat encara georreferenciat i cal que sigui georreferenciat amb el
+  programa <a href="CorrGeom.HTM">CorrGeom</a>.</p>
+
+  <p>La descripció d'un sistema de referència involucra un gran nombre de
+  paràmetres. Aquests paràmetres estan a unes taules de geodèsia o poden
+  figurar directament especificats en el fitxer REL. La definició d'un
+  sistema de referència és un procés delicat però s'ha de realitzar només
+  una vegada per cada sistema que volem usar; a més, MiraMon es distribueix
+  amb un conjunt de definicions de sistemes de referència d'ús comú.
+  El document <a href="../mm32/ap6.htm">Sistemes de referència
+  horitzontal al MiraMon. Taules i fitxers de geodèsia</a> es pot consultar per a més
+  informació.</p>
+
+  <h3>Canvis de sistema de referència dins d'un mateix dàtum</h3>
+  <p>El programa adapta la complexitat del canvi de sistema de referència al tipus
+  de transformació necessària. Així, la funcionalitat de canvi de dàtum
+  es mostra automàticament quan el sistema de referència inicial i final estan
+  descrits sobre un dàtum diferent. Típicament es realitzen transformacions de dàtums locals
+  com l'<i>European Datum 1950</i> (ED50) a dàtums globals com el <i>World Geodetic System 1984</i>
+  (WGS84) o viceversa.</p>
+
+  <p>Un cas excepcional és quan es realitza un canvi de dàtum entre dàtums
+  d'un mateix grup. Per exemple, en passar de cartografia realitzada per
+  l'Institut Cartogràfic i Geològic de Catalunya (ICGC) sobre ED50 documentada
+  amb els paràmetres del dàtum <i>European 1950 ICC</i> a cartografia
+  realitzada per l'<i>Instituto Geográfico Nacional</i> (IGN) documentada amb
+  els paràmetres de dàtum <i>European 1950 PS</i>. En aquest cas, es pot indicar si
+  es desitja que es realitzi un canvi de dàtum en transformar els 2 sistemes o
+  si, contràriament, es consideren els dos dàtums totalment equivalents.
+  El paràmetre &quot;/DATUM_ESTRICTE&quot; permet forçar aquest canvi de
+  dàtum. Per a cartografia sobre l'àmbit de Catalunya, la diferència
+  planimètrica entre triar o no el paràmetre és d'uns 10 metres. En
+  principi, no s'ha de forçar el canvi entre la cartografia de l'ICGC i l'IGN perquè els dos treballen legalment sobre un mateix dàtum; però sí que
+  s'hauria de fer entre cartografia francesa i espanyola en ED50 donat
+  que, <i>a priori</i>, no s'han de suposar exactament el mateixos dàtums perquè
+  depenen de xarxes geodèsiques diferents. Per a la cartografia francesa podeu
+  fer servir <i>European 1950 ADFG</i>.</p>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+    </ul>Exemples:
+    <pre>
+CanviPrj MUNI_LL.VEC  MUNI_UTM UTM-31N  1
+CanviPrj CATA_UTM.IMG CATA2_LL lat/long-WGS84 1 450000 480500 4724500 4750000 30 0
+CanviPrj CATA_UTM.IMG CATA3    UTM-31N-UB/ICC   x    x      x      x        x    x x
+CanviPrj MA89_UTM.ARC MA89_LCC Lambert_Conformal_Conic-ZoneIII-ED50
+</pre><!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+CanviPrj ?
+-->
+  </exclusiva>
+  <hr/>
+
+  <center>
+    <a href="corrgeom.htm"><img src="corrgeom.gif"/></a><a href="escalvec.htm"><img src="escalvec.gif"/></a>
+  </center>
+</body>
+</html>

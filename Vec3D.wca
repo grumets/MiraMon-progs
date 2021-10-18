@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:vec3d:1</ows:Identifier>
+		<ows:Title>Vec3d</ows:Title>
+		<ows:Abstract>Aquest programa incorpora la tercera dimensió a fitxers vectorials no estructurats i a fitxers PNT o ARC a partir d'un Model Digital d'Elevacions (MDE) de la zona. Els fitxers POL i NOD adquireixen la tercera dimensió quan els ARC's vinculats són ARC's 3D. </ows:Abstract>
+<ows:Metadata xlink:title="Title:Incorporació de la 3a dimensió a fitxers vectorials" />
+<ows:Metadata xlink:title="Abstract:Aquest programa incorpora la tercera dimensió a fitxers vectorials no estructurats i a fitxers PNT o ARC a partir d'un Model Digital d'Elevacions (MDE) de la zona. Els fitxers POL i NOD adquireixen la tercera dimensió quan els ARC's vinculats són ARC's 3D." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[<li>1. Incorpora informació 3D als vèrtexs preexistents.</li><li>2. Enriqueix amb nous vèrtexs i incorpora informació 3D (només fitxers d'arcs).</li>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerMDE</ows:Identifier>
+				<ows:Title>Fitxer MDE</ows:Title>
+				<ows:Abstract>És el nom del fitxer MDE ràster.</ows:Abstract>
+						<ows:Metadata xlink:title="Param2" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOri</ows:Identifier>
+				<ows:Title>Fitxer Origen</ows:Title>
+				<ows:Abstract>És el nom del fitxer vectorial 2D o 3D d'entrada (*.VEC, *.PNT, *.ARC).</ows:Abstract>
+						<ows:Metadata xlink:title="Param3" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-VEC</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-VEC</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+								<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+								<Format>
+								<MimeType>application/x-ARC</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-POL</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ModeInterpol</ows:Identifier>
+				<ows:Title>Mode Interpolació</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0: Veí més proper. No interpolar; escollir el més proper.</li><li>1: Interpolació bilineal (4 veïns).</li><li>2: Interpolació bicúbica (16 veïns).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>N_DECIMALS</ows:Identifier>
+				<ows:Title>Numero de decimals</ows:Title>
+				<ows:Abstract>És el nombre de decimals escrits al fitxer de sortida; per defecte val 6. Només aplica quan el FitxerDest és de tipus VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1" />
+						<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDes</ows:Identifier>
+				<ows:Title>Fitxer Destí</ows:Title>
+				<ows:Abstract>És el nom del fitxer vectorial 3D de sortida. Pot ser igual al d'origen i ha de tenir el mateix format que el d'entrada.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-PNT</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					<Format>
+							<MimeType>application/x-ARC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

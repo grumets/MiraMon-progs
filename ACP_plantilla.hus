@@ -1,0 +1,133 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>ACP: Principal component analysis</title>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  <p>This program allows a Principal Component Analysis (PCA) on raster
+  images (that are treated as variables), based on the variance - covariance matrix or correlation by
+  calculating the corresponding eigenvalues and eigenvectors.</p>
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+ <style type="text/css">
+/*<![CDATA[*/
+  <!--
+  .Estilo2 {
+        font-size: 32px;
+        font-weight: bold;
+  }
+  .Estilo5 {font-size: 16px}
+  .Estilo7 {font-size: 14}
+  .Estilo8 {font-size: 12px}
+  -->
+  /*]]>*/
+</style>
+  <p>We must consider that in case of correlation between bands, the first
+  principal component contained the largest amount of variability in the data,
+  and each subsequent component contains a part of the remaining variability.
+  The number of components you get will be determined by the user
+  and it must not to be greater than the number of bands included in the
+  analysis. The option of the ACP by non-standard variables (array
+  variance - covariance) or standardized variables (correlation matrix) depend
+  on the objective sought. If the goal is to weigh the same way all
+  the bands, you must use the correlation matrix, while if you want to give
+  greater prominence to those bands that have higher variance, you must use
+  the variance - covariance matrix.</p>
+
+  <p>ACP applications are varied: enhancement prior to visual interpretation
+  (Figure 1), processing prior to classification as a useful technique for
+  reducing the dimensionality of the data in cases of multi-temporal analysis
+  or hyperspectral data, denoising, etc.</p>
+ 
+  <p align="center"><img height="237" src="landsat%20copy.gif" width="334"/><img height="237" src="landsat_2%20copy.gif" width="334"/></p>
+
+  <blockquote>
+    <blockquote>
+      <blockquote>
+        <blockquote>
+          <p align="center">Figure 1: RGB combination of Landsat-5 (a)
+          compared to the ACP component 1 (b) made with that image. The
+          Component 1 showed the presence of the burned area .</p>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+
+  <p align="justify">Each eigenvalue represents the proportion of information
+  that contains the main component, while the eigenvector indicates the
+  weighting to be applied to each of the bands for the main component
+  (equivalent to regression coefficients in a standard linear transformation,
+  with the bands image of the independent variables and key components,
+  the dependence). The file generates a table of statistics (Table 1)
+  that consists of a list of the eigenvectors associated with each value as a
+  column. The rows of this matrix are used to perform the inverse
+  transformation from components and obtain the original bands. It also
+  indicates the values associated with each eigenvector and the percentage of
+  variance explained by that component.</p>
+
+  <p align="center"><img height="210" src="tabla.gif" width="467"/></p>
+
+  <div align="center">
+    <blockquote>
+      <blockquote>
+        <blockquote>
+          <p>Table 1: Matrix of eigenvalues, eigenvectors, and percentage of
+          variance associated with each component.</p>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </div>
+
+  <p align="justify">Therefore, the component 1 will be explained by the
+  linear function:</p>
+
+  <p align="center">C_1 =-0.167* X<span class="Estilo7">1</span> + 0.182* X2+
+  0.162* X3+ 0.105* X4+ 0.913* X5 + 0.138* X6 -0.221* X7</p>
+
+  <p align="justify">The reverse process of the ACP offers the ability to
+  remove noise (banding or striping, for example) some images in the process
+  of reconstruction of the original images. To that end, PCA is performed
+  in non-standard with all the bands and then use the table that is created to
+  identify the components with the least amount of variance explained (the
+  first three in this case absorb over 95% of variance). Thus, in this
+  example could be used only these three components for the original images by
+  eliminating the noise of the last components. The operation would have
+  to do to get the first band would be:</p>
+
+  <p align="center">Band 1 = -0.167*C_1 + 0.611*C_2 - 0.247*C_3</p>
+
+  <p align="left">And so on with other bands.</p>
+
+  <p align="left" class="Estilo9"><span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">
+  <span class="Apple-style-span" style="font-size: 16px;"><span style="background-color: rgb(255, 255, 255);" title="">The calculations were made in
+  double precision for greater robustness against highly correlated
+  bands.<span class="Apple-converted-space"> </span></span><span title="">NoData values are excluded.</span></span></span></p>
+
+  <p align="left" class="Estilo9">The original images must be in integer, to
+  perform calculations. The data of the output images are always in real,
+  where REL also extra tablets.</p>
+  
+  <p align="left"> <u>IMPORTANT NOTE</u>: The order of the coefficients of the bands used in <b>TXTOutput</b> is the 
+  same as presented in the <b>ListIma</b> file, and it is independent of the order presented in the metadata
+	when the bands belong to a multiband REL.
+	This observation is relevant because in some sensors, such as the Landsat TM satellites, the order
+	of the bands is not the spectral order, so if the coefficients have to be applied attention should be paid to 
+	used them in the same order than in (<b>ListIma</b>) (which, on the other hand, is also the order provided in the report). </p> 
+  <hr/>
+
+<exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p>
+<!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+ACP ?
+-->
+</p>
+</exclusiva>
+</body>
+</html>

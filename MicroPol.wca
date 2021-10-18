@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:MicroPol:1</ows:Identifier>
+		<ows:Title>Opció 1 (Vectorial local)</ows:Title>
+		<ows:Abstract><![CDATA[Realitza un estudi local de cada micropolígon sense tenir en compte que pugui estar en contacte amb altres micropolígons. Per eliminar els micropolígons només s'elimina un dels arcs que fa de frontera. El programa elimina l'arc més llarg o l'arc que confronta amb el polígon més gran, segons el paràmetre que es decideixi. De tota manera, el polígon 0 (o polígon zero: frontera exterior) és una excepció d'aquests criteris perquè es pressuposa que en general la frontera del polígon 0 està més ben definida. Això és especialment cert en els fitxers de polígons que provenen d'una sèrie cartogràfica perquè la frontera de polígon 0 sol ser un rectangle o trapezoide i no és convenient que els seus costats deixin de ser rectilinis. És per això que el programa només elimina un arc que confronti amb el polígon 0 si és l'única forma d'eliminar el micropolígon. Tanmateix durant l'eliminació de micropolígons es generen, en casos complexos, arcs amb nodes finals i <i>halters</i>. Aquestes estructures no són ciclables i també són eliminades automàticament. Això obliga el programa a eliminar alguns arcs frontera extra.]]></ows:Abstract>
+		<ows:Metadata xlink:title="Title:Eliminació de micropolígons d&apos;un fitxer de polígons o d&apos;un ràster categòric"/>
+		<ows:Metadata xlink:title="Abstract:Aquest programa permet tres opcions per a eliminar micropolígons."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Realitza un estudi local de cada micropolígon sense tenir en compte que pugui estar en contacte amb un altres micropolígons.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Fitxer de polígons origen</ows:Title>
+				<ows:Abstract>És el nom de fitxer de polígons a processar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerPolOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FONDRE</ows:Identifier>
+				<ows:Title>Fondre</ows:Title>
+				<ows:Abstract><![CDATA[Indica a quin polígon s'assigna l'espai ocupat pel micropolígon que desapareix. Cal indicar un d'aquests valors: <ul><li>POL_GRAN si es vol assignar l'espai al polígon contigu d'àrea més gran. Fa desaparèixer els polígons petits dins dels més grans.</li><li>FRONTERA_MES_LLARGA, per eliminar l'arc més llarg del micropolígon que desapareix. És el valor per defecte.</li><li>POL_PETIT per assignar l'espai al polígon contigu d'àrea més petita. Agrupa els polígons petits entre si. (només opció 2).</li><li>FRONTERA_MES_CURTA, per eliminar l'arc més curt del micropolígon que desapareix. (només opció 2).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>POL_GRAN</ows:Value>
+						<ows:Value>FRONTERA_MES_LLARGA</ows:Value>
+						<ows:Value>POL_PETIT</ows:Value>
+						<ows:Value>FRONTERA_MES_CURTA</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>POL_GRAN</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_MIN</ows:Identifier>
+				<ows:Title>Àrea mínima</ows:Title>
+				<ows:Abstract>Valor de l'àrea mínima que pot tenir un polígon.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AREA_PERI_MIN</ows:Identifier>
+				<ows:Title>Àrea/Perímetre</ows:Title>
+				<ows:Abstract>Valor de quocient àrea/perímetre mínim.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SENSE_ATRIBUT</ows:Identifier>
+				<ows:Title>Sense atribut</ows:Title>
+				<ows:Abstract>Indica que s'han d'eliminar els polígons sense atributs temàtics.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_LOGIC</ows:Identifier>
+				<ows:Title>Camp lògic</ows:Title>
+				<ows:Abstract><![CDATA[Correspon al camp lògic que indica si cal eliminar el polígon. Ha de ser de tipus lògic (L). En cada registre de la taula principal de polígons, cal indicar 'veritat' si s'ha d'eliminar el polígon i 'fals' si cal mantenir-lo. Per saber més sobre els valors d'aquests paràmetres es poden seguir les consideracions del document de <a href="general.htm#TaulaCamp">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NEXE_CRITERIS</ows:Identifier>
+				<ows:Title>Nexe criteris</ows:Title>
+				<ows:Abstract>Cal indicar 'OR' si només és necessari que es compleixi un criteri per eliminar el polígon. El valor per defecte és 'AND', que vol dir que s'han de complir tots els criteris alhora.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>OR</ows:Value>
+						<ows:Value>AND</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>AND</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_LOGIC_ARC</ows:Identifier>
+				<ows:Title>Taula lògica d'arcs</ows:Title>
+				<ows:Abstract><![CDATA[Taula que conté el camp lògic de la base d'arcs que conté 'veritat' per als arcs que poden eliminar-se en cas de ser frontera de micropolígon. Si no s'indica aquest paràmetre, tots els arcs són eliminables. Per saber més sobre els valors d'aquest paràmetre cal seguir les consideracions del document de<a href="general.htm#TaulaCamp">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_LOGIC_ARC</ows:Identifier>
+				<ows:Title>Camp lògic d'arcs</ows:Title>
+				<ows:Abstract><![CDATA[Camp lògic de la base d'arcs que conté 'veritat' per als arcs que poden eliminar-se en cas de ser frontera de micropolígon. Si no s'indica aquest paràmetre, tots els arcs són eliminables. Per saber més sobre els valors d'aquest paràmetre cal seguir les consideracions del document de <a href="general.htm#TaulaCamp">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATRIB_ELIM</ows:Identifier>
+				<ows:Title>Hereta atributs</ows:Title>
+				<ows:Abstract>Indica que el polígon que absorbeix el micropolígon eliminat hereta els seus atributs. La seva absència vol dir que els atributs del micropolígons es perden. Cal notar que no cal indicar quin és el camp o camps que defineixen si el polígon té atributs: es considera que el polígon no té atributs si tots els camps no geomètrico-topològics són buits, excepte, és clar, el CAMP_LOGIC_ARC si aquest criteri també està activat.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Fitxer de polígons destí</ows:Title>
+				<ows:Abstract>És el nom del fitxer de polígons resultat del procés d'eliminació de micropolígons (els fitxers FitxerPolOrigen i FitxerPolDestí no poden ser iguals).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerPolDestí"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:MicroPol:2</ows:Identifier>
+		<ows:Title>Opció 2 (Vectorial global)</ows:Title>
+		<ows:Abstract>Fa un estudi global de la capa eliminant els micropolígons començant pel més petit de tots i progressant fins que no queda cap polígon d'àrea més petita a la indicada. A més aquest mode realitza una anàlisi prèvia de polígons amb zones estretes. Aquestes zones estretes són truncades en nous polígons per a ser eliminats posteriorment si esdevenen polígons petits. També s'incorpora una taula d'afinitats temàtiques que permet prioritzar la fusió de determines categories quan el micropolígon estigui en contacte amb més d'un polígon adjacent, el que permet fondre el micropolígon en una classe que tingui més sentit temàticament. En cas d'empat s'utilitzen també els criteris de frontera més llarga o àrea més gran per a determinar el polígon adjacent on serà absorbit aquest polígon. La fusió elimina tots els arcs de contacte entre els dos polígons a fondre. Els atributs dels arcs sempre són recuperats com a registre múltiple del polígon més gran. També es guarda l'àrea que ocupava de cada atribut abans de fondre els polígons. Finalment es fa una revisió que per defecte fon els polígons que presenten el primer atribut igual. Aquest comportament es pot canviar amb el paràmetre /RESPECTAR_1_REG que evita fondre un polígon monoregistre amb un altre multiregistre, o amb /RESPECTAR_N_REG que evita fondre els polígons que no tinguin exactament els mateixos atributs temàtics en el multiregistre.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Fa un estudi global de la capa eliminant els micropolígons començant pel més petit de tots i progressant fins que no queda cap polígon d'àrea més petita que la indicada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Fitxer de polígons origen</ows:Title>
+				<ows:Abstract>És el nom de fitxer de polígons a processar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerPolOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AreaMin</ows:Identifier>
+				<ows:Title>Àrea mínima</ows:Title>
+				<ows:Abstract>És l'àrea mínima per sota de la qual els polígons han de desaparèixer.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:AreaMin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AmpleMin</ows:Identifier>
+				<ows:Title>Ample mínim</ows:Title>
+				<ows:Abstract>És l'ample mínim d'una zona del polígon per sota del qual el polígon es parteix en un fragment totalment més estret que l'ample indicat. Aquest fragment serà eliminat si presenta una àrea menor a AreaMin.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:AmpleMin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AreaParcial</ows:Identifier>
+				<ows:Title>Àrea parcial</ows:Title>
+				<ows:Abstract>És el nom del camp que conté o es vol que contingui l'àrea parcial de cada registre dels polígons resultants en cas que presenti registre múltiple. Aquest camp permetrà conèixer l'àrea ocupada per a cada registre abans de la fusió dels micropolígons. En cas de no existir el camp, el programa el crea.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:AreaParcial"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FONDRE</ows:Identifier>
+				<ows:Title>Fondre</ows:Title>
+				<ows:Abstract><![CDATA[Indica a quin polígon s'assigna l'espai ocupat pel micropolígon que desapareix. Cal indicar un d'aquests valors: <ul><li>POL_GRAN si es vol assignar l'espai al polígon contigu d'àrea més gran. Fa desaparèixer els polígons petits dins dels més grans.</li><li>FRONTERA_MES_LLARGA, per eliminar l'arc més llarg del micropolígon que desapareix. És el valor per defecte.</li><li>POL_PETIT per assignar l'espai al polígon contigu d'àrea més petita. Agrupa els polígons petits entre si. (només opció 2).</li><li>FRONTERA_MES_CURTA, per eliminar l'arc més curt del micropolígon que desapareix. (només opció 2).</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>POL_GRAN</ows:Value>
+						<ows:Value>FRONTERA_MES_LLARGA</ows:Value>
+						<ows:Value>POL_PETIT</ows:Value>
+						<ows:Value>FRONTERA_MES_CURTA</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>POL_GRAN</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FITXER_AFIN</ows:Identifier>
+				<ows:Title>Fitxer d'afinitats</ows:Title>
+				<ows:Abstract><![CDATA[És el fitxer DBF que defineix les afinitats entre atributs temàtics. Aquest fitxer cal que tingui, com a mínim, 3 camps, de noms:<ul><li>El camp que coincideix amb el nom del camp temàtic de la taula principal de polígons a considerar la seva afinitat amb els veïns. Es pot incloure més d'un camp si es requereix.</li><li>El camp ABSOR1 que conté els valors camp temàtic veïns al polígons considerat. Es pot incloure més d'un camp (ABSOR2, ABSOR3, etc) si es requereix.</li><li>El camp PRIORITAT que conté un indicador numèric de la prioritat (o l'ordre) en què la correspondència de valors dels camps anteriors és aplicada.</li></ul>]]></ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AFIN_ORDRE</ows:Identifier>
+				<ows:Title>Ordre d'afinitats</ows:Title>
+				<ows:Abstract>Si s'indica aquest paràmetre s'assumeix que un número més petit en el camp PRIORITAT de la taula d'afinitats té més afinitat que un número més gran. En la seva absència s'assumeix que un número més gran representa més afinitat.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESCARTA_POL_0</ows:Identifier>
+				<ows:Title>Descarta polígon exterior</ows:Title>
+				<ows:Abstract>Indica que no es vol modificar la vora del polígons 0 (exterior).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESCARTA_POL_LLINDA_AMB_0</ows:Identifier>
+				<ows:Title>Descarta polígons límit exterior</ows:Title>
+				<ows:Abstract>Indica que no es vol que es modifiqui cap polígon que confronti amb el polígons 0 (exterior).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FONDRE_PER_ARC_ESTRET</ows:Identifier>
+				<ows:Title>Fusió per arc estret</ows:Title>
+				<ows:Abstract>Per defecte, el programa intenta evitar fusionar polígons per un arc considerat estret deixant aquesta situació com l'última alternativa. Si s'indica aquest paràmetre, els arcs estrets són considerats iguals als altres per a fusionar polígons, llevat que els arcs hagin estat creats durant el procés de fragmentació de polígons.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>sufix _ARC_POL_0</ows:Identifier>
+				<ows:Title>Paràmetres de selecció d'objectes gràfics</ows:Title>
+				<ows:Abstract><![CDATA[Paràmetres de selecció d'objectes gràfics per atributs de la base de dades d'arcs amb el sufix _ARC_POL_0. Limita el comportament de /DESCARTA_POL_LLINDA_AMB_0 als polígons que confronten amb el polígon 0 a partir d'arcs que compleixen la condició especificada per a la base de dades d'arcs. Aquesta opció és típicament útil per a eliminar els micropolígons fronterers amb línies de costa però mantenir, esperant un mosaic amb un full adjacent, els polígons en contacte amb la vora d'un full cartogràfic. Per a més informació sobre la sintaxi específica es pot consultar <a href="general.htm#SelecAtrib">aquí</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_TEMATIC</ows:Identifier>
+				<ows:Title>Camp temàtic</ows:Title>
+				<ows:Abstract><![CDATA[Indica quin camp de la base de polígons es fa servir per determinar la igualtat temàtica entre polígons. Per defecte, TOTS els camps temàtics són considerats per determinar la igualtat temàtica dels polígons i atributs a fondre. Per saber més sobre els valors d'aquests paràmetres es poden seguir les consideracions del document de <a href="general.htm#TaulaCamp">sintaxi general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_TEMATIC_QUALITAT</ows:Identifier>
+				<ows:Title>Camp temàtic qualitat</ows:Title>
+				<ows:Abstract>Indica el camp temàtic de la base de dades de polígons sobre el que cal fer un estudi de la qualitat de la generalització sobre un camp. Aquest estudi es desa en un fitxer HTML del mateix nom que el fitxer de destí però amb extensió .htm. Si no s'indica aquest paràmetre, el programa no fa aquest estudi.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_AREA_TPERCENT</ows:Identifier>
+				<ows:Title>Camp percentatge</ows:Title>
+				<ows:Abstract>A més de l'àrea parcial, s'indica que es vol generar un camp amb el percentatge de recobriment per a cada registre dels eventuals multiregistres de la taula principal d'atributs.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TPERCENT_AREA_MIN</ows:Identifier>
+				<ows:Title>Percentatge àrea mínima</ows:Title>
+				<ows:Abstract>Indica que no es volen mantenir els registres amb un percentatge d'àrea parcial inferior a aquest valor. La proporció d'àrea parcial perduda es reparteix entre la resta de registres que sí que superen aquest llindar. Si tots els registres tenen una àrea parcial inferior a la indicada es conserva únicament el que tingui major àrea.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RESPECTAR_1_REG</ows:Identifier>
+				<ows:Title>Respectar un registre</ows:Title>
+				<ows:Abstract>Indica que el programa intentarà preservar el monoregistre en la mesura del possible. Així, evitarà fondre polígons amb multiregistre amb d'altres amb monoregistre i només fondrà polígons on ambdós tenen monoregistre o ambdós multiregistre. /RESPECTAR_N_REG Indica que el programa intentarà preservar el multiregistre en la mesura del possible. Així, evitarà fondre polígons amb multiregistre entre si quan algun els atributs del multiregistre sigui diferent.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RESPECTAR_N_REG</ows:Identifier>
+				<ows:Title>Respectar N registre</ows:Title>
+				<ows:Abstract>Indica que el programa intentarà preservar el multiregistre en la mesura del possible. Així, evitarà fondre polígons amb multiregistre entre sí quan algun dels atributs del multiregistre sigui diferent.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COEF_ESTRET</ows:Identifier>
+				<ows:Title>Coeficient estret</ows:Title>
+				<ows:Abstract>En el cas de l'eliminació de fragments d'objectes estrets, indica la raó aproximada entre l'amplada mínima i la llargada mínima necessària per a eliminar l'objecte. Si s'indica 1 tots els fragments de polígons estrets s'eliminen. Si s'indica, p. ex., 20, caldrà que l'objecte estret sigui ample_min*20 de llarg per a permetre la seva eliminació. El valor per defecte és 3.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FITXER_EXCEP_MIDES</ows:Identifier>
+				<ows:Title>Fitxer DBF</ows:Title>
+				<ows:Abstract><![CDATA[Fitxer DBF d'excepcions al paràmetres AreaMin i AmpleMin. Només es pot fer servir si també s'indica /FITXER_AFIN= (s'haurà de crear una taula buida si no es vol definir cap afinitat). Aquest fitxer cal que tingui, com a mínim, 3 camps:<ul><li>El camp que coincideix amb el nom del camp temàtic de la taula principal de polígons a considerar. Es pot incloure més d'un camp si es requereix però el nombre de camps ha de coincidir amb la taula d'afinitats.</li></li>El camp AREAMIN que conté el valor del llindar d'àrea mínima per aquesta categoria o blanc per indicar que cal usar el valor general indicat al paràmetre obligatori AreaMin.</li><li>El camp AMPLEMIN que conté el valor del llindar d'ample mínim per aquesta categoria o blanc per indicar que cal usar el valor general indicat al paràmetre obligatori AmpleMin.</li></ul>]]></ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>_ARC_PROTEGIT</ows:Identifier>
+				<ows:Title>Arc protegit</ows:Title>
+				<ows:Abstract><![CDATA[Impedeix la fusió entre polígons que connectin a partir d'arcs que compleixen la condició. Això permet marcar arcs que marquen divisions importants sobre el territori i que no poden ser suprimides. Per a més informació sobre la sintaxi específica consulteu <a href="general.htm#SelecAtrib">aquí</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FITXER_ARCS_A_AFEGIR</ows:Identifier>
+				<ows:Title>Fitxer d'arcs a afegir</ows:Title>
+				<ows:Abstract>Permet afegir arcs al fitxer d'arcs per tal de tancar àrees i generar polígons que cal que siguin preservats de manera independent a d'altres. Generalment és útil per a digitalitzar manualment fronteres en llocs que hi ha petits polígons amb atributs iguals o similars i que formen una entitat pròpia separada de la resta de la matriu però que el procés de generalització convencional hauria fusionat completament amb la matriu (donat que no connecten físicament entre ells). Aquestes noves fronteres són incorporades després del procés de tallat de polígons i abans de la fusió. Els arcs s'han de digitalitzar de forma que tanquin àrees, ja sigui definint anells o definint polígons per connexió amb altres línies preexistents o creades durant el procés de partir polígons. En cas de necessitar digitalitzar més d'una línia per a definir una àrea determinada, és necessària la seva digitalització consecutiva. La taula principal d'aquests fitxers d'arcs ha de tenir la mateixa estructura que taula principal dels arcs sobre els quals s'estructuren els polígons. Cal notar que els arcs afegits encara podrien desaparèixer durant el procés de fusió de polígons; per evitar aquest efecte, cal indicar el paràmetre de selecció amb sufix _ARC_PROTEGIT tal com s'ha explicat prèviament i marcar els arcs afegits amb atributs que facin que quedin protegits.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Fitxer de polígons destí</ows:Title>
+				<ows:Abstract>És el nom del fitxer de polígons resultat del procés d'eliminació de micropolígons (els fitxers FitxerPolOrigen i FitxerPolDestí no poden ser iguals).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerPolDestí"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:MicroPol:3</ows:Identifier>
+		<ows:Title>Opció 3 (Ràster)</ows:Title>
+		<ows:Abstract>Elimina grups de cel·les presents en un ràster categòric (per exemple un mapa de cobertes del sòl) i assimilar-los a la categoria més abundant en un entorn immediat de 3x3 cel·les, de 5x5 cel·les, etc.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Elimina grups de cel·les presents en un ràster categòric d'una àrea menor al nombre de cel·les indicat per l'usuari.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerIMGOrigen</ows:Identifier>
+				<ows:Title>Fitxer ràster origen</ows:Title>
+				<ows:Abstract>És el nom de fitxer ràster categòric a processar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerIMGOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Area_max</ows:Identifier>
+				<ows:Title>Àrea màxima a eliminar en cel·les</ows:Title>
+				<ows:Abstract>Indica quina àrea màxima en cel·les [o píxels] serà eliminada. Per exemple, si s'introdueix un 1 (el valor més petit admès) s'eliminaran cel·les aïllades, si s'introdueix un 2 s'eliminaran tant cel·les aïllades com grups de 2 cel·les adjacents, etc.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Area_max"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fin_convol</ows:Identifier>
+				<ows:Title>Finestra de convolució</ows:Title>
+				<ows:Abstract>Costat de finestra de convolució. Ha de ser un nombre senar, típicament 3 o 5. Equival al paràmetre homònim del mòdul FagoVal.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Fin_convol"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>IGNORAR_VEINS_DIAG</ows:Identifier>
+				<ows:Title>Ignorar veïns en diagonal</ows:Title>
+				<ows:Abstract>Indica si, en el còmput d'àrea dels polígons ràster, el contacte de dues cel·les d'igual valor per la diagonal comporta que es considerin part del mateix polígon. Equival al paràmetre /NO_AGRUPAR_POLIGONS_PER_NODES del mòdul RasTop.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerIMGDesti</ows:Identifier>
+				<ows:Title>Fitxer ràster destí</ows:Title>
+				<ows:Abstract>És el nom del fitxer ràster categòric resultat del procés d'eliminació de micropolígons. Ha de ser un fitxer diferent al fitxer origen.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerIMGDestí"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

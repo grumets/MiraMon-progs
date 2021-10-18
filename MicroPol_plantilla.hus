@@ -1,0 +1,73 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>MicroPol: Delete micropolygons (sliver polygons) from a polygon
+  file or a categorical raster</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.--> 
+
+
+<p>This program allows three options to eliminate micropolygons:</p>
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+<h3><p><u>POLYGON CASE</u></p></h3> 
+
+  <p>One of the characteristics of a topologically structured graphical database is that it fully describes the space within it, thus providing complete information, in both geometric and thematic terms, about each of the graphical elements (polygons) that constitute it. Sometimes a polygon database can contain thematic "holes", that is polygons that have no thematic attribute assigned to them and that should be displayed as "transparent" and ignored thematically (not consulted); this could be the case, for example, of the area within an atoll in the middle of an ocean. Such a situation is perfectly correct and is supported by MiraMon. However, this is not the most common situation, and often the occurrence of polygons without thematic labels is due simply to lack of care or perhaps to the existence of small areas resulting from inaccuracies and errors in the graphical database.</p>
+
+  <p>In the first case, when the lack of attributes is due to a lack of care, a simple attribute-based query in MiraMon, requesting those elements whose attributes are <i>blank</i>, and whose area is reasonably large would allow their visual identification. Such polygons are easily identified by selecting the option to leave polygons without attributes transparent (not filled in) in the <i>Advanced...</i> display option. Once identified the polygons are given labels and the problem is resolved.</p>
+
+  <p>In the second case, however, the polygons are usually very small and are known as <b>micropolygons</b>, or sliver polygons. This program tries to help detecting and eliminating these micropolygons, a task that is frequently extremely tedious since in some circumstances very many such polygons can occur. In fact, if certain basic rules are followed when generating maps, such as the use of connectivity tools (<i>Edit|Connect upon previous vector</i> in MiraMon), micropolygons practically never appear, but when these rules are not followed, or when files from different sources are imported into the system (specially from a CAD program, or from formats without topology, like SHP), then it will perhaps be necessary to apply this filter.</p>
+
+   <p>This program allows erasing micropolygons that meet a series of conditions. Generally, a micropolygon is a small object, sometimes longs and, often, without a themed layer. Therefore, it presents a small area, a small area/perimeter ratio (big perimeter and small area) and has not been labelled. This program incorporates these three criteria and an additional one to be allowed to mark a polygon as erasable through a logical field of the main polygons database.</p>
+   
+    <p>MicroPol generates a new layer of polygons by selecting the necessary arcs from the original arcs database, which remains unaltered. Once the program has been run it is possible that the arcs database could also be filtered, keeping only the necessary arcs to sustain the polygon borders. This operation can be performed with the <a href="Emancipa.HTM">Emancipa</a> program.</p>
+
+  
+  <h3>Affinity file format</h3> The affinity table, only necessary in highly professional micropolygon erasing applications, is a DBF table with the following structure:
+
+ <ul>
+  <li>[NOM_CAMP1]: it coincides with a field name of the polygon file. Its content are the field values of the micropolygons to erase.</li>
+
+  <li>[NOM_CAMP#]: it coincides with the umpteenth field name.</li>
+
+  <li>...</li>
+
+  <li>ABSOR1: this field, with a fixed name, contains the field values of the main table with name NOM_CAMP1 of the polygons it absorbs.</li>
+
+  <li>ABSOR#: same for the umpteenth field. The number of fields of this incremental name is the same as the number of free names fields from the beginning of the table.</li>
+
+  <li>...</li>
+
+  <li>PRIORITAT: is the priority index of this attribute combination. High values represent high affinity. The syntax parameter  <i>/AFIN_ORDRE</i> allows inverting this interpretation. It is possible to assign the same value to several combinations. </li>
+ </ul> 
+ It is important to note that this scheme allows defining asymmetrical priorities, i.e., if the value of micropolygons A is absorbed with B with priority 1, a micropolygon  of B value can be absorbed in an A value polygon with priority 15 or not even having an assigned priority (non-present combination in the table). 
+
+ <h3><p><u>RASTER CASE</u></p></h3> 
+
+	<p>This mode allows to eliminate groups of few cells present in a categorical raster (for example a map of soil cover) and assimilate them to the most abundant category in an immediate environment (3x3 cells, 5x5 cells, etc).</p>
+
+	<p>Internally, the program performs a vectorization of the input categorical raster, taking into account the presence or not of the parameter <i>Ignorar_veins_diagonal</i> and then re-rasterizes it but converts to a different value all the existing values in the raster (including the NoData) in all those polygons that have an area in cells less than or equal to <i>Area_max</i>. Once created this new raster that contains a new  "flag" value for all the raster polygons with an area considered micropolygons, it is performed an execution equivalent to <a href="FagoVal.HTM">FagoVal</a> module with a convolution window of value <i>Fin_convol</i>, with a mode criterion iterating to the maximum possible, avoiding the assignment to NoData both when eliminating an isolated value and when the NoData is the majority in the convolution window and without a minimum modal value to replace the central value of the convolution window.</p>
+
+	<p>It is important to note that mode 3 is different to vector modes options because in mode 3 the neighborhood analyzed is immediate, at a distance of 1 cell (if <i>Fin_convol</i> is 3), of two cells (if <i>Fin_convol</i> is 5), etc. On the other hand, in vector modes, the criterion is different (the largest area of the entire polygon in contact with the micropolygons). For eliminating the micropolygons of a raster with the same criteria as in a vector layer	of polygons, the raster has to be vectorized with <a href="RasTop.HTM">RasTop</a> and continue from the base of polygons obtained.</p>
+
+  <br/>
+  
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+<p><!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+MicroPol ?
+--></p>
+  </exclusiva>
+</body>
+</html>

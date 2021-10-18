@@ -1,0 +1,184 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>BufDist: Generate buffers and distance maps</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+	The program allows both generate continuous distances maps (raster result)
+such as raster areas or vector (<i>buffers</i>) at a distance of target entities.
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>The target entities can be raster or vector. If they are raster then any
+  cell with a value other than NODATA is taken as a target cell. For the
+  vector case, any entity (point, line or polygon) is taken as a target
+  entity, (in raster treatment in buffer of vector files it is also possible
+  to choose only those vector entities with a certain attribute). For rasters,
+  in order to use only certain elements as the target entities it is necessary
+  to first either carry out an attribute query from MiraMon and to save the
+  result in a new file or use <a href="CalcIMG.htm">CalcIMG</a>. Similarly if
+  a lot of processing is required with many files then the target entity
+  selection process can be performed automatically either from CalcIMG or from
+  <a href="VecSelec.htm">VecSelec</a>.</p>
+
+  <p>The program allows the creation of both continuous distance maps (raster
+  result) and raster and vector (<i>buffers</i>) at a specified distance from
+  the target entities. The result of a <i>buffers</i> can be either in raster
+  or vector format; When the result is a vector file, it is possible to us a
+  full vector treatment or a raster treatment where the result is the
+  vectorization of rasters, therefore, the parameters that define the
+  temporary raster extents are needed. Whenever a <i>buffer</i> is requested
+  and the input file is a raster, the program starts by generating a distance
+  map and then selects the areas within the specified distances.</p>
+
+  <p>In the rasters model, distances are calculated by the <b>SHORTEST
+  ROUTE</b> from the centre of each target cell. When necessary this requires
+  calculations of geodesic curvature.</p>
+
+  <p>The distances are expressed in the units of the reference system (see
+  however the section IMPORTANT NOTES, below).</p>
+
+  <p>Unlike other GIS programs, that calculate with single precision numbers
+  and so loose accuracy with small cells or very large coordinate values,
+  BufDist uses double precision numbers and optimised processing of numerical
+  values so that the distances calculated are correct even in very large files
+  (with many rows and columns). We have found that even in files with 341 rows
+  x 341 columns and a cell size of 50 m in UTM projection, our results differ
+  from other programs by up to 10 cells; other programs detected the wrong
+  cells as the closest and gave erroneous distance values of up to 3.3 m.</p>
+
+  <p>If a continuous distance map is requested:</p>
+
+  <ul>
+    <li>The output file is raster (IMG) and &quot;real&quot;.</li>
+
+    <li>The title of the output file is converted into &quot;Distances derived
+    from FILE &quot; (where FILE is the name of the file containing the target
+    entities)</li>
+  </ul>If a &quot;buffer&quot; map is requested:
+
+  <ul>
+    <li>The output file is either raster &quot;byte-RLE&quot; or vector of
+    topologically-structured polygons.</li>
+
+    <li>The title of the output file is converted into &quot;Areas at a
+    distance between [N,M] UNITS from the entities FILE &quot; (where N and M
+    are the minimum and maximum distances considered, respectively, UNITS are
+    the units of the reference system and FILE is the name of the file
+    containing the target entities). N and M define a closed interval.</li>
+
+    <li>The legend of the output layer contains the following values:
+
+      <ul>
+        <li>1: &quot;Original target entities &quot;</li>
+
+        <li>2: &quot;Areas at distances [M,N] UNITS&quot;</li>
+
+        <li>3: &quot;Excluded areas &quot;</li>
+      </ul>or, when M=0:
+
+      <ul>
+        <li>1: &quot;Original target entities &quot;</li>
+
+        <li>2: &quot;Areas at distances &lt;= N UNITS&quot;</li>
+
+        <li>3: &quot;Areas at distances &gt; N UNITS&quot;</li>
+      </ul>
+    </li>
+
+    <li>The result of a vector treatment is a polygon file that inherits point
+    or arc attributes. If an interval buffer [M,N] (where M is different from
+    0) has been requested, an additional attribute (BUFFER field) is added
+    containing one of the following values:
+
+      <ul>
+        <li>i: Inner zones to buffer, it means, with distance lower that
+        M.</li>
+
+        <li>b: Buffer zones, it means, with distance between M and N.</li>
+      </ul>In this case, areas at distances &gt; N are grouped to the polygon
+      0 and they have no attributes.
+    </li>
+  </ul><b>IMPORTANT NOTES</b>: In cartographic projections like UTM, Gauss,
+  Lambert Conic or any other projection that is reasonably equidistant in all
+  directions, the distances are expressed in the reference system units, which
+  normally results in straightforward decisions about the distances in the
+  calculation.
+
+  <p>However in some map projections with a marked asymmetry in the projected
+  distances - Mercator, Equirectangular &quot;lat/long&quot;, etc-, the
+  calculations could have significant errors if the distances are calculated
+  as Cartesian (rectangular), due to the characteristics of the projection
+  itself. For this reason BufDist makes appropriate corrections when it
+  detects &quot;Mercator&quot;, &quot;Equirectangular&quot;
+  (latitude/longitude in degrees), etc so that the results are more
+  realistic.</p>
+
+  <p>If for cases of approximately equidistant projections (eg UTM)
+  centimetric precision is required, then it is possible to force the program
+  to calculate distances with high precision by selecting the parameter
+  /DIST_GEOD=1. With this procedure the results are practically identical, in
+  the case of UTM, to applying the linear deformation factor (K) to the
+  distance calculations (see for example, Estruch 1996, page. 93, for a
+  numerical example).<br/></p>
+
+  <ul>
+    <li>Estruch, M. (1996) &quot;Cartografía minera&quot; Ediciones UPC.
+    Barcelona. 238 p. ISBN: 84-89636-0208<br/></li>
+  </ul>Bear in mind however that the calculation of distances is MUCH SLOWER
+  when /DIST_GEOD=1 is selected.
+
+  <p>As already stated, for projections of the type &quot;Mercator&quot; and
+  &quot;Equirectangular&quot; the distances are always calculated as though
+  /DIST_GEOD=1 were chosen, since otherwise the results would be unrealistic.
+  If however the user wishes to force the program to use Cartesian and not
+  geodesic distances then select /DIST_GEOD=0.</p>
+
+  <p>Unless explicitly indicated, BufDist does not consider circularities in
+  the calculations (ie. when maps represent the whole Earth it does not take
+  account of the fact that the extreme left and right (west and east) are
+  close together, and it calculates on a flat map). If distances are to be
+  calculated over the whole globe then use the /MAPAMUNDI parameter to tell
+  BufDist that it should consider circularities. Before using /MAPAMUNDI, bear
+  in mind that:</p>
+
+  <ul>
+    <li>The program will run MUCH SLOWER, so it may be worth obtaining a quick
+    tentative result first without this parameter.</li>
+
+    <li>The /MAPAMUNDI parameter has no effect if the /DIST_GEOD is not
+    activated (/DIST_GEOD=0) (eg, in Cartesian distances it is of no
+    use).</li>
+  </ul>
+
+  <p>In summary, and to highlight the main points, remember that BufDist
+  calculates Cartesian coordinates over the reference system and it carries
+  out rigorous geodesic calculations for the cases on &quot;Mercator&quot; or
+  &quot;Equirectangular&quot; projections (in these special cases a message is
+  shown on the screen indicating that the appropriate corrections are being
+  performed). It also carries out rigorous geodesic calculations when this is
+  explicitly requested using /DIST_GEOD=1.</p>
+
+  <p>If using a projection that is neither UTM nor Mercator nor
+  Equirectangular, check that the projection allows Cartesian distances to be
+  calculated without significant errors, or consult suport@miramon.uab.cat</p>
+
+  <hr/>
+  <exclusiva>
+ <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+	<!-- $$EXCLUSIVA$$
+
+To obtain full help type:
+BUFDIST ?
+-->
+  </exclusiva>
+    <h4>How to know what type of algorithm use in advanced options? (optional modifier /ALGORITME=)</h4>
+Go to general syntax for more information.
+  <hr/>
+</body>
+</html>

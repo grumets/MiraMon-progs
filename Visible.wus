@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:visible:1</ows:Identifier>
+		<ows:Title>Visible</ows:Title>
+		<ows:Abstract>The module of visibility analysis of MiraMon determines, through the Digital Elevation Model (DEM), which pixels are visible and which are not, via a set of observers or viewpoints. In this version, the observers have to be specific objects in structured PNT format; they can be 3D objects, in which case the height will be known (it is possible that they be elevated from the ground, for example in a tower), or 2D, when the height will have to be determined through provided DEM. The calculation of this height and the heights of the points that determine the topographic profiles can be done by nearest neighbour, bilinear interpolation or bicubic interpolation. A complementary height, 3D or calculated, can be added to the height of the observer (equal at all the points), to elevate the observers and obtain a better visual field.</ows:Abstract>
+<ows:Metadata xlink:title="Title:Anàlisi de visibilitat"/>
+<ows:Metadata xlink:title="Abstract:The module of visibility analysis of MiraMon determines, through the Digital Elevation Model (DEM), which pixels are visible and which are not, via a set of observers or viewpoints. In this version, the observers have to be specific objects in structured PNT format; they can be 3D objects, in which case the height will be known (it is possible that they be elevated from the ground, for example in a tower), or 2D, when the height will have to be determined through provided DEM. The calculation of this height and the heights of the points that determine the topographic profiles can be done by nearest neighbour, bilinear interpolation or bicubic interpolation.
+A complementary height, 3D or calculated, can be added to the height of the observer (equal at all the points), to elevate the observers and obtain a better visual field." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>DEM</ows:Identifier>
+				<ows:Title>Digital Elevation Model</ows:Title>
+				<ows:Abstract>Digital Elevation Model in raster IMG format, from which the calculation of the derived model of visibility analysis will be made.</ows:Abstract>
+						<ows:Metadata xlink:title="Param1" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Viewpoints</ows:Identifier>
+				<ows:Title>View points</ows:Title>
+				<ows:Abstract>Vector structured with the points that have the location of the viewpoints or observers. If the file is 3D coordinate Z will be used, and if it is in 2D, the DEM will be used to determine the height of the observer.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Extraheight</ows:Identifier>
+				<ows:Title>Extra height</ows:Title>
+				<ows:Abstract>Additional elevation of the height of the observer. The topographic profiles will be generated up to the sum of these heights.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ModeInterpol</ows:Identifier>
+				<ows:Title>ModeInterpol</ows:Title>
+				<ows:Abstract>ModeInterpol:<![CDATA[<ul><li>0: nearest neighbour</li><li>1: Bilinear interpolation</li><li>2: Bicubic interpolation</li></ul>]]>
+</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COTES3D</ows:Identifier>
+				<ows:Title>COTES3D</ows:Title>
+				<ows:Abstract>Indicates the use of coordinate z when the observer is 3D.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>		
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Màxima distància</ows:Title>
+				<ows:Abstract> Distance (in the planimetric units of the reference system, usually meters) a pixel will be considered that it is not visible when de distance between its centre and the observer are most far apart.</ows:Abstract>
+				<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASCARA</ows:Identifier>
+				<ows:Title>Mask</ows:Title>
+				<ows:Abstract>Raster or vectorized file of polygons that limits an area of analysis. In raster files, the areas with NO DATA values wont have to be calculated; if it is a polygon file, a logical condition can be applied that will limit the zone which has to be studied. Go to general for more information.</ows:Abstract>
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-POL</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_VISIBLE</ows:Identifier>
+				<ows:Title>Visibility types</ows:Title>
+				<ows:Abstract>Indicates the wish to separate in different categories those pixels that are visible from all viewpoints from the ones that are visible from some points and not visible from others.</ows:Abstract>
+			<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RES_PERFIL</ows:Identifier>
+				<ows:Title>Number of calculations</ows:Title>
+				<ows:Abstract>Number of visibility calculations per pixel size, along a topographic profile. The default value is 1.</ows:Abstract>
+		<LiteralData>
+				<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>			
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>DestinationFile</ows:Identifier>
+				<ows:Title>Destination File</ows:Title>
+				<ows:Abstract>Categorical raster in IMG format with the result of the analysis. It has the same scope and length of the side as the pixel in the DEM.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	</wps:ProcessDescriptions>

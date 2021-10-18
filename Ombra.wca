@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Ombra:1</ows:Identifier>
+		<ows:Title>Càlcul dels angles límit que provoquen ombres projectades en un MDE</ows:Title>
+		<ows:Abstract>Aquest programa calcula, a partir d'un Model Digital d'Elevacions (MDE), i un determinat azimut solar, l'angle d'elevació del Sol a partir del qual cada punt del terreny ja rep llum directa del Sol (ja no és a l'ombra d'un punt en aquella direcció d'azimut). Aquest programa també resol l'anomenat "problema de l'horitzó", és a dir, determinar, per a un punt concret i en una direcció (azimut) determinada, quin és l'angle d'elevació a partir del qual veig el cel.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Càlcul dels angles límit que provoquen ombres projectades en un MDE"/>
+		<ows:Metadata xlink:title="Abstract:Aquest programa calcula, a partir d'un Model Digital d'Elevacions (MDE), i un determinat azimut solar, l'angle d'elevació del Sol a partir del qual cada punt del terreny ja rep llum directa del Sol (ja no és a l'ombra d'un punt en aquella direcció d'azimut). Aquest programa també resol l'anomenat problema de l'horitzó, és a dir, determinar, per a un punt concret i en una direcció (azimut) determinada, quin és l'angle d'elevació a partir del qual veig el cel."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MDE</ows:Identifier>
+				<ows:Title>Model Digital d'Elevacions</ows:Title>
+				<ows:Abstract>Model Digital d'Elevacions sobre el que es projectaran les ombres.
+</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ComplexData>
+				<Default>
+					<Format>
+						<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Default>
+				<Supported>
+					<Format>
+					<MimeType>application/x-IMG</MimeType>
+						<Encoding>Binary</Encoding>
+					</Format>
+				</Supported>
+			</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AzimutSol </ows:Identifier>
+				<ows:Title>Azimut Sol </ows:Title>
+				<ows:Abstract>L'azimut solar s'expressa en graus des del Nord en sentit horari (per exemple 134.97 és aprox. SE); el programa ASTRES us pot donar aquesta informació per a qualsevol dia de l'any, a qualsevol hora i en qualsevol lloc de la Terra.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>en cas que el MDE d'entrada sigui de tipus Multibanda</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+					<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>	
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>Indica el prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers corregits per al cas Multibanda</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+			<ProcessOutputs>
+					<Output>
+					<ows:Identifier>FitxerSortida</ows:Identifier>
+					<ows:Title>Fitxer Sortida</ows:Title>
+					<ows:Abstract>El fitxer resultant és un ràster (byte o byte-RLE si hi ha zones NODATA) els valors del qual expressen, en graus, l'angle d'elevació solar mínim que il·lumina cada punt quan el Sol està en la direcció (azimut) donada al programa. Per tant, els valors en el fitxer de sortida estaran en l'interval [0,90). La paleta OMBRA256.P25 és especialment adequada per a veure el fitxer resultat d'aquest programa.</ows:Abstract>
+					<ows:Metadata xlink:title="Param2"/>
+					<ComplexOutput>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Binary</Encoding>
+							</Format>
+						</Supported>
+					</ComplexOutput>
+				</Output>
+			</ProcessOutputs>
+		</ProcessDescription>
+</wps:ProcessDescriptions>

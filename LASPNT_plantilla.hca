@@ -1,0 +1,51 @@
+<!DOCTYPE html  PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'  'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/>
+
+  <title>LASPNT: Importació de fitxers lidar</title>
+  <style type="text/css">
+/*<![CDATA[*/
+  <!--
+  .style2 {font-size: 16px}
+  -->
+  /*]]>*/
+  </style>
+</head>
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+ <p>Aquest mòdul permet consultar o importar <b>dades lidar</b> des de fitxers en els <b>formats LAS</b> o <b>LAZ</b> (variant comprimida del format anterior) al format vectorial estructurat de punts del <b>MiraMon PNT</b>. Les dades lidar (<i>light detection and ranging</i>) són preses per sensors de teledetecció que emeten llum polaritzada (normalment en la regió compresa entre l'ultraviolat i l'infraroig d'ona curta [fins a uns 1500 nm]) i en detecten el senyal de l'eco, així com la seva intensitat, i en dedueixen la distància a l'objecte del qual es detecta l'eco d'aquella llum. El format LAS és un format d'arxiu públic per a l'intercanvi de dades lidar entre proveïdors i clients que està suportat per l'ASPRS (American Society for Photogrammetry and Remote Sensing). Aquest format, binari, està destinat a l'emmagatzematge de les dades (núvols de punts) recollides per sensors lidar embarcats en plataformes aèries (avions o fins i tot drons). El format LAS conté informació de les coordenades XYZ de cada retorn, la seva intensitat, l'angle amb què ha estat captat el punt, etc.</p>
+  
+ <p>En la importació d'un fitxer lidar es crea un fitxer PNT amb informació altimètrica i diverses taules DBF. La informació es divideix en més d'una taula amb la finalitat que la taula principal pugui ser més lleugera (de menor grandària), i que contingui la informació  generalment més utilitzada, deixant en altres taules aquella informació menys rellevant que, si convé, es pot vincular a través d'una operació de <i>join</i> dinàmic des de la pestanya "Informació temàtica" del Gestor de Metadades del MiraMon, GeMM, o a través d'una operació de <i>join</i> físic des del mòdul MiraDades (creant, en aquest cas, una única taula amb tota la informació; també pot automatitzar-se des del mòdul GestBD).</p> 
+
+ <p>La <b>taula principal del fitxer PNT</b> inclou la següent informació de cada punt: coordenada Z, intensitat, classificació (tipologia de superfície en el punt segons el programari de processament de dades del sensor), angle d'escaneig, número del pols retornat, nombre total de polsos retornats, direcció de l'escaneig (+ si és d'esquerra a dreta, o - si és de dreta a esquerra), si el punt és a la vora de l'escaneig i, en cas que hi hagi informació del temps GPS estàndard, data i hora del pols (en temps UTC).</p> 
+
+ <p>També es genera una <b>primera taula auxiliar</b> [amb el mateix nom que el de la capa però afegint-hi el sufix <b>_XYIDT.dbf</b>] on s'inclou la següent informació de cada punt: coordenades X i Y, ID d'usuari, ID del punt i, en cas que en tingui, temps original del GPS (és a dir, sense convertir-lo a temps estàndard en data i hora com en la taula principal).</p> 
+
+ <p>A més, en cas que es tingui informació dels canals RGB i/o IR proper, es crearà una <b>segona taula auxiliar</b> [amb el mateix nom que el de la capa però afegint-hi el sufix <b>_color.dbf</b>] amb els valors d'aquestes bandes de color per cada punt. Amb aquesta informació es pot obtenir una ortofoto en color o en infraroig color de la zona captada pel lidar si no es disposa d'ella des d'altres fonts.</p> 
+
+ <p>Si es desitja eliminar algun dels camps d'alguna de les taules es pot fer amb el MiraDades (o amb el GestBD si cal automatitzar-ho en un procés BATCH per a molts fitxers).</p> 
+
+ <p>Com s'ha dit, si es desitja  tenir tota o part de la informació de les taules auxiliars en la mateixa taula principal, es pot realitzar un <i>join</i> físic amb el MiraDades (o amb el GestBD si cal automatitzar-ho en un procés BATCH). També es pot generar un <i>join</i> dinàmic des del Gestor de Metadades del MiraMon (GeMM).</p> 
+
+ <p>El temps original GPS pot ser temps GPS estàndard o setmanal. En cas que sigui estàndard, cal sumar-li 10<sup>9</sup> per obtenir el temps GPS absolut. En canvi, el temps GPS setmanal correspon al nombre de segons de la setmana comptant des de diumenge a mitjanit i no permet obtenir el temps GPS absolut perquè es desconeix el nombre de setmanes o dies que han transcorregut des de l'origen del temps GPS absolut.</p> 
+
+ <p>El mòdul té dues opcions:</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->  
+  <hr align="justify" size="2" width="100%"/>
+  <exclusiva>
+     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+LASPNT ?
+--></p>
+
+  </exclusiva>
+</body>
+</html>

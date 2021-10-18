@@ -1,0 +1,1593 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param6</ows:Identifier>
+		<ows:Title>First or second order polynomial fit</ows:Title>
+		<ows:Abstract>This method does not consider height information (elevation). Typically it is used to correct vector and raster data with little distortion, such as scanned images and maps that were previously corrected (like orthophotos or topographic maps) or satellite images in areas with little marked relief, limited extent, and a relatively large pixel size in relation to the altitude of the satellite. If the objective is to obtain cartography with high geometric quality then the application of these methods to scanned aerial photographs or relatively detailed and extensive satellite images (like SPOT or Landsat-TM) is only appropriate in regions with flat relief. </ows:Abstract>
+<ows:Metadata xlink:title="Title:Geometric correction of raster and vector files"/>
+<ows:Metadata xlink:title="Abstract:This program allows the geometric correction of rasters (IMG and JPG: satellite images aerial photographs, scanned maps...) or vector layers (VEC, PNT, ARC and their derivatives POL and NOD) using a series of n known control points." />
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract><![CDATA[<li>1.  First degree polynomial fit.</li><li>2.  Second degree polynomial fit.</li>]]></ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor</ows:Identifier>
+				<ows:Title>Control</ows:Title>
+				<ows:Abstract>Name of the file containing ground control points in COR format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor_s</ows:Identifier>
+				<ows:Title>Control error</ows:Title>
+				<ows:Abstract>Name of the COR file that will contain the equations and the errors of the fit and the test points. The user may select NUL for automatic corrections where this file is not wanted.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.img</ows:Identifier>
+				<ows:Title>Image File</ows:Title>
+				<ows:Abstract>The file to be corrected (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>int</ows:Identifier>
+				<ows:Title>Tipus Interpolació</ows:Title>
+				<ows:Abstract> Criterion for deciding the output pixel value (interpolation type):<![CDATA[<ul><li>0: Nearest neighbour (thematic maps; conserve the original radiometric signal).</li><li>1: Bilinear interpolation (images for photointerpretations; DEMs).</li><li>2: I Bicubic interpolation (as 1; smoothed results but slower).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>xm</ows:Identifier>
+				<ows:Title>X minimum</ows:Title>
+				<ows:Abstract>The Xmaximum output raster bounding coordinates. Type 'x x x x' if you want the program to calculate them (the entire input raster will be corrected).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>xM</ows:Identifier>
+				<ows:Title>X maximum</ows:Title>
+				<ows:Abstract>The Xmaximum output raster bounding coordinates. Type 'x x x x' if you want the program to calculate them (the entire input raster will be corrected).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ym</ows:Identifier>
+				<ows:Title>Y minimum</ows:Title>
+				<ows:Abstract>The Yminimum output raster bounding coordinates. Type 'x x x x' if you want the program to calculate them (the entire input raster will be corrected).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>yM</ows:Identifier>
+				<ows:Title>Y maximum</ows:Title>
+				<ows:Abstract>The Ymaximum output raster bounding coordinates. Type 'x x x x' if you want the program to calculate them (the entire input raster will be corrected)..</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>NODATA value for the corrected image. If the user is completely sure that there will be no NODATA (after checking the geometry of the transformation, the extent, the range of the DEM...) then it is possible to give the value "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Palette (p25, pal, p65) or symbol table (dbf) that determines which colour index is closest to the NODATa index for the corrected image.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>To simultaneously correct multiband raster images and to generate corresponding corrected bands.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>For multiband images, the prefix to add to the original files when creating the corrected files. By default the prefix is c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Model Digital Elevacions MULTIBANDA</ows:Title>
+				<ows:Abstract>For simultaneously correcting multiband rasters having different pixel sizes and for which there are DEMs for each cell size.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>n_decimals</ows:Identifier>
+				<ows:Title>Number decimals</ows:Title>
+				<ows:Abstract>Number of the coordinates of the vector output.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Name of the output corrected file (without extension) or the name of the directory of the corrected files in the case of multiband images.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param05" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param7</ows:Identifier>
+		<ows:Title>Ajust polinòmic amb zetes</ows:Title>
+		<ows:Abstract>With this method the fit of the columns is made using a polynomial that simultaneously takes into account X, Y and Z. As for the rows, the fit can be made in three different ways: considering that there is no pitching movement of the sensor during the acquisition of the image, considering that the pitch is constant or considering that the pitch varies linearly. For more details see:<![CDATA[<li>
+PALÀ, V. & X. PONS (1995) "Incorporation of relief into geometric corrections based on polynomials" Photogrammetric Engineering & Remote Sensing, 61(7):935-944.</li>]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract><![CDATA[<li>3. Polynomial fit with Z for the columns and first order polynomial without Z for the rows</li><li>4. As for 3 but with a constant pitch and Z for the rows.</li><li>5. As for 3 but with a variable pitch and Z for the rows</li>]]></ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+						<ows:Value>5</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor</ows:Identifier>
+				<ows:Title>Control</ows:Title>
+				<ows:Abstract>Name of the file containing ground control points in COR format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor_s</ows:Identifier>
+				<ows:Title>Control error</ows:Title>
+				<ows:Abstract>Name of the COR file that will contain the equations and the errors of the fit and the test points. The user may select NUL for automatic corrections where this file is not wanted.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.img</ows:Identifier>
+				<ows:Title>Image file</ows:Title>
+				<ows:Abstract>The file to be corrected (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>int</ows:Identifier>
+				<ows:Title>Tipus Interpolació</ows:Title>
+				<ows:Abstract> Criterion for deciding the output pixel value (interpolation type):<![CDATA[<ul><li>0: Nearest neighbour (thematic maps; conserve the original radiometric signal).</li><li>1: Bilinear interpolation (images for photointerpretations; DEMs).</li><li>2: I Bicubic interpolation (as 1; smoothed results but slower).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>DEM</ows:Identifier>
+				<ows:Title>Digital Elevation Model</ows:Title>
+				<ows:Abstract>Raster file with the DEM of the region.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>NODATA value for the corrected image. If the user is completely sure that there will be no NODATA (after checking the geometry of the transformation, the extent, the range of the DEM...) then it is possible to give the value "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Palette</ows:Title>
+				<ows:Abstract>Palette (p25, pal, p65) or symbol table (dbf) that determines which colour index is closest to the NODATa index for the corrected image.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>To simultaneously correct multiband raster images and to generate corresponding corrected bands.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>For multiband images, the prefix to add to the original files when creating the corrected files. By default the prefix is c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Digital Elevation Model MULTIBANDA</ows:Title>
+				<ows:Abstract>For simultaneously correcting multiband rasters having different pixel sizes and for which there are DEMs for each cell size.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>output file</ows:Title>
+				<ows:Abstract>Name of the output corrected file (without extension) or the name of the directory of the corrected files in the case of multiband images.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param8</ows:Identifier>
+		<ows:Title>colinearity equations fit</ows:Title>
+		<ows:Abstract>The parameters used in the colinearity equations are: position (Xc, Yc, Zc) and attitude (omega, fi, kappa) of the camera or sensor, the camera focal length (f) and the coordinates of the principal point (x_pp, y_pp) of the image.
+The user may decide which of these parameters to estimate by fitting and which are fixed. For those which are to be estimated it is useful to give some approximate values which will help the program converge more rapidly. In some cases, if the initial parameter is completely unknown or the approximation is very poor, the algorithm may not converge or unsatisfactory solutions may be produced. If all the parameters are known and fixed then the transformation is performed without using control points and using the test points just to evaluate the error of the fit. These are the initial values of the flight parameters in the first iteration:<![CDATA[<ul><li>Roll: omega = 0</li><li>Pitch: fi = 0</li><li>Yaw: kappa = Various values are tried and the one that gives the smallest RMS in the first iterations is used.</li><li>Xc = Average of the X coordinates of the control points (in the reference system).</li><li>Yc = Average of the Y coordinates of the control points (in the reference system).</li><li>ZZc = Average Zc + flight altitude, approx. 2000-3000 m</li></ul>When the principal point (x_pp, y_pp) has to be fit the program takes as initial values:<ul><li>x_pp = Average of the x coordinates (in original units) of the control points or the middle of the raster.</li><li>y_pp = Average of the y coordinates (in original units) of the control points or the middle of the raster</li></ul>THowever, sometimes these averages can be quite distant from the real principal point and in these cases the program may not converge (eg if only a fragment from the edge of an aerial photograph is scanned). The program allows the user to change the value for another estimated by eye at the intersection of the lines joining the fiducial points. Remember to use always the same measurement system, consistent with the original reference units.<br/>For fitting the focal length it is necessary to choose some initial value close to the real value, typically between 15 and 35 mm for digital cameras and between 50 and 250 mm for analogical cameras.<br/>In addition it is necessary to know the number of points per inch (ppp, ppi or dpi) of the scanned image (1 inch = 25.4 mm). For analogue photos common values are between 400 and 200 dpi. For digital photos refer to the manufacturer's technical specifications (for example the AA497-AMDC 28.0 camera with 2024 columns x 2041 rows and a sensor size of 18x18 mm gives a resolution of 2811-2835 dpi).]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>6. Colinearity equations</ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer ">integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>6</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor</ows:Identifier>
+				<ows:Title>Control</ows:Title>
+				<ows:Abstract>Name of the file containing ground control points in COR format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor_s</ows:Identifier>
+				<ows:Title>Control error</ows:Title>
+				<ows:Abstract>Name of the COR file that will contain the equations and the errors of the fit and the test points. The user may select NUL for automatic corrections where this file is not wanted.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.img</ows:Identifier>
+				<ows:Title>image File</ows:Title>
+				<ows:Abstract>The file to be corrected (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>int</ows:Identifier>
+				<ows:Title>Interpolation Type</ows:Title>
+				<ows:Abstract>Criterion for deciding the output pixel value (interpolation type): <![CDATA[<ul><li>0. Nearest neighbour (thematic maps; conserve the original radiometric signal).</li><li>1. Bilinear interpolation (images for photointerpretations; DEMs).</li><li>2. Bicubic interpolation (as 1; smoothed results but slower)</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>DEM</ows:Identifier>
+				<ows:Title>Digital Elevation Model</ows:Title>
+				<ows:Abstract>Raster file with the DEM of the region.</ows:Abstract>
+				<ows:Metadata xlink:title="Param07" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>dpi</ows:Identifier>
+				<ows:Title>Resolution</ows:Title>
+				<ows:Abstract> For scanned images or digital photos, the resolution in dots per inch (dpi).
+.</ows:Abstract>
+				<ows:Metadata xlink:title="Param08" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>iter</ows:Identifier>
+				<ows:Title>Iteraccions</ows:Title>
+				<ows:Abstract>Maximum number of iterations when using the colinearity equations (sugg. 20).
+.</ows:Abstract>
+				<ows:Metadata xlink:title="Param09" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>op_posicio</ows:Identifier>
+				<ows:Title>Possition Options</ows:Title>
+				<ows:Abstract>Options that define whether the parameters used in the colinearity equations are fixed and known (3), estimated (2) or unknown (0). The value (1) is for the special case where only the flight altitude is estimated but not the X, Y position of the plane.</ows:Abstract>
+				<ows:Metadata xlink:title="Param10" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XCAM</ows:Identifier>
+				<ows:Title>X camera</ows:Title>
+				<ows:Abstract>X coordinate of the camera or sensor in the output reference system. They may be known positions or estimated values. If only /ZCAM is given then this indicates that only the plane altitude is estimated.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YCAM</ows:Identifier>
+				<ows:Title>Y camera</ows:Title>
+				<ows:Abstract>Y coordinate of the camera or sensor in the output reference system. They may be known positions or estimated values. If only /ZCAM is given then this indicates that only the plane altitude is estimated.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ZCAM</ows:Identifier>
+				<ows:Title>Z camera</ows:Title>
+				<ows:Abstract>Z coordinate of the camera or sensor in the output reference system. They may be known positions or estimated values. If only /ZCAM is given then this indicates that only the plane altitude is estimated.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>op_actitud</ows:Identifier>
+				<ows:Title>Actitud options</ows:Title>
+				<ows:Abstract>Options that define whether the parameters used in the colinearity equations are fixed and known (3), estimated (2) or unknown (0). The value (1) is for the special case where only the flight altitude is estimated but not the X, Y position of the plane.</ows:Abstract>
+				<ows:Metadata xlink:title="Param11" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>WCAM</ows:Identifier>
+				<ows:Title>Omega</ows:Title>
+				<ows:Abstract>Indicate in degrees the three attitude angles of the sensor, whether fixed or estimated.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FCAM</ows:Identifier>
+				<ows:Title>Fi</ows:Title>
+				<ows:Abstract>Indicate in degrees the three attitude angles of the sensor, whether fixed or estimated..</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>KCAM</ows:Identifier>
+				<ows:Title>Kappa</ows:Title>
+				<ows:Abstract>Indicate in degrees the three attitude angles of the sensor, whether fixed or estimated.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>op_focal</ows:Identifier>
+				<ows:Title>Focal Option</ows:Title>
+				<ows:Abstract> Options that define whether the parameters used in the colinearity equations are fixed and known (3), estimated (2) or unknown (0). The value (1) is for the special case where only the flight altitude is estimated but not the X, Y position of the plane.</ows:Abstract>
+				<ows:Metadata xlink:title="Param12" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FOCAL</ows:Identifier>
+				<ows:Title>Focal</ows:Title>
+				<ows:Abstract> Indicates in milimetres the known or estimated focal length of the camera.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ANALOG</ows:Identifier>
+				<ows:Title>Cambra Analògica</ows:Title>
+				<ows:Abstract>Cambra Analògica</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIGITAL</ows:Identifier>
+				<ows:Title>Cambra Digital</ows:Title>
+				<ows:Abstract> If the focal length of the camera is unknown it can be useful to know whether the camera is digital or analogue when selecting an initial value that is more likely to produce a rapid convergence to the fit value.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>op_ppral</ows:Identifier>
+				<ows:Title>Opcions punt pricipal</ows:Title>
+				<ows:Abstract>Options that define whether the parameters used in the colinearity equations are fixed and known (3), estimated (2) or unknown (0). The value (1) is for the special case where only the flight altitude is estimated but not the X, Y position of the plane.</ows:Abstract>
+				<ows:Metadata xlink:title="Param13" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+					<ows:Value>0</ows:Value>
+					<ows:Value>1</ows:Value>
+					<ows:Value>2</ows:Value>
+					<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XPP</ows:Identifier>
+				<ows:Title>XPP</ows:Title>
+				<ows:Abstract>X coordinate or approximate initial values of the principal point in the original coordinates.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YPP</ows:Identifier>
+				<ows:Title>YPP</ows:Title>
+				<ows:Abstract>Y coordinate or approximate initial values of the principal point in the original coordinates.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PMPCONTROL</ows:Identifier>
+				<ows:Title>estimated control points</ows:Title>
+				<ows:Abstract>If the location of the principal point is unknown, then the initial values can be estimated as the average of either the control points or the central point of the raster to be corrected.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PMRASTER</ows:Identifier>
+				<ows:Title>PMraster</ows:Title>
+				<ows:Abstract>Average raster pointr</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>NODATA value for the corrected image. If the user is completely sure that there will be no NODATA (after checking the geometry of the transformation, the extent, the range of the DEM...) then it is possible to give the value "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Palette (p25, pal, p65) or symbol table (dbf) that determines which colour index is closest to the NODATa index for the corrected image.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>To simultaneously correct multiband raster images and to generate corresponding corrected bands.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+				<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>For multiband images, the prefix to add to the original files when creating the corrected files. By default the prefix is c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Digital Elevation Model MULTIBANDA</ows:Title>
+				<ows:Abstract>For simultaneously correcting multiband rasters having different pixel sizes and for which there are DEMs for each cell size.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Fitxer Sortida</ows:Title>
+				<ows:Abstract>Name of the output corrected file (without extension) or the name of the directory of the corrected files in the case of multiband images.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param1:7&amp;Param6</ows:Identifier>
+		<ows:Title>Geometric Transformation (afins i perspectiva)</ows:Title>
+		<ows:Abstract><![CDATA[Aquests tipus de transformacions segueixen una filosofia diferent a les anteriors: en comptes d_ajustar la transformació a través d_uns punts de control, volem indicar nosaltres els paràmetres de la transformació ja que els coneixem a priori. Així, pot ser que haguem escannejat un document girat 90º per causa de caber-hi més bé a l_escànner un cop rotat; en aquest cas serà més fàcil indicar que volem efectuar una rotació de 90º per tornar-lo a posar en la posició original i veure_l de forma _natural_ (potser abans de col_locar punts de control per a un ajust fi de la geometria). Un segon exemple seria el cas que disposem d_una base vectorial antiga, provinent d_un software que emmagatzemava les coordenades amb precisió simple (com PC-Arc/Info) i per aquesta causa s_havia truncat la xifra més significativa quan era constant per a tota la capa (per exemple a Catalunya en UTM-31N era habitual suprimir el 4 de la coordenada Y, per la qual cosa una coordenada com ara 4619254.734 s_escrivia 619254.734 i així es podia mantenir una precisió decimètrica; en aquest cas podrem recuperar les coordenades originals indicant una transformació de tipus translació de magnitud 4000000. Finalment, un tercer exemple seria disposar d_una base en què les unitats del sistema de referència horitzontal son km i volem tenir-les en m, per a la qual cosa aplicarem un escalat de valor 1000.<br/>
+    Els tipus d'operacions que s'ofereixen són: translacions, escalats, inclinacions, rotacions, perspectives i miralls. Per a les transformacions afins (totes menys la perspectiva) es pot especificar un origen de transformació i per la perspectiva es pot especificar un envolupant sobre el qual actuar. Es dóna la possibilitat d'escollir-ho perquè si volem modificar una capa vectorial sobre un ràster ja modificat, es pugui usar l'envolupant del ràster i superposar així perfectament la capa vectorial transformada sobre el ràster modificat.<br/>
+    És possible realitzar un seguit de transformacions i/o perspectiva una darrera l'altra sobre un ràster o vector amb la única restricció que només es pot usar una perspectiva.]]>
+</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>7. Geometric Transformations.</ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>7</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.img</ows:Identifier>
+				<ows:Title>Image File</ows:Title>
+				<ows:Abstract>ÉThe file to be corrected (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-IMG</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>int</ows:Identifier>
+				<ows:Title>Tipus Interpolació</ows:Title>
+				<ows:Abstract>Criterion for deciding the output pixel value (interpolation type): <![CDATA[<ul><li>0. Nearest neighbour (thematic maps; conserve the original radiometric signal).</li><li>1. Bilinear interpolation (images for photointerpretations; DEMs)</li><li>2. Bicubic interpolation (as 1; smoothed results but slower).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param06" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T</ows:Identifier>
+				<ows:Title>Translation</ows:Title>
+				<ows:Abstract>Indicate translation</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Tx</ows:Identifier>
+				<ows:Title>X Value</ows:Title>
+				<ows:Abstract>X Value of the trasnlation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ty</ows:Identifier>
+				<ows:Title>Y Value</ows:Title>
+				<ows:Abstract>Y Value of the translation</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>E</ows:Identifier>
+				<ows:Title>Scaling</ows:Title>
+				<ows:Abstract>Indicate scaling geometric transformation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ex</ows:Identifier>
+				<ows:Title>X Value</ows:Title>
+				<ows:Abstract>X Value</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ey</ows:Identifier>
+				<ows:Title>X Value</ows:Title>
+				<ows:Abstract> X Value</ows:Abstract>
+								<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>				
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>I</ows:Identifier>
+				<ows:Title>Inclination</ows:Title>
+				<ows:Abstract>Indicate an inclination geometric transformation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Id</ows:Identifier>
+				<ows:Title>Inclination Axis</ows:Title>
+				<ows:Abstract>Indicate the Axis the inclination.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>x</ows:Value>
+						<ows:Value>y</ows:Value>	
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ir</ows:Identifier>
+				<ows:Title>Raó inclinació</ows:Title>
+				<ows:Abstract>Inclination reason.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>		
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>R</ows:Identifier>
+				<ows:Title>Rotation</ows:Title>
+				<ows:Abstract>Indicate Rotation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>g</ows:Identifier>
+				<ows:Title>Degrees</ows:Title>
+				<ows:Abstract>Degrees</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>P</ows:Identifier>
+				<ows:Title>Prespective</ows:Title>
+				<ows:Abstract>Indicate prespective</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Pr</ows:Identifier>
+				<ows:Title>Prespectiva reason</ows:Title>
+				<ows:Abstract>Indicate prespective reason.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AllowedValues>
+				<ows:Value>0</ows:Value>
+				<ows:Value>1</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>M</ows:Identifier>
+				<ows:Title>Mirror</ows:Title>
+				<ows:Abstract>Indicate mirror.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Md</ows:Identifier>
+				<ows:Title>Mirror direction</ows:Title>
+				<ows:Abstract>Indicate mirror direction.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AllowedValues>
+				<ows:Value>y</ows:Value>
+				<ows:Value>x</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>NODATA value for the corrected image. If the user is completely sure that there will be no NODATA (after checking the geometry of the transformation, the extent, the range of the DEM...) then it is possible to give the value "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Palette</ows:Title>
+				<ows:Abstract>Palette (p25, pal, p65) or symbol table (dbf) that determines which colour index is closest to the NODATa index for the corrected image.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>To simultaneously correct multiband raster images and to generate corresponding corrected bands.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>For multiband images, the prefix to add to the original files when creating the corrected files. By default the prefix is c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Digital Elevation Model MULTIBANDA</ows:Title>
+				<ows:Abstract>For simultaneously correcting multiband rasters having different pixel sizes and for which there are DEMs for each cell size.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>			
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Output File</ows:Title>
+				<ows:Abstract>Name of the output corrected file (without extension) or the name of the directory of the corrected files in the case of multiband images.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:!Param6</ows:Identifier>
+		<ows:Title>Ajust polinòmic de primer o de segon grau</ows:Title>
+		<ows:Abstract>This method does not consider height information (elevation). Typically it is used to correct vector and raster data with little distortion, such as scanned images and maps that were previously corrected (like orthophotos or topographic maps) or satellite images in areas with little marked relief, limited extent, and a relatively large pixel size in relation to the altitude of the satellite. If the objective is to obtain cartography with high geometric quality then the application of these methods to scanned aerial photographs or relatively detailed and extensive satellite images (like SPOT or Landsat-TM) is only appropriate in regions with flat relief. </ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract><![CDATA[<li>1.  First degree polynomial fit.</li><li>2.  Second degree polynomial fit.</li>]]></ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor</ows:Identifier>
+				<ows:Title>Control</ows:Title>
+				<ows:Abstract>Name of the file containing ground control points in COR format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>cor_s</ows:Identifier>
+				<ows:Title>Control error</ows:Title>
+				<ows:Abstract> Name of the COR file that will contain the equations and the errors of the fit and the test points. The user may select NUL for automatic corrections where this file is not wanted.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03" />
+				<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-COR</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.vectorial</ows:Identifier>
+				<ows:Title>Corrected File</ows:Title>
+				<ows:Abstract>The file to be corrected (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-ARC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-ARC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+								<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+								<Format>
+								<MimeType>application/x-VEC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract>NODATA value for the corrected image. If the user is completely sure that there will be no NODATA (after checking the geometry of the transformation, the extent, the range of the DEM...) then it is possible to give the value "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Palette (p25, pal, p65) or symbol table (dbf) that determines which colour index is closest to the NODATa index for the corrected image.</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>To simultaneously correct multiband raster images and to generate corresponding corrected bands.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract> For multiband images, the prefix to add to the original files when creating the corrected files. By default the prefix is c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Digital Elevation Model MULTIBANDA</ows:Title>
+				<ows:Abstract>For simultaneously correcting multiband rasters having different pixel sizes and for which there are DEMs for each cell size.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Output File</ows:Title>
+				<ows:Abstract> Name of the output corrected file (without extension) or the name of the directory of the corrected files in the case of multiband images.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param05" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-ARC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ARC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-PNT</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CorrGeom:Param1:7</ows:Identifier>
+		<ows:Title>Geometric transformation (afins i perspectiva)</ows:Title>
+		<ows:Abstract><![CDATA[Aquests tipus de transformacions segueixen una filosofia diferent a les anteriors: en comptes d_ajustar la transformació a través d_uns punts de control, volem indicar nosaltres els paràmetres de la transformació ja que els coneixem a priori. Així, pot ser que haguem escannejat un document girat 90º per causa de caber-hi més bé a l_escànner un cop rotat; en aquest cas serà més fàcil indicar que volem efectuar una rotació de 90º per tornar-lo a posar en la posició original i veure_l de forma _natural_ (potser abans de col_locar punts de control per a un ajust fi de la geometria). Un segon exemple seria el cas que disposem d_una base vectorial antiga, provinent d_un software que emmagatzemava les coordenades amb precisió simple (com PC-Arc/Info) i per aquesta causa s_havia truncat la xifra més significativa quan era constant per a tota la capa (per exemple a Catalunya en UTM-31N era habitual suprimir el 4 de la coordenada Y, per la qual cosa una coordenada com ara 4619254.734 s_escrivia 619254.734 i així es podia mantenir una precisió decimètrica; en aquest cas podrem recuperar les coordenades originals indicant una transformació de tipus translació de magnitud 4000000. Finalment, un tercer exemple seria disposar d_una base en què les unitats del sistema de referència horitzontal son km i volem tenir-les en m, per a la qual cosa aplicarem un escalat de valor 1000.<br/>
+    Els tipus d'operacions que s'ofereixen són: translacions, escalats, inclinacions, rotacions, perspectives i miralls. Per a les transformacions afins (totes menys la perspectiva) es pot especificar un origen de transformació i per la perspectiva es pot especificar un envolupant sobre el qual actuar. Es dóna la possibilitat d'escollir-ho perquè si volem modificar una capa vectorial sobre un ràster ja modificat, es pugui usar l'envolupant del ràster i superposar així perfectament la capa vectorial transformada sobre el ràster modificat.<br/>
+    És possible realitzar un seguit de transformacions i/o perspectiva una darrera l'altra sobre un ràster o vector amb la única restricció que només es pot usar una perspectiva.]]>
+</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>7. Geometric Transformations.</ows:Abstract>
+						<ows:Metadata xlink:title="Param01" />
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+						<ows:AllowedValues>
+						<ows:Value>7</ows:Value>
+						</ows:AllowedValues>
+					</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>f_i.vectorial</ows:Identifier>
+				<ows:Title>Vectorial File</ows:Title>
+				<ows:Abstract>The file to be corrected (with extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04" />
+					<ComplexData>
+						<Default>
+							<Format>
+								<MimeType>application/x-ARC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-ARC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+								<Format>
+								<MimeType>application/x-PNT</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-VEC</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T</ows:Identifier>
+				<ows:Title>Translació</ows:Title>
+				<ows:Abstract>Indicate translation</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Tx</ows:Identifier>
+				<ows:Title>X value</ows:Title>
+				<ows:Abstract>X value of translation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ty</ows:Identifier>
+				<ows:Title>Y value</ows:Title>
+				<ows:Abstract>Y value of translation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>E</ows:Identifier>
+				<ows:Title>Scalate</ows:Title>
+				<ows:Abstract>Indicate scalate</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ex</ows:Identifier>
+				<ows:Title>X Value</ows:Title>
+				<ows:Abstract>X value of scaling</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ey</ows:Identifier>
+				<ows:Title>Y value</ows:Title>
+				<ows:Abstract>Indicate scaling reason.</ows:Abstract>
+								<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>				
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>I</ows:Identifier>
+				<ows:Title>Inclination</ows:Title>
+				<ows:Abstract>Indicate inclination.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Id</ows:Identifier>
+				<ows:Title>Inclination Axis</ows:Title>
+				<ows:Abstract>Indicate inclination Axis.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>x</ows:Value>
+						<ows:Value>y</ows:Value>	
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ir</ows:Identifier>
+				<ows:Title>Inclination reason</ows:Title>
+				<ows:Abstract>Indicate inclination reason.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>		
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>R</ows:Identifier>
+				<ows:Title>Rotation</ows:Title>
+				<ows:Abstract>Indicate rotation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>g</ows:Identifier>
+				<ows:Title>degrees</ows:Title>
+				<ows:Abstract>Indicate dregrees.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>P</ows:Identifier>
+				<ows:Title>Prespective</ows:Title>
+				<ows:Abstract>Indicate prespective.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Pr</ows:Identifier>
+				<ows:Title>Prespective reason</ows:Title>
+				<ows:Abstract>Indicate prespective</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AllowedValues>
+				<ows:Value>0</ows:Value>
+				<ows:Value>1</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>			
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>M</ows:Identifier>
+				<ows:Title>Mirror</ows:Title>
+				<ows:Abstract>Indicate Mirror.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Md</ows:Identifier>
+				<ows:Title>Mirror direction</ows:Title>
+				<ows:Abstract>Indicate Mirror direction.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+				<ows:AllowedValues>
+				<ows:Value>y</ows:Value>
+				<ows:Value>x</ows:Value>
+				</ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>NODATA</ows:Title>
+				<ows:Abstract> NODATA value for the corrected image. If the user is completely sure that there will be no NODATA (after checking the geometry of the transformation, the extent, the range of the DEM...) then it is possible to give the value "NONE".</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PALETA</ows:Identifier>
+				<ows:Title>Palette</ows:Title>
+				<ows:Abstract> Palette (p25, pal, p65) or symbol table (dbf) that determines which colour index is closest to the NODATa index for the corrected image</ows:Abstract>
+			<ComplexData>						
+						<Default>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Default>
+						<Supported>
+							<Format>
+								<MimeType>application/x-pal</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p25</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-p65</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+							<Format>
+								<MimeType>application/x-dbf</MimeType>
+								<Encoding>Text</Encoding>
+							</Format>
+						</Supported>
+					</ComplexData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>MULTIBANDA</ows:Title>
+				<ows:Abstract>To simultaneously correct multiband raster images and to generate corresponding corrected bands.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PREFIX</ows:Identifier>
+				<ows:Title>Prefix</ows:Title>
+				<ows:Abstract>For multiband images, the prefix to add to the original files when creating the corrected files. By default the prefix is c_.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>	
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_MULTIBANDA</ows:Identifier>
+				<ows:Title>Digital Elevation Model MULTIBANDA</ows:Title>
+				<ows:Abstract>For simultaneously correcting multiband rasters having different pixel sizes and for which there are DEMs for each cell size.costats de píxel amb un MDE que té una banda per a cada valor no repetit de costat de píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
+				</LiteralData>
+			</Input>			
+			</DataInputs>	
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>f_s</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Name of the output corrected file (without extension) or the name of the directory of the corrected files in the case of multiband images.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+						<ComplexOutput>
+							<Default>
+						<Format>
+							<MimeType>application/x-ARC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ARC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-PNT</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+							</Supported>
+						</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	</wps:ProcessDescriptions>

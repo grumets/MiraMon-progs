@@ -1,0 +1,329 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CorrGeom: Corrección geométrica de ficheros ráster y
+  vectoriales</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  <h3>Introducción</h3>
+
+  <p>La cartografía convencional sobre papel nos ofrece una enorme fuente de
+  información para incorporar en el seno de un Sistema de Información
+  Geográfica (SIG). Aunque cada vez más la cartografía se genera digitalmente
+  en su origen, todavía existen muchos casos en los que no disponemos de los
+  ficheros digitales, ya sea porque se trata de documentos con cierta
+  antigüedad, o bien porque se han elaborado con técnicas analógicas
+  convencionales , o simplemente porque no tenemos acceso a la información
+  digital original.</p>
+
+  <p>En estos casos, aunque la digitalización en tabla es una posibilidad
+  factible, representa un esfuerzo pesado y una pérdida de detalle respecto a
+  la posibilidad de escanear el documento analógico y proceder a su
+  digitalización sobre la pantalla del ordenador.</p>
+
+  <p>MiraMon permite transformar ficheros procedentes de prácticamente
+  cualquier escáner (formatos BMP, TIFF, JPG, etc) a formato IMG o JPG (si no
+  lo eran en su origen). Una vez en este formato podremos digitalizar encima
+  las curvas de nivel, carreteras, polígonos de usos del suelo, etc y
+  convertirlos en <b>capas vectoriales</b>. Asimismo, los documentos
+  escaneados no están todavía georeferenciados, con lo cual si digitalizamos
+  directamente encima, las coordenadas de los vectores resultantes estarán en
+  unidades arbitrarias (píxels) del sistema de escaneo y no en unidades mapa
+  del sistema de destino (por ejemplo en metros del sistema UTM). Aunque es
+  posible proceder así y georeferenciar posteriormente el documento vectorial
+  resultante con el programa CorrGeom de MiraMon, resulta aconsejable
+  georeferenciar el ráster y proceder posteriormente a su digitalización, ya
+  que si escaneamos la hoja a trozos podrán mosaicarse con precisión los
+  resultados y, además, en cualquier momento podemos superponer al documento
+  escaneado otras capas de información vectorial de las que disponemos para
+  que nos sirvan de referencia. La georeferenciación de los rasters escaneados
+  también se efectúa desde el programa CorrGeom de MiraMon. En resumen, por
+  tanto, tenemos dos alternativas para la introducción en nuestro SIG de capas
+  vectoriales a partir de documentos en papel escaneados y el programa
+  CorrGeom de MiraMon:</p>
+
+  <ul>
+    <li>Escaneado -&gt; Digitalización -&gt; Georeferenciación de los
+    vectores</li>
+
+    <li>Escaneado -&gt; Georeferenciación del ráster -&gt;Digitalización
+    <b>(ACONSEJADO)</b></li>
+  </ul>
+
+  <p>En ambos casos el método recomendado es el ajuste polinómico de primer
+  grado. En el caso muy improbable con los escáners modernos, de que la imagen
+  escaneada presente deformaciones cuadráticas, utilice un ajuste polinómico
+  de segundo grado.</p>
+
+  <p><br/>
+  Por otra parte, existen otras fuentes de información muy interesantes para
+  incorporar en nuestro SIG: se trata de <b>capas raster</b> como las
+  <b>imágenes de teledetección</b> y las <b>fotografías aéreas</b>. Estos
+  materiales pueden obtenerse directamente en formato digital (en el caso de
+  la mayoría de imágenes de teledetección) o bien, si vienen sobre un soporte
+  de papel o fotográfico (en caso de fotografías aéreas convencionales),
+  pueden escanearse para convertirlas en una imagen digital.</p>
+
+  <p>Las imágenes de teledetección presentan una serie de deformaciones
+  geométricas producidas por la rotación y curvatura de la Tierra, la órbita
+  de la plataforma, etc. El programa CorrGeom de MiraMon permite corregir
+  estas imágenes mediante las técnicas convencionales basadas en polinomios de
+  primero y segundo grado. En el caso de las fotografías aéreas y de las
+  imágenes de teledetección con cierto detalle (píxel de 50 m o menor) es
+  aconsejable efectuar la corrección teniendo en cuenta el relieve terrestre.
+  CorrGeom ofrece los métodos &quot;ajuste polinómico con zetas&quot; para
+  imágenes de satélite con tamaños de píxel pequeños (Landsat TM, SPOT XS y P,
+  IRS LISS, etc) y &quot;ajuste mediante ecuaciones de colinearidad&quot; para
+  fotografía aérea, método que aplica las ecuaciones fundamentales de la
+  fotogrametría. Estas imágenes corregidas geométricamente utilizando el
+  relieve a través de un Modelo Digital de Elevaciones (MDE) reciben el nombre
+  de ortoimágenes (ortofotos en el caso de fotografía aérea).</p>
+
+  <p>El programa CorrGeom, por tanto, permite corregir estas deformaciones
+  (órbita de las plataformas, relieve terrestre, etc) y adaptar las imágenes a
+  un sistema de proyección cartográfica conocido, como por ejemplo UTM. Una
+  vez en el sistema de proyección adecuado, las imágenes podrán superponerse
+  con otras imágenes y capas vectoriales en el mismo sistema de
+  proyección.</p>
+
+  <p><br/>
+  Tanto para corregir rasters como vectores habitualmente hay que disponer de
+  un conjunto de <b>puntos de control sobre el terreno (GCP)</b> los cuales
+  nos indican diversas coordenadas en el sistema de referencia origen (no
+  corregido) y destino (corregido). Los GCP pueden entrarse con un editor de
+  textos o pueden digitalizarse con MiraMon como puntos y convertirlos en GCP
+  con <a href="veccor.htm">VECCOR</a> (ver más abajo).<br/>
+  En el caso de imágenes captadas desde un sistema que conozca con exactitud
+  suficiente la posición y actitud del sensor (GPS+INS) se puede llegar a
+  hacer la corrección sin GCP.</p>
+
+  <p>Para una mayor fiabilidad estadística del proceso de corrección
+  geométrica, CorrGeom permite que el fichero de puntos de control contenga
+  dos subconjuntos de puntos, uno que se utiliza para efectuar los ajustes de
+  las ecuaciones de corrección, y otro, al que llamamos <i>puntos de test</i>,
+  que se utiliza para estimar el error con un conjunto independiente de
+  puntos. Para ambos conjuntos de puntos, CorrGeom proporciona el error RMS en
+  X, Y y global para cada punto así como para el conjunto de puntos de
+  control. Lógicamente, si solamente se dan puntos de ajuste solamente se
+  proporcionan estos RMS para el conjunto de puntos del ajuste.</p>
+
+  <p><br/>
+  Si desea cambiar el sistema de proyección de rasters o vectores, una vez
+  georeferenciados con MiraMon (o ya georeferenciados en origen e importados a
+  MiraMon), utilice el programa <a href="CanviPrj.htm">CanviPrj</a>. No
+  confunda, pues, la funcionalidad de <i>CorrGeom</i> que permite
+  georeferenciar una capa no georeferenciada con <i>CanviPrj</i> que permite
+  reproyectar una capa de la que ya conocemos la georeferenciación.</p>
+
+  <p>NOTAS:</p>
+
+  <ol>
+    <li>Cuando hablemos de sistema de proyección nos referiremos a UTM,
+    Lambert, etc, mientras que cuando hablemos de sistema de referencia nos
+    referiremos a UTM-31N-UB/ICC (UTM en el huso 31, hemisferio Norte, datum
+    europeo ED50 con parámetros ajustados para UB/ICC), o
+    Goode_Homolosine-WGS84 (Goode Homolosine WGS84 con datum WGS 1984), etc.
+    (vea la ayuda <a href="../mm32/ap6.htm">Geodesia</a> para más información)
+    </li>
+
+    <li>En adelante nos referiremos a las imágenes y vectores que han sido
+    adaptados a algún sistema de referencia utilizando CorrGeom como
+    &quot;<i>corregidos</i>&quot;.</li>
+  </ol>
+  <hr/>
+
+  <h3>CorrGeom</h3>Este programa permite corregir geométricamente rasters (IMG
+  y JPG: imágenes de satélite, fotografía aérea, mapas escaneados...) o capas
+  vectoriales (VEC, PNT, ARC y sus derivados POL y NOD) a partir de n puntos
+  de control de los cuales se conoce:
+
+  <ul>
+    <li><u>Coordenadas en el sistema de referencia origen</u> (sistema
+    &quot;no corregido&quot;), p.ej. en unidades píxel, con origen típicamente
+    (0,0) en el vértice inferior izquierdo- en los rasters, o p. ej. en cm en
+    un fichero proveniente de una digitalización vectorial de un mapa de papel
+    efectuada sobre una tabla digitalizadora calibrada a unidades cm de papel.
+    Llamaremos a estas coordenadas, <u>coordenadas en el sistema de referencia
+    origen</u>: X_SistOri, Y_SistOri.</li>
+
+    <li><u>Coordenadas en el sistema de referencia escogido</u> (sistema
+    &quot;corregido&quot; o &quot;mapa&quot;, como por ejemplo UTM-31N). Estas
+    coordenadas se determinan manualmente con la ayuda de mapas de papel,
+    sobre la pantalla con otros mapas digitales, con GPS sobre el terreno,
+    etc. Llamaremos a estas coordenadas, <u>coordenadas en el sistema de
+    referencia destino</u>: X_SistDest, Y_SistDest [, Z_SistDest].</li>
+  </ul>
+
+  <p>Además, el programa permite aplicar transformaciones afines
+  (translaciones, rotaciones, inclinaciones, escalados y reflejos) y una
+  perspectiva tanto en rasters como en vectores.</p>
+
+  <p>En caso de que desee corregir todas las bandas de un ráster multibanda
+  (típicamente una RGB de 24 bits o una imágen satélite multiespectral) puede
+  indicarle al programa, con el parámetro <i>/MULTIBANDA</i> o activando el
+  botón correspondiente que las corrija todas en una sola ejecución y el
+  resultado continuará siendo un raster multibanda. En este caso, aconsejamos
+  editar los puntos de control sobre la banda con mayor resolución. Si la
+  corrección requiere el modelo digital de elevaciones (MDE), en el caso de
+  que las diferentes bandas a corregir tengan diferentes lados de píxel,
+  podemos utilizar un MDE multibanda con tantas bandas como diferentes lados
+  de píxel activando el parámetro <i>/MDE_MULTIBANDA</i>.</p>
+
+  <p>Se puede efectuar la corrección mediante diferentes métodos:</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+  <p>Para todos los métodos, excepto transformaciones geométricas (afines y
+  perspectiva):</p>
+
+  <div style="margin-left: 2em">
+    El fichero COR de entrada contiene los puntos de control para el ajuste y,
+    opcionalmente, los de test. El fichero COR de salida contendrá los mismos
+    puntos y los resultados del proceso (coeficientes, errores para puntos y
+    globales) para el ajuste y para el test. El programa mostrará este fichero
+    y podrá editarse para corregir o eliminar los peores puntos de control y
+    continuar con el nuevo conjunto de puntos. Se asume que la extensión de
+    los ficheros es COR.
+  </div>Para las transformaciones geométricas no se requiere ficheros COR ya
+  que las correcciones se realizan por parámetro.
+  <hr/>
+  <u>Nota sobre el formato de los ficheros COR:</u>
+
+  <p>Los ficheros COR contienen los puntos de control y, opcionalmente, de
+  test, tienen el formato siguiente:</p>
+  <pre>
+    Nombre_de_punts [Coments]
+    X_SistOri1 Y_SistOri1 X_SistDest1 Y_SistDest1 [Z_SistDest1] [Coments1]
+        :          :          :           :            :            :
+</pre>
+
+  <ul>
+    <li>La coordenada Z_SistDest1 no es necesaria en las dos primeras opciones
+    del programa.</li>
+
+    <li>Los puntos de test (optativos) se situarán, con el mismo formato,
+    debajo de esta secuencia. Es necesario indicar, al principio del bloque
+    correspondiente, cuántos hay.</li>
+
+    <li>El fichero puede terminar con comentarios de extensión indefinida, que
+    el programa no conserva y que son substituidos por los resultados del
+    ajuste.<br/></li>
+
+    <li>Las coordenadas del &quot;Sistema Origen&quot; deben ser cartesianas,
+    es decir, deben crecer hacia la derecha en x y hacia arriba en y. La
+    coordenada 0,0 puede situarse en cualquier punto del fichero origen o
+    incluso fuera del mismo.</li>
+  </ul>Este formato puede generarse con un editor de texto o, más fácilmente,
+  partiendo de un fichero de puntos digitalizados sobre la imagen o vector
+  original a corregir utilizando el programa <a href="VECCOR.HTM">VECCOR</a>.
+  <hr/>
+  Para imágenes raster y en las opciones del programa que no requieren la
+  introducción de la resolución ni el envolvente del fichero de salida, éste
+  hereda estos parámetros del MDE. Los valores máximos del envolvente del
+  fichero de salida se adaptan en función del valor de la resolución de salida
+  (res), usando la expresión siguiente:
+  <pre>
+    X<sub>máxima</sub> = X<sub>mínima</sub> + res * redondear_por_exceso((X<sub>máxima</sub>-X<sub>mínima)</sub>/res)
+    Y<sub>máxima</sub> = Y<sub>mínima</sub> + res * redondear_por_exceso((Y<sub>máxima</sub>-Y<sub>mínima)</sub>/res)
+</pre>El número de columnas y filas de la imagen final pueden deducirse de:
+  <pre>
+    N<sub>columnas</sub> = (X<sub>máxima</sub>-X<sub>mínima</sub>)/res
+    N<sub>filas</sub> = (Y<sub>máxima</sub>-Y<sub>mínima</sub>)/res
+</pre>El valor de fondo o NODATA es el valor que se escribirá en el fichero
+corregido cuando el fichero a corregir no tenga datos para las celdas de
+salida en aquella posición. El usuario puede decidir el valor de NODATA o
+puede permitir al programa tomar la decisión. En este caso, por defecto, será
+igual al de entrada si existiera o, si en origen no hay, 255 para imágenes
+byte/byte-RLE o el valor negativo más pequeño posible para los demás formatos.
+Si la imagen a corregir era byte/byte-RLE y no tenía NODATA definido, y al
+corregir se generan valores NODATA, por defecto los valores originales válidos
+que en destino corresponden a NODATA se saturarán. En imágenes de 24-bits
+reducidas a 8-bits con paleta optimizada este hecho puede provocar una
+visualización incorrecta y por tanto se da la opción de que el programa
+reclasifique estos valores al índice de color más cercano, de manera que la
+visualización queda prácticamente inalterada.
+
+  <p>El programa soporta modelos digitales de elevaciones de tipo de datos
+  byte, integer (short) y real, comprimidos o no-comprimidos.</p>
+  <hr/>
+
+  <exclusiva>
+  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+ 
+    </ul>Ejemplos:<br/>
+    Para imágenes ráster:
+    <pre>
+CORRGEOM 1 MAP MA2 LANDSAT.img  LND 0 450000 480500 4724500 4750000 30 /NODATA=0
+CORRGEOM 2 MAP NUL LANDSAT.img  LND 1    X      X      X       X    30
+CORRGEOM 4 MAP MA2 LANDSAT.img  ORTOLND 1 MDE30
+CORRGEOM 6 MAP MA2 FOTOSCAN.img ORTOFOT 1 MDE05 400 20 153   1475 1512
+</pre>Para ficheros vectoriales:
+    <pre>
+CORRGEOM 1 MUNIPC_1 MUNIPC_2 MUNI_1.pnt MUNI_COR
+CORRGEOM 2 MUNIPC_1 NUL      MUNI_1.arc MUNI_COR
+CORRGEOM 1 MUNIPC_1 MUNIPC_2 MUNI_1.vec MUNI_COR 0
+</pre><a id="exemples_transformacions" name="exemples_transformacions"></a>
+Para transformaciones geométricas (afines y perspectiva):
+    <pre>
+Translación de 6.5 unidades en dirección vertical positiva:
+CORRGEOM 7 LANDSAT.img  LND 0 T 0 6.5
+</pre>
+    <pre>
+Translación de 7 unidades en dirección horizontal negativa:
+CORRGEOM 7 LANDSAT.img  LND 0 T -7 0
+</pre>
+    <pre>
+Rotación de 45 grados en el sentido horario:
+CORRGEOM 7 LANDSAT.img  LND 0 R 45
+</pre>
+    <pre>
+Rotación de 45 grados en el sentido antihorario:
+CORRGEOM 7 LANDSAT.img  LND 0 R -45
+</pre>
+    <pre>
+Escalado de razón 2 (en las dos direcciones: vertical y horizontal) más rotación horaria de 90 grados:
+CORRGEOM 7 LANDSAT.img  LND 0 E 2 2 R 90
+</pre>
+    <pre>
+Ligera inclinación en la dirección horizontal hacia la derecha:
+CORRGEOM 7 LANDSAT.img  LND 0 I x 0.1
+</pre>
+    <pre>
+Inclinación del 50% en la dirección horizontal hacia la izquierda:
+CORRGEOM 7 LANDSAT.img  LND 0 I x -1
+</pre>
+    <pre>
+Perspectiva de unos puntos situados sobre un raster al cual también se ha efectuado una perspectiva (de 0.5). 
+Suponiendo un envolvente (XMIN, YMIN)=(0,10), (XMAX, YMAX)=(4500, 6000)
+CORRGEOM 7 MUNI_1.pnt MUNI_COR P 0.5 /XMIN=0 /XMAX=4500 /YMIN=10 /YMAX=6000
+De no aplicar los parámetros optativos, los puntos no se adaptarían al raster modificado.
+</pre>
+    <pre>
+Rotación de unos puntos situados sobre un raster al cual también se ha efectuado una rotación (de 45 grados). 
+Suponiendo un envolvente (XMIN, YMIN)=(0,10), (XMAX, YMAX)=(4500, 6000)
+CORRGEOM 7 MUNI_1.pnt MUNI_COR R 45 /XORI=0 /YORI=10
+De no aplicar los parámetros optativos, los puntos no se adaptarían al raster modificado.
+</pre>
+    <pre>
+Escalado de cm a m y después trasladar 4000000 m en las Y's.
+Los argumentos de las transformaciones afines son transformados por el propio programa, por lo tanto, hay que pensarlo como:
+Escalaje de cm a m. Trasladar 400000000 cms en las Y.
+CORRGEOM 7 Fichero.arc Fichero_sal.arc E 100 100 T 0 400000000
+</pre>
+<!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+CORRGEOM ?
+-->
+  </exclusiva>
+
+  <center>
+    <a href="veccor.htm"><img src="veccor.gif"/></a><a href="canviprj.htm"><img src="canviprj.gif"/></a>
+  </center>
+</body>
+</html>

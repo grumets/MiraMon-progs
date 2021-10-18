@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:LinArc:Param01:1</ows:Identifier>
+		<ows:Title>De Arc a VEC (opción 1)</ows:Title>
+		<ows:Abstract>Convierte una familia ARC, de ficheros de arcos topológicamente estructurados, en un fichero VEC, que es un fichero ASCII con líneas que no presentan relaciones topológicas explícitas. El atributo del fichero resultante puede ser el identificador gráfico, un atributo constante o un campo de la base de datos del fichero ARC (A.REL y A.DBF). El programa soporta que exista más de un registro de la base de datos para cada elemento gráfico, y en este caso escribe tantos vectores coincidentes como registros existen para aquél elemento gráfico; cada vector tendrá uno de los múltiples atributos.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Conversión entre ficheros VEC (líneas) y ficheros ARC/NOD"/>
+		<ows:Metadata xlink:title="Abstract:Este programa hace la transformación entre ficheros vectoriales de líneas de tipo VEC y ficheros ARC y NOD del formato vectorial estructurado Top-MM. Ambos formatos son soportados por MiraMon. Los ficheros VEC son una ampliación de los ficheros VEC de Idrisi."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Convierte un fichero ARC a un fichero VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>F_Arc_in</ows:Identifier>
+				<ows:Title>Fichero Arc</ows:Title>
+				<ows:Abstract>Es el nombre de un fichero ARC de entrada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:F_Arco_in"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NDigits</ows:Identifier>
+				<ows:Title>Numero de dígitos</ows:Title>
+				<ows:Abstract>Es el número de dígitos decimales usados para escribir las coordenadas; por defecto es 6.</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:NDigitos"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>6</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Nombre de la tabla</ows:Title>
+				<ows:Abstract>Indica la tabla de la base de datos que se exporta a formato VEC. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de sintaxis general.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Nombre de campo</ows:Title>
+				<ows:Abstract>Indica el camp de la base de datos que se exporta a formato VEC. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de sintaxis general.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SI_EN_BLANC</ows:Identifier>
+				<ows:Title>Campo en blanco</ows:Title>
+				<ows:Abstract>Indica el comportamiento que tendrá la exportación a VEC cuando no exista atributo en la base de datos (campo en blanco). Puede valer "CONSTANT" para un valor constante, "ID_GRAFIC" para identificador gráfico o "IGNORAR" para ignorar los vectores sin atributo (valor por defecto).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ID_GRAFIC</ows:Value>
+						<ows:Value>CONSTANT</ows:Value>
+						<ows:Value>IGNORAR</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>IGNORAR</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATRIBUT_CONSTANT</ows:Identifier>
+				<ows:Title>Valor Constante</ows:Title>
+				<ows:Abstract>Indica la constante que quiere exportar a formato VEC como atributo de los objetos. Si se usa en combinación con /TAULA=, /CAMP= y /SI_EN_BLANC=CONSTANT es el atributo que se usará cuando no haya datos (campo en blanco).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ALCADA</ows:Identifier>
+				<ows:Title>Altura</ows:Title>
+				<ows:Abstract>Indica cual de las posibles alturas se escribe en el VEC. Para saber más sobre los valores de este parámetro siga las consideraciones del documento de sintaxis general.</ows:Abstract>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajustar envolvente</ows:Title>
+				<ows:Abstract>Ajusta el envolvente documentado en los metadatos al mínimo rectángulo (opciones 1, 2,3).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>F_Vec</ows:Identifier>
+				<ows:Title>Fichero VEC</ows:Title>
+				<ows:Abstract>Es el nombre de un fichero VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:F_Vec"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:LinArc:Param01:2</ows:Identifier>
+		<ows:Title>De VEC a ARC/NOD (opción 2)</ows:Title>
+		<ows:Abstract>Estructura topológicamente, creando nodos donde intersecan los arcos y conectando aquellos que están por debajo del límite de la tolerancia. Posteriormente guarda una familia topológica ARC/NOD. Los ficheros origen pueden ser un solo fichero VEC, un solo fichero ARC o un conjunto de ficheros VEC y ARC, explicitados en un fichero lista. Esta última posibilidad permite la superposición (overlay) de capas de arcos. Los campos de la base de datos originales se combinan en la base de datos de salida A.DBF, fusionándose en uno solo cuando tienen el mismo nombre (promocionándose a un tipo y tamaño compatible entre ellos) o restando como campos separados en caso de tener nombres diferentes. Los campos de las posibles bases de NODOS originales no se heredan en la de salida. Un fichero VEC se trata como una base de datos de un solo campo del tipo indicado en su fichero de documentación o con el nombre del campo que figura en la línea de comandos o en la lista.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Convierte un fichero VEC o ARC/NOD a una familia ARCO/NODO mediante estructuración topológica. Admite una sintaxis ampliada para matizar las diferentes tolerancias.</ows:Abstract>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>F_Ori</ows:Identifier>
+				<ows:Title>Fichero Ori</ows:Title>
+				<ows:Abstract>Es el nombre de un fichero VEC (con o sin extensión), de un fichero ARC indicando su extensión o de un fichero lista (con extensión diferente de VEC o ARC) descrito más abajo. En este último caso los parámetros DescriptorCampo y NombreCampo son ignorados.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:F_Ori"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>T_Arc</ows:Identifier>
+				<ows:Title>Tolerancia Entre Arcos</ows:Title>
+				<ows:Abstract>Distancia que un vértice se mueve (fig 1.b1) o un segmento se puede doblar, generándose un nuevo vértice (fig 2.b2) para conectar con otro (implica una relación entre un arco y los otros).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:T_Arco"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DescriptorCamp</ows:Identifier>
+				<ows:Title>Descriptor del campo</ows:Title>
+				<ows:Abstract>Es una cadena de texto (hace falta poner cometas si lleva espacio) que describe el campo Atributo (máximo 40 carácteres); per defecto esta vacío.</ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:DescriptorCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre del campo</ows:Title>
+				<ows:Abstract>Es el nombre del campo de la base de datos (A.DBF) a crear donde se escribirá el atributo del fichero VEC (obligatorio para VEC's).</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Prec</ows:Identifier>
+				<ows:Title>Tolerancia de Precisión</ows:Title>
+				<ows:Abstract>Mínima distancia entre vértices. Ha de ser un valor muy pequeño, prácticamente infinitesimal.</ows:Abstract>
+				<ows:Metadata xlink:title="Param07"/>
+				<ows:Metadata xlink:title="Name:Prec"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T_Psgen</ows:Identifier>
+				<ows:Title>Tolerancia de pseudogeneralización</ows:Title>
+				<ows:Abstract>Tolerancia para eliminar vértices situados sobre un mismo trazado rectilíneo. (Es una definición local en cada arco)</ows:Abstract>
+				<ows:Metadata xlink:title="Param08"/>
+				<ows:Metadata xlink:title="Name:T_Psgen"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T_Esc</ows:Identifier>
+				<ows:Title>Tolerancia de acortamiento (Arc snap tolerance)</ows:Title>
+				<ows:Abstract>Distancia que un arco se puede alargar para conectar con un otro. (Implica una relación entre un arco y los otros)</ows:Abstract>
+				<ows:Metadata xlink:title="Param09"/>
+				<ows:Metadata xlink:title="Name:T_Esc"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T_Nod</ows:Identifier>
+				<ows:Title>Tolerancia entre nodos</ows:Title>
+				<ows:Abstract>Distancia mínima entre dos nodos. Es la distancia a la que un nodo absorbe o es absorbido por sus vecinos. (Implica una relación entre un nodo y los otros.)</ows:Abstract>
+				<ows:Metadata xlink:title="Param10"/>
+				<ows:Metadata xlink:title="Name:T_Nod"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T_Allg</ows:Identifier>
+				<ows:Title>Tolerancia de alargamiento</ows:Title>
+				<ows:Abstract>Los arcos que son más cortos que esta tolerancia serán eliminados si presentan uno o dos nodos finales. (Es una definición local a un solo arco)</ows:Abstract>
+				<ows:Metadata xlink:title="Param11"/>
+				<ows:Metadata xlink:title="Name:T_Allg"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajustar envolvente</ows:Title>
+				<ows:Abstract>Ajusta el envolvente documentado en los metadatos al mínimo rectángulo (opciones 1, 2,3).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ALGORISME</ows:Identifier>
+				<ows:Title>Algoritmo</ows:Title>
+				<ows:Abstract>Éste parámetro sirve para determinar el tipo de algortimo que la aplicación usará para recortar los vectores durante la estructuración topológica. <![CDATA[<ul><li>ESCOMBRATGE: basado en la intersección de segmentos de Bentley-Ottmann. </li><li>DIRECTE: basado en la exploración de todos los segmentos contra todos para determinar las intersecciones entre vectores en la estructuración topológica.</li><li> AUTOMATIC: el programa decide automáticamente qual de los dos algoritmos usará. </li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ESCOMBRATGE</ows:Value>
+						<ows:Value>DIRECTE</ows:Value>
+						<ows:Value>AUTOMATIC</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>AUTOMATIC</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>F_Arc_out</ows:Identifier>
+				<ows:Title>Fitxero Arc</ows:Title>
+				<ows:Abstract>Es el nombre de un fichero ARC de salida</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:F_Arco_out"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:LinArc:Param01:3</ows:Identifier>
+		<ows:Title>De VEC a ARC/NOD (opción 3)</ows:Title>
+		<ows:Abstract>Convierte del formato VEC a una familia topológica ARC/NOD. Esta opción trabaja igual que la anterior a excepción que alberga ninguna fase de estructuración topológica. El único cambio en la geometría del fichero original es el siguiente: dados dos nodos a distancia inferior a la tolerancia, se considerarán el mismo nodo; la posición del segundo nodo coincidente se modificará igualándola a la del primero.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Convierte un fichero VEC con relaciones topológicas implícitas a una familia ARCO/NODO.</ows:Abstract>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>F_Ori</ows:Identifier>
+				<ows:Title>Fichero Ori</ows:Title>
+				<ows:Abstract>Es el nombre de un fichero VEC (con o sin extensión), de un fichero ARC indicando su extensión o de un fichero lista (con extensión diferente de VEC o ARC) descrito más abajo. En este último caso los parámetros DescriptorCampo y NombreCampo son ignorados.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:F_Ori"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>T_Arc</ows:Identifier>
+				<ows:Title>Tolerancia Entre Arcos</ows:Title>
+				<ows:Abstract>Distancia que un vértice se mueve (fig 1.b1) o un segmento se puede doblar, generándose un nuevo vértice (fig 2.b2) para conectar con otro (implica una relación entre un arco y los otros).</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:T_Arco"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DescriptorCamp</ows:Identifier>
+				<ows:Title>Descriptor del campo</ows:Title>
+				<ows:Abstract>Es una cadena de texto (hace falta poner cometas si lleva espacio) que describe el campo Atributo (máximo 40 carácteres); per defecto esta vacío.</ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:DescriptorCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre del campo</ows:Title>
+				<ows:Abstract>Es el nombre del campo de la base de datos (A.DBF) a crear donde se escribirá el atributo del fichero VEC (obligatorio para VEC's).</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Prec</ows:Identifier>
+				<ows:Title>Tolerancia de Precisión</ows:Title>
+				<ows:Abstract>Mínima distancia entre vértices. Ha de ser un valor muy pequeño, prácticamente infinitesimal.</ows:Abstract>
+				<ows:Metadata xlink:title="Param07"/>
+				<ows:Metadata xlink:title="Name:Prec"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T_Psgen</ows:Identifier>
+				<ows:Title>Tolerancia de pseudogeneralización</ows:Title>
+				<ows:Abstract>Tolerancia para eliminar vértices situados sobre un mismo trazado rectilíneo. (Es una definición local en cada arco)</ows:Abstract>
+				<ows:Metadata xlink:title="Param08"/>
+				<ows:Metadata xlink:title="Name:T_Psgen"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T_Esc</ows:Identifier>
+				<ows:Title>Tolerancia de acortamiento (Arc snap tolerance)</ows:Title>
+				<ows:Abstract>Distancia que un arco se puede alargar para conectar con un otro. (Implica una relación entre un arco y los otros)</ows:Abstract>
+				<ows:Metadata xlink:title="Param09"/>
+				<ows:Metadata xlink:title="Name:T_Esc"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T_Nod</ows:Identifier>
+				<ows:Title>Tolerancia entre nodos</ows:Title>
+				<ows:Abstract>Distancia mínima entre dos nodos. Es la distancia a la que un nodo absorbe o es absorbido por sus vecinos. (Implica una relación entre un nodo y los otros.)</ows:Abstract>
+				<ows:Metadata xlink:title="Param10"/>
+				<ows:Metadata xlink:title="Name:T_Nod"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>T_Allg</ows:Identifier>
+				<ows:Title>Tolerancia de alargamiento</ows:Title>
+				<ows:Abstract>Los arcos que son más cortos que esta tolerancia serán eliminados si presentan uno o dos nodos finales. (Es una definición local a un solo arco)</ows:Abstract>
+				<ows:Metadata xlink:title="Param11"/>
+				<ows:Metadata xlink:title="Name:T_Allg"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajustar envolvente</ows:Title>
+				<ows:Abstract>Ajusta el envolvente documentado en los metadatos al mínimo rectángulo (opciones 1, 2,3).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>F_Arc_out</ows:Identifier>
+				<ows:Title>Fitxero Arc</ows:Title>
+				<ows:Abstract>Es el nombre de un fichero ARC de salida</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:F_Arco_out"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:LinArc:Param01:4</ows:Identifier>
+		<ows:Title>Fusiona (opción 4)</ows:Title>
+		<ows:Abstract>Fusiona parejas con sus atributos temáticos iguales de arcos que comparten un nodo y, a la vez, ningún otro arco no coincide con el nodo. Esta operación no realiza estructuración topológica (no parte arcos, ni realiza conexiones, etc). Suele ser conveniente al importar ficheros de otros formatos que presentan limitaciones en el número de vértices por objeto y se ven obligados a hacer más de un objeto por tira de vértices ya que al no tener en MiraMon prácticamente ninguna limitación con lo que respecta al número de vértices por arco, es conceptualmente mejor unir los arcos contiguos; obsérvese que una estructuración convencional podría generar intersecciones no deseadas (por ejemplo carreteras a dos niveles que pasasen a tener un cruce a nivel).</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Fusiona parejas de arcos con sus atributos temáticos iguales que comparten un nodo y, a la vez, ningún otro arco coincide con el nodo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>4</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>F_Arc_in</ows:Identifier>
+				<ows:Title>Fichero Arc</ows:Title>
+				<ows:Abstract>Es el nombre de un fichero ARC de entrada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:F_Arco_in"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>F_Arc_out</ows:Identifier>
+				<ows:Title>Fitxero Arc</ows:Title>
+				<ows:Abstract>Es el nombre de un fichero ARC de salida</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:F_Arco_out"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:LinArc:Param01:5</ows:Identifier>
+		<ows:Title>Análisis de distancias mínimas (opción 5)</ows:Title>
+		<ows:Abstract>Analiza las distancias mínimas locales entre arcos. Genera una tabla que puede ser representada en forma de histograma de frecuencias de distancias mínimas; útil para determinar los umbrales de tolerancia de acortamientos que hay que aplicar en la opción 2. También genera un fichero VEC de segmentos (líneas) que unen los puntos entre los diferentes arcos que están a distancias mínimas comprendidas entre UmbralMínimo y UmbralMáximo. Este fichero permite ver representados todos los movimientos que se producirán entre los arcos al aplicar la opción 2 y determinar el porcentaje de errores resueltos correctamente de manera automática.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Análisis de distancias mínimas entre vectores. Las distancias estudiadas están comprendidas en el intervalo [UmbralMínimo,UmbralMáximo] y el histograma define PuntosDécada intervalos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>5</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>5</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>F_Ori</ows:Identifier>
+				<ows:Title>Fitxer  Origen</ows:Title>
+				<ows:Abstract>Es el nombre de un fichero VEC (con o sin extensión), de un fichero ARC indicando su extensión o de un fichero lista (con extensión diferente de VEC o ARC) descrito más abajo. En este último caso los parámetros DescriptorCampo y NombreCampo son ignorados.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:F_Ori"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>LlindarMinim</ows:Identifier>
+				<ows:Title>Umbral Mínimo</ows:Title>
+				<ows:Abstract>Umbral Mínimo en el análisis de distancias mínimas.</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:UmbralMinimo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>LlindarMaxim</ows:Identifier>
+				<ows:Title>Umbral Máximo</ows:Title>
+				<ows:Abstract>Umbral Máximo en el análisis de distáncias mínimas.</ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:UmbralMaximo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PuntsDecada</ows:Identifier>
+				<ows:Title>Puntos Década</ows:Title>
+				<ows:Abstract>Puntos Década.</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
+				<ows:Metadata xlink:title="Name:PuntosDecada"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>F_Resultat</ows:Identifier>
+				<ows:Title>Fichero Resultado</ows:Title>
+				<ows:Abstract>Es el nombre de la tabla CSV (texto separado por ";") que contiene el histograma de distancias y del fichero VEC de distancias.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:F_Resultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>text/csv</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/csv</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

@@ -1,0 +1,104 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>BDPNT: Extracció de punts PNT a partir d'una base de dades</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>Això és particularment útil quan es disposa d'una taula que
+  descriu per a cada registre la localització (X,Y) del punt i un o més
+  atributs (per exemple nivells de contaminants en pous). En aquest cas es pot
+  convertir la taula en una capa d'informació gràfica (PNT) amb la seva
+  informació alfanumèrica associada (mantenint el lligam a la base de dades
+  original o bé exportant les dades a una taula DBF associada al fitxer de
+  punts).</p>
+
+  <p>La taula pot residir en qualsevol base de dades, p.e. DBF, ACCESS,
+  ORACLE, DB2, EXCEL. Per a totes aquelles bases de dades diferents a DBF,
+  l'accés es realitza mitjançant ODBC (<i>Open DataBase Connectivity</i>).
+  És possible adreçar-s'hi  directament a aquelles bases de dades localitzades en un fitxer (p.e. fitxers MDB
+  d'ACCESS, fitxers XLS d'EXCEL, etc).
+  Per aquelles bases de dades residents en un servidor (p.e. ORACLE, INFORMIX,
+  DB2, etc) cal utilitzar un fitxer especial, el fitxer DSN (<i>Data Source
+  Name</i>), que es pot generar amb l'eina &quot;<i>Orígenes de Datos (ODBC)</i>&quot;
+  del mateix WINDOWS (es pot cercar ODBC a l'ajuda de WINDOWS per a més
+  informació). En els casos en què s'accedeix a una base de dades via ODBC
+  es pot optar per indicar qualsevol taula o vista (consulta predefinida)
+  existent a la base de dades o bé optar per utilitzar una sentència SQL que
+  generi dinàmicament la taula desitjada.</p>
+
+  <p>Un cas particular d'aplicació d'aquest programa és la recuperació
+  de les etiquetes que es van fer servir per a assignar atributs a una capa de
+  polígons, ja que la base de polígons (P.DBF) sovint conté, en els camps MAPX
+  i MAPY, les coordenades de les etiquetes.</p>
+
+  <p>La taula origen, doncs, pot ser una taula en format DBF, una taula DBF
+  associada a una base de polígons (P.DBF), o una taula en qualsevol base de
+  dades (ACCESS, EXCEL, ORACLE, DB2, SQL-Server, etc). En qualsevol cas, la
+  taula origen ha de presentar dos camps que continguin, respectivament, les
+  coordenades X i Y del punt. Quan s'extreuen els punts d'un DBF o
+  d'una taula en qualsevol base de dades genèrica, aquests camps poden
+  tenir qualsevol nom; en canvi, s'han de dir MAPX i MAPY quan es tracta
+  del DBF associat a una base de polígons (opció per defecte en el procés
+  d'estructuració topològica del MiraMon).</p>
+
+  <p>Quan s'extreuen els punts d'un DBF o d'una taula en una base
+  de dades genèrica qualsevol, s'exporten tots els camps cap a la base de
+  punts (T.DBF) només en aquells casos que s'ha indicat que no es vol
+  mantenir el lligam amb la base de dades original. En canvi, quan
+  s'extreuen les etiquetes d'un fitxer de polígons estructurat
+  topològicament (P.DBF), només s'exportaran al T.DBF aquells camps que NO
+  fan referència a les característiques geomètriques ni topològiques dels
+  polígons (els camps com AREA, PERIMETRE, N_VERTEXS, etc, no
+  s'exporten.). Si és necessari escollir només alguns camps cal utilitzar una
+  sentència SQL via ODBC.</p>
+
+  <p>Els camps que contenen les coordenades X i Y dels punts poden ser de
+  tipus numèric (N) (p.e. contenir la coordenada Y en UTM-31N 4500120.0 o bé
+  en graus decimals 12.01 graus) o de tipus caràcter (C). En aquest darrer
+  cas, se suporta el format de graus, minuts i segons amb la següent forma: Gº
+  M' S&quot;.</p>
+
+  <p>Al final de l'extracció dels punts de la base de dades el programa
+  aplica la tolerància demanada per l'usuari. En el cas que, com a
+  resultat d'aplicar la tolerància, es fusionin punts, es genera registre
+  múltiple a la base de dades associada als punts, excepte quan el contingut
+  dels registres és idèntic. En el cas de mantenir el lligam a la base de
+  dades original via ODBC, aquest registre múltiple es crea de manera natural:
+  en aquest cas no s'intenta eliminar els registres idèntics.</p>
+
+<hr/>
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<BR><BR>
+<B>NOTES:</B><BR>
+<B>En el cas de fitxers de tipus DBF:</B><BR>
+Els noms dels camps CAMPX, CAMPY, CAMPID han de seguir les especificacions del format DBF.<BR>
++ Els caràcters vàlids són: lletres majúscules [A-Z], xifres [0-9] i el caràcter '_', 
+però no a l'inici.<BR>
++ No es toleren espais en blanc.<BR>
++ El màxim nombre de caràcters és 10.<BR><BR>
+
+<B>En el cas de bases de dades via ODBC:</B><BR>
++ Si els noms dels camps CAMPX, CAMPY, CAMPID no compleixen els estàndards de dBase, 
+són modificats, i el nom original passa a ser el descriptor del camp en el REL.<BR>
++ En el cas que s'utilitzi una sentència SQL, es poden utilitzar àlies pels noms dels camps.<BR><BR>
+<B>Per exemple:</B><BR>
+/CAMPX=X<BR>
+/CAMPY=Y<BR>
+/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntitat AS IDE FROM FitxerAmbLesDades.TXT"<BR><BR>
+
+   <!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+BDPNT ?
+-->
+  </exclusiva>
+</body>
+</html>

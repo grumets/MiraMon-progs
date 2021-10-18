@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ErrorMDT:1</ows:Identifier>
+		<ows:Title>ErrorMDT</ows:Title>
+		<ows:Abstract>Este módulo busca localizaciones en un Modelo Digital del Terreno (MDT) que contienen valores candidatos a ser considerados errores.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Detección d'errores en un MDT"/>
+		<ows:Metadata xlink:title="Abstract:Este módulo busca localizaciones en un Modelo Digital del Terreno (MDT) que contienen valores candidatos a ser considerados errores."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MDT</ows:Identifier>
+				<ows:Title>Modelo Digital de Elevaciones</ows:Title>
+				<ows:Abstract>Modelo Digital de Elevacions en formato raster.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:MDT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>VectorErrors</ows:Identifier>
+				<ows:Title>Vector Errores</ows:Title>
+				<ows:Abstract>Vector de puntos en formato VEC con las localizaciones de las celdas con diferencias elevadas (por encima del valor marcado por la t de Student).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:VectorErrores"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>tStudent</ows:Identifier>
+				<ows:Title>Valor tStudent</ows:Title>
+				<ows:Abstract>Valor de la t de Student para el nivel de significación deseado (por ejemplo, para a 0.01 vale 2.576, y para 0.001 vale 3.291).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:tStudent"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>nVeins</ows:Identifier>
+				<ows:Title>Numero de  vecinos</ows:Title>
+				<ows:Abstract>Número de vecinos utilizado para efectuar la interpolación. Se recomienda usar 8 vecinos.<![CDATA[<ul><li>4: 4 vecinos</li><li>8: 8 vecinos</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:nVecinos"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>4</ows:Value>
+						<ows:Value>8</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIFER_TXT</ows:Identifier>
+				<ows:Title>Lista Diferencias</ows:Title>
+				<ows:Abstract>Lista de les diferencias superiores a la t de Student indicada.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-txt</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-txt</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>RasterDiferencies</ows:Identifier>
+				<ows:Title>Raster Diferencias</ows:Title>
+				<ows:Abstract>Raster en formato IMG de reales con las diferencias entre el MDT y los valores interpolados localmente.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:RasterDiferencias"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CICLAR:Param1:1</ows:Identifier>
+		<ows:Title>Opción 1</ows:Title>
+		<ows:Abstract>Realiza un ciclado de todos los arcos presentes.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Creación de polígonos con estructura topológica"/>
+		<ows:Metadata xlink:title="Abstract:Este programa trabaja sobre una familia de ficheros topológicamente estructurados de arcos (ARC) y nodos (NOD) para dar lugar a una familia de ficheros topológicamente estructurados de polígonos (POL)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Ciclado total.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerArcOrigen</ows:Identifier>
+				<ows:Title>Fichero arco de origen</ows:Title>
+				<ows:Abstract>Fichero estructurado tipo ARC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroArcOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>IGNORAR</ows:Identifier>
+				<ows:Title>Descartar arcos ciclables</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>ENDNODES: Antes del ciclado se seleccionan los arcos ciclables, descartando los arcos que presentan nodos finales.</li><li>HALTERS: Como ENDNODES, pero, además, durante el ciclado se descartan los arcos con el mismo polígono a ambos lados (mancuernas).</li><li> Si no se indica el programa no se tolera la presencia de nodos finales ni de mancuernas en la base de arcos y para el proceso de ciclado si existen.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ENDNODES</ows:Value>
+						<ows:Value>HALTERS</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Fchero resultado del ciclado</ows:Title>
+				<ows:Abstract>El programa genera un fichero POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroPolDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CICLAR:Param1:2</ows:Identifier>
+		<ows:Title>Opción 2</ows:Title>
+		<ows:Abstract>Se basa en un campo lógico (L) de la base de datos. Si dice 'TRUE', el arco es ciclable, y si dice 'FALSE' el arco es ignorado en el proceso de ciclado. Si la base de datos contiene un solo campo lógico se usa éste, y si hay varios, se pregunta qué campo hay que utilizar. Esto es útil para excluir ciertos arcos del ciclado de polígonos.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Ciclado selectivo en función de un campo lógico de la base de datos indicado con /TAULA_ARC=n y /CAMP_ARC=m o con una selección.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerArcOrigen</ows:Identifier>
+				<ows:Title>Fichero arco de origen</ows:Title>
+				<ows:Abstract>Fichero estructurado tipo ARC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroArcOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>IGNORAR</ows:Identifier>
+				<ows:Title>Descartar arcos ciclables</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>ENDNODES: Antes del ciclado se seleccionan los arcos ciclables, descartando los arcos que presentan nodos finales.</li><li>HALTERS: Como ENDNODES, pero, además, durante el ciclado se descartan los arcos con el mismo polígono a ambos lados (mancuernas).</li><li> Si no se indica el programa no se tolera la presencia de nodos finales ni de mancuernas en la base de arcos y para el proceso de ciclado si existen.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ENDNODES</ows:Value>
+						<ows:Value>HALTERS</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_ARC</ows:Identifier>
+				<ows:Title>Índice de la taula que contiene el campo lógico</ows:Title>
+				<ows:Abstract>Índice que indica qual es la tabla de la base de datos que contiene el campo lógico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_ARC</ows:Identifier>
+				<ows:Title>Índice del campo que actúa de campo lógico.</ows:Title>
+				<ows:Abstract>Índice que indica qual es el campo de la tabla indicada con /TAULA_ARC=n que contiene el campo lógico a usar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
+				<ows:Title>Campo de la condición #</ows:Title>
+				<ows:Abstract>Nombre del campo de la # condición de la selección. Pueden haber hasta 100 condiciones y por tanto, hasta 100 nombres de campo (COND#_CAMP) empezando por el índice 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Operador de la condición #</ows:Title>
+				<ows:Abstract>Operador a usar en la # condición de la selección. Pueden haber hasta 100 condiciones y por tanto hasta 100 operadores (COND#_OP)  empezando por el índice 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>LT</ows:Value>
+						<ows:Value>GT</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Valor de la condición  #</ows:Title>
+				<ows:Abstract>Valor a usar en la # condición de la selección. Pueden haber hasta 100 condiciones y por tanto hasta 100 valores (COND#_VALOR)  empezando por el índice 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Nexo de la condición #</ows:Title>
+				<ows:Abstract>Nexo a usar para enllazar entre sucesivas condiciones de selección. En este caso entre la condición # y  la condición #+1.  Pueden haber hasta 100 condiciones y por tanto hasta 99 nexos (COND#_NEXE)  empezando por el índice 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Prioridad del nexo de la condición #</ows:Title>
+				<ows:Abstract>Prioridad del nexo a usar para enllazar entre sucesivas condiciones de selección. En este caso entre la condición # y  la condición #+1.  Pueden haber hasta 100 condiciones y por tanto hasta 99 prioridades (COND#_PRIOR)  empezando por el índice 1. Es un parámetro optativo. Si no se indica la prioridad es, simplemente, el orden.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Fchero resultado del ciclado</ows:Title>
+				<ows:Abstract>El programa genera un fichero POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroPolDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CICLAR:Param1:3</ows:Identifier>
+		<ows:Title>Opción 3</ows:Title>
+		<ows:Abstract><![CDATA[Realiza un reciclado de un fichero de polígonos ya ciclado totalmente y en el cual se han incluido atributos temáticos p. ej. con ATRITOP. La idea es construir nuevos polígonos, más generales, a partir de los arcos que tienen diferente atributo a lado y lado del arco.<p><ul>Ejemplo:</ul><ul>A partir de un fichero de municipios, en la base de datos del cual figura un campo que indica a qué comarca pertenece cada municipio, CICLAR 3 puede generar el fichero de polígonos correspondientes a las comarcas, en el cual sólo se usan los arcos que actúan como frontera comarcal (que son los que tienen una comarca -atributo- diferente a cada lado del arco).</ul><p>El criterio de selección es realiza a partir de un camp de la base de datos o de todos los campos no geométrico-topológicos. Sólo se consideran ciclables los arcos que tienen un valor de campo diferente a cada lado del arco en el fichero de polígonos de partida.]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Reciclado de polígonos con arcos con los mismos atributos a ambos lados. Se puede realizar en función de un campo de la base de datos de FicheroPolOrigen (cualquier campo de cualquier tabla de la base de datos).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Fichero poligono estructurado</ows:Title>
+				<ows:Abstract>Fichero estructurado tipo POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroPolOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Selección de una tabla en el formato vectorial pol</ows:Title>
+				<ows:Abstract><![CDATA[Indican la tabla y el campo de la base de datos del criterio de selección (opciones 3 y 4) o indique el campo de la base de datos que se exporta a formato VEC (opción 8). Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Selección de un campo de la tabla en el formato vectorial pol</ows:Title>
+				<ows:Abstract><![CDATA[Indican la tabla y el campo de la base de datos del criterio de selección (opciones 3 y 4) o indique el campo de la base de datos que se exporta a formato VEC (opción 8). Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_AREA</ows:Identifier>
+				<ows:Title>Nombre del campo que contendrá el campo del area</ows:Title>
+				<ows:Abstract>Es el nombre del campo que contiene o desea que contenga el área parcial de cada registro de los polígonos resultates en caso que presenten registro múltiple. Este campo permitirá conocer el área ocupada por cada registro antes de la fusión de los polígonos. En el caso de no existir el campo el programa lo crea.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_AREA_TPERCENT</ows:Identifier>
+				<ows:Title>Nombre del campo que contendrá el porcentaje de recubrimiento por registro</ows:Title>
+				<ows:Abstract>Se indica que se desea generar un campo con el porcentaje de recubrimiento para cada registro de los eventuales multiregistros de la de la tabla principal de atributos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Fchero resultado del ciclado</ows:Title>
+				<ows:Abstract>El programa genera un fichero POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroPolDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CICLAR:Param1:4</ows:Identifier>
+		<ows:Title>Opción 4</ows:Title>
+		<ows:Abstract>Genera grupos de polígonos a partir de un fichero ya ciclado totalmente a partir de un atributo temático preexistente. Un fichero de grupos de polígonos es aquel que aglutina en una sola entidad (un solo polígono) todos aquellos polígonos que tienen una propiedad en común (un atributo igual). Así por ejemplo, en un mapa de comarcas, podría ser interesante que todos los enclaves e islas que pertenecen a una comarca dada formaran parte de una única entidad. Esto quiere decir que al consultar por localización sobre un polígono perteneciente a una reserva natural dividida en varias zonas no conectadas entre sí es de esperar que todas las islas que pertenecen a esta localidad se iluminen, y que el área, perímetro, etc se den también respecto al conjunto de polígonos elementales. El criterio de selección es realiza a partir de un camp de la base de datos o de todos los campos no geométrico-topológicos.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Obtención de grupos de polígonos en función de un campo de la base de datos de FicheroPolOrigen (cualquier campo de cualquier tabla de la base de datos).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Fichero poligono estructurado</ows:Title>
+				<ows:Abstract>Fichero estructurado tipo POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroPolOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Selección de una tabla en el formato vectorial pol</ows:Title>
+				<ows:Abstract><![CDATA[Indican la tabla y el campo de la base de datos del criterio de selección (opciones 3 y 4) o indique el campo de la base de datos que se exporta a formato VEC (opción 8). Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Selección de un campo de la tabla en el formato vectorial pol</ows:Title>
+				<ows:Abstract><![CDATA[Indican la tabla y el campo de la base de datos del criterio de selección (opciones 3 y 4) o indique el campo de la base de datos que se exporta a formato VEC (opción 8). Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_AREA</ows:Identifier>
+				<ows:Title>Nombre del campo que contendrá el campo del area</ows:Title>
+				<ows:Abstract>Es el nombre del campo que contiene o desea que contenga el área parcial de cada registro de los polígonos resultates en caso que presenten registro múltiple. Este campo permitirá conocer el área ocupada por cada registro antes de la fusión de los polígonos. En el caso de no existir el campo el programa lo crea.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_AREA_TPERCENT</ows:Identifier>
+				<ows:Title>Nombre del campo que contendrá el porcentaje de recubrimiento por registro</ows:Title>
+				<ows:Abstract>Se indica que se desea generar un campo con el porcentaje de recubrimiento para cada registro de los eventuales multiregistros de la de la tabla principal de atributos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Fchero resultado del ciclado</ows:Title>
+				<ows:Abstract>El programa genera un fichero POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroPolDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CICLAR:Param1:5</ows:Identifier>
+		<ows:Title>Opción 5</ows:Title>
+		<ows:Abstract><![CDATA[Realiza un reciclado de un fichero de polígonos ya ciclado totalmente. En este caso agrupa en un solo polígono más general los polígonos que se tocan por un nodo y compartan los mismos atributos temàticos. 
+	<ul>Ejemplos:</ul><ul>Imaginemos un fichero ráster que presente elementos lineales de ancho similar al tamaño de píxel que tengan trazado diagonal (carreteras o rios). Si se vectoriza esta capa para conseguir polígonos, estas lineas suelen quedar como secuencias de polígonos cuadrados de un solo píxel que se tocan por un nodo. Este modo une todos estos polígonos en uno, representando mejor cada entidad.</ul><p>El criterio de selección se realiza a partir de un campo de la base de datos o de todos los campos no geométrico-topológicos (considerando los registros múltiples si los hubiera). Sólo se consideran ciclables los arcos que tienen un valor de campo diferente a cada lado del arco en el fichero de polígonos de partida.]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Reciclado de polígonos que comparten un nodo y tienen los mismos atributos. Se puede realizar en función de todos los campos no geométrico-topológicos o en función de un campo de la base de datos de FitxerPolOrigen (cualquier campo de cualquier tabla de la base de datos). Genera grupos de polígonos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>5</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Fichero poligono estructurado</ows:Title>
+				<ows:Abstract>Fichero estructurado tipo POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroPolOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Selección de una tabla en el formato vectorial pol</ows:Title>
+				<ows:Abstract><![CDATA[Indican la tabla y el campo de la base de datos del criterio de selección (opciones 3 y 4) o indique el campo de la base de datos que se exporta a formato VEC (opción 8). Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Selección de un campo de la tabla en el formato vectorial pol</ows:Title>
+				<ows:Abstract><![CDATA[Indican la tabla y el campo de la base de datos del criterio de selección (opciones 3 y 4) o indique el campo de la base de datos que se exporta a formato VEC (opción 8). Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_AREA</ows:Identifier>
+				<ows:Title>Nombre del campo que contendrá el campo del area</ows:Title>
+				<ows:Abstract>Es el nombre del campo que contiene o desea que contenga el área parcial de cada registro de los polígonos resultates en caso que presenten registro múltiple. Este campo permitirá conocer el área ocupada por cada registro antes de la fusión de los polígonos. En el caso de no existir el campo el programa lo crea.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_AREA_TPERCENT</ows:Identifier>
+				<ows:Title>Nombre del campo que contendrá el porcentaje de recubrimiento por registro</ows:Title>
+				<ows:Abstract>Se indica que se desea generar un campo con el porcentaje de recubrimiento para cada registro de los eventuales multiregistros de la de la tabla principal de atributos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>IGNORAR</ows:Identifier>
+				<ows:Title>Descartar arcos ciclables</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>ENDNODES: Antes del ciclado se seleccionan los arcos ciclables, descartando los arcos que presentan nodos finales.</li><li>HALTERS: Como ENDNODES, pero, además, durante el ciclado se descartan los arcos con el mismo polígono a ambos lados (mancuernas).</li><li> Si no se indica el programa no se tolera la presencia de nodos finales ni de mancuernas en la base de arcos y para el proceso de ciclado si existen.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ENDNODES</ows:Value>
+						<ows:Value>HALTERS</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Fchero resultado del ciclado</ows:Title>
+				<ows:Abstract>El programa genera un fichero POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroPolDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CICLAR:Param1:6</ows:Identifier>
+		<ows:Title>Opción 6</ows:Title>
+		<ows:Abstract>Hace un ciclado de ficheros de arcos para generar un fichero de grupos de polígonos no topológicos (que se puede presentar superposiciones de objectos). Primero se realitza una proyección del campo de la base de arcos que sirve para a generar polígonos. Para cada atributo diferente de este campo se realitza una selección de los arcos que tienen este atributo y se ciclan totalmente. Cada uno de estos ciclados independientes és incluidos dentro del fichero de grupos de polígonos final; en esta operación pueden aparecer las superposiciones citadas. El orden de superposición de los diferentes atributos se puede controlar a partir de un fichero de orden. Tambien hay la possibilidad de generar un solo grupo para cada atributo (con todos los polígonos del mismo atributo formando un solo objeto).</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Obtención de grupos de polígonos no topológicos en función de un campo de la base de datos de FicheroArcOrigen indicado con /TAULA_ARC=n y /CAMP_ARC=m. El valor de este campo se convierte en el atributo del polígono en la base de datos. Dado que estos tipos de grupos de polígonos pueden dar lugar a superposiciones se podrá indicar un campo numérico para determinar el orden en que se ciclan (dibujan) los polígonos como otro campo de la base de datos indicado con /TAULA_ORD=n /CAMP_ORD=m. Por defecto se usa el orden de aparición del primer arco de cada atributo diferente. El objetivo de esto es permitir que los polígonos formados por los arcos con atributos digitalizados primero queden por debajo de los que han sido digitalizados posteriormente.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>6</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerArcOrigen</ows:Identifier>
+				<ows:Title>Fichero arco de origen</ows:Title>
+				<ows:Abstract>Fichero estructurado tipo ARC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroArcOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_ARC</ows:Identifier>
+				<ows:Title>Índice de la taula que contiene el campo lógico</ows:Title>
+				<ows:Abstract>Índice que indica qual es la tabla de la base de datos que contiene el campo lógico.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_ARC</ows:Identifier>
+				<ows:Title>Índice del campo que actúa de campo lógico.</ows:Title>
+				<ows:Abstract>Índice que indica qual es el campo de la tabla indicada con /TAULA_ARC=n que contiene el campo lógico a usar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_ORD</ows:Identifier>
+				<ows:Title>Índice de la tabla que indica el orden</ows:Title>
+				<ows:Abstract>Indica el orden en que se ciclan los poligonos en caso de superposiciones.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_ORD</ows:Identifier>
+				<ows:Title>Índice del campo que indica el orden</ows:Title>
+				<ows:Abstract>Indica el orden en que se ciclan los poligonos en caso de superposiciones.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>IGNORAR</ows:Identifier>
+				<ows:Title>Descartar arcos ciclables</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>ENDNODES: Antes del ciclado se seleccionan los arcos ciclables, descartando los arcos que presentan nodos finales.</li><li>HALTERS: Como ENDNODES, pero, además, durante el ciclado se descartan los arcos con el mismo polígono a ambos lados (mancuernas).</li><li> Si no se indica el programa no se tolera la presencia de nodos finales ni de mancuernas en la base de arcos y para el proceso de ciclado si existen.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ENDNODES</ows:Value>
+						<ows:Value>HALTERS</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>UN_POL_PER_ATRIBUT</ows:Identifier>
+				<ows:Title>Creación de un solo poligono</ows:Title>
+				<ows:Abstract>Agrupa en un solo macropolígon todos los polígonos con el mismo atributo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FITXER_ORDRE_GRUP</ows:Identifier>
+				<ows:Title>Fichero INI que indica el orden de superposición.</ows:Title>
+				<ows:Abstract>Dado que estos tipos de grupos de polígonos pueden dar lugar a superposiciones se podrá indicar el orden en que se ciclan (dibujan) los arcos de los polígonos en un fichero INI que se indica al parámetro /FITXER_ORDRE_GRUP. Por defecto se utiliza  el orden de la proyección del campo indicado (orden numérico para campos N y orden alfabético para campos C). Los polígonos formados por los arcos con atributos de orden inferior quedaran por debajo de los otros.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-ini</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ini</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Fchero resultado del ciclado</ows:Title>
+				<ows:Abstract>El programa genera un fichero POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroPolDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CICLAR:Param1:7</ows:Identifier>
+		<ows:Title>Opción 7</ows:Title>
+		<ows:Abstract>Convierte polígonos desde un fichero VEC a un fichero POL que no tendrá la topologia garantizada (la superposición de polígonos está permitida). El atributo de los objetos VEC también se importa. Cuando dos polígonos tienen el mismo atributo y aparecen consecutivamente dentro del fichero VEC, estos polígonos se convierten en un grupo en el fichero POL.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Convierte polígonos desde un fichero VEC a un fichero POL (polígonos con grupos no topológicos).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>7</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerVecOrigen</ows:Identifier>
+				<ows:Title>Fichero vectorial origen no estrcturado</ows:Title>
+				<ows:Abstract>Fichero no estructura de tipo ARC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroVecOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPolDesti</ows:Identifier>
+				<ows:Title>Fchero resultado del ciclado</ows:Title>
+				<ows:Abstract>El programa genera un fichero POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroPolDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CICLAR:Param1:8</ows:Identifier>
+		<ows:Title>Opción 8</ows:Title>
+		<ows:Abstract>Convierte polígonos desde un fichero POL a un fichero VEC. Cada grupo de polígonos que pueda existir se divide en sus polígonos elementales. Se puede seleccionar un campo de la base de datos para que sea el atributo de los objetos VEC.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Convierte polígonos desde un fichero POL a un fichero VEC. FicheroArcOrigen, FicheroPolOrigen, FicheroVecOrigen, FicheroPolDestino y FicheroVecDestino son nombres de ficheros vectoriales.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>8</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPolOrigen</ows:Identifier>
+				<ows:Title>Fichero poligono estructurado</ows:Title>
+				<ows:Abstract>Fichero estructurado tipo POL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroPolOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>precisio</ows:Identifier>
+				<ows:Title>Precisión</ows:Title>
+				<ows:Abstract>Precisión</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:precisión"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Selección de una tabla en el formato vectorial pol</ows:Title>
+				<ows:Abstract><![CDATA[Indican la tabla y el campo de la base de datos del criterio de selección (opciones 3 y 4) o indique el campo de la base de datos que se exporta a formato VEC (opción 8). Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Selección de un campo de la tabla en el formato vectorial pol</ows:Title>
+				<ows:Abstract><![CDATA[Indican la tabla y el campo de la base de datos del criterio de selección (opciones 3 y 4) o indique el campo de la base de datos que se exporta a formato VEC (opción 8). Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SI_EN_BLANC</ows:Identifier>
+				<ows:Title>Qué hacer si el atributo está en blanco</ows:Title>
+				<ows:Abstract>Indica el comportamiento que tendrá la exportación a VEC cuando no exista atributo en la base de datos (campo en blanco). Puede valer "CONSTANT" para un valor constante, "ID_GRAFIC" para identificador gráfico o "IGNORAR" para ignorar los vectores sin atributo (valor por defecto).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>CONSTANT</ows:Value>
+						<ows:Value>ID_GRAFIC</ows:Value>
+						<ows:Value>IGNORAR</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>IGNORAR</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATRIBUT_CONSTANT</ows:Identifier>
+				<ows:Title>Indica la constante que quiere exportar a formato VEC como atributo de los objetos.</ows:Title>
+				<ows:Abstract>Indica la constante que quiere exportar a formato VEC como atributo de los objetos. Si se usa en combinación con /TAULA=, /CAMP= y /SI_EN_BLANC=CONSTANT és el atributo que se usará cuando no haya datos (campo en blanco).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ALCADA</ows:Identifier>
+				<ows:Title>Altura</ows:Title>
+				<ows:Abstract><![CDATA[Indica cual de las posibles alçades alturas se escribe en el VEC: 0 para la primera que se encuentre, 1 para la superior y 2 para la inferior. Para saber más sobre los valores de este parámetro siga las consideraciones del documento de <a href="general.htm#Alcada">sintaxis general</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajustar envolupante</ows:Title>
+				<ows:Abstract>Ajustar envolupante</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerVecDesti</ows:Identifier>
+				<ows:Title>Fichero resultado del ciclado</ows:Title>
+				<ows:Abstract>El programa genera un fichero VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroVecDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

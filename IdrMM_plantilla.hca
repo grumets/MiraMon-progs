@@ -1,0 +1,127 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>IdrMM: Transformació de fitxers ràster entre els formats Idrisi-32 i
+  MiraMon.</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <p>Aquest mòdul transforma fitxers ràster entre el MiraMon i
+  l'Idrisi-32.</p>
+
+  <p>Els tipus de transformacions implementades són:</p>
+
+  <ul>
+    <li>Exportació d'una banda de qualsevol format IMG del MiraMon a
+    format RST de l'Idrisi-32.</li>
+
+    <li>Importació de l'Idrisi-32 en format RST monobanda al MiraMon
+    IMG.</li>
+
+    <li>Exportació JPEG georeferenciat (<i>J.rel</i>) del MiraMon a un fitxer
+    RST de tres bandes RGB d'Idrisi-32.</li>
+  </ul>
+
+  <p>Ambdós fitxers, IMG i RST, són binaris, però el MiraMon accepta més tipus
+  que Idrisi-32. Idrisi-32 suporta els tipus byte, integer i real, mentre que
+  el MiraMon accepta a més, els tipus bit i long i les seves corresponents
+  compressions <a href="../mm32/AP1.htm">RLE</a> (byte-RLE, integer-RLE...).
+  Atès que l'Idrisi-32 no suporta el tipus long es pot decidir que les
+  dades del fitxer Idrisi-32 transformat siguin <b>integer</b> o <b>real</b>
+  mitjançant un paràmetre optatiu. En el cas d'una exportació d'un
+  ràster MiraMon tipus long a Idrisi-32 tipus integer, el paràmetre optatiu a
+  utilitzar és <i>/LONG_SHORT</i> i en el cas d'una exportació a Idrisi-32
+  de tipus real el paràmetre optatiu a utilitzar és <i>/LONG_REAL</i>. Per
+  defecte (si no s'especifica el paràmetre optatiu) el mòdul aplica
+  <i>/LONG_REAL</i>.</p>
+
+  <p>En el cas d'una transformació del MiraMon a l'Idrisi-32 amb el
+  paràmetre optatiu <i>/LONG_SHORT</i> l'aplicació satura els valors del
+  ràster origen superiors a 32767 o inferiors a -32768. La saturació es
+  realitza seguint el següent protocol:</p>
+
+  <ul>
+    <li>Si el ràster origen conté valors de NODATA superiors a 32766 o
+    inferiors a -32767, l'aplicació definirà el valor de NODATA a 32767 en
+    el primer cas i -32768 en el segon. La resta de valors del ràster origen
+    que siguin superiors a 32766 o inferiors a -32767 seran assignats a 32766
+    o -32767 respectivament.</li>
+
+    <li>Si el ràster origen no conté valors de NODATA, els valors superiors a
+    32766 o inferiors a -32767 seran assignats a 32767 o -32768,
+    respectivament.</li>
+  </ul>
+
+  <p>Cal notar que aquest mòdul no realitza exportacions de fitxers amb dades
+  tipus bit; per fer-ho caldrà transformar les dades a tipus byte amb
+  l'aplicació <a href="imgimg.htm">ImgImg</a> i posterioment realitzar
+  l'exportació a RST. Tampoc no realitza la importació a format MiraMon de
+  fitxers RST de 24 bits (composicions de tres bandes) de l'Idrisi-32; en
+  aquest cas s'aconsella usar un format TIFF (georeferenciat com a
+  GeoTiff) com a intermediari i llavors usar el mòdul <a href="tifimg.htm">TifImg</a> per a obtenir el corresponent IMG de 24 bits amb el
+  MiraMon.</p>
+
+  <p>Sobre els fitxers ràster Idrisi-16 cal notar que tenen el mateix format
+  que els fitxers MiraMon; per tant tots els fitxers ràster Idrisi-16 RST que
+  siguin binaris i no comprimits es poden llegir directament amb el MiraMon a
+  través de &quot;Fitxer | Obrir ràster&quot;. Amb tot, existeixen algunes
+  situacions especials que es detallen a continuació:</p>
+
+  <p>De l'Idrisi-16 al MiraMon:</p>
+
+  <ul>
+    <li>Si el fitxer fos ASCII o comprimit (&quot;packed&quot;) convertiu-lo a
+    binari no comprimit amb la utilitat CONVERT d'Idrisi-16 (per als ASCII
+    també poden utilitzar, des del MiraMon, &quot;Fitxer | Importar |
+    ASCII-&gt;IMG&quot;).</li>
+
+    <li>Si es vol ampliar el model de metadades del fitxer DOC
+    d'Idrisi-16, cal fer-ho des del GeMM, amb la possibilitat de mantenir
+    els dos formats (DOC i REL).</li>
+  </ul>
+
+  <p>Del MiraMon a l'Idrisi-16:</p>
+
+  <ul>
+    <li>Si el fitxer ràster MiraMon és byte i RLE cal verificar que no sigui
+    extracomprimit i que no sigui indexat (<a href="imgimg.htm">ImgImg</a>) i
+    cal canviar la documentació que figura al DOC perquè MiraMon especifica
+    que les dades són comprimides (RLE) al mateix camp tipus dades (p.ex.
+    byte-RLE) i Idrisi-16 escriu l'RLE a un altre camp.
+    </li>
+
+    <li>En el cas que el fitxer ràster MiraMon tingui metadades en format REL,
+    cal utilitzar el gestor de metadades (GeMM) per tal de transformar-les a
+    format DOC.</li>
+
+    <li>En el cas que el fitxer ràster MiraMon sigui de tipus long o long-RLE,
+    tingueu en compte les consideracions de les transformacions entre MiraMon i
+    Idrisi-32.</li>
+
+    <li>En el cas que el fitxer ràster MiraMon sigui de tipus short o long amb
+    categories (amb valors superiors a 255), no es pot fer la transformació a
+    Idrisi-16.</li>
+  </ul>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+    <p><!-- $$EXCLUSIVA$$
+ForPer a obtenir l'ajuda completa escriviu:
+IDRMM ?
+--></p>
+  </exclusiva>
+  <hr/>
+  MiraMon és un programa registrat per Xavier Pons<br/>
+  Idrisi és un programari © de J.Ronald Eastman and Clark University
+</body>
+</html>

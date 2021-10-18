@@ -1,0 +1,231 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CanviPrj: Change Geographical Reference System (cartographic
+  projection, datum, etc) of raster and vector layers</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <h3>Introduction</h3>Cartographic information attempts to express measurable
+  characteristics or parameters in our three-dimensional world on paper maps
+  that are plane. To achieve this, projection systems are used. In cartography
+  a <b>projection system</b> is a coordinate transformation from the Earth
+  three-dimensional system to a bidimensional surface. The most important
+  properties a projection system should preserve throughout the map are:
+  scale, shape (conformal) and area (equivalent or equal-area). However, it is
+  impossible to define a projection system having the three properties at the
+  same time and, therefore, the optimal projection depends on the region that
+  is going to be mapped and on the application that the map will have. For
+  example, it is recommended to use UTM projection for local precise
+  applications, and Goode Homolosine projection for global scale maps. Lambert
+  Conformal Conic is suitable for navigation (direction) applications while
+  Lambert Azimuthal Equivalent is more proper for thematic applications.
+
+  <p>A <b>reference system</b> is defined by a set of parameters that have to
+  be specified in the chosen projection system. For example, in the UTM
+  projection, the zone and the hemisphere must be specified. This way, in
+  Catalonia we use the reference system UTM-31N, while in Portugal UTM-29N is
+  used and in Lesotho UTM-35S is used.</p>
+
+  <p>It is very useful to have all the maps that we use in the same projection
+  and reference system, so that it is easy to combine information in the
+  Geographical Information System (GIS). In fact, most of digital GIS allow to
+  operate with different information layers only if they are in the same
+  reference system and projection. In digital systems it is possible to
+  develop a routine to convert a map from one projection and reference system
+  to another, such it is CanviPrj of MiraMon.</p>
+  <hr/>
+
+  <h3>CanviPrj</h3>This program allows to transform from one projection system
+  to another and allows, by setting the projection parameters, to change the
+  reference system as well. It works on raster files (IMG), non structured
+  vector files (VEC) and structured vector files of points (PNT), arcs (ARC)
+  and polygons (POL). To transform node (NOD) files, it is required to
+  transform their associated arc files, and the corresponding NOD will be
+  automatically transformed.
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <p>If the origin map has no projection system because it has been never
+  georeferenced, you should first use the program <a href="CORRGEOM.HTM">CORRGEOM</a>.</p>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+    </ul>Examples:
+    <pre>
+CANVIPRJ MUNI_LL.VEC  MUNI_UTM UTM-31N  1
+CANVIPRJ CATA_UTM.IMG CATA2_LL lat/long 1 450000 480500 4724500 4750000 30 0
+CANVIPRJ CATA_UTM.IMG CATA3       x     x    x      x      x        x    x x
+CANVIPRJ MA89_UTM.ARC MA89_LCC Lambert_Conformal_Conic
+</pre><!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+CANVIPRJ ?
+-->
+  </exclusiva>
+  <hr/>
+  <!--
+  <UL>
+     <LI>Azimuthal_Equidistant: Azimuthal Equidistant (spherical model).
+     <LI>Cylindrical_Equal_Area: Cylindrical Equal-Area (spherical model).
+     <LI>Goode_Homolosine: Goode Homolosine (spherical model).
+     <LI>Lambert_Azimuthal_Equal_Area: Lambert Azimuthal Equal-Area (spherical model).
+     <LI>Lambert_Conformal_Conic: Lambert Conformal Conic.
+     <LI>lat/long: Equirectangular (Latitude/Longitude in degrees).
+     <LI>Mercator: Mercator (ellipsoidal model).
+     <LI>Sinusoidal: Sinusoidal (spherical model).
+     <LI>Transverse_Mercator: Transverse Mercator. Gauss (ellipsoidal model) 
+     <LI>UTM-$$?: UTM (Universal Transverse Mercator) where $$ indicates the zone number 
+         (from 1 to 60) and ? designs the hemisphere (N or S) (ellipsoidal model).
+
+Projection parameters can be controlled by the user by changing its values in the file 
+CANVIPRJ.INI. This file can be in the working directory or in the program directory. 
+If it exists in both places, the working directory has priority. In file CANVIPRJ.INI 
+all input (in sections [I_???]) and output (in sections [O_???]) projection parameters 
+are described. If file CANVIPRJ.INI does not exist, the program will take the default 
+values indicated below. In the UTM projection system, zone and hemisphere are obtained 
+from the documentation file (input) and from the command line or interactively (output).<P>
+
+Example of CANVIPRJ.INI file format:
+<PRE>
+;========= Azimuthal Equidistant (spherical model) =============
+[I_Azimuthal_Equidistant]
+radi_terra1=6370997.0
+lambda_0=0.0
+fi_1=90.0
+
+[O_Azimuthal_Equidistant]
+radi_terra1=6370997.0
+lambda_0=0.0
+fi_1=90.0
+
+;========= Cylindrical Equal-Area (spherical model) ===========
+[I_Cylindrical_Equal_Area]
+radi_terra1=6370997.0
+lambda_0=15.0
+fi_S=0.0
+
+[O_Cylindrical_Equal_Area]
+radi_terra1=6370997.0
+lambda_0=15.0
+fi_S=0.0
+
+;====== Goode Holosine (spherical model) =========
+[I_Goode_Homolosine]
+radi_terra1=6370997.0
+lambda_0=-100.0
+lambda_1=-100.0
+lambda_2=30.0
+lambda_3=30.0
+lambda_4=-160.0
+lambda_5=-60.0
+lambda_6=-160.0
+lambda_7=-60.0
+lambda_8=20.0
+lambda_9=140.0
+lambda_10=20.0
+lambda_11=140.0
+
+[O_Goode_Homolosine]
+radi_terra1=6370997.0
+lambda_0=-100.0
+lambda_1=-100.0
+lambda_2=30.0
+lambda_3=30.0
+lambda_4=-160.0
+lambda_5=-60.0
+lambda_6=-160.0
+lambda_7=-60.0
+lambda_8=20.0
+lambda_9=140.0
+lambda_10=20.0
+lambda_11=140.0
+
+;========= Lambert Azimuthal Equal-Area (spherical model) =============
+[I_Lambert_Azimuthal_Equal_Area]
+radi_terra1=6370997.0
+lambda_0=0.0
+fi_1=90.0
+
+[O_Lambert_Azimuthal_Equal_Area]
+radi_terra1=6370997.0
+lambda_0=0.0
+fi_1=90.0
+
+;======== Lambert Conformal Conic (spherical model) ==========
+[I_Lambert_Conformal_Conic]
+radi_terra1=6370997.0
+lambda_0=0.0
+fi_0=0.0
+fi_1=33.0
+fi_2=45.0
+
+[O_Lambert_Conformal_Conic]
+radi_terra1=6370997.0
+lambda_0=0.0
+fi_0=0.0
+fi_1=33.0
+fi_2=45.0
+
+;============= Latitude/Longitude in degrees ===================
+;No parameters
+
+;============= Mercator ====================
+[I_Mercator]
+;WGS 84
+Semi_major_axis=6378137.0
+Reciprocal_flattening=298.257223563
+lambda_0=0.0
+
+[O_Mercator]
+;WGS 84
+Semi_major_axis=6378137.0
+Reciprocal_flattening=298.257223563
+lambda_0=0.0
+
+;============= Sinusoidal (spherical model) ===================
+[I_Sinusoidal]
+;Clark spheroid, 1886
+radi_terra1=6370997.0
+lambda_0=0.0
+
+[O_Sinusoidal]
+radi_terra1=6370997.0
+lambda_0=0.0
+;============= Transversal de Mercator ====================
+[I_Transverse_Mercator]
+;Esferoide Internacional
+radi_terra1=6378388.0
+radi_terra2=6356911.9
+c_tissot=0.9996
+lambda_0=0.0
+
+[O_Transverse_Mercator]
+radi_terra1=6378388.0
+radi_terra2=6356911.9
+c_tissot=0.9996
+lambda_0=0.0
+;================= UTM (Universal Transverse Mercator) ====================
+;Zone and hemisphere are indicated in the documentation file
+[I_UTM]
+radi_terra1=6378388.0
+radi_terra2=6356912.0
+c_tissot=0.9996
+
+;Zone and hemisphere can be indicated at command line or interactively
+
+[O_UTM]
+radi_terra1=6378388.0
+radi_terra2=6356912.0
+c_tissot=0.9996
+</PRE>
+-->
+</body>
+</html>

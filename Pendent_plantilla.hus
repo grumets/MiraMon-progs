@@ -1,0 +1,195 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Pendent: Terrain analysis: slope, orientation, etc</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+ <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+  
+  <p>The program can produce the following Digital Models:</p>
+
+  <ul>
+    <li>Slope (°). the output file contains for each cell the maximum gradient
+    as a function of the planes defined by the heights of the neighbouring
+    cells. The calculated values are given in degrees.</li>
+
+    <li>Slope (%). As for the previous case but the result is given in percent
+    (%). The percentage slope indicates the relative vertical change with
+    respect to the horizontal displacement (and not with respect to the
+    displacement along the inclined plane). For example a slope of 45°
+    corresponds to a gradient of 100%. If for some reason the user wishes to
+    express the slope as a percentage of the displacement along the inclined
+    plane then the slope should be calculated in degrees and then, using
+    <a href="CalcIMG.htm">CalcIMG</a>, the percentage can be found by
+    calculating 100*SING([MDP]), where MDP is the name of the slope file in
+    degrees.
+    </li>
+
+    <li>Orientations (° + plane). The output file contains in each cell the
+    orientation relative to North of the plane of maximum slope. More formally
+    we may say that the orientation is the angle between the north vector and
+    the projection onto a horizontal plane of the vector perpendicular to the
+    plane (normal vector) defined by the heights of the neighbouring cells.
+    This angle is measured from north, clockwise: an orientation of 90°
+    implies that the surface at that point faces East, whereas an orientation
+    of 180° is facing South and an orientation of 270° looks West. When the
+    area is completely flat, the orientation is undefined and by convention
+    the program assigns a value of -1 to the cell.<br/>
+    It should be noted that both values of 0° and those of 360° face North, a
+    fact that leads to difficulties interpreting the displayed image if a
+    continuous tone palette, like a grey scale, is used for visualisation.
+    Unless the user is already accustomed to these types of orientation images
+    we recommend running the option 'Orientations (4 directions +
+    plane)' as well and to compare the results with the result calculated
+    in degrees but displayed using the &quot;Orienta.dbf&quot; palette.</li>
+
+    <li>Orientations (° + plane). This option is very similar to the previous
+    one, but usually better since it considers as flat not only areas which
+    are exactly horizontal but also those areas with a gentle slope.
+    Effectively it makes little sense to consider the orientation of an area
+    with a slope as small as 0.5°: geomorphologically the area is flat.</li>
+
+    <li>Orientations (4 directions + plane): The continuous orientation model
+    is reclassified into four orientations: North, East, South and West. The
+    flat, or practically flat, areas (defined with /PEN_PLA=) are assigned a
+    value 0.</li>
+
+    <li>Orientations (8 directions + plane): The continuous orientation model
+    is reclassified into eight orientations: N, N-E, E, S-E, S, S-W, W and
+    N-W. The flat, or practically flat, areas (defined with /PEN_PLA=) are
+    assigned a value 0.
+
+      <p>IMPORTANT NOTE FOR ALL THE ORIENTATION OPTIONS:<br/>
+      If the user wishes to establish correlations between the orientation and
+      the vegetation distribution then, normally, it makes more sense and
+      produces better results to forget the orientation and to calculate the
+      solar radiation instead. This can be found using the appropriate MiraMon
+      module (<a href="InsolDia.htm">InsolDia</a>). The solar radiation is a
+      much better approximation of the <i>orientation</i> factors that
+      condition the distribution of the vegetation. It is a different matter
+      if the user wishes to correlate the orientation with other variables
+      that may have a more direct relation with the vegetation distribution,
+      such as the directions of the prevailing winds.<br/>
+      The optional parameter &quot;/PEN_PLA=&quot; permits the user to
+      indicate the threshold slope below which an area is to be considered
+      flat and its orientation undefined. &quot;/PEN_PLA=&quot; is defined in
+      degrees; the default value is 2°.<br/>
+      To specify that only a gradient of 0° should be regarded as flat and
+      orientations should be calculated for all other areas then it is
+      necessary to set &quot;/PEN_PLA=0&quot; in the command line or to define
+      in the dialogue box WPendent: <i>Orientació plana en
+      pendent&lt;=</i><b>0</b><br/>
+      Note: if the &quot;/PEN_PLA=&quot; value that you wish to apply is only
+      known in percent and not in degrees then you can convert it to degrees
+      using the following expression arctan(P_percent/100); making sure that
+      your calculator is operating in degree mode. If your calculator only
+      works in radians then multiply the result by 28.6479.</p>
+    </li>
+
+    <li>Curvature. The resulting file contains in each cell the curvature of
+    the terrain. This value is 0 for perfectly flat areas (whether horizontal
+    or inclined), is negative for convex areas and positive for concave
+    surfaces. A hill top is a convex area, ie., the vectors perpendicular to
+    its surface diverge, whilst the bottom of a valley is concaved. The
+    curvature is calculated using a Laplacian operator. The Digital Curvature
+    Model is more sensitive to the presence of NODATA values amongst the
+    neieghbours than other Models obtained using this MiraMon module. For this
+    reason it is possible that for some cells for which the MDE can be used to
+    generate slope even though there are NODATA values in the vicinity,
+    MDCurvatures may not be able to calculate curvature and will assign NODATA
+    values to those cells. In other words, when the original file contains
+    NODATA areas then it is possible that the number of cells in the output
+    file marked with NODATA may be greater when using MDC than when using
+    MDP.<br/>
+    The higher the value of the curvature, in absolute magnitude, the greater
+    the curvature in the surrounding area, whether concaved or convexed. Since
+    the curvature calculated from MDEs generally produces values with a very
+    reduced range, the result is multiplied by a factor of 1000.</li>
+  </ul>
+
+  <p>For all of these options the user may chose to define the relief
+  morphology as a function of the elevations of the 4 nearest neighbours
+  (above, below, left and right) or considering also the next four nearest
+  neighbours taken diagonally (upper left and right, lower left and right). In
+  the latter case (considering 8 neighbours) the results are usually a little
+  smoother but they are also generally more realistic due to the fact that a
+  wider geographic area is taken into account and because the analysis is less
+  sensitive to directionality (pixelation) of the original MDE raster.</p>
+
+  <p>The calculations for the pixels around the border of the image (columns 0
+  and ncol-1, and rows 0 and nfil-1) are only approximate. If mosaics of
+  different MDEs are to be created an overlap should be used. Similarly the
+  calculations around the edge of a NODATA area are also less exact because
+  there are less neighbouring values to use.</p>
+
+  <p>See also the following related modules:</p>
+
+  <ul>
+    <li>Terrain Analysis:
+
+      <ul>
+        <li>
+          <a href="Illum.htm">Illum</a>
+        </li>
+
+        <li>
+          <a href="Ombra.htm">Ombra</a>
+        </li>
+
+        <li>
+          <a href="InsolDia.htm">InsolDia</a> 
+          <!--<LI><a href="InsolMes.htm">InsolMes</a>-->
+        </li>
+      </ul>
+    </li>
+
+    <li>Generation of Digital Elevation Models:
+
+      <ul>
+        <li>
+          <a href="IsoMDE.htm">IsoMDE</a>
+        </li>
+
+        <li>
+          <a href="InterPNT.htm">InterPNT</a>
+        </li>
+
+        <li>
+          <a href="DensRas.htm">DensRas</a>
+        </li>
+      </ul><!--<LI>Error analysis in Digital Elevation Models:
+<UL>
+<LI>ErrorMDE
+</UL>-->
+    </li>
+
+    <li>Shadow effects in Digital Elevation Models and Thematic Maps:
+
+      <ul>
+        <li>
+          <a href="Illum.htm">Illum</a> 
+          <!--<LI><a href="Ombrejat.htm">Ombrejat</a>-->
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+PENDENT ?
+--></p>
+
+  </exclusiva>
+</body>
+</html>

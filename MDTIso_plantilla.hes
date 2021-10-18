@@ -1,0 +1,141 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>MDTISO: Generació d'isolínies a partir d'un MDT.</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <div class="Section1">
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<p><i>Disculpe, este documento está pendiente de traducción</i></p>
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+    <p>L'algorisme treballa, internament, en tres fases:</p>
+
+    <ul>
+      <li>Generació dels punts que seran els vèrtexs de les futures
+      isolínies.</li>
+
+      <li>Generació de les isolínies.</li>
+    </ul>
+
+    <p>En la fase de la generació dels vèrtexs d'isolínies es recorre el
+    ràster de l'MDT començant des de la cel·la situada a la part superior
+    esquerra. Per a cada cel·la, es mira el seu valor Z i es compara amb el de
+    la cel·la situada a la dreta i la situada a sota i, en el cas que un dels
+    nivells d'isolínia hagi de passar entre aquestes cel·les, es fa una
+    interpolació per trobar el punt on s'ha de situar el vèrtex
+    corresponent.Un cop s'ha generat tots els vèrtexs, es fa la generació
+    les isolínies. Des del nivell més baix, i per a cada nivell
+    d'isolínia, es va generant cada isolínia a partir dels vèrtexs
+    interpolats del MDT.</p>
+
+    <p>Les dades bàsiques necessàries per a la generació d'isolínies són
+    el ràster de l'MDT, l'equidistància desitjada i el fitxer
+    vectorial de sortida. El ràster del model digital del terreny (MDT) ha de
+    ser un fitxer en format .IMG i el tipus de dades pot ser qualsevol dels
+    suportats per MiraMon (<a href="..%5Cmm32%5CAP1.htm">consultar formats
+    ràster suportats per MiraMon</a>). El fitxer de sortida serà un vector
+    estructurat en format .ARC.</p>
+
+    <p>A partir del valor de l'equidistància i dels valors mínim i màxim
+    documentats en les metadades de l'MDT, es calcularan els diferents
+    nivells d'isolínies buscant múltiples des del valor origen que, en el
+    cas que l'usuari no l'assigni, per defecte, serà 0. En el cas que
+    el mínim valor de l'MDT no correspongui a un valor Z d'una
+    isolínia, s'escollirà el valor Z de la primera isolínia que estigui
+    per sobre del mínim de l'MDT, per exemple, si el mínim de l'MDT és
+    230 m i l'equidistància és 100 m, s’escollirà el valor mínim de 300 m.
+    En el cas que el màxim valor de l'MDT no correspongui a un valor Z
+    d'una isolínia, s'escollirà el valor Z de la primera isolínia que
+    estigui per sota del màxim de l'MDT, per exemple, si el màxim de
+    l'MDT és 679 m i l'equidistància és 200 m, s’escollirà el valor
+    màxim de 600 m. Existeix la possibilitat que l'usuari pugui escollir
+    entre quins valors Z vol generar isolínies mitjançant els paràmetres
+    opcionals de mínim i màxim valor Z de les isolínies.</p>
+
+    <div align="center">
+      <p><img id="_x0000_i1025" src="isolinies.gif" width="800"/></p>
+
+      <p>Exemple de la generació d'isolínies.</p>
+    </div>
+
+    <p>En el cas que es vulgui generar isolínies de dos o més MDT limítrofs,
+    l'algorisme permet limitar la cerca de vèrtexs d'isolínies fins a
+    una distància de mig píxel de les vores de l'MDT. En aquest cas, es
+    necessari que hi hagi un recobriment comú d'un píxel entre els MDT a
+    fi d'aconseguir un perfecte casat entre els processos de generació
+    d'isolínies a ambdós fitxers. Per a un recobriment correcte, cal
+    assignar el mateix índex de densificació i la mateixa tolerància del valor
+    Z, en el cas que el valor de la cel·la de l'MDT coincideixi amb el
+    valor Z d'una de les isolínies, per a cada MDT limítrof.</p>
+
+    <p>L'algorisme permet generar unes isolínies obtingudes des d'un
+    MDT densificat a major resolució. Aquesta opció densifica dinàmicament
+    cada 2 files per generar els vèrtexs de les isolínies. Per tal que aquest
+    procés es realitzi satisfactòriament, l'índex de densificació ha de
+    ser necessàriament un nombre enter i senar entre 1 i 9.</p>
+
+    <div align="center">
+      <p><img id="_x0000_i1025" src="densificacio.gif" width="800"/></p>
+
+      <p>Exemple de la generació d'isolínies sense densificació (esquerra)
+      i amb densificació (dreta).</p>
+    </div>
+
+    <p>Per evitar conflictes en les isolínies (isolínia d'un o dos
+    vèrtexs, isolínies que no poden tancar,... sobretot en zones planes), és
+    necessari aplicar una tolerància del valor Z; aquesta correspon al valor
+    que s'afegeix o es resta al valor d'una cel·la que tingui el
+    mateix valor Z que un dels nivells d'isolínies. El valor de la
+    tolerància correspon a parts per mil respecte el valor de
+    l'equidistància i pot valer entre 0.1 i 100, o entre -0.1 i -100 si
+    desitgem baixar infinitesimalment la cota. La tolerància per defecte és
+    -1, o sigui, es redueix 1 mm si l'equidistància és d'1 m.</p>
+
+    <p>Un cop generades les isolínies, es pot aplicar una generalització
+    basada en l'algorisme de Douglas-Peucker, el que implica una
+    simplificació de les isolínies que redueix substancialment el seu nombre
+    de vèrtexs i fa, doncs, que el fitxer sigui de menor grandària, sense que
+    això signifiqui en general un decrement sensible de la qualitat.</p>
+
+    <p>En cas que hi hagi isolínies conflictives, aquest mòdul pot generar, si
+    es demana, un fitxer vectorial estructurat de punts amb els extrems
+    d'aquestes isolínies. En cas que no hi hagi cap punt problemàtic i
+    totes les isolínies s'hagin generat satisfactòriament, no es crearà
+    aquest fitxer.</p>
+
+    <div align="center" class="MsoNormal" style="text-align:center">
+      <hr align="center" size="2" width="100%"/>
+    </div>
+
+    <p class="MsoNormal"/>
+
+    <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+      <p class="MsoNormal"><br/>
+      Exemples:</p>
+
+      <p class="MsoNormal">MDTISO C:\FitxerMDT.img C:\FitxerIsolinies.arc 20
+      /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3
+      /MIGPIXEL /GENERALITZACIO /PROBL=C:\FitxerProbls.pnt</p>
+
+      <p class="MsoNormal">MDTISO C:\FitxerMDT.img C:\FitxerIsolinies.arc 20
+      /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3
+      /GENERALITZACIO /ZINCREM=10 /PROBL=C:\FitxerProbls.pnt</p>
+
+      <p class="MsoNormal"> </p>
+      <hr/>
+<p><!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+MDTISO ?
+--></p>
+  </div>
+</body>
+</html>

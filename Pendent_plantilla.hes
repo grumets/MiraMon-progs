@@ -1,0 +1,196 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Pendent: Análisis del Terreno: Pendientes, Orientaciones, etc</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.--> 
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+ <p>El programa puede proporcionar los   siguientes Modelos Digitales:</p>
+
+  <ul>
+    <li>Pendientes (°). El fichero resultante contiene en cada celda la
+    pendiente máxima en función del plano definido entre las cotas de las
+    celdas vecinas. Los valores calculados se expresan en grados.</li>
+
+    <li>Pendientes (%). Como en el caso anterior, pero expresando el resultado
+    en %. La pendiente en porcentaje indica qué desnivel (vertical) se salva
+    respecto al desplazamiento horizontal efectuado (no respecto al
+    desplazamiento sobre el plano inclinado); así, una pendiente de 45°
+    corresponderá a una pendiente del 100%. Si se desea el pendiente como %
+    respecto al desplazamiento sobre el plano inclinado calcule el pendiente
+    en ° y, desde <a href="CalcIMG.htm">CalcIMG</a>, efectúe la operación
+    100*SING([MDP]), donde MDP es el nombre del MDP en °.
+    </li>
+
+    <li>Orientaciones (° + plano). El fichero resultante contiene en cada
+    celda la orientación, respecto al Norte, del plano de pendiente máximo.
+    Más formalmente podemos decir que la orientación es el ángulo entre el
+    vector que señala el Norte y la proyección sobre el plano horizontal del
+    vector perpendicular al plano definido entre las cotas de las celdas
+    vecinas. Este ángulo se mide respecto al Norte en sentido horario: una
+    orientación de 90° implicará que la superfície en aquel punto mirará al
+    Este, una orientación de 180° que mirará al Sur y una orientación 270° que
+    mira al Oeste. Cuando la zona es perfectamente plana, la orientación no
+    está definida y, por convenio, el programa asigna un valor -1 a la
+    celda.<br/>
+    Hay que tener en cuenta que tanto los valores cercanos a 0° com los
+    cercanos a 360° miran al Norte, hecho que provoca que la visualización del
+    fichero con una paleta de tono contínuo, como una paleta de grises, no dé
+    una idea directamente intuitiva. Si no se está familiarizado con estas
+    imágenes de orientaciones recomendamos ejecutar también la opción
+    'Orientaciones (4 direcciones + plano)' y comparar los resultados
+    con el resultado del cálculo de orientaciones en °, pero utilizando la
+    paleta &quot;Orienta.dbf&quot;.</li>
+
+    <li>Orientaciones (° + plano). Opción muy similar a la anterior, pero
+    normalmente mejor por el hecho que no solamente se consideran zonas planas
+    las estrictamente planas, sinó también las que presenan una pendiente
+    suave. En efecto, habitualmente tiene poco sentido que una zona
+    geométricamente orientada al Norte, pero con una pendiente de solamente
+    0.5°, sea considerada realmente como orientada al Norte:
+    geomorfológicamente es una zona prácticamente plana.</li>
+
+    <li>Orientaciones (4 direcciones + plano): Se reclasifica el modelo
+    contínuo de orientaciones a las cuatro orientaciones siguientes: norte,
+    este, sur y oeste. A las zonas planas, o prácticamente planas (definidas
+    con /PEN_PLA=), se les asigna el valor 0.</li>
+
+    <li>Orientaciones (8 direcciones + plano): Se reclasifica el modelo
+    contínuo de orientaciones a las ocho orientaciones siguientes: norte,
+    noreste, este, sureste, sur, suroeste, oeste y noroeste. A las zonas
+    planas, o prácticamente planas (definidas con /PEN_PLA=), se les asigna el
+    valor 0.
+
+      <p>NOTA IMPORTANTE PARA TODAS LAS OPCIONES DE ORIENTACIÓN:<br/>
+      Si está intentando establecer correlaciones con la distribución de la
+      vegetación, normalmente tiene mucho más sentido y proporciona mejores
+      resultados olvidar las orientaciones y calcular la radiación solar a
+      través del módulo adecuado de MiraMon (<a href="InsolDia.htm">InsolDia</a>). La radiación solar es una aproximación
+      mucho mejor a los factores de <i>orientación</i> que condicionan la
+      distribución de la vegetación. Otra cosa es que desee correlacionar la
+      orientación con otras variables que puedan tener una relación más
+      directa con este parámetro, como las direcciones de los vientos
+      predominantes.<br/>
+      El parámetro optativo &quot;/PEN_PLA=&quot; permite indicar cuál es el
+      valor de la pendiente por debajo de la cual se considera indefinida
+      (zona plana) la orientación en aquel punto. &quot;/PEN_PLA=&quot; se
+      expresa en grados; si no se indica, se aplica 2°.<br/>
+      Para definir que sólo una pendiente de 0° marque las zonas planas, con
+      orientaciones definidas de forma estricta, hay que indicar
+      &quot;/PEN_PLA=0&quot; desde línea de comandos o definir en la caja de
+      diálogo WPendent: <i>Orientación plana en
+      pendiente&lt;=</i><b>0</b><br/>
+      Nota: Si tiene el valor de &quot;/PEN_PLA=&quot; que desea aplicar
+      expresado en % y no en °, puede convertirlo a ° utilizando la expresión
+      siguiente : atan(P_percent/100); indique a su calculadora que quiere el
+      resultado en ° o bien, si solamente puede obtener el resultado en
+      radianes, multiplíquelo por 28.6479.</p>
+    </li>
+
+    <li>Curvatura. El fichero resultante contiene en cada celda el valor de la
+    curvatura del terreno. Este valor es 0 para zonas perfectamente planas, es
+    negativo para zonas convexas y es positivo para zonas cóncavas. Una colina
+    es una zona convexa, es decir, las perpendiculares a su superficie
+    divergen de esta, mientras que un fondo de valle es una zona cóncava. El
+    cálculo de curvatura se hace en base a un operador de Laplace. El Modelo
+    Digital de Curvaturas es más sensible a la presencia de valores NODATA
+    entre la vecindad que otros Modelos obtenidos con este módulo de MiraMon.
+    Por tanto, es posible que en ciertas celdas donde para el mismo MDE
+    todavía puede proporcionarse una pendiente a pesar de tener algún valor
+    vecino NODATA, el MDCurvaturas no pueda efectuar el cálculo y escriba
+    NODATA en aquella celda. En otras palabras: cuando el fichero original
+    presenta zonas NODATA puede ser que el número de celdas marcadas en el
+    resultado también como NODATA sea superior en el caso de un MDC que en el
+    de un MDP.<br/>
+    Cuanto más elevado, en valor absoluto, es el valor de curvatura en un
+    punto, más curvada es la zona, tanto en concavidad como en convexidad.
+    Como en los MDE la curvatura suele proporcionar valores bastante pequeños,
+    el resultado se proporciona multiplicado por 1000.</li>
+  </ul>
+
+  <p>En todas estas opciones puede escoger entre definir la morfología del
+  relieve en función de las cotas de los 4 vecinos en cruz (superior,
+  inferior, izquierdo y derecho), o bien considerando también los 4 vecinos en
+  aspa (superior izquierdo, superior derecho, inferior izquierdo e inferior
+  derecho). En este último caso (considerar los 8 vecinos) el resultado
+  resulta algo más suavizado pero suele ser más realista por el hecho de
+  considerar un entorno geográfico más grande y ser menos sensible a la
+  direccionalidad (pixelado) del ráster del MDE original.</p>
+
+  <p>Los cálculos en la corona de píxels alrededor de la imagen (columnas 0 y
+  ncol-1 y filas 0 y nfil-1) son aproximados. Si debe crear mosaicos de varios
+  MDE solápelos convenientemente. De forma parecida, los cálculos en el borde
+  de una zona NODATA son menos exactos a causa de la menor cantidad de vecinos
+  informativos.</p>
+
+  <p>Vea también los siguientes módulos relacionados:</p>
+
+  <ul>
+    <li>Análisis del terreno:
+
+      <ul>
+        <li>
+          <a href="Illum.htm">Illum</a>
+        </li>
+
+        <li>
+          <a href="Ombra.htm">Ombra</a>
+        </li>
+
+        <li>
+          <a href="InsolDia.htm">InsolDia</a> 
+          <!--<LI><a href="InsolMes.htm">InsolMes</a>-->
+        </li>
+      </ul>
+    </li>
+
+    <li>Generación de Modelos Digitales de Elevaciones:
+
+      <ul>
+        <li>
+          <a href="IsoMDE.htm">IsoMDE</a>
+        </li>
+
+        <li>
+          <a href="InterPNT.htm">InterPNT</a>
+        </li>
+
+        <li>
+          <a href="DensRas.htm">DensRas</a>
+        </li>
+      </ul>
+      <!--<LI>Análisis de errores de los Modelos Digitales de Elevaciones:
+<UL>
+<LI>ErrorMDE
+</UL>-->
+    </li>
+
+    <li>Sombreado de Modelos Digitales de Elevaciones y de Mapas temáticos:
+
+      <ul>
+        <li>
+          <a href="Illum.htm">Illum</a> 
+          <!--<LI><a href="Ombrejat.htm">Ombrejat</a>-->
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <hr/>
+
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+   <!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+PENDENT ?
+-->
+  </exclusiva>
+</body>
+</html>

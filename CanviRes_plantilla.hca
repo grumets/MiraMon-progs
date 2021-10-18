@@ -1,0 +1,121 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CanviRes: Canvi de costat de píxel d'un ràster (múltiples)</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  <p>Aquest programa canvia el costat del píxel d'un ràster sense canviar
+  l'origen de la malla. El canvi de costat del píxel es pot efectuar per
+  expansió o per contracció dels píxels originals. Per a canviar
+  l'origen de la malla del ràster cal utilitzar el programa <a href="DensRas.htm">DensRas</a>. Al final d'aquesta ajuda s'inclou un resum de
+  consideracions sobre quan utilitzar CanviRes i quan utilitzar <a href="DensRas.htm">DensRas</a>, amb les opcions d'elecció en cada
+  programa.</p>
+  <ul>
+    <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  </ul>
+  <!--En imatges byte el criteri de contracció pot ser qualsevol dels tres.<br>
+En imatges integer o real el criteri només pot ser mitjana i valor Central.<br>
+En imatges long el criteri només pot ser valor Central.-->
+
+  <p>RECOMANACIONS per a l'EXPANSIÓ:</p>
+
+  <ul>
+    <li>Imatges de variables CATEGÒRIQUES (classes temàtiques). El mètode de
+    duplicació de CANVIRES és adequat. Si volem una millora estètica podem
+    completar el procés utilitzant el mètode descrit a la tesi doctoral de
+    Xavier Pons, p. 213, apartat 3.4.3. La referència completa de l'obra
+    és:
+
+      <blockquote>
+        Pons, X. (1993) &quot;Aportacions a la teledetecció i als sistemes
+        d'informació geogràfica en estudis de vegetació&quot; Bellaterra.
+        Servei de Publicacions de la Universitat Autònoma de Barcelona. 427 p.
+        ISBN: 84-7929-647-X.
+      </blockquote>
+    </li>
+
+    <li>Imatges de variables CONTÍNUES.
+
+      <ul>
+        <li>Per a imatges de sensors s'usarà CanviRes quan no es vulgui corrompre
+        la radiometria perquè es pretén fer una classificació; aquesta opció
+        rarament interessarà ja que és més eficient classificar la imatge
+        en el seu costat de píxel (poder informatiu) original i després
+        expandir el resultat. S'usarà la mitjana o el programa <a href="DensRas.htm">DensRas</a> (RECOMANAT) 
+	quan  es vulgui l'expansió per a interpretació visual.</li>
+
+        <li>Per a models digitals d'elevacions el programa <a href="DensRas.htm">DensRas</a> és la solució òptima.
+        </li>
+      </ul>
+    </li>
+  </ul>RECOMANACIONS per a la CONTRACCIÓ:
+
+  <ul>
+    <li>Imatges de variables CATEGÒRIQUES (classes temàtiques). Els mètodes
+    valor Central i Moda són adequats, encara que en general es RECOMANA la
+    Moda pel seu superior poder de generalització.<br/>
+    Cal notar que la Moda pot originar nous valors NODATA en aquelles cel·les
+    on no quedi inequívocament definida, si no s'especifíca alguna de les
+    opcions que l'eviten: /MODA_NO_UNICA_IMPARCIAL, /MODA_NO_UNICA_PRIMER i/o /MODA_NO_UNICA_FITXER.</li>
+
+    <li>Imatges de variables CONTÍNUES. Es pot usar qualsevol dels tres
+    mètodes de CanviRes, encara que la Moda no sol tenir una
+    significació espacial interessant en cap cas.
+
+      <ul>
+        <li>Per a imatges de sensors usarem el valor Central quan no es vulgui
+        corrompre la radiometria (per exemple en classificació d'imatges) i s'usarà la mitjana quan
+        es vulgui la contracció per a interpretació visual. El programa
+          <a href="DensRas.htm">DensRas</a> no sol ser adequat perquè només
+          tindrà en compte els píxels immediatament envolupants del valor
+          central i no tota la finestra.</li>
+
+        <li>Per a models digitals d'elevacions s'usarà la mitjana si es vol
+        que el valor del píxel informi de l'altitud mitjana de tota la
+        cel·la i s'usarà el programa <a href="DensRas.htm">DensRas</a> si es vol 
+        que el valor del píxel informi de l'altitud al punt central de la
+        cel·la (el mètode del valor Central de CanviRes no és més que un cas
+        particular que <a href="DensRas.htm">DensRas</a> ja contempla en el
+        transcurs dels seus càlculs ja que aquest programa aplica
+        interpoladors exactes).</li>
+      </ul>
+    </li>
+
+    <li>Imatges de qualsevol tipus (variables CATEGÒRIQUES o CONTÍNUES): Es pot
+    usar el valor Central (amb un valor de CostatFinestra suficientment gran)
+    quan es desitgi efectuar un mostreig que permeti evitar
+    l'autocorrelació espacial. Donades les característiques del mòdul
+    CanviRes, el mostreig serà regularment distribuït en
+    l'espai.</li>
+  </ul>RESUM DE RECOMANACIONS
+  <pre>
+EXPANSIÓ:   + Mapa categòric:    CanviRes [seguit de mètode tesi X.Pons]
+            + Imatge de sensor:  CanviRes per a classificació (no recomanat)
+                                 <a href="DensRas.htm">DensRas</a> per a anàlisi visual
+            + MDE:               <a href="DensRas.htm">DensRas</a>
+
+CONTRACCIÓ: + Mapa categòric:    CanviRes, opció M
+            + Imatge de sensor:  CanviRes, opció C per a classificació
+                                 CanviRes, opció m per a anàlisi visual
+            + MDE:               CanviRes, opció m per a altituds mitjanes
+                                 <a href="DensRas.htm">DensRas</a>, per a altituds centrals
+</pre>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+CanviRes ?
+-->
+  </exclusiva>
+</body>
+</html>

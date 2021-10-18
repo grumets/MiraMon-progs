@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:EstdCamp</ows:Identifier>
+		<ows:Title>Estadístiques d'un camp d'una taula o consulta d'una base de dades</ows:Title>
+		<ows:Abstract>Aquest mòdul realitza càlculs estadístics sobre un camp d'una taula. Aquesta taula pot ser qualsevol taula física o consulta com ara les que s'associen a una capa gràfica a partir del seu corresponent fitxer REL, però també pot ser una taula DBF individual o una taula o consulta SQL d'una base de dades via ODBC com MDB, Oracle, etc.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Estadístiques d'un camp d'una taula o consulta d'una base de dades"/>
+		<ows:Metadata xlink:title="Abstract:Aquest mòdul realitza càlculs estadístics sobre un camp d'una taula. Aquesta taula pot ser qualsevol taula física o consulta com ara les que s'associen a una capa gràfica a partir del seu corresponent fitxer REL, però també pot ser una taula DBF individual o una taula o consulta SQL d'una base de dades via ODBC com MDB, Oracle, etc."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>FitxerOrigen</ows:Title>
+				<ows:Abstract>Fitxer REL, DBF, DSN o MDB a partir del qual volem determinar els estadístics d'un dels seus camps.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:FitxerOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-msaccess</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampImplicat</ows:Identifier>
+				<ows:Title>Camp Implicat</ows:Title>
+				<ows:Abstract>Indica el nom del camp (o l'índex per a versions de rel anteriors a la 4) sobre el qual es realitzen els càlculs estadístics.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:CampImplicat"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">String</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tractament</ows:Identifier>
+				<ows:Title>Tractament</ows:Title>
+				<ows:Abstract><![CDATA[Indica el tipus de tractament que se li dóna al camp implicat: <ul><li>N per a tractament quantitatiu.</li><li> C per a tractament categòric.</li><li> X indica tractament per defecte (tractament quantitatiu per a camps numèrics i categòric per a la resta). </li><li>M indica el tractament documentat a les metadades (o per defecte com X si no s'indica res).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Tractament"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>N</ows:Value>
+						<ows:Value>C</ows:Value>
+						<ows:Value>M</ows:Value>
+						<ows:Value>X</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>x</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_REG_TOTALS</ows:Identifier>
+				<ows:Title>Nombre de registres totals</ows:Title>
+				<ows:Abstract>Indica que es desitja conèixer quin és el nombre total de registres (inclou registres buits, blancs i NODATA) .</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_REG_DADES</ows:Identifier>
+				<ows:Title>Nombre de registres</ows:Title>
+				<ows:Abstract>Indica que es desitja conèixer quin és el nombre de registres amb dades (sense incloure registres buits, blancs ni NODATA).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MODA</ows:Identifier>
+				<ows:Title>Moda</ows:Title>
+				<ows:Abstract>Indica que es desitja el càlcul de la moda pel camp (només tractament categòric).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PRCNT_MODA</ows:Identifier>
+				<ows:Title>Percentatge d'ocurrència</ows:Title>
+				<ows:Abstract>Indica que es desitja conèixer el percentatge d'ocurrència del valor modal (només tractament categòric).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>I_SHAN</ows:Identifier>
+				<ows:Title>Índex de Shannon</ows:Title>
+				<ows:Abstract>Indica que es desitja el càlcul de l'índex de Shannon (només tractament categòric).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MITJANA</ows:Identifier>
+				<ows:Title>Mitjana</ows:Title>
+				<ows:Abstract>Indica que es desitja el càlcul de la mitjana (només tractament quantitatiu).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESV_STD</ows:Identifier>
+				<ows:Title>Desviació Estandar</ows:Title>
+				<ows:Abstract>Indica que es desitja el càlcul de la desviació estàndard (només tractament quantitatiu).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VAR</ows:Identifier>
+				<ows:Title>Variància</ows:Title>
+				<ows:Abstract>Indica que es desitja el càlcul de la variància (només tractament quantitatiu).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SUMA</ows:Identifier>
+				<ows:Title>Suma</ows:Title>
+				<ows:Abstract>Indica que es desitja conèixer el sumatori de tots els valors (només tractament quantitatiu).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MIN</ows:Identifier>
+				<ows:Title>Valor mínim</ows:Title>
+				<ows:Abstract>Indica que es desitja conèixer el valor mínim (tractament quantitatiu), o el primer valor en una ordenació alfabètica ascendent (tractament categòric).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX</ows:Identifier>
+				<ows:Title>Valor màxim</ows:Title>
+				<ows:Abstract>Indica que es desitja conèixer el valor màxim (tractament quantitatiu), o l'últim valor en una ordenació alfabètica ascendent (tractament categòric).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PRCNT_GRUP</ows:Identifier>
+				<ows:Title>Nombre de valors d'un element</ows:Title>
+				<ows:Abstract>Indica que es desitja conèixer el nombre de valors d'un element de la projecció (select distinct) respecte al nombre total de valors. En aquest càlcul no es tenen en compte els valors NODATA.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PRCNT_GRUP_NODATA</ows:Identifier>
+				<ows:Title>Percentatge del valor respecte al nombre total</ows:Title>
+				<ows:Abstract>Indica que es desitja conèixer el percentatge del valor respecte al nombre total de valors de la projecció. En aquest càlcul sí que es tenen en compte els valors NODATA.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SQL</ows:Identifier>
+				<ows:Title>SQL</ows:Title>
+				<ows:Abstract>Quan el fitxer origen és MDB o DSN (via ODBC), indica la sentència en lleguatge SQL a partir de la qual es calcularan els diferents estadístics.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Taula</ows:Title>
+				<ows:Abstract>Quan el fitxer origen és MDB o DSN (via ODBC), indica la taula de la corresponent base de dades a la qual pertany el camp sobre el qual es realitzaran els càlculs estadístics.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RELACIO_1_A_1</ows:Identifier>
+				<ows:Title>Relació no múltiple</ows:Title>
+				<ows:Abstract>Força a una relació no múltiple entre la taula principal i les taules associades. En la seva absència desapareix aquesta limitació i s'accepta la relació múltiple 1 a N.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TOTS_REG_PRAL</ows:Identifier>
+				<ows:Title>Tots Registres</ows:Title>
+				<ows:Abstract>En les relacions d'una taula principal amb taules associades, indica que s'han d'incloure també aquells registres que no tenen correspondència. En la seva absència només es tindran en compte aquells registres que sí que tenen correspondència a través de les relacions establertes.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AMB_ID_GRAFIC_0</ows:Identifier>
+				<ows:Title>Identificador gràfic zero</ows:Title>
+				<ows:Abstract>En el cas d'una base d'un vector de polígons, indica el cas excepcional de tenir en compte els atributs del polígon universal o identificador gràfic zero. La seva absència implica excloure els registres del polígon zero en els càlculs estadístics.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
+				<ows:Title>Camp de la condició #</ows:Title>
+				<ows:Abstract>Nom del camp de la condició # de la selecció. Hi poden haver fins a 100 condicions i per tant, fins a 100 noms de camp (COND#_CAMP) començant per l'índex 1. </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Operador de la condició #</ows:Title>
+				<ows:Abstract>Operador a usar en la # condició de la selecció. Hi poden haver fins a 100 condicions i per tant fins a 100 operadors (COND#_OP) començant per l'índex 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>LT</ows:Value>
+						<ows:Value>GT</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Valor de la condició #</ows:Title>
+				<ows:Abstract>Valor a usar en la # condició de la selecció. Hi poden haver fins a 100 condicions i per tant fins a 100 valors (COND#_VALOR) començant per l'índex 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Nexe de la condició #</ows:Title>
+				<ows:Abstract>Nexe a usar per enllaçar entre successives condicions de selecció. En aquest cas entre la condició # i la condició #+1. Hi poden haver fins a 100 condicions i per tant fins a 99 nexes (COND#_NEXE) començant per l'índex 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Prioritat del nexe de la condició #</ows:Title>
+				<ows:Abstract>Prioritat del nexe a usar per enllaçar entre successives condicions de selecció. En aquest cas entre la condició # i la condició #+1. Hi poden haver fins a 100 condicions i per tant fins a 99 prioritats (COND#_PRIOR) començant per l'índex 1. És un paràmetre optatiu, on de no indicar-se, la prioritat és simplement l'ordre</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+						</ows:Range>
+						<ows:Value/>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Stdout</ows:Identifier>
+				<ows:Title>Estàndar de sortida</ows:Title>
+				<ows:Abstract>Fitxer Text Temporal on s'escriuen tots els càlculs demanats. Des de la finestra resultat de WEstdCam poden copiar-se al portapapers els resultats a partir de diferents opcions dels menús del botó dret del ratolí.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-display</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-display</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

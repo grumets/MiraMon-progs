@@ -1,0 +1,229 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CombiCap: Combinación analítica de capas ráster y vectoriales</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <h3>Enfoque vectorial</h3>Tanto si indicamos dos capas vectoriales de
+  entrada, una capa vectorial y un ráster o dos rásters categóricos, se podrá
+  optar por un enfoque vectorial de la combinación de capas. En este caso el
+  fichero vectorial de salida, su tipo y contenido dependerán del fichero de
+  entrada. Así, un ráster categórico puede considerarse como un fichero de
+  polígonos con el valor del ráster como único atributo temático vinculado a
+  un tesauro de categorías. Puede encontrar más detalles sobre esta
+  equivalencia en el módulo <a href="rastop.htm">RASTOP</a>. Una excepción la
+  constituyen los casos IMG + PNT = PNT y IMG + NOD = PNT que serán comentados
+  más adelante en el apartado <a href="#enfoc_mixt">enfoque mixto</a>.
+
+  <dl>
+    <dt>POL + POL = POL</dt>
+
+    <dt>IMG + IMG = POL</dt>
+
+    <dd>El fichero de polígonos de salida es un fichero de polígonos que se
+    obtiene de la fragmentación del espacio producida por la unión de los
+    bordes de los ficheros de polígonos originales. Cada fragmento hereda
+    todos los atributos de ambos polígonos origen que lo contienen.</dd>
+
+    <dt>POL + ARC = ARC</dt>
+
+    <dt>IMG + ARC = ARC</dt>
+
+    <dd>Cada arco es partido en fragmentos a partir de los bordes del fichero
+    de polígonos derivado del IMG. Aparte de sus propios atributos de arco,
+    cada fragmento hereda los atributos del polígono que lo contiene.</dd>
+
+    <dt>POL + ARC = POL</dt>
+
+    <dt>IMG + ARC = POL</dt>
+
+    <dd>La geometría del fichero de polígonos permanece inalterada pero sus
+    registros se ven enriquecidos por los atributos de cada arco que los
+    atraviesa o que está entera o parcialmente incluido en él.</dd>
+
+    <dt>POL + PNT = PNT</dt>
+
+    <dd>La geometría del fichero de puntos permanece inalterada pero cada
+    punto adquiere los atributos del polígono que lo contiene.</dd>
+
+    <dt>POL + PNT = POL</dt>
+
+    <dt>IMG + PNT = POL</dt>
+
+    <dd>La geometría del fichero de polígonos permanece inalterada pero sus
+    registros se ven enriquecidos por los atributos de los puntos contenidos
+    en cada polígono.</dd>
+
+    <dt>POL + NOD = PNT</dt>
+
+    <dd>El fichero de nodos se trata como un fichero de puntos donde cada
+    punto adquiere los atributos del polígono que lo contiene.</dd>
+
+    <dt>POL + NOD = POL</dt>
+
+    <dt>IMG + NOD = POL</dt>
+
+    <dd>La geometría del fichero de polígonos permanece inalterada pero sus
+    registros se ven enriquecidos por los atributos de los nodos contenidos en
+    cada polígono.</dd>
+  </dl>Note que en el caso de combinaciones vectoriales para dar un vector, se
+  tienen en cuenta todos los atributos de las tablas principales de los dos
+  vectores así como sus relaciones con las tablas asociadas.
+
+  <p>Cuando las capas analizadas presenten nombres de campo iguales en la
+  tabla principal, éstos serán modificados añadiendo _A para la primera capa y
+  _B para la segunda para poder diferenciarlos. Esto resulta especialmente
+  útil en el caso de estudios de los mismos parámetros en 2 momentos en el
+  tiempo (por ejemplo comparar dos mapas de vegetación de diferentes
+  fechas).</p>
+
+  <p>En las combinaciones de polígonos en las que los bordes no provienen de
+  la misma fuente pueden aparecer pequeñas regiones indeseadas que llamamos
+  micropolígonos. El programa permite la eliminación selectiva de este
+  artefacto definiendo un área mínima y/o una relación perímetro/área umbral.
+  Para más detalles consulte la sintaxis o la ayuda de <a href="micropol.htm">MICROPOL</a>. <a id="enfoc_mixt" name="enfoc_mixt"></a></p>
+
+  <h3>Enfoque mixto</h3>
+
+  <p>IMG + PNT = PNT o IMG + NOD = PNT</p>
+
+  <p>Los ficheros de puntos o nodos pueden combinarse con rásters categóricos
+  o de variación continua para obtener un fichero PNT. En este caso la
+  geometría del fichero de puntos permanece inalterada pero cada punto
+  adquiere el valor de la celda o celdas de ráster próximas al mismo un máximo
+  de un lado de píxel de distancia. Estos valores se heredan en forma de un
+  campo dentro de la base de datos. Es posible escoger entre la celda más
+  próxima o la moda de las celdas a menos de un píxel de distancia para
+  rásters categóricos o la interpolación bilineal entre 4 vecinos o bicúbica
+  entre 16 vecinos para rásters de variación continua.</p>
+
+  <p>IMG + POL =POL con estadísticos</p>
+
+  <p>En este caso se calculan valores estadísticos de los píxeles del ráster
+  dentro de cada polígono y estos valores estadísticos se transfieren a los
+  registros correspondientes de la tabla principal del polígono (sin alterar
+  la geometría de los objetos gráficos). En los bordes del polígono, los
+  valores del ráster se tendrán en cuenta según la combinación de los
+  criterios de área y punto central (vea <a href="TiraVec.htm">TiraVec</a> si
+  desea más información sobre estos criterios).<br/>
+  Los estadísticos implementados para un ráster cuantitativo continuo son:
+  número total de pixels, media, desviación estándar, variancia, sumatorio,
+  mínimo, máximo y rango. Los estadísticos implementados para un ráster
+  categórico son: número total de píxeles, moda, porcentaje de la moda sobre el
+  total, índice de Shannon, mínimo, máximo y rango. Hay que remarcar que los
+  valores NODATA del ráster no participan en ninguno de los cálculos
+  estadísticos.</p>
+
+  <p align="center"><img src="ishannon.gif"/> <font size="-1"><br/>
+  cálculo del índice de Shannon</font></p><a id="enfoc_raster" name="enfoc_raster"></a>
+
+  <h3>Enfoque ráster</h3>En caso de combinar dos imágenes de tipo ráster,
+  éstas deben corresponder al mismo ámbito geográfico, deben tener la misma
+  resolución y las mismas unidades referidas al mismo sistema de referencia.
+  En caso de combinar una capa ráster y una vectorial la primera define el
+  ámbito y la resolución de salida. En caso de combinar dos capas vectoriales,
+  hay que especificar el ámbito de la zona de estudio y la resolución del
+  ráster de salida. La ventana Wcombica permite indicar un fichero ráster como
+  patrón para estos parámetros. Cuando se combinan dos imágenes ráster, éstas
+  pueden ser de diferente tipo (se excluye el tipo real ya que nunca debería
+  representar datos categóricos) y no importa el grado de compresión.
+
+  <p>Como hemos dicho, el resultado puede ser un ráster y/o un informe. En
+  caso que se escoja generar un <b>ráster</b>, éste estará siempre en formato
+  extracomprimido y de tipo byte, integer o long según el número de
+  combinaciones que hayan resultado del cruzamiento de las dos capas
+  iniciales.</p>
+
+  <p>Las nuevas categorías del ráster resultado se presentarán ordenadas por
+  las categorías de la primera capa, excluyendo aquellos cruzamientos que,
+  aunque teóricamente posibles, no se den en ninguna posición geográfica. El
+  ráster resultado generará un valor NODATA en caso que en aquella posición
+  las dos capas tengan valor NODATA (ya sea porque el ráster de entrada
+  presenta valores indicados como tales, ya sea porque el fichero vectorial no
+  presenta ningún polígono en aquél punto). El valor de este NODATA dependerá
+  del tipo de salida escogido automáticamente. El cruzamiento de un NODATA con
+  un valor permitido generará un valor permitido y se informará en la leyenda
+  de esta categoría que corresponde a este cruzamiento especial. En la leyenda
+  del fichero resultado se especifican las categorías de que proviene cada
+  nueva categoría; si una categoría de un fichero origen no tiene descripción,
+  se especifica su valor numérico.</p>
+
+  <p><a id="informe" name="informe"></a></p>
+
+  <h4>Informes</h4>Para las capas ráster (o tratadas como ráster) se analiza
+  el cruzamiento de cada valor con las que presente la otra capa. Dado que las
+  capas vectoriales resultantes tendrán típicamente muchos campos y hacer las
+  estadísticas de todos resultaría confuso, solamente puede generarse un
+  informe si no se escoge capa de salida (indicando los campos de las capas
+  vectoriales a cruzar como ráster) o si la capa de salida es ráster; si la
+  capa de salida es vectorial, puede hacer consultas por atributo en MiraMon
+  para obtener las informaciones deseadas. Si bien cuando no se escoge capa de
+  salida se genera un informe relativo a sendos campos de las capas
+  implicadas, tenga en cuenta que los cálculos de superficie de cada
+  ocurrencia se obtienen a partir de la resolución de un hipotético ráster de
+  salida. En la primera tabla se recoge el número total de ocurrencias para
+  cada pareja de valores resultante de la combinación de las dos capas. A
+  continuación se generan dos tablas de porcentajes. Primeramente, se indica
+  cómo un determinado valor de la primera capa, se reparte en el cruzamiento
+  con los diferentes valores de la segunda capa. Por tanto, el sumatorio de
+  una columna valdrá el 100%. La segunda tabla de porcentajes tiene el mismo
+  significado pero mostrando cómo se reparte la segunda capa sobre la primera;
+  en este caso es el sumatorio por filas el que valdrá el 100%.
+
+  <p>Finalmente se generan dos tablas más, que recogen la superficie total de
+  cada cruzamiento. La primera de ellas se expresa en las unidades de
+  referencia particulares de las capas que participen en el análisis
+  (parámetro &quot;ResolutionUnits&quot; del fichero .REL para rásters) y la
+  segunda en las unidades de superficie especificadas en el fichero de
+  parámetros de MiraMon (parámetro &quot;UnitArea&quot; de MiraMon.PAR)</p>
+
+  <p>El <b>fichero en formato CSV</b> detalla la misma información que el
+  fichero de texto. Este formato está preparado para ser leído por una hoja de
+  cálculo como por ejemplo Microsoft Excel® . Es un formato de texto donde un
+  carácter determinado actúa como separador de columnas. Este separador puede
+  especificarse en las opciones avanzadas de la aplicación WCOMBICA, tomando
+  su valor por defecto del configurado como separador de listas en el Panel de
+  Control de Windows. De la misma manera que para el formato TXT, es posible
+  limitar la anchura del informe, evitando así sobrepasar el número máximo de
+  columnas soportado por la hoja de cálculo, cuando el número de categorías en
+  juego es bastante elevado.</p>
+
+  <p>En caso que se escoja un <b>fichero de texto</b> (formato TXT), éste
+  consta de cinco tablas de hasta tantas columnas como valores tiene la
+  primera capa y de hasta tantas filas como valores tiene la segunda capa. En
+  la fila y columna iniciales de cada una de estas tablas, se especifican los
+  valores numéricos de cada categoría, y al final de la primera tabla se
+  listan sus descriptores correspondientes. La presentación puede paginarse
+  escogiendo el número máximo de columnas que caben en el ancho del informe;
+  su valor por defecto es 80 columnas (categorías).</p>
+
+  <p>Si se desea reducir el volumen de información de los informes, puede
+  aplicarse alguno de los parámetros para ignorar determinadas tablas
+  (<i>/NO_FREQ, /NO_PERCENT, /NO_AREA</i> )</p>
+
+  <center>
+    <img src="combiesq.gif"/><br/>
+    Esquema figurativo de las principales posibilidades<br/>
+    de la Combinación Analítica de Capas. <img src="combies2.gif"/><br/>
+    Ejemplo de uso del modo mixto.
+  </center>
+
+  <exclusiva>
+    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+CombiCap ?
+--></p>
+  </exclusiva>
+</body>
+</html>

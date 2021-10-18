@@ -1,0 +1,329 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CorRad: Correcció radiomètrica d'imatges de Teledetecció.</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar des de el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  Aquest mòdul permet corregir radiomètricament imatges de
+  Teledetecció captades en les regions espectrals visible i infraroig (proper,
+  mitjà i tèrmic). La correcció radiomètrica permet reduir artefactes
+  indesitjats deguts als efectes de l'atmosfera o a la il·luminació
+  diferencial provocada per l'hora del dia, el lloc de la Terra o el
+  relleu (zones més o menys il·luminades, ombres, etc).
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar des de el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>El programa està directament preparat per a imatges Landsat-ETM+, TM o
+  MSS i SPOT-XS, tot i que és escalable a pràcticament qualsevol altre sensor
+  espacial o aeroportat a través de fitxers de tipus RAD (vegeu descripció més
+  avall), d'escriptura molt simple. Com a exemple se subministren unes
+  taules amb paràmetres de calibració per a Landsat-7 ETM+.</p>
+
+  <p>Pel que fa a les regions espectrals visible i infraroig no tèrmic, el
+  model de correcció radiomètrica implementat en aquest programa està basat en
+  el proposat per Xavier Pons i Lluís Solé-Sugrañes a l'article:</p>
+
+  <blockquote>
+    PONS, X. &amp; L. SOLÉ-SUGRAÑES (1994) &quot;A Simple Radiometric
+    Correction Model to Improve Automatic Mapping of Vegetation from
+    Multispectral Satellite Data&quot; Remote Sensing of Environment,
+    48:191-204.
+  </blockquote>i que ha estat utilitzat amb èxit en treballs posteriors de
+  diversos autors.
+
+  <p>Pel que fa a la regió espectral infraroig tèrmic podeu consultar a
+  <a href="http://ltpwww.gsfc.nasa.gov/IAS/handbook/handbook_htmls/chapter11/chapter11.html">
+  http://ltpwww.gsfc.nasa.gov/IAS/handbook/handbook_htmls/chapter11/chapter11.html</a>
+  el model de conversions de radiàncies a temperatures.</p>
+
+  <p>En la present implementació, tanmateix, s'incorporen diverses
+  millores com ara la consideració de les ombres projectades, la utilització
+  de factors de reescalat diferents en funció de les diferents bandes
+  espectrals, etc.</p>
+
+  <p>Aquest text d'ajuda només pretén orientar en la utilització del
+  programa, sense entrar en una discussió en profunditat dels fonaments i
+  justificació de la formulació de l'algorisme. El lector interessat en
+  aquests extrems pot consultar els articles citats més amunt.</p>
+
+  <p>Per a regions espectrals visible i infraroig tèrmic, en essència, aquest
+  model de correcció radiomètrica converteix una imatge de valors (DN)
+  proporcionals a la radiància rebuda pel sensor en una imatge en què els
+  valors són reflectàncies. Com és sabut, els valors de reflectància se solen
+  distribuir en l'interval [0,1] (o en [0,100] si són expressats en
+  percentatge). Tanmateix, si es vol evitar la utilització de fitxers de tipus
+  &quot;real&quot; (=&quot;float&quot;), quan les dades originals rarament
+  tenen una exactitud superior a 8 bits, el programa també permet escriure els
+  resultats en un fitxer de tipus &quot;byte&quot;, permetent escalar els
+  valors dintre el rang [0,254] de la forma que l'usuari estimi més
+  adequada.</p>
+
+  <p>El model de correcció radiomètrica té en compte, entre altres factors, el
+  relleu (angles d'incidència i ombres projectades), la posició solar, la
+  distància Terra-Sol en el moment de presa de la imatge, l'esmorteïment
+  atmosfèric en els camins d'anada i de retorn de la radiació i paràmetres
+  estàndard, per cada canal, de densitat òptica atmosfèrica, irradiància
+  exoatmosfèrica solar i calibració del sensor. El programa efectua la
+  correcció per totes les bandes multiespectrals, alhora en una única
+  execució, però si es desitja es pot efectuar sobre a un sol canal.</p>
+
+  <p><u>Imatges auxiliars d'il·luminació i ombres</u><br/>
+  Per defecte, el programa genera temporalment dues imatges auxiliars
+  derivades del model digital d'elevacions i de la posició solar: la
+  primera contindrà el cosinus de l'angle d'incidència solar per cada
+  píxel; la segona contindrà, per a l'azimut solar amb què es va prendre
+  la imatge, les altures solars que provoquen ombres projectades en cada
+  píxel, (vegeu, més avall, els mòduls relacionats). Cal tenir present que el
+  programa pressuposa que la posició solar respecte al centre de l'àmbit
+  és única per tots els canals, que les diferents bandes poden tenir un costat
+  de píxel (amb els corresponents MDE coherents) diferent o fins i tot un
+  àmbit diferent, però no un centre d'escena diferent. Si no es verifica
+  aquesta condició caldrà fer correccions banda a banda.<br/>
+  Aquestes dues imatges auxiliars (que habitualment es generen, s'usen i
+  s'esborren) poden conservar-se si es desitja, indicant-ho explícitament
+  amb els paràmetres <i>/ILLUM_DEST</i> i <i>/OMBRA_DEST</i> o els
+  corresponents botons d'activació a la caixa de diàleg. Si es vol usar
+  unes ja creades, derivades del mateix Model Digital d'Elevacions i amb
+  els mateixos paràmetres de posició solar cal indicar-ho amb <i>/ILLUM_ORI i
+  /OMBRA_ORI</i> o a través dels corresponents botons d'activació de la
+  caixa de diàleg.</p>
+
+  <p><u>Correcció atmosfèrica</u><br/>
+  La correcció atmosfèrica es basa en la resta dels valors radiomètrics més
+  baixos en cada canal. Aquest valor és anomenat Kl. En la determinació de Kl
+  no és aconsellable efectuar un procediment &quot;a cegues&quot;
+  d'assignació al mínim de l'histograma, sinó que cal mirar visualment
+  si sembla creïble que aquella zona presenti els valors més baixos de
+  l'histograma. Per exemple, si la imatge presenta zones sense dades
+  (valor 0) o amb valors baixos puntuals per causa d'un mal funcionament
+  del sensor, no assignarem aquests valors a Kl. La consulta visual
+  d'aquests valors amb MiraMon (consulta per atributs dels valors més
+  baixos sobre cada canal) sol ser molt útil en la determinació de Kl.
+  Finalment, recordeu que en una imatge sense aigua ni ombres dures (relleu
+  suau en relació a l'altura solar) el valor de Kl a aplicar pot estar
+  fins i tot per sota del DN mínim de la imatge.</p>
+
+  <p><u>Angles</u><br/>
+  Encara que aquest model de correcció pot treballar sempre que l'angle
+  d'incidència sigui menor que 90 graus, és més realista admetre que amb
+  angles propers a aquest valor, no es pot assumir un model lambertià. Per
+  això és necessari indicar, en graus, l'angle a partir del qual ja no
+  aplicarem el model de correcció (p.ex.: 73, 70, etc).</p>
+
+  <p>Per altra banda, i degut a imprecisions en el Model Digital
+  d'Elevacions (MDE) a partir del qual s'ha calculat la imatge
+  d'ombres, pot ser que tractem com a il·luminats píxels que realment són
+  ombrejats. És per això que és convenient indicar l'error estimat del MDE
+  (indiqueu 0 si no el coneixeu). Aquest error s'ha d'expressar en les
+  mateixes unitats del sistema de referència.</p>
+
+  <p>Els sensors actualment suportats són:</p>
+
+  <ol>
+    <li>Landsat-4 (TM) [Anterior a l'agost de 1983]</li>
+
+    <li>Landsat-4 (TM) [Entre l'agost de 1983 i el 15 de gener de
+    1984]</li>
+
+    <li>Landsat-4 (TM) [Posterior al 15 de gener de 1984]</li>
+
+    <li>Landsat-5 (TM)</li>
+
+    <li>SPOT-1 (XS)</li>
+
+    <li>Landsat-1 (MSS)</li>
+
+    <li>Landsat-2 (MSS) [Del 22 de juny al 15 de juliol de 1975]</li>
+
+    <li>Landsat-2 (MSS) [16 de juliol de 1975 o posterior]</li>
+
+    <li>Landsat-3 (MSS) [Del 5 de març al 31 de maig 1978]</li>
+
+    <li>Landsat-3 (MSS) [1 de juny de 1978 o posterior]</li>
+
+    <li>Landsat-4 (MSS) [Anterior al 26 d'agost de 1982]</li>
+
+    <li>Landsat-4 (MSS) [26 d'agost de 1982 al 31 de març de 1983]</li>
+
+    <li>Landsat-4 (MSS) [1 d'abril de 1983 o posterior]</li>
+
+    <li>Landsat-5 (MSS) [Anterior al 6 de abril de 1984]</li>
+
+    <li>Landsat-5 (MSS) [6 d'abril de 1984 al 8 de novembre de 1984]</li>
+
+    <li>Landsat-5 (MSS) [8 de novembre de 1984 o posterior]</li>
+
+    <li>Landsat-7 (ETM+) [alt i baix guany; NLAPS i LPGS]</li>
+  </ol>Els canals vàlids per a ETM+ són: 1, 2, 3, 4, 5, 6, 7, 8 i 9<br/>
+  Els canals vàlids per a TM són: 1, 2, 3, 4, 5, 6 i 7<br/>
+  Els canals vàlids per a SPOT són: 1, 2 i 3<br/>
+  Els canals vàlids per a MSS són: 1, 2, 3 i 4
+
+  <p>Si es desitja treballar amb un sensor no present en l'anterior llista
+  caldrà introduir els paràmetres necessaris en un fitxer de text. El nom
+  d'aquest fitxer (amb extensió) s'indicarà al paràmetre 4 en comptes
+  de l'índex donat anteriorment. Els paràmetres necessaris són 4 per a
+  cada canal espectral:</p>
+
+  <ul>
+    <li>irradiància exoatmosfèrica solar (S0, en W/(m²·strad·µm)),</li>
+
+    <li>densitat òptica atmosfèrica en el camí Sol-Terra (tau0),</li>
+
+    <li>densitat òptica atmosfèrica en el camí Terra-sensor (tau0_retorn)</li>
+
+    <li>constants de calibració específiques pels canals tèrmics</li>
+  </ul>Aquests paràmetres estaran dintre d'una secció de nom <font face="Courier New" size="-1">[CALIBR]</font>, sota claus de noms:
+
+  <ul>
+    <li><font face="Courier New" size="-1">x_S0</font></li>
+
+    <li><font face="Courier New" size="-1">x_tau0</font></li>
+
+    <li><font face="Courier New" size="-1">x_tau0_ret</font></li>
+
+    <li><font face="Courier New" size="-1">x_TempK1 i x_TempK2</font></li>
+  </ul>
+
+  <p>on '<font face="Courier New" size="-1">x</font>' indica el número
+  de la banda espectral.</p>
+
+  <p>A més a més, és necessari un paràmetre addicional per la calibració,
+  factor de calibració del sensor (per passar de DN-&gt;Radiància expressada
+  en W/(m²·strad·µm), que habitualment hauria d'estar documentat a les
+  metadades de la imatge a corregir amb la clau
+  <i>DN2L_ScaleFactorCoefficient</i> a la secció corresponent a la banda en
+  qüestió. En qualsevol cas pot definir-se un d'específic en un fitxer RAD
+  complementari, indicat pel paràmetre <i>/F_CALIB=</i> en la línia de
+  comanda, de forma anàloga, dintre d'una secció de nom <font face="Courier New" size="-1">[CALIBR]</font>, sota la clau <i>x_DN2Rad</i> .</p>
+
+  <p>A més d'aquesta secció hi pot haver una secció <font face="Courier New" size="-1">[SENSOR]</font> amb una clau:<br/></p>
+
+  <ul>
+    <li><font face="Courier New" size="-1">Titol</font></li>
+  </ul>i una secció <font face="Courier New" size="-1">[CONFIG]</font> amb
+  informació sobre la configuració espectral del sensor, amb la clau
+  '<font face="Courier New" size="-1">NBand</font>' que indica el
+  nombre de bandes, i les claus:
+
+  <ul>
+    <li><font face="Courier New" size="-1">x_lambda_inf</font></li>
+
+    <li><font face="Courier New" size="-1">x_lambda_sup</font></li>
+  </ul>que fan referència a l'abast espectral de cada banda
+  '<font face="Courier New" size="-1">x</font>' (en micròmetres).
+  Aquesta informació també hauria d'estar ben documentada en les metadades
+  de la imatge a corregir i, en aquest cas, és innecessari el fitxer de
+  calibració del sensor.
+
+  <p>Exemple de fitxer *.RAD:</p>
+  <pre>
+  [SENSOR]
+  Títol=Sensor CASI. Configuració del vol de 8-11-1994.
+
+  [CONFIG]
+  NBand=3
+  1_lambda_inf=0.4973
+  1_lambda_sup=0.5044
+  2_lambda_inf=0.5970
+  2_lambda_sup=0.6042
+  3_lambda_inf=0.7085
+  3_lambda_sup=0.7157
+
+  [CALIBR]
+  1_S0=1911.254
+  1_tau0=0.449
+  1_tau0_ret=0.284
+  2_S0=1745.934
+  2_tau0=0.279
+  2_tau0_ret=0.228
+  3_S0=1388.889
+  3_tau0=0.234
+  3_tau0_ret=0.208
+</pre>A partir de la versió 5 del programa, aquest format de fitxer *.RAD ha
+de tenir una secció que identifiqui la seva corresponent versió:
+  <pre>
+  [VERSIO]
+  Vers=5
+</pre>
+
+  <p>Exemples de paràmetres de calibració per a Landsat-7:</p>
+
+  <center>
+    <img alt="Calibració Landsat-7" src="calib.jpg"/>
+  </center>
+
+  <p>La reflectància pot presentar valors entre 0 i 1, encara que habitualment
+  seran força inferiors a 0.75 i, fins i tot, a 0.5. Si es desitja que el
+  format de sortida sigui byte i, per tant, amb valors entre 0 i 255, cal
+  indicar el factor a utilitzar per a reescalar la reflectància entre 0 i
+  254.<br/>
+  Exemples:</p>
+
+  <blockquote>
+    318.3 provocarà saturació a partir d'una reflectància de 0.801<br/>
+    510.0 provocarà saturació a partir d'una reflectància de 0.500<br/>
+    637.5 provocarà saturació a partir d'una reflectància de 0.400<br/>
+  </blockquote>En el cas byte, les reflectàncies saturades s'assignen a
+  254, reservant el valor 255 (NODATA) per a píxels on el model no pot donar
+  dades correctes: angles d'incidència superiors a 90° o a l'angle
+  límit lambertià indicat per l'usuari, píxels a l'ombra d'altres
+  píxels o, molt rarament, reflectàncies anòmales (superiors a 1, habitualment
+  degudes a un mal registre entre les imatges i el MDE, zones NODATA en la
+  imatge o el MDE original, etc).
+
+  <p>En algunes imatges (particularment MSS processades per EURIMAGE) és
+  necessària una transformació lineal de les dades prèvia a la correcció, ja
+  que en origen s'hi aplica un estirament de l'histograma amb
+  finalitats estètiques. Podem aplicar aquesta transformació a través del
+  paràmetre <i>/GUANY</i>.</p>
+
+  <p>ATENCIÓ: En aquest cas la Kl que doneu se suposa extreta de les imatges
+  originalment &quot;estirades&quot; i, per tant, el programa efectua la resta
+  DN-Kl abans d'aplicar la transformació linial que demaneu.</p>
+
+  <p>NOTES:</p>
+
+  <ul>
+    <li>1/ El mòdul <a href="astres.htm">ASTRES</a> permet saber la
+    l'azimut i altura solars en el centre de qualsevol imatge, si és que
+    no són ja a les metadades.
+    </li>
+
+    <li>2/ El mòdul <a href="illum.htm">ILLUM</a> permet generar la imatge
+    dels cosinus dels angles d'incidència, si es desitja fer-ho com a
+    procés previ.
+    </li>
+
+    <li>3/ El mòdul <a href="ombra.htm">OMBRA</a> permet generar la imatge amb
+    les altures límit d'il·luminació per a qualsevol azimut solar, si es
+    desitja fer-ho com a procés previ.
+    </li>
+
+    <li>4/ El mòdul A_i_B permet obtenir els valors de &quot;pendent&quot;
+    (<i>/GUANY</i>) per a les imatges MSS subministrades per EURIMAGE. Per a
+    aconseguir aquest mòdul cal sol·licitar-lo, enviant un correu electrònic,
+    a <b>contacte@miramon.uab.cat</b>.<br/></li>
+
+    <li>5/ Si doneu un valor Kl massa petit invertireu l'efecte de la
+    il·luminació i arribareu a veure els vessants originalment menys
+    il·luminats com a més il·luminats.</li>
+  </ul>
+  <hr/>
+
+  <exclusiva>
+  <!-- Aquí inicia la part corresponent a la sintaxi de MiraMon. Aquesta part s'ha d'editar des de el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de MiraMon editable de el WPS.-->
+    <!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+CorRad ?
+-->
+    
+  </exclusiva>
+</body>
+</html>

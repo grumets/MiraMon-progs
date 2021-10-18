@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:EstdGrup:Param1:HTM</ows:Identifier>
+		<ows:Title>EstdGrup HTM</ows:Title>
+		<ows:Abstract>This option carries out statistical calculations for one or more fields of a database (usually linked to a structured vector layer). These statistics are calculated and classified according to groupings defined by the user. The results of the statistics are saved in HTML file.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Field statistics by grouping registers according to values present in other fields"/>
+		<ows:Metadata xlink:title="Abstract:This module carries out statistical calculations for one or more fields of a database (usually linked to a structured vector layer). These statistics are calculated and classified according to groupings defined by the user."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>HTM (or 1): A report of the result of the statistical calculations is generated in HTML format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>HTM</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>HTM</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Origin File</ows:Title>
+				<ows:Abstract>REL file corresponding to the database of a structured vector layer, or DBF table, with which the selected statistical calculations are carried out.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:OriginFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>GRP_#</ows:Identifier>
+				<ows:Title>Grouping Field #</ows:Title>
+				<ows:Abstract><![CDATA[Name of the field that acts as a grouping field with # order of priority. The value of this variable will contain an alphanumerical text constructed according to the field name and its links from the main table. N grouping fields can be used, where # is the number of the grouping field (GRP_1, GRP_2,...). The priority order begins with value 1, which indicates the most general grouping level. More information at <a href=general.htm>general sintax</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>ESTD_#</ows:Identifier>
+				<ows:Title>Statistical Field#</ows:Title>
+				<ows:Abstract>Name of the field in which different statistical calculations, identified by the # index, are carried out. This index only indicates an order in which the different calculated fields are displayed. It is possible to make statistics over N fields. Its value is constructed in the same way as /GRP_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>CAT_#</ows:Identifier>
+				<ows:Title>Categorical treatment</ows:Title>
+				<ows:Abstract>Indicates categorical treatment of the field identified by /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>NUM_#</ows:Identifier>
+				<ows:Title>Quantitative treatment</ows:Title>
+				<ows:Abstract>Indicates quantitative treatment of the field identified by /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_TOTALS_#</ows:Identifier>
+				<ows:Title>Total number of registers</ows:Title>
+				<ows:Abstract>For the field identified by /ESTD_#  the total number of registers (including empty, blank or NoData registers) is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_DADES_#</ows:Identifier>
+				<ows:Title>Number of registers with data</ows:Title>
+				<ows:Abstract>For the field identified by /ESTD_# the number of registers with data (excluding empty, blank or NoData registers) is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_MODA_#</ows:Identifier>
+				<ows:Title>Modal Percentage</ows:Title>
+				<ows:Abstract>Indicates that the occurrence percentage of the modal value for the field identified by /ESTD_# in a categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MODA_#</ows:Identifier>
+				<ows:Title>Mode</ows:Title>
+				<ows:Abstract>Indicates that  the mode for the field identified by /ESTD_# in a categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>I_SHAN_#</ows:Identifier>
+				<ows:Title>Shannon index</ows:Title>
+				<ows:Abstract>Indicates that the Shannon index for the field identified by /ESTD_# in a categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MITJANA_#</ows:Identifier>
+				<ows:Title>Mean</ows:Title>
+				<ows:Abstract>Indicates that the mean for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>DESV_STD_#</ows:Identifier>
+				<ows:Title>Standard deviation</ows:Title>
+				<ows:Abstract>Indicates that the standard deviation for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>VAR_#</ows:Identifier>
+				<ows:Title>Variance</ows:Title>
+				<ows:Abstract>Indicates that the variance for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>SUMA_#</ows:Identifier>
+				<ows:Title>Sum</ows:Title>
+				<ows:Abstract>Indicates that the sum of all the values for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MIN_#</ows:Identifier>
+				<ows:Title>Minimum</ows:Title>
+				<ows:Abstract>Indicates that  the minimum values for the field identified by /ESTD_# in a quantitative treatment, or the first value of an ascending alphabetical order for the categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MAX_#</ows:Identifier>
+				<ows:Title>Maximum</ows:Title>
+				<ows:Abstract>Indicates that one wishes to know the maximum value for the field identified by /ESTD_# in a quantitative treatment, or the last value of an ascending alphabetical order for the categorical treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_#</ows:Identifier>
+				<ows:Title>Total values numbers</ows:Title>
+				<ows:Abstract>Indicates that one wishes to know the total number of values of an element of the projection with respect to the total number of values for the field identified by /ESTD_# . NoData values are not taken into account in this calculation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_NODATA_#</ows:Identifier>
+				<ows:Title>Total values number considering NoData</ows:Title>
+				<ows:Abstract>Indicates that one wishes to know the percentage of the value in relation to the total number of values of the projection of the field identified by /ESTD_#. NoData values are taken into account in this calculation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_#</ows:Identifier>
+				<ows:Title>Median</ows:Title>
+				<ows:Abstract>This indicates that you want to know the median of all the values for the field identified by /ESTD_# in a quantitative treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESV_MEDIANA_#</ows:Identifier>
+				<ows:Title>Mean of the absolute deviation from the median</ows:Title>
+				<ows:Abstract>This indicates that you want to know the mean of the absolute deviation from the median of all the values for the field identified by /ESTD_# in a quantitative treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_EMPAT_#</ows:Identifier>
+				<ows:Title>Decision for the median</ows:Title>
+				<ows:Abstract><![CDATA[In case you choose to calculate the median or the mean of the absolute deviation with respect to the median, this inticates the decision for the median:<li>1 to choose alternate value .</li><li>2 to choose lower value.</li><li>3 to choose higher value.</li><li>4 to choose the average of the central values.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DECIMALS</ows:Identifier>
+				<ows:Title>Decimals number</ows:Title>
+				<ows:Abstract>Number of decimal figures for the results of the statistics that correspond to a non-integer numerical value. If not specified, the value defined in the MiraMon.par configuration file is used.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerSortida</ows:Identifier>
+				<ows:Title>Destination File</ows:Title>
+				<ows:Abstract>For HTM (1) and CSV (3) options this is the file that will contain the results of the statistical calculations indicated.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:DestFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>text/html</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/html</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:EstdGrup:Param1:DBF</ows:Identifier>
+		<ows:Title>EstdGrup DBF</ows:Title>
+		<ows:Abstract>This option carries out statistical calculations for one or more fields of a database (usually linked to a structured vector layer). These statistics are calculated and classified according to groupings defined by the user. The results of the statistics are saved in DBF file in the destination directory.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>DBF (or 2): As many tables in DBF format are generated as there are grouping fields in the destination directory. Each table contains the statistical results of its corresponding grouping field.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>DBF</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>DBF</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Origin File</ows:Title>
+				<ows:Abstract>REL file corresponding to the database of a structured vector layer, or DBF table, with which the selected statistical calculations are carried out.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:OriginFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>GRP_#</ows:Identifier>
+				<ows:Title>Grouping Field #</ows:Title>
+				<ows:Abstract><![CDATA[Name of the field that acts as a grouping field with # order of priority. The value of this variable will contain an alphanumerical text constructed according to the field name and its links from the main table. N grouping fields can be used, where # is the number of the grouping field (GRP_1, GRP_2,...). The priority order begins with value 1, which indicates the most general grouping level. More information at <a href=general.htm>general sintax</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>ESTD_#</ows:Identifier>
+				<ows:Title>Statistical Field#</ows:Title>
+				<ows:Abstract>Name of the field in which different statistical calculations, identified by the # index, are carried out. This index only indicates an order in which the different calculated fields are displayed. It is possible to make statistics over N fields. Its value is constructed in the same way as /GRP_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>CAT_#</ows:Identifier>
+				<ows:Title>Categorical treatment</ows:Title>
+				<ows:Abstract>Indicates categorical treatment of the field identified by /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>NUM_#</ows:Identifier>
+				<ows:Title>Quantitative treatment</ows:Title>
+				<ows:Abstract>Indicates quantitative treatment of the field identified by /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_TOTALS_#</ows:Identifier>
+				<ows:Title>Total number of registers</ows:Title>
+				<ows:Abstract>For the field identified by /ESTD_#  the total number of registers (including empty, blank or NoData registers) is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_DADES_#</ows:Identifier>
+				<ows:Title>Number of registers with data</ows:Title>
+				<ows:Abstract>For the field identified by /ESTD_# the number of registers with data (excluding empty, blank or NoData registers) is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_MODA_#</ows:Identifier>
+				<ows:Title>Modal Percentage</ows:Title>
+				<ows:Abstract>Indicates that the occurrence percentage of the modal value for the field identified by /ESTD_# in a categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MODA_#</ows:Identifier>
+				<ows:Title>Mode</ows:Title>
+				<ows:Abstract>Indicates that  the mode for the field identified by /ESTD_# in a categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>I_SHAN_#</ows:Identifier>
+				<ows:Title>Shannon index</ows:Title>
+				<ows:Abstract>Indicates that the Shannon index for the field identified by /ESTD_# in a categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MITJANA_#</ows:Identifier>
+				<ows:Title>Mean</ows:Title>
+				<ows:Abstract>Indicates that the mean for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>DESV_STD_#</ows:Identifier>
+				<ows:Title>Standard deviation</ows:Title>
+				<ows:Abstract>Indicates that the standard deviation for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>VAR_#</ows:Identifier>
+				<ows:Title>Variance</ows:Title>
+				<ows:Abstract>Indicates that the variance for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>SUMA_#</ows:Identifier>
+				<ows:Title>Sum</ows:Title>
+				<ows:Abstract>Indicates that the sum of all the values for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MIN_#</ows:Identifier>
+				<ows:Title>Minimum</ows:Title>
+				<ows:Abstract>Indicates that  the minimum values for the field identified by /ESTD_# in a quantitative treatment, or the first value of an ascending alphabetical order for the categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MAX_#</ows:Identifier>
+				<ows:Title>Maximum</ows:Title>
+				<ows:Abstract>Indicates that one wishes to know the maximum value for the field identified by /ESTD_# in a quantitative treatment, or the last value of an ascending alphabetical order for the categorical treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_#</ows:Identifier>
+				<ows:Title>Total values numbers</ows:Title>
+				<ows:Abstract>Indicates that one wishes to know the total number of values of an element of the projection with respect to the total number of values for the field identified by /ESTD_# . NoData values are not taken into account in this calculation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_NODATA_#</ows:Identifier>
+				<ows:Title>Total values number considering NoData</ows:Title>
+				<ows:Abstract>Indicates that one wishes to know the percentage of the value in relation to the total number of values of the projection of the field identified by /ESTD_#. NoData values are taken into account in this calculation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_#</ows:Identifier>
+				<ows:Title>Median</ows:Title>
+				<ows:Abstract>This indicates that you want to know the median of all the values for the field identified by /ESTD_# in a quantitative treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESV_MEDIANA_#</ows:Identifier>
+				<ows:Title>Mean of the absolute deviation from the median</ows:Title>
+				<ows:Abstract>This indicates that you want to know the mean of the absolute deviation from the median of all the values for the field identified by /ESTD_# in a quantitative treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_EMPAT_#</ows:Identifier>
+				<ows:Title>Decision for the median</ows:Title>
+				<ows:Abstract><![CDATA[In case you choose to calculate the median or the mean of the absolute deviation with respect to the median, this inticates the decision for the median:<li>1 to choose alternate value .</li><li>2 to choose lower value.</li><li>3 to choose higher value.</li><li>4 to choose the average of the central values.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DECIMALS</ows:Identifier>
+				<ows:Title>Decimals number</ows:Title>
+				<ows:Abstract>Number of decimal figures for the results of the statistics that correspond to a non-integer numerical value. If not specified, the value defined in the MiraMon.par configuration file is used.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>DirectoriDesti</ows:Identifier>
+				<ows:Title>Destination Directory</ows:Title>
+				<ows:Abstract>This is the directory in which the results of the corresponding DBF tables generated by each grouping field will be written.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:DestDir"/>
+				<LiteralOutput>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
+				</LiteralOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:EstdGrup:Param1:CSV</ows:Identifier>
+		<ows:Title>EstdGrup CSV</ows:Title>
+		<ows:Abstract>This option carries out statistical calculations for one or more fields of a database (usually linked to a structured vector layer). These statistics are calculated and classified according to groupings defined by the user. The results of the statistics are saved in CSV file.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>CSV (or 3): A spreadsheet in CSV format (which defines the fields using a list separator) is generated with the result of the statistical calculations.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>CSV</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>CSV</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Origin File</ows:Title>
+				<ows:Abstract>REL file corresponding to the database of a structured vector layer, or DBF table, with which the selected statistical calculations are carried out.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:OriginFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>GRP_#</ows:Identifier>
+				<ows:Title>Grouping Field #</ows:Title>
+				<ows:Abstract><![CDATA[Name of the field that acts as a grouping field with # order of priority. The value of this variable will contain an alphanumerical text constructed according to the field name and its links from the main table. N grouping fields can be used, where # is the number of the grouping field (GRP_1, GRP_2,...). The priority order begins with value 1, which indicates the most general grouping level. More information at <a href=general.htm>general sintax</a>.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>ESTD_#</ows:Identifier>
+				<ows:Title>Statistical Field#</ows:Title>
+				<ows:Abstract>Name of the field in which different statistical calculations, identified by the # index, are carried out. This index only indicates an order in which the different calculated fields are displayed. It is possible to make statistics over N fields. Its value is constructed in the same way as /GRP_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>CAT_#</ows:Identifier>
+				<ows:Title>Categorical treatment</ows:Title>
+				<ows:Abstract>Indicates categorical treatment of the field identified by /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>NUM_#</ows:Identifier>
+				<ows:Title>Quantitative treatment</ows:Title>
+				<ows:Abstract>Indicates quantitative treatment of the field identified by /ESTD_#.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_TOTALS_#</ows:Identifier>
+				<ows:Title>Total number of registers</ows:Title>
+				<ows:Abstract>For the field identified by /ESTD_#  the total number of registers (including empty, blank or NoData registers) is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>N_REG_DADES_#</ows:Identifier>
+				<ows:Title>Number of registers with data</ows:Title>
+				<ows:Abstract>For the field identified by /ESTD_# the number of registers with data (excluding empty, blank or NoData registers) is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_MODA_#</ows:Identifier>
+				<ows:Title>Modal Percentage</ows:Title>
+				<ows:Abstract>Indicates that the occurrence percentage of the modal value for the field identified by /ESTD_# in a categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MODA_#</ows:Identifier>
+				<ows:Title>Mode</ows:Title>
+				<ows:Abstract>Indicates that  the mode for the field identified by /ESTD_# in a categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>I_SHAN_#</ows:Identifier>
+				<ows:Title>Shannon index</ows:Title>
+				<ows:Abstract>Indicates that the Shannon index for the field identified by /ESTD_# in a categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MITJANA_#</ows:Identifier>
+				<ows:Title>Mean</ows:Title>
+				<ows:Abstract>Indicates that the mean for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>DESV_STD_#</ows:Identifier>
+				<ows:Title>Standard deviation</ows:Title>
+				<ows:Abstract>Indicates that the standard deviation for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>VAR_#</ows:Identifier>
+				<ows:Title>Variance</ows:Title>
+				<ows:Abstract>Indicates that the variance for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>SUMA_#</ows:Identifier>
+				<ows:Title>Sum</ows:Title>
+				<ows:Abstract>Indicates that the sum of all the values for the field identified by /ESTD_# in a quantitative treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MIN_#</ows:Identifier>
+				<ows:Title>Minimum</ows:Title>
+				<ows:Abstract>Indicates that  the minimum values for the field identified by /ESTD_# in a quantitative treatment, or the first value of an ascending alphabetical order for the categorical treatment is wanted to be known.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>MAX_#</ows:Identifier>
+				<ows:Title>Maximum</ows:Title>
+				<ows:Abstract>Indicates that one wishes to know the maximum value for the field identified by /ESTD_# in a quantitative treatment, or the last value of an ascending alphabetical order for the categorical treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_#</ows:Identifier>
+				<ows:Title>Total values numbers</ows:Title>
+				<ows:Abstract>Indicates that one wishes to know the total number of values of an element of the projection with respect to the total number of values for the field identified by /ESTD_# . NoData values are not taken into account in this calculation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>PRCNT_GRUP_NODATA_#</ows:Identifier>
+				<ows:Title>Total values number considering NoData</ows:Title>
+				<ows:Abstract>Indicates that one wishes to know the percentage of the value in relation to the total number of values of the projection of the field identified by /ESTD_#. NoData values are taken into account in this calculation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_#</ows:Identifier>
+				<ows:Title>Median</ows:Title>
+				<ows:Abstract>This indicates that you want to know the median of all the values for the field identified by /ESTD_# in a quantitative treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESV_MEDIANA_#</ows:Identifier>
+				<ows:Title>Mean of the absolute deviation from the median</ows:Title>
+				<ows:Abstract>This indicates that you want to know the mean of the absolute deviation from the median of all the values for the field identified by /ESTD_# in a quantitative treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_EMPAT_#</ows:Identifier>
+				<ows:Title>Decision for the median</ows:Title>
+				<ows:Abstract><![CDATA[In case you choose to calculate the median or the mean of the absolute deviation with respect to the median, this inticates the decision for the median:<li>1 to choose alternate value .</li><li>2 to choose lower value.</li><li>3 to choose higher value.</li><li>4 to choose the average of the central values.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DECIMALS</ows:Identifier>
+				<ows:Title>Decimals number</ows:Title>
+				<ows:Abstract>Number of decimal figures for the results of the statistics that correspond to a non-integer numerical value. If not specified, the value defined in the MiraMon.par configuration file is used.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerSortida</ows:Identifier>
+				<ows:Title>Destination File</ows:Title>
+				<ows:Abstract>For HTM (1) and CSV (3) options this is the file that will contain the results of the statistical calculations indicated.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:DestFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>text/html</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/html</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

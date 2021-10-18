@@ -1,0 +1,277 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Traduït per Agustí Escobar-->
+
+  <title>CorRad: Corrección radiométrica de imágenes de Teledetección.</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+Este programa permite corregir radiométricamente imágenes
+  de Teledetección captadas en las regiones espectrales visible e infrarrojo
+  (no térmico). La corrección radiométrica permite reducir artefactos
+  indeseados debidos a los efectos de la atmósfera o a la iluminación
+  diferencial causada por la hora del día, el lugar de la Tierra o el relieve
+  (zonas más o menos iluminadas, sombras, etc).
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>El programa está directamente preparado para imágenes Landsar-TM o MSS y
+  SPOT-XS, aunque es escalable a prácticamente cualquier otro sensor espacial
+  o aeroportado a través de ficheros de tipo RAD (ver descripción más abajo),
+  de escritura muy simple; de hecho, el programa se suministra con ficheros
+  RAD correspondientes a otros sensores para ejemplificar estos hechos.</p>
+
+  <p>El modelo de corrección radiométrica implementado en este programa está
+  basado en el propuesto por Xavier Pons y Lluís Solé-Sugrañes en el
+  artículo:</p>
+
+  <blockquote>
+    PONS, X. &amp; L. SOLÉ-SUGRAÑES (1994) &quot;A Simple Radiometric
+    Correction Model to Improve Automatic Mapping of Vegetation from
+    Multispectral Satellite Data&quot; Remote Sensing of Environment,
+    48:191-204.
+  </blockquote>,que ha sido utilizado con éxito en trabajos posteriores de
+  diversos autores.
+
+  <p>En la presente implementación, además, se incorporan diversas mejoras
+  como por ejemplo la consideración de las sombras proyectadas, la utilización
+  de factores de reescalado diferentes en función de las diferentes bandas
+  espectrales, etc.</p>
+
+  <p>Este texto de ayuda solamente pretende orientar en la utilización del
+  programa, sin entrar en una discusión en profundidad de los fundamentos y
+  justificación de la formulación del algoritmo. El lector interesado en estos
+  extremos puede consultar el artículo citado más arriba.</p>
+
+  <p>En esencia, este modelo de corrección radiométrica convierte una imagen
+  de valores (DN) proporcionales a la radiancia recibida por el sensor en una
+  imagen en la que los valores son reflectancias. Se sabe que los valores de
+  radiancia suelen distribuirse en el intervalo [0,1] (o en [0,100] si se
+  expresan en porcentaje). Sin embargo, y para evitar la utilización de
+  ficheros de tipo &quot;real&quot; (=&quot;float&quot;), como los datos
+  originales raramente tienen una exactitud superior a 8 bits, el programa
+  escribe los resultados en un fichero de tipo &quot;byte&quot;, permitiendo
+  reescalar los valores dentro del rango [0,255] de la forma que el usuario
+  crea más adecuada.</p>
+
+  <p>El modelo de corrección radiométrica tiene en cuenta, entre otros
+  factores, el relieve (ángulos de incidencia y sombras proyectadas), la
+  posición solar, la distancia Tierra-Sol en el momento de captación de la
+  imagen, el amortiguamiento atmosférico en los caminos de ida y de retorno de
+  la radiación y parámetros estándar, para cada canal, de densidad óptica
+  atmosférica, irradiancia exoatmosférica solar y calibración del sensor. El
+  programa efectúa la corrección para un solo canal espectral en cada
+  ejecución; para efectuar la corrección en los demás canales simplemente
+  ejecute de nuevo escogiendo los ficheros y parámetros adecuados.</p>
+
+  <p>El programa necesita disponer de dos imágenes auxiliares: La primera
+  contendrá el coseno del ángulo de incidencia solar para cada píxel; la
+  segunda contendrá, para el azimut solar con que se tomó la imagen, las
+  alturas solares que provocan sombras proyectadas en cada píxel. (Vea, más
+  abajo, los programas adecuados.)</p>
+
+  <p>La corrección atmosférica se basa en la resta de los valores
+  radiométricos más bajos en cada canal. Este valor se conoce como Kl. En la
+  determinación de Kl no es aconsejable efectuar un procedimiento &quot;a
+  ciegas&quot; de asignación al mínimo del histograma, sino que se hace
+  necesario confirmar visualmente si parece creíble que la zona presente los
+  valores más bajos del histograma. Por ejemplo, si la imagen presenta zonas
+  sin datos (valor 0) o con valores bajos puntuales a causa de un mal
+  funcionamiento del sensor, no asignaremos estos valores a Kl. La consulta
+  visual de estos valores con MiraMon (consulta por atributos de los valores
+  más bajos sobre cada canal) suele ser muy útil en la determinación de Kl.
+  Finalmente, recuerde que en una imagen sin agua ni sombras duras (relieve
+  suave en relación a la altura solar) el valor de Kl a aplicar puede estar
+  incluso por debajo del DN mínimo de la imagen.</p>
+
+  <p>Aunque este modelo de corrección puede trabajar siempre que el ángulo de
+  incidencia sea menor que 90 grados, es más realista admitir que con ángulos
+  cercanos a este valor, no puede asumirse un modelo lambertiano. Por ello es
+  necesario indicar, en grados, el ángulo a partir del cual ya no aplicaremos
+  el modelo de corrección (p.ej.: 73, 70, etc).</p>
+
+  <p>Por otra parte, y debido a imprecisiones en el Modelo Digital de
+  Elevaciones (MDE) a partir del cual se ha calculado la imagen de sombras,
+  puede ser que tratemos como iluminados píxeles que realmente están
+  sombreados. Por esta razón es conveniente indicar el error estimado del MDE
+  (indique 0 si no lo conoce). Este error debe expresarse en las mismas
+  unidades del sistema de referencia. Los sensores actualmente soportados
+  son:</p>
+
+  <ol>
+    <li>Landsat-4 (TM) [Anterior al agosto de 1983]</li>
+
+    <li>Landsat-4 (TM) [Entre agosto de 1983 y 15 de enero de 1984]</li>
+
+    <li>Landsat-4 (TM) [Posterior al 15 de enero de 1984]</li>
+
+    <li>Landsat-5 (TM)</li>
+
+    <li>SPOT-1 (XS)</li>
+
+    <li>Landsat-1 (MSS)</li>
+
+    <li>Landsat-2 (MSS) [Del 22 de junio al 15 de julio de 1975]</li>
+
+    <li>Landsat-2 (MSS) [16 de julio de 1975 o posterior]</li>
+
+    <li>Landsat-3 (MSS) [Del 5 de marzo al 31 de mayo 1978]</li>
+
+    <li>Landsat-3 (MSS) [1 de junio de 1978 o posterior]</li>
+
+    <li>Landsat-4 (MSS) [Anterior al 26 de agosto de 1982]</li>
+
+    <li>Landsat-4 (MSS) [26 de agosto de 1982 al 31 de marzo de 1983]</li>
+
+    <li>Landsat-4 (MSS) [1 de abril de 1983 o posterior]</li>
+
+    <li>Landsat-5 (MSS) [Anterior al 6 de abril de 1984]</li>
+
+    <li>Landsat-5 (MSS) [6 de abril de 1984 al 8 de noviembre de 1984]</li>
+
+    <li>Landsat-5 (MSS) [8 de noviembre de 1984 o posterior]</li>
+  </ol>Los canales válidos para TM son: 1, 2, 3, 4, 5 y 7<br/>
+  Los canales válidos para SPOT son: 1, 2 y 3<br/>
+  Los canales válidos para MSS son: 1, 2, 3 y 4
+
+  <p>Si se desea trabajar con un sensor no presente en la lista anterior será
+  necesario introducir los parámetros necesarios en un fichero de texto.<br/>
+  El nombre de este fichero se indicará en el parámetro 11 lugar del índice
+  anteriormente suministrado. Los parámetros necesarios son 4 para cada canal
+  espectral:</p>
+
+  <ul>
+    <li>irradiancia exoatmosférica solar (S0, en W·m-2·um-1),</li>
+
+    <li>densidad óptica atmosférica en el camino Sol-Tierra (tau0),</li>
+
+    <li>densidad óptica atmosférica en el camino Tierra-sensor
+    (tau0_retorn),</li>
+
+    <li>factor de calibración del sensor (para pasar de DN-&gt;Radiancia
+    expresada en W·m-2·sr-1·um-1)</li>
+  </ul>Estos parámetros estarán dentro de una sección de nombre <font face="Courier New" size="-1">[CALIBR]</font>, bajo claves de nombres:
+
+  <ul>
+    <li><font face="Courier New" size="-1">x_S0</font></li>
+
+    <li><font face="Courier New" size="-1">x_tau0</font></li>
+
+    <li><font face="Courier New" size="-1">x_tau0_ret</font></li>
+
+    <li><font face="Courier New" size="-1">x_DN2Rad</font></li>
+  </ul>donde '<font face="Courier New" size="-1">x</font>' indica el
+  número de la banda espectral.
+
+  <p>Además de esta sección puede haber una sección <font face="Courier New" size="-1">[SENSOR]</font> con una clave:<br/></p>
+
+  <ul>
+    <li><font face="Courier New" size="-1">Titulo</font></li>
+  </ul>y una sección <font face="Courier New" size="-1">[CONFIG]</font> con
+  información sobre la configuración espectral del sensor, con la clave
+  '<font face="Courier New" size="-1">NBand</font>' que indica el
+  número de bandas y las claves:
+
+  <ul>
+    <li><font face="Courier New" size="-1">x_lambda_inf</font></li>
+
+    <li><font face="Courier New" size="-1">x_lambda_sup</font></li>
+  </ul>que hacen referencia al alcance espectral de cada banda
+  '<font face="Courier New" size="-1">x</font>' (en micrómetros).
+
+  <p>Ejemplo de fichero *.RAD:</p>
+  <pre>
+  [SENSOR]
+  Titulo=Sensor CASI. Configuración del vuelo de 8-11-1994.
+
+  [CONFIG]
+  NBand=3
+  1_lambda_inf=0.4973
+  1_lambda_sup=0.5044
+  2_lambda_inf=0.5970
+  2_lambda_sup=0.6042
+  3_lambda_inf=0.7085
+  3_lambda_sup=0.7157
+
+  [CALIBR]
+  1_S0=1911.254
+  1_tau0=0.449
+  1_tau0_ret=0.284
+  1_DN2Rad=0.47059
+  2_S0=1745.934
+  2_tau0=0.279
+  2_tau0_ret=0.228
+  2_DN2Rad=0.47059
+  3_S0=1388.889
+  3_tau0=0.234
+  3_tau0_ret=0.208
+  3_DN2Rad=0.47059
+</pre>A partir de la versión 5 del programa, este formato de fichero *.RAD
+debe tener una sección que identifique su correspondiente versión:
+  <pre>
+  [VERSIO]
+  Vers=5
+</pre>La reflectancia puede presentar valores entre 0 y 1, aunque
+habitualmente serán bastante inferiores a 0.75 e, incluso, a 0.5. Tal y como
+hemos comentado anteriormente, como la imagen de salida tiene valores entre 0
+y 255, hay que indicar el factor a utilizar para reescalar la reflectancia
+entre 0 y 255.<br/>
+  Ejemplos:
+
+  <blockquote>
+    318.3 provocará saturación a partir de una reflectancia de 0.801<br/>
+    510.0 provocará saturación a partir de una reflectancia de 0.500<br/>
+    637.5 provocará saturación a partir de una reflectancia de 0.400<br/>
+  </blockquote>Las reflectancias saturadas se asignan a 254, reservando el
+  valor 255 para píxeles donde el modelo no puede dar datos correctos: ángulos
+  de incidencia superiores a 90° o al ángulo límite lambertiano indicado por
+  el usuario, píxeles a la sombra de otros píxeles o, muy raramente,
+  reflectancias anómalas (superiores a 1, habitualmente en un mal registro
+  entre las imágenes y el MDE.)
+
+  <p>En algunas imágenes (particularmente MSS procesadas por EURIMAGE) es
+  necesaria una transformación lineal de los datos previa a la corrección, ya
+  que en origen se les aplica un estiramiento del histograma con finalidades
+  estéticas. Podemos aplicar esta transformación a través del parámetro
+  &quot;pendiente&quot;.</p>
+
+  <p>ATENCIÓN: En este caso la Kl que dé se supone extraída de las imágenes
+  originalmente &quot;estiradas&quot; y, por tanto, el programa efectúa la
+  resta DN-Kl antes de aplicar la transformación lineal que solicite.</p>
+
+  <p>NOTAS:</p>
+
+  <ul>
+    <li>1/ El programa ASTRES permite saber el azimut y altura solares en el
+    centro de cualquier imagen.</li>
+
+    <li>2/ El programa ILLUM permite generar la imagen de los cosenos de los
+    ángulos de incidencia.</li>
+
+    <li>3/ El programa OMBRA permite generar la imagen con las alturas límite
+    de iluminación para cualquier azimut solar.</li>
+
+    <li>4/ El programa A_i_B permite obtener los valores de
+    &quot;pendiente&quot; para las imágenes MSS suministradas por
+    EURIMAGE.</li>
+
+    <li>5/ Si se suministra un valor Kl demasiado pequeño se invertirá el
+    efecto de la iluminación y llegarán a verse las vertientes originalmente
+    menos iluminadas como más iluminadas.</li>
+  </ul>
+<hr/>
+  <exclusiva>
+    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+	<!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+CorRad ?
+--></p>
+  </exclusiva>
+</body>
+</html>

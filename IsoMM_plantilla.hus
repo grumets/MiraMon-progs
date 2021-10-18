@@ -1,0 +1,141 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>IsoMM: Unsupervised image classification</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>When executing the classifier in MiraMon (IsoMM), the program begins with
+  a certain number of cluster categories which are defined by the user. The
+  initial location of the categories is distributed according to four
+  criteria:</p>
+
+  <ol>
+    <li>Throughout the multivariate diagonal of the data and distributed
+    equidistantly. It is possible to restrict the range of each variable by
+    using a criterion based on the data which are nearest to the mean of each
+    band. The user must define this range based on how many times (n) the
+    deviation around the mean is accepted. Thus, for each of the original
+    bands (variables) the mean (M) and the standard deviation (D) are
+    calculated and the interval is defined as (M-n*D, M+n*D). Finally, the
+    interval is divided into the same number of parts as the number of
+    categories that have been defined. If n=0, the whole range is used for
+    each variable (<i>NClusterBeginDiagonal</i>).</li>
+
+    <li>Randomly, throughout the multivariate space
+    (<i>NClusterBeginRandom</i>).</li>
+
+    <li>Using a sampling on the image of configurable number/resolution
+    (<i>NClusterBeginSample</i>).</li>
+
+    <li>A optional fourth criteria. From a number of spectral signatures
+    provided in a file list (<i>/FITXER_SIGNATURES=</i>), which can be with
+    relative path.</li>
+  </ol>
+
+  <p>It is possible to define between 0 and 32767 categories for criteria 1
+  and 2, but the sum of all the categories following all the criteria cannot
+  exceed 32767. If too many are produced due to excessive sampling, the
+  program will reduce the density. In any case, the program adapts sampling
+  density to a multiple of pixel size. It is obligatory, moreover, that the
+  sum of the categories for all the criteria is at least 1.</p>
+
+  <p>For large images, it is advisable to use 250 categories for criteria 1
+  and nbands*50 for criteria 2, although this may left at zero if there is a
+  relatively high systematic density. Another strategy which usually gives
+  good results is to define 0 or few categories for criteria 1, 0 for 2 and a
+  sampling which involves obtaining between 250 and 500 categories
+  (&quot;N300&quot;, for example) for criteria 3. In any case, a high number
+  of categories usually gives good results but entails a slower first
+  iteration.<br/>
+  Note that by increasing the <i>Minimum similarity between classes</i>
+  parameter, it is possible to obtain a final fusion of the nearest classes in
+  successive iterations. Nevertheless, this parameter is only implemented in
+  those classes coming from <i>NClusterBeginSample</i> criterion.</p>
+
+  <p>All these categories will form the initial clusters. For each band used,
+  the distance to each one of the cluster centers is measured and the pixel is
+  assigned to the nearest cluster. The program offers the possibility to
+  calculate the distance based on the following criteria:</p>
+
+  <ul>
+    <li>Euclidean distance</li>
+
+    <li>Manhattan distance</li>
+  </ul>
+
+  <p>Once all the pixels of the image have been assigned, the cluster centers
+  are recalculated by determining their center of gravity in the
+  multidimensional space made by the different bands used. The process of
+  assignation of pixels to cluster centers is repeated iteratively and the
+  centers are calculated again. This iteration is performed as many times as
+  the user defines, except when the process stops before reaching a situation
+  in which there is very little change in the cluster centers between one
+  iteration and the next one. After each iteration, the program checks whether
+  any cluster is made up of a lower number of pixels than the minimum defined
+  by the user. If this is the case, the cluster is eliminated and the pixels
+  are reassigned to other clusters.</p>
+
+  <p>At each iteration, an analysis is carried out to determine if there are
+  any classes with a statistical distance which is too close for them to be
+  considered different. In this case, they are treated as a single class.</p>
+
+  <p>The output image maintains the NODATA values of some of the original
+  bands at 0 and describes them as such. If the final number of categories is
+  greater than 255, the output image will be of the integer type, otherwise
+  it will be of the "byte" type. In any case, the output image is compressed
+  (RLE). The classifier can work with any type of compressed or uncompressed
+  image (byte, integer, real, etc).</p>
+
+  <p>The statistical characteristics of each category that is obtained are
+  stored in a directory called SGN_aaaammdd_hhmmss (signatures obtained in
+  year-month-day at hour-minute-second). This directory is created in the same
+  folder as the classified image.</p>
+
+  <p>The pixels that have a NODATA value in some of the bands or variables can
+  be classified using the MaxBandsNODATA parameter, which indicates the
+  maximum number of variables with a NODATA value that are tolerated in order
+  not to mark the pixel as unclassified. This parameter may oscillate between
+  0 and n_bands-1:</p>
+
+  <ul>
+    <li>0: the value equivalent to the procedure followed in versions previous
+    to 4.5: it is only necessary for a variable to have one NODATA value for
+    the pixel to be considered unclassified. It generates the images with the
+    highest number of unclassified pixels.</li>
+
+    <li>n_bands-1: this is the most tolerant situation, in which the pixel is
+    classified with only one different NODATA value in any of the bands. To
+    define this value, it is necessary write MAX in the parameter and the
+    program will calculate it according to the bands used.</li>
+  </ul>
+
+  <p>Regardless of the MaxBandasNODATA value, the classes (and signatures) are
+  defined with reference to all the pixels. If information is not available in
+  all the bands, the classification takes into account only those bands which
+  do provide information and the classes are recalculated using all the
+  available data in every band. To calculate the result statistics, the
+  missing information is provided by the mean value of its band and
+  category.</p>
+  <p align="justify">In order to interpret the distance values used by this classifier, we recommend reading the "Guidance on the meaning of the distances used in the classification processes" in the help of the ClasSup module.</p> 
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+<!-- $$EXCLUSIVA$$
+To obtain full help type:
+IsoMM ?
+-->
+  </exclusiva>
+</body>
+</html>

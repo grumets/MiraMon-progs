@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:RegMult:1</ows:Identifier>
+		<ows:Title>Regressió múltiple + interpolació de residus</ows:Title>
+		<ows:Abstract>Aquest mòdul permet construir un model predictiu d'una variable espacial Y en funció d'altres variables espacials independents (xn).</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Regressió múltiple + interpolació de residus"/>
+		<ows:Metadata xlink:title="Abstract:Aquest mòdul permet construir un model predictiu d'una variable espacial Y en funció d'altres variables espacials independents (xn)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Mètode de regressió múltiple:<![CDATA[<li>1. ajust per mínims quadrats.</li><li>2. ajust per mínims quadrats amb interpolació de residus</li>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Interpol</ows:Identifier>
+				<ows:Title>Interpol</ows:Title>
+				<ows:Abstract>Mètode d'interpolació dels residus:<![CDATA[<ul>Si opció és 1 i per tant no hi ha interpolació i cal indicar:<li>0: cap.</li>Si opció és 2, indicar el tipus d'interpolació dels residus una vegada realitzada la regressió:<li>1: <k>spline</k>.</li><li>2: Invers de la distància</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:Interpol"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fitxer Origen</ows:Title>
+				<ows:Abstract>Fitxer Vectorial (PNT) o Base de Dades (DBF, MDB, ACCBD, DSN) amb les dades d'entrada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:FitxerOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-msaccess</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Var_depe</ows:Identifier>
+				<ows:Title>Variable dependent</ows:Title>
+				<ows:Abstract>Camp del fitxer de punts o de la base de dades que conté la variable depenent a modelitzar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:Var_depe"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>estadistic</ows:Identifier>
+				<ows:Title>Estadístic</ows:Title>
+				<ows:Abstract><![CDATA[Criteri estadístic a usar per a escollir la regressió òptima.<ul><li>1: Cp de Mallows.</li><li>2: Coeficient de determinació ajustat (R2 ajustada)</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:estadistic"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>significacio</ows:Identifier>
+				<ows:Title>Significació</ows:Title>
+				<ows:Abstract>Nivell de significació del test d'ajust (valor per defecte=0.05).</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
+				<ows:Metadata xlink:title="Name:significacio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0.05</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>multireg</ows:Identifier>
+				<ows:Title>Multiregistre</ows:Title>
+				<ows:Abstract>Com tractar les dades d'entrada amb multiregistre, és a dir, què fer quan tenim més d'un registre per cada punt (valor per defecte=1).<![CDATA[<ul><li>0: negligir el punt.</li><li>1: triar el primer</li><li>2: mitjana</li><li>3: sumatori.</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param07"/>
+				<ows:Metadata xlink:title="Name:multireg"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tipus_mostreig</ows:Identifier>
+				<ows:Title>Tipus de mostreig</ows:Title>
+				<ows:Abstract>Opció de mostreig, és a dir, com es distribueixen els punts en punts d'ajust i punts de test. <![CDATA[<ul><li>1: predefinida</li><li>2: aleatòria amb llavor fixa (selecció de punts d'ajust reproduïble).</li><li>3: aleatòria amb llavor variable (selecció de punts d'ajust no reproduïble entre dues execucions).</li><li>4: validació encreuada.</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param08"/>
+				<ows:Metadata xlink:title="Name:Tipus_mostreig"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>valor_mostreig</ows:Identifier>
+				<ows:Title>Valor mostreig</ows:Title>
+				<ows:Abstract>Si tipus_mostreig és 1, és a dir, mostreig predefinit, aquest paràmetre indicarà el camp que decideix quins punts són d'ajust (valor 'A' al camp) i quins de test (valor 'T' al camp). Si el mostreig és aleatori, tipus_mostreig 2 o 3, indicarà el percentatge de punts d'ajust, la resta fins a 100% determinarà el percentatge de punts de test. Si tipus mostreig 4, aquest paràmetre no té sentit i cal indicar 0. </ows:Abstract>
+				<ows:Metadata xlink:title="Param09"/>
+				<ows:Metadata xlink:title="Name:valor_mostreig"/>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="100">
+				<ows:Identifier>FitxersVariablesIndependents</ows:Identifier>
+				<ows:Title>Fitxers Variables Independents</ows:Title>
+				<ows:Abstract>Fitxer o fitxers ràster IMG que correspondran a les variables independents proposades. Tots ells han de tenir el mateix costat de píxel i àmbit geogràfic.</ows:Abstract>
+				<ows:Metadata xlink:title="Param12"/>
+				<ows:Metadata xlink:title="Name:FitxersVariablesIndependents"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PESOS</ows:Identifier>
+				<ows:Title>Camp pesos punts</ows:Title>
+				<ows:Abstract>Camp del fitxer de punts o de la base de dades que defineix el pes de cada un dels punts a interpolar</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASCARA</ows:Identifier>
+				<ows:Title>MASCARA</ows:Title>
+				<ows:Abstract>Nom del fitxer que limita sobre quines regions del ràster resultat és necessari fer la regressió i la interpolació. Si no hi ha màscara es farà sobre tot l'àmbit definit.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPER_MASC</ows:Identifier>
+				<ows:Title>Operador</ows:Title>
+				<ows:Abstract>Operador d'igualtat (EQ) o desigualtat (NO_EQ) que determina quins polígons cal incloure en la regressió, quan la màscara no és el polígon universal.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATR_MASC</ows:Identifier>
+				<ows:Title>Atribut mascara</ows:Title>
+				<ows:Abstract>Atribut que determina quins polígons cal incloure en la regressió, quan la màscara no és el polígon universal.</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_MASC</ows:Identifier>
+				<ows:Title>Camp mascara</ows:Title>
+				<ows:Abstract>Text alfanumèric que indica el camp que decideix a quines regions calcular el resultat i a quines assignar NODATA, en funció de si el seu contingut és vàlid i verifica o no la selecció definida per /OPER_MASC i /ATR_MASC. Consulteu sintaxi general si desitgeu més informació.</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE_MASC</ows:Identifier>
+				<ows:Title>Registre repetit</ows:Title>
+				<ows:Abstract>Quan la màscara és un fitxer estructurat amb registre múltiple, índex que indica quin registre determina l'atribut del polígon. Aquest índex va numerat des d'1 començant pel primer registre corresponent a un determinat identificador gràfic, o des de -1 si es numera des de l'últim.</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EXPONENT</ows:Identifier>
+				<ows:Title>Exponent</ows:Title>
+				<ows:Abstract>Exponent que indica el grau de dependència inversa respecte de la distància, per exemple, el valor per defecte 2 indica invers del quadrat de la distància.</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TENSIO</ows:Identifier>
+				<ows:Title>Tensió</ows:Title>
+				<ows:Abstract>Paràmetre que modula la suavització de la funció <![CDATA[<k>spline</k>]]>. És un valor decimal >= 0 que per defecte val 50.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>50</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>APLAN</ows:Identifier>
+				<ows:Title>Desviació</ows:Title>
+				<ows:Abstract>Nivell de desviació o tolerància respecte de la interpolació exacta en els punts d'ajust. És un valor decimal >= 0 que per defecte val 0.</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MIN_VALOR_INTP</ows:Identifier>
+				<ows:Title>Llindar Mínim</ows:Title>
+				<ows:Abstract>Llindar mínim de saturació per al ràster interpolat de residus. Si no s'indica no s'usarà cap.</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_VALOR_INTP</ows:Identifier>
+				<ows:Title>Llindar Màxim interpolat</ows:Title>
+				<ows:Abstract>Llindar màxim de saturació per al ràster interpolat de residus. Ha de ser >= a MIN_VALOR_INTP. Si no s'indica no s'usarà cap.</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MIN_VALOR_REG</ows:Identifier>
+				<ows:Title>Llindar Mínim resultat</ows:Title>
+				<ows:Abstract>Llindar mínim de saturació per al ràster resultat. Si no s'indica no s'usarà cap.</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_VALOR_REG</ows:Identifier>
+				<ows:Title>Llindar Màxim resultat</ows:Title>
+				<ows:Abstract> Llindar màxim de saturació per al ràster resultat. Ha de ser >= a MIN_VALOR_REG. Si no s'indica no s'usarà cap.</ows:Abstract>
+				<LiteralData>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
+				<ows:Title>Camp de la condició #</ows:Title>
+				<ows:Abstract>Nom del camp de la condició # de la selecció. Hi poden haver fins a 100 condicions i per tant, fins a 100 noms de camp (COND#_CAMP) començant per l'índex 1. </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Operador de la condició #</ows:Title>
+				<ows:Abstract>Operador a usar en la # condició de la selecció. Hi poden haver fins a 100 condicions i per tant fins a 100 operadors (COND#_OP) començant per l'índex 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>LT</ows:Value>
+						<ows:Value>GT</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Valor de la condició #</ows:Title>
+				<ows:Abstract>Valor a usar en la # condició de la selecció. Hi poden haver fins a 100 condicions i per tant fins a 100 valors (COND#_VALOR) començant per l'índex 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Nexe de la condició #</ows:Title>
+				<ows:Abstract>Nexe a usar per enllaçar entre successives condicions de selecció. En aquest cas entre la condició # i la condició #+1. Hi poden haver fins a 100 condicions i per tant fins a 99 nexes (COND#_NEXE) començant per l'índex 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Prioritat del nexe de la condició #</ows:Title>
+				<ows:Abstract>Prioritat del nexe a usar per enllaçar entre successives condicions de selecció. En aquest cas entre la condició # i la condició #+1. Hi poden haver fins a 100 condicions i per tant fins a 99 prioritats (COND#_PRIOR) començant per l'índex 1. És un paràmetre optatiu, on de no indicar-se, la prioritat és simplement l'ordre</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+						</ows:Range>
+						<ows:Value/>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerResultat</ows:Identifier>
+				<ows:Title>Fitxer Resultat</ows:Title>
+				<ows:Abstract>Fitxer ràster IMG resultat de la modelització, o sigui del procediment conjunt regressió+interpolació o només del de regressió.</ows:Abstract>
+				<ows:Metadata xlink:title="Param10"/>
+				<ows:Metadata xlink:title="Name:FitxerResultat"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>FitxerInforme</ows:Identifier>
+				<ows:Title>Fitxer Informe</ows:Title>
+				<ows:Abstract>Fitxer de text amb l'informe dels resultats de la regressió.</ows:Abstract>
+				<ows:Metadata xlink:title="Param11"/>
+				<ows:Metadata xlink:title="Name:FitxerInforme"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:InterPNT:1</ows:Identifier>
+		<ows:Title>InterPNT</ows:Title>
+		<ows:Abstract>Esta aplicación genera un ráster en el que el valor de cada celda se obtiene a partir de la interpolación de los valores de un campo numérico de la base de datos de un fichero de puntos. El ráster generado corresponde a una superficie contínua, no tiene sentido utilizar este método pretendiendo obtener un ráster de valores categóricos. Este fichero de puntos tiene que estar estructurado (formato PNT). Pueden excluirse puntos del conjunto total para diversos criterios, tanto a nivel global, como localmente. También se soporta que un punto tenga más de un registro asociado a la base de datos (p. ej. mediciones de agua realizadas en diversas fechas sobre una misma fuente)." </ows:Abstract>
+		<ows:Metadata xlink:title="Title:Interpolador a partir de puntos"/>
+		<ows:Metadata xlink:title="Abstract:Esta aplicación genera un ráster en el que el valor de cada celda se obtiene a partir de la interpolación de los valores de un campo numérico de la base de datos de un fichero de puntos. El ráster generado corresponde a una superficie contínua, no tiene sentido utilizar este método pretendiendo obtener un ráster de valores categóricos. Este fichero de puntos tiene que estar estructurado (formato PNT). Pueden excluirse puntos del conjunto total para diversos criterios, tanto a nivel global, como localmente. También se soporta que un punto tenga más de un registro asociado a la base de datos (p. ej. mediciones de agua realizadas en diversas fechas sobre una misma fuente)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fitxer_PNT</ows:Identifier>
+				<ows:Title>Fichero PNT</ows:Title>
+				<ows:Abstract>Fichero estructurado de puntos que contiene los valores a interpolar. En este caso, se puede indicar optativamente un conjunto de parámetros que definen la selección (p.ej: /COND1_CAMP=). Para saber más sobre los valores de estos parámetros sigan las consideraciones del documento de <![CDATA[<a href="general.htm#SelecAtrib">sintaxi general</a>]]>.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Fichero_PNT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Camp</ows:Identifier>
+				<ows:Title>Campo a interpolar</ows:Title>
+				<ows:Abstract>Nombre del campo en formato Cadena a Acceso a CampoBD4. En el caso de elegir la opción Usar el valor de la tercera coordenada, de debe escribir "x".</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Campo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
+				<ows:Title>Campo de la condición #</ows:Title>
+				<ows:Abstract>Nombre del campo de la # condición de la selección. Pueden haber hasta 100 condiciones y por tanto, hasta 100 nombres de campo (COND#_CAMP) empezando por el índice 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Operador de la condición #</ows:Title>
+				<ows:Abstract>Operador a usar en la # condición de la selección. Pueden haber hasta 100 condiciones y por tanto hasta 100 operadores (COND#_OP)  empezando por el índice 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>LT</ows:Value>
+						<ows:Value>GT</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Valor de la condición  #</ows:Title>
+				<ows:Abstract>Valor a usar en la # condición de la selección. Pueden haber hasta 100 condiciones y por tanto hasta 100 valores (COND#_VALOR)  empezando por el índice 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Nexo de la condición #</ows:Title>
+				<ows:Abstract>Nexo a usar para enllazar entre sucesivas condiciones de selección. En este caso entre la condición # y  la condición #+1.  Pueden haber hasta 100 condiciones y por tanto hasta 99 nexos (COND#_NEXE)  empezando por el índice 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Prioridad del nexo de la condición #</ows:Title>
+				<ows:Abstract>Prioridad del nexo a usar para enllazar entre sucesivas condiciones de selección. En este caso entre la condición # y  la condición #+1.  Pueden haber hasta 100 condiciones y por tanto hasta 99 prioridades (COND#_PRIOR)  empezando por el índice 1. Es un parámetro optativo. Si no se indica la prioridad es, simplemente, el orden.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+						</ows:Range>
+						<ows:Value/>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Xmin</ows:Identifier>
+				<ows:Title>X mínima</ows:Title>
+				<ows:Abstract>Define la coordenada X mínima del envolvente del ráster resultado. Los valores 'x' y 'p' para los cuatro parámetros ('x x x x' o 'p p p p') indicarán que el ámbito corresponde al del fichero de puntos; 'x' hará cuadrar este envolvente con el lado de píxel definido.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Xmin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Xmax</ows:Identifier>
+				<ows:Title>X máxima</ows:Title>
+				<ows:Abstract>Define la coordenada X máxima del envolvente del ráster resultado. Los valores 'x' y 'p' para los cuatro parámetros ('x x x x' o 'p p p p') indicarán que el ámbito corresponde al del fichero de puntos; 'x' hará cuadrar este envolvente con el lado de píxel definido.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Xmax"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ymin</ows:Identifier>
+				<ows:Title>Y mínima</ows:Title>
+				<ows:Abstract>Define la coordenada Y mínima del envolvente del ráster resultado. Los valores 'x' y 'p' para los cuatro parámetros ('x x x x' o 'p p p p') indicarán que el ámbito corresponde al del fichero de puntos; 'x' hará cuadrar este envolvente con el lado de píxel definido.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Ymin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ymax</ows:Identifier>
+				<ows:Title>Y máxima</ows:Title>
+				<ows:Abstract>Define la coordenada Y màxima del envolvente del ráster resultado. Los valores 'x' y 'p' para los cuatro parámetros ('x x x x' o 'p p p p') indicarán que el ámbito corresponde al del fichero de puntos; 'x' hará cuadrar este envolvente con el lado de píxel definido.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:Ymax"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Costat</ows:Identifier>
+				<ows:Title>Lado</ows:Title>
+				<ows:Abstract>Lado de píxel del fichero resultado.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:Lado"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Duplicats</ows:Identifier>
+				<ows:Title>Duplicados</ows:Title>
+				<ows:Abstract>Opción de cálculo para cuando hay multiregistro: 0 ignorar el punto, 1 el primero es el válido, 2 media y 3 suma.</ows:Abstract>
+				<ows:Metadata xlink:title="Param9"/>
+				<ows:Metadata xlink:title="Name:Duplicados"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EXPONENT</ows:Identifier>
+				<ows:Title>Exponente</ows:Title>
+				<ows:Abstract>Valor del exponente que indica la dependencia del inverso de la distancia entre cada punto y el centro de la celda. Por defecto, vale 2; o sea, el peso de cada punto es inversamente proporcional al cuadrado de la distancia al centro del píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EIXAMPLE</ows:Identifier>
+				<ows:Title>Ensanche</ows:Title>
+				<ows:Abstract>Las distancias se determinan al estilo 'Manhattan', simplificación de la distancia euclidiana, que es la utilizada en ausencia de este parámetro.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Máxima distancia</ows:Title>
+				<ows:Abstract>En el caso de inverso de la distáncia, es la distancia máxima de influencia de los puntos respecto al centro del píxel, si no se indica, intervienen todos. En el caso de spline o superfícies de tendéncia determina cómo se hará la división por regiones de todo el ámbito a interpolar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_PUNTS</ows:Identifier>
+				<ows:Title>Número de puntos</ows:Title>
+				<ows:Abstract>Número de los n puntos más cercanos a cada celda que participan en los cálculos, si no se indica, intervienen todos.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MIN_PUNTS</ows:Identifier>
+				<ows:Title>Número mínimo de puntos</ows:Title>
+				<ows:Abstract>Número mínimo de puntos que exigimos para dar como válido el valor interpolado.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TENSIO</ows:Identifier>
+				<ows:Title>Tensión</ows:Title>
+				<ows:Abstract>Modula la suavización de la función 'spline'.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>APLAN</ows:Identifier>
+				<ows:Title>Desviació</ows:Title>
+				<ows:Abstract>desviación, nivel de ruido.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MIN_VAL</ows:Identifier>
+				<ows:Title>Mínimo Valor</ows:Title>
+				<ows:Abstract>Valor inferior de saturación para evitar valores extremos fuera de rango.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_VAL</ows:Identifier>
+				<ows:Title>Máximo Valor</ows:Title>
+				<ows:Abstract>Valor superior de saturación para evitar valores extremos fuera de rango</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GRAU</ows:Identifier>
+				<ows:Title>Grado</ows:Title>
+				<ows:Abstract>Orden (1, 2, 3) de la función polinómica a ajustar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>IGNORAR_PNTS_EXT</ows:Identifier>
+				<ows:Title>Ignora los  puntos exteriores</ows:Title>
+				<ows:Abstract>Indica que no se tendrán en cuenta los puntos exteriores al ámbito definido por el ráster de salida.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ERROR_VC</ows:Identifier>
+				<ows:Title>Error validación cruzada</ows:Title>
+				<ows:Abstract>Parámetro de calidad (RMS) del resultado de la interpolación obtenido por el método de validación cruzada.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASCARA</ows:Identifier>
+				<ows:Title>Mascara</ows:Title>
+				<ows:Abstract>Nombre del fichero que limita sobre qué regiones del ráster resultado es necesario interpolar. Si no hay máscara se hará sobre todo el ámbito definido.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPER_MASC</ows:Identifier>
+				<ows:Title>Operador</ows:Title>
+				<ows:Abstract>Operador de igualdad (EQ) o desigualdad (NO_EQ) que determina qué polígonos hay que incluir en la interpolación, cuando la máscara no es el polígono universal./ATR_MASC= atributo que determina qué polígonos hay que incluir en la interpolación, cuando la máscara no es el polígono universal.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_MASC</ows:Identifier>
+				<ows:Title>Taula mascara</ows:Title>
+				<ows:Abstract>Cuando la máscara es un fichero vectorial estructurado, indique el campo de la base de datos elegida. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <![CDATA[<a href="general.htm#TaulaCamp">sintaxis general</a>]]>.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_MASC</ows:Identifier>
+				<ows:Title>Camp mascara</ows:Title>
+				<ows:Abstract>Cuando la máscara es un fichero vectorial estructurado, indique el campo de la base de datos elegida. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <![CDATA[<a href="general.htm#TaulaCamp">sintaxis general</a>]]>.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATR_MASC</ows:Identifier>
+				<ows:Title>Attribute</ows:Title>
+				<ows:Abstract>Atributo que determina los polígonos que deben ser incluydos en la interpolación cuando la máscara no es el polígono universal.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Registro Multiple</ows:Title>
+				<ows:Abstract>Criterio a seguir cuando hay registro multiple. Para saber más sobre los valores de estos parámetros sigan las consideraciones del documento de <![CDATA[<a href="general.htm#SelecAtrib">sintaxis general</a>]]>.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ESTAD_VEINATGE</ows:Identifier>
+				<ows:Title>Estadísticas de vecindad</ows:Title>
+				<ows:Abstract>Valor que indica la función estadística elegida para hacer estadísticas de vecindad del fichero origen. En este caso, también es necesario indicar uno de los parámetros entre /MAX_DIST y /MAX_DIST_XY. Las diferentes funciones estadísticas disponibles son: <![CDATA[<ul>
+          <li>InterPNT_MITJANA: Media.</li>
+          <li>InterPNT_MEDIANA: Mediana.</li>
+          <li>InterPNT_MINIM: Mínimo.</li>
+          <li>InterPNT_MAXIM: Máximo.</li>
+          <li>InterPNT_RANG: Rango.</li>
+          <li>InterPNT_DESVIACIO_EST: Desv. estándar.</li>
+          <li>InterPNT_DESVIACIO_MEDIANA: Media de las desviaciones absolutas respecto de la mediana.</li>
+          <li>InterPNT_N_OCURRENCIES: Ocurrencias.</li>          
+          </ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>InterPNT_MITJANA</ows:Value>
+						<ows:Value>InterPNT_MEDIANA</ows:Value>
+						<ows:Value>InterPNT_MINIM</ows:Value>
+						<ows:Value>InterPNT_MAXIM</ows:Value>
+						<ows:Value>InterPNT_RANG</ows:Value>
+						<ows:Value>InterPNT_DESVIACIO_EST</ows:Value>
+						<ows:Value>InterPNT_DESVIACIO_MEDIANA</ows:Value>
+						<ows:Value>InterPNT_N_OCURRENCIES</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Distancia máxima como radio máximo de un círculo</ows:Title>
+				<ows:Abstract>Distancia máxima como radio máximo de un círculo a la que un punto se considera que debe formar parte del conjunto de puntos que proporcionan los valores para el cálculo del estadístico que se transferirá a la celda del ráster de salida (este modo circular es el típico en otras opciones del módulo InterPNT).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST_XY</ows:Identifier>
+				<ows:Title>Distancia máxima como mitad del lado de un cuadrado.</ows:Title>
+				<ows:Abstract>Distancia máxima como mitad del lado de un cuadrado a la que un punto se considera que debe formar parte del conjunto de puntos que proporcionan los valores para el cálculo del estadístico que se transferirá a la celda del ráster de salida.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COTA3D</ows:Identifier>
+				<ows:Title>Usar cota 3D de los puntos origen</ows:Title>
+				<ows:Abstract>En el caso de que el fichero de puntos sea 3D, se utilitza la cota 3D de los puntos origen en vez de utilizar un campo de la base de datos origen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_DATA</ows:Identifier>
+				<ows:Title>Campo de la tabla principal de puntos que contiene la fecha del punto</ows:Title>
+				<ows:Abstract>Este parámetro permite indicar el campo de la tabla principal de puntos que contiene la fecha del punto. Esta opción aplica a los modos mínimo y máximo de los estadísticos de vecindad, y resulta de utilidad para saber, por ejemplo, en qué año, o en qué mes del año se ha obtenido el dato de la altura de la vegetación de un fichero lidar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Name:Fitxer_IMG</ows:Identifier>
+				<ows:Title>Fichero IMG</ows:Title>
+				<ows:Abstract>Ráster resultado con los valores interpolados para cada celda.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Fichero_IMG"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

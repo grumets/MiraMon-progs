@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Inundac:Param01:1</ows:Identifier>
+		<ows:Title>Flood areas generation from a DTM and from measurements and stations provided (Option 1)</ows:Title>
+		<ows:Abstract>Flood areas generation at specified data from a DTM and from measurements and stations indicated by the user (Option 1). The point station measurements are spatialized through Thiessen polygons.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Flood areas generation"/>
+		<ows:Metadata xlink:title="Abstract:Flood areas generation at specified data, through water level in  WML2 format or provided by an SOS service. The system defines a set of River Basins with a DTM and other parameters that they depend on the selected option . The output is a polygon type GML file, the attribute is 1 for indicating the flooded regions."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Basin</ows:Identifier>
+				<ows:Title>River Basin identifier</ows:Title>
+				<ows:Abstract>Name of the River Basin. The server defines a set of River Basins with a DTM and station locations, the corresponding spatial influence polygons (i.e. Thiessen) and a possible land use map.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:RiverBasin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>Scheldt</ows:Value>
+						<ows:Value>Severn</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ISODateTime</ows:Identifier>
+				<ows:Title>Time-date (ISO)</ows:Title>
+				<ows:Abstract>Time-date in ISO format for the generation of the flood areas</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:TimeDateISO"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>SampleData</ows:Identifier>
+				<ows:Title>Sample data</ows:Title>
+				<ows:Abstract>Measurements at gauge stations, different formats are allowed: WML2 with sensor data, file with the response of 'GetObservation' request at the SOS version 2.0.0,  an URL that links to SOS 'GetObservation'; or file-list of WML2 files or file-list SOS request or file-list with the SOS responses.</ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:SampleData"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/waterml/2.0/waterml2.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Stations</ows:Identifier>
+				<ows:Title>Gauge stations</ows:Title>
+				<ows:Abstract>Gauge stations, different formats are allowed: point layer in PNT or SHP format, WML2 with the features of interest, URL with SOS 'GetFeatureOfInterest' request (version 2.0.0) or the SOS responses.</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
+				<ows:Metadata xlink:title="Name:GaugeStations"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-shp</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/waterml/2.0/waterml2.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ID_ENTITAT</ows:Identifier>
+				<ows:Title>Object identifier field</ows:Title>
+				<ows:Abstract>Field name of the main table for the object identifier (gauge station identifier) at the input file. In case the field entity is in an auxiliary table, an access field BD4-type field is required. This is a required parameter for the SHP format, and optional PNT format, in this case the metadadata properties are used; for the WML2 format field value entity is already defined.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SHP</ows:Identifier>
+				<ows:Title>Generate output Shape file</ows:Title>
+				<ows:Abstract>A Shape file output will be generated with the same name file than GML and SHP extension. The value 1 means a flooded region.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>INCREASE_WL</ows:Identifier>
+				<ows:Title>Measurements modifier</ows:Title>
+				<ows:Abstract>This value increases or decreases all height measurements values. It is applied in order to improve the model calibration or to simulate with any values.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>OutputFile</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Output file in GML format, the attribute '1' is indicated for flooded areas. In case land use map is provided, attribute with affected land use is generated.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Inundac:Param01:2</ows:Identifier>
+		<ows:Title>Flood areas generation from a DTM and from measurements and provided stations (fixed set of stations) (Option 2)</ows:Title>
+		<ows:Abstract>Flood areas generation at specified data from a DTM and from measurements and defined stations. The set of stations is fixed and defined in the system (Option 2). The spatial influence of each station is pre-calculated (by Thiessen polygons) and fixed in the system.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Basin</ows:Identifier>
+				<ows:Title>River Basin identifier</ows:Title>
+				<ows:Abstract>Name of the River Basin. The server defines a set of River Basins with a DTM and station locations, the corresponding spatial influence polygons (i.e. Thiessen) and a possible land use map.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:RiverBasin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>Scheldt</ows:Value>
+						<ows:Value>Severn</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ISODateTime</ows:Identifier>
+				<ows:Title>Time-date (ISO)</ows:Title>
+				<ows:Abstract>Time-date in ISO format for the generation of the flood areas</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:TimeDateISO"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>SampleData</ows:Identifier>
+				<ows:Title>Sample data</ows:Title>
+				<ows:Abstract>Measurements at gauge stations, different formats are allowed: WML2 with sensor data, file with the response of 'GetObservation' request at the SOS version 2.0.0,  an URL that links to SOS 'GetObservation'; or file-list of WML2 files or file-list SOS request or file-list with the SOS responses.</ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:SampleData"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/waterml/2.0/waterml2.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/sos/2.0/sos.xsd</Schema>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SHP</ows:Identifier>
+				<ows:Title>Generate output Shape file</ows:Title>
+				<ows:Abstract>A Shape file output will be generated with the same name file than GML and SHP extension. The value 1 means a flooded region.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>INCREASE_WL</ows:Identifier>
+				<ows:Title>Measurements modifier</ows:Title>
+				<ows:Abstract>This value increases or decreases all height measurements values. It is applied in order to improve the model calibration or to simulate with any values.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>OutputFile</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Output file in GML format, the attribute '1' is indicated for flooded areas. In case land use map is provided, attribute with affected land use is generated.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Inundac:Param01:3</ows:Identifier>
+		<ows:Title>Flood areas generation from a DTM and from measurements and provided stations (fixed set of stations and measurements) (Option 3)</ows:Title>
+		<ows:Abstract>Flood areas generation at specified data from a DTM and from measurements and defined stations. The set of stations and measurements are fixed and defined in the system (Option 3). The spatial influence of each station is pre-calculated (by Thiessen polygons) and fixed in the system.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Option</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Basin</ows:Identifier>
+				<ows:Title>River Basin identifier</ows:Title>
+				<ows:Abstract>Name of the River Basin. The server defines a set of River Basins with a DTM and station locations, the corresponding spatial influence polygons (i.e. Thiessen) and a possible land use map.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:RiverBasin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>Maritsa</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ISODateTime</ows:Identifier>
+				<ows:Title>Time-date (ISO)</ows:Title>
+				<ows:Abstract>Time-date in ISO format for the generation of the flood areas</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:TimeDateISO"/>
+				<LiteralData>
+					<ows:DataType ows:reference="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SHP</ows:Identifier>
+				<ows:Title>Generate output Shape file</ows:Title>
+				<ows:Abstract>A Shape file output will be generated with the same name file than GML and SHP extension. The value 1 means a flooded region.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>INCREASE_WL</ows:Identifier>
+				<ows:Title>Measurements modifier</ows:Title>
+				<ows:Abstract>This value increases or decreases all height measurements values. It is applied in order to improve the model calibration or to simulate with any values.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>OutputFile</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Output file in GML format, the attribute '1' is indicated for flooded areas. In case land use map is provided, attribute with affected land use is generated.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>ISO-8859-1</Encoding>
+							<Schema>http://schemas.opengis.net/schemas/gml/3.1.1/base/gml.xsd</Schema>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:FagoVal</ows:Identifier>
+		<ows:Title>Programa per a fagocitar selectivament un cert valor en fitxers IMG</ows:Title>
+		<ows:Abstract><![CDATA[Aquesta aplicació pren un ràster i substitueix totes les cel·les (píxels) de valor igual a un valor indicat per l'usuari (valor a fagocitar), pel valor majoritari (moda) en l'entorn de la cel·la o per la mitjana d'aquests valors veïns. L'entorn queda definit per la finestra de convolució, quadrada i de costat senar en nombre de píxels. El fitxer a fagocitar és un ràster en qualsevol format (<i>byte, short integer, unsigned integer o real</i>), comprimit o descomprimit, i el resultat serà en el mateix format.]]></ows:Abstract>
+		<ows:Metadata xlink:title="Title:Programa per a fagocitar selectivament un cert valor en fitxers IMG"/>
+		<ows:Metadata xlink:title="Abstract:Aquesta aplicació pren un ràster i substitueix totes les cel·les (píxels) de valor igual a un valor indicat per l&apos;usuari (valor a fagocitar), pel valor majoritari (moda) en l&apos;entorn de la cel·la o per la mitjana d&apos;aquests valors veïns. L&apos;entorn queda definit per la finestra de convolució, quadrada i de costat senar en nombre de píxels. El fitxer a fagocitar és un ràster en qualsevol format (byte, short integer, unsigned integer o real), comprimit o descomprimit, i el resultat serà en el mateix format."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fitxer ràster origen</ows:Title>
+				<ows:Abstract>És el ràster amb valors a fagocitar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:FitxerOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fin_convol</ows:Identifier>
+				<ows:Title>Finestra de convolció</ows:Title>
+				<ows:Abstract>És el costat de la finestra de convolució (nombre senar), típicament 3 o 5.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Fin_convol"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Valor_a_fagocitar</ows:Identifier>
+				<ows:Title>Valor a fagocitar</ows:Title>
+				<ows:Abstract>És aquell valor a substituir pel càlcul estadístic dins la seva finestra de convolució. Es pot indicar "sensedades" per a processar el valor sensedades.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Valor_a_fagocitar"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Estad</ows:Identifier>
+				<ows:Title>Estadístic</ows:Title>
+				<ows:Abstract>És l'estadístic a utilitzar: M (moda), m (mitjana) o d (mediana).</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Estad"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>M</ows:Value>
+						<ows:Value>m</ows:Value>
+						<ows:Value>d</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AILLAT_NODATA</ows:Identifier>
+				<ows:Title>Aïllat el marca com sensedades</ows:Title>
+				<ows:Abstract>Marcarà com a valor de fons (sensedades) un valor a fagocitar que estigui completament envoltat de sensedades, o sigui, quan la seva finestra de convolució està formada pel valor a fagocitar al centre i la resta són valors sensedades. Si no s'indica aquest paràmetre, en un exemple com l'anterior el valor mai no es fagocitarà (llevat que es repeteixi el procés amb una finestra de convolució major).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_MAJORITARI</ows:Identifier>
+				<ows:Title>Assigna a sensedades el valor majoritari</ows:Title>
+				<ows:Abstract>Assignarà a sensedades un valor a fagocitar quan la mostra dels valors vàlids en la finestra de convolució definida és minoritària. La seva absència implica que els càlculs es realitzaran sempre que com a mínim hi hagi un valor vàlid i els sensedades simplement s'ignoren.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ITERAR_AUTO</ows:Identifier>
+				<ows:Title>Iteració indefinida</ows:Title>
+				<ows:Abstract>Realitza indefinides iteracions per tal de progressivament anar reduint el nombre de píxels que resten per fagocitar. El procés finalitza quan no queda cap valor a fagocitar o bé només queden valors aïllats que no podrien eliminar-se amb noves iteracions (això només pot passar en absència del paràmetre /AILLAT_NODATA). Si no està actiu el paràmetre /ITERAR_AUTO, després de cada procés es pregunta interactivament a l'usuari si es desitja continuar o acabar en l'estat actual.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_ITERAR</ows:Identifier>
+				<ows:Title>Aplica FagoVal un sol cop</ows:Title>
+				<ows:Abstract>Aplicar una sola passada del algorisme de fagocitació encara que quedin píxels per fagocitar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>Processar el valor sensedades</ows:Title>
+				<ows:Abstract>Per a processar els valor sensedades.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NMIN</ows:Identifier>
+				<ows:Title>Nombre mínim de píxels que han de presentar el valor modal per procedir a fagocitar</ows:Title>
+				<ows:Abstract>Nombre mínim de píxels que han de presentar el valor modal per procedir a fagocitar. Solament es pot usar en el cas de Moda i ha de valer entre 1 i (costat de la finestra)^2 - 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerFagocitat</ows:Identifier>
+				<ows:Title>Fitxer ràster destí</ows:Title>
+				<ows:Abstract>És el ràster resultat del procés de substitució.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerFagocitat"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

@@ -1,0 +1,131 @@
+<HTML>
+<HEAD>
+<TITLE>Programa per generar una plana de web amb un mapa sensible</TITLE>
+</HEAD>
+<BODY>
+
+<H1>Programa per generar una plana de web amb un mapa sensible</H1>
+
+Aquest programa genera una plana de web amb un mapa sensible a partir 
+d'un fitxer VEC de polígons, POL o PNT.
+i d'una imatge ràster en format GIF o JPG. Si treballem amb 
+un fitxer POL o PNT podrem definir les propietats que tindran les àrees 
+sensibles del nostre mapa a partir de la informació de que disposem a les metadades.
+<P>
+
+L'opció 1 té com a objectiu aprofitar les funcions de digitalització del MiraMon
+per a definir les regions actives dins d'una imatge inclosa en d'una 
+plana html. Primerament, cal disposar de l'imatge ràster GIF o JPG de la que es
+volen definir regions actives. Aquesta imatge pot ser una captura de
+pantalla sobre el MiraMon d'un mapa en petit. Per obtenir-la, visualitzeu 
+el mapa amb el MiraMon, doneu-l'hi la mida desitjada a partir del nivell
+de zoom i la mida de la finestra de l'aplicació, captureu la pantalla
+del MiraMon amb les tecles Alt+Impr.Pant. i enganxeu-la en un programa
+de tractament d'imatges com el Corel Photopaint o l'Adobe Photoshop.
+Alternativament, podeu generar la imatge des del modul d'impressió del
+MiraMon imprimint directament sobre un JPEG.
+Per imatges temàtiques recomanem guardar-la en format GIF i per imatges
+continues en format JPG. També caldrà guardar una versió en format 
+BMP o JPEG per poder-la obrir en el MiraMon. Anoteu el nombre de files 
+i columnes de la imatge ràster.
+
+Obriu el fitxer imprès en el MiraMon amb l'opció
+Obrir ràster i digitalitzeu en un fitxer VEC de polígons amb atributs
+string les arees actives. Com atribut de cada àrea activa poseu el text 
+de l'enllaç
+html separat per una coma del descriptor de l'enllaç. Aquest descriptor
+serà visible en alguns navegadors en passar amb el punter de ratolí 
+sobre l'area activa.
+
+Un cop finalitzat el fitxer VEC feu servir aquest programa per generar
+la fulla de web. Editeu la fulla amb el vostre programa de generació de
+codi HTML per afegir-hi la resta de continguts.
+
+<p>
+L'opci&oacute; 2 del programa permet treballar amb un vector estructurat 
+de pol&iacute;gons .pol, directament en coordenades terreny (no
+cal que el fitxer sigui digitalitzat sobre la imatge impressa en coordenades 
+pixel, com en el cas  de l'opció 1). En aquest cas, cal disposar d'un fitxer JPEG de
+amb un nombre de files i columnes prou vaig per ser mostrat en el 
+HTML però que estigui georeferenciat. El mòdul d'impressió del MiraMon
+produireix fitxers JPEG georeferenciats de baixa resolució si indiqueu
+un nombe de files i columnes petit. Cal notar que podem superpossar 
+&agrave;rees sensibles. Per fer-ho primer generarem les &agrave;rees 
+sensibles majors i posteriorment les menors en fitxers de sortida diferents.
+
+<p>L'opci&oacute; 3 del programa permet generar un mapa HTML sensible des
+d'un vector estructurat de punts .PNT, les nostres &agrave;rees sensibles 
+ser&agrave;n en forma de rectangle, d'al&ccedil;ada i amplada que nosaltres 
+volguem passant aquesta valors dels par&agrave;metres d'execuci&oacute; 
+Al&ccedil;ada i Amplada. En aquest cas, com amb l'opció 2, és possible treballar amb
+un fitxer PNT directament en coordenades terreny si el fitxer JPEG
+és de baixa resolució però està georeferenciat. El par&agrave;metre Orientaci&oacute; estableix 
+on es dibuixen aquests rectangles respecte de cada punt.
+
+<HR>
+
+<EXCLUSIVA>  
+<p>Sintaxi:<BR>
+VEC2MAP 1 Imatge NomSortida NCols NFils.<br>
+VEC2MAP 2 FitxerDePoligons Imatge NomSortida [ParametresOpcionals]<br>
+VEC2MAP 3 FitxerDePunts Imatge NomSortida Amplada Al&ccedil;ada Orientaci&oacute; [ParametresOpcionals]<br>
+<UL>
+   <LI>Opció: L'opció del programa.
+   <UL>
+      <LI>1: Generació del mapa HTML a partir d'un fitxer VEC (en coordenades píxel) digitalitzat sobre un JPEG o GIF sense georeferenciar (no té J.rel).
+      <LI>2: Generació del mapa HTML a partir d'un fitxer POL (en coordenades terreny) i un JPEG georeferenciat (amb J.rel) però amb un nombre de prixel prou petit per ocupar una pantalla.
+      <LI>3: Generació d'un mapa HTML a partir d'un fitxer PNT que indica les icones que JPEG o GIF que cal posar a la pantalla.
+   </UL>
+  <LI>Paràmetres generals.
+   <UL>
+   <LI>Imatge: És el nom del fitxer ràster GIF o JPG amb extensió que s'incrusta a la plana HTML (En la opció 1 se suposa que hi ha un fitxer VEC de polígons amb el mateix nom).
+   <LI>FitxerDePoligons: &Eacute;s el nom del fitxer vectorial estructurat POL
+   <LI>Imatge: &Eacute;s el nom del fitxer r&agrave;ster GIF o JPG amb extensi&oacute;.  
+   <LI>NomSortida: &Eacute;s el nom de fitxer HTML de sortida. Cal indicar-ne l'extensi&oacute;.
+  </UL>
+  <LI>Paràmetres exclusius de l'opció 2 i 3.
+    <ul>
+      <li> /ID  fa referència a la propietat <strong>id</strong> de cada &agrave;rea sensible. El seu valor &eacute;s CadenaAcc&eacute;sCampDB4 </li>
+      <li> /HREF  fa referència a la propietat <strong>href</strong> de cada &agrave;rea sensible. El seu valor &eacute;s  CadenaAcc&eacute;sCampDB4</li>
+      <li> /TITLE  fa referència a la propietat <strong>title</strong> de cada &agrave;rea sensible. El seu valor &eacute;s CadenaAcc&eacute;sCampDB4</li>
+      <li> /ALT  fa referència a la propietat <strong>alt</strong> de cada &agrave;rea sensible. El seu valor &eacute;s CadenaAcc&eacute;sCampDB4</li>
+      <li> /ONCLICK  fa referència a la propietat <strong>onclick </strong>de cada &agrave;rea sensible. El seu valor &eacute;s CadenaAcc&eacute;sCampDB4</li>
+      <li> /ONDBLCLICK fa referència a la propietat <strong>ondblclick </strong>de cada &agrave;rea sensible. El seu valor &eacute;s CadenaAcc&eacute;sCampDB4</li>
+      <li> /ONMOUSEOVER  fa referència a la propietat <strong>onmouseover </strong>de cada &agrave;rea sensible. El seu valor &eacute;s CadenaAcc&eacute;sCampDB4</li>
+    </ul>
+
+  <LI>Paràmetres exclusius de l'opció 2.
+  <ul>
+    <li> /TOLERANCIA  fa referència a la toler&agrave;ncia considerada per eliminar redund&agrave;ncia de vèrtexs propers i així fer més lleguger el fitxer HTML. El seu valor per defecte &eacute;s 3.</li>
+  </ul>
+
+  <LI>Paràmetres exclusius de l'opció 3.
+  <ul>
+    <LI>FitxerDePunts: &Eacute;s el nom del fitxer del vector estructurat PNT. 
+    <LI>Al&ccedil;ada : Al&ccedil;ada en p&iacute;xels del rectangle del area shape.
+    <LI>Amplada: Amplada del rectangle del area shape .
+    <LI>Orientaci&oacute;:
+     <ul>
+      <li>1: NW</li>
+      <li>2: NE</li>
+      <li>3: SW</li>
+      <li>4: SE</li>
+      <li>5: C</li>
+     </ul>
+  </UL>
+  <LI>Paràmetres exclusius de l'opció 1.
+  <UL>
+   <LI>NCols: És el nombre de columnes de la imatge.
+   <LI>NFils: És el nombre de files de la imatge.    
+  </UL>
+</UL>
+ 
+<!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+VEC2MAP ?
+-->
+    
+</EXCLUSIVA>
+</BODY>
+</HTML>

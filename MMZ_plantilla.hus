@@ -1,0 +1,126 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>MMZ: Compressor and uncompressor of MiraMon files</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p>Programa per comprimir i descomprimir fitxers MMZ (fitxers del MiraMon comprimits) i la seva evolució, fitxers MMZX. Els formats MMZ i MMZX permeten comprimir en un sol fitxer tots els fitxers relacionats amb un mapa (MMM), com ara tesaurus vinculats, etc, o els relacionats amb una capa (POL, IMG, etc). 
+  Aquests fitxers poden ser distribuïts per Internet, correu electrònic, etc, amb totes les seves parts (dades, metadades, simbolització, etc). A més del seu interès en la distribució de conjunts d'informació geogràfica que continguin tota mena de dades (vectorials, ràster, geoserveis), 
+  els fitxers MMZ/MMZX són l'opció d'elecció per a preservació de documents cartogràfics amb finalitat d'arxiu, documentació associada a un procés legal, etc.</p>  
+  <p>Els fitxers MMZ/MMZX presenten una eficiència de compressió similar al format ZIP. Podeu consultar les especificacions del format MMZ en aquest  <a href="http://www.creaf.uab.cat/miramon/new_note/usa/notes/MMZFormatSpecification%20v1.docx">document</a>. 
+  Les especificacions del nou format, el MMZX, estan descrites en l'article: Pons, X., & Masó, J (2016) "A comprehensive open package format for preservation and distribution of geospatial data and metadata" Computers & Geosciences, 97, 89-97. Aquest article és <a href="http://dx.doi.org/10.1016/j.cageo.2016.09.001">d'accés obert.</a><p/>
+  <p>Les especificacions del contingut del fitxer resultat de la preservació de bases en el MiraMon (opció 8 del programa) es poden trobar en aquest <a href="http://www.miramon.cat/new_note/cat/notes/PreservacioDadesMiraMon_v1_4.pdf">document</a>.</p>
+  <p>El programa disposa de diverses opcions:</p>
+   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>El programa pot comprimir/descomprimir tots els fitxers d'un directori o tots els fitxers vinculats a un mapa (MMM) o a una capa (IMG, POL, etc). També és l'eina adient per a generar mapes certificats. La certificació és aconsellable per a generar mapes que puguin ser distribuïts per Internet o en CD/DVD/USB de caire institucional, empresarial, etc, però només està disponible per a aquells usuaris que disposin d'una llicència corporativa MiraMon Internet Map Publisher. El nom de l'entitat certificadora apareix en la caixa de diàleg de l'aplicació. Si no disposeu d'aquest tipus de llicència, les opcions de certificació no estan disponibles. 
+  Per a més informació consulteu: <a href="http://www.creaf.uab.cat/miramon/mmr">http://www.creaf.uab.cat/miramon/mmr</a> o escriviu a <a href="mailto:contacte@miramon.uab.cat">contacte@miramon.uab.cat.</a></p>
+
+  <p>Els formats MMZ i MMZX permeten desar la informació sobre el <i>path</i> del fitxer per poder regenerar-lo de nou en descomprimir. Durant la compressió es pot forçar la conservació del <i>path</i> complet o només del <i>path</i> relatiu, que en l'opció dels fitxers d'un sol directori equival a sense <i>path</i> i,
+  en l'opció de compressió d'un mapa, equival a <i>path</i> relatiu a la unitat del mapa/capa, i <i>path</i> absolut a la resta.</p>
+
+  <p>Durant la compressió es pot indicar la forma en què serà regenerat aquest
+  <i>path</i> en descomprimir el fitxer. Existeixen 4 modes de
+  regeneració:</p>
+
+  <ul>
+    <li>El <i>path</i> es regenera idèntic a l'original informant dels
+    fitxers que no podran ser descomprimits perquè el path no existeix (p.ex.
+    unitat inexistent).</li>
+
+    <li>El <i>path</i> es regenera relatiu al directori de descompressió.
+    S'aplica el criteri 'arbre a partir de directori' per a la
+    resta de fitxers que estiguin en altres unitats de disc o adreces
+    UNC.</li>
+
+    <li>El <i>path</i> es regenera sempre a partir del criteri 'arbre a
+    partir de directori'.</li>
+
+    <li>El <i>path</i> és eliminat en regenerar. Si els noms es repeteixen es
+    fa servir part del <i>path</i> i en cas de no poder fer-se així, s'adopta un nom
+    temporal per evitar sobreescriptures.</li>
+  </ul>Durant la descompressió és possible forçar un mètode de regeneració del
+  <i>path</i> ignorant allò especificat en comprimir.
+
+  <p>Si, en descomprimir algun fitxer, aquest ja existeix, el programa mostra el
+  següent diàleg per determinar si es pot sobreescriure i com.</p>
+  <pre>
+El fitxer j:\raster\ras.img 
+ja existeix en el disc i és POSTERIOR al comprimit
+
+Fitxer en el disc:
+15172 bytes, modificat el 16/01/2017 a les 11:42:21
+Fitxer comprimit:
+2587417 bytes, modificat el 18/01/2017 a les 13:14:46
+
+Sobreescriure el fitxer j:\raster\ras.img? (s/n/t/c):
+</pre>Les possibles respostes són 's' si es vol sobreescriure aquest
+fitxer, 'n' si no es vol sobreescriure aquest fitxer, 't' si
+es volen sobreescriure Tots els fitxers (no ho preguntarà més) i 'c' si es volen mantenir
+tots els fitxers (no sobreescriure'n Cap).
+
+  <h4>El següent quadre exemplifica el funcionament del mètode 'arbre a
+  partir de directori':</h4>
+  <pre>
+1234\MAPA.MMM               passa a   1234\MAPA.MMM
+M:\1234\MAPA.MMM            passa a   M$\1234\MAPA.MMM
+\\SERVIDOR\RECURS\MAPA.MMM  passa a   $\SERVIDOR\RECURS\MAPA.MMM
+..\MAPA.MMM                 passa a   $$\MAPA.MMM   (només quan no és possible 
+                                                     retrocedir en l'arbre)
+</pre>
+
+  <p><!--===Nou=====--></p>
+
+  <h3>Funcionalitats avançades</h3>Diversos fitxers MMZ/MMZX es poden declarar
+  d'un mateix grup. En aquest cas, quan s'obre més d'un mapa
+  comprimit alhora, el MiraMon els mostra sobre una mateixa sessió sense
+  preguntar. Això permet de crear planes de web o processos BATCH que iniciïn
+  combinacions de fitxers MMZ/MMZX sense interrogar l'usuari sobre cada
+  fitxer individual. (Vegeu paràmetre /GRUP a la sintaxi.)
+
+  <p>Una part del <i>path</i> dels fitxers pot ser substituïda en comprimir (vegeu
+  paràmetres de les variables de <i>path</i> a la sintaxi) per un àlies. Aquest àlies
+  és canviat pel MiraMon en obrir el mapa pel valor de la variable
+  d'entorn del sistema, o pel valor de la variable indicat a la secció del
+  MiraMon.par, o bé per un dels valor alternatius preestablerts al fitxer MMZ/MMX (per
+  aquest ordre). Cada variable té el seu descriptor per poder interrogar l'usuari 
+  sobre el seu valor quan totes les alternatives preestablertes fallen.
+  En comprimir un fitxer MMZ/MMZX es pot definir una data prevista de futura
+  actualització, una data de caducitat i una llista de llocs d'on
+  descarregar-se futures actualitzacions (vegeu paràmetres /DATAACTUA=,
+  /DATACADUCA=, /UBIC#= i /DESCUBIC#= a la sintaxi). 
+  <!--===Fi de Nou=====--></p>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!--===Nou=====-->
+    Finalment, noteu que no és possible l'ús de la sintaxi simplificada i l'
+    avançada alhora. <!--===Fi de Nou=====-->
+
+    <p>Sintaxi recomanada per la compressió/descompressió de mapes:<br/>
+    MMZ 3 FitxerMMZ FitxMMM /REGENERACIO=ARBRE [/CERTIFICAT]<br/>
+    MMZ 1 FitxerMMZ Dir</p>
+
+    <p>Sintaxi recomanada per la compressió i marcatge per obertura d'un
+    DBF:<br/>
+    MMZ 2 FitxerMMZ Taula.DBF /REGENERACIO=RELATIVA /RELATIU=
+    [/CERTIFICAT]<br/>
+    mmz 5 FitxerMMZ 0 OBERTURA:1</p>
+
+<p><!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+MMZ ?
+--></p>
+  </exclusiva>
+  <hr/>
+</body>
+</html>

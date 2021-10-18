@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:OptiIMG:1</ows:Identifier>
+		<ows:Title>Image enhancement by optimizing the histogram</ows:Title>
+		<ows:Abstract>This module improves the images by globally histogram optimization or locally optimizing the histogram using a window with a size defined by the user. This second option gives much more contrasted results, although it is slower.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Image enhancement by optimizing the histogram"/>
+		<ows:Metadata xlink:title="Abstract:This module improves the images by globally histogram optimization or locally optimizing the histogram using a window with a size defined by the user. This second option gives much more contrasted results, although it is slower. "/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract><![CDATA[<li>1. For the global optimization</li><li>2. For a window.</li>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Input File</ows:Title>
+				<ows:Abstract>IMG file or list of IMG files to improve.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:InputFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Funcio</ows:Identifier>
+				<ows:Title>Function</ows:Title>
+				<ows:Abstract>Function to use to improve the input image. It can only be "lin" (at the moment only option).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Function"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>lin</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NivellsDeGris</ows:Identifier>
+				<ows:Title>Grey Levels</ows:Title>
+				<ows:Abstract>Grey levels. Usually 256.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:GreyLevels"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>256</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercenBaix</ows:Identifier>
+				<ows:Title>Low %</ows:Title>
+				<ows:Abstract>Percentage that allows calculating the minimum value to ignore at the lower end of the histogram queue. The values minors or equal to the minimum are assigned to the new minimum value and the values majors or equal to the maximum are assigned to the new maximum value, whereas the intermediate values are calcined linearly between the new minimum and the new maximum. The new minimum is always 0.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Low%"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercenAlt</ows:Identifier>
+				<ows:Title>Hight %</ows:Title>
+				<ows:Abstract>Percentage that allows calculating the maximum value to ignore at the upper end of the histogram queue. The values minors or equal to the minimum are assigned to the new minimum value and the values majors or equal to the maximum are assigned to the new maximum value, whereas the intermediate values are calcined linearly between the new minimum and the new maximum. The new maximum is the NivellsDeGris-1 parameter.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:Hight%"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ignor</ows:Identifier>
+				<ows:Title>Ignore</ows:Title>
+				<ows:Abstract>You write 0 if you want to use NODATA from the image (if it does not exist all the values will be considered as valid), 1 if you want to ignore NODATA and assume that the value 0 is the NODATA value; and 2 if you want to ignore the NODATA indication and assume that the value 255 is the NODATA value.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:Ignore"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Side</ows:Title>
+				<ows:Abstract>This is the side of the window (odd). The value is automatically 301. This parameter only applies when the option is 2.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>301</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_PENDENT</ows:Identifier>
+				<ows:Title>Maximum Slope</ows:Title>
+				<ows:Abstract>This is the maximum slope of a specific window adjustment. The value is automatically 13. This parameter only applies when the option is 2.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>13</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerOpti</ows:Identifier>
+				<ows:Title>Optimized File</ows:Title>
+				<ows:Abstract>This is an output IMG file or a directory if InputFile is a list of IMG files.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:OptimizedFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

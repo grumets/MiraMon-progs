@@ -1,0 +1,707 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CalcImg: Calculadora/Reclasificadora de capas: Análisis matemático y
+  lógico</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+ <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>La expresión matemática debe contener como mínimo un fichero y, en
+  cambio, puede no tener definido ningún operador o función; en este caso
+  puede utilizarse para saturar o escalar el fichero, cambiar el valor de
+  fondo, transformar el formato de un fichero raster, rasterizar un vector...
+  aunque existen aplicaciones específicas para estas últimas transformaciones
+  (vea <a href="IMGIMG.HTM">IMGIMG</a>, <a href="TIRAVEC.HTM">TiraVec</a>).</p>
+
+  <p>Todos los rasters que formen parte de la expresión deben corresponder al
+  mismo ámbito geográfico, deben tener la misma resolución y las mismas
+  unidades referidas al mismo sistema de referencia. En cambio, pueden ser de
+  diferente tipo (byte, real... ) y no importa su grado de compresión. Se
+  sobreentiende que el ámbito de las capas vectoriales queda definido por el
+  ámbito de las capas raster de la expresión, cuando las haya. Para
+  expresiones donde solamente participen capas vectoriales habrá que definir
+  el ámbito a través del botón de opciones <b>Avanzadas</b>. Las
+  singularidades de las operaciones o funciones utilizadas (p. ej.: división
+  entre cero, raíz negativa...) siempre darán como resultado en aquella
+  posición geográfica un valor igual al valor <b>NODATA</b>. Este valor es
+  establecido por el programa en función del tipo de dato del fichero
+  resultado (255 para tipo byte, 0 para tipo bit, y el valor más negativo
+  posible para el resto de tipos), excepto cuando se indique explícitamente en
+  la caja de opciones avanzadas; en este último caso hay que tener cuidado al
+  escoger el valor de fondo fuera del rango de valores posibles del raster
+  resultado. En caso de duda, deje que sea la aplicación la que determine el
+  valor.</p>
+
+  <p>Todos los cálculos se realizan en <b>doble precisión</b> (15-16 cifras
+  significativas y rango aproximadamente entre 1.7E-308 y 1.7E+308).La
+  <b>longitud</b> o complejidad de la expresión es <b>ilimitada</b> (sólo
+  depende de su <i>hardware</i> y sistema operativo).</p>
+
+  <p>En la primera casilla se introduce la fórmula matemático-lógica a
+  calcular. Forman parte de dicha fórmula números, capas (rasters y vectores),
+  operadores y funciones. Los nombres de las capas que forman parte de la
+  expresión matemática son alias de los ficheros correspondientes y se indican
+  entre corchetes ('[' y ']'); los corchetes se incluyen
+  automáticamente si inserta la capa desde el botón
+  <b>&quot;Nueva...&quot;</b>. El nombre es el nombre del fichero, indicado
+  sin path para mayor claridad de la expresión (el programa conoce el path
+  porque lo ha retenido al volver de la caja de exploración para seleccionar
+  el fichero; en el caso remoto de nombres de ficheros iguales en directorios
+  distintos el programa introduce un carácter diferenciador para poder evaluar
+  igualmente sin problemas). Cuando la capa a insertar en la expresión sea un
+  vector habrá que definir algunos parámetros adicionales:</p>
+
+  <blockquote>
+    <ul>
+      <li>Valor exterior al vector: Valor que, en la zona exterior al vector,
+      o bien en las entidades que no tienen un atributo válido, tendría un
+      raster que emulara este vector. Ejemplos: Si el fichero es de polígonos
+      corresponderá al valor del polígono universal y al valor atribuido a
+      aquellas entidades con el campo del atributo vacío o que les falte el
+      registro correspondiente. Si es de líneas o puntos será el valor de la
+      matriz sobre la cual están las líneas o puntos y también el valor
+      atribuido a aquellas entidades con el campo del atributo vacío o que les
+      falte el registro correspondiente.</li>
+
+      <li>Campo: Para vectores estructurados hay que indicar el campo de la
+      base de datos principal o asociada sobre el que se realizarán los
+      cálculos. Si el campo es alfanumérico será tratado como numérico excepto
+      en caso de que se defina una operación lógica de igualdad o desigualdad
+      respecto a una cadena constante. Ejemplo:
+      [Inv_for;Municipio;]=&quot;Olot&quot;.</li>
+
+      <li>Posición en multiregistro: Para bases de datos con registros
+      múltiples sobre el mismo identificador gráfico indica sobre qué registro
+      calcular.<br/>
+      En el retorno de la selección de una capa vectorial estructurada, el
+      programa inserta automáticamente el descriptor del campo (o el nombre
+      del campo en su ausencia) entre comentarios junto con el alias. Los
+      <b>comentarios</b> se insertan entre dos caracteres <b>';'</b> y
+      pueden incluirse en cualquier punto de la fórmula si se abren y se
+      cierran correctamente.</li>
+    </ul>
+  </blockquote>Ejemplo de expresión comentada para recordar y facilitar su
+  objetivo:
+  <pre>
+;diferencia en valor absoluto;ABS([modelo];modelo teórico;-[dat0299];datos muestreo Febrero 1999;)
+</pre>
+
+  <p>El botón <b>Listado</b> nos informará de las propiedades de las capas que
+  forman la expresión, así como de la relación entre su alias y su nombre
+  auténtico.</p>
+
+  <p>Los <b>operadores</b> y <b>funciones</b> implementadas se describen
+  posteriormente. Los argumentos de las funciones tienen que estar encerrados
+  entre paréntesis; los paréntesis son automáticamente incluidos si inserta la
+  fórmula desde el botón <b>&quot;Librería de funciones...&quot;</b>; p. ej.:
+  SING(30). Si la función tiene más de un argumento hay que separarlos
+  mediante comas; p. ej.: MAX([IMG1],[IMG2]).</p>
+
+  <p>Todos los operadores pueden usarse tanto en capas como en valores
+  numéricos.<br/>
+  Por ejemplo, puede hacer:</p>
+  <pre>
+         MAX([IMG1], SING(30))
+</pre>y obtener, para cada celda de la capa IMG1, el máximo valor entre el
+valor de la celda y el seno de 30°; también puede escribir expresiones
+como:<br/>
+  <pre>
+         MAX([IMG1], 100)
+         100*SING([IMG1])
+         MAX( MIN([IMG1],[IMG2]), 100)
+         etc.
+</pre>
+
+  <p>En caso de duda, recomendamos usar la sintaxis construida a base de ir
+  pulsando los botones y menús correspondientes de la aplicación Windows sin
+  editarlos posteriormente, así como usar paréntesis siempre que dude sobre la
+  precedencia de los operadores.</p>
+
+  <p>El <b>tipo de dato</b> del fichero de salida se controla en el
+  desplegable homónimo. En el caso &quot;automático&quot;, el propio programa
+  ajusta el tipo de dato final en función del rango y tipo (entero o real) de
+  los valores del fichero de salida, y de su nivel de compresión, comprimiendo
+  si parece adecuado; por ejemplo, cuando el resultado es booleano (0,1) se
+  opta por byte-RLE, que da ficheros muy pequeños. &quot;Automático&quot; no
+  comprimirá si tan sólo una de les imágenes que forman la expresión está
+  descomprimida (excepto en el caso de resultados con valores 0 ó 1
+  -booleanos- en los que se opta por byte-RLE). El caso bit sólo se genera
+  cuando se le especifica expresamente, ya que habitualmente un formato
+  byte-RLE da ficheros de menor tamaño. Aunque el modo automático es más
+  cómodo, el cálculo se realiza de forma substancialmente más rápida si se
+  determina el tipo de dato de salida; además, &quot;automático&quot; necesita
+  crear, durante el proceso, un fichero temporal en formato <u>double</u>,
+  (formato que fácilmente consume bastante espacio de disco). Existe un botón
+  informativo asociado al tipo de dato, que permite conocer cuánto espacio de
+  disco necesita el programa para generar el resultado. En caso de ficheros
+  comprimidos, cuando se escoge automático o cuando se activa la opción
+  Escalar, se informa del espacio máximo que se necesitaría si el fichero o
+  ficheros no pudieran comprimirse en absoluto (para automático y Escalar hay
+  que tener en cuenta que el programa genera un fichero temporal
+  adicional).</p>
+
+  <p>Cuando se selecciona <b>&quot;Saturar&quot;</b>, si el rango de valores
+  de salida sobrepasa el rango correspondiente al dominio (tipo de dato)
+  escogido, los valores que sobrepasan se asignan al máximo o al mínimo del
+  dominio, según convenga. En cambio, si se selecciona un <b>escalado</b>, el
+  programa reescala linealmente los valores resultantes en el intervalo
+  indicado en las casillas <b>&quot;Mínimo&quot;</b> y
+  <b>&quot;Máximo&quot;</b> de escalado. Ejemplo: Suponga que un fichero con
+  valores entre 0 y 200 se multiplica por 2 y se escoge el formato de salida
+  byte; si se selecciona saturar, todos los valores entre 256 y 400 se
+  asignarán a 255, si se selecciona escalar, el rango [0,400] se escalará
+  dentro del rango [0,255].</p>
+
+  <p>Cuando el tipo de dato resultante no es real, el programa permite escoger
+  entre <b>truncar</b> o <b>redondear</b> (recomendado) el resultado. Este
+  proceso sólo se aplica en la fase final de grabación del fichero resultante,
+  no durante los cálculos. Si le interesa truncar en una etapa intermedia de
+  la expresión, utilice la función ENT() (parte entera) disponible pulsando el
+  botón &quot;Librería de funciones&quot;.</p>
+
+  <p>La casilla <b>&quot;Título&quot;</b> permite introducir un título
+  descriptivo para el fichero resultante; si se deja en blanco se utilizará la
+  fórmula matemático-lógica como título.</p>
+
+  <p>El botón <b>Reclasifica</b> permite definir la función de
+  Reclasificación: RECL([fichero reclasificador], [capa a reclasificar]). Esta
+  función cambiará valores antiguos de la capa a reclasificar por nuevos
+  valores según las correspondencias especificadas en el fichero
+  reclasificador (*.MRC). Este fichero está compuesto por líneas de números
+  donde se especifican estos cambios. Una línea que contiene dos números
+  quiere decir que al primer valor se le asignará el segundo (en el ejemplo
+  que tenemos a continuación corresponde a la línea 2); una línea que contiene
+  tres números implica que un valor comprendido entre el primero y el segundo
+  (igual o superior al primero y estrictamente inferior al segundo) pasará a
+  ser el tercero (ejemplo línea 3). Este formato permite dejar líneas en
+  blanco y poner comentarios cuando la primera posición de la línea es
+  <b>';'</b> (ejemplo línea 1). Observe que el formato de
+  reclasificación no necesita cerrar el comentario con un segundo
+  ';'.<br/>
+  El formato de reclasificación también tiene formatos especiales para enviar
+  un valor (ejemplo línea 5) o un intervalo (ejemplo línea 6) al valor de
+  fondo o &quot;sin datos&quot;, definiendo como nuevo valor el literal
+  &quot;NODATA&quot;, y que también puede reclasificar el valor de fondo como
+  un píxel cualquiera (ejemplo línea 4) y asignarle un nuevo valor perdiendo
+  la condición de valor de fondo.<br/>
+  Hay que entender el argumento &quot;capa a reclasificar&quot; de la manera
+  más general posible, es decir, puede corresponder efectivamente a uno de los
+  ficheros seleccionados, o al resultado de cualquier operación definida entre
+  capas y escalares. De la misma manera, el resultado de la reclasificación
+  puede guardarse como resultado definitivo o puede ser simplemente uno de los
+  cálculos intermedios de la expresión matemático-lógica.<br/>
+  Ejemplos de formatos correctos de reclasificación:</p>
+  <pre>
+        ;Esta línea es un comentario
+        10 20
+        1 5 8
+        NODATA 1
+        1 NODATA
+        2 3 NODATA   
+</pre>Ejemplos de formatos incorrectos de reclasificación:
+  <pre>
+        Esta línea es un comentario definido incorrectamente
+        10 
+        1 5 8 9
+        NODATA 1 2
+        1 NODATA 2
+        NODATA NODATA
+</pre>Ejemplo de expresión en el que se reclasifica un formato
+intermedio:<br/>
+  RECL([niveles_altimetricos], [MDE]*10)<br/>
+  En este ejemplo, un Modelo Digital de Elevaciones (MDE) en decímetros se
+  pasa a metros y entonces se reclasifica en niveles altitudinales con el
+  fichero &quot;niveles_altimetricos.MRC&quot;.
+
+  <p>En el botón <b>&quot;Avanzadas&quot;</b>, la casilla <b>&quot;Descripción
+  valores&quot;</b> permite introducir una cadena descriptiva de los tipos de
+  valores que se obtendrán. Este descriptor se mostrará entre paréntesis
+  cuando consulte por localización el fichero resultante. Normalmente déjelo
+  en blanco para resultados categóricos (por ejemplo en mapas temáticos) y
+  asígnele las unidades adecuadas en caso de mapas de valores continuos (por
+  ejemplo &quot;°C&quot; para un mapa que resulta de un modelo de regresión
+  que aproxima la temperatura en grados centígrados). En el caso de resultados
+  categóricos, el fichero resultante puede importar las categorías asociadas a
+  cualquier capa (descritas en el fichero DOC o en la tabla DBF asociada para
+  imágenes ráster), en particular de alguna de las imágenes que formen la
+  expresión matemático-lógica. Este fichero de categorías, si es necesario,
+  debe quedar indicado en la casilla <b>&quot;Fichero de categorías&quot;</b>.
+  De esta manera, es fácil hacer que un fichero de salida categórico tenga
+  automáticamente sus categorías bien descritas si tenemos un DOC de
+  referencia o un tabla DBF asociada.<br/>
+  También en el botón avanzadas podemos definir el valor NODATA en el fichero
+  resultado; recomendamos utilizar siempre el parámetro automático, excepto en
+  casos especiales donde el usuario necesite asignar un valor concreto al
+  valor NODATA.<br/>
+  La opción avanzada <b>&quot;Reservar desde el principio el valor
+  NODATA&quot;</b> es útil para anticiparnos al programa, cuando conocemos de
+  antemano que se generará un valor NODATA en el fichero resultado; en
+  cualquier caso, si no dejamos activado este parámetro, si el programa
+  detectase la necesidad de escribir un valor NODATA en el fichero resultado
+  haría las modificaciones necesarias para añadirlo.<br/>
+  Cuando no hay ningún raster en la fórmula hay que definir el ámbito del
+  raster de salida y es necesario indicar las coordenadas del envolvente y el
+  lado del píxel en las casillas correspondientes.</p>
+
+  <p>Como todas las Aplicaciones de Soporte a MiraMon lanzadas desde su
+  correspondiente interfaz Windows, la calculadora guarda los parámetros de
+  cada ejecución en un fichero de texto para poder recuperar los parámetros de
+  la última ejecución. Asimismo, en caso de querer guardar una expresión
+  concreta para recuperarla en cualquier otro momento, independientemente de
+  haber ejecutado otros cálculos en el intervalo, puede pulsarse el botón
+  <b>&quot;Guardar...&quot;</b>. La fórmula quedará guardada en el fichero MMC
+  que indique (excepto el nombre reservado para la última ejecución, usado
+  internamente para la aplicación, _PARCLMM.MMC). Para recuperar una fórmula
+  guardada, simplemente pulse el botón <b>&quot;Cargar&quot;</b>. Si en la
+  última ejecución se definió explícitamente un valor NODATA, el símbolo
+  <b>'!'</b> al lado del botón &quot;Avanzadas...&quot; nos avisará de
+  que es <u>muy conveniente</u> volver a restablecer el automático si la nueva
+  ejecución no tiene las particularidades que causaron el cambio de la
+  definición del valor de fondo.</p>
+
+<exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+   <!-- $$EXCLUSIVA$$Para obtener la ayuda completa escriba:
+CALCIMG ?
+-->
+</exclusiva>
+
+  <h3>Descripción del fichero de parámetros (*.MMC) y de la sintaxis
+  matemática y lógica:</h3>(no es necesario leerlo si usamos la interfaz
+  Windows)<br/>
+  <br/>
+
+  <ul>
+    <li><b>[Formula]:</b> Es la sección que contiene información sobre la
+    fórmula matemática a calcular.<br/>
+    <b>Expresión:</b> Es la cadena que representa la operación
+    matemático-lógica a ejecutar. Forman parte de ella números, capas,
+    operadores y funciones . Los nombres de las capas que forman parte de la
+    expresión matemática son alias de los ficheros correspondientes y se
+    indican entre corchetes ('[' y ']') . Los operadores y
+    funciones implementados son los descritos posteriormente. Los argumentos
+    de las funciones deben estar encerrados entre paréntesis; p. ej.:
+    SING(30). Si la función tiene más de un argumento hay que separarlos
+    mediante comas; p. ej. :MAX([IMG1],[IMG2]). En caso de duda, recomendamos
+    utilizar la sintaxis construida a base de ir pulsando los botones y menús
+    correspondientes de la aplicación Windows sin editarlos posteriormente, o
+    como mínimo, añadiendo los parámetros que haga falta.<br/></li>
+  </ul>
+
+  <ul>
+    <li><b>[Sortida]:</b> Es la sección que contiene información sobre las
+    características del fichero resultado de la operación matemática.<br/>
+    <b>Fitxer:</b> Nombre del fichero de salida. Su dirección es relativa al
+    fichero de parámetros<br/>
+    <b>Tipus:</b> Tipo de datos del fichero de salida (automático, byte,
+    byte-RLE, etc). <u>Automàtic</u> hace referencia al hecho que el propio
+    programa ajusta el tipo (entero o real) de dato final en función del rango
+    y tipo entero o real de los valores del fichero de salida, y de su nivel
+    de compresión. Automático no comprimirá si tan sólo una de las imágenes
+    que forman la expresión está descomprimida, excepto en el caso de
+    resultados con valores 0 ó 1, en los que se opta por byte-RLE; el caso bit
+    sólo se genera cuando se le especifica expresamente, ya que habitualmente
+    un formato byte-RLE da ficheros de tamaño menor.<br/>
+    <b>Título:</b> Título descriptivo del fichero resultante. Puede dejarse en
+    blanco si se desea que el programa utilice la fórmula
+    matemático-lógica.<br/>
+    <b>Desc_valors:</b> Cadena descriptiva del tipo de valores que se
+    obtendrán.<br/>
+    <b>Fitxer_categories:</b> En caso de resultados categóricos, fichero IMG
+    del que se importan las categorías. Su dirección es relativa al fichero de
+    parámetros.<br/>
+    <b>Valor_Fons:</b> Valor que toma el valor de fondo (&quot;sin datos&quot;
+    o &quot;NODATA&quot;) en el fichero resultado. El literal NODATA es el
+    valor por defecto e indica que será el programa quien decidirá cuál es
+    éste valor.<br/>
+    <b>Stretch:</b> 0 implica que no hace escalado y satura los valores que se
+    salgan del rango correspondiente al dominio escogido. 1 reescala
+    linealmente los valores resultantes en el intervalo indicado entre mínimo
+    y máximo de escalado. El valor por defecto es 0 que corresponde a la
+    saturación.<br/>
+    <b>Minim_Stretch:</b> Se activa con Stretch=1; x es el valor por defecto
+    según el tipo escogido.<br/>
+    <b>Maxim_Stretch:</b> Se activa con Stretch=1; x es el valor por defecto
+    según el tipo escogido.<br/>
+    <b>Truncar:</b> En caso de que no se escojan valores reales, cualquier
+    resultado se redondeará cuando Truncar=0 o se truncará cuando Truncar=1. 0
+    es el valor por defecto.<br/>
+    <b>Reservar_V_Fons:</b> 0 implica que de entrada no se reserva un valor
+    para NODATA y 1 implica que reservamos un valor para posibles valores
+    NODATA en el fichero resultado. Su valor por defecto es 0.<br/>
+    <b>X_minima, X_maxima, Y_minima, Y_maxima:</b> Definen el envolvente del
+    raster de salida cuando no hay ningún raster en la expresión
+    matemática.<br/>
+    <b>Costat_pixel:</b> Tamaño del píxel del raster de salida cuando no hay
+    ningún raster en la expresión matemática.<br/></li>
+  </ul>
+
+  <ul>
+    <li><b>[Variables]:</b> Es la sección donde se relacionan los alias de las
+    capas que aparecen en la fórmula con los nombres reales de los ficheros.
+    Las direcciones de estos ficheros son relativas al fichero de
+    parámetros.</li>
+  </ul>
+
+  <ul>
+    <li><b>[Reclasificadors]:</b> Es la sección donde se relacionan los alias
+    de los ficheros de reclasificación que aparecen en la fórmula con los
+    nombres reales de estos ficheros. Las direcciones de estos ficheros son
+    relativas al fichero de parámetros.</li>
+
+    <li><b>[Alias_vector]:</b> Cada vector de la sección de variables tendrá
+    una sección propia con el nombre de su alias con los siguientes
+    contenidos:<br/>
+    <b>base:</b> Para vectores estructurados, -1 cuando nos referimos a la
+    base principal o al índice de aquel campo que establece la relación con la
+    base asociada.<br/>
+    <b>campo:</b> Para vectores estructurados, índice del campo sobre el cual
+    se efectúan los cálculos (indexado desde 0).<br/>
+    <b>repeticio:</b> Para vectores estructurados con registro múltiple,
+    índice que determina sobre qué registro actuar: 1,2... empezando por el
+    primero; -1,-2.. empezando por el último.<br/>
+    <b>valor_exterior:</b> Valor que tomará el raster emulado, exterior al
+    vector y dentro del ámbito geográfico definido.</li>
+  </ul>
+
+  <h3>Operadores y funciones implementados</h3>
+
+  <ul>
+    <li><b>Operadores aritméticos:</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
++      Suma o signo positivo.
+-      Resta o signo negativo.
+*      Multiplicación.
+/      División.
+</pre>
+  </blockquote>
+
+  <ul>
+    <li><b>Operadores lógicos y de comparación (en caso verdadero el resultado
+    es 1 y en caso falso es 0):</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
+AND    Y. 
+OR     O.
+NOT    Negación
+XOR    O exclusiva.
+&gt;      'Mayor que' estricto.
+&gt;=      Mayor o igual.
+&lt;      'Menor que' estricto.
+&lt;=     Menor o igual.
+=      Igual.
+=/=    Diferente.
+</pre>
+  </blockquote>
+
+  <ul>
+    <li><b>Funciones matemáticas de un solo argumento:</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
+SQRT   Raíz cuadrada.
+LOG    Logaritmo en base 10.
+LN     Logaritmo neperiano.
+EXP    Exponencial.
+INV    Inverso.
+ENT    Truncamiento.
+ABS    Valor absoluto.
+RND    Valor aleatorio entre 0 y el argumento.
+</pre>
+  </blockquote>
+
+  <ul>
+    <li><b>Funciones lógicas de un solo argumento:</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
+BOL    Booleano.
+</pre>
+  </blockquote>
+
+  <ul>
+    <li><b>Funciones matemáticas de dos argumentos:</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
+POW    Potenciación. 
+NR     Ratio normalizado.
+MOD    Resto de la división.
+</pre>
+  </blockquote>
+
+  <ul>
+    <li><b>Funciones de comparación de dos argumentos:</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
+MAX    Mayor de dos valores.
+MIN    Más pequeño de dos valores.
+</pre>
+  </blockquote>
+
+  <ul>
+    <li><b>Funciones de reclasificación y agrupación de categorías:</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
+RECL   Reclasificación.
+</pre>
+  </blockquote>
+
+  <ul>
+    <li><b>Funciones de superposición de capas:</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
+CVR    Transparentar (*).
+</pre>
+  </blockquote>(*) La función Transparentar (también llamada <i>Cover</i>)
+  devuelve el valor del segundo argumento cuando el primer argumento es igual
+  al valor de fondo (valor definido para NODATA en la documentación del primer
+  fichero si es un raster) y devuelve el primer argumento cuando es diferente
+  a este valor. De este modo, los valores del segundo fichero se ven a través
+  de las zonas &quot;sin datos&quot; de la primera capa. Como en los otros
+  casos, cualquiera de los argumentos de Transparentar pueden ser los
+  resultados parciales de otras operaciones entre capas y escalares.
+
+  <ul>
+    <li><b>Funciones trigonométricas con ángulo en radianes:</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
+SIN    Seno.
+COS    Coseno.
+TAN    Tangente.
+ASIN   Arcoseno.
+ACOS   Arcocoseno.
+ATAN   Arcotangente.
+COSEC  Cosecante.
+SEC    Secante.
+CTG    Cotangente.
+</pre>
+  </blockquote>
+
+  <ul>
+    <li><b>Funciones trigonométricas con ángulo en grados:</b></li>
+  </ul>
+
+  <blockquote>
+    <pre>
+SING   Seno.
+COSG   Coseno.
+TANG   Tangente.
+ASING  Arcoseno.
+ACOSG  Arcocoseno.
+ATANG  Arcotangente.
+COSECG Cosecante.
+SECG   Secante.
+CTGG   Cotangente.
+</pre>
+  </blockquote>
+
+  <p>El orden de precedencia viene dado por seis categorías de operadores y
+  funciones ordenadas de mayor a menor precedencia. Dentro de la misma
+  categoría las operaciones se efectúan de izquierda a derecha. Las categorías
+  son las siguientes:<br/>
+  <br/></p>
+
+  <ul>
+    <li>1: ()</li>
+
+    <li>2: + , - [como signos positivo y negativo], funciones de un solo
+    argumento [p. ej.: SIN, LOG...]</li>
+
+    <li>3: Funciones de dos argumentos [p. ej.: POW, CVR, MAX...]</li>
+
+    <li>4: * , /</li>
+
+    <li>5: + , - [como operaciones suma y resta]</li>
+
+    <li>6: operadores lógicos [p. ej.: AND, &gt;=...]<br/>
+    <br/></li>
+  </ul>
+
+  <p>No se ha implementado la función condicional<br/>
+  ?(condición, funcio_TRUE, funcio_FALSE) ya que puede reproducirse con una
+  combinación de operaciones lógicas de la forma:</p>
+  <pre>
+(condición)*(funcio_TRUE)+(NOT condición)*(funcio_FALSE)
+</pre>
+
+  <h3>Algunos ejemplos</h3><b>Ejemplo 1:</b> Queremos crear una imagen ya
+  multiplicada por una máscara: Supongamos que queremos seleccionar, de la
+  imagen 'A', las zonas que en la imagen 'B' tienen valores
+  superiores a 3000.<br/>
+  La operación será: <font face="Courier New" size="-1">[A]*([B]&gt;3000)</font><br/>
+  En este caso la imagen resultante presentará 0 en las zonas con valores
+  inferiores o iguales a 3000 en la imagen B, y mantendrá los valores
+  originales de la imagen A en las demás zonas (las de valores superiores a
+  3000).
+
+  <p><br/>
+  <b>Ejemplo 2:</b> Queremos reclasificar en dos grupos los valores de una
+  imagen 'C'. Los valores inferiores a 100 los pasamos a 50 y los
+  superiores o iguales a 150.<br/>
+  La operación será: <font face="Courier New" size="-1">([C]&lt;100)*50+(NOT([C]&lt;100))*150</font><br/>
+  Alternativamente, puede usarse la forma: <font face="Courier New" size="-1">([C]&lt;100)*50+([C]&gt;=100)*150</font><br/>
+  La imagen resultante tendrá dos posibles valores: 50 ó 150, según sea el
+  original inferior o no a 100.<br/>
+  También podemos utilizar la función de reclasificación: <font face="Courier New" size="-1">RECL([MMReclas],[C])</font> si conocemos el rango de
+  valores de la capa 'C'. En caso de que 'C' sea un raster de
+  tipo byte o byte-RLE el contenido del fichero de reclasificación
+  MMReclas.MRC sería:</p>
+
+  <blockquote>
+    <pre>
+0 100 50
+100 256 150
+</pre>
+  </blockquote>o, si desconocemos el rango de valores del raster 'C',
+  también es admisible una reclasificación basada en un fichero MRC como
+  éste:<br/>
+
+  <blockquote>
+    <pre>
+-1.0E+40 100 50  
+100 1.0E+40 150
+</pre>
+  </blockquote>
+
+  <p><br/>
+  <b>Ejemplo 3:</b> Queremos obtener un raster resultado de la agrupación de
+  las categorías:</p>
+
+  <blockquote>
+    <pre>
+category  1 : Arbolado denso                 
+category  2 : Arbolado claro                 
+category  3 : Bosques de ribera            
+category  4 : Reforestaciones
+category  5 : Alameda
+category  6 : Plataneda
+category  7 : Matorral                   
+category  8 : Vegetación de humedales
+category  9 : Prados y herbazales          
+category 10 : Incendios CORINE
+category 11 : Roquedales
+category 12 : Tarteras
+category 13 : Zonas denudadas                  
+category 14 : Playas
+category 15 : Aguas continentales         
+category 16 : Glaciares y nieves permanentes
+category 17 : Cultivos
+category 18 : Zonas urbanizadas          
+category 19 : Vías de comunicación         
+category 20 : Zonas deportivas y lúdicas 
+category 21 : Zonas de extracción minera    
+</pre>
+  </blockquote>según la reclasificación:
+
+  <blockquote>
+    <pre>
+1 11 1
+11 17 2
+17 3
+18 21 4
+</pre>
+  </blockquote>El ráster resultado tendrá 4 categorías que podrían definirse
+  como:
+
+  <blockquote>
+    <pre>
+category  1 : Terreno forestal                 
+category  2 : Improductivo natural                 
+category  3 : Cultivos
+category  4 : Improductivo artificial
+</pre>
+  </blockquote>
+
+  <p><br/>
+  <b>Ejemplo 4:</b> Dada una imagen '256c', para seleccionar tanto los
+  valores &quot;3&quot; como los valores &quot;12&quot;, y ponerlos a
+  &quot;1&quot;, dejando con valor &quot;0&quot; los restantes valores
+  escriba:</p>
+
+  <blockquote>
+    <pre>
+([256c]=3)OR([256c]=12)
+</pre>
+  </blockquote>Esta operación también puede realizarse desde MiraMon, a través
+  de una consulta por atributo y guardando el resultado en un fichero IMG.
+
+  <p><br/>
+  <b>Ejemplo 5:</b> Dada una imagen '256c', para seleccionar tanto los
+  valores &quot;3&quot; como los valores &quot;12&quot;, pero preservando sus
+  valores &quot;3&quot; y &quot;12&quot; en el resultado (y poniendo a
+  &quot;0&quot; los valores restantes) escriba:<br/></p>
+
+  <blockquote>
+    <pre>
+(([256c]=3)OR([256c]=12))*[256c]
+</pre>
+  </blockquote>
+
+  <p><br/>
+  <b>Ejemplo 6:</b> Queremos obtener el modelo digital de elevaciones de tres
+  comarcas a partir del modelo digital de elevaciones de toda Catalunya
+  '[Mde300]' y del fichero vectorial de comarcas
+  '[Coma800]'.</p>
+
+  <blockquote>
+    <pre>
+[Mde300]*([Coma800;Comarca;]=&quot;Bages&quot; OR [Coma800;Comarca;]=&quot;Solsonès&quot;
+OR [Coma800;Comarca;]=&quot;Berguedà&quot;)
+</pre>
+  </blockquote>Es necesario indicar que el fichero resultado tendrá el mismo
+  ámbito que [Mde300], de toda Catalunya, y habría que utilizar la aplicación
+  <a href="RETALLA.HTM">RETALLA</a> si deseáramos reducir el ámbito.
+
+  <p><br/>
+  <b>Ejemplo 7:</b> Un ejemplo, menos intuitivo, pero interesante de cara a
+  ver cómo se trata la rasteritzación dinámica en la calculadora, es la
+  rasterización de una capa de líneas '[Perfiles]' donde se desea que
+  las líneas rasterizadas queden a 0 y el exterior quede a 1.</p>
+
+  <blockquote>
+    <pre>
+[Perfiles;LONG_ARC;]=0 
+donde se ha definido 'Valor exterior al vector'=0
+</pre>
+  </blockquote>En las celdas afectadas por el vector (rasterizadas) ningún
+  arco tiene longitud 0 y, por lo tanto, la operación lógica devuelve FALSO, o
+  sea cero. En cambio, como en en el exterior asignamos un 0, al compararlo
+  con el valor cero, el resultado es VERDADERO, o sea 1.
+  
+   <p><br/> 
+   <b>Ejemplo 8:</b> Deseamos generar un valor aleatorio entre -1 y 1.  Raster1 es un ráster constante de valor 1, es necesario para definir el ámbito y lado de píxel del fichero de salida.
+
+  <blockquote>
+    <pre>
+(RND(2)-1)*[Raster1]
+	</pre>
+	 </blockquote>
+  <hr/>
+
+</body>
+</html>

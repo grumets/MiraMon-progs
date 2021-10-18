@@ -1,0 +1,265 @@
+<HTML>
+<HEAD>
+<TITLE>HelpHTML: Program to read html documents from DOS sessions
+</TITLE>
+</HEAD>
+<BODY>
+<H1><img src="vecras.gif"> HelpHTML: Program to read html documents from DOS sessions
+DOS </H1>
+<P>
+This program is a reduced html file reader that runs under DOS
+sessions. It has been initially thought to be called from other 
+programs that use it to show help files in an easy way. However,
+it can also be used as a general html reader. For example, if 
+you want to see an html document taken from the Internet via ftp,
+you can see it from a DOS session as with your web explorer.
+<P>
+The first parameter is the htm file name with path and extension.
+You can indicate a particular document seccion with a '#'. For instance:
+"help.htm#seccion2".
+<P>
+The second parameter (optional) is used to call HelpHTML from 
+another application, so that it can show the cover in the first
+page of the help. In this case the program will call a file with the same 
+name than the executable but with the HTM extension. These files 
+must be in the same disk and directory. In C programming language 
+this can be done through a function like this:
+<PRE>
+/* Return 0 on success
+          1 if there is not enough memory
+          2 if no system calls can be done */
+#define TITOL_PROG_HELP TITOL_PROG
+int mostra_helphtml(const char *nom_exe, int linies_portada)
+{
+    char *nom_helphtml, *szcomanda;
+
+    if (NULL==(nom_helphtml=strdup(nom_exe)))
+        return 1;
+    strcpy(nom_helphtml+strlen(nom_helphtml)-4,&quot;.HTM&quot;);
+    if (NULL==(szcomanda=malloc(256)))
+    {
+        free(nom_helphtml);
+        return 1;
+    }
+    sprintf(szcomanda, TITOL_PROG_HELP&quot; %s 0 %d 0&quot;, nom_helphtml, linies_portada);
+    free(nom_helphtml);
+    if (-1==system(szcomanda))
+    {
+        free(szcomanda);
+        return 2;
+    }
+    free(szcomanda);
+    return 0;
+}
+
+</PRE>
+To call the previous function you should do:
+<PRE>
+#define LINIES_PORTADA 6
+portada();                    /* The function portada has to be defined  */
+if (mostra_helphtml(argv[0],LINIES_PORTADA))
+{
+    puts(&quot;Error when calling the help of the program.&quot;);
+    exit(EXIT_FAILURE);
+}
+
+</PRE>
+<P>
+Not all the html commands are supported by the program, but those 
+that are not easily supported are ignored.<BR>
+This is the current list of supported commands:
+<BR>
+<PRE>
+&lt;pre&gt; and &lt;/pre&gt;   formatted text  (tabulations are not tolerated)
+&lt;blockquote&gt; and &lt;/blockquote&gt; indented text 
+&lt;title&gt; and &lt;/title&gt;            title
+&lt;p&gt;                                   end of paragraph
+&lt;br&gt;                                  end of line
+&lt;hr&gt;                                  horizontal line
+</PRE>
+<P>
+Also are supported sorted, unsorted and definition lists:<BR>
+<PRE>
+&lt;ul&gt;   non indexed list
+&lt;ol&gt;   indexed list  (only numbers)
+&lt;li&gt;   entrance of list
+&lt;dl&gt;   list of definitions
+&lt;dt&gt;   entrance to define
+&lt;dd&gt;   definition of the entrance
+&lt;/dl&gt;  end of the definition list
+
+</PRE>
+<P>
+Listscan only be one level nested
+16.
+<P>
+The following commands are partially supported:
+<BR>
+<PRE>
+&lt;h1&gt;  &lt;h2&gt;  &lt;h3&gt;  &lt;h4&gt;  &lt;h5&gt;  &lt;h6&gt;
+&lt;/h1&gt; &lt;/h2&gt; &lt;/h3&gt; &lt;/h4&gt; &lt;/h5&gt; &lt;/h6&gt; 
+   a change of letter type is equivalent to a change of paragraph.
+</PRE>
+<P>
+It is also supported a reference to a figure:
+<PRE>
+&lt;img src=&quot;c:/img.gif&quot; alt=&quot;Text alternatiu&quot; &gt;
+    In this case the <B>alternative text</B> is shown.
+</PRE>
+<HR>
+<P>
+This program supports that the html files contains a section called 
+'exclusiva' (exclusive), that will be the only section read if indicated 
+in the command line of HelpHTML. This exclusive section is written
+in the html file as follows:
+<PRE>
+&lt;exclusiva>
+&lt;/exclusiva>
+</PRE>
+<P>
+This section is normally read by standard html lectors or if you
+choose the normal lecture option of the program. It can be used to 
+view only the syntax information of the program of a html help file,
+neglecting the rest of information in the html file. 
+<P>
+Also, we define a especial type of text invisible for standard html 
+lectors or if you choose the normal lecture option of the program. 
+This text only can be visualized if you indicate exclusive mode in the 
+command line of HelpHTML program. This text preserves the original 
+format and must be included in a especial type of comment:
+
+<PRE>&lt;!--  $$EXCLUSIVA$$
+Text only 
+visible
+in exclusive seccion
+--></PRE>
+
+<P>
+You can also use it in a program by calling a function in C language 
+such as:
+<PRE>
+int mostra_sintaxihtml(const char *nom_exe, int linies_portada)
+{
+    char *nom_helphtml, *szcomanda;
+
+    if (NULL==(nom_helphtml=strdup(nom_exe)))
+        return 1;
+    strcpy(nom_helphtml+strlen(nom_helphtml)-4,&quot;.HTM&quot;);
+    if (NULL==(szcomanda=malloc(256)))
+    {
+        free(nom_helphtml);
+        return 1;
+    }
+    sprintf(szcomanda, TITOL_PROG_HELP&quot; %s 1 %d 0&quot;, nom_helphtml, linies_portada);
+    free(nom_helphtml);
+    if (-1==system(szcomanda))
+    {
+        free(szcomanda);
+        return 2;
+    }
+    free(szcomanda);
+    return 0;
+}
+</PRE>
+To call the previous function it is required to do the following:
+<PRE>
+#define LINIES_PORTADA 6
+portada();                    /* The portada function has to be defined */
+if (mostra_sintaxihtml(argv[0],LINIES_PORTADA))
+    puts(&quot; Error when calling the help of the program.&quot;);
+exit(EXIT_FAILURE);
+
+</PRE>
+NOTA: The functions here explained have been recently modified to control more situations. Consult Joan Masó Pau to know the improved syntax.
+<HR>
+<P>
+This is the list of supported special characters:
+<PRE>
+&amp;lt;        &lt;
+&amp;gt;        &gt;
+&amp;amp;       &amp;
+&amp;quot;      &quot;
+&amp;copy;      &copy;
+&amp;reg;       &reg;
+
+&amp;Agrave;    &Agrave;
+&amp;agrave;    &agrave;
+&amp;Aacute;    &Aacute;
+&amp;aacute;    &aacute;
+&amp;Egrave;    &Egrave;
+&amp;egrave;    &egrave;
+&amp;Eacute;    &Eacute;
+&amp;eacute;    &eacute;
+&amp;Iacute;    &Iacute;
+&amp;iacute;    &iacute;
+&amp;Ograve;    &Ograve;
+&amp;ograve;    &ograve;
+&amp;Oacute;    &Oacute;
+&amp;oacute;    &oacute;
+&amp;Uacute;    &Uacute;
+&amp;uacute;    &uacute;
+&amp;Ccedil;    &Ccedil;
+&amp;ccedil;    &ccedil;
+&amp;Ntilde;    &Ntilde;
+&amp;ntilde;    &ntilde;
+&amp;Iuml;      &Iuml;
+&amp;iuml;      &iuml;
+&amp;Uuml;      &Uuml;
+&amp;uuml;      &uuml;
+
+&amp;Acirc;     &Acirc;
+&amp;acirc;     &acirc;
+&amp;Auml;      &Auml;
+&amp;auml;      &auml;
+&amp;Aelig;     &Aelig;
+&amp;aelig;     &aelig;
+&amp;Ouml;      &Ouml;
+&amp;ouml;      &ouml;
+&amp;Oslash;    &Oslash;
+&amp;oslash;    &oslash;
+&amp;szlig;     &szlig;
+&amp;yuml;      &yuml;   (note the lack of tilde)
+
+</PRE>
+<P>
+The main gap of this program is that it does not support hypertext.
+However, the help can be written in hypertext, and this do not 
+affect the program (as any other not supported command, it is 
+ignored); nevertheless, any standard navigator would read it.
+<BR>
+<P>
+Limitations =&gt;&gt; Longest command: 5000 characters,
+Largest title: 80 characters.
+<HR>
+<P>
+Syntax:<BR>
+<EXCLUSIVA> 
+<a name="sintaxi"></a>
+SYNTAX: HtmlFile [n] [Despl] [p]
+<UL>
+<LI>HtmlFile is an standard html file.
+<LI>[n] 
+<UL>
+<LI>0 if you want to read all the html file (default value).
+<LI>1 if you want to read only the exclusive section.
+</UL>
+<LI>[Despl] is the number of lines a text written by a previous application
+occupy; it is used to skip the previous text on the screen. By default it
+is 0.
+<LI>[p] Every page has a header and a footer...
+<UL>
+<LI>1 if you want to see the header of page 1 and the footer 
+ of the last (default).
+<LI>0 if you do not want to see neither the header of page 1 nor the 
+ footer of the last page (option thought for calls from other applications).
+</UL>
+</UL>
+<P>
+<!--     $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+HelpHTML ?
+-->
+</EXCLUSIVA>
+</BODY>
+</HTML>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:FagoVal</ows:Identifier>
+		<ows:Title>Programa para fagocitar selectivamente cierto valor en ficheros IMG</ows:Title>
+		<ows:Abstract><![CDATA[Esta aplicación toma un ráster y substituye todas las celdas (píxeles) de valor igual a un valor indicado por el usuario (valor a fagocitar), por el valor mayoritario (moda) en el entorno de la celda o por la media de estos valores vecinos. El entorno queda definido por la ventana de convolución, cuadrada y de lado impar en número de píxels. El fichero a fagocitar es un ráster en cualquier formato (<i>byte, short integer, unsigned integer o real</i>), comprimido o descomprimido, y el resultado estará en el mismo formato.]]></ows:Abstract>
+		<ows:Metadata xlink:title="Title:Programa para fagocitar selectivamente cierto valor en ficheros IMG"/>
+		<ows:Metadata xlink:title="Abstract:Esta aplicación toma un ráster y substituye todas las celdas (píxeles) de valor igual a un valor indicado por el usuario (valor a fagocitar), por el valor mayoritario (moda) en el entorno de la celda o por la media de estos valores vecinos. El entorno queda definido por la ventana de convolución, cuadrada y de lado impar en número de píxels. El fichero a fagocitar es un ráster en cualquier formato (byte, short integer, unsigned integer o real), comprimido o descomprimido, y el resultado estará en el mismo formato."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fichero ráster origen</ows:Title>
+				<ows:Abstract>Es el ráster con valores a fagocitar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fin_convol</ows:Identifier>
+				<ows:Title>Ventana de convolución</ows:Title>
+				<ows:Abstract>Es el lado de la ventana de convolución (número impar), típicamente 3 o 5.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Ven_convol"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Valor_a_fagocitar</ows:Identifier>
+				<ows:Title>Valor a fagocitar</ows:Title>
+				<ows:Abstract>Es aquel valor a substituir por el cálculo estadístico dentro de su ventana de convolución. Se puede indicar "sindatos" para procesar el valor sindatos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Valor_a_fagocitar"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Estad</ows:Identifier>
+				<ows:Title>Estadístico</ows:Title>
+				<ows:Abstract>Es el estadístico a utilizar: M (moda), m (media) o d (mediana).</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Estadistico"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>M</ows:Value>
+						<ows:Value>m</ows:Value>
+						<ows:Value>d</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AILLAT_NODATA</ows:Identifier>
+				<ows:Title>Aislado lo marca como sindatos</ows:Title>
+				<ows:Abstract>Marcará como valor de fondo (sindatos) un valor a fagocitar que esté completamente rodeado de sindatos, o sea, cuando su ventana de convolución está formada por el valor a fagocitar en el centro y el resto son valores sindatos. Si no se indica este parámetro, en un ejemplo como el anterior el valor nunca se fagocitará (salvo que se repita el proceso con una ventana de convolución mayor).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_MAJORITARI</ows:Identifier>
+				<ows:Title>Asigna a sindatos el valor mayoritario</ows:Title>
+				<ows:Abstract>Asignará a sindatos un valor a fagocitar cuando la muestra de los valores válidos en la ventana de convolución definida sea minoritaria. Su ausencia implica que los cálculos se realizarán siempre que como mínimo haya un valor válido y los sindatos simplemente se ignoran.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ITERAR_AUTO</ows:Identifier>
+				<ows:Title>Iteración indefinida</ows:Title>
+				<ows:Abstract>Realiza iteraciones indefinidamente para ir reduciendo progresivamente el número de píxeles que quedan por fagocitar. El proceso finaliza cuando no queda ningún valor que fagocitar o bien sólo quedan valores aislados que no podrían eliminarse con nuevas iteraciones (esto sólo puede pasar en ausencia del parámetro /AILLAT_NODATA). Si no está activo el parámetro /ITERAR_AUTO, después de cada proceso se consulta al usuario si se desea continuar o terminar en el estado actual.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_ITERAR</ows:Identifier>
+				<ows:Title>Aplica FagoVal una sola vez</ows:Title>
+				<ows:Abstract>Aplicar una sola pasada del algoritmo de fagocitación aunque queden píxeles a fagocitar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>Procesar el valor sindatos</ows:Title>
+				<ows:Abstract>Para procesar los valores sindatos</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NMIN</ows:Identifier>
+				<ows:Title>Número mínimo de píxeles que debe presentar el valor modal para proceder a fagocitar</ows:Title>
+				<ows:Abstract>Número mínimo de píxeles que debe presentar el valor modal para proceder a fagocitar. Solo se puede usar en el caso de Moda y debe valer entre 1 y (lado de la ventana)^2 - 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerFagocitat</ows:Identifier>
+				<ows:Title>Fichero ráster destino</ows:Title>
+				<ows:Abstract>Es el ráster resultado del proceso de substitución.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroFagocitado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

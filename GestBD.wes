@@ -1,0 +1,2776 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:1</ows:Identifier>
+		<ows:Title>TEST_CONTINGUT_REGISTRES_DBF (1)</ows:Title>
+		<ows:Abstract><![CDATA[Realiza algunos tests de consistencia sobre ficheros DBF. El programa soluciona automáticamente todos los casos de diferentes maneras. Esta es la lista de errores detectados y su solución:<ul> 		<li>Las cadenas de texto se han escrito con caracteres 0 al final de su contenido. Se resuelve suprimiendo el carácter 0 e introduciendo los espacios que faltan hasta el final de la celda, como es propio del formato DBF.</li> 		<li>Los números se han escrito con caracteres 0 al final de su contenido. Se resuelve suprimiendo el carácter 0 e introduciendo los espacios que faltan hasta el final de la celda, como es propio del formato DBF.</li> 		<li>Los campos de tipo texto contienen caracteres inferiores al carácter 32 ASCII (p .ej. tabuladores). Se resuelve substituyendo dichos caracteres por espacios.</li> 		<li>Los campos numéricos no están justificados a la derecha. Se resuelve moviendo los valores a la derecha dentro de la celda.</li> 		<li>Los campos numéricos contienen caracteres no numéricos. Se resuelve eliminando los valores erróneos (se rellena con blancos toda la celda).</li> 		<li>Los campos numéricos contienen el carácter ',' como separador decimal. Se resuelve sustituyendo ',' por '.' que es el separador válido en DBF.</li> 		<li>Los campos lógicos contienen valores 0 ó 1. Se resuelve sustituyendo los valores por 'F' (<i>false</i>, o falso) o 'T' (<i>true</i>, o verdadero).</li> 		<li>Los campos lógicos contienen valores no lógicos. Se resuelve blanqueando las celdas erróneas.</li> 		<li>Los campos fecha contienen valores no fecha. Se resuelve blanqueando las celdas erróneas.</li> 		<li>Existen campos numéricos de tipo 'F' (<i>float</i>) cuando podrían ser 'N' (único tipo numérico en DBF). Se resuelve cambiando el tipo de campo de 'F' a 'N'.</li> 		<li>El fichero es más largo de lo esperado. Hay datos después del último registro. Se resuelve truncando el fichero al tamaño necesario.</li></ul>]]></ows:Abstract>
+		<ows:Metadata xlink:title="Title:Gestión de bases de datos"/>
+		<ows:Metadata xlink:title="Abstract:Este módulo agrupa un conjunto de herramientas y procedimientos de edición, revisión, actualización, etc de diferentes elementos (estructura de tablas, campos y registros) de bases de datos o tablas. Es especialmente indicado para automatizar algunos de los procedimientos que habitualmente se hacen de forma interactiva con el Gestor de Tablas MiraDades, pero también tiene operaciones particulares de este módulo."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Test de consistencia del contenido de un DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>APLICAR</ows:Identifier>
+				<ows:Title>Aplica</ows:Title>
+				<ows:Abstract>Aplica las soluciones a los problemas detectados en el texto.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:2</ows:Identifier>
+		<ows:Title>TEST_REGISTRE_MULTIPLE (2)</ows:Title>
+		<ows:Abstract>Elimina la presencia de registro múltiple para un identificador gráfico de una capa vectorial estructurada de MiraMon, es decir, convierte la relación 1 a n entre la base gráfica y la tabla principal en una relación 1 a 1. El registro múltiple se puede eliminar ya sea sencillamente eliminando todos los registros menos uno (el primero, el último, etc) o bien eliminando los campos que determinan la presencia de registro múltiple al presentar diversos valores para un mismo identificador gráfico. Debe remarcarse que la presencia de registro múltiple no es ningún error, sino que, en la mayoría de casos, es una propiedad interesante de la capa, pero en determinadas situaciones se desea reducir la riqueza de información y se opta por generar una base simplificada eliminando el registro múltiple.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Eliminación del registro múltiple por objeto gráfico de un DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>APLICAR</ows:Identifier>
+				<ows:Title>Aplica</ows:Title>
+				<ows:Abstract>Aplica las soluciones a los problemas detectados en el texto.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ELIMINAR_CAMPS</ows:Identifier>
+				<ows:Title>Eliminar campos</ows:Title>
+				<ows:Abstract>Elimina los campos que determinaban la presencia de registro múltiple.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REG_TOT_IGUAL</ows:Identifier>
+				<ows:Title>Registro totalmente igual</ows:Title>
+				<ows:Abstract>Elimina los registros totalmente iguales de la DBF y por lo tanto elimina la parte del registro múltiple enteramente redundante. Esto puede no ser siempre útil especialmente cuando hay campos numéricos que pueden referirse a cantidades que hace falta totalizar entre los multiregistros.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:3</ows:Identifier>
+		<ows:Title>PAS_DE_ODBC_A_DBF (3)</ows:Title>
+		<ows:Abstract><![CDATA[Permite la generación de una tabla DBF a partir de una base de datos que contenga un enlace a cualquier base o tabla mediante un <i>driver</i> ODBC (por ejemplo una base de Microsoft Access en formato MDB). De esta base de datos se puede generar una tabla DBF a partir de cualquier tabla o vista de la base de datos o a partir de cualquier sentencia SQL.]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Conversión de una tabla ODBC a una tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerBD</ows:Identifier>
+				<ows:Title>Fichero Base de Datos</ows:Title>
+				<ows:Abstract>Fichero DSN o una base de datos de tipo fichero (como un MDB) accesible vía ODBC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroBD"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-msaccess</MimeType>
+							<Encoding>Binay</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Taula</ows:Identifier>
+				<ows:Title>Tabla</ows:Title>
+				<ows:Abstract>Tabla, en los casos donde se indica el origen puede ser una tabla, vista o una consulta SQL sobre la base de datos ODBC (si la sentencia requiere comitas, se debe usar diéresis en su lugar); en los casos donde Tabla sea el resultado, solo podrá ser una tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Tabla"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:4</ows:Identifier>
+		<ows:Title>SUPR_CAMP_DBF (4)</ows:Title>
+		<ows:Abstract>Elimina un campo o un rango de campos de la tabla DBF, perdiendo todas la celdas implicadas.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Eliminación de un campo o un rango de campos de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCampFinsA</ows:Identifier>
+				<ows:Title>Nombre Campo Hasta</ows:Title>
+				<ows:Abstract>Nombre del campo que cierra el intervalo, o '*' si se quiere hasta el último campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NombreCampoHasta"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:5</ows:Identifier>
+		<ows:Title>CREA_CAMP_DBF (5)</ows:Title>
+		<ows:Abstract>Crea uno o más campos en una tabla DBF con el contenido en blanco.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Creación de uno o varios campos de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>5</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCampDespresDe</ows:Identifier>
+				<ows:Title>Nombre Campo Después De</ows:Title>
+				<ows:Abstract>Nombre del campo después del cual se realiza la operación indicada (crear, eliminar, etc) , o '*' si se realiza antes del primero o ']' si se realiza después del último.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampoDespuesDe"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>DescCamp</ows:Identifier>
+				<ows:Title>Descriptor Campo</ows:Title>
+				<ows:Abstract>Descriptor del campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:DescCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tipus</ows:Identifier>
+				<ows:Title>Tipo Campo</ows:Title>
+				<ows:Abstract>Tipo de campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Tipo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Mida</ows:Identifier>
+				<ows:Title>Tamaño Campo</ows:Title>
+				<ows:Abstract>Tamaño del campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:Tamaño"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NDecimals</ows:Identifier>
+				<ows:Title>Número Decimales</ows:Title>
+				<ows:Abstract>Número de decimales del campo, se debe indicar 0 si no es numérico.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:NDecimales"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:6</ows:Identifier>
+		<ows:Title>OMPLE_CAMP_DBF (6)</ows:Title>
+		<ows:Abstract>Rellena las celdas (indizadas desde 1) de un campo con un valor constante o con una secuencia de valores en autoincremento.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Rellenar los valores de un campo con un valor constante o un autoincremento.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>6</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RegIni</ows:Identifier>
+				<ows:Title>Registro Inicial</ows:Title>
+				<ows:Abstract>Índice del registro empezando por 1 donde empezar a trabajar o '*' para empezar al final de la tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:RegIni"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RegFi</ows:Identifier>
+				<ows:Title>Registro Final</ows:Title>
+				<ows:Abstract>Índice del registro (empezando por 1) donde acabar de trabajar o '*' para llegar al final de la tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:RegFinal"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Valor</ows:Identifier>
+				<ows:Title>Valor</ows:Title>
+				<ows:Abstract>Valor numérico o alfanumérico de inicio de los registros o valor numérico inicial de un autoincremento.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Valor"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Increment</ows:Identifier>
+				<ows:Title>Incremento</ows:Title>
+				<ows:Abstract>Incremento, para aplicar un autoincremento debe indicarse dicho valor. Si no, se inician los registros a un valor constante.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:Incremento"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:7</ows:Identifier>
+		<ows:Title>CANVIA_CAMP_DBF (7)</ows:Title>
+		<ows:Abstract>Cambia las propiedades del descriptor, nombre, tipo, tamaño o número de decimales de uno o más campos. Debe especificarse todas las propiedades indicadas (con o sin cambios), por este orden y campo a campo.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Modificación del descriptor, nombre, tipo, tamaño o número de decimales de uno o más campos de una tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>7</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCampPrevi</ows:Identifier>
+				<ows:Title>Nombre Campo Previo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF a modificar. Se puede indicar un índice de campo (número de campo empezando por 1) precedido del símbolo # (p. ej.: #12).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampoPrevio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>DescCamp</ows:Identifier>
+				<ows:Title>Descriptor Campo</ows:Title>
+				<ows:Abstract>Descriptor del campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:DescCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tipus</ows:Identifier>
+				<ows:Title>Tipo Campo</ows:Title>
+				<ows:Abstract>Tipo de campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Tipo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Mida</ows:Identifier>
+				<ows:Title>Tamaño Campo</ows:Title>
+				<ows:Abstract>Tamaño del campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:Tamaño"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NDecimals</ows:Identifier>
+				<ows:Title>Número Decimales</ows:Title>
+				<ows:Abstract>Número de decimales del campo, se debe indicar 0 si no es numérico.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:NDecimales"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:8</ows:Identifier>
+		<ows:Title>BUSCA_I_SUBS_CAMP_DBF (8)</ows:Title>
+		<ows:Abstract>Busca en todos los registros de un campo una determinada cadena o subcadena y la sustituye por otra allá donde la búsqueda ha sido encontrada.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Búsqueda y sustitución dentro de un campo DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>8</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ValorBuscat</ows:Identifier>
+				<ows:Title>Valor Buscado</ows:Title>
+				<ows:Abstract>Valor numérico o alfanumérico a buscar en un campo de un DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ValorBuscado"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ValorSubstituit</ows:Identifier>
+				<ows:Title>Valor Substituido</ows:Title>
+				<ows:Abstract>Valor numérico o alfanumérico substituido en un campo de un DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:ValorSubstituido"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VALOR_COMPLET</ows:Identifier>
+				<ows:Title>Valor Completo</ows:Title>
+				<ows:Abstract>Indica que el valor buscado ha de coincidir con todo el valor del registro del campo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>INSENSIBLE_MAJ</ows:Identifier>
+				<ows:Title>Insensible Mayúsculas</ows:Title>
+				<ows:Abstract>La búsqueda se hace sin tener en cuenta las mayúsculas/minúsculas.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TRACTAR_N_COM_C</ows:Identifier>
+				<ows:Title>Tratar números como cadenas</ows:Title>
+				<ows:Abstract>Implica que los números son tratados como cadenas de carácteres.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:9</ows:Identifier>
+		<ows:Title>FUSIONA_TAULES_DBF (9)</ows:Title>
+		<ows:Abstract>Fusiona n tablas de idéntica estructura en una sola tabla receptora añadiendo los registros de las otras tablas al final de la tabla receptora. La tabla receptora puede ser preexistente o no.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Fusión de n tablas de idéntica estructura en una sola tabla receptora.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>9</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="100">
+				<ows:Identifier>FitxerDBFDonador</ows:Identifier>
+				<ows:Title>Fichero DBF Dador</ows:Title>
+				<ows:Abstract>Fichero DBF dador en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerDBFDador"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBFReceptor</ows:Identifier>
+				<ows:Title>Fichero DBF Receptor</ows:Title>
+				<ows:Abstract>Fichero DBF receptor (resultado) en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFReceptor"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:10</ows:Identifier>
+		<ows:Title>CONCATENA_CAMPS_DBF (10)</ows:Title>
+		<ows:Abstract>Fusiona el contenido de n campos en un solo campo receptor preexistente. Si se desea añadir, en cualquier posición de la concatenación, algún carácter o cadena constante para todos los registros debe indicarse escribiendo const(atributo), donde atributo es un valor constante. Por ejemplo si se desea concatenar unos campos: día, mes y año en un formato día-mes-año, será necesario definir una secuencia como: día const(-) mes const(-) año.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Fusión de n campos en un único campo receptor preexistente. Si se desea añadir, en cualquier posición de la concatenación, algún carácter o cadena constante para todos los registros se debe escribir const(atributo), donde atributo es un valor constante.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>10</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>CampResultat</ows:Identifier>
+				<ows:Title>Campo Resultado</ows:Title>
+				<ows:Abstract>Nombre del campo resultado de la fusión de diferentes campos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:CampoResultado"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="100">
+				<ows:Identifier>CampAFusionar#</ows:Identifier>
+				<ows:Title>Campo A Fusionar #</ows:Title>
+				<ows:Abstract>Nombre de los campos que se fusionaran en uno de solo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Campo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:11</ows:Identifier>
+		<ows:Title>DUPLICA_CAMP_DBF (11)</ows:Title>
+		<ows:Abstract>Duplica uno o varios campos consecutivos y los sitúa después de un determinado campo.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Duplica uno o más campos consecutivos y los sitúa después de un determinado campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>11</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCampFinsA</ows:Identifier>
+				<ows:Title>Nombre Campo Hasta</ows:Title>
+				<ows:Abstract>Nombre del campo que cierra el intervalo, o '*' si se quiere hasta el último campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NombreCampoHasta"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCampDespresDe</ows:Identifier>
+				<ows:Title>Nombre Campo Después De</ows:Title>
+				<ows:Abstract>Nombre del campo después del cual se realiza la operación indicada (crear, eliminar, etc) , o '*' si se realiza antes del primero o ']' si se realiza después del último.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NombreCampoDespuesDe"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:12</ows:Identifier>
+		<ows:Title>MOU_CAMP_DBF (12)</ows:Title>
+		<ows:Abstract>Mueve uno o varios campos consecutivos y los sitúa después de un determinado campo.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Mueve uno o más campos consecutivos y los sitúa después de un determinado campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>12</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCampFinsA</ows:Identifier>
+				<ows:Title>Nombre Campo Hasta</ows:Title>
+				<ows:Abstract>Nombre del campo que cierra el intervalo, o '*' si se quiere hasta el último campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NombreCampoHasta"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCampDespresDe</ows:Identifier>
+				<ows:Title>Nombre Campo Después De</ows:Title>
+				<ows:Abstract>Nombre del campo después del cual se realiza la operación indicada (crear, eliminar, etc) , o '*' si se realiza antes del primero o ']' si se realiza después del último.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NombreCampoDespuesDe"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:13</ows:Identifier>
+		<ows:Title>MOSTRA_VALOR_CAMP_DBF (13)</ows:Title>
+		<ows:Abstract>Muestra el contenido de un campo para un determinado rango de registros, indizados desde 1.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Muestra el contenido de un campo en un rango de registros, indizados desde 1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>13</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RegIni</ows:Identifier>
+				<ows:Title>Registro Inicial</ows:Title>
+				<ows:Abstract>Índice del registro empezando por 1 donde empezar a trabajar o '*' para empezar al final de la tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:RegIni"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RegFi</ows:Identifier>
+				<ows:Title>Registro Final</ows:Title>
+				<ows:Abstract>Índice del registro (empezando por 1) donde acabar de trabajar o '*' para llegar al final de la tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:RegFinal"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:14</ows:Identifier>
+		<ows:Title>JOIN_TAULES_DBF (14)</ows:Title>
+		<ows:Abstract><![CDATA[Permite la agrupación (<i>join</i>) en una sola tabla de campos de dos tablas DBF diferentes. Se debe establecer una correspondencia entre las dos tablas a partir de uno o múltiples enlaces entre campos equivalentes en las dos tablas; estos campos se denominan campos clave. En la mayoría de casos es suficiente definir un solo campo clave en cada tabla (como se puede ver en el Ejemplo 1) para definir de manera inequívoca la correspondencia entre los registros de las dos tablas. En algunos casos, no obstante, es necesario definir más de un campo clave en una o en las dos tablas implicadas (Ejemplo 2) para definir de manera inequívoca la correspondencia entre las dos tablas; a la combinación de estos campos se llama clave combinada. También se deberá definir todos los campos presentes en la tabla de salida, resultado del <i>join</i>. Si se desea que los campos clave también estén en la tabla de salida, se deberá incluirlos en la lista de campos deseados ya que se podrían usar sólo para actuar de vínculo, pero no  quererlos incluir en la tabla resultado de la operación <i>join</i>.<p><b>Ejemplo 1 --> <i>Join</i> a partir de un campo clave.</b><p><i>Join</i> de la <b>Taula1.dbf</b> (Tabla1.dbf en castellano) y la <b>Taula2.dbf</b> (Tabla2.dbf en castellano) a partir del campo común <b>ID</b> (marcado con un rectángulo rojo en la figura). En este ejemplo se desea que la tabla <b>Resultat.dbf</b> (Resultado.dbf en castellano) contenga todos los campos presentes en las dos tablas sin repetir los campos equivalentes a las dos tablas. <div align="center"> <img src="Exemple1_GestBD.png"/></div><p>GestBD 14 Resultat.dbf Taula1.dbf Taula2.dbf /T1_CLAU<b>1</b>=ID /T2_CLAU<b>1</b>=ID /T1_CAMP<b>1</b>=ID /T1_CAMP<b>2</b>=CITY /T1_CAMP<b>3</b>=POPULATION /T1_CAMP<b>4</b>=KM2 /T2_CAMP<b>3</b>=REGION /T2_CAMP<b>4</b>=COUNTRY /RELACIO_1_N /NOMES_REG_ENLLAC  <div align="center"><img src="Exemple1_Resultat_GestBD.png"/></div><p><b>Ejemplo 2 --> <i>Join</i> a partir de dos campos claves en cada tabla.</b><p><i>Join</i> de la <b>Taula1.dbf</b> (Tabla1.dbf en castellano) y la <b>Taula2.dbf</b> (Tabla2.dbf en castellano) a partir de los campos clave común <b>STATIONID</b> y <b>REGION</b> de la <b>Taula1.dbf </b>, y los campos <b>ID</b> y <b>REGIONID</b> de la <b>Taula2.dbf</b> (todos marcados con un rectángulo rojo). En este ejemplo se desea que la tabla <b>Resultat.dbf</b> (Resultado.dbf en castellano) contenga todos los campos presentes en las dos tablas sin repetir los campos equivalentes a las dos tablas. <p><b>Nota</b>: Los campo clave deben tener la misma estructura (Tipo y Anchura), aunque no es necesario que tengan el mismo nombre.<p>GestBD 14 Resultat.dbf Taula1.dbf Taula2.dbf /T1_CLAU<b>1</b>=STATIONID /T1_CLAU<b>2</b>=REGION /T2_CLAU<b>1</b>=ID /T2_CLAU<b>2</b>=REGIONID /T1_CAMP<b>1</b>=STATIONID /T1_CAMP<b>2</b>=REGION /T1_CAMP<b>3</b>=COORDX /T1_CAMP<b>4</b>=COORDY /T1_CAMP<b>5</b>=COORDZ /T2_CAMP<b>1</b>=CITYNAME /RELACIO_1_N /NOMES_REG_ENLLAC <div align="center"><img src="Exemple2c_GestBD.png"/></div><div align="center"><img src="Exemple2_Resultat_GestBD.png"/></div>]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[Genera una nueva tabla resultado (FicheroDBFResultado) de un <i>join</i> entre las tablas FicheroDBFPrincipal y FicheroDBFSecundario a partir de uno o múltiples enlaces. Los enlaces se indican a partir de los campos claves /T1_CLAU#  (para la tabla 1) y /T2_CLAU# (para la tabla 2) y los campos presentes en la tabla resultado se indican a partir de sus orígenes con  /T1_CAMP# (para la tabla 1) y /T2_CAMP# (para la tabla 2). # es el número de campo, indizado  desde 1 <b><u>en cada</u></b> tabla.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>14</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBFPrincipal</ows:Identifier>
+				<ows:Title>Fichero DBF Principal</ows:Title>
+				<ows:Abstract>Fichero DBF principal en la fusión de tablas  en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFPrincipal"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBFSecundari</ows:Identifier>
+				<ows:Title>Fichero DBF Secundario</ows:Title>
+				<ows:Abstract>Fichero DBF secundario en la fusión de tablas en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFSecundario"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>T1_CLAU#</ows:Identifier>
+				<ows:Title>T1_CLAU#</ows:Title>
+				<ows:Abstract><![CDATA[Nombres de campo clave de la tabla principal T1, a partir de los cuales se establecerá la correspondencia entre las dos tablas para poder realitzar el <I>join</I>. # Indica el orden de los campos claves enlazados, indexados des de 1. Si se indica más de un campo se entiende que se desea que actúen como una clave combinada.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>T2_CLAU#</ows:Identifier>
+				<ows:Title>T2_CLAU#</ows:Title>
+				<ows:Abstract><![CDATA[Nombres de campo clave de la tabla asociada T2, a partir de los cuales se establecerá la correspondencia entre las dos tablas para poder realitzar el <i>join<i/>. # indica el orden de los campos claves enlazados, indexados des de 1.Si se indica más de un campo se entiende que se desea que actúen como una clave combinada.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>T1_CAMP#</ows:Identifier>
+				<ows:Title>T1_CAMP#</ows:Title>
+				<ows:Abstract>Nombres de los campos de la tabla T1 que formarán parte de la tabla resultado. # es un número de orden (correlativo y comenzando desde 1).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>T2_CAMP#</ows:Identifier>
+				<ows:Title>T2_CAMP#</ows:Title>
+				<ows:Abstract>Nombres de los campos de la tabla T2 que formarán parte de la tabla resultado. # es un número de orden (correlativo y comenzando desde 1).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RELACIO_1_N</ows:Identifier>
+				<ows:Title>Relación 1 a muchos</ows:Title>
+				<ows:Abstract>Indica que es posible una relación de cardinalidad múltiple entre un registro de la tabla principal y N registros de la tabla asociada. Su ausencia no permite esta múltiple relación.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NOMES_REG_ENLLAC</ows:Identifier>
+				<ows:Title>Solo Registros Enlace</ows:Title>
+				<ows:Abstract>Este parámetro implica que únicamente se almacena en la tabla resultado aquellos registros de la tabla principal que tienen correspondencia en la tabla asociada.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBFResultat</ows:Identifier>
+				<ows:Title>Fichero DBF Resultado</ows:Title>
+				<ows:Abstract>Fichero DBF resultado en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFResultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:15</ows:Identifier>
+		<ows:Title>ORDENA_TAULA_DBF (15)</ows:Title>
+		<ows:Abstract>Realiza una ordenación por uno o múltiples criterios de una tabla DBF. La tabla ordenada se genera en un fichero DBF nuevo y se puede indicar el sentido de ordenación ascendente o descendente para cada criterio.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Genera una nueva tabla resultado (FicheroDBFResultado) de una ordenación definida por uno o más criterios con /CAMP_#. Para cada campo o criterio es posible definir una ordenación ascendente (por defecto) o descendente a partir de /ORDRE_#.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>15</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBFOrigen</ows:Identifier>
+				<ows:Title>Fichero DBF Origen</ows:Title>
+				<ows:Abstract>Fichero DBF origen en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>CAMP_#</ows:Identifier>
+				<ows:Title>CAMP_#</ows:Title>
+				<ows:Abstract>Nombres de los campos que formarán parte de la tabla resultado. # és un número de orden (correlativo y empezando desde 1).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>ORDRE_#</ows:Identifier>
+				<ows:Title>ORDRE_#</ows:Title>
+				<ows:Abstract>"D" o "d" indica una ordenación descendente y "A" o "a" una ordenación ascendente (por defecto).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBFResultat</ows:Identifier>
+				<ows:Title>Fichero DBF Resultado</ows:Title>
+				<ows:Abstract>Fichero DBF resultado en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFResultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:16</ows:Identifier>
+		<ows:Title>SUPR_REGISTRE_DBF (16)</ows:Title>
+		<ows:Abstract>Elimina uno o varios registros consecutivos de una tabla DBF. Si se desea  indicar un intervalo indíquese también RegFi. El registro RegFi también será borrado.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Elimina uno o más registros consecutivos de una tabla DBF. Si se desea especificar un intervalo debe indicarse también RegFinal. El registro RegFinal también será eliminado.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>16</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RegIni</ows:Identifier>
+				<ows:Title>Registro Inicial</ows:Title>
+				<ows:Abstract>Índice del registro empezando por 1 donde empezar a trabajar o '*' para empezar al final de la tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:RegIni"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RegFi</ows:Identifier>
+				<ows:Title>Registro Final</ows:Title>
+				<ows:Abstract>Índice del registro (empezando por 1) donde acabar de trabajar o '*' para llegar al final de la tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:RegFinal"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:17</ows:Identifier>
+		<ows:Title>JOIN_TOTS_ENLLACOS (17)</ows:Title>
+		<ows:Abstract><![CDATA[Realiza tantos <i>joins</i> físicos como enlaces tiene la tabla principal y sus tablas asociadas, hasta conseguir una única tabla plana (en formato DBF) con todos los campos de todas las tablas asociadas, excepto los campos clave de las tablas secundarias que implicarían una repetición innecesaria. El tipo de relación indicada en los metadatos gobernará el estilo de <i>join</i> (RELACIO_1_N o RELACIO_N_1). Para realizar este cometido, convierte las tablas ODBC a DBF, lo que puede generar truncados en nombres de campos y cambios de tipos y tamaños. Además, el nombre máximo de campos de la supertabla está limitado a 256 (límite de la dbf resultante).]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[Genera la 'tabla plana' (no relacional) FicheroDBFResultado, a partir de los <i>joins</i> físicos entre la tabla principal y las tablas asociadas, indicadas en el fichero REL correspondiente a FicheroDBFTablaPrincipal.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>17</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBFTaulaPrincipal</ows:Identifier>
+				<ows:Title>Fitxer DBF Taula Principal</ows:Title>
+				<ows:Abstract>Fichero tabla principal en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFTablaPrincipal"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBFResultat</ows:Identifier>
+				<ows:Title>Fichero DBF Resultado</ows:Title>
+				<ows:Abstract>Fichero DBF resultado en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFResultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:18</ows:Identifier>
+		<ows:Title>MULTIREGISTRE_A_MULTICAMP (18)</ows:Title>
+		<ows:Abstract>Transforma de multiregistro a multicampo. Para definir el multiregistro se toma como criterio las repeticiones de los valores del campo clave, típicamente el campo identificador gráfico. Los campos son replicados como campos múltiples tantas veces como el máximo número de repeticiones de los valores del campo clave.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Se transforma de multiregistro a multicampo. Para definir el multiregistro se toma como a criterio las repeticiones del valor del campo NomCampClau (típicamente el campo identificador gráfico). Los campos entre NomCamp NomCampFinsA son replicados como campos múltiples con un nombre similar (con un índice incremental añadido) tantas veces como el máximo número de repeticiones de los valores del NomCampClau (son añadidos después del campo NomCampDespresDe; típicamente NomCampDespresDe y NomCampFinsA son el mismo).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>18</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCampClau</ows:Identifier>
+				<ows:Title>Nombre Campo Clave</ows:Title>
+				<ows:Abstract>Es el nombre del campo de la tabla DBF que hace de campo clave.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampoClave"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCampFinsA</ows:Identifier>
+				<ows:Title>Nombre Campo Hasta</ows:Title>
+				<ows:Abstract>Nombre del campo que cierra el intervalo, o '*' si se quiere hasta el último campo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NombreCampoHasta"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCampDespresDe</ows:Identifier>
+				<ows:Title>Nombre Campo Después De</ows:Title>
+				<ows:Abstract>Nombre del campo después del cual se realiza la operación indicada (crear, eliminar, etc) , o '*' si se realiza antes del primero o ']' si se realiza después del último.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:NombreCampoDespuesDe"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:19</ows:Identifier>
+		<ows:Title>DUPLICA_REGISTRE_DBF (19)</ows:Title>
+		<ows:Abstract>Genera duplicados de registros.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Duplica un registro en una nova posición.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>19</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RegIni</ows:Identifier>
+				<ows:Title>Registro Inicial</ows:Title>
+				<ows:Abstract>Índice del registro empezando por 1 donde empezar a trabajar o '*' para empezar al final de la tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:RegIni"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>RegDespresDe</ows:Identifier>
+				<ows:Title>Registro Después De</ows:Title>
+				<ows:Abstract>Índice de registro empezando desde 1 donde se inserta el nuevo registro.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:RegDespuesDe"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:20</ows:Identifier>
+		<ows:Title>PAS_DE_ODBC_A_ODBC (20)</ows:Title>
+		<ows:Abstract><![CDATA[Permite la generación de una tabla de una base de datos a partir de otra tabla, vista o selección (a partir de una sentencia SQL) de otra base de datos. El acceso a les bases de datos se realiza mediante el <i>driver</i> ODBC y por tanto, las bases de datos pueden ser diferentes entre ellas y de cualquier tipo (MS Access, Oracle, SQL Server...). La aplicación intentará crear un duplicado de la tabla, vista o selección, siguiendo lo más fielmente posible el formato de la tabla o datos originales en cuando a tipos de datos, medidas, restricciones,... (hay tipos de datos que son específicos de cada gestor y que no existen en los otros, en estos casos se escogerá el tipo con características más similares). Esta opción es muy útil cuando se tienen sistemas de bases de datos de tipo servidor y se necesita enviar parte de la información a alguien externo que no tiene acceso a la base de datos, por ejemplo si se tiene  una base de datos tipo Oracle o SQL Server. En este caso se pueden  coger les datos que  interesan e exportarlos hacia una base de datos tipo fichero por ejemplo MS Access, de manera que se tengan los datos en un solo fichero.]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Permite la generación de una tabla de una base de datos a partir de otra tabla, vista o selección (a partir de una sentencia SQL) de otra base datos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>20</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerBDOrigen</ows:Identifier>
+				<ows:Title>Fichero BD Origen</ows:Title>
+				<ows:Abstract>Base de datos origen. Fichero DSN o una base de datos de tipo fichero (como un MDB) accesible vía ODBC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicherBDOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-msaccess</MimeType>
+							<Encoding>Binay</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>TaulaOrigen</ows:Identifier>
+				<ows:Title>Tabla origen a convertir</ows:Title>
+				<ows:Abstract>Puede ser una tabla, una vista o una consulta SQL sobre la base de datos ODBC (si la sentencia requiere comillas, debe usarse diéresis en el su lugar).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:TablaOrigen"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>TaulaResultat</ows:Identifier>
+				<ows:Title>Tabla Resultado</ows:Title>
+				<ows:Abstract>Tabla resultado de la conversión.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:TablaResultado"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerBDResultat</ows:Identifier>
+				<ows:Title>Fichero BD resultado</ows:Title>
+				<ows:Abstract>Base de datos resultado. Fichero DSN o una base de datos de tipo fichero (como un MDB) accesible vía ODBC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroBDResultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-msaccess</MimeType>
+							<Encoding>Binay</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:21</ows:Identifier>
+		<ows:Title>PURGA_TAULA_DBF (21)</ows:Title>
+		<ows:Abstract><![CDATA[Determina si hay registros que hayan sido marcados como borrados pero que todavía estén en  la tabla. En caso de encontrarlos los borra físicamente. Solo cambia la fecha del fichero si realmente se ha encontrado registros a borrar. La mayoría de programas de MiraMon ignoran la marca borrado y consideran los registros marcados como borrados como registros normales de la tabla. Así mismo, tanto Excel como ACCESS no muestran los registros marcados como borrados y el <i>driver</i> ODBC para DBF's lo usa en ejecutar una sentencia SQL DELETE.]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Se eliminan físicamente del fichero los registros que hayan sido marcados como borrados.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>21</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:22</ows:Identifier>
+		<ows:Title>OMPLE_CAMP_TANTP_CENT_A_DBF (22)</ows:Title>
+		<ows:Abstract>Se rellena un campo porcentualmente en función de los valores que contiene campo con un valor parcial y un campo que contiene un valor total.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Se rellena un campo porcentualmente en función de los valores que contiene campo con un valor parcial y un campo que contiene un valor total.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>22</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCampTantPCent</ows:Identifier>
+				<ows:Title>Nombre Campo %</ows:Title>
+				<ows:Abstract>Campo a llenar de acuerdo con la razón entre los valores de NombreCampoParcial y NombreCampoTotal.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampoPorCiento"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCampParcial</ows:Identifier>
+				<ows:Title>Nombre Campo Parcial</ows:Title>
+				<ows:Abstract>Nombre Campo Parcial</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NombreCampoParcial"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCampTotal</ows:Identifier>
+				<ows:Title>Nombre Campo Total</ows:Title>
+				<ows:Abstract>Nombre Camp Total</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NombreCampoTotal"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SUMA_CENT</ows:Identifier>
+				<ows:Title>Suma Cien</ows:Title>
+				<ows:Abstract>Asegurar que los porcentajes calculados sumen 100.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:23</ows:Identifier>
+		<ows:Title>COMPLETA_JOIN_1_A_N (23)</ows:Title>
+		<ows:Abstract>Completa la tabla con los valores que puedan faltar en revisar un JOIN 1 a N entre la tabla y un tesauro a partir de los campos clave que hacen el enlace y los campos a completar. Una vez establecido el JOIN entre las dos tablas, se comprueba si los valores de los campos a completar que provienen del tesauro están presentes en la tabla y en caso contrario, se  incorporan como más registros para ese identificador gráfico.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[Completa la tabla resultado (FitxerDBF) con los valores que puedan faltar en revisar un <i>join</i> 1 a N entre las tablas FicheroDBF y FicheroDBFSecundario a partir de uno o múltiples enlaces.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>23</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBFSecundari</ows:Identifier>
+				<ows:Title>Fichero DBF Secundario</ows:Title>
+				<ows:Abstract>Fichero DBF secundario en la fusión de tablas en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFSecundario"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>T1_CLAU#</ows:Identifier>
+				<ows:Title>T1_CLAU#</ows:Title>
+				<ows:Abstract><![CDATA[Nombres de campo clave de la tabla principal T1, a partir de los cuales se establecerá la correspondencia entre las dos tablas para poder realitzar el <I>join</I>. # Indica el orden de los campos claves enlazados, indexados des de 1. Si se indica más de un campo se entiende que se desea que actúen como una clave combinada.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>T2_CLAU#</ows:Identifier>
+				<ows:Title>T2_CLAU#</ows:Title>
+				<ows:Abstract><![CDATA[Nombres de campo clave de la tabla asociada T2, a partir de los cuales se establecerá la correspondencia entre las dos tablas para poder realitzar el <i>join<i/>. # indica el orden de los campos claves enlazados, indexados des de 1.Si se indica más de un campo se entiende que se desea que actúen como una clave combinada.]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>T1_CAMP#</ows:Identifier>
+				<ows:Title>T1_CAMP#</ows:Title>
+				<ows:Abstract>Nombres de los campos de la tabla T1 que formarán parte de la tabla resultado. # es un número de orden (correlativo y comenzando desde 1).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>T2_CAMP#</ows:Identifier>
+				<ows:Title>T2_CAMP#</ows:Title>
+				<ows:Abstract>Nombres de los campos de la tabla T2 que formarán parte de la tabla resultado. # es un número de orden (correlativo y comenzando desde 1).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:24</ows:Identifier>
+		<ows:Title>ELEMENT_XML_A_DBF (24)</ows:Title>
+		<ows:Abstract><![CDATA[Escribe en una celda de un DBF el nodo XML apuntado por el XPath como un texto. Está pensado para recuperar el valor de los nodos "hoja" del árbol de elementos del documento ya sean elementos o atributos. En un documento como:<?xml version="1.0" encoding="UTF-8"?>               <MD_Metadata>                   <fileIdentifier>5400031_full28_ca</fileIdentifier>                                   <hierarchyLevel>                                     <MD_ScopeCode value="series" />                                   </hierarchyLevel>               </MD_Metadata> pedir el xpath "MD_Metadata/fileIdentifier" recupera: "5400031_full28_ca" o pedir el xpath "MD_Metadata/hierarchyLevel/MD_ScopeCode/@value" recupera: "series".<br/>  Recuérdese que si se pide el XPath de un nodo que no es "hoja" se obtendrán los valores de todos los elementos hijos separados por espacios, resultado que no parece demasiado útil. <br/>  Se debe tener cuidado con xpath como este: /bookstore/book[1]/title "IE5 and later has implemented that [0] should be the first node, but according to the W3C standard it should have been [1]!!" </br> En MiraMon, al usar las librerías de Windows (que son las de IE5) se tiene esta "característica", es decir, que los <i>arrays</i> de nodos comienzan a numerarse por 0 y no por 1.]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Rellena una celda de un DBF con los valores (si QueExtr = 'V') o los nombre (si QueExtr = 'N') de un elemento o atributo designado por un XPath de un documento XML. Si el XPath da como resultado más de un elemento, llena más de un registro consecutivo para ese campo. En caso de que (si QueExtr = 'C') llena la celda con el número de nodos que cumplen el XPath.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>24</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerXML</ows:Identifier>
+				<ows:Title>Fichero XML</ows:Title>
+				<ows:Abstract>Fichero XML</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroXML"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/xml</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="100">
+				<ows:Identifier>RegIni</ows:Identifier>
+				<ows:Title>Registro Inicial</ows:Title>
+				<ows:Abstract>Índice del registro empezando por 1 donde empezar a trabajar o '*' para empezar al final de la tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:RegIni"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="100">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="100">
+				<ows:Identifier>XPath</ows:Identifier>
+				<ows:Title>XPath</ows:Title>
+				<ows:Abstract>Xpath del documento XML referente a la parte del documento que se quiere extraer información.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:XPath"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>QueExtr</ows:Identifier>
+				<ows:Title>Qué extraer</ows:Title>
+				<ows:Abstract>Si QueExtr='V' llena la celda con el valor del elemento o el atributo designado por un XPath, si QueExtr='N' llena la celda con el nombre del elemento o el atributo designado por un XPath y si QueExtr='C' llena la celda con el número de nodos que cumplen el XPath.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:QueExtr"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>V</ows:Value>
+						<ows:Value>N</ows:Value>
+						<ows:Value>C</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:25</ows:Identifier>
+		<ows:Title>CONVERTEIX_EXPRESSIO_EN_RESULTAT (25)</ows:Title>
+		<ows:Abstract>Cambia una expresión escrita en un campo por su resultado. Actualmente la única expresión soportada es xpath ().</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Cambia expresión xpath() escrita en un campo por su resultado.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>25</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerREL</ows:Identifier>
+				<ows:Title>Fichero REL</ows:Title>
+				<ows:Abstract>Fichero REL que enlaza o describe un fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroREL"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerREL</ows:Identifier>
+				<ows:Title>Fichero REL</ows:Title>
+				<ows:Abstract>Fichero REL que enlaza o describe un fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroREL"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:26</ows:Identifier>
+		<ows:Title>CREA_REGISTRE_BUIT_DBF (26)</ows:Title>
+		<ows:Abstract>Crea un registro vacío en la tabla DBF.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Crea un registro vacío.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>26</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RegIni</ows:Identifier>
+				<ows:Title>Registro Inicial</ows:Title>
+				<ows:Abstract>Índice del registro empezando por 1 donde empezar a trabajar o '*' para empezar al final de la tabla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:RegIni"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Quants</ows:Identifier>
+				<ows:Title>Cuantos</ows:Title>
+				<ows:Abstract>Número de elementos o registros a crear.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Cuantos"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:27</ows:Identifier>
+		<ows:Title>PAS_DE_ESTESA_A_CLASSICA (27)</ows:Title>
+		<ows:Abstract>Convierte una DBF extendida de MiraMon a el formato DBF clásico (dBASE III, dBASE III+ o dBASE IV)</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Convierte una DBF extendida a clásica.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>27</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBFEstesa</ows:Identifier>
+				<ows:Title>Fichero DBF extendida</ows:Title>
+				<ows:Abstract>Fichero DBF extendida de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFExtendida"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDBFClassica</ows:Identifier>
+				<ows:Title>Fichero DBF Clásico</ows:Title>
+				<ows:Abstract>Fichero DBF en formato clásico (dBASE III, dBASE III+ o dBASE IV).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroDBFClasico"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:28</ows:Identifier>
+		<ows:Title>MOSTRA_RMS_DE_CAMP (28)</ows:Title>
+		<ows:Abstract>Calcula el RMS de un campo de una DBF y lo muestra en pantalla.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Calcula el RMS de un campo de una DBF y lo muestra en pantalla.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>28</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCampRMS</ows:Identifier>
+				<ows:Title>Nombre Campo RMS</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF del que se desea calcular el RMS.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NombreCampoRMS"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NoData</ows:Identifier>
+				<ows:Title>Valor sindatos</ows:Title>
+				<ows:Abstract>Valor sindatos del campo del que se desea calcular el RMS.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NODATA"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Stdout</ows:Identifier>
+				<ows:Title>Estàndard de sortida</ows:Title>
+				<ows:Abstract>Mostra el RMS calculat.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-display</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-display</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:GestBD:param1:29</ows:Identifier>
+		<ows:Title>GENERA_TESAURUS (29)</ows:Title>
+		<ows:Abstract>Genera un tesauro a partir de la proyección del campo indicado.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Genera un tesauro a partir de la proyección del campo indicado.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>29</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDBF</ows:Identifier>
+				<ows:Title>Fichero DBF</ows:Title>
+				<ows:Abstract>Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroDBF"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre Campo</ows:Title>
+				<ows:Abstract>Nombre del campo de la tabla DBF.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NombreCampo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TRACTAR_N_COM_C</ows:Identifier>
+				<ows:Title>Tratar números como cadenas</ows:Title>
+				<ows:Abstract>Implica que los números son tratados como cadenas de carácteres.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerTesaurusDBF</ows:Identifier>
+				<ows:Title>Fichero Tesauro DBF</ows:Title>
+				<ows:Abstract>Fichero tesauro resultado de hacer la proyección del campo del fichero DBF indicado. Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroTesauroDBF"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

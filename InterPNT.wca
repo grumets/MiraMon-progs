@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:InterPNT:1</ows:Identifier>
+		<ows:Title>InterPNT</ows:Title>
+		<ows:Abstract>Aquesta aplicació genera un ràster on el valor de cada cel·la s'obté a partir de la interpolació dels valors d'un camp numèric de la base de dades d'un fitxer de punts,  o de la tercera coordenada en el cas de fitxers 3D (on la Z pot ser topogràfica, però també pot ser una altra variable, com temperatura, concentració d'un contaminant, etc). El ràster generat correspon a una superfície contínua i, per tant,  no té sentit utilitzar aquest mètode per a pretendre obtenir un ràster de valors categòrics (en aquest cas utilitzeu la poligonació de Thiessen a través del mòdul amb aquest nom, en el menú "Eines | Interpolació i anàlisi del terreny"). Aquest fitxer de punts ha de ser estructurat (format PNT). Es poden excloure punts del conjunt total per diversos criteris, tant a nivell global (a través de seleccions per atribut, explicades més avall), com localment. També se suporta que un punt tingui més d'un registre associat a la base de dades (p. ex. mesures d'aigua realitzades en diverses dates sobre una mateixa font) i en aquest cas el programa funcionarà segons les opcions explicades a "Opcions avançades", més avall.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Interpolador a partir de punts"/>
+		<ows:Metadata xlink:title="Abstract:Aquesta aplicació genera un ràster on el valor de cada cel·la s'obté a partir de la interpolació dels valors d'un camp numèric de la base de dades d'un fitxer de punts. El ràster generat correspon a una superfície contínua, no té sentit utilitzar aquest mètode per a pretendre obtenir un ràster de valors categòrics. Aquest fitxer de punts ha de ser estructurat (format PNT). Es poden excloure punts del conjunt total per diversos criteris, tant a nivell global, com localment. També se suporta que un punt tingui més d'un registre associat a la base de dades (p. ex. mesures d'aigua realitzades en diverses dates sobre una mateixa font)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fitxer_PNT</ows:Identifier>
+				<ows:Title>Fitxer PNT</ows:Title>
+				<ows:Abstract>Fitxer estructurat de punts que conté els valors a interpolar.  En aquest cas, es pot indicar optativament un conjunt de paràmetres que defineixen la selecció  (p.ex: /COND1_CAMP=). Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <![CDATA[<a href="general.htm#SelecAtrib">sintaxi general</a>]]>.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Fitxer_PNT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Camp</ows:Identifier>
+				<ows:Title>Camp a interpolar</ows:Title>
+				<ows:Abstract>Nom del camp en format Cadena a Accés a CampBD4. En el cas d'escollir l'opció Usar el valor de la tercera coordenada, cal escriure "x".</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Camp"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
+				<ows:Title>Camp de la condició #</ows:Title>
+				<ows:Abstract>Nom del camp de la condició # de la selecció. Hi poden haver fins a 100 condicions i per tant, fins a 100 noms de camp (COND#_CAMP) començant per l'índex 1. </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Operador de la condició #</ows:Title>
+				<ows:Abstract>Operador a usar en la # condició de la selecció. Hi poden haver fins a 100 condicions i per tant fins a 100 operadors (COND#_OP) començant per l'índex 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>LT</ows:Value>
+						<ows:Value>GT</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Valor de la condició #</ows:Title>
+				<ows:Abstract>Valor a usar en la # condició de la selecció. Hi poden haver fins a 100 condicions i per tant fins a 100 valors (COND#_VALOR) començant per l'índex 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Nexe de la condició #</ows:Title>
+				<ows:Abstract>Nexe a usar per enllaçar entre successives condicions de selecció. En aquest cas entre la condició # i la condició #+1. Hi poden haver fins a 100 condicions i per tant fins a 99 nexes (COND#_NEXE) començant per l'índex 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Prioritat del nexe de la condició #</ows:Title>
+				<ows:Abstract>Prioritat del nexe a usar per enllaçar entre successives condicions de selecció. En aquest cas entre la condició # i la condició #+1. Hi poden haver fins a 100 condicions i per tant fins a 99 prioritats (COND#_PRIOR) començant per l'índex 1. És un paràmetre optatiu, que si no s'indica implica que la prioritat és simplement l'ordre</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+						</ows:Range>
+						<ows:Value/>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Xmin</ows:Identifier>
+				<ows:Title>X mínima</ows:Title>
+				<ows:Abstract>Defineix la coordenada X mínima de l'envolupant del ràster resultat. Els valors 'x' i 'p' per als quatre paràmetres ('x x x x' o 'p p p p') indicaran que l'àmbit correspon al del fitxer de punts; 'x' farà enquadrar aquesta envolupant amb el costat de píxel definit.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Xmin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Xmax</ows:Identifier>
+				<ows:Title>X màxima</ows:Title>
+				<ows:Abstract>Defineix la coordenada Y màxima de l'envolupant del ràster resultat. Els valors 'x' i 'p' per als quatre paràmetres ('x x x x' o 'p p p p') indicaran que l'àmbit correspon al del fitxer de punts; 'x' farà enquadrar aquesta envolupant amb el costat de píxel definit.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Xmax"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ymin</ows:Identifier>
+				<ows:Title>Y mínima</ows:Title>
+				<ows:Abstract>Defineix la coordenada Y mínima de l'envolupant del ràster resultat. Els valors 'x' i 'p' per als quatre paràmetres ('x x x x' o 'p p p p') indicaran que l'àmbit correspon al del fitxer de punts; 'x' farà enquadrar aquesta envolupant amb el costat de píxel definit.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Ymin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ymax</ows:Identifier>
+				<ows:Title>Y màxima</ows:Title>
+				<ows:Abstract>Defineix la coordenada Y màxima de l'envolupant del ràster resultat. Els valors 'x' i 'p' per als quatre paràmetres ('x x x x' o 'p p p p') indicaran que l'àmbit correspon al del fitxer de punts; 'x' farà enquadrar aquesta envolupant amb el costat de píxel definit.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:Ymax"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Costat</ows:Identifier>
+				<ows:Title>Costat</ows:Title>
+				<ows:Abstract>Costat de píxel del fitxer resultat.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:Costat"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Duplicats</ows:Identifier>
+				<ows:Title>Duplicats</ows:Title>
+				<ows:Abstract>Opció de càlcul per quan hi ha multiregistre: 0 negligir el punt, 1 el primer és el vàlid, 2 mitjana i 3 suma.</ows:Abstract>
+				<ows:Metadata xlink:title="Param9"/>
+				<ows:Metadata xlink:title="Name:Duplicats"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EXPONENT</ows:Identifier>
+				<ows:Title>Exponent</ows:Title>
+				<ows:Abstract>Valor de l'exponent que indica la dependència de l'invers de la distància entre cada punt i el centre de la cel·la. Per defecte, val 2; o sigui, el pes de cada punt és inversament proporcional al quadrat de la distància al centre del píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EIXAMPLE</ows:Identifier>
+				<ows:Title>Eixample</ows:Title>
+				<ows:Abstract>Les distàncies es determinen a l'estil 'Eixample' (suma dels valors absoluts dels catets).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Màxima distancia</ows:Title>
+				<ows:Abstract>En el cas d'invers de la distància, és la distància màxima d'influència dels punts respecte el centre del píxel, si no s'indica, intervenen tots. En el cas d'spline o superfícies de tendència determina com es farà la divisió per regions de tot l'àmbit a interpolar. </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_PUNTS</ows:Identifier>
+				<ows:Title>Nombre de punts</ows:Title>
+				<ows:Abstract>Nombre dels n punts més propers a cada cel·la que participen en els càlculs; si no s'indica, intervenen tots.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MIN_PUNTS</ows:Identifier>
+				<ows:Title>Nombre mínim punts</ows:Title>
+				<ows:Abstract>Nombre mínim de punts que exigim per a donar com a vàlid el valor interpolat.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TENSIO</ows:Identifier>
+				<ows:Title>Tensió</ows:Title>
+				<ows:Abstract>Modula la suavització de la funció 'spline'.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>APLAN</ows:Identifier>
+				<ows:Title>Desviació</ows:Title>
+				<ows:Abstract>Desviació, nivell de soroll.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MIN_VAL</ows:Identifier>
+				<ows:Title>Mínim Valor</ows:Title>
+				<ows:Abstract>Valor inferior de saturació per a evitar valors extrems fora de rang .</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_VAL</ows:Identifier>
+				<ows:Title>Màxim Valor</ows:Title>
+				<ows:Abstract>Valor superior de saturació per a evitar valors extrems fora de rang.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GRAU</ows:Identifier>
+				<ows:Title>Grau</ows:Title>
+				<ows:Abstract>Ordre (1, 2, 3) de la funció polinòmica de tendència a ajustar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>IGNORAR_PNTS_EXT</ows:Identifier>
+				<ows:Title>Ignora els punts exteriors</ows:Title>
+				<ows:Abstract>Indica que no es tindran en compte els punts exteriors a l'àmbit definit pel ràster de sortida.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ERROR_VC</ows:Identifier>
+				<ows:Title>Error validació encreuada</ows:Title>
+				<ows:Abstract>Paràmetre de qualitat (RMS) del resultat de la interpolació obtingut pel mètode de validació encreuada.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASCARA</ows:Identifier>
+				<ows:Title>Mascara</ows:Title>
+				<ows:Abstract>Nom del fitxer que limita sobre quines regions del ràster resultat és necessari interpolar. Si no hi ha màscara es farà sobre tot l'àmbit definit.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPER_MASC</ows:Identifier>
+				<ows:Title>Operador</ows:Title>
+				<ows:Abstract>Operador d'igualtat (EQ) o desigualtat (NO_EQ) que determina quins polígons cal incloure en la interpolació, quan la màscara no és el polígon universal.
+/ATR_MASC= atribut que determina quins polígons cal incloure en la interpolació, quan la màscara no és el polígon universal.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_MASC</ows:Identifier>
+				<ows:Title>Taula mascara</ows:Title>
+				<ows:Abstract>Quan la màscara és un fitxer estructurat, indiquen el camp de la base de dades escollida. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <![CDATA[<a href="general.htm#TaulaCamp">sintaxi general</a>]]>.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_MASC</ows:Identifier>
+				<ows:Title>Camp mascara</ows:Title>
+				<ows:Abstract>Quan la màscara és un fitxer estructurat, indiquen el camp de la base de dades escollida. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <![CDATA[<a href="general.htm#TaulaCamp">sintaxi general</a>]]>.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATR_MASC</ows:Identifier>
+				<ows:Title>Attribute</ows:Title>
+				<ows:Abstract>Atribut que determina els polígons que han de ser inclosos en la interpolació quan la màscara no és el polígon universal.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Registre Multiple</ows:Title>
+				<ows:Abstract>Quan la màscara és un fitxer estructurat, indica el camp de la base de dades escollida. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de <![CDATA[<a href="general.htm#SelecAtrib">sintaxi general</a>]]>.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ESTAD_VEINATGE</ows:Identifier>
+				<ows:Title>Estadístiques de veïnatge</ows:Title>
+				<ows:Abstract>Valor que indica la funció estadística escollida per fer estadístiques de veïnatge del fitxer origen. En aquest cas, també es necessari indicar un dels paràmetres entre /MAX_DIST i /MAX_DIST_XY. Les diferents funcions estadístiques disponibles són: <![CDATA[<ul>
+          <li>InterPNT_MITJANA: Mitjana.</li>
+          <li>InterPNT_MEDIANA: Mediana.</li>
+          <li>InterPNT_MINIM: Mínim.</li>
+          <li>InterPNT_MAXIM: Màxim.</li>
+          <li>InterPNT_RANG: Rang.</li>
+          <li>InterPNT_DESVIACIO_EST: Desv. estàndard.</li>
+          <li>InterPNT_DESVIACIO_MEDIANA: Mitjana de les desviacions absolutes respecte de la mediana.</li>
+          <li>InterPNT_N_OCURRENCIES: Ocurrències.</li>          
+          </ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>InterPNT_MITJANA</ows:Value>
+						<ows:Value>InterPNT_MEDIANA</ows:Value>
+						<ows:Value>InterPNT_MINIM</ows:Value>
+						<ows:Value>InterPNT_MAXIM</ows:Value>
+						<ows:Value>InterPNT_RANG</ows:Value>
+						<ows:Value>InterPNT_DESVIACIO_EST</ows:Value>
+						<ows:Value>InterPNT_DESVIACIO_MEDIANA</ows:Value>
+						<ows:Value>InterPNT_N_OCURRENCIES</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Distància màxima com a radi maxim d'un cercle</ows:Title>
+				<ows:Abstract>Distància màxima com a radi maxim d'un cercle a la qual un punt es considera que ha de formar part del conjunt de punts que proporcionen els valors per al càlcul de l'estadístic que es transferirà a la cel·la del ràster de sortida (aquest mode circular és el típic en altres opcions del mòdul InterPNT).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST_XY</ows:Identifier>
+				<ows:Title>Distància màxima com a meitat del costat d'un quadrat.</ows:Title>
+				<ows:Abstract>Distància màxima com a meitat del costat d'un quadrat a la qual un punt es considera que ha de formar part del conjunt de punts que proporcionen els valors per al càlcul de l'estadístic que es transferirà a la cel·la del ràster de sortida.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COTA3D</ows:Identifier>
+				<ows:Title>Usar cota 3D dels punts origen</ows:Title>
+				<ows:Abstract>En el cas que el fitxer de punts sigui 3D, s'usa la cota 3D dels punts origen en comptes d'usar un camp de la base de dades origen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_DATA</ows:Identifier>
+				<ows:Title>Camp de la taula principal de punts que conté la data del punt</ows:Title>
+				<ows:Abstract>Aquest paràmetre permet indicar el camp de la taula principal de punts que conté la data del punt. Aquesta opció aplica als modes mínim i màxim de les estadístiques de veïnatge, i resulta d'utilitat per a poder saber, per exemple, en quin any, o en quin mes de l'any s'ha obtingut la dada de l'altura de la vegetació d'un fitxer lidar.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Fitxer_IMG</ows:Identifier>
+				<ows:Title>Fitxer IMG</ows:Title>
+				<ows:Abstract>Ràster resultat amb els valors interpolats per a cada cel·la.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Fitxer_IMG"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

@@ -1,0 +1,326 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/>
+
+  <title>Importar HDF4 a IMG</title>
+</head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->    
+
+  <p>El formato HDF (<em>Hierarchical Data Format</em>) es un formato
+  ampliamente extendido para el almacenamiento y estructuración de grandes
+  cantidades de datos numéricos. Originalmente se desarrollo por el National
+  Center for Supercomputing Applications. Actualmente el denominado HDF Group
+  es el encargado de la actualización y revisión del formato. Este formato
+  permite almacenar diferentes modelos de datos, como matrices
+  multidimensionales, imágenes raster y tablas. El programa HDFIMG recibe un
+  fichero en formato HDF y genera un fichero IMG multibanda dentro de una
+  carpeta de salida o bien genera un volcado de los metadatos contenidos en el
+  fichero HDF. En caso de tener elegido el modo importación, la aplicación
+  preselecciona el tipo de producto en función de una exploración heurística
+  del nombre del producto dentro de los metadatos.</p>
+
+  <p>Debido a la amplia extensión y distribución por la red de los datos
+  geográficos, el formato HDF se ha extendido y ampliado su utilización a
+  muchos portales de distribución de datos. En el campo de la Teledetección,
+  desde los datos de sensores ampliamente utilizados, como MODIS, ASTER y
+  CHRIS, hasta determinados productos de oceanografía se distribuyen en HDF.
+  Sin embargo, esta amplia distribución no ha ido acompañada de un estándar
+  ampliamente adoptado para la distribución de los metadatos. A pesar de esta
+  deficiencia, la herramienta HDFIMG importa y documenta de manera correcta
+  las imágenes mediante un algoritmo de exploración de los metadatos
+  disponibles.</p>
+
+  <p>Si se pide la opción de importación se generan dos ficheros de texto que
+  incluyen los metadatos de cada banda (Attributes_SD) y los metadatos ECS
+  globales del fichero HDF (Metadata_ECS). Los ficheros se guardan en un
+  directorio cuyo nombre sigue la estructura Metadata_ nombreproducto.</p>
+
+  <p>Actualmente HDFIMG tiene implementado el soporte a los siguientes
+  productos:</p>
+
+  <ul>
+    <li><strong>ASTER</strong></li>
+  </ul>
+
+  <ul>
+    <li style="list-style: none; display: inline">
+      <ul>
+        <li>
+          <div>
+            ASTER L3A01<br/>
+            <br/>
+            Es el producto de radiancias registradas en el sensor con la
+            aplicación adicional de la corrección geométrica de la imagen.
+            Este producto contiene también un modelo digital de elevaciones
+            generado a partir de los propios datos del sensor.
+          </div>
+        </li>
+      </ul>
+
+      <blockquote>
+        <p>Referencias:<br/>
+        * Abrams, M., Hook, S. and Ramachandran, B. (1999) Aster User
+        Handbook, Version 2, NASA/Jet Propulsion Laboratory, Pasadena.<br/>
+        * Earth Remote Sensing Data Analysis Center (ERSDAC) (2002) ASTER
+        LEVEL 3A01 DATA PRODUCTS SPECIFICATION (GDS Version) Version 1.1.</p>
+      </blockquote>
+
+      <ul>
+        <li>ASTER L1B<br/>
+        <br/>
+        Es el producto de radiancias registradas en el sensor. En este caso
+        para obtener las imágenes de radiancias hay que aplicar los
+        coeficientes de corrección del campo de radiometria del REL siguiendo
+        la siguiente formula:<br/></li>
+      </ul>
+
+      <blockquote>
+        <p><img height="21" src="L.gif" width="130"/></p>
+
+        <p>Referencias:<br/>
+        * Abrams, M., Hook, S. and Ramachandran, B. (1999) Aster User
+        Handbook, Version 2, NASA/Jet Propulsion Laboratory, Pasadena.<br/>
+        * Earth Remote Sensing Data Analysis Center (ERSDAC) (2001) ASTER
+        LEVEL 1 DATA PRODUCTS SPECIFICATION Version. 2.4.</p>
+
+        <p>Estructura de la información generada:<br/>
+        Se genera un ráster IMG multibanda en un directorio cuyo nombre sigue
+        la estructura AST###_órbita_añomesdía, donde ### es el tipo de
+        formato. Por ejemplo, para la imagen ASTER A1 con número de órbita
+        40718 y fecha 14-08-2007, la carpeta de salida será:
+        AST3A01_40718_20070814.</p>
+      </blockquote>
+    </li>
+
+    <li><strong>MODIS</strong></li>
+  </ul>
+
+  <ul>
+    <li style="list-style: none; display: inline">
+      <ul>
+        <li>MODIS Calibrated Radiances 5-Min 500 m (MOD02HKM/MYD02HKM)</li>
+
+        <li>MODIS Calibrated Radiances 5-Min 1 km (MOD021KM/MYD021KM)</li>
+
+        <li>MODIS Geolocation Data Set (MOD03/MYD03)</li>
+
+        <li>MODIS Aerosol 5-Min L2 10km (MOD04_L2/MYD04_L2)</li>
+
+        <li>MODIS Water Vapor 5-Min L2 1km/5km (MOD05_L2/MYD05_L2)</li>
+
+        <li>MODIS Cloud Product (MOD06_L2/MYD06_L2)</li>
+
+        <li>MODIS Atmosphere Profile Product (MOD07_L2/MYD07_L2)</li>
+
+        <li>MODIS Surface Reflectance Daily 500m 8 Day (MOD09A1/MYD09A1)</li>
+
+        <li>MODIS Surface Reflectance Daily 500 m/1 km (MOD09GA/MYD09GA)</li>
+
+        <li>MODIS Surface Reflectance Daily 250 m (MOD09GQ/MYD09GQ)</li>
+
+        <li>MODIS Surface Reflectance 8 Day 250 m (MOD09Q1/MYD09Q1)</li>
+
+        <li>MODIS Snow Cover Daily 500 m (MOD10A1/MYD10A1)</li>
+
+        <li>MODIS Snow Cover 8-Day 500 m (MOD10A2/MYD10A2)</li>
+
+        <li>MODIS Snow Cover Monthly 5 km Global (MOD10CM)</li>
+
+        <li>MODIS Land Surface Temperature Daily 1 km (MOD11A1/MYD11A1)</li>
+
+        <li>MODIS Land Surface Temperature Daily 6 km (MOD11B1/MYD11B1)</li>
+
+        <li>MODIS Land Cover Type Yearly 1000 m (MOD12Q1)</li>
+
+        <li>MODIS Vegetation Indices 16 Day 500 m (MOD13A1/MYD13A1)</li>
+
+        <li>MODIS Thermal Anomalies &amp; Fire 8 Day 1000 m
+        (MOD14A2/MYD14A2)</li>
+
+        <li>MODIS Burned Area Monthly 500 m (MCD45A1)</li>
+
+        <li>MODIS Vegetation Conversion Yearly 500 m (MOD44B)</li>
+
+        <li>MODIS LAI y FPAR 8 Day 1 km (MOD15A2/MYD15A2)</li>
+
+        <li>MODIS Gross Primary Productivity 8 Day 1 km
+        (MOD17A2/MYD17A2)<br/>
+          <br/>
+          Para descarga de los productos MODIS puede consultar las web:<br/>
+          WIST -- <a href="https://wist.echo.nasa.gov">https://wist.echo.nasa.gov</a><br/>
+          USGS Global Visualization Viewer -- <a href="http://glovis.usgs.gov">http://glovis.usgs.gov</a><br/>
+          MODIS Rapid Response System -- <a href="http://rapidfire.sci.gsfc.nasa.gov">http://rapidfire.sci.gsfc.nasa.gov</a><br/>
+
+          <br/>
+          Estructura de la información generada:<br/>
+          Se genera un raster IMG multibanda en un directorio cuyo nombre
+          sigue la estructura MO###_ cuadricula _añomesdía, donde ### es el
+          tipo de formato. Por ejemplo, para la imagen MOD021KM con cuadricula
+          h00v45 y fecha 01-01-2010, la carpeta de salida será:
+          MOD021KM_0045_20100101.
+        </li>
+      </ul>
+
+      <blockquote>
+        <p>Georreferenciación:</p>
+
+        <p>Para georeferenciar los productos (MOD02HKM/MYD02HKM) y
+        (MOD021KM/MYD021KM) es necesario importar también el producto de
+        geolocalización (MOD03/MYD03). Para los productos L2 se deberá usar la
+        malla de latitud y longitud. El resto de productos de MODIS ya se
+        suministran georreferenciados en sistema sinusoidal V5 de MODIS.
+        <span class="short_text" id="result_box"><span style="background-color: rgb(255, 255, 255);" title="Ha de tenir el mateix patró de nom:">Los ficheros deben tener el
+        mismo patrón de nombre:</span></span>
+        MOD021KM.<strong>A2009152.1130.005</strong>.2009152235056.hdf y
+        MOD03.<strong>A2009152.1130.005</strong>.2009152231421.hdf.</p>
+
+        <p>Puede usarse la aplicación CanviPrj de MiraMon para convertir dicha
+        georeferenciación a otras de interés.</p>
+      </blockquote>
+    </li>
+
+    <li><strong>NASA Ocean Products</strong></li>
+  </ul>
+
+  <ul>
+    <li style="list-style: none; display: inline">
+      <ul>
+        <li>NASA Ocean Color L3SMI Products (MODIS, SeaWiFS, OCTS, CZCS)<br/>
+
+          <br/>
+          El producto L3 Standard Mapped Image (SMI) está compuesta por datos
+          oceanográficos mundiales y se distribuye en formato HDF. Se trata de
+          parámetros oceanográficos (<em>C</em><em>hlorophyll a concentration,
+          Angstrom coefficient, Normalized water-leaving radiance at each
+          visible wavelength, Aerosol optical thickness, Epsilon and Diffuse
+          attenuation coefficient at 490 nm</em>) para diferentes períodos de
+          tiempo. Los productos son generados a partir de los productos
+          binarios de los sensores SeaWiFS, MODIS, OCTS o CZCS y en proyección
+          cilíndrica.<br/>
+
+          <p>Para descarga de los productos L3SMI se puede consultar la
+          web:<br/>
+          <a href="http://oceancolor.gsfc.nasa.gov">http://oceancolor.gsfc.nasa.gov</a></p>
+
+          <p>Estructura de la información generada:<br/>
+          Se genera un raster IMG en un directorio cuyo nombre sigue la
+          estructura I###.L3m_ttt_pppp_r, donde I es el primer carácter es el
+          instrumento identificador (S para SeaWiFS, A para Aqua MODIS, T para
+          Terra MODIS, O para los OCTS, C para CZCS). Las extensiones de
+          nombre de archivo son de la forma L3m_ttt_pppp_r, donde ttt
+          representa el periodo de duración inicial, pppp es un código para
+          los parámetros geofísicos del producto, y r es la resolución en km.
+          Por ejemplo, para la imagen de clorofila a de 2km, la carpeta de
+          salída será: S2004008.L3m_DAY_P118_chlor_a_ARG_2km.</p>
+        </li>
+      </ul>
+
+      <ul>
+        <li>NASA Ocean Productivity Products (MODIS, SeaWiFS)<br/>
+          <br/>
+          Se trata de unos productos de estimaciones de la productividad del
+          océano para diferentes conjuntos de datos y con diferentes
+          algoritmos de procesamiento, como el Standard-VGPM y el
+          Eppley-VGPM.<br/>
+          <br/>
+          Para descarga de los productos L3SMIse puede consultar la web:<br/>
+          <a href="http://www.science.oregonstate.edu/ocean.productivity">http://www.science.oregonstate.edu/ocean.productivity</a>
+        </li>
+      </ul>
+
+      <blockquote>
+        <p>Estructura de la información generada:<br/>
+        Se genera un ráster IMG en un directorio cuyo nombre sigue la
+        estructura nombreproducto_fecha, donde nombreproducto es el
+        correspondiente nombre para cada producto y la fecha tiene el formato
+        añomesdia. Por ejemplo para la imagen de producción primaria neta del
+        01-12-1997 la carpeta de salida será: NPP_19971201.</p>
+      </blockquote>
+    </li>
+
+    <li><strong>CHRIS</strong></li>
+  </ul>
+
+  <div style="margin-left: 2em">
+    <ul>
+      <li>CHRIS<br/>
+      <br/>
+      CHRIS (Compact High Resolution Imaging Spectrometer) es un sensor a
+      bordo del satélite Proba de la ESA, que suministra datos en formato
+      HDF.</li>
+    </ul>
+
+    <blockquote>
+      <p>Hay cinco modos de distribución de las imágenes de CHRIS clasificados
+      como modos de 1 a 5, los modos implementados son:</p>
+
+      <p><em>MODE 1: TOTAL: Full swath width, 62 spectral bands, 773nm /
+      1036nm, nadir ground sampling distance 34m @ 556km.</em></p>
+
+      <p><em>MODE 2: WATER BANDS: Full swath width, 18 spectral bands, nadir
+      ground sampling distance 17m @ 556km.</em></p>
+
+      <p><em>MODE 3: LAND CHANNELS: Full swath width, 18 spectral bands, nadir
+      ground sampling distance 17m @ 556km.</em></p>
+
+      <p><em>MODE 4: CHLOROPHYL BAND SET: Full swath width, 18 spectral bands,
+      nadir ground sampling distance 17m @ 556km.</em></p>
+
+      <p>Referencias:<br/>
+      Cutter, M. A, 2008, CHRIS Data Format, Surrey Satellite Technology
+      Limited.<br/>
+      <br/>
+      Estructura de la información generada:<br/>
+      Se genera un raster IMG en un directorio cuyo nombre sigue la estructura
+      CHRIS_fecha_hora, donde la fecha tiene el formato añomesdia. Por ejemplo
+      para la imagen CHRIS del 19-02-2009 y hora 15:51:34 la carpeta de salida
+      será: CHRIS_20090219_155134.</p>
+    </blockquote>
+  </div>
+
+  <ul>
+    <li><strong>MISR</strong></li>
+  </ul>
+
+  <div style="margin-left: 4em">
+    <p>El MISR (Multi-angle Imaging SpectroRadiometer) tiene 9 cámaras, todas
+    apuntando en direcciones distintas. De esta manera proporciona una
+    cobertura multiangular de todo el planeta. Tienen la capacidad de observar
+    simultáneamente 9 ángulos distintos (además del nadir, 26,1º, 45,6º, 60º y
+    70,5º) tanto hacia delante como hacia atrás de la órbita y 4 bandas
+    espectrales (B, G, R, NIR). En general, los ángulos grandes proporcionan
+    una mayor sensibilidad a los efectos de los aerosoles atmosféricos y
+    efectos de las nubes, mientras que los ángulos más próximos al nadir
+    aportan información de la sobre la superficie terrestre.</p>
+
+    <p>Para descarga de los productos MISR Level 3 Imagery (L3SMI) se puede
+    consultar la web:<br/>
+    MISR -- <a href="http://www-misr.jpl.nasa.gov">http://www-misr.jpl.nasa.gov</a><br/>
+    MISR Level 3 Imageryr -- <a href="http://eosweb.larc.nasa.gov/PRODOCS/misr/level3/download_data.html">http://eosweb.larc.nasa.gov/PRODOCS/misr/level3/download_data.html</a><br/>
+    </p>
+  </div>
+
+  <p>Si usted necesita importar un nuevo producto HDF no soportado por HDFIMG,
+  póngase por favor en contacto con nosotros en
+  suport@miramon.uab.cat.<br/></p>
+  <hr/>
+
+  <exclusiva>
+  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+p><!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+HDFIMG ?
+--></p>
+  </exclusiva>
+</body>
+</html>

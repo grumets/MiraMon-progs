@@ -1,0 +1,265 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>InterPNT: Interpolador a partir de punts</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+  <p>Aquesta aplicació genera un ràster en el qual el valor de cada cel·la 
+  s'obté a partir de la interpolació dels valors d'un número de camp de la base 
+  de dades d'un fitxer de punts o del valor de la tercera coordenada de cada punt (en cas de fitxers 3D).
+  El ràster generat correspon a una superfície contínua, no té sentit utilitzar 
+  aquest mètode pretentant obtenir un ràster de valors categòrics. Aquest fitxer 
+  de punts ha de ser estructurat (format PNT). Es poden excloure punts del conjunt 
+  total per diversos criteris, tant a nivell global com localment. També es pot 
+  comptar que un punt té més d'un registre associat a la base de dades (per exemple, 
+  mesures d'aigua realitzades en diverses dates sobre una mateixa font).
+
+  <p>Com en el cas d'altres procediments de càlcul, la interpolació a
+  partir de punts pot donar resultats sensiblement diferents segons les
+  opcions del programa triades. El mètode triat, la distància llindar, la
+  ponderació a aplicar, la utilització de màscares d'exclusió, etc, poden
+  ajudar enormement a obtenir millors resultats. El coneixement de les dades
+  amb què es treballa i la realització de proves temptatives variant els
+  diferents paràmetres són sovint de gran ajut per a prendre decisions sobre
+  com usar aquests paràmetres. A més a més, per poc que es pugui, convé
+  reservar un conjunt de punts independents aleatòriament distribuïts per tal
+  de poder fer una avaluació quantitativa dels resultats (test).</p>
+
+  <p>En l'actual versió hi ha cinc possibles mètodes d'interpolació:
+  invers de la distància, funció <i>'spline'</i>, superfícies de
+  tendència, kriging i estadístiques de veïnatge. 
+  Pel mètode de l'invers de la distància, la interpolació del
+  punt problema es realitza assignant pesos al valors dels punts de mostreig
+  en funció inversa de la distància que separa el centre de píxel del punt
+  problema. Aquesta distància pot calcular-se de manera euclidiana, o
+  utilitzant un càlcul simplificat (distància Eixample). Pel mètode
+  <i>'spline'</i> es tracta de determinar una funció regular, contínua
+  i derivable, o el conjunt de funcions si dividim l'àmbit global en
+  diferents regions, que s'adapti millor al punts de mostreig sense perdre
+  la seves propietats de continuïtat. Per a conèixer més detalls de
+  l'expressió analítica d'aquesta funció podeu consultar: Helena
+  Mitasova i Lubos Mitas (1993) &quot;Interpolation by Regularized Spline with
+  Tension&quot; Mathematical Geology. vol. 25 nº 6 p. 641-655.<br/>
+  <br/></p>
+  <CENTER><img alt="Fórmula invers distància" src="inversd.gif"></CENTER>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+  <small>B potència d'invers de la distància.
+  <font size=7>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+  </font>
+  Manhattan=distància Eixample
+  </small><CENTER><small>
+  <BR>Càlcul del valor interpolat pel mètode invers distància</small>
+  </CENTER><P><CENTER>
+  <BR><BR><img alt="Expressions per les funcions 'spline'" src="spline.gif">
+  </center>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+  <small>T(x,y) és desviació i fi tensió
+  </small><CENTER><small>
+  <BR>Expressions per les funcions <I>'spline'</I></small><P>
+  </CENTER>
+  <p>Pel mètode de generació de superfícies de tendència, es tracta
+  d'ajustar una funció polinòmica respecte de les coordenades X, Y de grau
+  1, 2 o 3 que donarà lloc a una superfície suau, contínua i derivable
+  resultat de l'ajust . Aquest ajust es realitza per mínims quadrats i
+  permetrà determinar els coeficients de cada terme del polinomi.</p>
+
+  <div align="center"><br/>
+  <br/>
+  <img alt="Expressions per les funcions polinòmiques " src="trend.gif"/></div>
+
+  <center>
+    <small>Expressions per les funcions polinòmiques lineal (grau 1),
+    quadràtica (grau 2) i cúbica (grau 3).</small>
+  </center>
+  
+  <p>Amb el mètode d'estadístiques de veïnatge, s'assigna a cada cel•la l'estadístic designat (mitjana, mediana, màxim, mínim, rang, desviació estàndard, 
+  mitjana de les desviacions absolutes respecte de la mediana o nombre d'ocurrències), calculat considerant tots els punts que es troben dintre d'un cercle 
+  definit per un radi, o dintre d'un quadrat definit per un costat, ubicats al centre de cada cel•la que es vol interpolar.
+  A diferència d'altres mètodes de l'InterPNT, i en particular del mètode que fa la interpolació per ponderació de l'invers de la distància elevada a un exponent determinat per l'usuari
+  però que també limita aquest càlcul a un cert radi de distància (distància màxima), en el nou mode d'Estadístiques de veïnatge un cop se seleccionen tots els punts presents dintre de 
+  l'àmbit (circular o quadrat) indicat, no s'efectua cap ponderació sinó que directament es fa el càlcul demanat, que pot ser una mesura de centralitat dels diferents valors (mitjana o 
+  mediana), de dispersió d'aquests valors (màxim, mínim, rang, desviació estàndard, mitjana de les desviacions absolutes respecte de la mediana) o, simplement, un recompte del nombre de 
+  valors disponibles (nombre d'ocurrències).</p>
+
+  <p><b><u>Operació</u></b><br/>
+  <br/>
+  En primer lloc cal escollir si es vol usar el valor de la tercera coordenada (en el cas de fitxers 3D)
+  o seleccionar un camp a interpolar de la base de dades associada al fitxer de punts.
+  En el cas d'escollir un camp de la base de dades, cal seleccionar un camp numèric. Encara que els valors
+  d'aquest camp siguin enters, l'interpolador tractarà aquestes dades
+  com a reals de doble precisió en tots els càlculs interns i generarà un
+  ràster resultat de reals amb precisió simple.</p>
+
+  <p>La selecció de registres és el primer filtre que tria aquells registres
+  de la base de dades del fitxer de punts que participaran en la interpolació.
+  L'opció per defecte és <b>'Tots els registres'</b>, però en
+  molts casos millorarem la qualitat i la velocitat de la interpolació si
+  excloem aquells registres que no desitgem que tinguin cap influència en el
+  resultat. La selecció de registres es fa en construir una sentència lògica
+  sobre qualsevol combinació de camps de la base de dades associada al fitxer
+  de punts. Noteu que els camps implicats en la selecció poden no involucrar
+  el camp a interpolar. Per exemple, si en un fitxer d'emissions
+  atmosfèriques, un camp indica la comarca on és cada indústria i volem
+  interpolar un cert contaminant, podem indicar que s'interpoli només amb
+  els valors d'una certa comarca. Recomanem utilitzar la finestra que
+  s'obre a partir de l'opció <b>'Aplicar selecció'</b> per a
+  construir aquesta sentència lògica, a base d'anar seleccionant els
+  camps, operadors, valors, nexes i ordre de prioritats amb els botons i
+  desplegables corresponents. En la secció explicativa de la 'Sintaxi'
+  de la línia de comanda detallem els elements d'aquesta sentència, que
+  funciona de forma semblant a la consulta per atributs de MiraMon.</p>
+
+  <p>El fitxer de sortida serà un ràster no comprimit de valors reals (excepte
+  quan es defineixin màscares d'exclusió, que serà comprimit i també de
+  valors reals). Aquest ràster tindrà definit el valor de fons o NODATA en
+  aquelles cel·les on no hagi quedat definit cap valor possible perquè aquella
+  coordenada no verifica els criteris de les <b>'Opcions
+  avançades'</b>, perquè és dintre una màscara d'exclusió o perquè no
+  té un mínim de punts suficients dins la distància màxima
+  d'influència.<br/>
+  <br/>
+  Cal definir l'envolupant i costat de píxel d'aquest ràster de
+  sortida, explicitant les coordenades o ajustant l'envolupant a
+  l'àmbit del fitxer de punts. Cal notar que la velocitat del procés és
+  molt sensible a aquests valors. Un costat petit en una regió a interpolar
+  molt àmplia sense màscara definida, donarà uns valors molt precisos
+  (suaument variables en funció de la distància), però el nombre de càlculs
+  serà molt gran i el temps d'execució, llarg.</p>
+
+  <p><b><u>Opcions per a Invers de la distància:</u></b><br/>
+  <br/>
+  Cal definir en primer lloc, com es realitzarà el càlcul de la distància; de
+  forma euclidiana o a l'estil 'Eixample' (vegeu en l'apartat
+  anterior, ambdues definicions de distància). El càlcul del valor que
+  s'assignarà a cada cel·la és una mitjana ponderada dels valors que
+  prenen els punts a considerar. El pes que pren cada punt té una dependència
+  potencial respecte l'invers de la distància entre el punt i el centre
+  del píxel. El valor per defecte és 2, però pot parametritzar-se de la manera
+  que l'usuari cregui més adequada. Com més alt és el valor, més pes té el
+  punt en el seu entorn immediat, i menys pes la mitjana dels valors
+  circumdants.</p>
+
+  <p>La distància màxima és un paràmetre molt habitual que marca una regió
+  d'influència dels punts localitzats en l'interior d'una
+  circumferència, centrada en el píxel, i de radi igual a la distància màxima
+  indicada. Per tant, per a cada cel·la tindrem una distància a partir de la
+  qual els punts originals no juguen cap paper en el procés
+  d'interpolació. Cal tenir present que és molt raonable usar sempre
+  aquest paràmetre, ja que a més a més de tenir ple sentit en la interpolació,
+  permet reduir extraordinàriament el temps d'execució.</p>
+
+  <p>Un altre criteri interessant és definir el nombre màxim de punts del
+  quals dependrà el càlcul. Evidentment sempre seran els 'n' més
+  propers al centre del píxel. Els reiterats processos d'ordenació que
+  requereix l'aplicació d'aquest criteri, fa allargar considerablement
+  el procés de càlcul, però assegurem la intervenció només dels 'n'
+  més propers. Per a assegurar que el càlcul es fa amb un mostreig suficient,
+  també podem definir un nombre mínim de punts a participar en el càlcul de
+  cada cel·la. Si no s'assoleix aquest mínim, el valor de la cel·la serà
+  NODATA.</p>
+
+  <p><b><u>Opcions per <i>'spline'</i>:</u></b><br/>
+  <br/>
+  La interpolació per <i>splines</i> pot ser segons la configuració dels punts
+  de mostra, força sensible als paràmetres de configuració.<br/>
+  El paràmetre <b>tensió</b> modula la suavització de la funció; el seu valor
+  per defecte és 40 i tensions excessivament baixes o elevades poden donar
+  lloc a artefactes inesperats.<br/>
+  El paràmetre <b>desviació</b> ajusta el soroll de la mostra, el valor per
+  defecte zero implica que la funció passa exactament pels punts de mostreig
+  (interpolador exacte).<br/>
+  El paràmetre <b>costat de bloc d'anàlisi</b> localitza l'ajust en
+  dividir l'àmbit per blocs d'anàlisi on es restringeix la solució de
+  la funció <i>spline</i> a aquesta regió. Aquest paràmetre accelera força els
+  càlculs, és molt recomanable quan disposem de molts punts, però pot arribar
+  a produir discontinuïtats no desitjades si el seu valor és massa petit
+  (finestra massa local).<br/>
+  El mètode <i>spline</i> es comporta de manera òptima per a mostres sense
+  excessives pertorbacions. Ara bé, si localment tenim punts propers amb
+  variacions brusques de la variable a interpolar, el mètode pot donar lloc a
+  valors força allunyats del rang esperat. En aquest cas és força recomanable
+  incrementar la tensió i com a opció complementària forçar els valors de
+  sortida dins un màxim o un mínim. En aquest cas cal definir els paràmetres
+  <i>/MIN_VAL</i> i <i>/MAX_VAL</i>.</p>
+
+  <p><b><u>Opcions per les superfícies de tendència:</u></b><br/>
+  <br/>
+  El principal paràmetre d'aquesta opció és el grau que determina
+  l'ordre del polinomi a ajustar. En l'actual versió és possible
+  generar superfícies de primer grau o lineals, de segon grau o quadràtiques i
+  de tercer grau o cúbiques.<br/>
+  De la mateixa manera que per <i>spline</i> és possible generar diferents
+  solucions, no estrictament contínues, en dividir l'àmbit global en
+  subregions més locals. Aquestes subregions queden definides pel paràmetre
+  <b>costat de bloc d'anàlisis</b>.</p>
+  
+  <p><b><u>Opcions per les estadístiques de veïnatge:</u></b><br/>
+  <br/>
+  Cal definir dos paràmetres: la funció estadística a utilitzar i la distància màxima
+  a la qual un punt es considera que ha de formar part del conjunt de punts que proporcionen 
+  els valors per al càlcul de l'estadístic que es transferirà a la cel·la del ràster de sortida.<br/>
+  Les funcions estadístiques disponibles són la mitjana, la mediana, el màxim,el mínim, 
+  el rang, la desviació estàndard, la mitjana de les desviacions absolutes respecte de 
+  la mediana i el nombre d'ocurrències.<br/>
+  Per a la distància màxima hi ha dues opcions possibles: distància màxima com a radi maxim d'un cercle i
+  distància màxima com a meitat del costat d'un quadrat.<br/>
+  </p>  
+
+  <p><b><u>Opcions avançades:</u></b><br/>
+  <br/>
+  Les opcions avançades ens permeten parametritzar de la forma més ajustada
+  possible alguns procediments globals de la interpolació.<br/>
+  <br/>
+  En el cas que a un punt hi tinguem associat més d'un registre
+  seleccionat (p.ex. diverses mesures en instants diferents d'una mateixa
+  font), podem triar com serà el valor a interpolar en aquest punt. a)
+  negligir aquest punt amb registre múltiple (per tant, serà com si no formés
+  part de la selecció); b) triar el valor del primer registre que verifiqui
+  les condicions de selecció; c) fer una mitjana entre aquests registres;
+  d)fer una suma.<br/>
+  Una possibilitat afegida és la tria de punts de manera que s'ignoren
+  aquells punts exteriors a l'envolupant definida pel ràster. Aquest opció
+  no es recomana si els valors propers a les vores del ràster de sortida són
+  importants.</p>
+
+  <p>Finalment, també podem determinar sobre quines regions dins l'àmbit
+  definit, no necessitem o no desitgem conèixer el resultat de la
+  interpolació. Utilitzant un fitxer que actuï de <b>màscara
+  d'exclusió</b> i determini quines zones són útils i quines no,
+  accelerarem considerablement el procés de càlcul i obtindrem resultats més
+  coherents per exclusió de zones sense punts; per exemple, si estem
+  interpolant elevacions terrestres a partir de cotes, podem excloure de la
+  interpolació totes les zones marítimes). Aquesta màscara pot ser un ràster
+  on les regions a excloure seran aquelles en què el valor de la cel·la és
+  NODATA. També pot ser un vector, estructurat o no estructurat, però sempre
+  de tipus polígon. En aquest cas la zona a excloure serà per defecte el
+  polígon universal, o bé la màscara inclourà aquells polígons amb atribut
+  igual o diferent a un valor determinat si es defineix expressament. Per a
+  vectors estructurats cal, a més a més, concretar quin camp definirà la
+  màscara.</p>
+
+  <p>Si no es defineix el costat d'anàlisi, la solució és única per tot
+  l'àmbit (finestra igual a l'àmbit), si el costat d'anàlisi és
+  petit, l'àmbit es dividirà en moltes regions independents.</p>
+  <hr/>
+
+  <exclusiva>
+ <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+INTERPNT ?
+--></p>
+</exclusiva>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>ArcInfMM: Conversion of vector and raster files between MiraMon and
+  Arc/Info (Export)</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p>This program performs the format conversion from a family of structured
+  vector files of MiraMon to the Export/&quot;interchange file&quot; (E00)
+  format of Arc/Info, and vice versa. The Export format can also be read by
+  ArcView.</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>In the direction from Export to MiraMon, points, arcs and polygons are
+  supported and the databases linked to these files are created. Arc/Info
+  coverages holding arcs and polygons have to be topologically structured
+  (CLEAN/BUILD); a polygon coverage cannot contain arcs with end nodes. Native
+  MiraMon binary files are generated supporting (and preserving) the topology.
+  Converting from Arc/Info grids to MiraMon rasters (IMG) is also possible.
+  During the conversion, a scaling factor and a displacement can be applied.
+  You must take into account that the displacement X, Y is applied after the
+  scaling factor. These parameters are used to make conversions from m to km,
+  to remove first figures in the UTM coordinates, etc. If no geometric
+  conversions are required, simply enter Scal=1, DisplacX=0 and
+  DisplacY=0.</p>
+
+  <p>In the direction from MiraMon polygon files (POL) to Export, only those
+  arcs needed for the cycling of the polygons are exported, not all the arc
+  database. MiraMon points (PNT) and arcs (ARC) can also be exported.</p>
+
+  <p>In the direction from MiraMon to Export, and when there is more than one
+  record per graphic identifier, only the last one is transformed. The
+  databases associated by relational links are not translated, but can be
+  easily relinked using the appropriate operation (join, etc).</p>
+
+  <p>To export MiraMon rasters to Arc/Info, choose, from the MiraMon menu,
+  &quot;File | Export | IMG -&gt; LAN/GIS (Erdas 7.4)&quot;, or the
+  application <a href="ERDASIMG.HTM">ERDASIMG</a>.</p>
+
+  <p>In the direction from MiraMon to Export another additional parameter can
+  be specified. This parameter indicates whether the exportation will be in
+  simple or double precision. ArcView for PC (v. 2.1) supports files in double
+  precision, but they are treated like simple precision and, therefore, it is
+  not required to store them in double precision if not working in a
+  workstation. In the case of creating a MiraMon file from an Arc/Info file,
+  double and simple precision are supported, and it is inferred by
+  ArcInfMM.</p>
+
+  <h4>&gt;&gt; NOTES about the Export format (E00):</h4>
+
+  <p>The Export format is a backup Arc/Info format. ArcInfMM do not accept the
+  compressed Export format: NONE compression have to be specified when
+  exporting Arc/Info coverages.</p>
+
+  <dl>
+    <dt>To generate an E00 file from an Arc/Info PC or workstation you must do
+    the following:</dt>
+
+    <dd>EXPORT COVER CoverageName E00FileName(without extension) N<br/>
+    (The hardware key must be connected to the computer; the N indicates
+    compression NONE)<br/></dd>
+
+    <dt>To restore a coverage from ArcView:</dt>
+
+    <dd>
+      IMPORT E00FileName CoverageName<br/>
+      (Program to convert E00 files to coverages ready for ArcInfo or ArcView
+      on PC: <a href="http://gis.esri.com/download/download.cfm?file=import71.exe">Import71</a>.)<br/>
+      </dd>
+
+    <dt>To restore a coverage from Arc/Info:</dt>
+
+    <dd>IMPORT COVER E00FileName CoverageName</dd>
+  </dl>NOTE: If possible use import71 instead of import because it generates
+  doble precision coverages. Import generates simple precision coverages, and
+  it can not be enough for local area scopes.<br/>
+  In new versions of ArcInfo or ArcView (v.8) Export file is refereed as
+  &quot;Interchange file&quot;. This version has an ArcToolBox application.
+  You have to select a tool:<br/>
+  To use an e00: Import to coverage|Import from interchange file<br/>
+  To generate an e00: Export from coverage|Coverage to interchange file
+
+  <p>ArcInfMM can only perform the translation of a single export E00 file,
+  but not of a series of files E00, E01, E02, etc. Therefore, all your
+  Arc/Info coverage must be saved in a unique E00 file; this can be controlled
+  with the parameter MAXNRLINES of the Arc/Info's EXPORT. 
+  <!--====== Comentari sobre els arcs de més de 500 vèrtexs ========--></p>
+
+  <p>Although MiraMon can work with practically un unlimited number of
+  vertices per arc, ArcInfo does not support arcs with 500 vertices or more
+  (see the ArcInfo documentation under \&quot;Coverage Data Limitations\&quot;
+  for further information). In order for ArcInfo or ArcView to be able to read
+  the E00 resulting from a arc file that contains elements with more than 500
+  vertices, it is necessary for the application to go through a slow process of
+  cutting all arcs with which surpass this limitation followed by rebuilding
+  the topology of the cover.<br/>
+  You must bear in mind that the number of arcs and its geometric
+  characteristics may eventually be different now. For instance, an arc
+  delimiting a polygon or a road which was a single arc in MiraMon may now
+  have become more than one graphical object in ArcInfo due to this limitation
+  of 500 vertices per arc. However, the exporting process will assign to each
+  fragment the corresponding thematic attributes of the original arc.<br/>
+  These changes do not modify neither the number of polygons nor their
+  geometric and attribute characteristics. 
+  <!--====== Fi de comentari sobre els arcs de més de 500 vèrtexs ========--></p>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+ <!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+ArcInfMM ?
+-->
+  </exclusiva>
+  <hr/>
+  Arc/Info and ArcView are registered trademarks of Esri, Inc.<br/>
+  MiraMon is a registered trademark of Xavier Pons.
+
+  <center>
+    Import/Export tools for vector files:<br/>
+    <a href="dxfvec.htm"><img src="dxfvec.gif"/></a> <a href="vecdxf.htm"><img src="vecdxf.gif"/></a> 
+    <!-- <a href="arcinfmm.htm"><img src="arcinfmm.gif"></a>  -->
+     <a href="bdpnt.htm"><img src="bdpnt.gif"/></a> <a href="mmemf.htm"><img src="mmemf.gif"/></a>
+  </center>
+</body>
+</html>

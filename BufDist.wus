@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:BufDist:Param3</ows:Identifier>
+		<ows:Title>Buffer</ows:Title>
+		<ows:Abstract>Generate buffers (areas of influence) at a certain distance around predefined entities in a raster or vector file. The entities that are used to calculate distances and hence to generate the buffers are called "target entities". The program generates a Buffer and not a Distance Map due to the presence of "LimitInfBuffer" in the syntax.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Generate buffers and distance maps"/>
+		<ows:Metadata xlink:title="Abstract:The program allows the creation of both continuous distance maps (raster result) and raster and vector (buffers) at a specified distance from the target entities."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerAmbEntitatsDiana</ows:Identifier>
+				<ows:Title>Raster or vector file containing the entities from which the distances are to be calculated.</ows:Title>
+				<ows:Abstract>The target entities can be raster or vector. If they are raster then any cell with a value other than NODATA is taken as a target cell. For the vector case, any entity (point, line or polygon) is taken as a target entity, (in raster treatment in buffer of vector files it is also possible to choose only those vector entities with a certain attribute). For rasters, in order to use only certain elements as the target entities it is necessary to first either carry out an attribute query from MiraMon and to save the result in a new file or use CalcIMG. Similarly if a lot of processing is required with many files then the target entity selection process can be performed automatically either from CalcIMG or from VecSelec.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:TargetEntitiesFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>LimitInfBuffer</ows:Identifier>
+				<ows:Title>Lower Buffer limit</ows:Title>
+				<ows:Abstract>Lower limit of the Buffer. The program generates a Buffer and not a Distance Map due to the presence of "LimitInfBuffer" in the syntax.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:LowBufferLim"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>LimitSupBuffer</ows:Identifier>
+				<ows:Title>Upper Buffer limit</ows:Title>
+				<ows:Abstract>Upper limit of the Buffer.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:UpBufferLim"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIST_GEOD</ows:Identifier>
+				<ows:Title>Cartesian or geodesic calculation</ows:Title>
+				<ows:Abstract>For Cartesian calculation of distances set to 0, for geodesic distances set to 1. If not set (automatic mode) the program will decide based on the type of map projection of the file.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAPAMUNDI</ows:Identifier>
+				<ows:Title>Circularity consideration</ows:Title>
+				<ows:Abstract>Indicates whether to consider circularity. Necessary for calculating distances over the whole globe. The parameter /DIST_GEOD=1 must be set for this to work.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TRACT_RASTER</ows:Identifier>
+				<ows:Title>Raster treatment</ows:Title>
+				<ows:Abstract>Forces a raster treatment for point or arc files and vector result. By default a full vector treatment is made. /TAULA= and /CAMP= indicate the table and field of the selected database. For more information on the values of these parameters refer to the document general syntax. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Indicate the table</ows:Title>
+				<ows:Abstract>Indicate the table  of the selected database. For more information on the values of these parameters refer to the document general syntax. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Indicate the field</ows:Title>
+				<ows:Abstract>Indicate the field  of the selected database. For more information on the values of these parameters refer to the document general syntax. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Indicates the record</ows:Title>
+				<ows:Abstract>Indicates which record is used when there are more than one record for a graphic identifier (multiple record). For more information on the values of this parameter refer to the document general syntax.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPER_DIANA</ows:Identifier>
+				<ows:Title>Limit the target entities</ows:Title>
+				<ows:Abstract>May be EQ or NO_EQ in order to limit the target entities to just those that have attributes equal to, or not equal to, the /ATR_DIANA= attribute. /ATR_DIANA= is the attribute that defines the logical condition used to limit the values of the candidates for the target entities. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATR_DIANA</ows:Identifier>
+				<ows:Title>Attribute</ows:Title>
+				<ows:Abstract>Is the attribute that defines the logical condition used to limit the values of the candidates for the target entities. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMIN</ows:Identifier>
+				<ows:Title>Coordinate X minimum</ows:Title>
+				<ows:Abstract>Coordinate X minimum of Extent of the output raster, or of the temporary raster which will give the resulting vector file, when TargetEntitiesFile is a vector layer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMAX</ows:Identifier>
+				<ows:Title>Coordinate X maximum</ows:Title>
+				<ows:Abstract>Coordinate X maximum of Extent of the output raster, or of the temporary raster which will give the resulting vector file, when TargetEntitiesFile is a vector layer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMIN</ows:Identifier>
+				<ows:Title>Coordinate Y minimum</ows:Title>
+				<ows:Abstract>Coordinate Y minimum of Extent of the output raster, or of the temporary raster which will give the resulting vector file, when TargetEntitiesFile is a vector layer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMAX</ows:Identifier>
+				<ows:Title>Coordinate Y maximim</ows:Title>
+				<ows:Abstract>Coordinate Y maximim of Extent of the output raster, or of the temporary raster which will give the resulting vector file, when TargetEntitiesFile is a vector layer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Cell Sizes</ows:Title>
+				<ows:Abstract>Defines the cell size for the output or temporary raster when TargetEntitiesFile is a vector layer. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TOLERANCIA</ows:Identifier>
+				<ows:Title>Tolerance</ows:Title>
+				<ows:Abstract>Is the maximum error when a arc of circle is translated to a vertices sequence, in the vector treatment for buffers. Only applies if TargetEntitiesFile is a vectorial layer and the treatment is also vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ALGORISME</ows:Identifier>
+				<ows:Title>Algorithm</ows:Title>
+				<ows:Abstract><![CDATA[This parameter is used to determine the type of internal algorithm that the application will use to generate the influence areas. <ul><li> ESCOMBRATGE Based on the intersection of segments Bentley-Ottmann.</li><li>DIRECTE: Based on the exploration of all segments against all segments to determine the intersections between vectors in the topological structuration.</li><li>AUTOMATIC: MiraMon automatically decides which of the two algorithms will be used.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ESCOMBRATGE</ows:Value>
+						<ows:Value>DIRECTE</ows:Value>
+						<ows:Value>AUTOMATIC</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>AUTOMATIC</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerBuffer</ows:Identifier>
+				<ows:Title>Areas at a distance between [N,M] UNITS from the entities FILE.</ows:Title>
+				<ows:Abstract>The output file is either raster "byte-RLE" or vector of topologically-structured polygons. The result of a buffers can be either in raster or vector format; When the result is a vector file, it is possible to us a full vector treatment or a raster treatment where the result is the vectorization of rasters, therefore, the parameters that define the temporary raster extents are needed.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:BufferFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:BufDist:!Param3</ows:Identifier>
+		<ows:Title>Distance Maps</ows:Title>
+		<ows:Abstract>The program allows the creation of continuous distance maps (raster result)  at a specified distance from the target entities. The entities that are used to calculate distances and hence to generate the buffers are called "target entities". The program generates a Distance Map and not a Buffer due to the absence of "LimitInfBuffer" in the sintax.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerAmbEntitatsDiana</ows:Identifier>
+				<ows:Title>Raster or vector file containing the entities from which the distances are to be calculated.</ows:Title>
+				<ows:Abstract>The target entities can be raster or vector. If they are raster then any cell with a value other than NODATA is taken as a target cell. For the vector case, any entity (point, line or polygon) is taken as a target entity, (in raster treatment in buffer of vector files it is also possible to choose only those vector entities with a certain attribute). For rasters, in order to use only certain elements as the target entities it is necessary to first either carry out an attribute query from MiraMon and to save the result in a new file or use CalcIMG. Similarly if a lot of processing is required with many files then the target entity selection process can be performed automatically either from CalcIMG or from VecSelec.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:TargetEntitiesFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIST_GEOD</ows:Identifier>
+				<ows:Title>Cartesian or geodesic calculation</ows:Title>
+				<ows:Abstract>For Cartesian calculation of distances set to 0, for geodesic distances set to 1. If not set (automatic mode) the program will decide based on the type of map projection of the file.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAPAMUNDI</ows:Identifier>
+				<ows:Title>Circularity consideration</ows:Title>
+				<ows:Abstract>Indicates whether to consider circularity. Necessary for calculating distances over the whole globe. The parameter /DIST_GEOD=1 must be set for this to work.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TRACT_RASTER</ows:Identifier>
+				<ows:Title>Raster treatment</ows:Title>
+				<ows:Abstract>Forces a raster treatment for point or arc files and vector result. By default a full vector treatment is made. /TAULA= and /CAMP= indicate the table and field of the selected database. For more information on the values of these parameters refer to the document general syntax. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Indicate the table</ows:Title>
+				<ows:Abstract>Indicate the table  of the selected database. For more information on the values of these parameters refer to the document general syntax. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Indicate the field</ows:Title>
+				<ows:Abstract>Indicate the field  of the selected database. For more information on the values of these parameters refer to the document general syntax. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Indicates the record</ows:Title>
+				<ows:Abstract>Indicates which record is used when there are more than one record for a graphic identifier (multiple record). For more information on the values of this parameter refer to the document general syntax.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPER_DIANA</ows:Identifier>
+				<ows:Title>Limit the target entities</ows:Title>
+				<ows:Abstract>May be EQ or NO_EQ in order to limit the target entities to just those that have attributes equal to, or not equal to, the /ATR_DIANA= attribute. /ATR_DIANA= is the attribute that defines the logical condition used to limit the values of the candidates for the target entities. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATR_DIANA</ows:Identifier>
+				<ows:Title>Attribute</ows:Title>
+				<ows:Abstract>Is the attribute that defines the logical condition used to limit the values of the candidates for the target entities. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMIN</ows:Identifier>
+				<ows:Title>Coordinate X minimum</ows:Title>
+				<ows:Abstract>Coordinate X minimum of Extent of the output raster, or of the temporary raster which will give the resulting vector file, when TargetEntitiesFile is a vector layer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>XMAX</ows:Identifier>
+				<ows:Title>Coordinate X maximum</ows:Title>
+				<ows:Abstract>Coordinate X maximum of Extent of the output raster, or of the temporary raster which will give the resulting vector file, when TargetEntitiesFile is a vector layer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMIN</ows:Identifier>
+				<ows:Title>Coordinate Y minimum</ows:Title>
+				<ows:Abstract>Coordinate Y minimum of Extent of the output raster, or of the temporary raster which will give the resulting vector file, when TargetEntitiesFile is a vector layer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>YMAX</ows:Identifier>
+				<ows:Title>Coordinate Y maximim</ows:Title>
+				<ows:Abstract>Coordinate Y maximim of Extent of the output raster, or of the temporary raster which will give the resulting vector file, when TargetEntitiesFile is a vector layer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COSTAT</ows:Identifier>
+				<ows:Title>Cell Sizes</ows:Title>
+				<ows:Abstract>Defines the cell size for the output or temporary raster when TargetEntitiesFile is a vector layer. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TOLERANCIA</ows:Identifier>
+				<ows:Title>Tolerance</ows:Title>
+				<ows:Abstract>Is the maximum error when a arc of circle is translated to a vertices sequence, in the vector treatment for buffers. Only applies if TargetEntitiesFile is a vectorial layer and the treatment is also vectorial.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDistancies</ows:Identifier>
+				<ows:Title>Distances derived from FILE</ows:Title>
+				<ows:Abstract>The output file is raster (IMG) and "real".</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:DistanceFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

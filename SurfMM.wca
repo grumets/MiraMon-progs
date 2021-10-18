@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SurfMM:1</ows:Identifier>
+		<ows:Title>SurfMM</ows:Title>
+		<ows:Abstract><![CDATA[<ul><li>Importació de grids: Donat un grid del Surfer (GRD), podem generar el corresponent fitxer ràster (IMG) del MiraMon amb el seu fitxer de metadades (I.REL), a partir de la informació de la capçalera del GRD. El grid del Surfer ha de ser en format ASCII (atenció en l'exportació des del Surfer) i el IMG resultant és sempre real. Encara que el format ràster del MiraMon exigeix la mateixa resolució en les dues dimensions i, per tant, costat de píxel quadrat, el programa permet importar grids del Surfer amb costat de píxel no quadrat. En aquest cas es realitza una correcció geomètrica bilineal per a remostrejar les dades originals a una xarxa equiespaiada de costat de píxel igual a la menor de les dues dimensions.</li><li>Exportació de ràsters: Podem exportar qualsevol ràster no comprimit del MiraMon a format grid del Surfer. En cas que el ràster origen sigui comprimit (RLE) cal utilitzar prèviament l'aplicació IMGIMG per a descomprimir-lo. Existeix la possibilitat d'aplicar un factor multiplicatiu als valors del ràster en escriure les corresponents coordenades 'Z' al format GRD.</li><li>Exportació de fitxers de punts: Podem exportar un fitxer vectorial no-estructurat de punts 2D o 3D (VEC) a format Surfer de dades (DAT). Cal que l'atribut del fitxer VEC sigui necessàriament numèric. Si desitgeu fer la importació corresponent d'aquest format de dades (DAT) podeu utilitzar l'aplicació BDPNT i obtindreu un fitxer de punts estructurat (PNT).</li></ul>]]></ows:Abstract>
+		<ows:Metadata xlink:title="Title:Importació-exportació de formats Surfer"/>
+		<ows:Metadata xlink:title="Abstract:Aquesta aplicació permet la importació de grids, exportació de ràsters i l'exportació de fitxers de punts entre els formats del Surfer i els formats propis del MiraMon."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Indica el tipus de transformació de formats: <![CDATA[<li>1. GRD->IMG</li><li>2. IMG->GRD</li><li>3. VEC->DAT</li>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fitxer Origen</ows:Title>
+				<ows:Abstract>És el fitxer que desitgem importar/exportar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FACTOR_Z</ows:Identifier>
+				<ows:Title>Factor Z</ows:Title>
+				<ows:Abstract>És el factor que multiplica els valors del ràster IMG per a obtenir la coordenada 'Z' del format DAT del Surfer. Aquest factor és opcional; si no s'especifica, el seu valor és 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDesti</ows:Identifier>
+				<ows:Title>Fitxer Desti</ows:Title>
+				<ows:Abstract>És el fitxer resultat que conté les dades del fitxer origen en el format desitjat.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FitxerDesti"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

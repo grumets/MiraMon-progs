@@ -1,0 +1,106 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Traduït per Teresa Mata-->
+
+    <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.--> 
+<body>
+  <h1><img src="vecras.gif"/> Mosaic: Unión de capas</h1>Dado un conjunto de
+  capas que cubren un ámbito determinado, como por ejemplo un conjunto de
+  hojas de un determinado corte catrtográfico, el programa genera una capa
+  resultado de la unión de las capas originales. Éstas pueden ser rásters en
+  formato IMG (de cualquier tipo y comprimidas con RLE, o no) o JPG, vectores
+  no estructurados VEC o archivos estructurados PNT, ARC, POL y NOD. Todos los
+  archivos de entrada tienen que ser del mismo formato y tipo. El formato del
+  archivo de salida es el mismo que el de los de entrada, excepto en el caso
+  de un mosaico de VECs, que genera un fichero ARC (Linarc 1 lo volvería a
+  pasar a VEC) y un mosaico de NODs, que da como resultado un PNT. Para
+  facilitar el uso, la lista de archivos a mosaicar se puede dar como una
+  secuencia de nombres de archivo en línea de comandos (último parámetro) o
+  como un archivo de texto plano que contenga el nombre de cada uno de los
+  archivos en una línea. Dicho archivo puede tener cualquier extensión
+  (excepto las propias de capas), aunque se recomiendan las extensiones de
+  tipo .txt o .lst.
+
+  <p>El programa puede determinar automáticamente el ámbito del conjunto de
+  capas. También se puede especificar un ámbito de recorte (coordenadas X
+  mínima, X máxima, Y mínima e Y máxima) o un archivo de máscara irregular
+  (solo para vectores). En ambos casos (recorte y máscara), el programa
+  examina cada archivo a mosaicar y utiliza la parte útil correspondiente al
+  ámbito especificado. Cuando un archivo queda enteramante fuera del ámbito no
+  se utiliza. Una típica aplicación es la creación de una nueva capa a caballo
+  entre cuatro hojas de una serie cartográfica. En el caso de series
+  cartográficas muy voluminosas, con muchas hojas de corte, se puede disponer
+  de una única lista que contenga todos los nombres de los ficheros de las
+  hojas y seleccionar el ámbito que se desee explorar en cada momento para
+  extraer con rapidez la información solo de la zona de interés. 
+  El programa tiene distintas opciones:</p>
+
+ <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+  <p>En caso de superposición de información, el programa se comporta de
+  manera diferente para rásters y para vectores. En el primer caso, cuando el
+  solapamiento se produce en valores diferentes a los valores de fondo, el
+  programa NO controla que sean iguales (entre una capa y la siguiente) y los
+  valores de cada nueva capa de la lista sustituyen a los de las anteriores,
+  de manera que el último archivo que afecta al ámbito será el que imponga sus
+  valores. Respecto a los valores de fondo, si los metadatos de los archivos
+  de entrada indican la presencia de valores NODATA (en cualquiera de las
+  capas y no necesariamente el mismo valor), éstos no se transcriben al
+  archivo destino. Por tanto, el valor de cada capa anterior queda sin
+  modificación si el valor de la siguiente capa es NODATA y solo se consideran
+  NODATA las zonas con valor de fondo de la primera imagen. Ésto permite
+  solapar correctamente imágenes que contienen zonas exteriores y obliga a su
+  vez a determinar el orden de las capas de manera que no se pierda
+  información de alguna de las capas intermedias. El valor NODATA final se
+  puede indicar como parámetro del programa y si no se especifica se toma como
+  valor el NODATA de la primera imagen. En el caso de vectores, las
+  superposiciones son más delicadas ya que los objetos gráficos no prevalecen
+  unos sobre otros. En caso de objetos superpuestos, pero no coincidentens, el
+  resultado puede ser una duplicación del objeto, una discontinuidad en las
+  líneas, la presencia de límites duplicados o de micropolígonos y otros
+  artefactos.</p>
+
+  <p>Debido a que el programa no interpola valores, el lado de celda de todas
+  las imágenes origen de un mosaico de rásters debe ser el mismo y será, a su
+  vez, el lado de celda de la imagen destino. Además, las imágenes deben estar
+  corregistradas, es decir, las coordenadas X mínima tienen que distar en un
+  múltiplo del lado de celda (lo mismo se aplica a las Y mínima). Si las
+  coordenadas de salida solicitadas por el usuario no cumplen esta norma se
+  adaptarán a ella y las coordenadas finales serán envolventes de las
+  solicitadas para no perder ningún fragmento de información sobre el
+  territorio escogido. Esta capacidad de adaptación viene regulada por un
+  parámetro de tolerancia (aplicado sólo a rásters). Para encajar objetos
+  vectoriales entre hojas es necesario utilizar Linarc con tolerancias
+  avanzadas.</p>
+
+  <p>En general, los metadatos se toman, sobretodo, de los de la primera capa
+  de la lista. Como ejemplo, en imágenes categóricas, la descripción de las
+  categorías de la leyenda se extraen del primer archivo leído. Otra razón por
+  la que conviene determinar con cuidado el orden de las capas a mosaicar.</p>
+
+  <p>Cuando se mosaican n ficheros ráster que tienen paleta indicada en el
+  REL, la paleta es heredada por el fichero de salida. Esto funciona también
+  con ficheros multibanda donde cada banda tenga su propia paleta.</p>
+  <hr/>
+
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+
+<p><!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+Mosaic ?
+--></p>
+  </exclusiva>
+  <hr/>
+
+  <center>
+    <a href="Retalla.htm"><img src="Retalla.gif"/></a><a href="UnirVec.htm"><img src="UnirVec.gif"/></a>
+  </center>
+</body>
+</html>

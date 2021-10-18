@@ -1,0 +1,281 @@
+<HTML>
+<HEAD>
+<TITLE>HelpHTML: Programa de lectura de documents html des de sessions DOS
+</TITLE>
+
+<META NAME="GENERATOR" CONTENT="Internet Assistant for Microsoft Word 2.0z">
+</HEAD>
+<BODY>
+<H1><img src="vecras.gif"> HelpHTML: Programa de lectura de documents html des de sessions
+DOS </H1>
+<P>
+Aquest programa és un petit lector de documents html que
+funciona en una sessió de DOS. Inicialment ha estat pensat
+perquè altres programes el cridin i el facin servir per
+mostrar l'ajuda de manera fàcil, però se'n pot fer
+un ús totalment general. Per exemple, si pesqueu un document
+html via ftp podeu mirar-lo des d'una sessió de DOS, o
+des del vostre explorador d'Internet, indistintament.
+<P>
+El primer paràmetres és el nom de fitxer htm amb path i extensió.
+A més es pot indicar una secció del document amb un '#' com per exemple:
+"ajuda.htm#seccio2".
+<P>
+El segon paràmetre (opcional) fa que en cridar HelpHTML
+des d'una altra aplicació, aquesta pugui ensenyar la portada
+en la primera pàgina de l'ajuda. Està previst que
+els programes cridin un fitxer amb el mateix nom que l'executable
+però amb extensió HTM i que es troba en el mateix
+disc i directori. En llenguatge C això es pot fer a traves
+d'una funció com aquesta:
+<PRE>
+/*Retorna 0 si tot ha anat bé.
+          1 si no es pot reservar memòria.
+          2 si no es pot fer la crida a sistema.*/
+#define TITOL_PROG_HELP TITOL_PROG
+int mostra_helphtml(const char *nom_exe, int linies_portada)
+{
+    char *nom_helphtml, *szcomanda;
+
+    if (NULL==(nom_helphtml=strdup(nom_exe)))
+        return 1;
+    strcpy(nom_helphtml+strlen(nom_helphtml)-4,".HTM");
+    if (NULL==(szcomanda=malloc(256)))
+    {
+        free(nom_helphtml);
+        return 1;
+    }
+    sprintf(szcomanda, TITOL_PROG_HELP" %s 0 %d 0", nom_helphtml,
+              linies_portada);
+    free(nom_helphtml);
+    if (-1==system(szcomanda))
+    {
+        free(szcomanda);
+        return 2;
+    }
+    free(szcomanda);
+    return 0;
+}
+
+</PRE>
+Per cridar la funció anterior cal fer:
+<PRE>
+#define LINIES_PORTADA 6
+portada();                    /* Falta definir la funció portada */
+if (mostra_helphtml(argv[0],LINIES_PORTADA))
+{
+    puts("\n\aError en la crida a l'ajuda del programa.");
+    exit(EXIT_FAILURE);
+}
+
+</PRE>
+<P>
+No totes les comandes html són suportades pel programa,
+però les que no se suporten senzillament s'ignoren.<BR>
+Aquest és el llistat de comandes suportades fins al moment:
+<BR>
+<PRE>
+&lt;pre> i &lt;/pre>                text preformatat  (no es toleren tabulacions)
+&lt;blockquote> i &lt;/blockquote>  text sagnat
+&lt;title> i &lt;/title>            títol
+&lt;p>                           fi de paràgraf
+&lt;br>                          fi de línia
+&lt;hr>                          línia horitzontal
+</PRE>
+<P>
+Se suporten els tipus de llistats ordenats, no ordenats i de definicions,
+a través de les comandes html següents:<BR>
+<PRE>
+&lt;ul>   llista no indexada
+&lt;ol>   llista indexada  (només números)
+&lt;li>   entrada de llista
+&lt;dl>   llista de definicions
+&lt;dt>   entrada a definir
+&lt;dd>   definició de la entrada
+&lt;/dl>  final de la llista de definicions
+</PRE>
+<P>
+Les llistes només se suporten fins a un nivell de niament
+16.
+<P>
+Se suporten, però parcialment, les següents comandes:
+<BR>
+<PRE>
+&lt;h1>  &lt;h2>  &lt;h3>  &lt;h4>  &lt;h5>  &lt;h6>
+&lt;/h1> &lt;/h2> &lt;/h3> &lt;/h4> &lt;/h5> &lt;/h6> 
+   un canvi de tipus de lletra equival a un canvi de paràgraf.
+</PRE>
+<P>
+També se suporta la referència a una figura:
+<PRE>
+&lt;img src="c:/img.gif" alt="Text alternatiu" >
+    En aquest cas es mostra el <B>text alternatiu</B>.
+
+</PRE>
+<HR>
+<P>
+Aquest programa suporta que els fitxers HTML continguin una secció,
+anomenada 'exclusiva', que serà l'única llegida
+quan així s'indiqui en la línia de comanda de HelpHTML.
+La secció exclusiva s'indica en el fitxer HTML entre les
+comandes
+<PRE>
+&lt;exclusiva>
+&lt;/exclusiva>
+
+</PRE>
+<P>
+Aquesta secció és llegida normalment pels lectors
+HTML estàndard i per l'opció de lectura normal del
+programa. Es pot fer servir per fer aparèixer només una secció 
+de sintaxi general d'una  ajuda escrita en format html, 
+tot negligint la resta del fitxer HTML.
+<P>
+També es defineix un tipus especial de text invisible 
+als lectors HTML estàndard i per l'opció de lectura 
+normal del programa. Aquest text només apareix si es
+demana a HELPHTML la lectura només de la secció exclusiva.
+Aquest text conserva el format original i 
+s'ha d'incloure en un tipus especial de comentari:
+
+<PRE>&lt;!--  $$EXCLUSIVA$$
+Text que només és
+veu en la
+secció exclusiva
+--></PRE>
+
+<P>
+Per fer-ho dins d'un programa es pot fer servir la següent 
+funció en llenguatge C:
+<PRE>
+int mostra_sintaxihtml(const char *nom_exe, int linies_portada)
+{
+    char *nom_helphtml, *szcomanda;
+
+    if (NULL==(nom_helphtml=strdup(nom_exe)))
+        return 1;
+    strcpy(nom_helphtml+strlen(nom_helphtml)-4,".HTM");
+    if (NULL==(szcomanda=malloc(256)))
+    {
+        free(nom_helphtml);
+        return 1;
+    }
+    sprintf(szcomanda, TITOL_PROG_HELP" %s 1 %d 0", nom_helphtml, linies_portada);
+    free(nom_helphtml);
+    if (-1==system(szcomanda))
+    {
+        free(szcomanda);
+        return 2;
+    }
+    free(szcomanda);
+    return 0;
+}
+</PRE>
+Per cridar l'anterior funció cal fer:
+<PRE>
+#define LINIES_PORTADA 6
+portada();                    /* Falta definir la funció portada */
+if (mostra_sintaxihtml(argv[0],LINIES_PORTADA))
+    puts("\n\aError en la crida a la sintaxi del programa.");
+exit(EXIT_FAILURE);
+
+
+</PRE>
+NOTA: Actualment les funcions aquí explicades s'han sofisticat per controlar
+més situacions. Consulteu amb en Joan Masó Pau per conèixer la sintaxi millorada.
+<HR>
+<P>
+Aquest és el llistat de caràcters especials suportats:
+<PRE>
+&amp;lt;        &lt;
+&amp;gt;        >
+&amp;amp;       &amp;
+&amp;quot;      "
+&amp;copy;      ©
+&amp;reg;       ®
+
+&amp;Agrave;    À
+&amp;agrave;    à
+&amp;Aacute;    Á
+&amp;aacute;    á
+&amp;Egrave;    È
+&amp;egrave;    è
+&amp;Eacute;    É
+&amp;eacute;    é
+&amp;Iacute;    Í
+&amp;iacute;    í
+&amp;Ograve;    Ò
+&amp;ograve;    ò
+&amp;Oacute;    Ó
+&amp;oacute;    ó
+&amp;Uacute;    Ú
+&amp;uacute;    ú
+&amp;Ccedil;    Ç
+&amp;ccedil;    ç
+&amp;Ntilde;    Ñ
+&amp;ntilde;    ñ
+&amp;Iuml;      Ï
+&amp;iuml;      ï
+&amp;Uuml;      Ü
+&amp;uuml;      ü
+
+&amp;Acirc;     Â
+&amp;acirc;     â
+&amp;Auml;      Ä
+&amp;auml;      ä
+&amp;Aelig;     æ
+&amp;aelig;     æ
+&amp;Ouml;      Ö
+&amp;ouml;      ö
+&amp;Oslash;    Ø
+&amp;oslash;    ø
+&amp;szlig;     ß
+&amp;#183;      ·   (punt volat per l'ela geminada)
+&amp;yuml;      &yuml;   (falta la titlla)
+</PRE>
+<P>
+La principal mancança d'aquest programa és que no
+suporta hipertext. Malgrat això es pot escriure l'ajuda
+(help) en hipertext, i no molesta al programa (com qualsevol altra
+comanda no reconeguda, és ignorada), amb l'avantatge que
+en un navegador estàndard sí que tindria efecte.
+<BR>
+<P>
+Limitacions =>> Comanda més llarga: 5000 caràcters,
+títol més llarg: 80 caràcters.
+<HR>
+<P>
+La sintaxi general és:<BR>
+<EXCLUSIVA> 
+<a name="sintaxi"></a>
+SINTAXI: Fitxer_html [n] [Despl] [p]
+<UL>
+<LI>FitxerHTML és un fitxer html estàndard. 
+<LI>[n] 
+<UL>
+<LI>0 si es vol llegir tot el fitxer html (valor per defecte).
+<LI>1 si es vol llegir només la secció exclusiva.
+</UL>
+<LI>[Despl] és el nombre de línies que ocupa un
+text escrit per una aplicació anterior i que es vol mantenir
+en la primera plana del document html, com per exemple la portada
+d'un programa anterior que ha cridat HelpHTML. Per defecte val
+0. 
+<LI>[p] Cada plana porta una capçalera i un peu de plana...
+<UL>
+<LI>1 si es vol fer aparèixer la capçalera de la
+plana 1 i el peu de plana de l'última (valor per defecte)
+<LI>0 si no es vol la capçalera de la plana 1 ni el peu
+de l'última (opció pensada per crides des d'una
+altra aplicació). 
+</UL>
+</UL>
+<P>
+<!--     $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+HelpHTML ?
+-->
+</EXCLUSIVA>
+</BODY>
+</HTML>

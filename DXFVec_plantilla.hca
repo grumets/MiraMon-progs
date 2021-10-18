@@ -1,0 +1,181 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>DXFVEC: Conversió de fitxers DXF a fitxers VEC</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  Aquest programa fa la conversió de fitxers DXF (obtinguts amb
+  comanda DXFOUT d'AutoCAD, exportació de CorelDraw, etc) a fitxers
+  vectorials, ja siguin estructurats topològicament (agrupats en un fitxer
+  MMM) o no (format VEC).
+
+  <p>El programa permet 7 opcions, les quals determinen el tipus d'entitat
+  a extreure:<br/></p>
+
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+  <hr/>
+
+  <p>Per les opcions 1 a 5, el programa permet limitar les entitats a
+  convertir, a aquelles amb atribut de tipus numèric, descartant aquelles amb
+  atributs de tipus alfanumèrics. En el cas de triar només les entitats amb
+  atributs de tipus numèric, es pot forçar l'arrodoniment dels atributs no
+  enters. Aquestes 5 opcions permeten 8 filtres d'entitats:<br/></p>
+
+  <dl>
+    <dt>FILTRE D'ENTITATS EN TOTES LES CAPES (filtre d'entitats
+    1):</dt>
+
+    <dd>Converteix totes les entitats d'un determinat tipus (línia, punt,
+    etc) de totes les capes que tenen com a nom un atribut compatible amb el
+    tipus escollit. Si es restringeix el tipus d'atribut de sortida a
+    nombres enters, només es traduiran les capes del fitxer DXF amb nom de
+    capa numèric (llevat d'en el cas d'entitats de tipus text amb text
+    com atribut en que és el propi text i no la capa qui dóna l'atribut i,
+    per tant, qui ha de ser numèric). El programa mantindrà aquest valor com a
+    atribut dels vectors del fitxer VEC i ignorarà les entitats situades en
+    capes amb noms que no siguin numèrics, i arrodonirà aquells que no siguin
+    sencers (però ens avisarà en pantalla de l'existència d'atributs
+    incompatibles i d'atributs arrodonits).</dd>
+
+    <dt>FILTRE D'ENTITATS EN UNA CAPA (filtre d'entitats 2):</dt>
+
+    <dd>Converteix totes les entitats d'un determinat tipus (línia, punt,
+    etc) que són en una certa capa, la qual pot tenir com a nom un atribut
+    alfanumèric. El programa permet canviar l'atribut a les entitats
+    transformades. (excepte en les opcions de text amb text com atribut i
+    blocs,, en que el nom de la capa només serveix de filtre, però
+    l'atribut convertit és el text en si o el nom del bloc). El programa
+    transforma el nom de la capa (o la cadena de text a buscar) en un atribut
+    numèric o alfanumèric definit per l'usuari.</dd>
+
+    <dt>FILTRE D'ENTITATS EN DIVERSES CAPES (filtre d'entitats
+    3):</dt>
+
+    <dd>Permet seleccionar les capes i els eventuals canvis a fer en els
+    atributs de les entitats transformades a VEC. Aquesta selecció es fa a
+    través d'un fitxer d'equivalències. El programa normalment
+    convertirà a majúscules els textos que donen nom a les capes a buscar, ja
+    que el format DXF emmagatzema els noms de capa en majúscules; tanmateix,
+    alguns softwares (p. ex. Arc/Info) no respecten aquest conveni i poden
+    escriure noms usant lletres minúscules. És per això que DXFVEC ofereix la
+    possibilitat de NO efectuar la conversió. També cal tenir en compte que
+    les lletres accentuades (maj. o min.) no es tradueixen ni es comparen
+    correctament amb les no accentuades. Aquest filtre d'entitats també es
+    pot fer servir per extreure diverses capes d'un fitxer DXF sense
+    necessitat d'iterar cada cop amb el filtre d'entitats d'una
+    capa (filtre d'entitats 2); en aquest cas cal indicar en el fitxer
+    d'equivalències el nom de capa igual al nom equivalent. Vegeu exemple
+    més endavant.</dd>
+
+    <dt>FILTRE D'ENTITATS D'UN TEXT (filtre d'entitats 4):</dt>
+
+    <dd>Aquest filtre d'entitats només té sentit per a textos i blocs.
+    Permet extreure només els textos o blocs DXF amb el text o nom de bloc
+    especificat. En el cas de les opcions 3 i 5 demana per quin text es vol
+    substituir.</dd>
+
+    <dt>FILTRE D'ENTITATS DE DIVERSOS TEXTOS (filtre d'entitats
+    5):</dt>
+
+    <dd>Aquest filtre d'entitats només té sentit per a textos i blocs.
+    Permet extreure només els textos o blocs DXF amb el text o nom de bloc
+    especificat en un fitxer d'equivalències. Com en el cas anterior, si
+    s'escau es substitueix el text o el nom del bloc per un altre atribut
+    equivalent.</dd>
+
+    <dt>FILTRE D'ENTITATS D'ALTIMETRIA (filtre d'entitats 6):</dt>
+
+    <dd>Assigna l'atribut de cada entitat a partir de la coordenada Z del
+    primer vèrtex de cada entitat del fitxer DXF.<br/>
+    Nomes vàlid per a entitats de tipus polilínia, línia i punt.<br/>
+    Es transformen les entitats de totes les capes.<br/></dd>
+
+    <dt>FILTRE D'ENTITATS D'ALTIMETRIA DE CAPES (filtre d'entitats
+    7):</dt>
+
+    <dd>És idèntic a l'anterior, però només extreu els elements situats a
+    les capes especificades en un fitxer d'equivalències.</dd>
+
+    <dt>FILTRE DE DESCRIPCIONS DE BLOC (filtre d'entitats 8):</dt>
+
+    <dd>Tots els filtres anteriors llegeixen les entitats de la secció
+    ENTITIES del DXF. En els altres filtres del programa i quan es fan servir
+    blocs, aquests són extrets amb l'opció 5 com a punts. Cada bloc, però,
+    presenta una descripció geomètrica en la secció BLOCKS del DXF. Algunes
+    vegades pot interessar d'extreure la descripció de cada bloc com un
+    fitxer VEC (generalment en un sistema de referència 'plane').
+    Aquesta descripció podria servir per a generar un EMF que en MiraMon es
+    pot associar com a símbol del punt corresponent en el fitxer de punts
+    obtingut amb l'opció 5. Amb això s'obté una visualització més
+    fidel en MiraMon.</dd>
+  </dl>Els filtres d'entitats 3, 5 i 7 necessiten d'un fitxer
+  d'equivalències. Un fitxer d'equivalències és un fitxer de text en
+  què haurem escrit les parelles d'equivalències en format de columna
+  única. Per tant el format és:
+  <pre>
+Nom_de_capa_text_o_bloc_1
+Nom_equivalent_substitut_1
+Nom_de_capa_text_o_bloc_2
+Nom_equivalent_substitut_2
+     .
+     .
+     .
+Nom_de_capa_text_o_bloc_n
+Nom_equivalent_substitut_n
+...
+</pre><br/>
+
+  <p>NOTES GENERALS SOBRE ELS FITXERS VEC:</p>
+
+  <ol>
+    <li>Els fitxers VEC són en format ASCII i compatibles amb els del
+    <i>software</i> Idrisi. Tanmateix, Idrisi no reconeix (si més no fins a la
+    v. 4.1) els atributs de tipus &quot;string&quot;, ni els
+    &quot;integer&quot; que continguin valors de tipus &quot;long&quot;
+    (superiors a 32767 o inferiors a -32768).</li>
+
+    <li>Els fitxers VEC, quan s'usen en Idrisi, fins i tot de la versió
+    4.x, poden presentar problemes si tenen un 0 com a atribut.</li>
+
+    <li>Els fitxers vectorials binaris d'Idrisi tenen 4 bytes de precisió
+    (6-7 xifres significatives), per la qual cosa podeu perdre precisió si els
+    convertiu amb &quot;CONVERT V&quot;. Es per això que recomanem treballar
+    sempre amb fitxers VEC de tipus ASCII. MiraMon només dóna suport a fitxers
+    VEC ASCII.</li>
+
+    <li>El format VEC pot ser estructurat topològicament amb les eines de
+    Miramon (<a href="vecpnt.htm">VECPNT</a>, <a href="Linarc.htm">LINARC</a>,
+    etc).
+    </li>
+  </ol>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+DXFVEC ?
+--></p>
+  </exclusiva>
+
+  </exclusiva>
+  <hr/>
+  Arc/Info, AutoCad, CorelDraw i Idrisi són marques registrades dels seus
+  respectius propietaris.<br/>
+  MiraMon és una marca registrada de Xavier Pons.
+
+  <center>
+    Eines d'importació/exportació de fitxers vectorials:<br/>
+    <!-- <a href="dxfvec.htm"><img src="dxfvec.gif"></a>  -->
+     <a href="vecdxf.htm"><img src="vecdxf.gif"/></a> <a href="arcinfmm.htm"><img src="arcinfmm.gif"/></a> <a href="bdpnt.htm"><img src="bdpnt.gif"/></a> <a href="mmemf.htm"><img src="mmemf.gif"/></a>
+  </center>
+</body>
+</html>

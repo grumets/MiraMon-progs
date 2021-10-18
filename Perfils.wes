@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Perfils</ows:Identifier>
+		<ows:Title>Perfils: Generación de perfiles topográficos</ows:Title>
+		<ows:Abstract>Este módulo genera perfiles topográficos correspondientes a un determinado itinerario (representado por un fichero ARC con las restricciones que se especifican más abajo) a través de un Modelo Digital de Elevaciones (MDE).</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Generación de perfiles topográficos"/>
+		<ows:Metadata xlink:title="Abstract:Este módulo genera perfiles topográficos correspondientes a un determinado itinerario (representado por un fichero ARC con las restricciones que se especifican más abajo) a través de un Modelo Digital de Elevaciones (MDE)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Creación de un perfil topográfico.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>MDE</ows:Identifier>
+				<ows:Title>Fichero ráster del MDE</ows:Title>
+				<ows:Abstract>Fichero ráster de entrada del Modelo Digital de Elevaciones.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:MDE"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Itinerari</ows:Identifier>
+				<ows:Title>Fichero del itinerario</ows:Title>
+				<ows:Abstract>Vector estructurado de arcos con el recorrido a partir del cual se quiere determinar el perfil topográfico.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Itinerario"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ModeInterpol</ows:Identifier>
+				<ows:Title>Modo de interpolación</ows:Title>
+				<ows:Abstract><![CDATA[Modo de interpolación. <ul><li>0 Vecino más cercano</li><li>1 Interpolación bilineal</li><li>2 Interpolación bicúbica</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ModoInterpol"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Pendent</ows:Identifier>
+				<ows:Title>Pendiente</ows:Title>
+				<ows:Abstract><![CDATA[Opción para mostrar la pendiente de cada tramo. <ul><li>0 Sin pendiente</li><li>1 Pendiente expresada en grados</li><li>2 Pendiente expresada en porcentaje</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Pendiente"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Obrir</ows:Identifier>
+				<ows:Title>Abrir</ows:Title>
+				<ows:Abstract>Si está activo este parámetro, una vez creadas  todas las componentes necesarias, se visualizará el gráfico en una  nueva sesión de MiraMon. En este caso, implícitamente se añade el parámetro /SAC para evitar interrupciones, lo que implica que  se escogen las opciones por defecto.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FACTOR_H</ows:Identifier>
+				<ows:Title>Factor H</ows:Title>
+				<ows:Abstract>Factor de distorsión que permite dilatar (valores >1, opción habitual) o contraer (valores &lt;1), las dimensiones del eje Y respecto al eje X, con el objetivo de mostrar un perfil más proporcionado a las dimensiones X/Y habituales de pantalla o papel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>X_NDIV</ows:Identifier>
+				<ows:Title>X NDIV</ows:Title>
+				<ows:Abstract>Fija el número de divisiones del eje X. En ausencia de este parámetro se calcula el número adecuado para que el número de divisiones implique a unas etiquetas espaciadas en determinados múltiplos de decenas, centenas, millares, etc.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Y_NDIV</ows:Identifier>
+				<ows:Title>Y NDIV</ows:Title>
+				<ows:Abstract>Fija el número de divisiones del eje Y. En ausencia de este parámetro se calcula el número adecuado para que el número de divisiones implique a unas etiquetas espaciadas en determinados múltiplos de decenas, centenas, millares, etc.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>X_MULT</ows:Identifier>
+				<ows:Title>X Mult</ows:Title>
+				<ows:Abstract>Fija que las etiquetas del eje X sean múltiplos de un determinado valor deseado.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Y_MULT</ows:Identifier>
+				<ows:Title>Y Mult</ows:Title>
+				<ows:Abstract>Fija que las etiquetas del eje Y sean múltiplos de un determinado valor deseado.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>X_OFFSET</ows:Identifier>
+				<ows:Title>X Offset</ows:Title>
+				<ows:Abstract>Se configura explícitamente el origen del eje X. Es útil cuando se quiere superponer dos histogramas con orígenes diferentes.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Y_OFFSET</ows:Identifier>
+				<ows:Title>Y Offset</ows:Title>
+				<ows:Abstract>Se configura
+          explícitamente el origen del eje Y. Es útil cuando se
+          quiere superponer dos histogramas con orígenes diferentes.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Z_UNITATS_MDT</ows:Identifier>
+				<ows:Title>Unidades Z MDE</ows:Title>
+				<ows:Abstract>En ausencia de este parámetro, las alturas del perfil topográfico serán las unidades de su sistema de referencia vertical (típicamente metros), de manera que si en el MDE hay otras unidades (por ejemplo dm) se transformarán a las unidades del sistema (m). Ahora bien, si se quieren conservar las unidades originales del MDE, o más habitualmente, si se desea generar un perfil de cualquier otra variable (por ejemplo temperatura), las unidades del eje Y del histograma serán las del Modelo Digital del Terreno (MDT).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIST_3D</ows:Identifier>
+				<ows:Title>Dist 3D</ows:Title>
+				<ows:Abstract>La ausencia de este parámetro indica que en el eje X del histograma se representa la distancia al origen calculada a partir de las componentes planimétricas (X, Y). En cambio su presencia determina unas distancias superiores (o iguales para un itinerario plano), al considerar también los desplazamientos por diferencias de altura, por tanto, esta distancia se ajusta mejor al recorrido efectuado sobre la superficie del terreno y no tiene sentido en caso de perfiles sobre mapas de temperatura, u otras variables.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CONSERVAR_COTA</ows:Identifier>
+				<ows:Title>Conservar cota</ows:Title>
+				<ows:Abstract>En caso de que el archivo de arcos sea 3D, se usará preferentemente estos datos para hacer el perfil. En caso de que en alguno de puntos no tenga información 3D o el archivo de arcos sea 2D, la altura se extraerá del MDE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESC</ows:Identifier>
+				<ows:Title>Añadir descripción a los ejes</ows:Title>
+				<ows:Abstract>Añade descripción a los ejes con unidades. En el eje X se escribe Distancia (o Distancia sobre el terreno si se ha indicado /DIST_3D). En el eje Y se escribe el descriptor de la capa del Modelo Digital del Terreno.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DESC_Y</ows:Identifier>
+				<ows:Title>Añadir descripción personalizada al eje Y</ows:Title>
+				<ows:Abstract>Añade descripción que se indica en el eje Y del gráfico generado. En el eje X se escribe Distancia (o Distancia sobre el terreno si se ha indicado /DIST_3D).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>DIR_GRAFICS</ows:Identifier>
+				<ows:Title>Directorio de salida</ows:Title>
+				<ows:Abstract>Directorio donde se crearán todos los ficheros que componen el gráfico. Si no se indica dicho directorio, el mapa y sus componentes se crearán en el directorio temporal, y en caso de que se haya solicitado el parámetro /OBRIR, se borrarán todos los componentes del histograma al cerrar la correspondiente sesión de MiraMon.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:DirGraficos"/>
+				<LiteralOutput>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
+				</LiteralOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

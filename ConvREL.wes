@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:1</ows:Identifier>
+		<ows:Title>ConvREL 1</ows:Title>
+		<ows:Abstract>La  opción 1 transforma REL4 en doc/dv? + REL1.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Conversión de capas entre formatos 1 y 4 de MiraMon"/>
+		<ows:Metadata xlink:title="Abstract:Este programa transforma las relaciones entre tablas, los metadatos y la simbolización a la versión 4/5 desde versiones anteriores. También permite el retorno a versiones anteriores con características limitadas. La opción 4 REQUIERE MM32.exe versión 4.0vt o superior para migrar la simbolización. Asimismo, permite la fusión de n bandas en un único ràster multibanda (de formato REL4), y su acción inversa, emancipar una o todas las bandas de un fichero multibanda (de formato REL4)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Transformar un REL4 en un doc/dv? + REL1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDirectori</ows:Identifier>
+				<ows:Title>Fichero/Directorio</ows:Title>
+				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero que es necesario convertir.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Fichero/Directorio"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>BACKUP</ows:Identifier>
+				<ows:Title>Conservar</ows:Title>
+				<ows:Abstract>Indica que debe conservarse el doc/dv? y/o guardar el REL como RE1, RE4 o re4MD5_0, según sea el tipo de fichero de origen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Ráster multibanda</ows:Title>
+				<ows:Abstract>Para el caso ráster y conversiones a REL4 (opción 4) intenta generar un ráster multibanda a partir de los ficheros de nombre similar al indicado.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SERIE</ows:Identifier>
+				<ows:Title>Simbolitzación de la serie</ows:Title>
+				<ows:Abstract>Transforma también la simbolización común a una serie cartográfica. Hay que usarlo con prudencia dado que otras capas que dependan de la misma serie podrían no abrirse sin también migrarlas. Solamente aplica en la opción 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>S</ows:Identifier>
+				<ows:Title>Transforma todos los ficheros</ows:Title>
+				<ows:Abstract>Transforma todos los ficheros dentro del directorio 'Directorio' y subdirectorios. En el caso de la opción 4 implica /SERIE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDirectori</ows:Identifier>
+				<ows:Title>Fichero/Directorio</ows:Title>
+				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero convertidos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Fichero/Directorio"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:4</ows:Identifier>
+		<ows:Title>ConvREL 4</ows:Title>
+		<ows:Abstract>Transforma un doc/dv? + REL1 en un REL4 con metadatos versión 5. La opción 4 REQUEREIX de MM32.exe versión 4.0vt o superior para migrar la simbolitzación.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Transformar doc/dv? + REL1 en REL4</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fichero/Directorio</ows:Identifier>
+				<ows:Title>Fichero</ows:Title>
+				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero que es necesario convertir.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>BACKUP</ows:Identifier>
+				<ows:Title>Conservar</ows:Title>
+				<ows:Abstract>Indica que debe conservarse el doc/dv? y/o guardar el REL como RE1, RE4 o re4MD5_0, según sea el tipo de fichero de origen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Ràster multibanda</ows:Title>
+				<ows:Abstract>Para el caso ráster y conversiones a REL4 (opción 4) intenta generar un ráster multibanda a partir de los ficheros de nombre similar al indicado.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SERIE</ows:Identifier>
+				<ows:Title>Simbolitzación de la serie</ows:Title>
+				<ows:Abstract>Transforma también la simbolización común a una serie cartográfica. Hay que usarlo con prudencia dado que otras capas que dependan de la misma serie podrían no abrirse sin también migrarlas. Solamente aplica en la opción 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SIMBOLITZACIO</ows:Identifier>
+				<ows:Title>Impedeix la transformació de la simbolització</ows:Title>
+				<ows:Abstract>Impide la transformación de la simbolización de un REL o la simbolización común a una serie cartográfica. Útil en algunos casos donde no sea posible la llamada interna al programa MiraMon. Solamente aplica en la opción 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>S</ows:Identifier>
+				<ows:Title>Transforma todos los ficheros</ows:Title>
+				<ows:Abstract>Transforma todos los ficheros dentro del directorio 'Directorio' y subdirectorios. En el caso de la opción 4 implica /SERIE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Fichero/Directorio</ows:Identifier>
+				<ows:Title>Fichero/Directorio</ows:Title>
+				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero convertidos.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:7</ows:Identifier>
+		<ows:Title>ConvREL 7</ows:Title>
+		<ows:Abstract>Transformar un REL4 con metadatos versión 5.0 a REL4 con metadatos versión 4.5.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Transformar un REL4 con metadatos versión 5.0 a REL4 con metadatos versión 4.5.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>7</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fichero/Directorio</ows:Identifier>
+				<ows:Title>Fichero</ows:Title>
+				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero que es necesario convertir.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>BACKUP</ows:Identifier>
+				<ows:Title>Conservar</ows:Title>
+				<ows:Abstract>Indica que debe conservarse el doc/dv? y/o guardar el REL como RE1, RE4 o re4MD5_0, según sea el tipo de fichero de origen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Raster multibanda</ows:Title>
+				<ows:Abstract>Para el caso ráster y conversiones a REL4 (opción 4) intenta generar un ráster multibanda a partir de los ficheros de nombre similar al indicado.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SERIE</ows:Identifier>
+				<ows:Title>Simbolitzación de la serie</ows:Title>
+				<ows:Abstract>Transforma también la simbolización común a una serie cartográfica. Hay que usarlo con prudencia dado que otras capas que dependan de la misma serie podrían no abrirse sin también migrarlas. Solamente aplica en la opción 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SIMBOLITZACIO</ows:Identifier>
+				<ows:Title>Impide la transformación de la simbolitzacion</ows:Title>
+				<ows:Abstract>Impide la transformación de la simbolización de un REL o la simbolización común a una serie cartográfica. Útil en algunos casos donde no sea posible la llamada interna al programa MiraMon. Solamente aplica en la opción 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>S</ows:Identifier>
+				<ows:Title>Transforma todos los ficheros</ows:Title>
+				<ows:Abstract>Transforma todos los ficheros dentro del directorio 'Directorio' y subdirectorios. En el caso de la opción 4 implica /SERIE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Ficher/Directorio</ows:Identifier>
+				<ows:Title>Fichero/Directorio</ows:Title>
+				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero convertidos.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:5</ows:Identifier>
+		<ows:Title> ConvREL 5</ows:Title>
+		<ows:Abstract>Une en un solo REL multibanda n ficheros ráster.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Une en un solo REL multibanda n ficheros ráster. </ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>5</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FicheroLista </ows:Identifier>
+				<ows:Title>Fichero Lista </ows:Title>
+				<ows:Abstract>Es un fichero de texto que contiene una lista de los nombres de ficheros de los rásters a fusionar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/txt</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/txt</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AFEGIR</ows:Identifier>
+				<ows:Title>Transforma todos los ficheros</ows:Title>
+				<ows:Abstract>Si el fichero REL fijado en /REL= existe, esta opción añade las bandas al REL ya existente.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SOBRESCRIURE</ows:Identifier>
+				<ows:Title>Sobrescribe</ows:Title>
+				<ows:Abstract>En la opción de REL fijado, si éste existe, lo elimina y crea un fichero nuevo con la correspondiente fusión de bandas.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>REL</ows:Identifier>
+				<ows:Title>REL</ows:Title>
+				<ows:Abstract>Nombre de fichero REL multibanda fijado por el usuario. Si no se indica el programa decide el nombre de forma automática en función de los nombres de bandas a fusionar.
+				</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:6</ows:Identifier>
+		<ows:Title> ConvREL 6</ows:Title>
+		<ows:Abstract>Emancipa todas les bandas de un REL multibanda.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Emancipar todas las bandas de un REL multibanda.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>6</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerREL</ows:Identifier>
+				<ows:Title>Fitxer REL</ows:Title>
+				<ows:Abstract>Es el nombre del rel multibanda a emancipar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FicheroREL</ows:Identifier>
+				<ows:Title>Fichero REL</ows:Title>
+				<ows:Abstract>És el nombre del rel multibanda a emancipado.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:9</ows:Identifier>
+		<ows:Title> ConvREL 9</ows:Title>
+		<ows:Abstract>Emancipa una de las bandas de un REL multibanda.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Emancipa una de las bandas de un REL multibanda.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>9</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FicheroIMG</ows:Identifier>
+				<ows:Title>Fichero IMG</ows:Title>
+				<ows:Abstract>Nombre del fichero IMG multibanda fijado por el usuario.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FicheroIMG </ows:Identifier>
+				<ows:Title>Fichero IMG</ows:Title>
+				<ows:Abstract>Nombre del fichero IMG multibanda fijado por el usuario.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:10</ows:Identifier>
+		<ows:Title> ConvREL 10</ows:Title>
+		<ows:Abstract>Emancipa una capa de las series cartográficas a las que pertenece, heredando la información de la series.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Emancipa una capa de las series cartográficas a las que pertenece, heredando la información de la series.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:AllowedValues>
+						<ows:Value>10</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FicheroRELOrigen</ows:Identifier>
+				<ows:Title>Fichero REL Origen</ows:Title>
+				<ows:Abstract>Es la dirección y el nombre del REL a emancipar de la serie cartográfica.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FicheroRELDestino</ows:Identifier>
+				<ows:Title>Fichero REL Destino</ows:Title>
+				<ows:Abstract>Es la dirección y el nombre de la capa emancipada de la serie. Es un parámetro optativo, en caso de no indicar ningún nombre del REL destino se sobrescribirá el REL de origen.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<LiteralOutput>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
+				</LiteralOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

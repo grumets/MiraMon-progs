@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Emissiv:Param01:0</ows:Identifier>
+		<ows:Title>Mètode de llindars NDVI</ows:Title>
+		<ows:Abstract>Aquesta opció calcula l'emissivitat utilitzant el mètode de llindars NDVI (Sobrino 2000).</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Càlcul de l'emissivitat"/>
+		<ows:Metadata xlink:title="Abstract:Aquest mòdul calcula l'emissivitat a partir d'una banda vermella i una banda infraroja. Es pot afegir una màscara per a les zones d'aigua (valor &quot;1&quot;) i les zones de neu (valor &quot;2&quot;)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Càlcul de l'emissivitat pel mètode de llindars NDVI (Sobrino 2000).</ows:Abstract>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaVermella</ows:Identifier>
+				<ows:Title>Banda vermella</ows:Title>
+				<ows:Abstract>Fitxer d'entrada de la banda de la regió espectral del vermell.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:BandaVermella"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaNIR</ows:Identifier>
+				<ows:Title>Banda NIR</ows:Title>
+				<ows:Abstract>Fitxer d'entrada de la banda de la regió espectral de l'infraroig proper.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:BandaNIR"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NDVIv</ows:Identifier>
+				<ows:Title>NDVI vegetació</ows:Title>
+				<ows:Abstract>Valor de NDVI d'un píxel cobert de vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:NDVIv"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NDVIs</ows:Identifier>
+				<ows:Title>NDVI sòl</ows:Title>
+				<ows:Abstract>Valor de NDVI d'un píxel de sòl sense vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
+				<ows:Metadata xlink:title="Name:NDVIs"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASCARA</ows:Identifier>
+				<ows:Title>Màscara</ows:Title>
+				<ows:Abstract>Fitxer de la màscara d'aigua i neu. És un paràmetre opcional i s'ha d'afegir "/MASCARA=" abans de la ubicació del fitxer.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerEmis</ows:Identifier>
+				<ows:Title>Emissivitat</ows:Title>
+				<ows:Abstract>Fitxer de sortida del resultat del càlcul de l'emissivitat.</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:FitxerEmis"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Emissiv:Param01:1</ows:Identifier>
+		<ows:Title>Mètode continu</ows:Title>
+		<ows:Abstract>Aquesta opció calcula l'emissivitat utilitzant el mètode continu (Valor i Casselles 2005).</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Càlcul de l'emissivitat pel mètode continu (Valor i Casselles 2005).</ows:Abstract>
+				<ows:Metadata xlink:title="Param01"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaVermella</ows:Identifier>
+				<ows:Title>Banda Vermella</ows:Title>
+				<ows:Abstract>Fitxer d'entrada de la banda de la regió espectral del vermell.</ows:Abstract>
+				<ows:Metadata xlink:title="Param02"/>
+				<ows:Metadata xlink:title="Name:BandaVermella"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaNIR</ows:Identifier>
+				<ows:Title>Banda NIR</ows:Title>
+				<ows:Abstract>Fitxer d'entrada de la banda de la regió espectral de l'infraroig proper.</ows:Abstract>
+				<ows:Metadata xlink:title="Param03"/>
+				<ows:Metadata xlink:title="Name:BandaNIR"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>e_iv</ows:Identifier>
+				<ows:Title>e_iv</ows:Title>
+				<ows:Abstract>Emissivitat d'un píxel cobert de vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param05"/>
+				<ows:Metadata xlink:title="Name:e_iv"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>e_is</ows:Identifier>
+				<ows:Title>e_is</ows:Title>
+				<ows:Abstract>Emissivitat d'un píxel de sòl sense vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
+				<ows:Metadata xlink:title="Name:e_is"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ig</ows:Identifier>
+				<ows:Title>ig</ows:Title>
+				<ows:Abstract>Valor de NDVI (per opció 1) d'un píxel de sòl sense vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param07"/>
+				<ows:Metadata xlink:title="Name:ig"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>iv</ows:Identifier>
+				<ows:Title>iv</ows:Title>
+				<ows:Abstract>Valor de NDVI (per opció 1) d'un píxel cobert de vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param08"/>
+				<ows:Metadata xlink:title="Name:iv"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>r4v</ows:Identifier>
+				<ows:Title>r4v</ows:Title>
+				<ows:Abstract>Reflectància d'un píxel de la banda de la regió espectral de l'infraroig proper cobert de vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param09"/>
+				<ows:Metadata xlink:title="Name:r4v"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>r3v</ows:Identifier>
+				<ows:Title>r3v</ows:Title>
+				<ows:Abstract>Reflectància d'un píxel de la banda de la regió espectral del vermell completament cobert de vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param10"/>
+				<ows:Metadata xlink:title="Name:r3v"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>r4s</ows:Identifier>
+				<ows:Title>r4s</ows:Title>
+				<ows:Abstract>Reflectància d'un píxel de la banda de la regió espectral de l'infraroig proper de sòl sense vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param11"/>
+				<ows:Metadata xlink:title="Name:r4s"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>r3s</ows:Identifier>
+				<ows:Title>r3s</ows:Title>
+				<ows:Abstract> Reflectància d'un píxel de la banda de la regió espectral del vermell de sòl sense vegetació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param12"/>
+				<ows:Metadata xlink:title="Name:r3s"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#decimal">decimal</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASCARA</ows:Identifier>
+				<ows:Title>Màscara</ows:Title>
+				<ows:Abstract>Fitxer de la màscara d'aigua i neu. És un paràmetre opcional i s'ha d'afegir "/MASCARA=" abans de la ubicació del fitxer.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerEmis</ows:Identifier>
+				<ows:Title>Emissivitat</ows:Title>
+				<ows:Abstract>Fitxer de sortida del resultat del càlcul de l'emissivitat.</ows:Abstract>
+				<ows:Metadata xlink:title="Param04"/>
+				<ows:Metadata xlink:title="Name:FitxerEmis"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

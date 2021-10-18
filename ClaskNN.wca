@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CLASKNN:1</ows:Identifier>
+		<ows:Title>Classificació per nombre de veïns més propers</ows:Title>
+		<ows:Abstract>Aquest mòdul permet fer una classificació supervisada en base a un nombre k de veïns de les àrees d'entrenament més propers en l'espai estadístic.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Classificació per nombre de veïns més propers."/>
+		<ows:Metadata xlink:title="Abstract:Aquest mòdul permet fer una classificació supervisada en base a un nombre k de veïns de les àrees d'entrenament més propers en l'espai estadístic."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>TipusCalcul</ows:Identifier>
+				<ows:Title>Tipus de càlcul</ows:Title>
+				<ows:Abstract><![CDATA[Mètode de càlcul de la classe predominant: <ul><li>1 Mitjançant moda.</li></ul><ul><li>2 Aplicant un pes respecte l'invers de la distància.</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:TipusCalcul"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>LlistaFitxersIMG</ows:Identifier>
+				<ows:Title>Llista de fitxers ràster d'entrada</ows:Title>
+				<ows:Abstract>Llista de fitxers ràster d'entrada.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:LlistaFitxersIMG"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerAE</ows:Identifier>
+				<ows:Title>Fitxer de les àrees d'entrenament</ows:Title>
+				<ows:Abstract>Fitxer de les àrees d'entrenament</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FitxerAE"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NumVeins</ows:Identifier>
+				<ows:Title>Nombre de veïns</ows:Title>
+				<ows:Abstract>Paràmetre del nombre de veïns més propers</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:NumVeins"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MaxDist</ows:Identifier>
+				<ows:Title>Distància màxima per ser candidat com a un dels k veïns</ows:Title>
+				<ows:Abstract>Distància màxima per sobre la qual un píxel d'una àrea d'entrenament no pot ser candidat a esdevenir un dels k veïns.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NVeinsMin</ows:Identifier>
+				<ows:Title>Nombre de veïns mínim per classificar un píxel</ows:Title>
+				<ows:Abstract>Nombre de veïns mínim per classificar un píxel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MaxBandesNODATA</ows:Identifier>
+				<ows:Title>Tolerància de variables amb NODATA</ows:Title>
+				<ows:Abstract>Nombre màxim de variables amb valor NODATA per classificar un píxel i no considerar-lo NODATA. Si voleu usar el màxim permés indiqueu MAX. Si s'indica el paràmetre especial MAX, automàticament classifica amb aquest paràmetre inicialitzat al nombre de bandes menys 1. Per el contrari, si no s'indica el paràmetre, equival a indicar a un 0 (o sigui, que només que manqui una sola dada en el conjunt multivariant, el píxel no es classifica). </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#fstring">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AEAmbNODATA</ows:Identifier>
+				<ows:Title>Acceptar àeres d'entrenament amb NODATA</ows:Title>
+				<ows:Abstract>Acceptar àeres d'entrenament amb NODATA en alguna de les variables.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PertMax</ows:Identifier>
+				<ows:Title>Pertinença màxima</ows:Title>
+				<ows:Abstract>Pertinença màxima per calcular el mapa d'incertessa. Només aplica si MapaFKM o MapaIncert. Potser la suma de pertinences del píxel (valor per defecte) o bé un valor definit per l'usuari.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VariablesAE</ows:Identifier>
+				<ows:Title>Llistat variables AE</ows:Title>
+				<ows:Abstract>Llistat de variables a on es llegirà els valors de les Arees d'entraanmet per fer la classificació. Si no s'indica cap, s'utilitzaran les variables d'entrada (les de del paràmetre 'FitxerAE').</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DISC</ows:Identifier>
+				<ows:Title>Forçar a no carregar les imatges a classificar en memòria</ows:Title>
+				<ows:Abstract>Útil per a ordinadors amb molt poca memòria en relació a la grandària dels fitxers a classificar. En general no cal aplicar-lo ja que si el programa es queda sense memòria commuta automàticament a aquest mode.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_Proces</ows:Identifier>
+				<ows:Title>Nombre de nuclis de processador a utilitzar</ows:Title>
+				<ows:Abstract>Es pot indicar un número concret de processador o "MAX" (per utilitzar tots els processadors) o "SUB_MAX" (per utilitzar tots els processadors menys un).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>SUB_MAX</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>2_CLASSES_RESULT</ows:Identifier>
+				<ows:Title>Generar ràster classificació en segona instància</ows:Title>
+				<ows:Abstract>Generar un segon ràster amb el resultat de la classificació en segona instància.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerClass</ows:Identifier>
+				<ows:Title>Fitxer ràster de sortida de la classificació</ows:Title>
+				<ows:Abstract>Fitxer ràster de sortida on es desarà els valors de la classificació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerClass"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaDistMin</ows:Identifier>
+				<ows:Title>Mapa de distància mínima</ows:Title>
+				<ows:Abstract>Mapa de distància mínima de les àrees d'entrenament amb els quals s'ha pres la decisió de classificar el píxel en una classe concreta</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaDistMax</ows:Identifier>
+				<ows:Title>Mapa de distància màxima</ows:Title>
+				<ows:Abstract>Mapa de distància màxima de les àrees d'entrenament amb els quals s'ha pres la decisió de classificar el píxel en una classe concreta</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaMedianDist</ows:Identifier>
+				<ows:Title>Mapa de la mediana de les distàncies</ows:Title>
+				<ows:Abstract>Mapa de la mediana de les distàncies de les àrees d'entrenament amb els quals s'ha pres la decisió de classificar el píxel en una classe concreta.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaNPixAE</ows:Identifier>
+				<ows:Title>Mapa del nombre de veïns de les àrees d'entrenament</ows:Title>
+				<ows:Abstract>Mapa del nombre de veïns de les àrees d'entrenament utilitzats.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaIncert</ows:Identifier>
+				<ows:Title>Mapa d'incertesa</ows:Title>
+				<ows:Abstract>Mapa d'incertesa.</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>MapaFKM</ows:Identifier>
+				<ows:Title>Mapa fussy k-means</ows:Title>
+				<ows:Abstract>Mapa fussy k-means (semblant al mapa d'incertesa).</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

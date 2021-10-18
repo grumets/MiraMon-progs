@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:InterPNT:1</ows:Identifier>
+		<ows:Title>InterPNT</ows:Title>
+		<ows:Abstract>This program generates a raster in which each cell value is obtained by interpolation between the values in a numerical field of the database of a points file. The raster generated corresponds to a continuous surface: it would be meaningless to use this method to obtain a raster from category values. The points file must be structured (PNT format). Some points in the set can be excluded according to various global and local criteria. It is also possible to interpolate between points with more than one register in the database (eg. water measurements made at different dates in the same place)." </ows:Abstract>
+		<ows:Metadata xlink:title="Title:Interpolate between points"/>
+		<ows:Metadata xlink:title="Abstract:This program generates a raster in which each cell value is obtained by interpolation between the values in a numerical field of the database of a points file. The raster generated corresponds to a continuous surface: it would be meaningless to use this method to obtain a raster from category values. The points file must be structured (PNT format). Some points in the set can be excluded according to various global and local criteria. It is also possible to interpolate between points with more than one register in the database (eg. water measurements made at different dates in the same place)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fitxer_PNT</ows:Identifier>
+				<ows:Title>PNT file</ows:Title>
+				<ows:Abstract>Structured points file containing the values to be interpolated. In this case, it is possible to indicate optionally a set of parameters that define the selection (for instance: /COND1_CAMP=). To know more about the values of these parameters continue the considerations of the <![CDATA[<a href="general.htm#SelecAtrib">general syntax</a>]]> document.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:PNT_file"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Camp</ows:Identifier>
+				<ows:Title>Field</ows:Title>
+				<ows:Abstract>Field name to be interpolated in string field BD4 access format. In case of choosing the option Use the value of the third coordinate, you must type "x".</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Field"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_FIELD</ows:Identifier>
+				<ows:Title>Field of Condition #</ows:Title>
+				<ows:Abstract>Field name of # condition of selection. It may be made up to 100 simple queries and 100 field names (COND#_CAMP) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Operation of condition #</ows:Title>
+				<ows:Abstract>Opertation of # condition of selection. It may be made up to 100 simple queries and 100 operations (COND#_OP) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>LT</ows:Value>
+						<ows:Value>GT</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="100">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Value of condition #</ows:Title>
+				<ows:Abstract>Value of # condition of selection. It may be made up to 100 simple queries and 100 values (COND#_VALOR) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Nexus linking of condition #</ows:Title>
+				<ows:Abstract>Nexus use to linking for the successive selections. In this case to linking between condition # and condition #+1. It may be made up to 100 simple queries and 99 nexus (COND#_NEXE) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Priority of nexus linking of condition #</ows:Title>
+				<ows:Abstract>Priority of nexus use to linking for the successive selections. In this case to linking between condition # and condition #+1. It may be made up to 100 simple queries and 99 priorities (COND#_PRIOR) starting at index 1. This is an optional parameter. If it is not indicated the priority is just the order.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+						</ows:Range>
+						<ows:Value/>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Xmin</ows:Identifier>
+				<ows:Title>X minimun</ows:Title>
+				<ows:Abstract>Defines the X minimun of the  extent of the resulting raster. The values 'x' and 'p' for all four parameters ('x x x x' or 'p p p p') indicate that the extent is the same as that of the points file; 'x' will make sure that this extent squares with the defined pixel size.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Xmin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Xmax</ows:Identifier>
+				<ows:Title>X maximun</ows:Title>
+				<ows:Abstract>Defines the X maximun of the  extent of the resulting raster. The values 'x' and 'p' for all four parameters ('x x x x' or 'p p p p') indicate that the extent is the same as that of the points file; 'x' will make sure that this extent squares with the defined pixel size.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Xmax"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ymin</ows:Identifier>
+				<ows:Title>Y minimun</ows:Title>
+				<ows:Abstract>Defines the Y minimun of the  extentof the resulting raster. The values 'x' and 'p' for all four parameters ('x x x x' or 'p p p p') indicate that the extent is the same as that of the points file; 'x' will make sure that this extent squares with the defined pixel size.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Ymin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ymax</ows:Identifier>
+				<ows:Title>Y maximun</ows:Title>
+				<ows:Abstract>Defines the X maximun of the  extent of the resulting raster. The values 'x' and 'p' for all four parameters ('x x x x' or 'p p p p') indicate that the extent is the same as that of the points file; 'x' will make sure that this extent squares with the defined pixel size.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:Ymax"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>p</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Costat</ows:Identifier>
+				<ows:Title>Side</ows:Title>
+				<ows:Abstract>Size of the pixel in the output raster file.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:Side"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>x</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Duplicats</ows:Identifier>
+				<ows:Title>Duplicates</ows:Title>
+				<ows:Abstract>Calculation option when there are multiple registers: 0 ignore the point, 1 take the first as valid, 2 take the average and 3 take the sum.</ows:Abstract>
+				<ows:Metadata xlink:title="Param9"/>
+				<ows:Metadata xlink:title="Name:Duplicates"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EXPONENT</ows:Identifier>
+				<ows:Title>Exponent</ows:Title>
+				<ows:Abstract>value of the exponential power that dictates the dependence of the cell value on the inverse distance to each point. By default the value is 2, that is an inverse square law by which the weight of each point is inversely proportional to the square of the distance from the centre of the pixel.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>EIXAMPLE</ows:Identifier>
+				<ows:Title>EIXAMPLE</ows:Title>
+				<ows:Abstract>Distances are determined 'Manhattan' style (Taxi-cab / city block). This is simpler and faster than calculating the Euclidean distance, the default in the absence of this parameter.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Maximum distance</ows:Title>
+				<ows:Abstract>For the inverse distance method, the maximum distance from the centre of the pixel of points to be considered when performing the interpolation. If not set, all points are considered. For the spline or trend surfaces methods, determines the size of the regions into which the interpolation area may be divided </ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_PUNTS</ows:Identifier>
+				<ows:Title>Maximum points</ows:Title>
+				<ows:Abstract>The maximum number of points (ie the n nearest points) used in the calculations. If not set, all points are considered.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MIN_PUNTS</ows:Identifier>
+				<ows:Title>Minimum points</ows:Title>
+				<ows:Abstract> The minimum number of points needed to ensure that the interpolated value is valid.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TENSIO</ows:Identifier>
+				<ows:Title>smoothness</ows:Title>
+				<ows:Abstract>Modulates the smoothness of the 'spline' function.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>APLAN</ows:Identifier>
+				<ows:Title>Flattening</ows:Title>
+				<ows:Abstract>Flattening, the noise level.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MIN_VAL</ows:Identifier>
+				<ows:Title>Inferior saturation Value</ows:Title>
+				<ows:Abstract>Inferior saturation value to avoid extreme values out of range.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_VAL</ows:Identifier>
+				<ows:Title>Superior saturation value</ows:Title>
+				<ows:Abstract>Superior saturation value to avoid extreme values out of range.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GRAU</ows:Identifier>
+				<ows:Title>Grade</ows:Title>
+				<ows:Abstract>Level (1, 2, 3) of the polinomic function.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>IGNORAR_PNTS_EXT</ows:Identifier>
+				<ows:Title>Ignore outside points</ows:Title>
+				<ows:Abstract>1 Indicates that points outside the extents of the output raster should not be considered.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ERROR_VC</ows:Identifier>
+				<ows:Title>Cross validation error</ows:Title>
+				<ows:Abstract>Quality parameter (RMS) of cross validation method resulting from the interpolation model.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASCARA</ows:Identifier>
+				<ows:Title>Mask</ows:Title>
+				<ows:Abstract>The name of the file that limits the regions of the output raster over which it is necessary to perform the interpolation. If no mask is set, the interpolation is performed for the whole area defined by the raster.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>OPER_MASC</ows:Identifier>
+				<ows:Title>Operator</ows:Title>
+				<ows:Abstract> Equal-to (EQ) or not-equal-to (NO_EQ) operator; determines which polygons should be included in the interpolation when the mask is not the universal polygon.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA_MASC</ows:Identifier>
+				<ows:Title>Taula mascara</ows:Title>
+				<ows:Abstract>When the mask is an structured vector file, indicate the table  of the selected database. For more information on the values of these parameters refer to the <![CDATA[<a href="general.htm#TaulaCamp">general syntax</a>]]> document.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_MASC</ows:Identifier>
+				<ows:Title>Camp mascara</ows:Title>
+				<ows:Abstract>When the mask is an structured vector file, indicate the field of the selected database. For more information on the values of these parameters refer to the <![CDATA[<a href="general.htm#TaulaCamp">general syntax</a>]]> document.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATR_MASC</ows:Identifier>
+				<ows:Title>Attribute</ows:Title>
+				<ows:Abstract>Attribute that determines which polygons should be included in the interpolation when the mask is not the universal polygon.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>REPE</ows:Identifier>
+				<ows:Title>Multiple registers</ows:Title>
+				<ows:Abstract>When the mask is a structured file with multiple registers, indicates which record is used when there are more than one record for a graphic identifier (multiple record). For more information on the values of this parameter refer to the <![CDATA[<a href="general.htm#SelecAtrib">general syntax</a>]]> document.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ESTAD_VEINATGE</ows:Identifier>
+				<ows:Title>Neighborhood statistics</ows:Title>
+				<ows:Abstract>Value indicating the statistical function chosen to make neighborhood statistics of the source file. In this case, it is also necessary to indicate one of the parameters between /MAX_DIST and /MAX_DIST_XY. The different statistical functions available are: <![CDATA[<ul>
+          <li>InterPNT_MITJANA: Mean.</li>
+          <li>InterPNT_MEDIANA: Median.</li>
+          <li>InterPNT_MINIM: Minimum.</li>
+          <li>InterPNT_MAXIM: Maximum.</li>
+          <li>InterPNT_RANG: Range.</li>
+          <li>InterPNT_DESVIACIO_EST: Standard deviation.</li>
+          <li>InterPNT_DESVIACIO_MEDIANA: Average absolute deviation about the median.</li>
+          <li>InterPNT_N_OCURRENCIES: Ocurrences.</li>          
+          </ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>InterPNT_MITJANA</ows:Value>
+						<ows:Value>InterPNT_MEDIANA</ows:Value>
+						<ows:Value>InterPNT_MINIM</ows:Value>
+						<ows:Value>InterPNT_MAXIM</ows:Value>
+						<ows:Value>InterPNT_RANG</ows:Value>
+						<ows:Value>InterPNT_DESVIACIO_EST</ows:Value>
+						<ows:Value>InterPNT_DESVIACIO_MEDIANA</ows:Value>
+						<ows:Value>InterPNT_N_OCURRENCIES</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST</ows:Identifier>
+				<ows:Title>Maximum distance as maximum radius of a circle</ows:Title>
+				<ows:Abstract>Maximum distance as the maximum radius of a circle at which a point is considered to be part of the set of points that provide the values for the calculation of the statistic that will be transferred to the output raster cell (this circular mode is typical for other options of the InterPNT module).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MAX_DIST_XY</ows:Identifier>
+				<ows:Title>Maximum distance as half of the side of a square.</ows:Title>
+				<ows:Abstract>Maximum distance as half of the side of a square to which a point is considered to be part of the set of points that provide the values for the calculation of the statistic that will be transferred to the output raster cell.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COTA3D</ows:Identifier>
+				<ows:Title>Use 3D dimension of the input points</ows:Title>
+				<ows:Abstract>In case where the point file is 3D, the 3D dimension of the input points is used instead of using a field in the source database.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP_DATA</ows:Identifier>
+				<ows:Title>Field of the main table of points containing the date of the point</ows:Title>
+				<ows:Abstract>This parameter allows you to specify the field in the main point table that contains the date of the point. This option applies to the minimum and maximum modes of the neighborhood statistics, and it is useful to be able to know, for example, in what year, or in what month of the year the data of the height of the vegetation of a lidar file.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Fitxer_IMG</ows:Identifier>
+				<ows:Title>IMG file</ows:Title>
+				<ows:Abstract>The resulting raster with the interpolated values in each cell.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:IMG_file"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

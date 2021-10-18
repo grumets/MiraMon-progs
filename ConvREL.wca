@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:1</ows:Identifier>
+		<ows:Title>ConvREL 1</ows:Title>
+		<ows:Abstract>Transforma un REL4 en un doc/dv? + REL1.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Conversió de capes entre formats 1 i 4 de MiraMon"/>
+		<ows:Metadata xlink:title="Abstract:Aquest programa transforma les relacions entre taules, les metadades i la simbolització a la versió 4/5 des de versions anteriors. També permet el retorn a versions anteriors amb característiques limitades. A més a més, permet la fusió d'n bandes en un únic ràster multibanda (de format REL4), i la seva acció inversa, emancipar una o totes les bandes d'un fitxer multibanda (de format REL4)."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Transformar un REL4 en un doc/dv? + REL1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier></ows:Identifier>
+				<ows:Title>Fitxer/Directori</ows:Title>
+				<ows:Abstract>És el nom de la capa  (no del REL o el doc/dv?) o del fitxer que conté les capes que cal convertir.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Fitxer/Directori"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>BACKUP</ows:Identifier>
+				<ows:Title>Conservar</ows:Title>
+				<ows:Abstract>Indica que s'ha de conservar el doc/dv? i/o guardar el REL en RE1, RE4 o re4MD5_0, segons sigui el tipus de fitxer origen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Ràster multibanda</ows:Title>
+				<ows:Abstract>Pel cas ràster i conversions a REL4 (opció 4) intenta generar un ràster multibanda a partir dels fitxers de nom similar a l'indicat.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SERIE</ows:Identifier>
+				<ows:Title>Simbolització de la serie</ows:Title>
+				<ows:Abstract>Transforma també la simbolització comuna a una sèrie cartogràfica. Cal usar-lo amb prudència donat que altres capes que depenguin de la mateixa sèrie podrien no obrir-se sense migrar-les també. Només aplica en l'opció 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>S</ows:Identifier>
+				<ows:Title>Transforma tots els fitxers</ows:Title>
+				<ows:Abstract>Transforma tots els fitxers dins del directori 'Directori' i subdirectoris. En el cas de l'opció 4 implica /SERIE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDirectori</ows:Identifier>
+				<ows:Title>Fitxer/Directori</ows:Title>
+				<ows:Abstract>És el nom de la capa  (no del REL o el doc/dv?) o del fitxer que conté les capes que cal convertir.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Fitxer/Directori"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:4</ows:Identifier>
+		<ows:Title> ConvREL 4</ows:Title>
+		<ows:Abstract>Transforma un doc/dv? + REL1 en un REL4 amb metadades versió 5. L'opció 4 REQUEREIX de MM32.exe versió 4.0vt o superior per a migrar la simbolització.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Transformar un REL4 en un doc/dv? + REL1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDirectori</ows:Identifier>
+				<ows:Title>Fitxer/Directori</ows:Title>
+				<ows:Abstract>És el nom de la capa  (no del REL o el doc/dv?) o del fitxer que conté les capes que cal convertir.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Fitxer/Directori"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>BACKUP</ows:Identifier>
+				<ows:Title>Conservar</ows:Title>
+				<ows:Abstract> indica que s'ha de conservar el doc/dv? i/o guardar el REL en RE1, RE4 o re4MD5_0, segons sigui el tipus de fitxer origen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Ràster multibanda</ows:Title>
+				<ows:Abstract>Pel cas ràster i conversions a REL4 (opció 4) intenta generar un ràster multibanda a partir dels fitxers de nom similar a l'indicat.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SERIE</ows:Identifier>
+				<ows:Title>Simbolització de la serie</ows:Title>
+				<ows:Abstract>Transforma també la simbolització comuna a una sèrie cartogràfica. Cal usar-lo amb prudència donat que altres capes que depenguin de la mateixa sèrie podrien no obrir-se sense migrar-les també. Només aplica en l'opció 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SIMBOLITZACIO</ows:Identifier>
+				<ows:Title>Impedeix la transformació de la simbolització</ows:Title>
+				<ows:Abstract>SIMBOLITZACIO=0 impedeix la transformació de la simbolització d'un REL o la simbolització comuna a una sèrie cartogràfica. Útil en alguns casos on no sigui possible la crida interna al programa MiraMon. Només aplica en l'opció 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>S</ows:Identifier>
+				<ows:Title>Transforma tots els fitxers</ows:Title>
+				<ows:Abstract>Transforma tots els fitxers dins del directori 'Directori' i subdirectoris. En el cas de l'opció 4 implica /SERIE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Fitxer/Directori</ows:Identifier>
+				<ows:Title>Fitxer/Directori </ows:Title>
+				<ows:Abstract>Es el nom de la capa o del directori (no del REL o el doc/dv?) convertits.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:7</ows:Identifier>
+		<ows:Title> ConvREL 7</ows:Title>
+		<ows:Abstract>Transforma un REL4 amb metadades versió 5.0 a REL4 amb metadades versió 4.5.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Transformar un REL4 amb metadades versió 5.0 a REL4 amb metadades versió 4.5.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>7</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerDirectori</ows:Identifier>
+				<ows:Title>Fitxer/Directori</ows:Title>
+				<ows:Abstract>És el nom de la capa  (no del REL o el doc/dv?) o del fitxer que conté les capes que cal convertir.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Fitxer/Directori"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>BACKUP</ows:Identifier>
+				<ows:Title>Conservar</ows:Title>
+				<ows:Abstract> indica que s'ha de conservar el doc/dv? i/o guardar el REL en RE1, RE4 o re4MD5_0, segons sigui el tipus de fitxer origen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Ràster multibanda</ows:Title>
+				<ows:Abstract>Pel cas ràster i conversions a REL4 (opció 4) intenta generar un ràster multibanda a partir dels fitxers de nom similar a l'indicat.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SERIE</ows:Identifier>
+				<ows:Title>Simbolització de la serie</ows:Title>
+				<ows:Abstract>Transforma també la simbolització comuna a una sèrie cartogràfica. Cal usar-lo amb prudència donat que altres capes que depenguin de la mateixa sèrie podrien no obrir-se sense migrar-les també. Només aplica en l'opció 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SIMBOLITZACIO</ows:Identifier>
+				<ows:Title>Impedeix la transformació de la simbolització</ows:Title>
+				<ows:Abstract>SIMBOLITZACIO=0 impedeix la transformació de la simbolització d'un REL o la simbolització comuna a una sèrie cartogràfica. Útil en alguns casos on no sigui possible la crida interna al programa MiraMon. Només aplica en l'opció 4.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>S</ows:Identifier>
+				<ows:Title>Transforma tots els fitxers</ows:Title>
+				<ows:Abstract>Transforma tots els fitxers dins del directori 'Directori' i subdirectoris. En el cas de l'opció 4 implica /SERIE.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Fitxer/Directori</ows:Identifier>
+				<ows:Title>Fitxer/Directori</ows:Title>
+				<ows:Abstract>És el nom de la capa o del directori (no del REL o el doc/dv?) convertits.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:5</ows:Identifier>
+		<ows:Title> ConvREL 5</ows:Title>
+		<ows:Abstract>Uneix en un sol REL multibanda n fitxers ràster.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Unir en un sol REL multibanda n fitxers ràster.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>5</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerLlista</ows:Identifier>
+				<ows:Title>Fitxer Llista</ows:Title>
+				<ows:Abstract>És un fitxer de text que conté una llista dels noms de fitxer dels ràsters a fusionar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AFEGIR</ows:Identifier>
+				<ows:Title>Transforma tots els fitxers</ows:Title>
+				<ows:Abstract>Si el fitxer REL fixat en /REL= existeix, aquesta opció afegirà les bandes al REL ja existent.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SOBRESCRIURE</ows:Identifier>
+				<ows:Title>Sobrescriu</ows:Title>
+				<ows:Abstract>S En l'opció de REL fixat, si aquest existeix, l'esborra i en crea un de nou amb la corresponent fusió de bandes.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>REL</ows:Identifier>
+				<ows:Title>REL</ows:Title>
+				<ows:Abstract>Nom de fitxer REL multibanda fixat per l'usuari. Si no s'indica, el programa decideix el nom de forma automàtica en funció dels noms de bandes a fusionar.
+				</ows:Abstract>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-rel</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:6</ows:Identifier>
+		<ows:Title> ConvREL 6</ows:Title>
+		<ows:Abstract>Emancipa totes les bandes d'un REL multibanda.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Emancipar totes les bandes d'un REL multibanda.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>6</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerREL</ows:Identifier>
+				<ows:Title>Fitxer REL</ows:Title>
+				<ows:Abstract>És el nom del rel multibanda a emancipar</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerREL</ows:Identifier>
+				<ows:Title>Fitxer REL</ows:Title>
+				<ows:Abstract>És el nom del rel multibanda a emancipat.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:9</ows:Identifier>
+		<ows:Title> ConvREL 9</ows:Title>
+		<ows:Abstract>Emancipa  una de les bandes del seu REL.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Emancipa  una de les bandes del seu REL.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>9</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerIMG</ows:Identifier>
+				<ows:Title>Fitxer IMG</ows:Title>
+				<ows:Abstract>Nom de fitxer IMG multibanda fixat per l'usuari.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/IMG</MimeType>
+							<Encoding>Binari</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/IMG</MimeType>
+							<Encoding>Binari</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerIMG </ows:Identifier>
+				<ows:Title>Fitxer IMG</ows:Title>
+				<ows:Abstract>Nom de fitxer IMG multibanda fixat per l'usuari.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>Binari</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/rel</MimeType>
+							<Encoding>Binari</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ConvREL:1:10</ows:Identifier>
+		<ows:Title> ConvREL 10</ows:Title>
+		<ows:Abstract>Emancipa  una capa de les sèries cartogràfiques a les quals pertany, heretant la informació de la sèrie.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Emancipa una capa de les sèries cartogràfiques a les quals pertany, heretant la informació de la sèrie.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>10</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerRELorigen</ows:Identifier>
+				<ows:Title>Fitxer REL</ows:Title>
+				<ows:Abstract>Origen és l'adreça i el nom del rel a emancipar de la sèrie cartogràfica.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerRELorigen"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerRELDesti</ows:Identifier>
+				<ows:Title>Fitxer REL Destí</ows:Title>
+				<ows:Abstract>És l'adreça i el nom del rel de la capa emancipada de la sèrie. És un paràmetre optatiu, en cas de no indicar cap nom de REL destí se sobreescriu el REL d'origen.
+				</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerRELDesti"/>
+				<LiteralOutput>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
+				</LiteralOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

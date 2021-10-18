@@ -1,0 +1,66 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ClasSup:Supervised Classification of Images</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<p>ClasSup does a supervised classification based on classical classifiers as: minimum Euclidean distance, Manhattan minimum distance and maximum likelihood.</p>
+<!--GC: La descripció general de l'aplicació sempre ha d'anar abans que el tag "wpsopcions", ja que aquest especifica les diferents modalitats de la MSA. sempre que es pugui, afegir una frase tipus, "Aquesta aplicació cosnta de dues opcions:" o alguna cosa per l'estil per enllaçar--> 
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>The signatures that define each class are read from SGN files, which typically they must been generated from the AreaSGN application or as a result of execution of IsoMM.</p>
+
+<p> The different classification methods needs very different runtime. For example, in a test on a laptop with 30 files of BYTE data type and 1517 columns * 1311 rows with data read and written in a USB3 external disk, the runtime is about 5.25" in Euclidean distance and 6.5" in Manhattan distance, while in maximum likelihood it takes 10 times longer.</p>
+
+<p>If you desire, the classifiers can also generate a distance raster (or probability, according to the classifier
+used) that has been used as the minimum distance (or maximum likelihood) to classify
+each pixel of the map. In distance classifiers, the generation of this additional raster may involve
+that runtime increased at about 60%, while in maximum likelihood at about 11%.
+
+Viewing this image in a gray palette you should bear in mind the following:
+<ul>
+<li>Minimum distance classifier: The most reliably classified pixels are those with darker colours (lower values), because they are at a closer distance (lowest value) to the assigned class center. Also, if you have made the classification indicating that you allow to classify the pixel although it does not have information on all variables, those pixels classified based on fewer variables (because some of them are NODATA values) may have lower values simply because their dimensionality is lower and, therefore, it can mislead to think that its reliability is higher.</list>
+<li>Maximum likelihood classifier: The most reliably classified pixels are those with lighter colours (higher values), as they have a higher probability of belonging to the finally assigned class. As in the previous case, if you have carried out the classification indicating that you allow to classify the pixel but does not have information on all variables, those pixels classified based on fewer variables (because some of them are NODATA values) can have higher values simply because its dimensionality is lower and, therefore, this can mislead to think that its reliability is higher.
+Moreover, as the probability values can be very very different (several orders of magnitude), we suggest you to use CalcIMG to apply a base-10 logarithm of the cell values of the entire image, which provides a more easily understandable visualization. Remember also that in the comments of the technical aspects of metadata, you can find the scaling factors that MiraMon has applied to get the probability values in an float type image.</list></ul></p>
+
+<p> In case of minimum distance classifiers, it works starting from desired class centers. If you wish to work with normalized distance, you must normalize the input variables.<br /> In the case of maximum likelihood classifier, it uses the classical criterion of Bayesian probability starting from the centers of classes and their desired variance-covariance matrices.</p>
+
+<p> Neither the maximum number of variables nor the file sizes are restricted except for the system's capabilities. For example, at September 2013 maximum likelihood classifications have been made based on 47 images with integer data type and 8115 columns x 8757 rows, with satisfactory results in at about 90' runtime despite of containing NODATA values and also a probabilities image has been generated simultaneous to the classification itself.  
+<br>
+<hr>
+<p><b>Orientation on the meaning of the distances used in the classification processes</b></P>
+<p>In some options of the ClasSup, as well as in other classifiers such as IsoMM or kNN, calculations of statistical distances such as Euclidean distance are made. In this case, the Euclidean distance is calculated from a problem pixel  &lsaquo; &lsaquo; central reference values &rsaquo; &rsaquo; which can be the middle vector of a class center (for example in the case of a minimum distance classifier or the IsoMM), or they can be the vector of values ??of a pixel of training (for example in a kNN classifier).</p>
+<p>These distances for the category "winner" can be obtained, in each pixel, in the file of distances provided by some applications of digital classification of images of the MiraMon. The following table shows how to interpret various values ??of these distances; In all cases it is a classification with 36 variables and in which in some pixels instead of the classification with 36 variables it has had to be done with 24 variables (for example because in some of the different dates used for classification, in those pixels there were clouds). In addition, the variables present real values ??(non integers) bounded between 0 and 100; An example of this transformation would be that the pixels of a variable that is a normalized difference vegetation index, NDVI, typically between -1 and 1, have been transformed (multiplying by 50 and adding 50) so that their values ??are between 0 and 100; a second example would be that bands of reflectance, typically between 0 and 1, have become values ??between 0 and 100 (multiplying them by 100 and becoming percentages of reflectance).</p>
+
+<img src="calcul_orientatiu_dist_mitjana_usa.png" width="75%" height="75%">
+<p>We started to interpret a distance 35.8 obtained in a pixel classified thanks to 36 variables available. In this case, we can imagine that the situation may vary between the pixel problem being "far from" the central reference values ??referred to above, or that the pixel is very close (virtually remote 0) of all the variables used, except one, that accumulate virtually the whole distance. In the first case we see the table that the distance must be interpreted as an average distance of 6.0; it is quite likely that the pixel is poorly classified, because with average spectral differences, in all those variables that are responsive in spectral bands at the different dates in which the images were captured, 6% reflectance, hardly the Pixel is "similar" to the class. In the second case we see in the table that the distance of one of the variables is 35.8 (on a total route of 100); it is also quite likely that the pixel is poorly classified if one of the variables has a value so far from the reference value. If this value of distance 35.8 has been obtained in a pixel classified thanks to 24 available variables, the situation of "average distance to the different variables" is still worse, because it becomes a 7.3 instead of a 6.</p>
+<p>Next we can interpret a situation at the other end: a pixel classified with a distance 5.8 based on 36 variables. As can be seen in the table, the average distance is only 1.0, that is, very close, and if we think that it was one of the 36 variables that were very different while the others were practically identical, this variable "disagreeing "It would only be at a distance 5.8 (on a total route of 100). If the pixel has been classified thanks to 24 variables available, the situation is not much worse: in the case of the mean distance we have a value of 1.2, which also indicates a very close average similarity in the 24 variables.</p>
+<p>The other intermediate cases in the table can help you think, in the same terms, in cases where we obtain intermediate distance values ??between the two examples discussed (35.8 and 5.8).</p>
+<hr>
+<p>The maximum number of variables to be considered, nor the size of the files, are not restricted
+except for the capabilities of the system. For example, in September 2013, ratings were made
+Maximum likelihood based on 47 "integer" images of 8115 columns x 8757 rows, with
+Satisfactory results in about 90 'of execution although they contained senses and that also
+An image of probabilities was generated simultaneously in the classification itself.</p>
+
+<p>Additionally, the module allows the calculation of the Transformed Divergence (TD), instead of making a classification it writes in a file the covariance matrices and correlations values for each class and the TD between all signatures (classes) provided.</p>
+
+<p>For additional technical information, please consult the comments of the modules IsoData.c and IsoMM.c.</p>
+
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+CLASSUP ?
+-->
+  </exclusiva>
+</body>
+</html>
