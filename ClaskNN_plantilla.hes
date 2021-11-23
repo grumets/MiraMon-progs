@@ -1,6 +1,6 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>CLASKNN: Clasificación por número de vecinos más cercanos</title>
+<title>ClaskNN: Clasificación por número de vecinos más cercanos</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
@@ -10,49 +10,25 @@
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-<style type="text/css">
-/*<![CDATA[*/
-  <!--
-  .Estilo2 {
-        font-size: 32px;
-        font-weight: bold;
-  }
-  .Estilo5 {font-size: 16px}
-  .Estilo7 {font-size: 14}
-  .Estilo8 {font-size: 12px}
-  -->
-  /*]]>*/
-</style>
+<p>Para cada píxel de la imagen a clasificar, se calcula la distancia euclidiana (en el espacio estadístico de representación de las variables independientes) a cada píxel de las áreas de entrenamiento. Se eligen los k píxeles más cercanos de entre los de las áreas de entrenamiento y la clase predominante de este grupo de k píxeles será la clase que se le asigna al píxel a clasificar. Para calcular la clase predominante, se permiten dos opciones: la primera mediante la moda y la segunda aplicando un peso en función del inverso de la distancia (es decir, que en el cálculo de la moda las muestras más cercanas en el espacio estadístico pesan más). El fichero o ficheros de entrada tienen que ser rásters en formato IMG y el tipo de datos puede ser cualquiera de los soportados por MiraMon. Para más información se puede consultar el documento <a href="..\mm32\AP1.htm">Descripción de los formatos ráster de MiraMon</a>.</p>
 
-<p align="justify">Este módulo permite hacer una clasificación supervisada en base a un número k de vecinos de las áreas de entrenamiento más cercanos en el espacio estadístico.</p> 
+<p>A diferencia de otros clasificadores, en los que el número de muestras utilizadas para definir las clases no es relevante en la fase de asignación, el kNN es sensiblemente más lento cuantas más muestras existen.</p> 
 
-<p align="justify">Para cada píxel de la imagen a clasificar, se calcula la distancia euclidiana con cada píxel de las áreas de entrenamiento en el espacio de representación de las bandas origen. Se elige los k píxeles más cercanos de las áreas de entrenamiento y la clase predominante de este grupo de píxeles será la clase que se le asigna al píxel a clasificar. Para calcular la clase predominante, se permiten dos opciones: la primera mediante la moda y la segunda aplicando un peso en función de la inversa de la distancia. El fichero de entrada tiene que ser un ráster en formato IMG y el tipo de datos puede ser cualquiera de los soportados por MiraMon (<a href="..%5Cmm32%5CAP1.htm">consultad formatos ráster soportados por MiraMon</a>).</p>
+<p>Por defecto este módulo carga todas las imágenes en memoria, lo que le permite realizar los procesos de manera más ágil. Sin embargo, en ordenadores con pocos recursos respecto del tamaño de las imágenes esta estrategia puede no ser viable. Es por ello que la opción "No cargar las imágenes a clasificar en memoria" permite indicar al programa que durante los procesos se mantengan en memoria sólo aquellos datos que necesita en cada momento,
+ni que esto implique una ralentización de la ejecución.
+El módulo conmuta automáticamente a este modo si no tiene suficiente memoria disponible, por lo que habitualmente no es necesario activarlo expresamente.</p> 
 
-<p align="justify">Se permite clasificar los píxeles aunque presenten valores NODATA en
-  algunas variables (bandas). Esto se gobierna con el parámetro
-  MaxBandesNODATA, que indica el número de variables con NODATA que se
-  tolerará antes de marcar el píxel como no clasificado. Este valor puede
-  oscilar entre 0 y n_bandas-1</p>
-
-  <ul>
-    <li>0: Sólo que una variable sea NODATA, el píxel se considera no clasificado.</li>
-
-    <li>n_bandas-1: Esta es la situación más tolerante, y un píxel se clasifica sólo que tenga una variable diferente a NODATA. Se puede escribir MAX en este parámetro y el programa calculará directamente
-    &quot;n_bandes-1&quot;.</li>
-  </ul>
-
-
-<p align="justify">A diferencia de otros clasificadores, en el que el número de muestras utilizadas para definir las clases no es relevante en la fase de asignación, el kNN es sensiblemente más lento cuantas más muestras existen.</p>  
-<p align="justify">Para interpretar los valores de distancia que utiliza este clasificador, recomendamos leer el apartado "Orientación sobre el significado de las distancias utilizadas en los procesos de clasificación" en la ayuda del módulo ClasSup.</p> 
+<p>Este módulo está paralelizado, tanto en las versiones de 32 como de 64 bits, con lo cual es posible que distribuya el trabajo entre los núcleos de procesador disponibles en el ordenador donde se ejecuta. Si, por ejemplo, se dispone de un ordenador con dos procesadores de 20 núcleos cada uno, se puede conseguir  dividir casi entre 40 el tiempo necesario para obtener los resultados, utilizando todos los núcleos disponibles, lo que se puede hacer con el parámetro correspondiente en un valor indicado por "MAX"; cuando se indica que el número de núcleos a emplear es MAX, el módulo utiliza todos los núcleos. Sin embargo, a veces se puede preferir no comprometer toda la capacidad de cálculo del ordenador e indicar SUB_MAX (dejará un procesador libre para otras cosas que se estén haciendo) o indicar un valor numérico concreto inferior, en todos los casos a través de la opción "Número de núcleos de procesador a utilizar". Pedir más núcleos que los realmente disponibles es posible, creando otros virtuales, pero esto no acelera el procesado, sino al contrario. El Administrador de tareas de Windows permite conocer de qué número total de núcleos dispone el ordenador, también puede saberse ejecutando el módulo en modo MAX, ya que indicará por pantalla cuántos núcleos está utilizando.</p> 
+<hr/>
  
- <exclusiva>
+<exclusiva>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <!-- $$EXCLUSIVA$$
 
-ara obtener la ayuda completa escriba:
-CLASKNN ?
+Para obtener la ayuda completa escriba:
+ClaskNN ?
 -->
   </exclusiva>
 

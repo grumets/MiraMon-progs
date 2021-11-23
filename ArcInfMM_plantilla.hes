@@ -18,16 +18,17 @@
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
   <p>En el sentido Export a MiraMon se soportan ficheros que contengan puntos,
   arcos y polígonos, y se crean las bases de datos vinculadas a estos
-  ficheros. Las capas Arc/Info que contengan arcos y polígonos deben estar
-  topológicamente estructuradas (CLEAN/BUILD); las capas de polígonos no
+  ficheros. Las coberturas Arc/Info que contengan arcos y polígonos deben estar
+  topológicamente estructuradas (CLEAN/BUILD); las coberturas de polígonos no
   pueden contener arcos con nodos finales ('endnodes'). Se generan
-  formatos de ficheros binarios nativos de MiraMon, que soportan (y conservan)
-  la topología. Durante la conversión se puede aplicar un factor de escala y
-  un desplazamiento del cual hay que tener en cuenta que el desplazamiento X e
+  formatos de ficheros binarios propios de MiraMon, que soportan (y conservan)
+  la topología. También es posible la conversión de una capa ráster de Arc/Info a MiraMon. 
+  Durante la conversión se puede aplicar un factor de escala y
+  un desplazamiento del cual se debe tener en cuenta que el desplazamiento X e
   Y se aplica después del escalado; estos factores son útiles para realizar
   conversiones de m a km, para suprimir los primeros dígitos de las
   coordenadas UTM, etc. Si no se quieren hacer conversiones geométricas, hay
-  que indicar Escalat=1, DesplaçX=0 y DesplaçY=0.</p>
+  que indicar Escalado=1, DesplazX=0 y DesplazY=0.</p>
 
   <p>En el sentido polígonos de MiraMon (POL) a Export sólo se exportan los
   arcos necesarios para el ciclado de los polígonos, no toda la base de arcos.
@@ -38,11 +39,11 @@
   hay más de un registro por identificador gráfico, se transforma sólo el
   último. Las bases de datos asociadas mediante vínculos relacionales no son
   traducidas, pero pueden ser revinculadas fácilmente a través de las
-  operaciones convenientes (join, etc).</p>
+  operaciones convenientes (<i>join</i>, etc).</p>
 
-  <p>Para exportar rásters de MiraMon a Arc/Info, utilizar, desde MiraMon, la
-  opción &quot;Fichero | Exportar | IMG -&gt; LAN/GIS (Erdas 7.4)&quot;, o
-  bien la aplicación <a href="ERDASIMG.HTM">ERDASIMG</a>.</p>
+  <p>Para exportar rásters de MiraMon a Arc/Info, se debe utilizar, desde MiraMon, la
+  opción "Fichero | Exportar | IMG -> LAN/GIS (Erdas 7.4)", o
+  bien la aplicación <a href="ErdasIMG.HTM">ErdasIMG</a>.</p>
 
   <p>En el sentido MiraMon a Export se puede especificar un parámetro
   adicional que indica si la exportación se quiere hacer en precisión doble.
@@ -56,15 +57,15 @@
   <h4>&gt;&gt; NOTAS sobre el formato Export (E00):</h4>
 
   <p>El formato Export es un formato de backup de Arc/Info. ArcInfMM no admite
-  el formato comprimido de Export: hay que especificar compresión NONE al
-  exportar capas de Arc/Info.</p>
+  el formato comprimido de Export: se debe especificar compresión NONE al
+  exportar coberturas de Arc/Info.</p>
 
   <dl>
     <dt>Para generar un fichero E00 desde Arc/Info de PC o de estación de
-    trabajo hay que hacer:</dt>
+    trabajo se debe hacer:</dt>
 
     <dd>EXPORT COVER NombreCapa NombreFicheroE00(sin extensión) N<br/>
-    (Hay que tener la clave de 'hardware' conectada al PC; la N indica
+    (Se debe tener la clave de 'hardware' conectada al PC; N indica
     compresión NONE)</dd>
 
     <dt>Para cargar una capa desde ArcView:</dt>
@@ -75,38 +76,38 @@
       ArcView para PC: <a href="http://gis.esri.com/download/download.cfm?file=import71.exe">Import71</a>.)
     </dd>
 
-    <dt>Para cargar una cobertura desde Arc/Info:</dt>
+    <dt>Para cargar una capa desde Arc/Info:</dt>
 
     <dd>IMPORT COVER NombreFicheroE00 NombreCapa</dd>
-  </dl>NOTA: Siempre que sea posible use import71 en lugar de import porque
+  </dl>NOTA: Siempre que sea posible se recomienda usar import71 en lugar de import porque
   genera coberturas con precisión doble. Import genera coberturas com
   precisión simple, lo que puede no ser suficiente en cartografía de ámbito
   municipal.<br/>
   En las nuevas versiones de ArcInfo o ArcView (v.8) el fichero Export se
-  llama &quot;Interchange file&quot;. Esta versión dispone de una aplicación
-  de caja de herramientas denominada ArcToolBox. Ha de seleccionarse una
+  llama "Interchange file". Esta versión dispone de una aplicación
+  de caja de herramientas denominada ArcToolBox. Se debe seleccionar una
   herramienta:<br/>
   Para usar un e00: Import to coverage|Import from interchange file<br/>
   Para generar un e00: Export from coverage|Coverage to interchange file
 
   <p>ArcInfMM sólo puede hacer la traducción de un fichero de exportación E00
-  pero no de una serie .E00 .E01 .E02 etc. Por tanto toda su capa Arc/Info
+  pero no de una serie .E00 .E01 .E02 etc. Por tanto toda la capa Arc/Info
   debe quedar contenida en un solo fichero E00; esto puede ser controlado con
   el parámetro MAXNRLINES del EXPORT de Arc/Info.</p>
 
   <p><!--====== Comentari sobre els arcs de més de 500 vèrtexs ========-->
    Aunque MiraMon puede trabajar con un número prácticamente ilimitado de
-  vértices por arco, ArcInfo no soporta arcos con 500 vértices o más (vea la
+  vértices por arco, ArcInfo no soporta arcos con 500 vértices o más (se puede consultar la
   documentación de ArcInfo, en la entrada \&quot;Coverage Data
   Limitations\&quot; para más detalles). Para que ArcInfo o ArcView puedan
   leer el fichero E00 resultante de una fichero de arcos con elementos de más
   de 500 vértices, la aplicación debe llevar a cabo un proceso lento de
   recorte de los arcos, y un eventual reciclado de los polígonos y
   reetiquetaje.<br/>
-  Tenga presente que ahora, el número de arcos y sus características
+  Se debe tener presente que ahora, el número de arcos y sus características
   geométricas pueden resultar diferentes. Por ejemplo, el borde de un polígono
-  o una carretera que en MiraMon suponía un solo objeto puede que en ArcInfo
-  quede fragmentada a causa de su limitación de 500 vértices. Asimismo, el
+  o una carretera que en MiraMon era un solo objeto puede que en ArcInfo
+  quede fragmentada a causa de su limitación de 500 vértices. No obstante, el
   proceso de exportación asignará a cada fragmento los atributos temáticos que
   tenía el arco original entero.<br/>
   Estos cambios no modifican el número de polígonos ni tampoco sus
@@ -120,7 +121,7 @@
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
    <!-- $$EXCLUSIVA$$
 
-Para obtener la ayuda completa escriba:<BR>
+Para obtener la ayuda completa escriba:
 ArcInfMM ? 
 --></p>
   </exclusiva>
@@ -131,9 +132,9 @@ ArcInfMM ?
 
   <center>
     Herramientas de importación/exportación de ficheros vectoriales:<br/>
-    <a href="dxfvec.htm"><img src="dxfvec.gif"/></a> <a href="vecdxf.htm"><img src="vecdxf.gif"/></a> 
-    <!-- <a href="arcinfmm.htm"><img src="arcinfmm.gif"></a>  -->
-     <a href="bdpnt.htm"><img src="bdpnt.gif"/></a> <a href="mmemf.htm"><img src="mmemf.gif"/></a>
+    <a href="DXFVec.htm"><img src="DXFVec.gif"/></a> <a href="VecDXF.htm"><img src="VecDXF.gif"/></a> 
+    <!-- <a href="ArcInfMM.htm"><img src="ArcInfMM.gif"></a>  -->
+    <a href="BDPNT.htm"><img src="BDPNT.gif"/></a> <a href="MMEMF.htm"><img src="MMEMF.gif"/></a>
   </center>
 </body>
 </html>

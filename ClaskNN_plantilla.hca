@@ -1,6 +1,6 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>CLASKNN: Classificació per nombre de veïns més propers</title>
+<title>ClaskNN: Classificació per nombre de veïns més propers</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
@@ -13,37 +13,23 @@
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
 
-<p align="justify">Per a cada píxel de la imatge a classificar, es calcula la distància euclidiana amb cada píxel de les àrees d'entrenament en l'espai estadístic de les bandes origen. S'escull els k píxels més propers de les àrees d'entrenament i la classe predominant d'aquest grup de píxels serà la classe que se li assignarà al píxel a classificar.
-Pel calcular la classe predominant, es permet dues opcions: la primera mitjançant la moda i la segona aplicant un pes en funció de l'invers de la distància. El fitxer d'entrada ha de ser un ràster en format IMG i el tipus de dades pot ser qualsevol dels suportats pel MiraMon (<a href="..%5Cmm32%5CAP1.htm">consulteu formats ràster suportats pel MiraMon</a>).</p>
+<p>Per a cada píxel de la imatge a classificar, es calcula la distància euclidiana (en l'espai estadístic de representació de les variables independents) a cada píxel de les àrees d'entrenament. Es trien els k píxels més propers d'entre els de les àrees d'entrenament i la classe predominant d'aquest grup de k píxels serà la classe que s‘assignarà al píxel a classificar. Per tal de calcular la classe predominant es permet dues opcions: la primera mitjançant la moda i la segona aplicant un pes en funció de l'invers de la distància (és a dir, que en el càlcul de la moda les mostres més properes en l'espai estadístic pesen més). Els fitxers d'entrada han de ser ràsters en format IMG i el tipus de dades pot ser qualsevol dels suportats pel MiraMon. Per a més informació es pot consultar el document <a href="..\mm32\AP1.htm">Descripció dels formats ràster del MiraMon</a>.</p>
 
-<p align="justify">Es permet classificar els píxels encara que presentin valors NODATA en
-  algunes variables (bandes). Això es governa amb el paràmetre
-  MaxBandesNODATA, que indica el nombre de variables amb NODATA que es
-  tolerarà abans de marcar el píxel com a no classificat. Aquest valor pot
-  oscil·lar entre 0 i n_bandes-1:</p>
+<p>A diferència d'altres classificadors, en què el nombre de mostres utilitzades per a definir les classes no és rellevant en la fase d'assignació, el kNN és sensiblement més lent com més mostres existeixen.</p> 
 
-  <ul>
-    <li>0: Només que una variable sigui NODATA, el píxel es considera no classificat.</li>
-
-    <li>n_bandes-1: Aquesta és la situació més tolerant, i un píxel es
-    classifica només que tingui una variable diferent a NODATA. Es pot
-    escriure MAX en aquest paràmetre i el programa calcularà directament
-    &quot;n_bandes-1&quot;.</li>
-  </ul>
+<p>Per defecte aquest mòdul carrega totes les imatges en memòria, el que li permet realitzar els processos de manera més àgil. Tanmateix, en ordinadors amb pocs recursos respecte de la grandària de les imatges aquesta estratègia pot no ser viable. És per això que l'opció "No carregar les imatges a classificar en memòria" permet indicar al programa que durant els processos es mantinguin en memòria només aquelles dades que necessita en cada moment, ni que això impliqui un alentiment de l'execució. El mòdul commuta automàticament a aquest mode si no té prou memòria disponible, fet pel qual habitualment no cal activar-lo expressament.</p> 
   
-<p align="justify">A diferència d'altres classificadors, en què el nombre de mostres utilitzades per a definir les classes no és rellevant en la fase d'assignació, el kNN és sensiblement més lent com més mostres existeixen.</p>
+<p>Aquest mòdul està paral·lelitzat, tant en les versions de 32 com de 64 bits, amb la qual cosa és possible que distribueixi la feina entre els nuclis de processador disponibles en l'ordinador on s'executa. Si, per exemple, es disposa d'un ordinador amb dos processadors de 20 nuclis cadascun, es pot aconseguir reduir gairebé 40 vegades el temps necessari per a obtenir els resultats, utilitzant tots els nuclis disponibles, cosa que es pot fer amb el paràmetre corresponent en un valor indicat per "MAX"; quan s'indica que el nombre de nuclis a emprar és MAX, el mòdul utilitza tots els nuclis. Tanmateix, de vegades es pot preferir no comprometre tota la capacitat de càlcul de l'ordinador i indicar SUB_MAX (deixarà un processador lliure per a altres processos que s'estiguin fent) o indicar un valor numèric concret inferior, en tots els casos a través de l'opció "Nombre de nuclis de processador a utilitzar". Demanar més nuclis dels realment disponibles és possible, creant-ne de virtuals, però això no accelera el processat, sinó al contrari. L'Administrador de tasques del Windows permet conèixer de quin nombre total de nuclis disposa l'ordinador; també pot saber-se executant el mòdul en mode MAX, ja que indicarà per pantalla quants nuclis està utilitzant.</p>
+<hr>
 
-<p align="justify">Per tal d'interpretar els valors de distància que utilitza aquest classificador, recomanem llegir l'apartat "Orientació sobre el significat de les distàncies emprades en els processos de classificació" en l'ajuda del mòdul ClasSup.</p>  
-
-
-  <exclusiva>
+<exclusiva>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <!-- $$EXCLUSIVA$$
 
 Per a obtenir l'ajuda completa escriviu:
-CLASKNN ?
+ClaskNN ?
 -->
   </exclusiva>
 </body>

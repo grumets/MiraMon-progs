@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:CLASKNN:1</ows:Identifier>
+		<ows:Identifier>MiraMon:ClaskNN:1</ows:Identifier>
 		<ows:Title>Clasificación por número de vecinos más cercanos</ows:Title>
-		<ows:Abstract>Este módulo permite hacer una clasificación de una imagen (monobanda o multibanda) mediante un número k de vecinos de las áreas de entrenamiento más similares en el espacio estadístico.</ows:Abstract>
-		<ows:Metadata xlink:title="Title:Clasificación por número de vecinos más cercanos."/>
-		<ows:Metadata xlink:title="Abstract:Este módulo permite hacer una clasificación de una imagen (monobanda o multibanda) mediante un número de píxeles de las áreas de entrenamiento más similares para cada píxel de la imagen de entrada."/>
+		<ows:Abstract>Este módulo efectúa una clasificación supervisada de una imagen (monobanda o multibanda) utilizando el método kNN. kNN es el acrónimo de k (que hace referencia a un número preestablecido de píxeles entre los píxeles usados para definir las clases deseadas en el mapa categórico que se desea obtener) y NN (nearest neighbors, vecinos más cercanos). El método asume que es plausible que los píxeles cercanos entre sí en el espacio estadístico pertenezcan a la misma clase informacional.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Clasificación por número de vecinos más cercanos"/>
+		<ows:Metadata xlink:title="Abstract:Este módulo efectúa una clasificación supervisada de una imagen (monobanda o multibanda) utilizando el método kNN. kNN es el acrónimo de k (que hace referencia a un número preestablecido de píxeles entre los píxeles usados para definir las clases deseadas en el mapa categórico que se desea obtener) y NN (nearest neighbors, vecinos más cercanos). El método asume que es plausible que los píxeles cercanos entre sí en el espacio estadístico pertenezcan a la misma clase informacional."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>TipusCalcul</ows:Identifier>
-				<ows:Title>Tipo cálculo</ows:Title>
-				<ows:Abstract><![CDATA[Método de cálculo de la clase predominante: <ul><li>1 Mediante la moda.</li></ul><ul><li>2 Mediante la moda y aplicando un peso respecto el inverso de la distancia.</li></ul>]]></ows:Abstract>
+				<ows:Title>Tipo de cálculo</ows:Title>
+				<ows:Abstract><![CDATA[Método de cálculo de la clase predominante: <ul><li>1 Mediante la moda.</li></ul><ul><li>2 Mediante la moda después de aplicar un peso respecto el inverso de la distancia.</li></ul>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:TipoCalculo"/>
 				<LiteralData>
@@ -23,7 +23,7 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>LlistaFitxersIMG</ows:Identifier>
-				<ows:Title>Lista ficheros</ows:Title>
+				<ows:Title>Lista de ficheros ráster de entrada</ows:Title>
 				<ows:Abstract>Lista de los ficheros ráster de entrada.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:ListaFicherosIMG"/>
@@ -70,7 +70,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>NumVeins</ows:Identifier>
 				<ows:Title>Número de vecinos</ows:Title>
-				<ows:Abstract>Parámetro del número de vecinos más próximos.</ows:Abstract>
+				<ows:Abstract>Parámetro del número de vecinos más próximos (k del algoritmo).</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:NumVecinos"/>
 				<LiteralData>
@@ -80,8 +80,8 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MaxDist</ows:Identifier>
-				<ows:Title>Distáncia máxima para ser candidato como uno de los k vecinos</ows:Title>
-				<ows:Abstract>Distáncia máxima por sobre la cual un píxel de una área de entrenamiento no puede ser candidato a convertirse en uno de los k vecinos.</ows:Abstract>
+				<ows:Title>Distancia máxima para ser candidato como uno de los k vecinos</ows:Title>
+				<ows:Abstract>Distancia máxima por sobre la cual un píxel de una área de entrenamiento no puede ser candidato a convertirse en uno de los k vecinos.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
@@ -89,7 +89,7 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>NVeinsMin</ows:Identifier>
-				<ows:Title>Número de vecinos mínimo</ows:Title>
+				<ows:Title>Número de vecinos mínimo para clasificar un píxel</ows:Title>
 				<ows:Abstract>Número de vecinos mínimo para clasificar un píxel.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
@@ -98,8 +98,8 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MaxBandesNODATA</ows:Identifier>
-				<ows:Title>Toleráncia de variables con NODATA</ows:Title>
-				<ows:Abstract>Numero máximo de variables con valor NODATA para classificar un píxel y no considerarlo NODATA. Si quieren usar el máximo permetido indiquen MAX. Si se indica el parámetro especial MAX, automáticamente clasifica con este parámetro inicializado al número de bandas menos 1. Por el contrario, si no se indica el parámetro, equivale a indicar a un 0 (o sea, que sólo que falte una sola dato en el conjunto multivariante, el píxel no se clasifica). </ows:Abstract>
+				<ows:Title>Tolerancia de variables con sindatos</ows:Title>
+				<ows:Abstract>Numero máximo de variables con valor sindatos para classificar un píxel y no considerarlo sindatos. Si se desea usar el máximo permitido indíquese MAX. Si se indica el parámetro especial MAX, automáticamente clasifica con este parámetro inicializado al número de bandas menos 1. Por el contrario, si no se indica el parámetro, equivale a indicar a un 0 (es decir, que sólo que falte una sola dato en el conjunto multivariante, el píxel no será clasificado).</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -107,8 +107,8 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>AEAmbNODATA</ows:Identifier>
-				<ows:Title>Acceptar áeras de entrenamiento con NODATA</ows:Title>
-				<ows:Abstract>Acceptar áeras de entrenamiento con NODATA en alguna de las variables.</ows:Abstract>
+				<ows:Title>Aceptar áreas de entrenamiento con sindatos</ows:Title>
+				<ows:Abstract>Aceptar áreas de entrenamiento con sindatos en alguna de las variables.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -120,7 +120,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PertMax</ows:Identifier>
 				<ows:Title>Pertenencia máxima</ows:Title>
-				<ows:Abstract>Pertenencia máxima para calcular el mapa de incertidumbre. Solo aplica si MapaFKM o MapaIncert. Quiza la suma de pertenencias del píxel (valor per defecto) o bien un valor definido por el usuario.</ows:Abstract>
+				<ows:Abstract>Pertenencia máxima para calcular el mapa de incertidumbre. Solo aplica si se solicita crear MapaFKM o MapaIncert. Puede ser la suma de pertenencias del píxel (valor per defecto) o bien un valor definido por el usuario.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
@@ -129,7 +129,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VariablesAE</ows:Identifier>
 				<ows:Title>Listado variables AE</ows:Title>
-				<ows:Abstract>Listado de variables donde se leerá los valores de las Areas d'entrenamiento para hacer la classificación. Si no se indica ninguno, se utilitzaran las variables de entrada (las del parámetro 'FicheroAE').</ows:Abstract>
+				<ows:Abstract>Listado de variables donde se leerán los valores de las áreas de entrenamiento para hacer la clasificación. Si no se indica ninguno, se utilizarán las variables de entrada (las del parámetro 'FicheroAE').</ows:Abstract>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -150,9 +150,9 @@
 				</ComplexData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>DISCO</ows:Identifier>
-				<ows:Title>Forzar a no cargar las imagenes a clasificar en memória</ows:Title>
-				<ows:Abstract>Útil para ordenadores con muy  poca memória en relación al tamaño del fichero a classificar. En general no hace falta aplicarlo debido a que si el programa se queda sin memória commuta automáticamente a este modo.</ows:Abstract>
+				<ows:Identifier>DISC</ows:Identifier>
+				<ows:Title>Forzar a no cargar las imágenes a clasificar en memoria</ows:Title>
+				<ows:Abstract>Útil para ordenadores con muy  poca memoria en relación al tamaño de los ficheros a ser utilizados en la clasificación. En general no hace falta aplicarlo dado que si el programa se queda sin memoria conmuta automáticamente a este modo.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -164,7 +164,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>N_Proces</ows:Identifier>
 				<ows:Title>Número de núcleos de procesador a utilizar</ows:Title>
-				<ows:Abstract>Se puede indicar un número concreto de procesador o "MAX" (para utilizar todos los procesadores) o "SUB_MAX" (por utilizar todos los procesadores menos uno).</ows:Abstract>
+				<ows:Abstract>Se puede indicar un número concreto de procesador o "MAX" (para utilizar todos los procesadores) o "SUB_MAX" (para utilizar todos los procesadores menos uno).</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -173,7 +173,7 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>2_CLASSES_RESULT</ows:Identifier>
-				<ows:Title>Generar raster clasificación en segunda instancia</ows:Title>
+				<ows:Title>Generar ráster clasificación en segunda instancia</ows:Title>
 				<ows:Abstract>Generar un segundo ráster con el resultado de la clasificación en segunda instancia.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
@@ -208,8 +208,8 @@
 			</Output>
 			<Output>
 				<ows:Identifier>MapaDistMin</ows:Identifier>
-				<ows:Title>Mapa de distáncia mínima</ows:Title>
-				<ows:Abstract>Mapa de distáncia mínima de las areas de entrenamiento con los cuales se ha tomado la decisión de clasificar el píxel en una clase concreta.</ows:Abstract>
+				<ows:Title>Mapa de distancia mínima</ows:Title>
+				<ows:Abstract>Mapa de distancia mínima a las áreas de entrenamiento con las cuales se ha tomado la decisión de clasificar el píxel en una clase concreta.</ows:Abstract>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -227,8 +227,8 @@
 			</Output>
 			<Output>
 				<ows:Identifier>MapaDistMax</ows:Identifier>
-				<ows:Title>Mapa de distáncia máxima</ows:Title>
-				<ows:Abstract>Mapa de distáncia máxima de las areas de entrenamento con los cuales se ha tomado la decisión de clasificar el píxel en una classe concreta.</ows:Abstract>
+				<ows:Title>Mapa de distancia máxima</ows:Title>
+				<ows:Abstract>Mapa de distancia máxima a las áreas de entrenamiento con las cuales se ha tomado la decisión de clasificar el píxel en una clase concreta.</ows:Abstract>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -246,8 +246,8 @@
 			</Output>
 			<Output>
 				<ows:Identifier>MapaMedianDist</ows:Identifier>
-				<ows:Title>Mapa de la mediana de las distáncias</ows:Title>
-				<ows:Abstract>Mapa de la mediana de las distàncias de las areas de entrenamiento con las cuales se ha tomado la desición de clasificar el píxel en una clase concreta.</ows:Abstract>
+				<ows:Title>Mapa de la mediana de las distancias</ows:Title>
+				<ows:Abstract>Mapa de la mediana de las distancias a las áreas de entrenamiento con las cuales se ha tomado la decisión de clasificar el píxel en una clase concreta.</ows:Abstract>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -265,8 +265,8 @@
 			</Output>
 			<Output>
 				<ows:Identifier>MapaNPixAE</ows:Identifier>
-				<ows:Title>Mapa del nombre de vecinos de las areas d'entrenamiento</ows:Title>
-				<ows:Abstract>Mapa del nombre de vecinos de las areas de entrenamiento utilizadas.</ows:Abstract>
+				<ows:Title>Mapa del número de vecinos de las áreas de entrenamiento</ows:Title>
+				<ows:Abstract>Mapa del número de vecinos de las áreas de entrenamiento utilizados.</ows:Abstract>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -304,7 +304,7 @@
 			<Output>
 				<ows:Identifier>MapaFKM</ows:Identifier>
 				<ows:Title>Mapa fussy k-means</ows:Title>
-				<ows:Abstract>Mapa fussy k-means (parecido al mapa de incertidumbre).</ows:Abstract>
+				<ows:Abstract><![CDATA[Mapa <i>fussy k-means</i> (parecido al mapa de incertidumbre).]]></ows:Abstract>
 				<ComplexOutput>
 					<Default>
 						<Format>
