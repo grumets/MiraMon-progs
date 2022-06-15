@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ICT:1</ows:Identifier>
+		<ows:Title>Cálculo del Índice de Conectividad Terrestre</ows:Title>
+		<ows:Abstract>Cálculo del Índice de Conectividad Terrestre.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Cálculo del Índice de Conectividad Terrestre"/>
+		<ows:Metadata xlink:title="Abstract:Genera un BAT/PS1 para el cálculo del Índice de Conectividad Terrestre"/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxBAT</ows:Identifier>
+				<ows:Title>Fichero BAT que permite crear el ráster de ITC</ows:Title>
+				<ows:Abstract>Fichero BAT que permite crear el ráster de ITC</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:FichBAT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-bat</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-bat</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Dist</ows:Identifier>
+				<ows:Title>Distancia de separación entre muestras</ows:Title>
+				<ows:Abstract>Distancia de separación entre las muestras o puntos de referencia utilizados para el cálculo del ICT; esta distancia se expresa en las unidades del Sistema de Referencia Horizontal de los ficheros originales (de impedancias, etc).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Distancia"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Radi</ows:Identifier>
+				<ows:Title>Radio de la zona explorada en torno a cada muestra</ows:Title>
+				<ows:Abstract>Radio de la zona explorada en torno a cada muestra; este valor se expresa en las mismas unidades que Dist_entre_muestras.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Radio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxImped</ows:Identifier>
+				<ows:Title>Fichero de impedancias</ows:Title>
+				<ows:Abstract>Nombre del fichero de impedancias.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FichImped"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxAfin</ows:Identifier>
+				<ows:Title>Fichero de afinidades</ows:Title>
+				<ows:Abstract>Nombre del fichero de afinidades.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:FichAfin"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FilaIni</ows:Identifier>
+				<ows:Title>Fila inicial</ows:Title>
+				<ows:Abstract>Fila inicial (incluida) de los rásters de conectividad e impedancias en los que queremos que se prepare el cálculo del ICT, numeradas desde 0 (fila superior). Si desea que se haga en todo el ráster indique -1 y -1. Hacer que el programa genere el BAT para que el cálculo se haga sólo en una faja (la definida entre la fila inicial y final) del ráster es práctico cuando se quiere paralelizar el proceso para acelerarlo, poniendo en marcha el BAT de cada faja en una sesión de pedidos diferente y/o en un ordenador distinto. Al final, será necesario simplemente unir todas las fajas con la herramienta Mosaico.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:FilaIni"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>-1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FilaFin</ows:Identifier>
+				<ows:Title>Fila final</ows:Title>
+				<ows:Abstract>Fila final (incluida) de los rásters de conectividad e impedancias en los que queremos que se prepare el cálculo del ICT, numeradas desde 0 (fila superior). Si desea que se haga en todo el ráster indique -1 y -1. Hacer que el programa genere el BAT para que el cálculo se haga sólo en una faja (la definida entre la fila inicial y final) del ráster es práctico cuando se quiere paralelizar el proceso para acelerarlo, poniendo en marcha el BAT de cada faja en una sesión de pedidos diferente y/o en un ordenador distinto. Al final, será necesario simplemente unir todas las fajas con la herramienta Mosaico.</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:FilaFin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>-1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>NFaixa</ows:Identifier>
+				<ows:Title>Numerador de faja</ows:Title>
+				<ows:Abstract>Numerador de faja que será añadido al nombre del fichero del BAT generado y al nombre del fichero de salida resultante de la ejecución del BAT (sugerimos que vaya añadiendo 1, 2, etc a cada ejecución). Este parámetro no se utiliza cuando FilaIni y FilaFin son -1 y, por tanto, puede poner cualquier valor, sugerimos 0, que implica que el fichero final no tendrá el numerador "_0" pegado a su nombre.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:NFaja"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxICT</ows:Identifier>
+				<ows:Title>Fichero resultado del Índice de Conectividad Terrestre</ows:Title>
+				<ows:Abstract>Nombre que se desea para el fichero ráster que resulte de la ejecución del archivo F_BAT. El nombre de este fichero no debe llevar indicado el valor de NFaixa ya que el programa se encarga de ponerlo automáticamente.</ows:Abstract>
+				<ows:Metadata xlink:title="Param9"/>
+				<ows:Metadata xlink:title="Name:FichICT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>UNITS_M2</ows:Identifier>
+				<ows:Title>UnidadesM2</ows:Title>
+				<ows:Abstract>Indica que los resultados deben proporcionarse en log(m²) en vez de en log(ha).</ows:Abstract>
+				<ows:Metadata xlink:title="Name:UNITS_M2"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CREA_AUX</ows:Identifier>
+				<ows:Title>Crear ficheros auxiliares</ows:Title>
+				<ows:Abstract>Indica que se generarán dos ficheros adicionales, uno con puntos centrados en cada muestra y uno de polígonos delimitando la zona analizada en cada muestra, con el mismo nombre que F_ICT pero añadiendo los sufijos "_Mostres" y "_Zones", respectivamente.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:CREA_AUX"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>
