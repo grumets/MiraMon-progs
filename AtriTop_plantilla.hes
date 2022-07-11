@@ -22,10 +22,10 @@ los atributos del polígono en el cual se encuentran. </p>
 
   <p>AtriTop permite efectuar operaciones muy sofisticadas de transferencia de
   atributos, aunque algunas de ellas nunca serán necesarias. Probablemente
-  algunos ejemplos o consideraciones que realicemos en esta ayuda les resulten
-  complicados o innecesarios para su aplicación concreta, por lo cual les
+  algunos ejemplos o consideraciones que realicemos en esta ayuda resulten
+  complicados o innecesarios para su aplicación concreta, por lo cual
   hacemos notar que la comprensión de todos los ejemplos no es imprescindible
-  para la correcta utilización del programa. Sólo aquellos usuarios con
+  para la correcta utilización del programa. Solo aquellos usuarios con
   necesidades avanzadas (por ejemplo reetiquetar polígonos que presentan
   registros múltiples a partir de puntos que también presentan registros
   múltiples y con tablas de atributos de estructura no idéntica) deberían
@@ -34,37 +34,37 @@ los atributos del polígono en el cual se encuentran. </p>
   
   <p>
   En el caso de la transferencia de atributos de un fichero de puntos a otro, 
-  se permite dos opciones. La primera opción es que cada emisor transfiere atributos 
+  se permite dos opciones. La primera opción es que cada donador (o emisor) transfiere atributos 
   al receptor más cercano y la segunda opción es que cada receptor reciba atributos 
-  del emisor más cercano. En este último caso, es necesario asignar un número de 
-  emisores más cercanos a considerar. Si el número es 1, se transfiere directamente 
-  el atributo del emisor más cercano al receptor mientras que si el número es mayor de 1, se hace 
+  del donador más cercano. En este último caso, es necesario asignar un número de 
+  donadores más cercanos a considerar. Si el número es 1, se transfiere directamente 
+  el atributo del donador más cercano al receptor mientras que si el número es mayor de 1, se hace 
   un promedio (en el caso de un campo numérico) o una moda (en el resto de tipos de campo) 
-  de los atributos de los emisores a considerar.
-  Si se encuentra un emisor multiregistro, se hace previamente un promedio/moda de los
-  atributos para cada objeto emisor que pasará a ser un objeto emisor con un solo registro 
+  de los atributos de los donadores a considerar.
+  Si se encuentra un donador multiregistro, se hace previamente un promedio/moda de los
+  atributos para cada objeto donador que pasará a ser un objeto donador con un solo registro 
   y sus valores de promedio/moda de su único nuevo registro recalculado serán los que entrarán 
-  en el cálculo de promedio/moda con los otros emisores más cercanos a consideradas.  
+  en el cálculo de promedio/moda con los otros donadores más cercanos a considerar.  
   </p>
 
-  <p>Note que AtriTop NO efectúa cambios en la geometría o topología de los
+  <p>Se debe tener presente que AtriTop NO efectúa cambios en la geometría o topología de los
   ficheros; simplemente transfiere atributos en base a su posición
   geométrico-topológica. Por tanto, en los casos de transferencia de atributos
   entre polígonos, o entre arcos y polígonos, se deben haber cortado
   previamente los arcos y/o bordes de polígono con la opción 2 del programa
-  LINARC. Si tomamos el ejemplo de arcos y polígonos esto se traduce en el
-  hecho de que hace falta que todos los arcos estén enteramente dentro de un
+  <a href="LinArc.htm">LinArc</a>. Si tomamos el ejemplo de arcos y polígonos esto se traduce en el
+  hecho de que es necesario que todos los arcos estén enteramente dentro de un
   solo polígono.</p>
 
   <p>Cuando se intenta etiquetar una base de arcos con su propia base de
-  polígonos. el comportamiento del programa cambia, y en este este caso, se
+  polígonos, el comportamiento del programa cambia, y en este este caso, se
   crea una nueva tabla que relaciona cada arco con el polígono izquierdo y
-  derecho y se establece un vinculo dinámico entre las tres tablas de
-  datos.<br/>
-  Del mismo modo, cuando se intenta etiquetar una una base de polígonos con su
+  derecho y se establece un vínculo dinámico entre las tres tablas de
+  datos.
+  Del mismo modo, cuando se intenta etiquetar una base de polígonos con su
   propia base de arcos, se crea una tabla que relaciona cada polígono con los
   arcos que forman el borde como registro múltiple. Esta tabla también informa
-  si el arco forma parte del borde exterior, debe girarse para construir el
+  si el arco forma parte del borde exterior, si debe girarse para construir el
   polígono y su índice de anillo. En estos dos últimos casos el parámetro
   NomResul1 es el nombre de esta nueva tabla, en lugar del nombre de la capa
   de salida. Esta información solo está contenida en el fichero binario de
@@ -77,27 +77,27 @@ los atributos del polígono en el cual se encuentran. </p>
   para añadir sus atributos al nodo. Se creará un nuevo campo en la base de
   datos con la distancia entre el punto donante y el nodo receptor. Dentro de
   este modo de transferencia de atributos entre ficheros de puntos y nodos se
-  puede solicitar que, para aquellos puntos que no tengan algún nodo
+  puede solicitar que, para aquellos puntos que no tengan ningún nodo
   suficientemente cerca, se intente generar un nuevo nodo, dentro de la misma
-  distancia máxima, siguiendo el trazado de uno de los arcos que ya existan
+  distancia máxima, siguiendo el trazado de uno de los arcos que ya existen
   en la base receptora. Se intentará cortar el arco por alguno de sus
   vértices, y si esto no da resultado, se cortará el arco por el lugar más
   cercano al punto donante. Estos nuevos nodos serán ignorados por el resto de
   puntos del fichero donante. Tanto en el informe del proceso como en la base
-  de datos resultante, se marcarán los nuevos nodos con &quot;V&quot; si el
-  nuevo nodo origina de un vértice, o &quot;T&quot; si es resultado de la
+  de datos resultante, se marcarán los nuevos nodos con "V" si el
+  nuevo nodo se origina de un vértice, o "T" si es resultado de la
   división de un arco.</p>
 
-  <p>En la explicación siguiente hablamos de fichero dador, como fichero
+  <p>En la explicación siguiente se habla de fichero donador como fichero
   etiquetador, de fichero receptor como fichero etiquetado y de fichero
   resultado como fichero resultado del proceso de etiquetado. El fichero
   resultado tiene los mismos elementos gráficos que el fichero receptor
   (idéntico gráficamente) pero tiene una base de datos alfanumérica que es una
-  mezcla de la contribución de la base dadora y de la base receptora.</p>
+  mezcla de la contribución de la base donadora y de la base receptora.</p>
 
   <p>El usuario puede escoger el contenido de la base resultado indicando el
   NOMBRE de los campos que formarán la base resultado y el NOMBRE del campo de
-  la base dador y/o receptora al cual corresponden. A partir de ahora nos
+  la base donadora y/o receptora al cual corresponden. A partir de ahora nos
   referimos a los campos enlazados por esta correspondencia como campos
   ligados y al fichero que los describe como fichero de correspondencias entre
   campos.<br/>
@@ -107,7 +107,7 @@ los atributos del polígono en el cual se encuentran. </p>
   la base receptora y la base resultado. En caso de no especificar este
   fichero, el programa generará la base resultado a partir de TODOS los campos
   de la base receptora y de TODOS los campos 'temáticos' de la base
-  dadora. Los nombres de campos iguales entre la base receptora y dadora se
+  donadora. Los nombres de campos iguales entre la base receptora y donadora se
   consideran enlazables. El ancho del campo resultado será el máximo de los
   dos y si uno de ellos es de tipo carácter, el resultado será de tipo
   carácter. En caso de enlace entre dos campos numéricos, el número de
@@ -122,16 +122,16 @@ Camp2=NOM_RES2,NOM_REC7,NOM_DON4
 Camp3=NOM_RES2,NOM_REC3
 Camp4=NOM_RES3,,NOM_DON2
 </pre>La correspondencia entre el campo identificador gráfico de la base
-resultado y la base receptora está implícita y no hace falta indicarla(sería
+resultado y la base receptora está implícita y no es necesario indicarla (sería
 una correspondencia como Camp0=ID_GRAFIC,ID_GRAFIC).
 
-  <p>Esta elección sólo podrá hacerse sobre los campos de la base principal
-  pero se conservarán los ficheros asociados de los campos de la base dadora y
-  receptora, teniendo prioridad la base dadora en caso de contradicción.</p>
+  <p>Esta elección solo podrá hacerse sobre los campos de la base principal
+  pero se conservarán los ficheros asociados de los campos de la base donadora y
+  receptora, teniendo prioridad la base donadora en caso de contradicción.</p>
 
-  <p>Note que este procedimiento permite tanto la inclusión de nuevas
+  <p>Nótese que este procedimiento permite tanto la inclusión de nuevas
   etiquetas sobre un fichero que ya ha sido previamente etiquetado, como el
-  reetiquetado desde cero de un campo: Sólo hay que mencionarlo o no en el
+  reetiquetado desde cero de un campo: Solo hay que mencionarlo o no en el
   fichero de correspondencias entre campos:</p>
 
   <p>Si quieren incluirse nuevas etiquetas sobre el campo A hay que hacer:</p>
@@ -151,13 +151,13 @@ Camp1=A,,A
     <li>Se parte de un elemento gráfico de la base receptora, que puede
     presentar registro múltiple (relaciones 1 a n entre objetos gráficos y
     tabla alfanumérica). Este elemento gráfico corresponde a un elemento
-    gráfico de la base dadora, que también puede presentar registro múltiple.
+    gráfico de la base donadora, que también puede presentar registro múltiple.
     En todo el proceso se consideran solamente los campos que deben aparecer
     en la base resultado según se ha especificado en el fichero de
     correspondencias (todos si no se ha especificado este fichero).</li>
 
     <li>Para cada registro de la base receptora se recorren los registros de
-    la base dadora buscando los campos ligados, que puedan tener el mismo
+    la base donadora buscando los campos ligados, que puedan tener el mismo
     valor.
 
       <ul>
@@ -168,12 +168,12 @@ Camp1=A,,A
 
           <ul>
             <li>Si existen registros receptores que NO tengan información
-            sobre ninguno de los campos de la base dadora, se generan todas
+            sobre ninguno de los campos de la base donadora, se generan todas
             las combinaciones diferentes entre estos registros y los registros
-            de la base dadora. (caso 2)</li>
+            de la base donadora. (caso 2)</li>
 
             <li>Si no existen los registros del caso 2, se genera un registro
-            resultado sólo con los campos de la base dadora. (caso 3)</li>
+            resultado solo con los campos de la base donadora. (caso 3)</li>
           </ul>
         </li>
       </ul>
@@ -181,53 +181,57 @@ Camp1=A,,A
 
     <li>Los registros de la base receptora que no se han incluidos ni en el
     caso 1 ni en el caso 2, generarán nuevos registros de la base resultado
-    con los campos de la base dadora vacíos.</li>
+    con los campos de la base donadora vacíos.</li>
   </ul>En caso que en el resultado existan registros idénticos, se eliminan
   las repeticiones de registros. Estas repeticiones pueden ser fruto tanto de
   repeticiones en las bases originales como de combinaciones de campos de las
   dos bases que convergen en un mismo resultado.
 
-  <p>A continuación mostramos algunos ejemplos del funcionamiento de este
-  algoritmo: En todos ellos suponemos que existe una correspondencia entre el
+  <p>A continuación se muestran algunos ejemplos del funcionamiento de este
+  algoritmo: En todos ellos se supone que existe una correspondencia entre el
   objeto gráfico 1 de la base receptora y el objeto gráfico 2 de la base
-  dadora. Tan sólo mostramos los registros de estos dos objetos. Todos los
-  campos de la base receptora y dadora han sido incluidos a excepción del
-  identificador gráfico de la base dadora. Todos los nombres de campo iguales
+  donadora. Tan solo se muestran los registros de estos dos objetos. Todos los
+  campos de la base receptora y donadora han sido incluidos a excepción del
+  identificador gráfico de la base donadora. Todos los nombres de campo iguales
   están ligados.</p>
 
   <p>Ejemplo 1:</p>
   <pre>
-Receptor                 Dador                  Resultado
+Receptor                 Donador                  Resultado
 ID_G  A  B  C  D         ID_G  A  B  E  F        ID_G  A  B  C  D  E  F
  1    a  b  c  d          2    a2 b2 e  f         1    a  b  c  d      
  1    a  b1 c  d1         2    a  b1 e1 f1        1    a  b1 c  d1 e1 f1
                                                   1    a2 b2       e  f
-</pre>Ejemplo 2
+</pre>
+  <p>Ejemplo 2:</p>
   <pre>
-Receptor                 Dador                   Resultado
+Receptor                 Donador                   Resultado
 ID_G  A                  ID_G  A  B              ID_G  A  B
  1    a                   2    a  b               1    a  b
  1    a1                  2    a  b1              1    a  b1
                                                   1    a1
-</pre>Ejemplo 3
+</pre>
+  <p>Ejemplo 3:</p>
   <pre>
-Receptor                 Dador                   Resultado
+Receptor                 Donador                   Resultado
 ID_G  A  B               ID_G  A  D              ID_G  A  B  D
  1    a  b1               2    a  d               1    a  b1 d
  1    a  b                2    a  d1              1    a  b  d
                                                   1    a  b1 d1
                                                   1    a  b  d1
-</pre>Ejemplo 4
+</pre>
+  <p>Ejemplo 4:</p>
   <pre>
-Receptor                 Dador                   Resultado
+Receptor                 Donador                   Resultado
 ID_G  A  B               ID_G  E  F              ID_G  A  B  E  F
  1    a  b                2    e  f               1    a  b  e  f
  1    a1 b1               2    e1 f1              1    a  b  e1 f1
                                                   1    a1 b1 e  f
                                                   1    a1 b1 e1 f1
-</pre>Ejemplo 5
+</pre>
+  <p>Ejemplo 5:</p>
   <pre>
-Receptor                 Dador                   Resultado
+Receptor                 Donador                   Resultado
 ID_G  A  B  E            ID_G  E  F              ID_G  A  B  E  F
  1    a  b                2    e  f               1    a  b  e  f
  1    a1 b1 e1            2    e1 f1              1    a  b  e1 f1
@@ -237,14 +241,14 @@ ID_G  A  B  E            ID_G  E  F              ID_G  A  B  E  F
   <hr/>
 
   <exclusiva>
-   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+   <!-- Aquí inicia la part corresponent a la sintaxi de MiraMon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->   
 
    <!-- $$EXCLUSIVA$$
 
 Para obtener la ayuda completa escriba:
-ATRITOP ?
+AtriTop ?
 -->
   </exclusiva>
   <hr/>

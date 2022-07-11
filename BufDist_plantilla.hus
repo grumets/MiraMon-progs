@@ -1,6 +1,6 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>BufDist: Generate buffers and distance maps</title>
+  <title>BufDist: Buffers and distance maps generation</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -8,34 +8,32 @@
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 	The program allows both generate continuous distances maps (raster result)
-such as raster areas or vector (<i>buffers</i>) at a distance of target entities.
+such as raster areas or vector (buffers) at a distance of target entities.
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
   <p>The target entities can be raster or vector. If they are raster then any
-  cell with a value other than NODATA is taken as a target cell. For the
+  cell with a value different from NoData is taken as a target cell. For the
   vector case, any entity (point, line or polygon) is taken as a target
-  entity, (in raster treatment in buffer of vector files it is also possible
+  entity (in raster treatment in buffer of vector files it is also possible
   to choose only those vector entities with a certain attribute). For rasters,
   in order to use only certain elements as the target entities it is necessary
   to first either carry out an attribute query from MiraMon and to save the
-  result in a new file or use <a href="CalcIMG.htm">CalcIMG</a>. Similarly if
+  result in a new file or to use <a href="CalcImg.htm">CalcImg</a>. Similarly if
   a lot of processing is required with many files then the target entity
-  selection process can be performed automatically either from CalcIMG or from
+  selection process can be performed automatically either from CalcImg or from
   <a href="VecSelec.htm">VecSelec</a>.</p>
 
-  <p>The program allows the creation of both continuous distance maps (raster
-  result) and raster and vector (<i>buffers</i>) at a specified distance from
-  the target entities. The result of a <i>buffers</i> can be either in raster
-  or vector format; When the result is a vector file, it is possible to us a
+  <p>The result of a <i>buffer</i> can be either in raster
+  or vector format; When the result is a vector file, it is possible to perform a
   full vector treatment or a raster treatment where the result is the
   vectorization of rasters, therefore, the parameters that define the
-  temporary raster extents are needed. Whenever a <i>buffer</i> is requested
+  temporary raster extent are needed. Whenever a <i>buffer</i> is requested
   and the input file is a raster, the program starts by generating a distance
   map and then selects the areas within the specified distances.</p>
 
   <p>In the rasters model, distances are calculated by the <b>SHORTEST
-  ROUTE</b> from the centre of each target cell. When necessary this requires
+  ROUTE</b> from the center of each cell to the center of the nearest target cell. When necessary this requires
   calculations of geodesic curvature.</p>
 
   <p>The distances are expressed in the units of the reference system (see
@@ -53,19 +51,19 @@ such as raster areas or vector (<i>buffers</i>) at a distance of target entities
   <p>If a continuous distance map is requested:</p>
 
   <ul>
-    <li>The output file is raster (IMG) and &quot;real&quot;.</li>
+    <li>The output file is raster (IMG) and "real".</li>
 
-    <li>The title of the output file is converted into &quot;Distances derived
-    from FILE &quot; (where FILE is the name of the file containing the target
-    entities)</li>
-  </ul>If a &quot;buffer&quot; map is requested:
+    <li>The title of the output file is converted into "Distances derived
+    from FILE " (where FILE is the name of the file containing the target
+    entities).</li>
+  </ul>If a "buffer" map is requested:
 
   <ul>
-    <li>The output file is either raster &quot;byte-RLE&quot; or vector of
+    <li>The output file is either raster "byte-RLE" or vector of
     topologically-structured polygons.</li>
 
-    <li>The title of the output file is converted into &quot;Areas at a
-    distance between [N,M] UNITS from the entities FILE &quot; (where N and M
+    <li>The title of the output file is converted into "Areas at a
+    distance between [N,M] UNITS from the entities FILE" (where N and M
     are the minimum and maximum distances considered, respectively, UNITS are
     the units of the reference system and FILE is the name of the file
     containing the target entities). N and M define a closed interval.</li>
@@ -73,19 +71,19 @@ such as raster areas or vector (<i>buffers</i>) at a distance of target entities
     <li>The legend of the output layer contains the following values:
 
       <ul>
-        <li>1: &quot;Original target entities &quot;</li>
+        <li>1: "Original target entities"</li>
 
-        <li>2: &quot;Areas at distances [M,N] UNITS&quot;</li>
+        <li>2: "Areas at distances [M,N] UNITS"</li>
 
-        <li>3: &quot;Excluded areas &quot;</li>
+        <li>3: "Excluded areas"</li>
       </ul>or, when M=0:
 
       <ul>
-        <li>1: &quot;Original target entities &quot;</li>
+        <li>1: "Original target entities"</li>
 
-        <li>2: &quot;Areas at distances &lt;= N UNITS&quot;</li>
+        <li>2: "Areas at distances &lt;= N UNITS"</li>
 
-        <li>3: &quot;Areas at distances &gt; N UNITS&quot;</li>
+        <li>3: "Areas at distances &gt; N UNITS"</li>
       </ul>
     </li>
 
@@ -108,12 +106,12 @@ such as raster areas or vector (<i>buffers</i>) at a distance of target entities
   normally results in straightforward decisions about the distances in the
   calculation.
 
-  <p>However in some map projections with a marked asymmetry in the projected
-  distances - Mercator, Equirectangular &quot;lat/long&quot;, etc-, the
+  <p>However, in some map projections with a marked asymmetry in the projected
+  distances -Mercator, Equirectangular "lat/long", etc-, the
   calculations could have significant errors if the distances are calculated
   as Cartesian (rectangular), due to the characteristics of the projection
   itself. For this reason BufDist makes appropriate corrections when it
-  detects &quot;Mercator&quot;, &quot;Equirectangular&quot;
+  detects "Mercator", "Equirectangular"
   (latitude/longitude in degrees), etc so that the results are more
   realistic.</p>
 
@@ -126,24 +124,21 @@ such as raster areas or vector (<i>buffers</i>) at a distance of target entities
   numerical example).<br/></p>
 
   <ul>
-    <li>Estruch, M. (1996) &quot;Cartografía minera&quot; Ediciones UPC.
+    <li>Estruch, M. (1996) "Cartografía minera" Ediciones UPC.
     Barcelona. 238 p. ISBN: 84-89636-0208<br/></li>
-  </ul>Bear in mind however that the calculation of distances is MUCH SLOWER
+  </ul>Bear in mind, however, that the calculation of distances is MUCH SLOWER
   when /DIST_GEOD=1 is selected.
 
-  <p>As already stated, for projections of the type &quot;Mercator&quot; and
-  &quot;Equirectangular&quot; the distances are always calculated as though
+  <p>As already stated, for projections of the type "Mercator" and
+  "Equirectangular" the distances are always calculated as though
   /DIST_GEOD=1 were chosen, since otherwise the results would be unrealistic.
   If however the user wishes to force the program to use Cartesian and not
   geodesic distances then select /DIST_GEOD=0.</p>
 
   <p>Unless explicitly indicated, BufDist does not consider circularities in
-  the calculations (ie. when maps represent the whole Earth it does not take
-  account of the fact that the extreme left and right (west and east) are
+  the calculations (ie. when maps represent the whole Earth it does not consider that the extreme left and right (west and east) are
   close together, and it calculates on a flat map). If distances are to be
-  calculated over the whole globe then use the /MAPAMUNDI parameter to tell
-  BufDist that it should consider circularities. Before using /MAPAMUNDI, bear
-  in mind that:</p>
+  calculated over the whole globe then it must be used the /MAPAMUNDI parameter in order to consider circularities when using BufDist. Before using /MAPAMUNDI, it must be considered:</p>
 
   <ul>
     <li>The program will run MUCH SLOWER, so it may be worth obtaining a quick
@@ -156,15 +151,17 @@ such as raster areas or vector (<i>buffers</i>) at a distance of target entities
 
   <p>In summary, and to highlight the main points, remember that BufDist
   calculates Cartesian coordinates over the reference system and it carries
-  out rigorous geodesic calculations for the cases on &quot;Mercator&quot; or
-  &quot;Equirectangular&quot; projections (in these special cases a message is
+  out rigorous geodesic calculations for the cases on "Mercator" or
+  "Equirectangular" projections (in these special cases a message is
   shown on the screen indicating that the appropriate corrections are being
   performed). It also carries out rigorous geodesic calculations when this is
   explicitly requested using /DIST_GEOD=1.</p>
 
   <p>If using a projection that is neither UTM nor Mercator nor
-  Equirectangular, check that the projection allows Cartesian distances to be
-  calculated without significant errors, or consult suport@miramon.uab.cat</p>
+  Equirectangular, check that the projection allows cartesian distances to be
+  calculated without significant errors. If necessary,  consult <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>.</p>
+  <p>More information can be consulted at the following reference:</p>
+<p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las herramientas SIG de análisis de distancias y superfícies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
 
   <hr/>
   <exclusiva>
@@ -173,12 +170,12 @@ such as raster areas or vector (<i>buffers</i>) at a distance of target entities
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 	<!-- $$EXCLUSIVA$$
 
-To obtain full help type:
-BUFDIST ?
+To obtain the complete help, please type:
+BufDist ?
 -->
   </exclusiva>
     <h4>How to know what type of algorithm use in advanced options? (optional modifier /ALGORITME=)</h4>
-Go to general syntax for more information.
+Go to <a href=general.htm>general syntax</a> for more information.
   <hr/>
 </body>
 </html>

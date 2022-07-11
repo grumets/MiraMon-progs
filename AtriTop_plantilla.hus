@@ -25,26 +25,24 @@
 
   <p>AtriTop allows to perform very sophisticated operations for attribute
   transfer. Some of them may even never be needed. Some of the examples and
-  considerations made in this help will probably be difficult to understand.
-  However the understanding of all of them is not necessary for a correct use
-  of this application. Only users with advanced requirements should try to
-  fully understand the working logic of this application. An example of an
-  advanced requirement could be the relabelling of polygons which present
+  considerations made in this help will probably be difficult to understand or unnecessary for your specific application, so the understanding of all of them is not necessary for a correct use
+  of this application. Only users with advanced requirements (for example relabelling of polygons which present
   multiple registries with a point layer which also presents multiple
-  registries and the tables of which do not have the same structure.</p>
+  registries and the tables of which do not have the same structure) should try to
+  fully understand the working logic of this application.</p>
 
   <p>In the case of transferring attributes from one point file to another, 
   two options are allowed. The first option is that each donor transfers attributes 
-  to the closest receptor and the second option is that each recipient receives 
+  to the closest receptor and the second option is that each receptor receives 
   attributes from the nearest donor. In the last case, it is necessary to assign 
   a number of the nearest donors to consider. If the number is 1, the attribute of 
   the nearest donor is directly transferred to the receptor whereas if the number is 
   greater than 1, it applies a mean (in the case of a numeric field) or a mode (in the rest 
   of field types) of the attributes of donors to consider.
-  If a multiregist donor is found, a main/mode of the attributes for each donor 
+  If a multiple register donor is found, a main/mode of the attributes for each donor 
   object is previously made which will become a donor object with only one newly record and 
   its mean/mode values from its recalculated record will be those that 
-  will enter into the mean/mode calculation with the other donors nearest to considered.
+  will enter into the mean/mode calculation with the other nearest donors to considered.
   </p>
 
   <p>Please note that AtriTop does not perform changes in the geometry or
@@ -52,40 +50,36 @@
   geometrico-topological position of the geographical elements. Therefore,
   when transferring attributes between polygons and arcs, in either direction,
   arcs and/or polygon limits have to be previously cut with option 2 of the
-  program LINARC. If we take into consideration the example of arcs and
+  program <a href="LinArc.htm">LinArc</a>. If we take into consideration the example of arcs and
   polygons it means that all arcs need to be entirely within the polygon.</p>
 
-  <p>When you are trying to label an arc dataset with its own polygon dataset
-  the program behaviour changes and It will create a table relating every arc
-  with its left and right polygon. It will create a table relating every
-  polygon with arcs forming the border as a multiple record. A dynamic link
-  will be set between the three data tables.<br/>
-  Also, when you are trying to label a polygons dataset with its own arc
-  dataset, and it will create a table relating every polygon with arcs forming
+  <p>When trying to label an arc dataset with its own polygon dataset
+  the program behaviour changes and it will create a table relating every arc
+  with its left and right polygon and a dynamic link will be set between the three data tables. Also, when you are trying to label a polygons dataset with its own arc
+  dataset,  it will create a table relating every polygon with arcs forming
   the border as a multiple record. This table also informs about each arc is
-  forming the external boundary, if the are has to been turned to build the
+  forming the external boundary, if it has to been turned to build the
   polygon and the ring index. A minicam link will be set between the three
-  data tables. In these two previous cases NomResul1 parameter is the name of
+  data tables. In these two last cases NomResul1 parameter is the name of
   this new table, instead of the name of the resulting file. This information
   is only present in the polygon binary file, but this procedure allows to
-  explicit it in order to allow you to do vicinity operations between arcs and
-  polygons.</p>
+  explicit it in order to allow  to do vicinity operations between arcs and polygons.</p>
 
   <p>The transfer of attributes between points and nodes uses a proximity
   criteria; user can set a maximum planimetric distance that confines the
   search of attributes into this range. A new field that contains the distance
   between the donor point and the receptor node will be added. For those
   points with no nodes nearly enough, the user can request the insertion of a
-  new node on some arc within the maximum distance. The process will try to
-  split the arc through some vertex; otherwise, it will split the arc through
+  new node on some arc within the maximum distance, following the track of one of the arcs that already exist in the receiving base. 
+  The process will try to split the arc through some vertex; otherwise, it will split the arc through
   the closest place to the donor point. These new nodes will be ignored by
   the rest of points of the donor file. Into nodes database as well as in
   report file, new nodes will be indicated by either &quot;V&quot; for
-  vertex-derived nodes or &quot;T&quot; for nodes coming from an segment
+  vertex-derived nodes or &quot;T&quot; for nodes coming from a segment
   split.</p>
 
-  <p>In the text that follows, by donor file we mean labelling file, by
-  receptor file we mean labelled file and by resulting file we mean the file
+  <p>In the text that follows, by donor file it is meant labelling file, by
+  receptor file it is meant labelled file and by resulting file it is meant the file
   that results from the process of labelling. The resulting files have the
   same graphical elements that the receptor file has (graphically identical),
   however, its alphanumerical database is a mixture of what the donor and the
@@ -119,11 +113,12 @@ Camp1=NOM_RES1,NOM_REC1,NOM_DON1
 Camp2=NOM_RES2,NOM_REC7,NOM_DON4
 Camp3=NOM_RES2,NOM_REC3
 Camp4=NOM_RES3,,NOM_DON2
+</pre>
+<p>Note: 'Camp' means 'Field'.</p>
 
-Note: 'Camp' means 'Field'
-</pre>The correspondence between the graphical identifier field of the
+<p>The correspondence between the graphical identifier field of the
 resulting database and that of the receptor database is implicit and must not
-be stated (it would be a correspondence as Camp0=ID_GRAFIC,ID_GRAFIC).
+be stated (it would be a correspondence as Camp0=ID_GRAFIC,ID_GRAFIC).</p>
 
   <p>Only the fields in the main table of the graphical layer can be chosen
   but the associated files of the fields of the donor and receptor database
@@ -131,7 +126,7 @@ be stated (it would be a correspondence as Camp0=ID_GRAFIC,ID_GRAFIC).
   priority.</p>
 
   <p>Please note that this procedure allows both the inclusion of new labels
-  on an already labelled file and the relabelling of a field from scratch. It
+  on an already labelled file and the relabeling of a field from scratch. It
   needs only to be stated or not stated in the file of correspondences between
   fields:</p>
 
@@ -139,7 +134,7 @@ be stated (it would be a correspondence as Camp0=ID_GRAFIC,ID_GRAFIC).
   <pre>
 [BASE_RESULTAT]
 Camp1=A,A,A
-</pre>If field A is to be fully relabelled from scratch the syntax is:
+</pre>If field A is to be fully relabeled from scratch the syntax is:
   <pre>
 [BASE_RESULTAT]
 Camp1=A,,A
@@ -149,10 +144,10 @@ Camp1=A,,A
 
   <ul>
     <li>It starts form a graphical element of the receptor database, which can
-    have multiple registries (1 to n relations between graphical objects and
+    have multiple record (1 to n relations between graphical objects and
     the alphanumerical main table). This graphical element corresponds to one
     graphical element of the donor database which can also have multiple
-    registries. In all this process only the fields that have to appear in the
+    record. In all this process only the fields that have to appear in the
     resulting database as specified in the correspondences file are considered
     (all if this file has not been given).</li>
 
@@ -190,7 +185,7 @@ Camp1=A,,A
   databases which result in equal results.
 
   <p>Below some examples which show the working of the algorithm are shown: In
-  all of them we suppose that there exists a correspondence between the
+  all of them it is supposed that there exists a correspondence between the
   graphical object 1 of the receptor database and the graphical object 2 of
   the donor database. Only registries of these two objects are shown. All
   fields of the receptor and donor database have been included, except for the
@@ -204,14 +199,16 @@ ID_G  A  B  C  D         ID_G  A  B  E  F        ID_G  A  B  C  D  E  F
  1    a  b  c  d          2    a2 b2 e  f         1    a  b  c  d      
  1    a  b1 c  d1         2    a  b1 e1 f1        1    a  b1 c  d1 e1 f1
                                                   1    a2 b2       e  f
-</pre>Example 2
+</pre>
+  <p>Example 2:</p>
   <pre>
 Receptor                 Donor                   Result
 ID_G  A                  ID_G  A  B              ID_G  A  B
  1    a                   2    a  b               1    a  b
  1    a1                  2    a  b1              1    a  b1
                                                   1    a1
-</pre>Example 3
+</pre>
+  <p>Example 3:</p>
   <pre>
 Receptor                 Donor                   Result
 ID_G  A  B               ID_G  A  D              ID_G  A  B  D
@@ -219,7 +216,8 @@ ID_G  A  B               ID_G  A  D              ID_G  A  B  D
  1    a  b                2    a  d1              1    a  b  d
                                                   1    a  b1 d1
                                                   1    a  b  d1
-</pre>Example 4
+</pre>
+  <p>Example 4:</p>
   <pre>
 Receptor                 Donor                   Result
 ID_G  A  B               ID_G  E  F              ID_G  A  B  E  F
@@ -227,9 +225,10 @@ ID_G  A  B               ID_G  E  F              ID_G  A  B  E  F
  1    a1 b1               2    e1 f1              1    a  b  e1 f1
                                                   1    a1 b1 e  f
                                                   1    a1 b1 e1 f1
-</pre>ExAmple 5
+</pre>
+  <p>Example 5:</p>
   <pre>
-Receptor                 Donador                 Resultat
+Receptor                 Donor                   Result
 ID_G  A  B  E            ID_G  E  F              ID_G  A  B  E  F
  1    a  b                2    e  f               1    a  b  e  f
  1    a1 b1 e1            2    e1 f1              1    a  b  e1 f1
@@ -245,7 +244,7 @@ ID_G  A  B  E            ID_G  E  F              ID_G  A  B  E  F
    <!-- $$EXCLUSIVA$$
 
 To get the whole Help please write:
-ATRITOP ?
+AtriTop ?
 -->
   </exclusiva>
   <hr/>
