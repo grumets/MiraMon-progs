@@ -1,80 +1,49 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>CalcGeo: Calculadora Geodèsica</title>
+<!--Traduït per la Míriam Romero-->
+  <title>CalcGeo: Geodetic Calculator</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-<i>Sorry, this document will be translated soon</i><br>
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
  
+<p>A <b>reference system</b> is defined by a projection, a set of parameters for this projection (for example, a reference parallel), a datum and an ellipsoid and usually involves a considerable number of parameters. These parameters can be found in the geodesic tables or they can be directly specified in the REL file. The definition of a reference system is a complex process and must be done only once for each new system that is wanted to be used; in addition, MiraMon is distributed with a broad set of commonly used reference system definitions. The document <a href="../mm32/ap6.htm">Horizontal reference systems in MiraMon. Tables and files of geodesy</a> can be consulted for more information.
 
-  <p>Tant el sistema de referència inicial com el final vénen determinats per
-  la projecció cartogràfica, l'el·lipsoide, el datum i el sistema de
-  coordenades de referència. Els paràmetres de cada el·lipsoide es fixen al
-  fitxer CANVIPRJ.INI i afecten totes les aplicacions que depenen de la
-  definició d'aquest el·lipsoide, com CANVIPRJ. Cas de no existir el
-  fitxer CANVIPRJ.INI es faran servir els valors per defecte de
-  l'el·lipsoide, valors que estan indicats en l'ajuda del programa
-  <a href="CANVIPRJ.HTM">CANVIPRJ</a>. Cal dir també, que malgrat es pot
-  canviar l'el·lipsoide, en aquests moments no és possible canviar de
-  datum.</p>
+<p>For systems in angular coordinates (latitude and longitude), such as the Equirectangular, these can be given in degrees or in degrees, minutes and seconds. Negative quantities must be used for longitudes west of Greenwich and latitudes south of the equator. If the angular quantities are negative, the sign will be associated with the largest non-zero magnitude, p. eg: -5° 25' 43.6", 0° -3' 45.5",
+  0° 0' -5.3".</p>
 
-  <p>Per a sistemes en coordenades angulars (latitud i longitud), com
-  l'Equirectangular, aquestes poden donar-se en graus o bé en graus,
-  minuts i segons. Cal fer servir quantitats negatives per longituds a
-  l'oest de Greenwich i latituds al sud de l'equador. En cas que les
-  quantitats angulars siguin negatives, el signe anirà associat a la magnitud
-  més gran no nul·la; exemples: -5° 25' 43.6&quot;, 0° -3' 45.5&quot;,
-  0° 0' -5.3&quot;.</p>
+<p>All calculations are made in double precision (with a minimum of 15 significant figures) and the results in meters and millimeter accuracy (3 decimals) are shown for projections in linear coordinates, and in degrees and precision of ten-thousandths of a second for projections in angular coordinates.</p>
 
-  <p>Tots els càlculs es realitzen en precisió doble (15-16 xifres
-  significatives) i es mostren els resultats en metres i precisió de
-  mil·límetres (3 decimals) per a projeccions en coordenades lineals, i en
-  graus i precisió de deumil·lèsimes de segon per a projeccions en coordenades
-  angulars.</p>
+<p>If the projection system "UTM (automatic spindle and hemisphere)" is chosen, the program will automatically choose the spindle and hemisphere that correspond to the geographical point specified in the input coordinates.</p>
 
-  <p>Si s'escull el sistema de projecció &quot;UTM (fus i hemisferi
-  automàtic)&quot; el programa triarà automàticament el fus i hemisferi que
-  correspon al punt geogràfic especificat en les coordenades
-  d'entrada.</p>
-
-  <p>Us avançat: Calcgeo és una eina enfocada a transformar punts aïllats. Si
-  heu de fer conversions de gran quantitat de dades, és millor generar un
-  fitxer de punts o de línies (PNT, ARC/NOD o VEC) i usar el programa CANVIPRJ
-  per transformar tota la capa alhora. (recordeu que per a convertir capes de
-  polígons (POL) cal convertir la seva corresponent capa d'arcs). Malgrat
-  això es pot construir un fitxer .BAT per a convertir una petita seqüència.
-  Aquest fitxer .BAT especificarà cadascuna de les execucions punt a punt;
-  adreçant (&gt;) la sortida a un fitxer de text amb la possibilitat
-  d'excloure l'encapçalament, (paràmetre /BAN ) obtindrem una llista
-  dels resultats perfectament tabulada. Un petit exemple amb dos punts: fitxer
-  &quot;transfor.BAT&quot;</p>
-
-  <blockquote>
-    <pre>
+<p>Advanced use: CalcGeo is a tool focused on transforming isolated points. If it is necessary to convert large amounts of data, a BAT file for mass execution (discussed below) can be generated or, alternatively a file of points or lines (PNT, ARC/NOD or VEC) can be generated and use the <a href="CanviPrj.htm">CanviPrj</a> module to transform the whole layer at the same time (remember that in order to convert polygon layers (POL) its corresponding arc layer has to be converted since in the structured model of MiraMon each polygon is formed by the reference to one or more arcs). As mentioned before, a BAT file can be built to convert a small sequence of points. This BAT file will specify each of the point-to-point executions; a perfectly tabulated results list will be obtained by redirecting  the output to a text file (with the character ">") and using the /BAN parameter to exclude the header. A small example with two points: file "transfor.bat":
+  
+<blockquote>
+<pre>
 @echo off
 CalcGeo lat/long 40 30 UTM-37N /BAN
 CalcGeo lat/long 40 29 UTM-37N /BAN
 </pre>
-  </blockquote>Executant la línia de comanda &quot;transfor
-  &gt;resultat.txt&quot;, obtindrem el fitxer &quot;resultat.txt&quot;:
-
-  <blockquote>
-    <pre>
-Equirectangular (Latitud/Longitud en graus) --&gt; UTM-37N
+</blockquote>
+By executing the command line "transfor >result.txt", the file "result.txt" will be obtained:
+<blockquote>
+<pre>
+Equirectangular (Latitude/Longitude in degrees) --&gt; UTM-37N
         lon:40.00000000 lat:30.00000000 --&gt;     X:596454.290    Y:3319254.527
 
-Equirectangular (Latitud/Longitud en graus) --&gt; UTM-37N
+Equirectangular (Latitude/Longitude in degrees) --&gt; UTM-37N
         lon:40.00000000 lat:29.00000000 --&gt;     X:597406.730    Y:3208443.687
 </pre>
-  </blockquote>
-  <hr/>
+</blockquote>
 
+<p>More information can be consulted at the following reference:</p>
+<p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las herramientas SIG de análisis de distancias y superfícies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
+  <hr/>
   <exclusiva>
    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
@@ -82,7 +51,7 @@ Equirectangular (Latitud/Longitud en graus) --&gt; UTM-37N
     <!-- $$EXCLUSIVA$$
 
 To obtain the complete help, please type:
-CALCGEO ?
+CalcGeo ?
 -->
   </exclusiva>
 </body>
