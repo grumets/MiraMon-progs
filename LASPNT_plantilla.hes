@@ -1,0 +1,45 @@
+<!DOCTYPE html  PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'  'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/>
+
+  <title>LASPNT: Importación de ficheros lidar</title>
+</head>
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<p>Este módulo permite consultar o importar <b>datos lidar</b> desde ficheros en los <b>formatos LAS o LAZ</b> (variante comprimida del formato anterior) al formato vectorial estructurado de puntos de <b>MiraMon PNT</b>. Los datos lidar (<i>light detection and ranging</i>) son tomadas por sensores de teledetección que emiten luz polarizada (normalmente en la región comprendida entre el ultraviolado y el infrarrojo de onda corta [hasta unos 1500 nm]) y detectan la señal del eco, así como su intensidad, y deducen la distancia al objeto del cual se detecta el eco de esta luz. El formato LAS es un formato de fichero público para el intercambio de datos lidar entre proveedores y clientes que está soportado por la ASPRS (American Society for Photogrammetry and Remote Sensing). Este formato, binario, está destinado al almacenamiento de los datos (nubes de puntos) recogidos por sensores lidar embarcados en plataformas aéreas (aviones o incluso drones). El formato LAS contiene información de las coordenadas XYZ de cada retorno, su intensidad, el ángulo con el que ha sido captado el punto, etc.</p>
+
+<p>En la importación de un fichero lidar se crea un fichero PNT con información altimétrica y varias tablas DBF. La información se divide en más de una tabla con el fin de que la tabla principal pueda ser más ligera (de menor tamaño), y que contenga la información generalmente más utilizada, dejando en otras tablas aquella información menos relevante que, si conviene, se puede vincular a través de una operación de <i>join</i> dinámico desde la pestaña "Información temática" del Gestor Universal de Metadatos Geoespaciales, GeM+, o a través de una operación de <i>join</i> físico desde el módulo MiraDades (creando, en este caso, una única tabla con toda la información; también puede automatizarse desde el módulo GestBD).</p>
+
+<p>La <b>tabla principal del fichero PNT</b> incluye la siguiente información de cada punto: coordenada Z, intensidad, clasificación (tipología de superficie en el punto según el <i>software</i> de procesamiento de datos del sensor), ángulo de escaneo, número del pulso retornado, número total de pulsos retornados, dirección del escaneo (+ si es de izquierda a derecha, o - si es de derecha a izquierda), si el punto está en el borde del escaneo y, en caso de que haya información del tiempo GPS estándar, fecha y hora del pulso (en tiempo UTC).</p>
+
+<p>También se genera una <b>primera tabla auxiliar</b> [con el mismo nombre que el de la capa pero añadiendo el sufijo <b>_XYIDT.dbf</b>] donde se incluye la siguiente información de cada punto: coordenadas X e Y, ID de usuario, ID del punto y, en caso de que tenga, tiempo original del GPS (es decir, sin convertirlo a tiempo estándar en fecha y hora como en la tabla principal).</p>
+
+<p>Además, en caso de que se tenga información de los canales RGB y/o IR cercano, se creará una <b>segunda tabla auxiliar</b> [con el mismo nombre que el de la capa pero añadiendo el sufijo <b>_color.dbf</b>] con los valores de estas bandas de color para cada punto. Con esta información puede obtenerse una ortofoto en color o en infrarrojo color de la zona captada por el lidar si no se dispone de ella desde otras fuentes.</p>
+
+<p>Si se desea eliminar alguno de los campos de alguna de las tablas se puede hacer con  MiraDades (o con  GestBD si es necesario automatizarlo en un proceso BATCH para muchos ficheros).</p>
+
+<p>Como se ha dicho, si se desea tener toda o parte de la información de las tablas auxiliares en la misma tabla principal, se puede realizar un <i>join</i> físico con  MiraDades (o con  GestBD si es necesario automatizarlo en un proceso BATCH). También se puede generar un <i>join</i> dinámico desde el Gestor Universal de Metadatos Geoespaciales (GeM+).</p>
+
+<p>El tiempo original GPS puede ser tiempo GPS estándar o semanal. En caso de que sea estándar, hay que sumarle 10<sup>9</sup> para obtener el tiempo GPS absoluto. En cambio, el tiempo GPS semanal corresponde al número de segundos de la semana contando desde el domingo a medianoche y no se puede obtener el tiempo GPS absoluto porque se desconoce el número de semanas o días que han transcurrido desde el origen del tiempo GPS absoluto.</p>
+
+<p>El módulo tiene dos opciones:</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->  
+  <hr align="justify" size="2" width="100%"/>
+  <exclusiva>
+     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+LASPNT ?
+--></p>
+
+  </exclusiva>
+</body>
+</html>
