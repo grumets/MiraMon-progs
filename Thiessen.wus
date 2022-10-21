@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Thiessen:Param4:0</ows:Identifier>
+		<ows:Title>Generate Thiessen polygons adjusted to the scope of the source file</ows:Title>
+		<ows:Abstract>Generate Thiessen polygons adjusted to the limits defined by the selection of origin points.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Generation of Thiessen polygons"/>
+		<ows:Metadata xlink:title="Abstract:Generation of Thiessen polygons with the construction of the Delaunay triangulation from a point file."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxOri</ows:Identifier>
+				<ows:Title>Input file</ows:Title>
+				<ows:Abstract>Input file of structured points in PNT format</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:InputFile"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AtriFusio</ows:Identifier>
+				<ows:Title>Merge attribute</ows:Title>
+				<ows:Abstract>Field of the source file used as the merge attribute of the generated Thiessen polygons.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:MergeAttrib"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Output scope option</ows:Title>
+				<ows:Abstract><![CDATA[Option for scope of the resulting file. Can be: <ul><li>0: Fit to bounds defined by origin point selection</li><li>1: Specify scope</li><li>2: Crop the result using a file as a mask</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Condition Value #</ows:Title>
+				<ows:Abstract>Value to use in the # condition of the selection. There can be up to 100 conditions and therefore up to 100 values (COND#_VALUE) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
+				<ows:Title>Condition Field #</ows:Title>
+				<ows:Abstract>Field name of the condition # of the selection. There can be up to 100 conditions and therefore up to 100 field names (COND#_CAMP).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PAR_TIN</ows:Identifier>
+				<ows:Title>Delaunay triangulation file</ows:Title>
+				<ows:Abstract>Generate file with Delaunay triangulation</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Condition operator #</ows:Title>
+				<ows:Abstract>Operator to use in the # condition of the selection. There can be up to 100 conditions and therefore up to 100 operators (COND#_OP).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>LT</ows:Value>
+						<ows:Value>GT</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Condition link #</ows:Title>
+				<ows:Abstract>Link to use to link between successive selection conditions. In this case between condition # and condition #+1. There can be up to 100 conditions and therefore up to 99 nexus (COND#_NEXE) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Condition nexus priority #</ows:Title>
+				<ows:Abstract>Priority of the link to use to link between successive selection conditions. In this case between condition # and condition #+1. There can be up to 100 conditions and therefore up to 99 priorities (COND#_PRIOR) starting with index 1. It is an optional parameter, where if not indicated, the priority is simply the order.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+							<ows:Spacing>99</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxDest</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Thiessen polygon output file</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<LiteralOutput>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Thiessen:Param4:1</ows:Identifier>
+		<ows:Title>Generate Thiessen polygons by specifying the output scope.</ows:Title>
+		<ows:Abstract>Generate Thiessen polygons by specifying the output scope.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxOri</ows:Identifier>
+				<ows:Title>Input file</ows:Title>
+				<ows:Abstract>Input file of structured points in PNT format</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:InputFile"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AtriFusio</ows:Identifier>
+				<ows:Title>Merge attribute</ows:Title>
+				<ows:Abstract>Field of the source file used as the merge attribute of the generated Thiessen polygons.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:MergeAttrib"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Output scope option</ows:Title>
+				<ows:Abstract><![CDATA[Option for scope of the resulting file. Can be: <ul><li>0: Fit to bounds defined by origin point selection</li><li>1: Specify scope</li><li>2: Crop the result using a file as a mask</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>XMin</ows:Identifier>
+				<ows:Title>Minimum x</ows:Title>
+				<ows:Abstract>Minimum X of the scope of the resulting file</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:XMin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>XMax</ows:Identifier>
+				<ows:Title>Maximum X</ows:Title>
+				<ows:Abstract>Maximum X of the scope of the resulting file</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:MaxX"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>YMin</ows:Identifier>
+				<ows:Title>Minimum Y</ows:Title>
+				<ows:Abstract>Minimum Y of the scope of the resulting file</ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:MinY"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>YMax</ows:Identifier>
+				<ows:Title>Maximum Y</ows:Title>
+				<ows:Abstract>Maximum Y of the scope of the resulting file</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:MaxY"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Condition Value #</ows:Title>
+				<ows:Abstract>Value to use in the # condition of the selection. There can be up to 100 conditions and therefore up to 100 values (COND#_VALUE) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Condition link #</ows:Title>
+				<ows:Abstract>Link to use to link between successive selection conditions. In this case between condition # and condition #+1. There can be up to 100 conditions and therefore up to 99 nexus (COND#_NEXE) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Condition nexus priority #</ows:Title>
+				<ows:Abstract>Priority of the link to use to link between successive selection conditions. In this case between condition # and condition #+1. There can be up to 100 conditions and therefore up to 99 priorities (COND#_PRIOR) starting with index 1. It is an optional parameter, where if not indicated, the priority is simply the order.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+							<ows:Spacing>99</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
+				<ows:Title>Condition Field #</ows:Title>
+				<ows:Abstract>Field name of the condition # of the selection. There can be up to 100 conditions and therefore up to 100 field names (COND#_CAMP).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Condition operator #</ows:Title>
+				<ows:Abstract>Operator to use in the # condition of the selection. There can be up to 100 conditions and therefore up to 100 operators (COND#_OP).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>LT</ows:Value>
+						<ows:Value>GT</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PAR_TIN</ows:Identifier>
+				<ows:Title>Delaunay triangulation file</ows:Title>
+				<ows:Abstract>Generate file with Delaunay triangulation</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxDest</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Thiessen polygon output file</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<LiteralOutput>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Thiessen:Param4:2</ows:Identifier>
+		<ows:Title>Generate Thiessen polygons clipped by a file as a mask</ows:Title>
+		<ows:Abstract>Generate Thiessen polygons clipped by a file as a mask</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxOri</ows:Identifier>
+				<ows:Title>Input file</ows:Title>
+				<ows:Abstract>Input file of structured points in PNT format</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:InputFile"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>AtriFusio</ows:Identifier>
+				<ows:Title>Merge attribute</ows:Title>
+				<ows:Abstract>Field of the source file used as the merge attribute of the generated Thiessen polygons.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:MergeAttrib"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Output scope option</ows:Title>
+				<ows:Abstract><![CDATA[Option for scope of the resulting file. Can be: <ul><li>0: Fit to bounds defined by origin point selection</li><li>1: Specify scope</li><li>2: Crop the result using a file as a mask</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxMasc</ows:Identifier>
+				<ows:Title>Mask file</ows:Title>
+				<ows:Abstract>Mask file used to trim the resulting file by the scope of this file.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:MaskFile"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Condition Value #</ows:Title>
+				<ows:Abstract>Value to use in the # condition of the selection. There can be up to 100 conditions and therefore up to 100 values (COND#_VALUE) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
+				<ows:Title>Condition Field #</ows:Title>
+				<ows:Abstract>Field name of the condition # of the selection. There can be up to 100 conditions and therefore up to 100 field names (COND#_CAMP).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_NEXE</ows:Identifier>
+				<ows:Title>Condition link #</ows:Title>
+				<ows:Abstract>Link to use to link between successive selection conditions. In this case between condition # and condition #+1. There can be up to 100 conditions and therefore up to 99 nexus (COND#_NEXE) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>AND</ows:Value>
+						<ows:Value>OR</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Condition nexus priority #</ows:Title>
+				<ows:Abstract>Priority of the link to use to link between successive selection conditions. In this case between condition # and condition #+1. There can be up to 100 conditions and therefore up to 99 priorities (COND#_PRIOR) starting with index 1. It is an optional parameter, where if not indicated, the priority is simply the order.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+							<ows:Spacing>99</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>COND#_OP</ows:Identifier>
+				<ows:Title>Condition operator #</ows:Title>
+				<ows:Abstract>Operator to use in the # condition of the selection. There can be up to 100 conditions and therefore up to 100 operators (COND#_OP).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EQ</ows:Value>
+						<ows:Value>NO_EQ</ows:Value>
+						<ows:Value>LT</ows:Value>
+						<ows:Value>GT</ows:Value>
+						<ows:Value>LT_EQ</ows:Value>
+						<ows:Value>GT_EQ</ows:Value>
+						<ows:Value>INTERVAL</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PAR_TIN</ows:Identifier>
+				<ows:Title>Delaunay triangulation file</ows:Title>
+				<ows:Abstract>Generate file with Delaunay triangulation</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxDest</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Thiessen polygon output file</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<LiteralOutput>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>
