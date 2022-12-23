@@ -11,124 +11,65 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>En la implementació del classificador a MiraMon (IsoMM), el programa
-  comença per un cert nombre de categories <i>clusters</i> suggerit per
-  l'usuari. La ubicació inicial d'aquestes categories es distribueix
-  inicialment seguint quatre grans criteris:</p>
+  <p>En la implementació del classificador al MiraMon (IsoMM), el programa comença per un cert nombre de categories clústers suggerit per la persona usuària. La ubicació inicial d'aquestes categories es distribueix inicialment seguint quatre  criteris (es poden utilitzar ubicacions amb diversos criteris):</p>
+
 
   <ol>
-    <li>Al llarg de la diagonal multivariant de les dades, repartides de forma
-    equidistant. Es pot restringir el rang en cada variable utilitzant un
-    criteri basat en les dades més properes a la mitjana de cada banda.
-    L'usuari ha de definir aquest rang a partir de quants cops (n) admet
-    la desviació al voltant de la mitjana; amb aquesta finalitat, de cada una
-    de les bandes (variables) originals es calcula la seva mitjana (M) i
-    desviació estàndard (D) i es defineix l'interval així: (M-n*D, M+n*D).
-    Finalment, l'interval és dividit en tantes parts com categories hagi
-    demanat l'usuari. Si s'indica n=0, es pren tot el rang en cada
-    variable (<i>NClusterInicialDiagonal</i>).</li>
+    <li>Al llarg de la diagonal multivariant de les dades, repartides de forma equidistant. Es pot restringir el rang en cada variable utilitzant un criteri basat en les dades més properes a la mitjana de cada banda. La persona usuària ha de definir aquest rang a partir de quants cops (n) admet la desviació al voltant de la mitjana; amb aquesta finalitat, de cada una de les bandes (variables) originals es calcula la seva mitjana (M) i desviació estàndard (D) i es defineix l'interval així: (M-n*D, M+n*D). Finalment, l'interval és dividit en tantes parts com categories s'hagi demanat. Si s'indica n=0, es pren tot el rang en cada variable. (<i>NClusterInicialDiagonal</i>)</li>
 
-    <li>Aleatòriament en tot l'espai multivariant
-    (<i>NClusterInicialAleatori</i>).</li>
+    <li>Aleatòriament en tot l'espai multivariant. Aquest criteri és poc útil quan el nombre de variables és molt elevat. (<i>NClusterInicialAleatori</i>)</li>
 
-    <li>A partir d'un mostreig sobre la imatge, de nombre/resolució
-    configurable (<i>NClusterInicialMostreig</i>).</li>
+    <li>A partir d'un mostreig sobre la imatge, de nombre/resolució configurable. (<i>NClusterInicialMostreig</i>)</li>
 
-    <li>Un quart opcional. A partir d'un cert nombre de signatures
-    espectrals proporcionades en un fitxer llista
-    (<i>/FITXER_SIGNATURES=</i>), que pot ser amb adreces relatives.</li>
+    <li>A partir d'un cert nombre de signatures
+    espectrals proporcionades en un fitxer llista (<i>/FITXER_SIGNATURES=</i>). Les adreces dels fitxers de signatures poden ser  relatives al fitxer llista.</li>
   </ol>
 
-  <p>Podeu demanar entre 0 i 32767 categories de cada criteri 1 i 2, però la
-  suma de totes les categories inicials seguint tots els criteris no pot
-  excedir 32767. Si es produeix excés degut a un mostreig excessiu, el
-  programa reduirà la densitat de mostreig; en qualsevol cas, la densitat de
-  mostreig és adaptada pel programa a un múltiple del costat de píxel. Alhora,
-  és obligatori que la suma del nombre de categories demanades per tots els
-  criteris sigui si més no 1.</p>
+    <p>Es poden demanar entre 0 i 32767 categories de cada criteri, però la suma de totes les categories inicials seguint tots els criteris no pot excedir 32767. Si es produeix desbordament degut a un mostreig excessiu, el programa reduirà la densitat de mostreig; en qualsevol cas, en el criteri 3 la densitat de mostreig és adaptada pel programa a un múltiple del costat de píxel. Alhora, és obligatori que la suma del nombre de categories per tots els criteris sigui si més no 1.</p>
 
   <p>En imatges grans s'aconsella utilitzar un nombre de, per ex., 250
-  categories del criteri 1 i de nbandes*50 del criteri 2, tot i que el criteri
-  2 es pot deixar a zero si s'indica una certa densitat de mostreig
-  sistemàtic. Una altra estratègia que sol donar bons resultats és demanar 0 o
-  poques categories en el criteri 1, 0 en el criteri 2, i un mostreig que
-  impliqui obtenir entre 250 i 500 categories (&quot;N300&quot;, per exemple).
-  En qualsevol cas, un nombre molt elevat de categories sol donar bons
-  resultats però sol implicar una primera iteració molt lenta. Tingueu
-  paciència.<br/>
-  Noteu que augmentant el paràmetre <i>Mínima similitud entre classes</i>
-  podeu obtenir una fusió de les classes més properes en successives
-  iteracions. Aquest paràmetre però, només està implementat en les classes que
-  provinguin del criteri <i>NClusterInicialMostreig</i>.</p>
+  categories del criteri 1 i de nbandes*50 del criteri 2, tot i que el criteri 2 es pot deixar a zero si s'indica una certa densitat de mostreig sistemàtic, que sol funcionar millor. Quan el nombre de variables (bandes) proporcionat és molt gran, el criteri 2 resulta pràcticament mancat d'utilitat.  Una altra estratègia que sol donar bons resultats és demanar 0 o poques categories en el criteri 1, 0 en el criteri 2, i un mostreig que impliqui obtenir entre 250 i 500 categories ("N300", per exemple, ampliat si gran part de la imatge conté sensedades [per exemple, mar]). En qualsevol cas, un nombre molt elevat de categories sol donar bons resultats però sol implicar una primera iteració molt lenta.<br/>
+Cal notar que augmentant el paràmetre "Mínima similitud entre classes" es pot obtenir una fusió de les classes més properes en successives iteracions. Aquest paràmetre, però, només està implementat en les classes que provinguin del criteri <i>NClusterInicialMostreig</i>.</p>
 
-  <p>Totes aquestes categories formaran els <i>clusters</i> inicials. Per a
-  cadascuna de les bandes utilitzades, es mesura la distància a cada un dels
-  centres de <i>cluster</i> i s'assigna el píxel al <i>cluster</i> més
-  proper. El programa ofereix la possibilitat de calcular la distància amb els
-  següents criteris:</p>
+  <p>Totes aquestes categories formaran els clústers inicials. Per a cadascun dels píxels multivariables, es mesura la distància a cada un dels centres de clúster i s'assigna el píxel al clúster més proper. El programa ofereix la possibilitat de calcular la distància amb els següents criteris:</p>
 
   <ul>
     <li>Distància euclidiana</li>
 
-    <li>Distància de l'Eixample</li>
+    <li>Distància de l'Eixample (o de Manhattan)</li>
   </ul>
 
-  <p>Una vegada s'han assignat tots els píxels de la imatge es recalculen
-  els centres de <i>cluster</i>, tot calculant el seu centre de gravetat en
-  l'espai multidimensional format per les diferents bandes utilitzades.
-  D'una forma iterativa es torna a repetir el procés d'assignació dels
-  píxels als centres de <i>cluster</i>, i es torna a calcular els centres de
-  <i>cluster</i>. Aquesta iteració es duu a terme un cert nombre de vegades
-  que l'usuari estableix, llevat que el procés s'aturi abans en
-  arribar a una situació de molt poc canvi dels centres de <i>cluster</i>
-  entre iteracions. Després de cada iteració es mira si cap dels
-  <i>clusters</i> està compost per un nombre de píxels més baix que un mínim
-  donat per l'usuari; si és així, el <i>cluster</i> és eliminat, i els
-  pixels són reassignats als altres <i>clusters</i>.</p>
+  <p>Una vegada s'han assignat tots els píxels de la imatge es recalculen els centres de clúster, tot establint el seu centre de gravetat en l'espai multidimensional format per les diferents variables (bandes) utilitzades. D'una forma iterativa es torna a repetir el procés d'assignació dels píxels als centres de clúster, i es torna a calcular els centres de clúster. Aquesta iteració es duu a terme un cert nombre de vegades que la persona usuària estableix, llevat que el procés s'aturi abans en arribar a una situació de molt poc canvi dels centres de clúster entre iteracions (llindar de convergència). Després de cada iteració es mira si algun dels clústers està compost per un nombre de píxels més petit que un mínim donat per la persona usuària; si és així, el clúster és eliminat, i els seus píxels són reassignats al clúster més proper.</p>
 
   <p>En cada iteració també s'analitza si existeixen classes que es
   consideri que tenen una distància estadística massa propera per a ser
   considerades diferents i, en aquest cas, es tracten com una de sola.</p>
 
-  <p>La imatge de sortida manté en valor 0 els valors NODATA en alguna de les
-  bandes originals i els documenta com a tals. Si el nombre de categories
-  finals és superior a 255, la imatge de sortida és integer, mentre que serà
-  byte en cas contrari. En qualsevol dels dos casos (<i>byte</i> o
-  i<i>nteger</i>) la imatge de sortida és RLE. El classificador pot treballar
-  amb imatges de qualsevol tipus (<i>byte</i>, <i>integer</i>, <i>real</i>,
-  etc), comprimides o no.</p>
+  <p>La imatge de sortida manté en valor 0 els píxels amb sensedades en totes les bandes originals, o en un nombre de bandes més gran o igual a MaxBandesNODATA, i els documenta com a tals. Si el nombre de categories finals és superior a 255, la imatge de sortida és <i>integer</i>, mentre que serà <i>byte</i> en cas contrari. En qualsevol dels dos casos la imatge de sortida està comprimida amb l'algorisme RLE. El classificador pot treballar amb imatges de qualsevol tipus (<i>byte</i>, <i>integer</i>, <i>real</i>, etc), comprimides o no.</p>
 
-  <p>Les característiques estadístiques de cada categoria obtinguda
-  s'emmagatzemen en un un directori de nom SGN_aaaammdd_hhmmss (signatures
-  obtingudes el any-mes-dia a l'hora-minut-segon). Aquest directori es
-  crea en el mateix directori que la imatge classificada.</p>
+  <p>Les característiques estadístiques (signatures) de cada categoria obtinguda
+  s'emmagatzemen en un directori de nom SGN_aaaammdd_hhmmss (signatures obtingudes l'any-mes-dia a l'hora-minut-segon). Aquest directori es crea en el mateix directori que la imatge classificada.</p>
 
-  <p>Es permet classificar els píxels encara que presentin valors NODATA en
-  algunes variables (bandes). Això es governa amb el paràmetre
-  MaxBandesNODATA, que indica el nombre de variables amb NODATA que es
-  tolerarà abans de marcar el píxel com a no classificat. Aquest valor pot
-  oscil·lar entre 0 i n_bandes-1:</p>
+  <p>Es permet classificar els píxels encara que presentin  sensedades en algunes variables (bandes). Això es governa amb el paràmetre
+  MaxBandesNODATA, que indica el nombre de variables amb valors sensedades que es
+  tolerarà abans de marcar el píxel com a no classificat. Aquest valor pot oscil·lar entre 0 i n_bandes-1:</p>
 
   <ul>
-    <li>0: Valor equivalent al que es feia en les versions anteriors a la 4.5:
-    només que una variable sigui NODATA el píxel es considera no classificat.
-    Genera les imatges amb més píxels sense classificar.</li>
+    <li>0: Valor equivalent al que es feia en les versions anteriors a la 4.5: només que una variable sigui sensedades el píxel es considera no classificat. Genera  imatges amb més píxels sense classificar.</li>
 
     <li>n_bandes-1: Aquesta és la situació més tolerant, i un píxel es
-    classifica només que tingui una variable diferent a NODATA. Es pot
-    escriure MAX en aquest paràmetre i el programa calcularà directament
-    &quot;n_bandes-1&quot;.</li>
+    classifica només que tingui una variable diferent a sensedades. Es pot
+    escriure MAX en aquest paràmetre i el programa calcularà directament "n_bandes-1".</li>
   </ul>
 
   <p>Amb independència del valor de MaxBandesNODATA, les classes (i les
-  signatures) es defineixen en funció de tots els píxels; en els individus
-  incomplets (els que no presenten informació a totes les bandes) la
-  classificació només té en compte les bandes en què hi ha dades i les classes
-  es recalculen en funció de totes les dades disponibles en cada banda. En el
-  càlcul de les estadístiques finals, els individus incomplets són completats
-  amb la mitjana corresponent a la seva banda i categoria.</p>
+  signatures) es defineixen en funció de tots els píxels. En els individus incomplets (els píxels que no presenten informació a totes les bandes) la classificació només té en compte les bandes en què hi ha dades i les classes es recalculen en funció de totes les dades disponibles en cada banda.</p>
   
-  <p align="justify">Per tal d'interpretar els valors de distància que utilitza aquest classificador, recomanem llegir l'apartat "Orientació sobre el significat de les distàncies emprades en els processos de classificació" en l'ajuda del mòdul ClasSup.</p> 
+  <p>Per tal d'interpretar els valors de distància que utilitza aquest classificador, es recomana llegir l'apartat "Orientació sobre el significat de les distàncies emprades en els processos de classificació" en l'ajuda del mòdul <a href="ClasSup.htm#Orientacio">ClasSup</a>.</p> 
+  
+  <p>Per defecte aquest mòdul carrega totes les imatges en memòria, el que li permet realitzar els processos de manera més àgil. Tanmateix, en ordinadors amb pocs recursos respecte de la grandària de les imatges aquesta estratègia pot no ser viable. És per això que l'opció "No carregar les imatges a classificar en memòria" permet indicar al programa que en els processos mantingui en memòria només aquelles dades que necessita en cada moment, ni que això impliqui un alentiment de l'execució. El mòdul commuta automàticament a aquest mode si no té prou memòria disponible, per la qual cosa habitualment no cal activar-lo expressament.</p> 
+  
+   <p> Aquest mòdul està paral·lelitzat, tant en les versions de 32 com de 64 bits, amb la qual cosa és possible que distribueixi la feina entre els nuclis de processador disponibles en l'ordinador on s'executa. Si, per exemple, es disposa d'un ordinador amb dos processadors de 20 nuclis cadascun, es pot arribar a dividir gairebé entre 40 el temps necessari per a obtenir els resultats, utilitzant tots els nuclis disponibles, cosa que es pot fer amb el paràmetre corresponent en un valor indicat per "MAX"; quan s'indica que el nombre de nuclis a emprar és MAX, el mòdul utilitza tots els nuclis. Tanmateix, de vegades es pot preferir no comprometre tota la capacitat de càlcul de l'ordinador i indicar SUB_MAX (deixarà un processador lliure per a altres tasques que s'estiguin fent) o indicar un valor numèric  inferior, en tots els casos a través de l'opció "Nombre de nuclis de processador a utilitzar". Demanar més nuclis que els realment disponibles és possible, creant-ne de virtuals, però això no accelera el processat, sinó el contrari. L'Administrador de tasques del Windows permet conèixer de quin nombre total de nuclis disposa l'ordinador, i també pot saber-se executant el mòdul en mode MAX, ja que indicarà per pantalla quants nuclis està utilitzant. A les versions més recents de la interfície del programa, un botó d'informació també permet obtenir aquesta dada.</p>
   <hr/>
 
   <exclusiva>
