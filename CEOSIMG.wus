@@ -57,7 +57,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:CEOSIMG:Param1:1</ows:Identifier>
 		<ows:Title>Import CEOS to IMG</ows:Title>
-		<ows:Abstract>Imports of data from the ETM+ and TM sensors of the Landsat satellite in the CEOS format to Miramon.</ows:Abstract>
+		<ows:Abstract>Imports of data from the ETM+ and TM sensors of the Landsat satellite from CEOS format to MiraMon IMG format.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -108,7 +108,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>DESPL_X_PAN</ows:Identifier>
 				<ows:Title>Displacement X</ows:Title>
-				<ows:Abstract>Indicate displacement X. In the case of the ETM+ Panchromatic sensor, the X and Y displacements to apply to the LPGS format. If this parameter is not set the program applies a standard displacement which is shown on the screen and is documented in the comment section on the technical aspects of the metadata. In LPGS images having a processing level 5 (Map oriented?) we have observed that it could be necessary to indicate a X shift of "-15.75" instead of "+0.25" to achieve a correct coregister among PAN and multispectral bands.</ows:Abstract>
+				<ows:Abstract>Indicates displacement X. In the case of the ETM+ Panchromatic sensor, the X displacement to apply to the LPGS format. If this parameter is not set, the program applies a standard displacement which is shown on the screen and is documented in the comment section on the technical aspects of the metadata. In LPGS images having a processing level 5  (probably Map oriented, for more information consult Cristóbal, Pons and Serra, 2004) we have observed that it could be necessary to indicate a X shift of "-15.75" instead of "+0.25" to achieve a correct coregister among PAN and multispectral bands.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
@@ -117,7 +117,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>DESPL_Y_PAN</ows:Identifier>
 				<ows:Title>Displacement Y</ows:Title>
-				<ows:Abstract>Indicate displacement X. In the case of the ETM+ Panchromatic sensor, the X and Y displacements to apply to the LPGS format. If this parameter is not set the program applies a standard displacement which is shown on the screen and is documented in the comment section on the technical aspects of the metadata. In LPGS images having a processing level 5 (Map oriented?) we have observed that it could be necessary to indicate a X shift of "-15.75" instead of "+0.25" to achieve a correct coregister among PAN and multispectral bands.</ows:Abstract>
+				<ows:Abstract>Indicates displacement Y. In the case of the ETM+ Panchromatic sensor, the Y displacement to apply to the LPGS format. If this parameter is not set, the program applies a standard displacement which is shown on the screen and is documented in the comment section on the technical aspects of the metadata. In LPGS images having a processing level 5 (probably Map oriented, for more information consult Cristóbal, Pons and Serra, 2004) we have observed that it could be necessary to indicate a Y shift of "-15.75" instead of "+0.25" to achieve a correct coregister among PAN and multispectral bands.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
@@ -126,7 +126,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>GeographicIdentifierCode</ows:Identifier>
 				<ows:Title>Geographic Identifier</ows:Title>
-				<ows:Abstract>Indicates a geographic name to identify the zone, for example "Barcelona Municipal Area". This name is a complement to the horizontal extent contained in the metadata.</ows:Abstract>
+				<ows:Abstract>Indicates a geographic name to identify the zone, for example "Barcelona municipal area". This name is a complement to the horizontal extent contained in the metadata.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
@@ -135,7 +135,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TIPUS</ows:Identifier>
 				<ows:Title>More suitable output format</ows:Title>
-				<ows:Abstract>In current version, CEOSIMG automatically choose output format more suitable (typically a compressed byte-RLE). If you want an uncompressed output file you have to type /TIPUS=byte.</ows:Abstract>
+				<ows:Abstract>In current version, CEOSIMG automatically choose the most suitable output format (typically a compressed byte-RLE). If an uncompressed output file is desired, type /TIPUS=byte.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -148,7 +148,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SING_0</ows:Identifier>
 				<ows:Title>SING_0</ows:Title>
-				<ows:Abstract><![CDATA[ 3 possible values:            <ul> <li>0: Automátic Case</li>            <li> 5: Landsat5</li>            <li>7: Landsat7 </li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Given that it has been detected that in some images the value 0 can be a background value in the margins as well as a radiometric value applicable in the central body of the image, this parameter is used to control properly this singular fact. It can take 3 values:<ul> <li>0: Automatic case, where the type Landsat5 will be used for the Landsat platform and TM sensor and the type Landsat7 for the other cases.</li>            <li> 5: Landsat5 type: It will be forced to consider as NoData values all zeros found on the lateral margins of the image and valid radiometric values all zeros found in central areas. The precise definition of margins is done through the hypothesis that in the first band (blue band) there are not different zeros from NoData and these deduced margins will be applied to all bands. When defining NoData as 255, the valid values of 255 will be saturated to 254, which becomes the maximum available radiometric value. It must be noticed that this scheme does not change the line calibration of the sensor.</li>            <li>7: Landsat7 type: Zero (or the corresponding origin NoData value) will represent a NoData value on every region of the image, without double interpretations. As it is noticeable in Cristobal et al. article (2004) this scheme changes the line calibration of the sensor, a fact that MiraMon corrects suitably according to the values presented on CEOS headings, that they are incorrect in this case.</li></ul>]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
