@@ -1,7 +1,6 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>CanviPrj: Cambio de Sistema de Referencia Geográfica (proyección
-  cartográfica, datum, etc) en capas rásters y vectoriales</title>
+  <title>CanviPrj: Cambio de Sistema de Referencia Geográfica</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -9,9 +8,10 @@
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-  <h3>Introducción</h3>La información cartográfica tradicional pretende
+  <h3>Introducción</h3>
+  La información cartográfica tradicional pretende
   expresar características o parámetros mensurables de nuestro mundo
-  tridimensional en mapas de papel que son planos. Para conseguirlo se usan
+  tridimensional en mapas de papel o digitales que típicamente son bidimensionales. Para conseguirlo se usan
   sistemas de proyección. En cartografía entendemos que un <b>sistema de
   proyección</b> es una transformación del sistema de coordenadas
   tridimensional de la Tierra a una superficie bidimensional. Las propiedades
@@ -20,77 +20,66 @@
   imposible definir un sistema de proyección que conserve a la vez las tres
   propiedades y, por tanto, la proyección óptima depende del ámbito de la zona
   a cartografiar y de la aplicación que tendrá el mapa. Por ejemplo, se puede
-  usar UTM para proyecciones precisas de ámbito regional y Goode Homolosine
+  usar UTM para proyecciones precisas de ámbito regional y Homolosina de Goode
   para proyecciones de ámbito global. En aplicaciones de navegación
-  (direcciones) se puede usar Lambert cónica conforme y en aplicaciones
-  temáticas se puede usar Lambert equivalente azimutal.
+  (en las cuales las direcciones son importantes) se puede usar Mercator o Cónica Conforme de Lambert y en aplicaciones
+  temáticas se puede usar Azimutal Equivalente de Lambert.
 
-  <p>Un <b>sistema de referencia</b> queda definido por un conjunto de
-  parámetros que hay que fijar en el sistema de proyección escogido. Por
+  <p>Un <b>sistema de referencia</b> queda definido por una proyección, un conjunto de
+  parámetros para dicha proyección, un dátum y un elipsoide. Por
   ejemplo, en la proyección UTM hay que fijar el huso y el hemisferio de la
-  zona. Así, para Cataluña escogeremos el sistema de referencia UTM-31N,
-  mientras que en Portugal utilizarán el sistema UTM-29N y en Lesotho el
+  zona. Así, para Cataluña se escogerá el sistema de referencia UTM-31N y el dátum ETRS89 sobre el elipsoide de Hayford,
+  mientras que para Portugal se utilizará el sistema UTM-29N y para Lesotho el
   UTM-35S.</p>
 
-  <p>Resulta muy útil que todos los mapas de que disponemos estén en el mismo
-  sistema de proyección y de referencia, para así poder cruzar informaciones
+  <p>Resulta muy útil que todos los mapas de que se disponga estén en el mismo
+  sistema de referencia, para así poder cruzar informaciones
   fácilmente en el Sistema de Información Geográfica (SIG). De hecho, la mayor
-  parte de SIG digitales sólo permiten superponer diferentes capas de
-  información si están en el mismo sistema de referencia y en la misma
-  proyección. En los sistemas digitales es posible desarrollar una rutina para
-  cambiar de proyección y de sistema de referencia, como por ejemplo CanviPrj
-  de MiraMon.</p>
+  parte de SIG digitales sólo permiten sobreponer diferentes capas de
+  información si están en el mismo sistema de referencia. En los sistemas digitales es posible desarrollar una rutina para cambiar de sistema de referencia, como por ejemplo CanviPrj de MiraMon.</p>
   <hr/>
 
-  <h3>CanviPrj</h3>Este programa permite el paso de un sistema de proyección a
-  otro así como el cambio de sistema de referencia actuando sobre los
-  parámetros de la proyección. Es posible cambiar de proyección ficheros
+  <h3>CanviPrj</h3>
+  <p>Este programa permite el paso de un sistema de proyección a
+  otro, así como el cambio de sistema de referencia actuando sobre los
+  parámetros de la proyección, el dátum, el elipsoide, etc. Es posible cambiar de sistema de referencia de ficheros
   ráster (IMG), vectores no estructurados (VEC) y vectores estructurados de
-  puntos (PNT), de arcos (ARC) y polígonos (POL). Para transformar ficheros de
-  nodos (NOD) hay que transformar el fichero de arcos asociado.
+  puntos (PNT), de arcos (ARC) y de polígonos (POL). Para transformar ficheros de
+  nodos (NOD) es necesario transformar el fichero de arcos asociado.</p>
    <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-  <p>Si el mapa original no tiene ningún sistema de proyección porque aún no
-  ha sido georeferenciado, hay que georeferenciarlo con el programa <a href="CORRGEOM.HTM">CORRGEOM</a>.</p>
+  <p>Si el mapa original no tiene ningún sistema de referencia es  porque aún no
+  ha sido georeferenciado y es necesario georeferenciarlo con el programa <a href="CorrGeom.HTM">CorrGeom</a>.</p>
 
-  <p>Los parámetros de la proyección pueden ser controlados por el usuario a
-  través de un fichero CANVIPRJ.INI. Este fichero puede estar en el directorio
-  de trabajo o en el directorio del programa. En caso de existir en ambos
-  sitios tiene prioridad el directorio de trabajo. En el fichero CANVIPRJ.INI
-  se describen tanto los parámetros de la proyección origen (en las secciones
-  [I_???]) com los de la proyección destino (en las secciones [O_???]). En
-  caso de no existir el fichero CANVIPRJ.INI, el programa toma unos parámetros
-  por defecto preprogramados que son los que se indican en el ejemplo
-  siguiente. En la proyección UTM el huso y el hemisferio se obtienen del
-  fichero de documentación (origen) y en línea de comando o interactivamente
-  (destino).</p>
+  <p>La descripción de un sistema de referencia involucra un gran número de parámetros. Estos parámetros están a unas tablas de geodesia o pueden figurar directamente especificados en el fichero REL. La definición de un sistema de referencia es un proceso delicado pero se debe realizar sólo una vez para cada sistema que queremos usar; además, MiraMon es distribuido con un conjunto de definiciones de sistemas de referencia de uso común. El documento <a href="../mm32/ap6.htm">Sistemas de referencia horizontal en MiraMon. Tablas y ficheros de geodesia</a> puede ser consultado para más información.</p>
 
-  <h3>Cambios de sistema de referencia con un mismo datum</h3>El programa
-  adapta la complejidad del cambio de sistema de referencia al tipo de
-  transformación necesaria. De esta forma, la funcionalidad de cambio de datum
-  surge automáticamente cuando el sistema de referencia inicial y final estan
-  descritos sobre un datum diferente. Típicamente transformaremos de datums
-  locales como el European Datum 1950 (ED50) a datums globales World Geodetic
-  System 1984 (WGS84) o viceversa.
+  <h3>Cambios de sistema de referencia con un mismo dátum</h3>
+  <p>El programa adapta la complejidad del cambio de sistema de referencia al tipo de
+  transformación necesaria. De esta forma, la funcionalidad de cambio de dátum
+  se muestra automáticamente cuando el sistema de referencia inicial y final están
+  descritos sobre un dátum diferente. Típicamente se realizan transformaciones de dátums
+  locales como el <i>European Datum 1950</i> (ED50) a dátums globales como el <i>World Geodetic System 1984</i> (WGS84) o viceversa.</p>
 
-  <p>Un caso excepcional es la realización de un cambio de datum entre datums
+  <p>Un caso excepcional es la realización de un cambio de dátum entre dátums
   de un mismo grupo. Por ejemplo, al pasar de cartografía realizada por el
-  Institut Cartogràfic de Catalunya (ICC) sobre ED50 pero documentada con los
-  parámetros de cambio de datum <i>European 1950 ICC</i> a cartografía
+  <i>Institut Cartogràfic i Geològic de Catalunya</i> (ICGC) sobre ED50  documentada con los
+  parámetros del dátum <i>European 1950 ICC</i> a cartografía
   realizada por el Instituto Geográfico Nacional (IGN), documentada con los
-  parámetros de cambio de datum <i>European 1950 PS</i>, se puede indicar si
-  se desea que se realice un cambio de datum al transformar entre los 2
-  sistemas o si por el contrario deseamos considerar los dos datums totalmente
+  parámetros del dátum <i>European 1950 PS</i>. En este caso, se puede indicar si
+  se desea que se realice un cambio de dátum al transformar entre los 2
+  sistemas o, si por el contrario, se desea  considerar los dos dátums totalmente
   equivalentes. El parámetro &quot;/DATUM_ESTRICTE&quot; permite forzar este
-  cambio de datum. Para cartografía sobre el ámbito de Cataluña, la diferencia
+  cambio de dátum. Para cartografía sobre el ámbito de Catalu&ntilde;a, la diferencia
   planimétrica entre la elección de este parámetro o no es de unos 10 metros.
   En principio, no debe forzarse el cambio entre la cartografía del ICC y del
-  IGN ya que ambos trabajan legalmente sobre un mismo datum; pero sí que
-  debería realizarse entre cartografia francesa y española en ED50, dado que,
-  a priori, no debe suponerse que corresponde a los mismos datums ya que
+  IGN ya que ambos trabajan legalmente sobre un mismo dátum; pero sí que
+  debería realizarse entre cartografía francesa y española en ED50, dado que,
+  <i>a priori</i>, no se debe suponer que corresponde a los mismos dátums ya que
   dependen de redes geodéticas diferentes. Para la cartografía francesa se
-  aconseja usar <i>European 1950 ADFG</i>.</p>
+  aconseja utilizar <i>European 1950 ADFG</i>.</p>
+  <p>Para más información se puede consultar las  siguientes referencias:</p>
+  <p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las herramientas SIG de análisis de distancias y superfícies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
   <hr/>
 
   <exclusiva>
@@ -99,19 +88,20 @@
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
     </ul>Ejemplos:
     <pre>
-CANVIPRJ MUNI_LL.VEC  MUNI_UTM UTM-31N  1
-CANVIPRJ CATA_UTM.IMG CATA2_LL lat/long 1 450000 480500 4724500 4750000 30 0
-CANVIPRJ CATA_UTM.IMG CATA3       x     x    x      x      x        x    x x
-CANVIPRJ MA89_UTM.ARC MA89_LCC Lambert_Conformal_Conic
-</pre><!-- $$EXCLUSIVA
+CanviPrj MUNI_LL.VEC  MUNI_UTM UTM-31N  1
+CanviPrj CATA_UTM.IMG CATA2_LL lat/long-WGS84 1 450000 480500 4724500 4750000 30 0
+CanviPrj CATA_UTM.IMG CATA3    UTM-31N-UB/ICC   x    x      x      x        x    x x
+CanviPrj MA89_LCC Lambert_Conformal_Conic-ZoneIII-ED50
+</pre>
+<!-- $$EXCLUSIVA
 Para obtener la ayuda completa escriba:<BR>
-CANVIPRJ ?
+CanviPrj ?
 -->
   </exclusiva>
   <hr/>
 
   <center>
-    <a href="corrgeom.htm"><img src="corrgeom.gif"/></a><a href="escalvec.htm"><img src="escalvec.gif"/></a>
+    <a href="CorrGeom.htm"><img src="CorrGeom.gif"/></a><a href="EscalVEC.htm"><img src="EscalVEC.gif"/></a>
   </center>
 </body>
 </html>
