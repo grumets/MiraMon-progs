@@ -11,41 +11,42 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <h3>Vector mode</h3>A vector mode for the combination of two layers can be
-  chosen whether the input are two vector layers, or one vector layer and one
-  raster layer or two categoric raster layers. In this case the output vector
-  file, its type and its content will depend on the input file. Thus, a
-  categoric raster can be considered as a polygon file with a single thematic
-  raster attribute linked to a thesaurus of categories. More details about
-  this equivalence relationship can be found in the <a href="rastop.htm">RASTOP</a> module. Exceptions are given by the cases IMG + PNT
-  = PNT and IMG + NOD = PNT which are commented below in the section on the
-  <a href="#enfoc_mixt">mixed mode</a>.
+  <h3>Vector mode</h3>
+  A vector mode for the combination of two layers can be
+ chosen whether the input files are two vector layers, one vector layer and one
+ raster layer or two categoric raster layers. In this case, the output vector
+ file, its type and its content will depend on the input file. Thus, a
+ categoric raster can be considered as a polygon file with a single thematic
+ raster attribute linked to a thesaurus of categories. More details about
+ this equivalence relationship can be found in the <a href="RasTop.htm">RasTop</a> module. Exceptions are given by the cases IMG + PNT
+ = PNT (or IMG + NOD = PNT) and IMG + POL = POL which are commented in the section 
+ <a href="#enfoc_mixt">mixed mode</a>.
 
   <dl>
     <dt>POL + POL = POL</dt>
 
     <dt>IMG + IMG = POL</dt>
 
-    <dd>The output polygon file is a polygon file that is obtained from the
-    fragmentation of the space produced by the union of the borders of the
-    original polygon files. Each fragment inherits all the attributes of both
-    the original polygons that it contains.</dd>
+    <dd>The output file is a polygon file that is obtained from the
+  fragmentation of the space produced by the union of the borders of the
+  original polygon files. Each fragment inherits all the attributes of both
+  the original polygons in which is contained.</dd>
 
     <dt>POL + ARC = ARC</dt>
 
     <dt>IMG + ARC = ARC</dt>
 
     <dd>Each arc is divided into fragments based on the borders in the polygon
-    file derived from the IMG. Apart from its own arc attributes, each
-    fragment inherits the attributes of the polygon it contains.</dd>
+  file derived from the IMG. In addition to its own arc attributes, each
+  fragment inherits the attributes of the polygon in which is contained.</dd>
 
     <dt>POL + ARC = POL</dt>
 
     <dt>IMG + ARC = POL</dt>
 
     <dd>The geometry of the polygon file remains unaltered but its registers
-    are increased by the attributes of each arc that crosses it or that is
-    entirely or partially included in it.</dd>
+  are increased by the attributes of each arc that crosses it or that is
+  entirely or partially inside.</dd>
 
     <dt>POL + PNT = PNT</dt>
 
@@ -63,149 +64,173 @@
     <dt>POL + NOD = PNT</dt>
 
     <dd>The node file is treated as a point file in which each point acquires
-    the attributes of the polygon that it lies within.</dd>
+  the attributes of the polygon it falls within.</dd>
 
     <dt>POL + NOD = POL</dt>
 
     <dt>IMG + NOD = POL</dt>
 
     <dd>The geometry of the polygon file remains unaltered but its registers
-    are increased by the attributes of the nodes falling inside the
-    polygon.</dd>
-  </dl>Note that in the case of vector combinations to give a vector, all the
-  attributes of all the principal tables of the two original vectors are taken
-  into account as well as their relationships with associated tables.
+  are increased by the attributes of the nodes falling inside each
+  polygon.</dd>
+</dl>
+  Note that in the case of vector combinations with a vector as result, all the
+ attributes of all the principal tables of the two original vectors are taken
+ into account as well as their relationships with associated tables.
 
-  <p>When the analysed layers have the same field names in the principal table
-  these are modified by adding _A for the first layer and _B for the second in
-  order to be able to distinguish them. This result is particularly useful for
-  studying the same parameter at two different times (for example, to compare
-  two vegetation maps of different dates).</p>
+  <p>When the analyzed layers have the same field names in the principal table
+ these are modified by adding _A for the first layer and _B for the second in
+ order to be able to distinguish them. This is particularly useful for
+ studying the same parameter at two different times (for example, to compare
+ two vegetation maps of different dates).</p>
 
   <p>In polygon combinations for which the borders do not originate from the
-  same source it is possible that small unwanted regions appear that we call
-  micropolygons (sliver polygons). The program allows these artefacts to be
-  removed selectively by defining a minimum area and/or a threshold
-  perimeter/area ratio. For more details see the syntax section and the help
-  on <a href="micropol.htm">MICROPOL</a>. <a id="enfoc_mixt" name="enfoc_mixt"></a></p>
+ same source it is possible that small unwanted regions appear that we call
+ micropolygons (sliver polygons). The program allows these artefacts to be
+ removed selectively by defining a minimum area and/or a threshold
+ perimeter/area ratio. For more details see <a href="MicroPol.htm">MicroPol</a>. <a id="enfoc_mixt" name="enfoc_mixt"></a></p>
 
-  <h3>Mixed mode</h3>A point or node file can be combined with either
-  categoric rasters or raster files with a continuous variable to create a PNT
-  file. In this case the geometry of the point file remains unaltered but each
-  point acquires the value of the raster cell or cells within a one pixel
-  radius of it. These values are inherited as a new field in the database.
-  When using categoric raster files it is possible to choose between the
-  nearest cell or the mode of the cells at less than one pixel radius. For
-  continuously variable rasters the options are the nearest cell or bilinear
-  interpolation between the 4 nearest neighbours or bicubic interpolation
-  between the 16 nearest neighbours. <a id="enfoc_raster" name="enfoc_raster"></a>
+  <h3>Mixed mode</h3>
+  
+    <p>IMG + PNT = PNT o IMG + NOD = PNT</p>
+  
+  <p>A point or node file can be combined with either
+ categoric rasters or raster files with a continuous variable to create a PNT
+ file. In this case, the geometry of the point file remains unaltered but each
+ point acquires the value of the raster cell or cells within a one pixel
+ radius of distance from it. These values are inherited as a new field in the database. When using categoric raster files it is possible to choose between the
+ nearest cell or the modal value of the cells at less than one pixel radius. For
+ continuously variable rasters the options are the nearest cell or bilinear
+ interpolation between the 4 nearest neighbors or bicubic interpolation
+ between the 16 nearest neighbors.</p>
+ 
+  <p>IMG + POL =POL with statistics</p>
 
-  <h3>Raster mode</h3>To combine two raster files they must cover the same
-  geographical area, have the same resolution and use the same units referred
-  to the same reference system. When combining a raster layer and a vector
-  layer the former defines the area and the resolution of the output. When
-  combining two vector layers, it is necessary to specify the extent of the
-  study zone and the resolution of the output raster file. The Wcombina window
-  allows a raster file to be used as a template for these parameters. When two
-  raster images are combined they can be of a different type (real format
-  images are excluded since these should never be used to represent categories
-  of data) and the degree of compression does not matter.
+  <p>In this case, statistical values of the raster pixels within each polygon are calculated and these statistical values are transferred to the corresponding registers of the polygon of the main table (without altering the geometry of the graphic objects). At the edges of the polygon, the raster values will be taken into account according to the combination of the criteria of area and central point. For more information on these criteria consult <a href="TiraVec.htm">TiraVec</a>.<br/>
+ The statistics implemented for a continuous quantitative raster are: 
+Total number of pixels, average, standard deviation, variance, summ, minimum,
+maximum and range. The statistics implemented for a categorical raster are: Total number of pixels, modal value, percentage of modal value over the total, index of Shannon, minimum, maximum and range. It should be noted that the NoData values of
+raster does not participate in any of the statistical calculations.</p>
 
-  <p>As stated previously, the result can be a raster and/or a report. If the
-  option to generate a <b>raster</b> is selected, this will always be in extra
-  compressed format and either byte, integer or long format according to the
-  number of combinations that has resulted from cross correlating the initial
-  two layers.</p>
+   <p align="center"><img src="ishannon.gif"/> <font size="-1"><br/>
+ Shannon index</font></p><a id="enfoc_raster" name="enfoc_raster"></a>
+
+ <h3>Raster mode</h3>To combine two raster files they must cover the same
+ geographical area, have the same resolution and use the same units referred
+ to the same reference system. When combining a raster layer and a vector
+ layer the former defines the area and the resolution of the output. When
+ combining two vector layers, it is necessary to specify the extent of the
+ study zone and the resolution of the output raster file. The wCombiCa window
+ allows a raster file to be used as a template for these parameters. When two
+ raster images are combined they can be of a different type (real format
+ images are excluded since these should never be used to represent categories
+ of data) and the degree of compression does not matter.
+
+ <p>As stated previously, the result can be a raster and/or a report. If the
+ option to generate a <b>raster</b> is selected, this will always be in extra
+ compressed format and either byte, integer or long format according to the
+ number of combinations that has resulted from cross correlating the initial
+ two layers.</p>
 
   <p>The new categories of the resulting raster are given ordered according to
-  the categories of the first layer, excluding those combinations that,
-  although theoretically possible, have not been obtained at any geographic
-  location. The resulting raster will generate a NODATA value in those
-  locations where both layers have a NODATA value (either because the input
-  raster contained such values, or because the input vector file had no
-  polygons at that point). The value of the NODATA will depend on the
-  automatically selected type of output. The combination of a NODATA point
-  with an allowable value will generate an allowable value and it will be
-  shown in the legend that this category corresponds to a special combination.
-  The original categories from which each of the categories originate are
-  specified in the resulting legend file; if a category in an original file
-  has no description, the numerical value is specified.</p>
+ the categories of the first layer, excluding those combinations that,
+ although theoretically possible, have not been obtained at any geographic
+ location. The resulting raster will generate a NoData value in those
+ locations where both layers have a NoData value (either because the input
+ raster contained such values, or because the input vector file had no
+ polygons at that point). The value of the NoData will depend on the
+ automatically selected type of output. The combination of a NoData point
+ with an allowable value will generate an allowable value and it will be
+ shown in the legend that this category corresponds to a special combination.
+ The original categories from which each of the categories originate are
+ specified in the resulting legend file; if a category in an original file
+ has no description, the numerical value is specified.</p>
 
   <p><a id="informe" name="informe"></a></p>
 
-  <h4>Reports</h4>For raster layers (or layers treated as rasters) the
-  combination of each value with the values present in the other layer are
-  analysed. Given that, the resulting vector layers typically have many fields
-  and that the statistics of all of them would be confusing, a report can only
-  be generated if no output layer is chosen (indicating the fields of the
-  vector layer to combine with the raster) or if the output layer is raster.
-  If the output layer is vector it is possible to perform attribute queries
-  with MiraMon to obtain the desired information. Bear in mind that, when an
-  output layer is not chosen and a report is generated relative to the fields
-  of the relevant layers, the area calculations for each occurrence of
-  particular combinations are based on the resolution of the hypothetical
-  raster output. The first table gives the total number of occurrences of each
-  pair of values resulting from the combination of the two layers. This is
-  followed by two tables of percentages. Firstly, the distribution of a
-  particular value in the first layer amongst the values of the second layer
-  is shown. The sum of each column will be therefore 100%. The second
-  percentages table is the same as the first but showing the distribution of
-  the second layer over the first; in this case the sum of the rows will be
-  100%.
+  <h4>Reports</h4>
+  For raster layers (or layers treated as rasters) the
+ combination of each value with the values present in the other layer are
+ analyzed. Given that, the resulting vector layers typically have many fields
+ and that the statistics of all of them would be confusing, a report can only
+ be generated if no output layer is chosen (indicating the fields of the
+ vector layer to combine with the raster) or if the output layer is raster.
+ If the output layer is vector it is possible to perform attribute queries
+ with MiraMon to obtain the desired information. Bear in mind that, when an
+ output layer is not chosen and a report is generated relative to the fields
+ of the relevant layers, the area calculations for each occurrence of
+ particular combinations are based on the resolution of the hypothetical
+ raster output. The first table gives the total number of occurrences of each
+ pair of values resulting from the combination of the two layers. This is
+ followed by two tables of percentages. Firstly, the distribution of a
+ particular value in the first layer amongst the values of the second layer
+ is shown. The sum of each column will be therefore 100%. The second
+ percentages table is the same as the first but showing the distribution of
+ the second layer over the first; in this case the sum of the rows will be
+ 100%.
 
-  <p>Finally, two more tables are generated that show the total area of each
-  combination. The first gives the figures in the specific reference units of
-  the layers used in the analysis (parameter &quot;ResolutionUnits&quot; of the
-  rasters' .REL files) and the second in the area units specified in the
-  MiraMon parameter file (parameter &quot;UnitArea&quot; of the MiraMon.PAR
-  file)</p>
+ <p>Finally, two more tables that show the total area of each
+ combination are generated. The first gives the figures in the specific reference units of the layers used in the analysis (parameter "ResolutionUnits" of raster .REL files) and the second in the area units specified in the
+ MiraMon parameter file (parameter "UnitArea" of the MiraMon.PAR
+ file).</p>
 
   <p>The <b>CSV format file</b> details the same information as the text file.
-  This format has been designed to be read by a spreadsheet such as Microsoft
-  Excel(r) . It is a text format in which a particular character acts as a
-  column break. This character can be specified in the advanced options of the
-  WCOMBICA program. It takes as a default value the character configured as
-  the list separator in the Windows Control Panel. In the same way as for the
-  TXT format, it is possible to limit the report width to avoid exceeding the
-  maximum number of columns supported by the spreadsheet when the number of
-  categories under consideration is high.</p>
+ This format has been designed to be read by a spreadsheet such as Microsoft
+ Excel®. It is a text format in which a particular character acts as a
+ column break. This character can be specified in the advanced options of the
+ wCombiCa program. It takes as a default value the character configured as
+ the list separator in the Windows Control Panel. In the same way as for the
+ TXT format, it is possible to limit the report width to avoid exceeding the
+ maximum number of columns supported by the spreadsheet when the number of
+ categories under consideration is high.</p>
 
   <p>When the <b>text file</b> (format TXT) option is chosen, this is made up
-  of five tables each with as many columns as there are values in the first
-  layer and as many rows as there are values in the second layer. The
-  numerical values of each category are specified in the initial row and
-  column of each of these tables and the corresponding descriptors are listed
-  at the end of the first table. The file can be paginated by selecting the
-  maximum number of columns that fit into the width of the file; by default
-  this value is 80 columns (categories).</p>
+ of five tables each with as many columns as there are values in the first
+ layer and as many rows as there are values in the second layer. The
+ numerical values of each category are specified in the initial row and
+ column of each of these tables and the corresponding descriptors are listed
+ at the end of the first table. The file can be paginated by selecting the
+ maximum number of columns that fit into the width of the file; by default
+ this value is 80 columns (categories).</p>
 
-  <p>To reduce the volume of information in the reports, you may apply some of
-  the parameters that allow to ignore certain tables (<i>/NO_FREQ,
-  /NO_PERCENT, /NO_AREA</i> )</p>
+  <p>To reduce the volume of information in the reports, some of
+ the parameters that allow to ignore certain tables can be applied (<i>/NO_FREQ,
+ /NO_PERCENT, /NO_AREA</i>).</p>
 
-  <center>
-    <img src="combiesq.gif"/><br/>
-    Schematic representation of the main possibilities<br/>
-    for the Analytical Combination of Layers. <img src="combies2.gif"/><br/>
-    Example of the use of the mixed mode.
-  </center>
+<center>
+ <table border="1">
+ <tr align="center" valign="middle"> 
+ <td><img src="combiesq.gif"/></td>
+  </tr>
+  <tr align="center" valign="middle"> 
+  <td> Schematic representation of the main possibilities<br/>
+  for the layer analytical combination. </td>
+  </tr>
+ </table>
+  <p>
+ <table  border="1">
+ <tr align="center" valign="middle"> 
+ <td><img src="combies2.gif"/></td>
+  </tr>
+  <tr align="center" valign="middle"> 
+  <td>  Example of the use of the mixed mode.</td>
+    </tr>
+
+ </table>
+</center>
+  <p>More information can be consulted at the following reference:</p>
+<p><b>Pesquer L, Masó J, Pons X </b>(2000) <i>Herramientas de análisis combinado ráster/vector en un entorno SIG</i>. Aguado I, Gómez M (eds.) Tecnologías Geográficas para el Desarrollo Sostenible. Departamento de Geografía. Universidad de Alcalá, 2000: 53-73. IX congreso del Grupo de Métodos Cuantitativos, Teledetección y SIG de la Asociación de Geógrafos Españoles, Alcalá de Henares.</p>
+  <hr/>
 
   <exclusiva>
 	<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
-	Notes:
-    <ul>
-      <li>It is necessary to select at least the output format from: /FCAPA=,
-      /FCSV= ar /FTXT=.
-
-
-      </li>
-    </ul>
+	
 <!-- $$EXCLUSIVA$$
 
-To obtain the full help information type:
-COMBICAP ?
+To obtain the complete help, please type:
+CombiCap ?
 -->
   </exclusiva>
 </body>
