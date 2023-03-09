@@ -8,45 +8,48 @@
 		<ows:Metadata xlink:title="Abstract:Este módulo permite la importación de ciertos formatos NetCDF al formato vectorial estructurado de puntos de MiraMon PNT. NetCDF responde a las iniciales de Network Common Data Form y es un formato habitual en ámbitos meteorológicos. Su gran flexibilidad y adaptabilidad lo convierte en adecuado para diferentes tipos de datos: observaciones puntuales, series temporales, imágenes de satélite o radar, etc."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcion</ows:Identifier>
+				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opcion</ows:Title>
-				<ows:Abstract>Opcion puede ser:<![CDATA[<li>1 si desea que no se reproyecten los puntos, es decir, que se mantengan en el sistema de referencia del fichero CDF.</li><li>2 si desea que se reproyecte a cualquiera de los sistemas de referencia soportados por MiraMon. Hay que identificar correctamente el datum del sistema de referencia origen</li>]]>
-</ows:Abstract>
+				<ows:Abstract><![CDATA[Opcion puede ser:<li>1 si desea que no se reproyecten los puntos, es decir, que se mantengan en el sistema de referencia del fichero CDF.</li><li>2 si desea que se reproyecte a cualquiera de los sistemas de referencia soportados por MiraMon. Hay que identificar correctamente el datum del sistema de referencia origen</li>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AllowedValues>
-					<ows:Value>1</ows:Value>
-					<ows:Value>2</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Fichero_CDF</ows:Identifier>
+				<ows:Identifier>FitxerCDF</ows:Identifier>
 				<ows:Title>Fichero CDF</ows:Title>
 				<ows:Abstract>Fichero_CDF es el fichero CDF a importar (con extensión).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ComplexData>
-				<Default>
-					<Format>
-						<MimeType>application/x-CDF</MimeType>
-						<Encoding>Binary</Encoding>
-					</Format>
-				</Default>
-				<Supported>
-					<Format>
-					<MimeType>application/x-CDF</MimeType>
-						<Encoding>Binary</Encoding>
-					</Format>
-				</Supported>
-			</ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-netcdf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-netcdf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>N_decimales</ows:Identifier>
+				<ows:Identifier>NDecimals</ows:Identifier>
 				<ows:Title>Numero de decimales</ows:Title>
 				<ows:Abstract>N_decimales será el número de dígitos decimales con que se escribirán los campos numéricos reales en la base de datos.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NDecimales"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -55,6 +58,7 @@
 				<ows:Title>Sistema de referencia</ows:Title>
 				<ows:Abstract>Indica el identificador del sistema de referencia del fichero NetCDF. Su valor por defecto es lat/long-ED50.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -63,32 +67,33 @@
 				<ows:Title>Sistema de referencia</ows:Title>
 				<ows:Abstract>Indica el identificador del sistema de referencia del fichero destino. Su valor por defecto se encuentra en la clave RefSystem= de la sección [Metrica] del fichero de configuración MiraMon.par</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 		</DataInputs>
-			<ProcessOutputs>
-				<Output>
-					<ows:Identifier>Fichero_Destino</ows:Identifier>
-					<ows:Title>Fichero Destino</ows:Title>
-					<ows:Abstract>Es el fichero PNT resultado.
-					</ows:Abstract>
-					<ows:Metadata xlink:title="Param3"/>
-					<ComplexOutput>
-						<Default>
-							<Format>
-								<MimeType>application/x-pnt</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Default>
-						<Supported>
-							<Format>
-								<MimeType>application/x-pnt</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Supported>
-					</ComplexOutput>
-				</Output>
-			</ProcessOutputs>
-		</ProcessDescription>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDesti</ows:Identifier>
+				<ows:Title>Fichero Destino</ows:Title>
+				<ows:Abstract>Es el fichero PNT resultado.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
 </wps:ProcessDescriptions>

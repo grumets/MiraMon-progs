@@ -8,45 +8,48 @@
 		<ows:Metadata xlink:title="Abstract:This module allows certain NetCDF formats to be imported into MiraMon structured vector point files PNT. NetCDF stands for Network Common Data Form and is a format commonly used by meteorologists. Its great flexibility and adaptability makes it suitable for various types of data: point observations, time series, satellite or radar images etc."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Option</ows:Identifier>
+				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Option</ows:Title>
-				<ows:Abstract>Option can be:<![CDATA[<li>1.1 if you do not wish to reproject the points, that is to keep them in the same reference system as for the CDF file.</li><li>2 if you wish to reproject the points to one of the other reference systems supported by MiraMon. It is necessary to correctly identify the datum of the original reference system.</li>]]>
-</ows:Abstract>
+				<ows:Abstract><![CDATA[Option can be:<li>1.1 if you do not wish to reproject the points, that is to keep them in the same reference system as for the CDF file.</li><li>2 if you wish to reproject the points to one of the other reference systems supported by MiraMon. It is necessary to correctly identify the datum of the original reference system.</li>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AllowedValues>
-					<ows:Value>1</ows:Value>
-					<ows:Value>2</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>CDF_file</ows:Identifier>
+				<ows:Identifier>FitxerCDF</ows:Identifier>
 				<ows:Title>CDF file</ows:Title>
 				<ows:Abstract>Is the CDF to be imported (with extension).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ComplexData>
-				<Default>
-					<Format>
-						<MimeType>application/x-CDF</MimeType>
-						<Encoding>Binary</Encoding>
-					</Format>
-				</Default>
-				<Supported>
-					<Format>
-					<MimeType>application/x-CDF</MimeType>
-						<Encoding>Binary</Encoding>
-					</Format>
-				</Supported>
-			</ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-netcdf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-netcdf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>N_decimals</ows:Identifier>
+				<ows:Identifier>NDecimals</ows:Identifier>
 				<ows:Title>Decimal Number</ows:Title>
 				<ows:Abstract>Will be the number of decimal places used to write numerical fields in the database.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:DecimalN"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -55,6 +58,7 @@
 				<ows:Title>Reference System</ows:Title>
 				<ows:Abstract>Indicates the identifier of the reference system of the NetCDF file. The default value is lat/long-ED50.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -63,32 +67,33 @@
 				<ows:Title>Reference System</ows:Title>
 				<ows:Abstract>Indicates the identifier of the reference system for the output file. The default value corresponds to the key RefSystem= in the [Metrica] section of the MiraMon.par configuration file.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 		</DataInputs>
-			<ProcessOutputs>
-				<Output>
-					<ows:Identifier>Output_file</ows:Identifier>
-					<ows:Title>Output File</ows:Title>
-					<ows:Abstract>Is the resulting PNT file.
-					</ows:Abstract>
-					<ows:Metadata xlink:title="Param3"/>
-					<ComplexOutput>
-						<Default>
-							<Format>
-								<MimeType>application/x-pnt</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Default>
-						<Supported>
-							<Format>
-								<MimeType>application/x-pnt</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Supported>
-					</ComplexOutput>
-				</Output>
-			</ProcessOutputs>
-		</ProcessDescription>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDesti</ows:Identifier>
+				<ows:Title>Output File</ows:Title>
+				<ows:Abstract>Is the resulting PNT file.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
 </wps:ProcessDescriptions>

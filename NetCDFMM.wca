@@ -9,44 +9,47 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opcio</ows:Title>
-				<ows:Abstract>Opcio pot ser: <![CDATA[<li>1. si desitgeu que no es reprojectin els punts, o sigui que es mantinguin en el sistema de referència del fitxer CDF.</li><li>2. si desitgeu que es reprojecti a qualsevol dels sistemes de referència suportats per MiraMon. Cal identificar correctament el datum del sistema de referència origen.</li>]]>
-</ows:Abstract>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract><![CDATA[Opcio pot ser: <li>1. si desitgeu que no es reprojectin els punts, o sigui que es mantinguin en el sistema de referència del fitxer CDF.</li><li>2. si desitgeu que es reprojecti a qualsevol dels sistemes de referència suportats per MiraMon. Cal identificar correctament el datum del sistema de referència origen.</li>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AllowedValues>
-					<ows:Value>1</ows:Value>
-					<ows:Value>2</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Fitxer_CDF</ows:Identifier>
+				<ows:Identifier>FitxerCDF</ows:Identifier>
 				<ows:Title>Fitxer CDF</ows:Title>
 				<ows:Abstract>És el fitxer CDF a importar (amb extensió).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ComplexData>
-				<Default>
-					<Format>
-						<MimeType>application/x-CDF</MimeType>
-						<Encoding>Binary</Encoding>
-					</Format>
-				</Default>
-				<Supported>
-					<Format>
-					<MimeType>application/x-CDF</MimeType>
-						<Encoding>Binary</Encoding>
-					</Format>
-				</Supported>
-			</ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-netcdf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-netcdf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>N_decimals</ows:Identifier>
+				<ows:Identifier>NDecimals</ows:Identifier>
 				<ows:Title>Numero de decimals</ows:Title>
 				<ows:Abstract>Serà el nombre de dígits decimals amb que s'escriuran els camps numèrics reals en la base de dades.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NDecimals"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -55,6 +58,7 @@
 				<ows:Title>Sistema de referencia</ows:Title>
 				<ows:Abstract>Indica l'identificador del sistema de referència del fitxer NetCDF. El seu valor per defecte és lat/long-ED50.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -63,32 +67,33 @@
 				<ows:Title>Sistema de referencia</ows:Title>
 				<ows:Abstract>Indica l'identificador del sistema de referència del fitxer destí. El seu valor per defecte és el corresponent a la clau RefSystem= de la secció [Metrica] del fitxer de configuració MiraMon.par.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 		</DataInputs>
-			<ProcessOutputs>
-				<Output>
-					<ows:Identifier>Fitxer_Desti</ows:Identifier>
-					<ows:Title>Fitxer Desti</ows:Title>
-					<ows:Abstract>és el fitxer PNT resultat.
-					</ows:Abstract>
-					<ows:Metadata xlink:title="Param3"/>
-					<ComplexOutput>
-						<Default>
-							<Format>
-								<MimeType>application/x-pnt</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Default>
-						<Supported>
-							<Format>
-								<MimeType>application/x-pnt</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Supported>
-					</ComplexOutput>
-				</Output>
-			</ProcessOutputs>
-		</ProcessDescription>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDesti</ows:Identifier>
+				<ows:Title>Fitxer Desti</ows:Title>
+				<ows:Abstract>És el fitxer PNT resultat.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerDesti"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
 </wps:ProcessDescriptions>
