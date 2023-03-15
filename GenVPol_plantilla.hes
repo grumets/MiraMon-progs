@@ -1,4 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 14-03-2023 */-->
 <head>
   <title>GenVPol: Generalitzación de lados de polígonos</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -7,66 +8,43 @@
   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-<p><i>Disculpe, este documento está pendiente de traducción</i></p>
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>Aquesta aplicació generalitza les vores (arcs) d'una capa de polígons. Per defecte, l'aplicació 
-  garanteix que el procés de generalització de les vores dels polígons no produeixi interseccions entre 
-  els arcs, col·lapses d'arcs individuals que formen un recinte tancat (evitant que un anell esdevingui 
-  un punt) o altres canvis que alterin les relacions topològiques entre les objectes arc que formen les 
-  vores o entre els polígons en si.</p>
-  <p>Cal que el fitxer que conté la capa de polígons a generar sigui diferent del fitxer original.</p>
-  <p>El programa treballa amb fitxers en format POL i VEC de polígons. Si us cal aplicar-lo sobre un fitxer en altres formats, 
-  podeu importar-lo amb les eines del menú "Fitxer | Importació".</p>
-  <p>En el seu funcionament recomanat com a eina de generalització el programa procedeix encadenant dos algorismes:</p>
-  <p>En el primer d'aquests algorismes per a cada arc, el programa aplica a cada vèrtex un filtre de mitjana 
-  mòbil sobre la seva posició (sobre les seves coordenades XY); aquest filtre pren en consideració dos, quatre 
-  o sis vèrtexs veïns en el mateix arc (un, dos o tres a cada banda del vèrtex en qüestió, a escollir). 
-  Els vèrtexs de l'extrem de l'arc (nodes) no modifiquen la seva posició en cap cas. D'altra banda, quan el 
-  nombre de vèrtexs de la mitjana mòbil desitjada és menor al nombre de vèrtexs del polisegment analitzat, 
-  aquest polisegment no resulta modificat (per exemple un arc de cinc vèrtexs (comptant els nodes) no resultarà 
-  amb cap vèrtex modificat si apliquem una mitjana mòbil de sis vèrtexs). A més, mai un vèrtex és mogut més 
-  enllà de la tolerància indicada per l'usuari (en les mateixes unitats planimètriques de la capa, típicament 
-  en metres). Noteu que la mitjana mòbil suavitza la línia canviant la posició dels vèrtexs però no 
-  n'augmenta ni en redueix el seu nombre.</p>
-  <p>A continuació s'aplica el segon algorisme, que és el de Douglas-Peucker (que també té una tolerància 
-  particular, anomenada èpsilon), el qual sí que permet reduir el nombre de vèrtexs, però no 
-  modifica la posició dels vèrtexs que hagin romàs. Vegeu la referència de 1973 per a detalls sobre el 
-  seu funcionament.</p>
+  <p>Esta aplicación generaliza los bordes (arcos) de una capa de polígonos. Por defecto, la aplicación garantiza que el proceso de generalización de los bordes de los polígonos no produzca intersecciones entre los arcos, colapsos de arcos individuales que forman un recinto cerrado (evitando que un anillo se convierta en un punto) u otros cambios que alteren las relaciones topológicas entre los objetos arco que forman los
+  bordes o entre los polígonos en sí.</p>
+  <p>Es necesario que el archivo que contiene la capa de polígonos a generar sea diferente del archivo original.</p>
+  <p>El programa trabaja con archivos en formato POL y VEC de polígonos. Si se necesita aplicarlo sobre un archivo en otros formatos, se puede importar con las herramientas del menú "Archivo | Importación".</p>
+  <p>En su funcionamiento recomendado como herramienta de generalización, el programa procede encadenando dos algoritmos:</p>
+  <p>En el primero de estos algoritmos para cada arco, el programa aplica a cada vértice un filtro de media móvil sobre su posición (sobre sus coordenadas XY); este filtro toma en consideración dos, cuatro o seis vértices vecinos en el mismo arco (uno, dos o tres a cada lado del vértice en cuestión, a elegir).
+  Los vértices del extremo del arco (nodos) no modifican su posición en ningún caso. Por otra parte, cuando el número de vértices de la media móvil deseada es menor al número de vértices del polisegmento analizado, este polisegmento no resulta modificado (por ejemplo un arco de cinco vértices (contando los nodos) no resultará con ningún vértice modificado si aplicamos una media móvil de seis vértices). Además, nunca un vértice es movido más allá de la tolerancia indicada por el usuario (en las mismas unidades planimétricas de la capa, típicamente en metros). Nótese que la media móvil suaviza la línea cambiando la posición de los vértices pero no aumenta ni reduce su número.</p>
+  <p>A continuación se aplica el segundo algoritmo, que es el de Douglas-Peucker (que también tiene una tolerancia particular, llamada épsilon), el cual sí permite reducir el número de vértices, pero no modifica la posición de los vértices que hayan permanecido. Véase la referencia de 1973 para detalles sobre su funcionamiento.</p>
 
-  <p>Els dos algorismes, però, poder ser aplicats separadament per interessos de recerca o de docència, 
-  tot i que, com s'ha dit, els millors resultats s'obtenen amb la combinació consecutiva de tots dos.</p>
+  <p>Los dos algoritmos, sin embargo, pueden ser aplicados separadamente por intereses de investigación o de docencia, aunque, como se ha dicho, los mejores resultados se obtienen con la combinación consecutiva de ambos.</p>
 
-  <p>GenVPol també permet indicar que si un objecte resultat interseca amb qualsevol dels preexistents, 
-  la generalització no s'accepta i es fa un segon intent de generalització tractant-lo en polisegments 
-  de 8 vèrtexs si és que és possible; després d'aquest segon intent, si algun d'aquests polisegments 
-  interseca amb algun objecte preexistent, s'adopta el polisegment de línia original.</p>
+  <p>GenVPol también permite indicar que, si un objeto resultado interseca con cualquiera de los preexistentes, la generalización no sea aceptada y se haga un segundo intento de generalización, tratándolo en polisegmentos de 8 vértices si es posible; después de este segundo intento, si alguno de estos polisegmentos interseca con algún objeto preexistente, se adopta el polisegmento de línea original.</p>
   
-  <p>En el cas del filtre de mitjana mòbil, l'usuari pot escollir els pesos que s'apliquen a cadascun 
-  dels vèrtexs anteriors i posteriors (és a dir, es pot modular la influència que tindran les coordenades 
-  dels vèrtexs veïns al llarg del mateix arc). Les possibilitats són:
+  <p>En el caso del filtro de media móvil, el usuario puede elegir los pesos que se aplican a cada uno los vértices anteriores y posteriores (es decir, se puede modular la influencia que tendrán las coordenadas
+de los vértices vecinos a lo largo del mismo arco). Las posibilidades son:
   <ul>
-  <li>Pesos iguals per a tots els vèrtexs de la mitjana mòbil.</li>
-  <li>Pesos automàtics, afavorint la posició dels vèrtexs centrals de la mitjana mòbil, 
-  però no canviant els pesos en funció de les distàncies entre vèrtexs.</li>
-  <li>Pesos automàtics a cada vèrtex en funció de l'invers de la distància 
-  planimètrica al vèrtex central de la mitjana mòbil. Aquesta és la opció per defecte si no s'indica l'opció desitjada.</li>
-  <li>Pesos de valors i distribució indicats per l'usuari (i en tal cas els pesos han de sumar 1).</li>
+  <li>Pesos iguales para todos los vértices de la media móvil.</li>
+  <li>Pesos automáticos, favoreciendo la posición de los vértices centrales de la media móvil, pero no cambiando los pesos en función de las distancias entre vértices.</li>
+  <li>Pesos automáticos a cada vértice en función del inverso de la distancia planimétrica al vértice central de la media móvil. Esta es la opción por defecto si no se indica la opción deseada.</li>
+  <li>Pesos de valores y distribución indicados por el usuario (y en tal caso los pesos deben sumar 1).</li>
   </ul></p>
 
-  <p>Quan estem tractant amb capes que provenen de tallar una capa més extensa (capa tallada seguint 
-  fulls cartogràfics o unitats administratives que es toquen entre si), cal conservar la geometria de 
-  la vora externa de la capa (que coincideix amb el concepte de polígon zero) per no moure la posició 
-  del tall del full o de la vora exterior de la unitat administrativa. En aquest cas, podeu usar el 
-  paràmetre /DESCARTA_POL_0 per evitar que els arcs que són fronteres amb el polígon zero siguin generalitzats.</p>
+  <p>Cuando estamos tratando con capas que provienen de cortar una capa más extensa (capa cortada siguiendo
+  hojas cartográficas o unidades administrativas que se tocan entre sí), se debe conservar la geometría del borde externo de la capa (que coincide con el concepto de polígono cero) para no mover la posición
+  del corte de la hoja o del borde exterior de la unidad administrativa. En este caso, se puede usar el
+  parámetro /DESCARTA_POL_0 para evitar que los arcos que son fronteras con el polígono cero sean generalizados.</p>
 
-  <p>Vegeu també l'aplicació <a href="micropol.htm">MicroPol</a> per a l'eliminació de polígons petits.</p>
-  
-  <p>Referència: Douglas, D, T Peucker (1973)  "<b>Algorithms for the reduction of the number of points 
-  required to represent a digitized line or its caricature</b>", <i>The Canadian Cartographer</i>, 10(2), 112–122. 
-  doi:10.3138/FM57-6770-U75U-7727</p>
+  <p>También se puede consultar la aplicación <a href="MicroPol.htm">MicroPol</a> para la eliminación de polígonos pequeños.</p>
+  <p>En caso de que la generalización no actúe, podría ser por culpa de que los bordes de los polígonos estén formados por segmentos (2 vértices cada arco del borde) unidos por nodos de línea, ya que el algoritmo de Douglas-Peuker funciona sobre cada arco, sin considerar posibles otros arcos conectados a él. En esta situación se puede valorar de eliminar los nodos de línea de la capa de arcos con la opción 4 del programa <a href="LinArc.htm">LinArc</a> y proceder a su generalización con <a href="GenVLin.htm">GenVLin</a> antes de volver a realizar el ciclado y asignar los atributos temáticos con <a href="AtriTop.htm">AtriTop</a> (nota: los atributos temáticos de la capa de polígonos pueden obtenerse en una capa de puntos a través del programa <a href="Etiqueta.htm">Etiqueta</a>).</p>
+ <p>Para más información se puede consultar la siguiente referencia:</p>
+   <p><ul>Douglas, D, T Peucker (1973)  "<b>Algorithms for the reduction of the number of points 
+  required to represent a digitized line or its caricature</b>", <i>The Canadian Cartographer</i>, 10(2), 112­122. 
+  doi:10.3138/FM57-6770-U75U-7727</ul></p>
   <hr/>
 
   <exclusiva>
