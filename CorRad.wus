@@ -1,38 +1,35 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:CorRad:!Param8</ows:Identifier>
+		<ows:Identifier>MiraMon:CorRad:1</ows:Identifier>
 		<ows:Title>CorRad</ows:Title>
-		<ows:Abstract>This program allows the radiometric correction of Remote Sensing images captured in the visible and infrared (not thermic) spectral regions.</ows:Abstract>
-<ows:Metadata xlink:title="Title:Radiometric correction of remote sensing images." />
-<ows:Metadata xlink:title="Abstract: This program allows the radiometric correction of Remote Sensing images captured in the visible and infrared (not thermic) spectral regions." />
+		<ows:Abstract>CorRad</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Radiometric correction of remote sensing images."/>
+		<ows:Metadata xlink:title="Abstract:This program allows the radiometric correction of Remote Sensing images captured in the visible and infrared (not thermic) spectral regions."/>
 		<DataInputs>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>1: Manual correction from the DEM.</li><li>2: Automatic correction from the DEM.</li><li>3: Manual correction and from the model of illuminations and shadows.</li><li>4: Automatic correction and based on the model of illuminations and shadows.</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Imatge_a_corregir</ows:Identifier>
+				<ows:Identifier>FitxOrigen</ows:Identifier>
 				<ows:Title>Image to correct</ows:Title>
 				<ows:Abstract>Radiometrically corrected image (can be part of a multiband raster).</ows:Abstract>
-				<ows:Metadata xlink:title="Param1" />
-			<ComplexData>
-					<Default>
-						<Format>
-								<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-		</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>MDE</ows:Identifier>
-				<ows:Title>Digital Elevation Model</ows:Title>
-				<ows:Abstract>Digital Elevation Model</ows:Abstract>
-				<ows:Metadata xlink:title="Param2" />
-			<ComplexData>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:OrigFile"/>
+				<ComplexData>
 					<Default>
 						<Format>
 							<MimeType>application/x-img</MimeType>
@@ -45,592 +42,205 @@
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
-		</ComplexData>
+				</ComplexData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Sensor</ows:Identifier>
-				<ows:Title>Sensor</ows:Title>
-				<ows:Abstract>Sensor used or the RAD file with the necessary parameters S0, tau0, tau0_ret, TempK1, TempK2</ows:Abstract>
-<ows:Metadata xlink:title="Param4" />
-		<ComplexData>
+				<ows:Identifier>MDE/MDI</ows:Identifier>
+				<ows:Title>Digital Elevation Model / Digital Illumination Model</ows:Title>
+				<ows:Abstract>Digital Model of Elevations for options 1 and 2, Digital Illumination Model for options 3 and 4</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:DEM/DIM"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxSortida</ows:Identifier>
+				<ows:Title>Fitxer resultat</ows:Title>
+				<ows:Abstract>Folder where the files resulting from the radiometric correction will be written, or the file resulting from the radiometric correction for the monoband case.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerRAD</ows:Identifier>
+				<ows:Title>Fitxer RAD</ows:Title>
+				<ows:Abstract>RAD text file (INI format) with the necessary parameters that depend on the sensor and the band: S0, tau0, tau0_ret, TempK1, TempK2. It is highly recommended to use the m_atmos.rad file that is distributed with the program, except if you want to correct images from a sensor that is not identified in this file.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:RADFile"/>
+				<ComplexData>
 					<Default>
 						<Format>
 							<MimeType>application/x-rad</MimeType>
-							<Encoding>UTF-8</Encoding>
+							<Encoding>ascii</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
 							<MimeType>application/x-rad</MimeType>
-							<Encoding>UTF-8</Encoding>
+							<Encoding>ascii</Encoding>
 						</Format>
 					</Supported>
-		</ComplexData>
-		</Input>
+				</ComplexData>
+			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>K1</ows:Identifier>
-				<ows:Title>K1</ows:Title>
-				<ows:Abstract>Value of Kl, consisted of a dark object</ows:Abstract>
-<ows:Metadata xlink:title="Param5" />
-		<LiteralData>
-		<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
-			<ows:AnyValue/>
-		</LiteralData>
-		</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Angle_limit</ows:Identifier>
-				<ows:Title>Angle Limit</ows:Title>
-				<ows:Abstract>Lambert is the angle limit</ows:Abstract>
-<ows:Metadata xlink:title="Param6" />
-		<LiteralData>
-		<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
-			<ows:AnyValue/>
-		</LiteralData>
-		</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Output Format</ows:Identifier>
-				<ows:Title>Output Format</ows:Title>
-				<ows:Abstract> No termics channel, 1 for byte output format or 4 to real.</ows:Abstract>
-<ows:Metadata xlink:title="Param7" />
-		<LiteralData>
-					<ows:AllowedValues>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-						<ows:Value>4</ows:Value>
-						<ows:Value>1</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>1</DefaultValue>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>ERROR_MDE</ows:Identifier>
-				<ows:Title>Error a Assumir</ows:Title>
-				<ows:Abstract>Failed to take on the DEM elevations. If neither is Pendra which is documented in the metadata or zero if not found. If the error is documented in the metadata RMS Pendra is twice this value.</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-					<DefaultValue>0</DefaultValue>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>DATA</ows:Identifier>
-				<ows:Title>Data</ows:Title>
-				<ows:Abstract>If not indicated it takes the metadata dates. More information at general sintax</ows:Abstract>
-				
-				<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>GUANY</ows:Identifier>
-				<ows:Title>Pendent aplicat</ows:Title>
-				<ows:Abstract>Slope is applied to a linear transformation of DN before the correction, but after subtracting Kl (Useful images processed by MSS Eurimage)</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integrer">integrer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>ILLUM_ORI</ows:Identifier>
-				<ows:Title>Illumination Model</ows:Title>
-				<ows:Abstract>Digital model of illumination previously generated with the same parameters of solar position.</ows:Abstract>
-		<ComplexData>
+				<ows:Identifier>FitxerK1/PIA</ows:Identifier>
+				<ows:Title>K1/PIA file</ows:Title>
+				<ows:Abstract>File with Kl values, dark object detection for manual correction, or polygon file with reference radiometric values for automatic correction.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:K1/PIAFile"/>
+				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
+							<MimeType>application/x-rad</MimeType>
+							<Encoding>ascii</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-img</MimeType>
+							<MimeType>application/x-rad</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
-		</ComplexData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>OMBRA_ORI</ows:Identifier>
-				<ows:Title>Digital Model</ows:Title>
-				<ows:Abstract>Digital model shadows previously generated with the same parameters of solar position</ows:Abstract>
-		<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-		</ComplexData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>ILLUM_DEST</ows:Identifier>
-				<ows:Title>Illumination Model generated</ows:Title>
-				<ows:Abstract>Illumination Model generated</ows:Abstract>
-			<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integrer">integrer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>OMBRA_DEST</ows:Identifier>
-				<ows:Title>Shadow Model</ows:Title>
-				<ows:Abstract>Shadow Model</ows:Abstract>
-			<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integrer">integrer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
+				</ComplexData>
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>REF_SUP_100</ows:Identifier>
-				<ows:Title>Reflectance</ows:Title>
-				<ows:Abstract> >100% reflectance.</ows:Abstract>
-	<LiteralData>
-					<ows:AllowedValues>
-							<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>INCID_SUP_90</ows:Identifier>
-				<ows:Title>Incidence angles</ows:Title>
-				<ows:Abstract>Incidence angle over 90%</ows:Abstract>
-	<LiteralData>
-					<ows:AllowedValues>
-							<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>CALC_A_L_OMBRA</ows:Identifier>
-				<ows:Title>Reflectance</ows:Title>
-				<ows:Abstract>Reflectance calculated in areas without direct radiation</ows:Abstract>
-		<LiteralData>
-					<ows:AllowedValues>
-							<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>ESCALAT</ows:Identifier>
-				<ows:Title>escalat</ows:Title>
-				<ows:Abstract>Escalated</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>LIMIT</ows:Identifier>
-				<ows:Title>saturation Limit</ows:Title>
-				<ows:Abstract>saturation Limit</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>CANAL</ows:Identifier>
-				<ows:Title>Sensosr Band</ows:Title>
-				<ows:Abstract>Sensaor Band</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>CALIB_SCALE</ows:Identifier>
-				<ows:Title>Slope calibration</ows:Title>
-				<ows:Abstract>Slope calibration.</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integrer">integrer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>CALIB_OFFSET</ows:Identifier>
-				<ows:Title>Ordenada en l'origen de la recta de calibració</ows:Title>
-				<ows:Abstract>Ordenada en l'origen de la recta de calibració per transformar DN a radiàncies. S'indica quan la radiometria no està documentada a les metadades.</ows:Abstract>
-		<LiteralData>
-					<ows:AllowedValues>
-							<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-		</Input>
-	</DataInputs>	
-		<ProcessOutputs>
-			<Output>
-				<ows:Identifier>Output</ows:Identifier>
-				<ows:Title>Output File</ows:Title>
-				<ows:Abstract>Output of the radiometric correction
-				</ows:Abstract>
-				<ows:Metadata xlink:title="Param3" />
-						<ComplexOutput>							
-							<Default>
-								<Format>
-								<MimeType>application/x-bmp</MimeType>
-								<Encoding>Binary</Encoding>
-								</Format>
-							</Default>
-								<Supported>
-								<Format>
-								<MimeType>application/x-bmp</MimeType>
-								<Encoding>Binary</Encoding>
-								</Format>
-							</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>
-	</ProcessDescription>
-	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:CorRad:Param1:8</ows:Identifier>
-		<ows:Title>CorRad Multibanda</ows:Title>
-		<ows:Abstract>Allows radiometrically corrected remote sensing images taken in visible and infrared spectral regions (near, middle and thermal).</ows:Abstract>
-		<DataInputs>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Imatge_a_corregir</ows:Identifier>
-				<ows:Title>Image</ows:Title>
-				<ows:Abstract>Radiometrically corrected image (can be part of a multiband raster).</ows:Abstract>
-				<ows:Metadata xlink:title="Param1" />
-			<ComplexData>
-					<Default>
-						<Format>
-								<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-		</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>MDE</ows:Identifier>
-				<ows:Title>Digital Elevation Model</ows:Title>
-				<ows:Abstract>Digital Elevation Model</ows:Abstract>
-				<ows:Metadata xlink:title="Param2" />
-			<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-		</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Sensor</ows:Identifier>
-				<ows:Title>Sensor</ows:Title>
-				<ows:Abstract>Sensor used or the RAD file with the necessary parameters S0, tau0, tau0_ret, TempK1, TempK2</ows:Abstract>
-<ows:Metadata xlink:title="Param4" />
-		<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-rad</MimeType>
-							<Encoding>UTF-8</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-rad</MimeType>
-							<Encoding>UTF-8</Encoding>
-						</Format>
-					</Supported>
-		</ComplexData>
-		</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>K1</ows:Identifier>
-				<ows:Title>K1</ows:Title>
-				<ows:Abstract>Value of Kl, consisted of a dark object.</ows:Abstract>
-<ows:Metadata xlink:title="Param5" />
-		<LiteralData>
-		<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
-			<ows:AnyValue/>
-		</LiteralData>
-		</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Angle_limit</ows:Identifier>
-				<ows:Title>Angle Limit</ows:Title>
-				<ows:Abstract>Lambert  angle limit.</ows:Abstract>
-<ows:Metadata xlink:title="Param6" />
-		<LiteralData>
-		<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
-			<ows:AnyValue/>
-		</LiteralData>
-		</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier> format_sortida</ows:Identifier>
-				<ows:Title>Format sortida</ows:Title>
-				<ows:Abstract>For thermal channels, if you want a first output format byte or 4 if you want real; by thermal channels is always true and this parameter is ignored.</ows:Abstract>
-<ows:Metadata xlink:title="Param7" />
-		<LiteralData>
-					<ows:AllowedValues>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
-						<ows:Value>4</ows:Value>
-						<ows:Value>1</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>1</DefaultValue>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>MULTIBANDA</ows:Identifier>
-				<ows:Title>Multibanda</ows:Title>
-				<ows:Abstract>For thermal channels, if you want a first output format byte or 4 if you want real; by thermal channels is always true and this parameter is ignored.</ows:Abstract>
-<ows:Metadata xlink:title="Param8" />
-		<LiteralData>
-					<ows:AllowedValues>
+				<ows:Title>Reflectances greater than 100%</ows:Title>
+				<ows:Abstract>Parameter that is indicated by the singular case in which it is allowed to exceed 100% of reflectances, and therefore we want to avoid marking this case as no data (background value).</ows:Abstract>
+				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
 						<ows:Value>##blank##</ows:Value>
 					</ows:AllowedValues>
 					<DefaultValue>##blank##</DefaultValue>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>ERROR_MDE</ows:Identifier>
-				<ows:Title>DEM Error</ows:Title>
-				<ows:Abstract>DEM Error.</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-					<DefaultValue>0</DefaultValue>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>DATA</ows:Identifier>
-				<ows:Title>Data del contingut de la imatge</ows:Title>
-				<ows:Abstract>If not indicated it takes the metadata dates. More information at general sintax</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>GUANY</ows:Identifier>
-				<ows:Title>Pendent aplicat</ows:Title>
-				<ows:Abstract>És el pendent aplicat per a una transformació lineal dels DN abans de la correcció, però després de restar Kl (útil en imatges MSS processades per Eurimage).</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integrer">integrer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>ILLUM_ORI</ows:Identifier>
-				<ows:Title>Model digital d'il·luminacions</ows:Title>
-				<ows:Abstract>Model digital d'il·luminacions prèviament generat amb els mateixos paràmetres de posició solar.</ows:Abstract>
-		<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-		</ComplexData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>OMBRA_ORI</ows:Identifier>
-				<ows:Title>Model digital d'ombres</ows:Title>
-				<ows:Abstract>Model digital d'ombres prèviament generat amb els mateixos paràmetres de posició solar.</ows:Abstract>
-		<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-		</ComplexData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>ILLUM_DEST</ows:Identifier>
-				<ows:Title>Nom MDE I-luminacions generat</ows:Title>
-				<ows:Abstract>Nom on es desarà el model digital d'il·luminacions generat. Si no s'indica es generarà en un directori temporal i serà esborrat en acabar. </ows:Abstract>
-			<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyUri">anyUri</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>OMBRA_DEST</ows:Identifier>
-				<ows:Title>Nom MDE ombres generat</ows:Title>
-				<ows:Abstract>Nom on es desarà el model digital d'ombres generat. Si no s'indica es generarà en un directori temporal i serà esborrat en acabar.</ows:Abstract>
-			<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyUri">anyUri</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>REF_SUP_100</ows:Identifier>
-				<ows:Title>Reflectancies superios a 100%</ows:Title>
-				<ows:Abstract>Paràmetre que s'indica pel cas singular en què es permet sobrepassar el 100% de reflectàncies, i per tant es vol evitar marcar aquest cas com a NODATA (valor de fons).</ows:Abstract>
-		<LiteralData>
-					<ows:AllowedValues>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>INCID_SUP_90</ows:Identifier>
-				<ows:Title>Angles incidència  superiors a 90%</ows:Title>
-				<ows:Abstract>Paràmetre que s'indica pel cas singular en què es permet sobrepassar angles d'incidència superiors a 90° i que és equivalent a definir un teòric angle lambertià de 180°. Si no s'indica, els píxels amb angles d'incidència >90° queden marcats com a NODATA.</ows:Abstract>
-		<LiteralData>
-					<ows:AllowedValues>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>CALC_A_L_OMBRA</ows:Identifier>
-				<ows:Title>Reflectàncies calculades a les zones sense radiació directa</ows:Title>
-				<ows:Abstract>S'usa quan es desitja obtenir reflectàncies calculades a les zones sense radiació directa, en comptes que quedin marcades com a NODATA.</ows:Abstract>
-		<LiteralData>
-					<ows:AllowedValues>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-		</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>F_ESCALAT</ows:Identifier>
-				<ows:Title>Fitxer RAD</ows:Title>
-				<ows:Abstract> fitxer RAD amb els factors d'escalat de les reflectàncies a [0,254] per a cada banda. Només aplica a bandes no tèrmiques i quan el format de sortida és byte.</ows:Abstract>
-		<ComplexData>
-					<Default>
-						<Format>
-								<MimeType>application/x-rad</MimeType>
-							<Encoding>base64</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-rad</MimeType>
-							<Encoding>base64</Encoding>
-						</Format>
-					</Supported>
-		</ComplexData>
-		</Input>
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MULTIBANDA</ows:Identifier>
-				<ows:Title>Angles incidència  superiors a 90%</ows:Title>
-				<ows:Abstract>Corregir totes les bandes d'un ràster multibanda</ows:Abstract>
-	<LiteralData>
-					<ows:AllowedValues>
+				<ows:Title>Multiband</ows:Title>
+				<ows:Abstract>To correct in a single execution of the program all the bands of a multiband raster and generate as a result a multiband raster with the corresponding corrected bands.</ows:Abstract>
+				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:Value>##blank##</ows:Value></ows:AllowedValues>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
 					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
-		</Input>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TOLER_RAD</ows:Identifier>
+				<ows:Title>TOLER_RAD</ows:Title>
+				<ows:Abstract>Indicates a multiplicative factor to the tolerances (difference in the reference value and the value adjusted by the automatic model) defined by default. The default tolerances are around 2%, they are different for each side (consult the article Pons et al. 2014). A tolerance factor greater than 1 implies a less strict comparison between the reference radiometric values and the model values, but may imply an increase in the uncertainty in the result. It is advisable to increase this value when the automatic model does not find enough polygons for the adjustment. A (positive) value lower than 1 implies a more faithful correction to the reference values, but then the result will be generated with fewer polygons.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PREFIX</ows:Identifier>
 				<ows:Title>Prefix fitxers originals</ows:Title>
-				<ows:Abstract>Prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers corregits per al cas multibanda. Si no s'indica no s'afegeix cap prefix, excepte que les imatges d'entrada i de sortida estiguin al mateix directori, cas en el qual s'afegeix un prefix "r_".</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues>
-						<ows:AnyValue/>
-					</ows:AllowedValues>
-			</LiteralData>
-		</Input>
+				<ows:Abstract>Prefix added to the original file names to determine the corrected file names for the multiband case. If not specified, no prefix is added, unless the input and output images are in the same directory, in which case an "r_" prefix is added.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				</LiteralData>
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>F_CALIB</ows:Identifier>
-				<ows:Title>Fitxer RAD</ows:Title>
-				<ows:Abstract>fitxer RAD amb els paràmetres de la recta de calibració de cada banda. S'indica quan la radiometria no està documentada a les metadades.</ows:Abstract>
-		<ComplexData>
+				<ows:Identifier>CONSERVAR_MDT</ows:Identifier>
+				<ows:Title>Keep DTM</ows:Title>
+				<ows:Abstract>In options 1 and 2, this parameter allows you to save the lighting model and the shadow model (and can be reused in options 3 and 4).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MDE_PER_TAU0</ows:Identifier>
+				<ows:Title>MDE_PER_TAU0</ows:Title>
+				<ows:Abstract>Digital Elevation Model file used by the Tau0 parameter (only for options 3 and 4 and in case the /TAU0_ALT parameter is also requested).</ows:Abstract>
+				<ComplexData>
 					<Default>
 						<Format>
-								<MimeType>application/x-rad</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-rad</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
-		</ComplexData>
-		</Input>
-	</DataInputs>	
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>INCID_SUP_90</ows:Identifier>
+				<ows:Title>Angles of incidence greater than 90%</ows:Title>
+				<ows:Abstract>Parameter that is indicated by the singular case in which it is allowed to exceed incidence angles greater than 90° and which is equivalent to defining a theoretical Lambertian angle of 180°. If not specified, pixels with incidence angles >90° are marked as no data.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>LIMIT_LAMBERT</ows:Identifier>
+				<ows:Title>Lambertian limit angle</ows:Title>
+				<ows:Abstract>Lambertian limit angle, if not indicated the default value is 70</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>70</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAU0_ALT</ows:Identifier>
+				<ows:Title>TAU0_ALT</ows:Title>
+				<ows:Abstract>It indicates that the Tau0 parameter is a height-dependent function. In options 3 and 4, it is necessary to indicate the MDE from the parameter /MDE_PER_TAU0=</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
 		<ProcessOutputs>
-			<Output>
-				<ows:Identifier>Resultat</ows:Identifier>
-				<ows:Title>Fitxer resultat</ows:Title>
-				<ows:Abstract>Es el fitxer resultat de la correcció radiomètrica. 
-				</ows:Abstract>
-				<ows:Metadata xlink:title="Param3" />
-						<ComplexOutput>							
-							<Default>
-								<Format>
-								<MimeType>application/x-bmp</MimeType>
-								<Encoding>Binary</Encoding>
-								</Format>
-							</Default>
-								<Supported>
-								<Format>
-								<MimeType>application/x-bmp</MimeType>
-								<Encoding>Binary</Encoding>
-								</Format>
-							</Supported>
-				</ComplexOutput>
-			</Output>
 		</ProcessOutputs>
 	</ProcessDescription>
 </wps:ProcessDescriptions>
