@@ -1,109 +1,213 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:RegioPNT:1</ows:Identifier>
-		<ows:Title>Regions from point occurrences</ows:Title>
+		<ows:Identifier>MiraMon:RegioPNT:Param1:1</ows:Identifier>
+		<ows:Title>Regions from point occurrences by simple mode</ows:Title>
 		<ows:Abstract>This module generates a poligon vectorial layer from the thematic and spatial grouping of points. Typically it is used in the determination of regions of activity, influences, attends, etc of a certain species or variable, habitually booleana (0 or 1), from information received in punctual locations.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Regions from point occurrences"/>
 		<ows:Metadata xlink:title="Abstract:This module generates a poligon vectorial layer from the thematic and spatial grouping of points. Typically it is used in the determination of regions of activity, influences, attends, etc of a certain species or variable, habitually booleana (0 or 1), from information received in punctual locations."/>
 		<DataInputs>
-	<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Option</ows:Identifier>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Option</ows:Title>
-				<ows:Abstract><![CDATA[<li>1. Simple mode: only one region is generated and it has one percentage attribute, whole of 100 % or partially.</li><li>2. multiple mode: diferents regions with superposings are generated, from a low to a high percentage according to a constant increase.</li>]]>
-</ows:Abstract>
+				<ows:Abstract>Simple mode: only one region is generated and it has one percentage attribute, whole of 100 % or partially.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
-			<LiteralData>
-				<ows:AllowedValues>
-				<ows:Value>1</ows:Value>
-				<ows:Value>2</ows:Value>
-				</ows:AllowedValues>
-			</LiteralData>
-			</Input>			
-	<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>InputPoints</ows:Identifier>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PNTOrigen</ows:Identifier>
 				<ows:Title>Input Points</ows:Title>
-				<ows:Abstract>Input file name that contains the points in PNT format.
-</ows:Abstract>
+				<ows:Abstract>Input file that contains the points in PNT format.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
-			<ComplexData>
-				<Default>
-					<Format>
-					<MimeType>application/x-VEC</MimeType>
-								<Encoding>Binary</Encoding>
-					</Format>
-				</Default>
-				<Supported>
-					<Format>
-					<MimeType>application/x-VEC</MimeType>
-								<Encoding>Binary</Encoding>
-					</Format>
-				</Supported>
-			</ComplexData>
+				<ows:Metadata xlink:title="Name:InputPNT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
-	<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>LowPercent</ows:Identifier>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercentInf</ows:Identifier>
 				<ows:Title>Low Percent</ows:Title>
-				<ows:Abstract>Low percentage for the multiple option, or percentage for the simple option. For a region with the whole points this parameter will take the value 100.
-</ows:Abstract>
-	<ows:Metadata xlink:title="Param4"/>
-			<LiteralData>
-				<ows:AnyValue/>
-			</LiteralData>
+				<ows:Abstract>Low percentage for the multiple option, or percentage for the simple option. For a region with the whole points this parameter will take the value 100.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:LowPerc"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
 			</Input>
-	<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>HighPercent</ows:Identifier>
-				<ows:Title>High Percent</ows:Title>
-				<ows:Abstract>High percentage for the multiple option. If the entire increase from the low percentage is not multiple of Increase, the region of maximum percentage will be a minor value that if it was multiple.
-</ows:Abstract>
-			<LiteralData>
-			<ows:AnyValue/>
-			</LiteralData>
-			</Input>
-	<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>Increase</ows:Identifier>
-				<ows:Title>Increase</ows:Title>
-				<ows:Abstract>Constant percentage increase of points to generate different regions.
-</ows:Abstract>
-			<LiteralData>
-			<ows:AnyValue/>
-			</LiteralData>
-			</Input>
-	<Input minOccurs="0" maxOccurs="1">
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CRITERI_SEL</ows:Identifier>
 				<ows:Title>Selection Criteria</ows:Title>
-				<ows:Abstract>For pre-selections from spatial distribution where it is necessary to restrict of the whole of points one certain percentage, the user can choose between the following criteria:<![CDATA[<ul><li>1: Distances from the centroide of the point distribution. This is the automatic option.</li><li>2: Distances from a point to de rest of the distribution.</li><li>3: Distances from the center of the scope point distribution.</li></ul>]]>
-</ows:Abstract>
-			<LiteralData>
-			<ows:AnyValue/>
-			</LiteralData>
+				<ows:Abstract><![CDATA[For pre-selections from spatial distribution where it is necessary to restrict of the whole of points one certain percentage, the user can choose between the following criteria:<ul><li>1: Distances from the centroide of the point distribution. This is the automatic option.</li><li>2: Distances from a point to de rest of the distribution.</li><li>3: Distances from the center of the scope point distribution.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
 			</Input>
 		</DataInputs>
-			<ProcessOutputs>
-					<Output>
-					<ows:Identifier>OutputRegions</ows:Identifier>
-					<ows:Title>Output Regions</ows:Title>
-					<ows:Abstract>Output polygon file name that contains the regions generated from the chosen points. It can be in VEC or POL format.</ows:Abstract>
-					<ows:Metadata xlink:title="Param2"/>
-					<ComplexOutput>
-						<Default>
-							<Format>
-								<MimeType>application/x-VEC</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Default>
-						<Supported>
-							<Format>
-								<MimeType>application/x-VEC</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-							<Format>
-								<MimeType>application/x-pol</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Supported>
-					</ComplexOutput>
-				</Output>
-			</ProcessOutputs>
-		</ProcessDescription>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>POLSortida</ows:Identifier>
+				<ows:Title>Output Regions</ows:Title>
+				<ows:Abstract>Output polygon file name that contains the regions generated from the chosen points. It can be in VEC or POL format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:OutputPOL"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:RegioPNT:Param1:2</ows:Identifier>
+		<ows:Title>Regions from point occurrences by multiple mode</ows:Title>
+		<ows:Abstract>This module generates a poligon vectorial layer from the thematic and spatial grouping of points. Typically it is used in the determination of regions of activity, influences, attends, etc of a certain species or variable, habitually booleana (0 or 1), from information received in punctual locations.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>Multiple mode: diferents regions with superposings are generated, from a low to a high percentage according to a constant increase.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PNTOrigen</ows:Identifier>
+				<ows:Title>Input Points</ows:Title>
+				<ows:Abstract>Input file that contains the points in PNT format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:InputPNT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercentInf</ows:Identifier>
+				<ows:Title>Low Percent</ows:Title>
+				<ows:Abstract>Low percentage for the multiple option, or percentage for the simple option. For a region with the whole points this parameter will take the value 100.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:LowPerc"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>PercentSup</ows:Identifier>
+				<ows:Title>High Percent</ows:Title>
+				<ows:Abstract>High percentage for the multiple option. If the entire increase from the low percentage is not multiple of Increase, the region of maximum percentage will be a minor value that if it was multiple.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:HighPerc"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Increment</ows:Identifier>
+				<ows:Title>Increase</ows:Title>
+				<ows:Abstract>Constant percentage increase of points to generate different regions.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Increase"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CRITERI_SEL</ows:Identifier>
+				<ows:Title>Selection Criteria</ows:Title>
+				<ows:Abstract><![CDATA[For pre-selections from spatial distribution where it is necessary to restrict of the whole of points one certain percentage, the user can choose between the following criteria:<ul><li>1: Distances from the centroide of the point distribution. This is the automatic option.</li><li>2: Distances from a point to de rest of the distribution.</li><li>3: Distances from the center of the scope point distribution.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>POLSortida</ows:Identifier>
+				<ows:Title>Output Regions</ows:Title>
+				<ows:Abstract>Output polygon file name that contains the regions generated from the chosen points. It can be in VEC or POL format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:OutputPOL"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-pol</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
 </wps:ProcessDescriptions>
