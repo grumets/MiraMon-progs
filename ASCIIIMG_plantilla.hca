@@ -1,4 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 05-04-2023 */-->
 <head>
   <title>ASCIIIMG: Pas de fitxers ràster ASCII a format MiraMon</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -7,12 +8,12 @@
   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-<p>Aquest programa importa fitxers ràsters de diversos formats
-  ASCII al MiraMon (format IMG). Els formats ASCII suportats poden contenir línies de capçalera que indiquen les característiques geomètriques del fitxer. En funció del tractament que es dona a la capçalera, ASCIIIMG té tres opcions:</p>
+<p>Aquest programa importa fitxers ràster de diversos formats
+  ASCII al MiraMon (format IMG). Els formats ASCII suportats poden contenir línies de capçalera que indiquen algunes característiques del fitxer, com ara el nombre de columnes i files, etc. En funció del tractament que es dona a la capçalera, ASCIIIMG té tres opcions:</p>
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-  <p>Així doncs, ASCIIIMG suporta quatre tipus principals de fitxers ASCII:</p>
+  <p>Així doncs, l'ASCIIIMG suporta quatre tipus principals de fitxers ASCII:</p>
   <ul>
   <li><a href="http://resources.esri.com/help/9.3/arcgisengine/java/GP_ToolRef/spatial_analyst_tools/esri_ascii_raster_format.htm?">ESRI ASCII ràster format</a>: S'importa el format ASCII (habitualment extensió .asc) propi del programari ArcGIS.
     <br/>
@@ -51,23 +52,22 @@
     <li>Valors estructurats en columnes.<br/>
       Exemple:
       <pre>
-    V    68    Matorral
-    V    84    Coníferas
-    A    37    Agua
-    V    72    Matorral
+    V    68    Matoll
+    V    84    Coníferes
+    A    37    Aigua
+    V    72    Matoll
     </pre>          
     </li>      
   </ul>
 
-  <p>Els formats de sortida tolerats són: bit, byte, integer, uinteger, long i real.</p>
+  <p>Els tipus de dades de sortida tolerats són: bit, byte, integer, uinteger, long i real, amb compressió RLE o sense compressió.</p>
 
-  <p>ASCIIIMG suporta retorns de carro estil DOS (0x0D 0x0A) i estil UNIX
+  <p>L'ASCIIIMG suporta retorns de carro estil DOS/Windows (0x0D 0x0A) i a l'estil UNIX
   (0x0D).</p>
 
-  <p>Es pot indicar un valor de fons ('<i>flag value</i>'). Aquest és aplicat
-  en el cas de conversions fora de rang.</p>
+  <p>Es pot indicar un valor corresponent al sensedades ('<i>NoData</i>', valor de fons o '<i>flag value</i>'). Aquest és aplicat tant quan es consignen els valors explícits (com els que s'indiquen en alguns fitxers ESRI amb capçalera) com en el cas de conversions fora de rang.</p>
 
-  <p>El programa documenta els camps:</p>
+  <p>El programa documenta un conjunt mínim de metadades, que poden ser enriquides amb el GeM+ posteriorment si es desitja. Les metadades documentades són:</p>
   <pre>
 data type   : 
 file type   : 
@@ -87,7 +87,7 @@ min. Y      :
 max. Y      : 
 resolution  : 
 </pre>
- Si no s'indiquen aquests arguments aquests camps es documenten per defecte com:
+ Si no s'indiquen aquests arguments, aquestes metadades es documenten per defecte com a:
 <pre>
 ref. system : plane
 ref. units  : pixels
@@ -97,7 +97,7 @@ min. Y      : 0
 max. Y      : ncol
 resolution  : 1
 </pre>
-La resta d'entrades es documenten com:
+La resta d'entrades es documenten com a:
   <pre>
 file title  : 
 unit dist.  : 1.0
@@ -109,7 +109,7 @@ legend cats : 0
 </pre>
 
   <p>El programa controla que la imatge origen no sigui incompleta (truncada).
-  Malgrat això, si el dèficit de pixels és inferior al 70% el programa farceix
+  Malgrat això, si el dèficit de cel·les o píxels és inferior al 70% el programa farceix
   la resta de la imatge amb l'últim valor llegit. Així s'obté una
   imatge que pot ser consultada o retallada en el fragment que conté dades
   vàlides.</p>
