@@ -1,35 +1,29 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 07-04-2023 */-->
 <head>
   <title>CorRad: Radiometric correction of remote sensing images.</title>
-  <meta content="Joan Masó" name="author"/>
-  <meta content="© 1999 Xavier Pons" name="copyright"/>
-  <meta content="Arnald Marcer" name="translator"/>
-  <meta content="1999-07-14" name="translationdate"/>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-	This program allows the radiometric correction of Remote
-  Sensing images captured in the visible and infrared (not thermic) spectral
+	This program allows the radiometric correction of remote
+  sensing images captured in the visible and non-thermal infrared spectral
   regions. The radiometric correction allows to reduce the number of undesired
   artifacts that are due to the effects of the atmosphere or to the
   differential illumination which is in turn due to the time of the day, the
   location in the Earth and the relief (zones that are more illuminated than
   others, shadows, etc).
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>The program has been prepared for images Landsat-TM or MSS and SPOT-XS.
-  However it can be scaled to practically any other spatial or airborne sensor
+  <p>The program has been prepared for images Landsat (MSS, TM, ETM+, OLI,...), SPOT (XS), Sentinel-2 (MSI), etc, and can be used for almost any other spatial or airborne sensor
   by using files of RAD type (see description below). These files are very
-  simple to write. In fact, the program is provided with RAD files for other
-  sensors as examples.</p>
+  simple to write. As an example some 
+   tables with calibration parameters for Landsat-7 ETM+ are supplied.</p>
 
-  <p>The model of radiometric correction which has been implemented in this
+  <p>As for the visible and non-thermal infrared spectral regions, the model of radiometric correction which has been implemented in this
   program is based on the model proposed by Xavier Pons and Lluís
   Solé-Sugrañes in the article:</p>
 
@@ -38,9 +32,11 @@
     Correction Model to Improve Automatic Mapping of Vegetation from
     Multispectral Satellite Data" Remote Sensing of Environment,
     48:191-204.
-  </blockquote>This model has been successfully used in later words of several
-  authors.
-
+  </blockquote>This model has been successfully used in later words of several authors.</p>
+  
+<p>Regarding the thermal infrared spectral region, refer to
+   <a href="http://ltpwww.gsfc.nasa.gov/IAS/handbook/handbook_htmls/chapter11/chapter11.html">http://ltpwww.gsfc.nasa.gov/IAS/handbook/handbook_htmls/chapter11/chapter11.html</a> the model of conversions of radiances to temperatures.</p>
+  
   <p>In the current implementation, however, several improvements such as the
   consideration of projected shadows, the use of different rescaling factors
   depending on the different spectral bands, etc., have been included.</p>
@@ -50,7 +46,7 @@
   foundations of the formulation of the algorithm. If you are interested in
   these aspects please refer to the article cited above.</p>
 
-  <p>In essence, this model of radiometric corrections converts an image with
+  <p>For visible and thermal infrared spectral regions, in essence, this model of radiometric corrections converts an image with
   values (DN) which are proportional to the radiance received by the sensor
   into an image in which values are reflectances. As it is known, radiance
   values are usually distributed in the interval [0,1] (or in [0,100] if
@@ -65,18 +61,14 @@
   position, Earth-Sun distance in the moment of image capture, the decrease in
   radiation in its way down and up because of the atmosphere, and standard
   parameters for each channel such as atmospheric optical density,
-  exoatmospheric solar irradiance and sensor calibration. The program performs
-  the correction for a single spectral channel in every execution. In order to
-  correct other channels you only need to execute the program again with the
-  appropriate files and parameters.</p>
-
-  <p>The program needs two auxiliary images. The first one will have the
-  cosines of the incidence angle of the solar radiantion as pixel values. The
-  second one will have the solar azimuth with which the image was captured,
-  that is the elevation of the sun which cause the projected shadows in each
-  pixel (below see the programs that allow to create these images).</p>
-
-  <p>The atmospheric correction is based on the substraction of the lowest
+  exoatmospheric solar irradiance and sensor calibration. The program performs the correction for all the multispectral bands, at the same time, in a single execution, but if desired it can be done for a single band.</p>
+  
+  <p><u>Auxiliary images of lighting and shadows</u><br/>
+  For the topographic correction part of the model, the program needs two auxiliary images derived from the digital elevation model and solar position: The first one will have the cosines of the incidence angle of the solar radiation as pixel values. The second one will have the solar azimuth with which the image was captured, that is the elevation of the sun which cause the projected shadows in each pixel (see the related modules below). These auxiliary images may be generated temporarily or may be provided by the user. It must be borne in mind that the program assumes that the solar position relative to the center of the field is unique for all channels, that different bands can have different pixel side (with corresponding coherent Digital Elevation Models (DEMs)) or even different scope, but not a different scene center. If  this condition is not verified, band to band correction will be needed.<br/>
+  These two auxiliary images (which are usually generated, used and are deleted) can be kept if desired, indicating it explicitly with the <i>/CONSERVAR_MDT</i> parameter or the corresponding activation button in the dialog box. If using some already created, derived from the same MDE it is necessary to use options 3 or 4.</p>
+  
+  <p><u>Manual atmospheric correction</u><br/>
+  <p>The manual atmospheric correction is based, when the 1994 model is followed, on the substraction of the lowest
   radiometric values for each channel. This value is named Kl. When
   determining Kl it is not recommended to do it 'blindly' by assigning
   the minimum value of the histogram. Instead, it is recommended to visually
@@ -88,20 +80,15 @@
   values for each channel) has proved to be very useful in the determination
   of Kl. Finally, you should remember that the value of Kl to be applied in an
   image without neither water nor hard shadows (soft relief in relation to
-  solar elevation) may even be below the minimum value of the image.</p>
+  solar elevation) may even be below the minimum value of the image. The Kl values for each side are entered in a text file that can be easily created from the "Create or modify RAD file" button.</p>
 
-  <p>Although this correction model works with incidence angles inferior to 90
-  degrees, it is more realistic to assume that with angles that are close to
-  this value the model can not be assumed to be lambertian. Therefore, it is
-  necessary to indicate the angle, in degrees, from which the correction model
-  will not be applied (e.g. 73, 70, etc).</p>
-
-  <p>On the other hand, and due to imprecisions in the Digital Elevation Model
-  (DEM) from which the shadows image has been calculated, we might treat
-  pixels which are shadowed as illuminated. For this reason, it is convenient
-  to indicate the estimated error of the DEM (indicate 0 if unknown). This
-  error must be indicated in the same units as the reference system. Sensors
-  which are currently supported are:</p>
+  <p><u>Automatic atmospheric correction</u><br/>
+  The automatic atmospheric correction is based, when following the 2014 model, on the adjustment of the tau and La parameters (only atmospheric contribution of the radiance received by the sensor) through the known reflectance in reference zones, typically in zones pseudo-invariants (PIA) so that they are not dependent on a specific date, obtained from other remote sensors or with field radiometers. These reference values are given in percentage in the main table of the polygon file and it is necessary to provide a field (identified with the band suffix) for each band that you want to correct.
+  
+  <p><u>Angles</u><br/>
+  <p>Although this correction model works with incidence angles inferior to 90 degrees, it is more realistic to assume that with angles that are close to this value the model can not be assumed to be lambertian. Therefore, it is necessary to indicate the angle, in degrees, from which the correction model will not be applied (e.g. 73, 70, etc).</p>
+  
+  <p>The sensors currently supported, with calibration parameters according to the latest bibliographical reviews, are those included in the file <i>m_atmos.rad</i>:
 
   <ol>
     <li>Landsat-4 (TM) [Before august 1993]</li>
@@ -136,45 +123,60 @@
 
     <li>Landsat-5 (MSS) [November 8th, 1984 or later dates]</li>
 
-    <li>Landsat-7 (ETM+) [high and low gain; NLAPS and LPGS]</li>
-  </ol>Valid channels for TM: 1, 2, 3, 4, 5 i 7<br/>
-  Valid channels for SPOT: 1, 2 i 3<br/>
-  Valid channels for MSS: 1, 2, 3 i 4
-
-  <p>To work with a sensor not included in the above list it is necessary to
-  enter the needed parameters in a text file.<br/>
-  The name of this file will be indicated in the parameter 11 instead of the
-  index previously given. The needed parameters are 4 for each spectral
-  channel:</p>
+    <li>Landsat-7 (ETM+)</li>
+	
+	<li>Landsat-8 (OLI)</li>
+   
+    <li>Sentinel-2 (MSI)</li>
+  </ol>
+  
+  Valid channels for ETM+: 1, 2, 3, 4, 5, 6, 7, 8 and 9<br/>
+  Valid channels for TM: 1, 2, 3, 4, 5 and 7<br/>
+  Valid channels for SPOT: 1, 2 and 3<br/>
+  Valid channels for MSS: 1, 2, 3 and 4
+   
+  <p>In order to work with a sensor not present in the previous list
+   it will be necessary to enter the necessary parameters in a user file, created in the program directory, <i>u_atmos.rad</i>, with the same structure as <i>u_atmos.rad</i>: </p>
 
   <ul>
-    <li>solar exoatmospheric irradiance (S0, in W·m-2·um-1),</li>
+  
+    <li>descriptive title of the sensor,</li>
+	
+    <li>solar exoatmospheric irradiance (S0, en W/(m²·strad·µm)),</li>
 
     <li>atmospheric optical density in the Sun-Earth path (tau0),</li>
 
     <li>atmospheric optical density in the Earth-Sensor path
     (tau0_retorn),</li>
 
-    <li>calibration factor for the sensor (to transform DN to Radiance
-    expressed in W·m-2·sr-1·um-1)</li>
-  </ul>These parameters must be place in a section named <font face="Courier New" size="-1">[CALIBR]</font>, under keys named:
+    <li>specific calibration constants for thermal channels</li>
+	
+  </ul>
+  
+  <p>These parameters must be place in a section named <font face="Courier New" size="-1">[CALIBR]</font>, under keys named:
 
   <ul>
+  
+    <li><font face="Courier New" size="-1">Title</font></li>
+	
     <li><font face="Courier New" size="-1">x_S0</font></li>
 
     <li><font face="Courier New" size="-1">x_tau0</font></li>
 
     <li><font face="Courier New" size="-1">x_tau0_ret</font></li>
+	
+	<li><font face="Courier New" size="-1">x_TempK1 and x_TempK2</font></li>
+  </ul>
 
-    <li><font face="Courier New" size="-1">x_DN2Rad</font></li>
-  </ul>where '<font face="Courier New" size="-1">x</font>' indicates
-  the number of the spectral band.
-
+  <p>where '<font face="Courier New" size="-1">x</font>' indicates
+  the number of the spectral band.</p>
+  
+  <p>In any case a specific one can be defined in a supplementary RAD file, indicated by the <i>/F_CALIB=</i> parameter on the command line, similarly, within a section named <font face="Courier New" size="-1">[CALIBR]</font>, under the key <i>x_DN2Rad</i>.</p>
+  
   <p>In addition, there can be another section named <font face="Courier New" size="-1">[SENSOR]</font> with a key:<br/></p>
 
   <ul>
-    <li><font face="Courier New" size="-1">Title (Translation note: Title
-    means title)</font></li>
+    <li><font face="Courier New" size="-1">Title</font></li>
   </ul>and a section <font face="Courier New" size="-1">[CONFIG]</font> with
   information on the spectral configuration of the sensor, with the key
   '<font face="Courier New" size="-1">NBand</font>' which indicates
@@ -185,6 +187,8 @@
 
     <li><font face="Courier New" size="-1">x_lambda_sup</font></li>
   </ul>which refer to the spectral scope of each band '<font face="Courier New" size="-1">x</font>' (in micrometres).
+  
+  <p>This information should also be well documented in the metadata of the image to be corrected, in which case the sensor calibration file is unnecessary.</p>
 
   <p>Example of a *.RAD file:</p>
   <pre>
@@ -204,25 +208,29 @@
   1_S0=1911.254
   1_tau0=0.449
   1_tau0_ret=0.284
-  1_DN2Rad=0.47059
   2_S0=1745.934
   2_tau0=0.279
   2_tau0_ret=0.228
-  2_DN2Rad=0.47059
   3_S0=1388.889
   3_tau0=0.234
   3_tau0_ret=0.208
-  3_DN2Rad=0.47059
-</pre>From application version 5, this *.RAD file format must have a section
-that identifies the corresponding version:
+</pre>
+
+<p>From application version 5, this *.RAD file format must have a section
+that identifies the corresponding version:</p>
   <pre>
   [VERSIO]
   Vers=5
-</pre>Reflectance can present values between 0 and 1, although they will
-usually be inferior to 0.75, and even to 0.5. As mentioned above, since the
-resulting image has values ranging from 0 to 255, it is necessary to indicate
-the factor needed to rescale the reflectance between 0 and 255.<br/>
-  Examples:
+</pre>
+
+<p>Examples of calibration parameters for Landsat-7:</p>
+
+    <center>
+      <img alt="Landsat-7 Calibration" src="calib.jpg"/>
+    </center>
+	
+	<p>The result of the radiometric correction is given in reflectances on the ground (BOA is the acronym) and as a percentage. Reflectance can have values between 0% and 100%, although they will usually be below 50%. Pixels where the model cannot provide correct data are conveniently assigned a NoData value: incidence angles greater than 90° or the user-specified Lambertian limit angle, pixels in the shadow of other pixels, or, very rarely, anomalous reflectances (greater than 1, usually due to poor registration between the images and the MDE or snow/clouds), NoData areas in the original image or MDE, etc. <br/>
+   Examples:</p>
 
   <blockquote>
     318.3 will cause saturation from reflectance values starting at
@@ -231,20 +239,16 @@ the factor needed to rescale the reflectance between 0 and 255.<br/>
     0.500<br/>
     637.5 will cause saturation from reflectance values starting at
     0.400<br/>
-  </blockquote>Staurated reflectances are assigned the value 254. Value 255 is
-  reserved for pixels where the model can not give correct data. For instance,
-  where incidence angles are superior to 90 degrees or to the lambertian angle
-  indicated by the user or in pixels that are shadowed by other pixels or,
-  rarely, where there are anomalous reflectances (greter than 1, normally due
-  to an incorrect match between the images and the DEM.)
+  </blockquote>
+  
+  <p>In byte case, saturated reflectances are assigned the value 254. Value 255 (NoData) is reserved for pixels where the model can not give correct data. For instance, where incidence angles are superior to 90 degrees, or to the lambertian angle indicated by the user, etc, cases that previously have been explained.</p>
 
   <p>In some images, specially in MSS images processed by EURIMAGE, it is
-  necesary to perform a lineal transformation to the data prior to its
+  necessary to perform a lineal transformation to the data prior to its
   correction. This is due to the fact that the histogram of the original data
-  has been stretched with aesthetic purposes. This transformation can be done
-  with the parameter "slope".</p>
+  has been stretched with aesthetic purposes. It is necessary to modify the parameters of the calibration line in the metadata.</p>
 
-  <p>ATENTTION: In this case, the Kl specified is supposed to be extracted
+  <p>ATTENTION: In this case, the Kl specified is supposed to be extracted
   from the images originally "stretched" and, thus, the program
   performs the substraction DN-Kl before applying the solicited lineal
   transformation.</p>
@@ -252,19 +256,16 @@ the factor needed to rescale the reflectance between 0 and 255.<br/>
   <p>NOTES:</p>
 
   <ul>
-    <li>1/ Program <a href="Astres.htm">Astres</a> allows to know the solar azimuth and elevation in
-    the center of any image.</li>
+    <li>1/ Program <a href="Astres.htm">Astres</a> allows to know the solar azimuth and elevation in the center of any image, if they are not already in the metadata.</li>
 
-    <li>2/ Program <a href="Illum.htm">Illum</a> allows to generate the image of the cosines of the
-    angles of incidence.</li>
+    <li>2/ Program <a href="Illum.htm">Illum</a> allows to generate the image of the cosines of the angles of incidence, if desired as a prior process.</li>
 
-    <li>3/ Program <a href="Ombra.htm">Ombra</a> allows to generate the image with the illumination
-    thresholds for any solar azimuth.</li>
+    <li>3/ Program <a href="Ombra.htm">Ombra</a> allows to generate the image with the illumination thresholds for any solar azimuth, if desired as a prior process.</li>
 
     <li>4/ Program A_i_B allows to obtain the "slope" values for the
-    MSS images provided by EURIMAGE.</li>
+    MSS images provided by EURIMAGE. To obtain this module, user must request it by sending an email to <b>contacte@miramon.uab.cat</b>.</li>
 
-    <li>5/ If a value Kl which is to low is given the effect of illumination
+    <li>5/ If a value Kl which is too low is given the effect of illumination
     will be inverted and the mountain slopes will be seen more illuminated
     than originally.</li>
   </ul>

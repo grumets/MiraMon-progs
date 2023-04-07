@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 07-04-2023 */-->
 <head>
-  <!--Traduït per Agustí Escobar-->
-
-  <title>CorRad: Corrección radiométrica de imágenes de Teledetección.</title>
+  <title>CorRad: Corrección radiométrica de imágenes de teledetección.</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -11,22 +9,20 @@
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 Este programa permite corregir radiométricamente imágenes
-  de Teledetección captadas en las regiones espectrales visible e infrarrojo
+  de teledetección captadas en las regiones espectrales visible e infrarrojo
   (no térmico). La corrección radiométrica permite reducir artefactos
   indeseados debidos a los efectos de la atmósfera o a la iluminación
   diferencial causada por la hora del día, el lugar de la Tierra o el relieve
   (zonas más o menos iluminadas, sombras, etc).
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>El programa está directamente preparado para imágenes Landsar-TM o MSS y
-  SPOT-XS, aunque es escalable a prácticamente cualquier otro sensor espacial
+  <p>El programa está directamente preparado para imágenes Landsat (MSS, TM, ETM+, OLI,...), SPOT (XS), Sentinel-2 (MSI), etc, y puede ser utilizado en  prácticamente cualquier otro sensor espacial
   o aeroportado a través de ficheros de tipo RAD (ver descripción más abajo),
-  de escritura muy simple; de hecho, el programa se suministra con ficheros
-  RAD correspondientes a otros sensores para ejemplificar estos hechos.</p>
+  de escritura muy simple. Como ejemplo se suministran unas
+   tablas con parámetros de calibración para Landsat-7 ETM+.</p>
 
-  <p>El modelo de corrección radiométrica implementado en este programa está
+  <p>En cuanto a las regiones espectrales visible e infrarrojo no térmico, el modelo de corrección radiométrica implementado en este programa está
   basado en el propuesto por Xavier Pons y Lluís Solé-Sugrañes en el
   artículo:</p>
 
@@ -35,9 +31,12 @@ Este programa permite corregir radiométricamente imágenes
     Correction Model to Improve Automatic Mapping of Vegetation from
     Multispectral Satellite Data" Remote Sensing of Environment,
     48:191-204.
-  </blockquote>,que ha sido utilizado con éxito en trabajos posteriores de
-  diversos autores.
-
+  </blockquote>, y que ha sido utilizado con éxito en trabajos posteriores de
+  diversos autores.</p>
+  
+<p>En cuanto a la región espectral del infrarrojo térmico se puede consultar en
+   <a href="http://ltpwww.gsfc.nasa.gov/IAS/handbook/handbook_htmls/chapter11/chapter11.html">http://ltpwww.gsfc.nasa.gov/IAS/handbook/handbook_htmls/chapter11/chapter11.html</a> el modelo de conversiones de radiancias a temperaturas.</p>
+   
   <p>En la presente implementación, además, se incorporan diversas mejoras
   como por ejemplo la consideración de las sombras proyectadas, la utilización
   de factores de reescalado diferentes en función de las diferentes bandas
@@ -48,7 +47,7 @@ Este programa permite corregir radiométricamente imágenes
   justificación de la formulación del algoritmo. El lector interesado en estos
   extremos puede consultar el artículo citado más arriba.</p>
 
-  <p>En esencia, este modelo de corrección radiométrica convierte una imagen
+  <p>Para regiones espectrales visible e infrarrojo térmico, en esencia, este modelo de corrección radiométrica convierte una imagen
   de valores (DN) proporcionales a la radiancia recibida por el sensor en una
   imagen en la que los valores son reflectancias. Se sabe que los valores de
   radiancia suelen distribuirse en el intervalo [0,1] (o en [0,100] si se
@@ -64,18 +63,14 @@ Este programa permite corregir radiométricamente imágenes
   posición solar, la distancia Tierra-Sol en el momento de captación de la
   imagen, el amortiguamiento atmosférico en los caminos de ida y de retorno de
   la radiación y parámetros estándar, para cada canal, de densidad óptica
-  atmosférica, irradiancia exoatmosférica solar y calibración del sensor. El
-  programa efectúa la corrección para un solo canal espectral en cada
-  ejecución; para efectuar la corrección en los demás canales simplemente
-  ejecute de nuevo escogiendo los ficheros y parámetros adecuados.</p>
+  atmosférica, irradiancia exoatmosférica solar y calibración del sensor. El programa efectúa la corrección para todas las bandas multiespectrales, a la vez, en una única ejecución, pero si se desea se puede realizar para una única banda.</p>
 
-  <p>El programa necesita disponer de dos imágenes auxiliares: La primera
-  contendrá el coseno del ángulo de incidencia solar para cada píxel; la
-  segunda contendrá, para el azimut solar con que se tomó la imagen, las
-  alturas solares que provocan sombras proyectadas en cada píxel. (Vea, más
-  abajo, los programas adecuados.)</p>
+   <p><u>Imágenes auxiliares de iluminación y sombras</u><br/>
+  Para la parte de corrección topográfica del modelo, el programa necesita disponer de dos imágenes auxiliares derivadas del modelo digital de elevaciones y de la posición solar: la primera contendrá el coseno del ángulo de incidencia solar para cada píxel; la segunda contendrá, para el azimut solar con que se tomó la imagen, las alturas solares que provocan sombras proyectadas en cada píxel (véase, más abajo, los módulos relacionados). Estas imágenes auxiliares pueden generarse temporalmente o pueden ser proporcionadas por la persona usuaria. Se debe tener presente que el programa presupone que la posición solar respecto al centro del ámbito es única para todos los canales, que las diferentes bandas pueden tener un lado de píxel (con los correspondientes Modelo Digital de Elevaciones (MDE) coherentes) diferente o incluso de ámbito distinto, pero no un centro de escena diferente. Si no se verifica esta condición se deberán hacer correcciones banda a banda.<br/>
+  Estas dos imágenes auxiliares (que habitualmente se generan, se usan y se borran) pueden conservarse si se desea, indicándolo explícitamente con el parámetro <i>/CONSERVAR_MDT</i> o el correspondiente botón de activación en la caja de diálogo. Si se desea usar unas ya creadas, derivadas del mismo MDE es necesario usar las opciones 3 o 4.</p>
 
-  <p>La corrección atmosférica se basa en la resta de los valores
+  <p><u>Corrección atmosférica manual</u><br/>
+  <p>La corrección atmosférica manual se basa, cuando se sigue el modelo de 1994, en la resta de los valores
   radiométricos más bajos en cada canal. Este valor se conoce como Kl. En la
   determinación de Kl no es aconsejable efectuar un procedimiento "a
   ciegas" de asignación al mínimo del histograma, sino que se hace
@@ -87,26 +82,21 @@ Este programa permite corregir radiométricamente imágenes
   más bajos sobre cada canal) suele ser muy útil en la determinación de Kl.
   Finalmente, recuerde que en una imagen sin agua ni sombras duras (relieve
   suave en relación a la altura solar) el valor de Kl a aplicar puede estar
-  incluso por debajo del DN mínimo de la imagen.</p>
-
+  incluso por debajo del DN mínimo de la imagen. Los valores Kl para cada lado se introducen en un archivo de texto que se puede crear fácilmente desde el botón "Crear o modificar archivo RAD".</p>
+  
+  <p><u>Corrección atmosférica automática</u><br/>
+  <p>La corrección atmosférica automática se basa, cuando se sigue el modelo de 2014, en el ajuste de los parámetros tau y La (contribución únicamente atmosférica de la radiancia que recibe el sensor) a través de la reflectancia conocida en zonas de referencia, típicamente en zonas pseudoinvariantes (PIA) para que no sean dependientes de una fecha concreta, obtenida de otros sensores remotos o con radiómetros de campo. Estos valores de referencia se dan en porcentaje en la tabla principal del archivo de polígonos y es necesario proporcionar un campo (identificado con el sufijo de la banda) para cada banda que se desea corregir.</p>
+  
+  <p><u>Ángulos</u><br/>
   <p>Aunque este modelo de corrección puede trabajar siempre que el ángulo de
   incidencia sea menor que 90 grados, es más realista admitir que con ángulos
   cercanos a este valor, no puede asumirse un modelo lambertiano. Por ello es
-  necesario indicar, en grados, el ángulo a partir del cual ya no aplicaremos
-  el modelo de corrección (p.ej.: 73, 70, etc).</p>
-
-  <p>Por otra parte, y debido a imprecisiones en el Modelo Digital de
-  Elevaciones (MDE) a partir del cual se ha calculado la imagen de sombras,
-  puede ser que tratemos como iluminados píxeles que realmente están
-  sombreados. Por esta razón es conveniente indicar el error estimado del MDE
-  (indique 0 si no lo conoce). Este error debe expresarse en las mismas
-  unidades del sistema de referencia.</p>
- 
-<p>Los sensores actualmente soportados
-  son:</p>
+  necesario indicar, en grados, el ángulo a partir del cual ya no aplicaremos el modelo de corrección (p.ej.: 73, 70, etc).</p>
+  
+  <p>Los sensores actualmente soportados, con parámetros de calibración de acuerdo con las últimas revisiones bibliográficas, son los recogidos en el archivo <i>m_atmos.rad</i>:
 
   <ol>
-    <li>Landsat-4 (TM) [Anterior al agosto de 1983]</li>
+    <li>Landsat-4 (TM) [Anterior a agosto de 1983]</li>
 
     <li>Landsat-4 (TM) [Entre agosto de 1983 y 15 de enero de 1984]</li>
 
@@ -128,47 +118,66 @@ Este programa permite corregir radiométricamente imágenes
 
     <li>Landsat-4 (MSS) [Anterior al 26 de agosto de 1982]</li>
 
-    <li>Landsat-4 (MSS) [26 de agosto de 1982 al 31 de marzo de 1983]</li>
+    <li>Landsat-4 (MSS) [Del 26 de agosto de 1982 al 31 de marzo de 1983]</li>
 
     <li>Landsat-4 (MSS) [1 de abril de 1983 o posterior]</li>
 
     <li>Landsat-5 (MSS) [Anterior al 6 de abril de 1984]</li>
-
-    <li>Landsat-5 (MSS) [6 de abril de 1984 al 8 de noviembre de 1984]</li>
+	
+	<li>Landsat-5 (MSS) [Del 6 de abril de 1984 al 8 de noviembre de 1984]</li>
 
     <li>Landsat-5 (MSS) [8 de noviembre de 1984 o posterior]</li>
-  </ol>Los canales válidos para TM son: 1, 2, 3, 4, 5 y 7<br/>
-  Los canales válidos para SPOT son: 1, 2 y 3<br/>
-  Los canales válidos para MSS son: 1, 2, 3 y 4
-
-  <p>Si se desea trabajar con un sensor no presente en la lista anterior será
-  necesario introducir los parámetros necesarios en un fichero de texto.<br/>
-  El nombre de este fichero se indicará en el parámetro 11 lugar del índice
-  anteriormente suministrado. Los parámetros necesarios son 4 para cada canal
-  espectral:</p>
+	
+	<li>Landsat-7 (ETM+)</li>
+	
+	<li>Landsat-8 (OLI)</li>
+   
+    <li>Sentinel-2 (MSI)</li>
+  </ol>
+	
+	Los canales válidos para ETM+ son: 1, 2, 3, 4, 5, 6, 7, 8 y 9<br/>
+    Los canales válidos para TM son: 1, 2, 3, 4, 5, 6 y 7<br/>
+    Los canales válidos para SPOT son: 1, 2 y 3<br/>
+    Los canales válidos para MSS son: 1, 2, 3 y 4
+   
+   <p>Si se desea trabajar con un sensor no presente en la anterior lista
+   se deben introducir los parámetros necesarios en un archivo de usuario, creado en el directorio del programa, <i>u_atmos.rad</i>, con la misma estructura que <i>m_atmos.rad</i>: </p>
 
   <ul>
-    <li>irradiancia exoatmosférica solar (S0, en W·m-2·um-1),</li>
+  
+    <li>título descriptivo del sensor,</li>
+	
+    <li>irradiancia exoatmosférica solar (S0, en W/(m²·strad·µm)),</li>
 
     <li>densidad óptica atmosférica en el camino Sol-Tierra (tau0),</li>
 
     <li>densidad óptica atmosférica en el camino Tierra-sensor
     (tau0_retorn),</li>
 
-    <li>factor de calibración del sensor (para pasar de DN-&gt;Radiancia
-    expresada en W·m-2·sr-1·um-1)</li>
-  </ul>Estos parámetros estarán dentro de una sección de nombre <font face="Courier New" size="-1">[CALIBR]</font>, bajo claves de nombres:
+    <li>constantes de calibración específicas para los canales térmicos</li>
+	
+  </ul>
+  
+  <p>Estos parámetros estarán dentro de una sección de nombre <font face="Courier New" size="-1">[CALIBR]</font>, bajo claves de nombres:
 
   <ul>
+    <li><font face="Courier New" size="-1">Título</font></li>
+	
     <li><font face="Courier New" size="-1">x_S0</font></li>
 
     <li><font face="Courier New" size="-1">x_tau0</font></li>
 
     <li><font face="Courier New" size="-1">x_tau0_ret</font></li>
-
-    <li><font face="Courier New" size="-1">x_DN2Rad</font></li>
-  </ul>donde '<font face="Courier New" size="-1">x</font>' indica el
-  número de la banda espectral.
+	
+	<li><font face="Courier New" size="-1">x_TempK1 y x_TempK2</font></li>
+  </ul>
+  
+  <p>donde '<font face="Courier New" size="-1">x</font>' indica el
+  número de la banda espectral.</p>
+  
+  <p>En cualquier caso puede definirse uno específico en un archivo RAD
+   complementario, indicado por el parámetro <i>/F_CALIB=</i> en la línea de
+   comando, de forma análoga, dentro de una sección de nombre <font face="Courier New" size="-1">[CALIBR]</font>, bajo la clave <i>x_DN2Rad</i>.</p>
 
   <p>Además de esta sección puede haber una sección <font face="Courier New" size="-1">[SENSOR]</font> con una clave:<br/></p>
 
@@ -185,6 +194,10 @@ Este programa permite corregir radiométricamente imágenes
     <li><font face="Courier New" size="-1">x_lambda_sup</font></li>
   </ul>que hacen referencia al alcance espectral de cada banda
   '<font face="Courier New" size="-1">x</font>' (en micrómetros).
+
+<p>Esta información también debería estar bien documentada en los metadatos
+   de la imagen a corregir y, en este caso, es innecesario el archivo de
+   calibración del sensor.</p>
 
   <p>Ejemplo de fichero *.RAD:</p>
   <pre>
@@ -204,43 +217,42 @@ Este programa permite corregir radiométricamente imágenes
   1_S0=1911.254
   1_tau0=0.449
   1_tau0_ret=0.284
-  1_DN2Rad=0.47059
   2_S0=1745.934
   2_tau0=0.279
   2_tau0_ret=0.228
-  2_DN2Rad=0.47059
   3_S0=1388.889
   3_tau0=0.234
   3_tau0_ret=0.208
-  3_DN2Rad=0.47059
-</pre>A partir de la versión 5 del programa, este formato de fichero *.RAD
-debe tener una sección que identifique su correspondiente versión:
+</pre>
+
+<p>A partir de la versión 5 del programa, este formato de fichero *.RAD
+debe tener una sección que identifique su correspondiente versión:</p>
   <pre>
   [VERSIO]
   Vers=5
-</pre>La reflectancia puede presentar valores entre 0 y 1, aunque
-habitualmente serán bastante inferiores a 0.75 e, incluso, a 0.5. Tal y como
-hemos comentado anteriormente, como la imagen de salida tiene valores entre 0
-y 255, hay que indicar el factor a utilizar para reescalar la reflectancia
-entre 0 y 255.<br/>
-  Ejemplos:
+</pre>
+
+<p>Ejemplos de parámetros de calibración para Landsat-7:</p>
+
+   <center>
+     <img alt="Calibración Landsat-7" src="calib.jpg"/>
+   </center>
+
+<p>El resultado de la corrección radiométrica se da en reflectancias en el suelo (BOA es el acrónimo en inglés) y en tanto por ciento. La reflectancia puede presentar valores entre 0% y 100%, aunque habitualmente serán bastante inferiores al 50%. Se asignan convenientemente a un valor sindatos los píxeles donde el modelo no puede dar datos correctos: ángulos de incidencia superiores a 90° o en el ángulo límite lambertiano indicado por la persona usuaria, píxeles a la sombra de otros píxeles o, muy raramente, reflectancias anómalas (superiores a 1, habitualmente debidas a un mal registro entre las imágenes y el MDE o en nieves/nubes), zonas sindatos en la imagen o el MDE original, etc. <br/>
+   Ejemplos:</p>
 
   <blockquote>
     318.3 provocará saturación a partir de una reflectancia de 0.801<br/>
     510.0 provocará saturación a partir de una reflectancia de 0.500<br/>
     637.5 provocará saturación a partir de una reflectancia de 0.400<br/>
-  </blockquote>Las reflectancias saturadas se asignan a 254, reservando el
-  valor 255 para píxeles donde el modelo no puede dar datos correctos: ángulos
-  de incidencia superiores a 90° o al ángulo límite lambertiano indicado por
-  el usuario, píxeles a la sombra de otros píxeles o, muy raramente,
-  reflectancias anómalas (superiores a 1, habitualmente en un mal registro
-  entre las imágenes y el MDE.)
+  </blockquote>
+  
+  <p>En el caso byte, las reflectancias saturadas se asignan a 254, reservando el valor 255 (sindatos) para píxeles donde el modelo no puede dar datos correctos: ángulos de incidencia superiores a 90° o al ángulo límite lambertiano indicado por la persona usuaria, etc, casos previamente explicados.</p>
 
   <p>En algunas imágenes (particularmente MSS procesadas por EURIMAGE) es
   necesaria una transformación lineal de los datos previa a la corrección, ya
   que en origen se les aplica un estiramiento del histograma con finalidades
-  estéticas. Podemos aplicar esta transformación a través del parámetro
-  "pendiente".</p>
+  estéticas. Es necesario modificar los parámetros de la recta de calibración en los metadatos.</p>
 
   <p>ATENCIÓN: En este caso la Kl que dé se supone extraída de las imágenes
   originalmente "estiradas" y, por tanto, el programa efectúa la
@@ -249,18 +261,13 @@ entre 0 y 255.<br/>
   <p>NOTAS:</p>
 
   <ul>
-    <li>1/ El programa <a href="Astres.htm">Astres</a> permite saber el azimut y altura solares en el
-    centro de cualquier imagen.</li>
+    <li>1/ El programa <a href="Astres.htm">Astres</a> permite saber el azimut y altura solares en el centro de cualquier imagen, si es que no están ya en los metadatos.</li>
 
-    <li>2/ El programa <a href="Illum.htm">Illum</a> permite generar la imagen de los cosenos de los
-    ángulos de incidencia.</li>
+    <li>2/ El programa <a href="Illum.htm">Illum</a> permite generar la imagen de los cosenos de los ángulos de incidencia, si se desea hacerlo como proceso previo.</li>
 
-    <li>3/ El programa <a href="Ombra.htm">Ombra</a> permite generar la imagen con las alturas límite
-    de iluminación para cualquier azimut solar.</li>
+    <li>3/ El programa <a href="Ombra.htm">Ombra</a> permite generar la imagen con las alturas límite de iluminación para cualquier azimut solar, si se desea hacerlo como proceso previo.</li>
 
-    <li>4/ El programa A_i_B permite obtener los valores de
-    "pendiente" para las imágenes MSS suministradas por
-    EURIMAGE.</li>
+    <li>4/ El programa A_i_B permite obtener los valores de "pendiente" (<i>/GUANY</i>) para las imágenes MSS suministradas por EURIMAGE. Para conseguir este módulo es necesario solicitarlo, enviando un correo electrónico a <b>contacte@miramon.uab.cat</b>.</li>
 
     <li>5/ Si se suministra un valor Kl demasiado pequeño se invertirá el
     efecto de la iluminación y llegarán a verse las vertientes originalmente
