@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 ../wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
-<!-- Opció 0: Fitxer XML User Product-->
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SentIMG:!Param03</ows:Identifier>
 		<ows:Title>SentIMG: Import images Sentinel-2</ows:Title>
 		<ows:Abstract>Import a Sentinel-2 data product.</ows:Abstract>
-		<ows:Metadata xlink:title="Title:Importing images Sentinel-2." />
-		<ows:Metadata xlink:title="Abstract:This module imports Sentinel-2 images to MiraMon format." />
+		<ows:Metadata xlink:title="Title:Importing images Sentinel-2."/>
+		<ows:Metadata xlink:title="Abstract:This module imports Sentinel-2 images to MiraMon format."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Option</ows:Title>
-				<ows:Abstract>At the moment, it can only be 1.</ows:Abstract>
-				<ows:Metadata xlink:title="Param01" />
-				<ows:Metadata xlink:title="Name:Option" />
+				<ows:Abstract>It can only be 1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>1</ows:Value>					
+						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -24,12 +24,12 @@
 				<ows:Identifier>FitxerXMLUserProduct</ows:Identifier>
 				<ows:Title>XML User Product file</ows:Title>
 				<ows:Abstract><![CDATA[<i>User Product</i> XML metadada file of the unzipped product of Sentinel-2 data.]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param02" />
-				<ows:Metadata xlink:title="Name:FileXMLUserProduct" />
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FileXMLUserProduct"/>
 				<ComplexData>
 					<Default>
 						<Format>
-						<MimeType>text/xml</MimeType>
+							<MimeType>text/xml</MimeType>
 							<Encoding>text</Encoding>
 						</Format>
 					</Default>
@@ -46,50 +46,54 @@
 				<ows:Title>Import quality masks</ows:Title>
 				<ows:Abstract>Import the different quality masks in GML format in each tile to MiraMon format.</ows:Abstract>
 				<LiteralData>
-					<ows:AllowedValues>##blank##</ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
 					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
-			</Input>		
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CopyQualMask</ows:Identifier>
 				<ows:Title>Copy quality masks</ows:Title>
 				<ows:Abstract>Copy the different quality masks in GML format in each tile.</ows:Abstract>
 				<LiteralData>
-					<ows:AllowedValues>##blank##</ows:AllowedValues>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
 					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
-			</Input>							
+			</Input>
 		</DataInputs>
-		<ProcessOutputs>	
+		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>DirSortida</ows:Identifier>
 				<ows:Title>Output folder</ows:Title>
-				<ows:Abstract>Output folder where all data of each tile of the Sentinel-2 product will be imported to MiraMon format.</ows:Abstract>
-				<ows:Metadata xlink:title="Param04" />
-				<ows:Metadata xlink:title="Name:OutputFolder" />
+				<ows:Abstract>Output directory where all data from each Sentinel-2 product tile or all images from the JP2 file list are imported in MiraMon format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:OutputFolder"/>
 				<LiteralOutput>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
 				</LiteralOutput>
 			</Output>
 		</ProcessOutputs>
 	</ProcessDescription>
-<!-- Opció 1: Fitxers o llista de fitxers JP2 d'una tessel·la-->
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SentIMG:!Param02</ows:Identifier>
 		<ows:Title>SentIMG: Import images Sentinel-2</ows:Title>
 		<ows:Abstract>Import a list of Sentinel-2 images of the same tile.</ows:Abstract>
-		<ows:Metadata xlink:title="Title:Importación de imágenes Sentinel-2." />
-		<ows:Metadata xlink:title="Abstract: This module can import a list of Sentinel-2 images of the same tile to MiraMon format." />
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Option</ows:Title>
-				<ows:Abstract>At the moment, it can only be 1.</ows:Abstract>
-				<ows:Metadata xlink:title="Param01" />
-				<ows:Metadata xlink:title="Name:Option" />
+				<ows:Abstract>It can only be 1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>1</ows:Value>					
+						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -97,12 +101,12 @@
 				<ows:Identifier>LlistaFitxersJP2</ows:Identifier>
 				<ows:Title>List of JP2 files of the same tile.</ows:Title>
 				<ows:Abstract>List of JP2 files of the same tile of a Sentinel-2 product.</ows:Abstract>
-				<ows:Metadata xlink:title="Param03" />
-				<ows:Metadata xlink:title="Name:FileListJP2" />
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FileListJP2"/>
 				<ComplexData>
 					<Default>
 						<Format>
-						<MimeType>text/txt</MimeType>
+							<MimeType>text/txt</MimeType>
 							<Encoding>text</Encoding>
 						</Format>
 					</Default>
@@ -113,15 +117,16 @@
 						</Format>
 					</Supported>
 				</ComplexData>
-			</Input>		
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FitxerXMLUserProduct</ows:Identifier>
-				<ows:Title>User Product XML file</ows:Title>
-				<ows:Abstract><![CDATA[<i>User Product</i> XML metadada file of the unzipped product of Sentinel-2 data.]]></ows:Abstract>				
+				<ows:Title>XML User Product file</ows:Title>
+				<ows:Abstract><![CDATA[<i>User Product</i> XML metadada file of the unzipped product of Sentinel-2 data.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Name:FileXMLUserProduct"/>
 				<ComplexData>
 					<Default>
 						<Format>
-						<MimeType>text/xml</MimeType>
+							<MimeType>text/xml</MimeType>
 							<Encoding>text</Encoding>
 						</Format>
 					</Default>
@@ -132,7 +137,7 @@
 						</Format>
 					</Supported>
 				</ComplexData>
-			</Input>	
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FitxerXMLGranule</ows:Identifier>
 				<ows:Title>Tile XML file</ows:Title>
@@ -140,7 +145,7 @@
 				<ComplexData>
 					<Default>
 						<Format>
-						<MimeType>text/xml</MimeType>
+							<MimeType>text/xml</MimeType>
 							<Encoding>text</Encoding>
 						</Format>
 					</Default>
@@ -151,19 +156,19 @@
 						</Format>
 					</Supported>
 				</ComplexData>
-			</Input>					
+			</Input>
 		</DataInputs>
-		<ProcessOutputs>	
+		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>DirSalida</ows:Identifier>
+				<ows:Identifier>DirSortida</ows:Identifier>
 				<ows:Title>Output folder</ows:Title>
-				<ows:Abstract> Output folder where all images of the list will be imported to MiraMon format.</ows:Abstract>
-				<ows:Metadata xlink:title="Param04" />
-				<ows:Metadata xlink:title="Name:OutputFolder" />
+				<ows:Abstract>Output directory where all data from each Sentinel-2 product tile or all images from the JP2 file list are imported in MiraMon format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:OutputFolder"/>
 				<LiteralOutput>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
 				</LiteralOutput>
 			</Output>
-		</ProcessOutputs>		
+		</ProcessOutputs>
 	</ProcessDescription>
 </wps:ProcessDescriptions>
