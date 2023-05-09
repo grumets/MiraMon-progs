@@ -1,64 +1,60 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 09-05-2023 */-->
 <head>
-  <!--Traduït per Teresa Mata-->
 
+  <title>Mosaic: Unión de capas</title>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
     <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.--> 
-<body>
-  <h1><img src="vecras.gif"/> Mosaic: Unión de capas</h1>Dado un conjunto de
+  <p>Dado un conjunto de
   capas que cubren un ámbito determinado, como por ejemplo un conjunto de
-  hojas de un determinado corte catrtográfico, el programa genera una capa
+  hojas de un determinado corte cartográfico, el programa genera una capa
   resultado de la unión de las capas originales. Éstas pueden ser rásters en
   formato IMG (de cualquier tipo y comprimidas con RLE, o no) o JPG, vectores
-  no estructurados VEC o archivos estructurados PNT, ARC, POL y NOD. Todos los
-  archivos de entrada tienen que ser del mismo formato y tipo. El formato del
-  archivo de salida es el mismo que el de los de entrada, excepto en el caso
-  de un mosaico de VECs, que genera un fichero ARC (Linarc 1 lo volvería a
-  pasar a VEC) y un mosaico de NODs, que da como resultado un PNT. Para
-  facilitar el uso, la lista de archivos a mosaicar se puede dar como una
-  secuencia de nombres de archivo en línea de comandos (último parámetro) o
-  como un archivo de texto plano que contenga el nombre de cada uno de los
-  archivos en una línea. Dicho archivo puede tener cualquier extensión
-  (excepto las propias de capas), aunque se recomiendan las extensiones de
-  tipo .txt o .lst.
+  no estructurados VEC o archivos estructurados PNT, ARC, POL y NOD. El mosaico de archivos de nodos no tiene sentido sin los archivos de arcos correspondientes. Sin embargo, es posible seleccionar desde la interfaz de visualización de MiraMon los nodos de una capa (o algunos de ellos) y generar un archivo VEC de puntos, con el ID_GRAFIC como atributo por si se desea recuperar (vía <i>join</i> físico con MiraDades o con GestBD) o vincular (vía GeM+) los atributos alfanuméricos de los nodos en un archivo PNT (convirtiendo el VEC a PNT con <a href="VECPNT.htm">VECPNT</a>). A partir de esta vía es posible, pues, realizar el mosaico de los puntos correspondientes a los nodos de varias capas. Para hacer un mosaico de capas vectoriales de tipo VEC se recomienda la utilización de la aplicación <a href="UnirVec.htm">UnirVEC</a>.</p> 
+  
+  <p>Todos los archivos de entrada deben ser del mismo formato y tipo. El formato del
+  archivo de salida es el mismo que los de entrada, excepto en el caso
+  de un mosaico de ficheros VEC, que genera un fichero ARC (debe usarse <a href="LinArc.htm">LinArc</a> 1 para convertirlo a VEC) y el mosaico de archivos NOD, que da como resultado un archivo PNT. Para facilitar su uso, la lista de archivos a mosaicar se puede dar como una secuencia de nombres de archivos en línea de comando (último parámetro) o como un archivo de texto llano con cada nombre de archivo en una línea. El archivo lista puede tener cualquier extensión que no sea la de una capa, aunque resulta preferible .txt o .lst. <i><b>Nota importante para mosaicos de rásters</b></i>: En caso de coincidencia espacial de celdas, el último archivo del archivo lista es el que dará el valor en el ráster final, ya que el mosaico se realiza añadiendo al resultado los valores de los archivos de entrada, consecutivamente desde el primero, excepto si el valor es un sindatos, en cuyo caso el valor se ignora; en otras palabras, si este último archivo ráster tiene un valor sindatos, será el siguiente archivo empezando por el final (penúltimo) el que dará el valor, y así sucesivamente. Por motivos históricos, y de simetría con otros softwares, este criterio es el contrario al que aplica a la función de transparentar [CVR(,)] del módulo <a href="CalcImg.htm">CalcImg</a>, donde el primero de los dos argumentos impone sus valores, excepto si en esa posición contiene un sindatos. En el Mosaic es el último en llegar quien impone, salvo si contiene un sindatos.</p>
 
   <p>El programa puede determinar automáticamente el ámbito del conjunto de
-  capas. También se puede especificar un ámbito de recorte (coordenadas X
-  mínima, X máxima, Y mínima e Y máxima) o un archivo de máscara irregular
+  capas. También se puede especificar un ámbito de recorte o un archivo de máscara irregular
   (solo para vectores). En ambos casos (recorte y máscara), el programa
   examina cada archivo a mosaicar y utiliza la parte útil correspondiente al
-  ámbito especificado. Cuando un archivo queda enteramante fuera del ámbito no
+  ámbito especificado. Cuando un archivo queda enteramente fuera del ámbito no
   se utiliza. Una típica aplicación es la creación de una nueva capa a caballo
   entre cuatro hojas de una serie cartográfica. En el caso de series
   cartográficas muy voluminosas, con muchas hojas de corte, se puede disponer
   de una única lista que contenga todos los nombres de los ficheros de las
   hojas y seleccionar el ámbito que se desee explorar en cada momento para
   extraer con rapidez la información solo de la zona de interés. 
-  El programa tiene distintas opciones:</p>
+  Así pues, el  programa tiene distintas opciones:</p>
 
  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
   <p>En caso de superposición de información, el programa se comporta de
-  manera diferente para rásters y para vectores. En el primer caso, cuando el
+  manera diferente para rásters y para vectores. En el caso de rásters, y como se ha comentado anteriormente en la "Nota importante para mosaicos de rásters", cuando el
   solapamiento se produce en valores diferentes a los valores de fondo, el
   programa NO controla que sean iguales (entre una capa y la siguiente) y los
   valores de cada nueva capa de la lista sustituyen a los de las anteriores,
   de manera que el último archivo que afecta al ámbito será el que imponga sus
   valores. Respecto a los valores de fondo, si los metadatos de los archivos
-  de entrada indican la presencia de valores sindatos (en cualquiera de las
+  a mosaicar indican la presencia de valores sindatos (en cualquiera de las
   capas y no necesariamente el mismo valor), éstos no se transcriben al
   archivo destino. Por tanto, el valor de cada capa anterior queda sin
   modificación si el valor de la siguiente capa es sindatos y solo se consideran
-  sindatos las zonas con valor de fondo de la primera imagen. Ésto permite
+  sindatos las zonas con valor de fondo de la primera imagen. Esto permite
   solapar correctamente imágenes que contienen zonas exteriores y obliga a su
   vez a determinar el orden de las capas de manera que no se pierda
   información de alguna de las capas intermedias. El valor sindatos final se
-  puede indicar como parámetro del programa y si no se especifica se toma como
+  puede indicar como parámetro del programa y, si no se especifica se toma como
   valor el sindatos de la primera imagen. En el caso de vectores, las
   superposiciones son más delicadas ya que los objetos gráficos no prevalecen
-  unos sobre otros. En caso de objetos superpuestos, pero no coincidentens, el
+  unos sobre otros. En caso de objetos superpuestos, pero no coincidentes, el
   resultado puede ser una duplicación del objeto, una discontinuidad en las
   líneas, la presencia de límites duplicados o de micropolígonos y otros
   artefactos.</p>
@@ -71,17 +67,17 @@
   coordenadas de salida solicitadas por el usuario no cumplen esta norma se
   adaptarán a ella y las coordenadas finales serán envolventes de las
   solicitadas para no perder ningún fragmento de información sobre el
-  territorio escogido. Esta capacidad de adaptación viene regulada por un
-  parámetro de tolerancia (aplicado sólo a rásters). Para encajar objetos
-  vectoriales entre hojas es necesario utilizar Linarc con tolerancias
+  territorio elegido. Esta capacidad de adaptación viene regulada por un
+  parámetro de tolerancia. Para hacer encajar objetos
+  vectoriales entre hojas es necesario utilizar <a href="LinArc.htm">LinArc</a> con tolerancias
   avanzadas.</p>
 
-  <p>En general, los metadatos se toman, sobretodo, de los de la primera capa
+  <p>En general, los metadatos se toman, sobre todo, de los de la primera capa
   de la lista. Como ejemplo, en imágenes categóricas, la descripción de las
-  categorías de la leyenda se extraen del primer archivo leído. Otra razón por
+  categorías de la leyenda se extrae del primer archivo leído. Otra razón por
   la que conviene determinar con cuidado el orden de las capas a mosaicar.</p>
 
-  <p>Cuando se mosaican n ficheros ráster que tienen paleta indicada en el
+  <p>Cuando se mosaican 'n' ficheros ráster que tienen paleta indicada en el
   REL, la paleta es heredada por el fichero de salida. Esto funciona también
   con ficheros multibanda donde cada banda tenga su propia paleta.</p>
   <hr/>
