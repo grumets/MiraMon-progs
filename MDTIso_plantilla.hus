@@ -1,6 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 11-05-2023 */-->
 <head>
-  <title>MDTISO: Generació d'isolínies a partir d'un MDT.</title>
+  <title>MDTIso: Generation of contour lines from a DTM</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -8,105 +9,48 @@
    <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-<i>Sorry, this document will be translated soon</i>
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-    <p>L'algorisme treballa, internament, en tres fases:</p>
+   <p>The algorithm works, internally, in two stages:</p>
 
     <ul>
-      <li>Generació dels punts que seran els vèrtexs de les futures
-      isolínies.</li>
+      <li>Generation of points that will become vertices of future contour lines.</li>
 
-      <li>Generació de les isolínies.</li>
+      <li>Generation of contour lines.</li>
     </ul>
 
-    <p>En la fase de la generació dels vèrtexs d'isolínies es recorre el
-    ràster de l'MDT començant des de la cel·la situada a la part superior
-    esquerra. Per a cada cel·la, es mira el seu valor Z i es compara amb el de
-    la cel·la situada a la dreta i la situada a sota i, en el cas que un dels
-    nivells d'isolínia hagi de passar entre aquestes cel·les, es fa una
-    interpolació per trobar el punt on s'ha de situar el vèrtex
-    corresponent.Un cop s'ha generat tots els vèrtexs, es fa la generació
-    les isolínies. Des del nivell més baix, i per a cada nivell
-    d'isolínia, es va generant cada isolínia a partir dels vèrtexs
-    interpolats del MDT.</p>
+    <p>In the contour lines vertices generation stage, the DTM is swept starting by the cell placed on the top left area. For each cell, the Z value is reviewed and compared with the ones on the cells placed at left and under it and, in the case that one of the contour line levels has to be between those cells, an interpolation is made to find the point where the corresponding vertex has to be placed. Once all the vertices are generated, the contour line generation is made. From the lowest value level, and for each contour line level, each contour line is being generated from the interpolated vertices of the DTM.</p>
 
-    <p>Les dades bàsiques necessàries per a la generació d'isolínies són
-    el ràster de l'MDT, l'equidistància desitjada i el fitxer
-    vectorial de sortida. El ràster del model digital del terreny (MDT) ha de
-    ser un fitxer en format .IMG i el tipus de dades pot ser qualsevol dels
-    suportats per MiraMon (<a href="..%5Cmm32%5CAP1.htm">consultar formats
-    ràster suportats per MiraMon</a>). El fitxer de sortida serà un vector
-    estructurat en format .ARC.</p>
+    <p>The basic data required for the generation of contour lines are the DTM raster, the desired contour interval  and the output vectorial file. The raster of the digital terrain model (DTM) must be a file in IMG format and the data type can be any of those supported by MiraMon (see <a href="..\mm32\AP1.htm">MiraMon raster formats description</a>). The output file will be a  structured vector in ARC format.</p>
 
-    <p>A partir del valor de l'equidistància i dels valors mínim i màxim
-    documentats en les metadades de l'MDT, es calcularan els diferents
-    nivells d'isolínies buscant múltiples des del valor origen que, en el
-    cas que l'usuari no l'assigni, per defecte, serà 0. En el cas que
-    el mínim valor de l'MDT no correspongui a un valor Z d'una
-    isolínia, s'escollirà el valor Z de la primera isolínia que estigui
-    per sobre del mínim de l'MDT, per exemple, si el mínim de l'MDT és
-    230 m i l'equidistància és 100 m, s’escollirà el valor mínim de 300 m.
-    En el cas que el màxim valor de l'MDT no correspongui a un valor Z
-    d'una isolínia, s'escollirà el valor Z de la primera isolínia que
-    estigui per sota del màxim de l'MDT, per exemple, si el màxim de
-    l'MDT és 679 m i l'equidistància és 200 m, s’escollirà el valor
-    màxim de 600 m. Existeix la possibilitat que l'usuari pugui escollir
-    entre quins valors Z vol generar isolínies mitjançant els paràmetres
-    opcionals de mínim i màxim valor Z de les isolínies.</p>
+    <p>From the contour interval value and the minimum and maximum values recorded in DTM metadata, the different contour line levels will be calculated by looking at multiples from the original value that, in case the user has not assigned it, it will be 0 by default. In case the minimum value of the DTM does not correspond to a contour line Z value, the Z value of the first contour line beyond the minimum  DTM value will be chosen; for example, if the minimum of the DTM is 230 m and the contour line interval is 100 m, a minimum value of 300 m will be chosen. In case the maximum value of the DTM does not correspond to a Z value of a contour line, the Z value of the first contour line under the maximum  DTM value will be chosen; for example, if the maximum of the DTM is 679 m and the contour interval is  200 m, a maximum value of 600 m will be chosen. The possibility for users to choose between which Z values they want to generate contour lines is available by the optional parameters of minimum and maximum Z value of the contour lines.</p>
 
     <div align="center">
-      <p><img id="_x0000_i1025" src="isolinies.gif" width="800"/></p>
+      <p><img id="_x0000_i1025" src="MDTIso_isolinies.gif" width="800"/></p>
 
-      <p>Exemple de la generació d'isolínies.</p>
+      <p><i>Example of contour lines generation.</i></p>
     </div>
 
-    <p>En el cas que es vulgui generar isolínies de dos o més MDT limítrofs,
-    l'algorisme permet limitar la cerca de vèrtexs d'isolínies fins a
-    una distància de mig píxel de les vores de l'MDT. En aquest cas, es
-    necessari que hi hagi un recobriment comú d'un píxel entre els MDT a
-    fi d'aconseguir un perfecte casat entre els processos de generació
-    d'isolínies a ambdós fitxers. Per a un recobriment correcte, cal
-    assignar el mateix índex de densificació i la mateixa tolerància del valor
-    Z, en el cas que el valor de la cel·la de l'MDT coincideixi amb el
-    valor Z d'una de les isolínies, per a cada MDT limítrof.</p>
+    <p>In case of generating the contour lines of two or more adjacent DTM, the algorithm allows to limit the search of contour line vertices up to a distance of half a pixel from the DTM borders. In this case, it is necessary to have a common overlap of one pixel between both DTM in order to achieve a perfect match between the contour line generation processes in both files for all their contact points. For proper overlapping, the same densification index and Z value tolerance must be assigned, in case the value of the DTM cell corresponds with the Z value of one of the contour lines, for each adjacent DTM.</p>
 
-    <p>L'algorisme permet generar unes isolínies obtingudes des d'un
-    MDT densificat a major resolució. Aquesta opció densifica dinàmicament
-    cada 2 files per generar els vèrtexs de les isolínies. Per tal que aquest
-    procés es realitzi satisfactòriament, l'índex de densificació ha de
-    ser necessàriament un nombre enter i senar entre 1 i 9.</p>
+   <p>The algorithm allows generating some contour lines obtained from a DTM densified at a higher resolution. This option densifies dynamically every 2 rows to generate the contour line vertices. In order to successfully develop this process, the densification index must necessarily be an integer and odd number between 1 and 9. A 1 index actually corresponds to not densifying, and a 9 index generate curves with far more vertices, which implies also a higher calculation time.</p>
 
     <div align="center">
-      <p><img id="_x0000_i1025" src="densificacio.gif" width="800"/></p>
+      <p><img id="_x0000_i1025" src="MDTIso_densificacio.gif" width="800"/></p>
 
-      <p>Exemple de la generació d'isolínies sense densificació (esquerra)
-      i amb densificació (dreta).</p>
+     <p><i>Example of contour lines generation without densification (left) and with densification (right).</i></p>
     </div>
 
-    <p>Per evitar conflictes en les isolínies (isolínia d'un o dos
-    vèrtexs, isolínies que no poden tancar,... sobretot en zones planes), és
-    necessari aplicar una tolerància del valor Z; aquesta correspon al valor
-    que s'afegeix o es resta al valor d'una cel·la que tingui el
-    mateix valor Z que un dels nivells d'isolínies. El valor de la
-    tolerància correspon a parts per mil respecte el valor de
-    l'equidistància i pot valer entre 0.1 i 100, o entre -0.1 i -100 si
-    desitgem baixar infinitesimalment la cota. La tolerància per defecte és
-    -1, o sigui, es redueix 1 mm si l'equidistància és d'1 m.</p>
+   <p>In order to avoid conflicts in the contour lines (an contour line of one or two vertices, contour lines that cannot be closed,... especially in plain areas), it is necessary to apply a Z value tolerance; this tolerance corresponds to the value-added or value-subtracted to a cell that has the same Z value of some of the contour lines levels. The value of the tolerance corresponds to parts per thousand regarding  the contour interval value and can be between 0.1 and 100, or between -0.1 and -100 if an infinitesimal lowering of the heights wants to be made. The default tolerance is -1, <i>i.e.</i>, 1 mm is reduced if the equidistance is 1 m.</p>
 
-    <p>Un cop generades les isolínies, es pot aplicar una generalització
-    basada en l'algorisme de Douglas-Peucker, el que implica una
-    simplificació de les isolínies que redueix substancialment el seu nombre
-    de vèrtexs i fa, doncs, que el fitxer sigui de menor grandària, sense que
-    això signifiqui en general un decrement sensible de la qualitat.</p>
+    <p>Once the contour lines are generated, a generalization based on the Douglas-Peucker algorithm (1973) can be applied, which implies a simplification of the contour lines that substantially reduces the number of vertices, thus, making the file smaller, without meaning in general a noticeable decrease of the quality. Note that this is not a smoothing operation of the curves; if an important smoothing is desired, apply module <a href="GenVLin.htm">GenVLin</a> to the result, but control that the smoothing does not arrive to generate contour line intersections (that can be made by verifying that typical nodes do not appear and only final and ring nodes appear).</p>
 
-    <p>En cas que hi hagi isolínies conflictives, aquest mòdul pot generar, si
-    es demana, un fitxer vectorial estructurat de punts amb els extrems
-    d'aquestes isolínies. En cas que no hi hagi cap punt problemàtic i
-    totes les isolínies s'hagin generat satisfactòriament, no es crearà
-    aquest fitxer.</p>
+    <p>In case there are conflictive contour lines, this module can generate, if required, a vector structured file of points containing the ends of these contour lines. In case there are no conflictive points and all contour lines have been generated successfully, this file will not be created.</p>
+	
+	<p>For more information, consult the following reference:</p>
+    <p><b>Douglas D, Peucker T</b> (1973) <i>Algorithms for the reduction of the number of points required to represent a digitized line or its caricature</i>. The Canadian Cartographer 10(2), 112?122 doi:10.3138/FM57-6770-U75U-7727 </p>
 
     <div align="center" class="MsoNormal" style="text-align:center">
       <hr align="center" size="2" width="100%"/>
@@ -120,7 +64,7 @@
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
       <p class="MsoNormal"><br/>
-      Exemples:</p>
+      Examples:</p>
 
       <p class="MsoNormal">MDTISO C:\FitxerMDT.img C:\FitxerIsolinies.arc 20
       /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3

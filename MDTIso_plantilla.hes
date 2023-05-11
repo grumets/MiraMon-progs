@@ -1,6 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 11-05-2023 */-->
 <head>
-  <title>MDTISO: Generació d'isolínies a partir d'un MDT.</title>
+  <title>MDTIso: Generación de isolíneas a partir de un MDT.</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -8,106 +9,106 @@
    <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-<p><i>Disculpe, este documento está pendiente de traducción</i></p>
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-    <p>L'algorisme treballa, internament, en tres fases:</p>
+    <p>El algoritmo trabaja, internamente, en dos fases:</p>
 
     <ul>
-      <li>Generació dels punts que seran els vèrtexs de les futures
-      isolínies.</li>
+      <li>Generación de los puntos que serán los vértices de las futuras
+       isolíneas.</li>
 
-      <li>Generació de les isolínies.</li>
+      <li>Generación de las isolíneas.</li>
     </ul>
 
-    <p>En la fase de la generació dels vèrtexs d'isolínies es recorre el
-    ràster de l'MDT començant des de la cel·la situada a la part superior
-    esquerra. Per a cada cel·la, es mira el seu valor Z i es compara amb el de
-    la cel·la situada a la dreta i la situada a sota i, en el cas que un dels
-    nivells d'isolínia hagi de passar entre aquestes cel·les, es fa una
-    interpolació per trobar el punt on s'ha de situar el vèrtex
-    corresponent.Un cop s'ha generat tots els vèrtexs, es fa la generació
-    les isolínies. Des del nivell més baix, i per a cada nivell
-    d'isolínia, es va generant cada isolínia a partir dels vèrtexs
-    interpolats del MDT.</p>
+    <p>En la fase de la generación de los vértices de isolíneas se recorre el
+     ráster del MDT empezando desde la celda situada en la parte superior
+     izquierda. Para cada celda, se mira su valor Z y se compara con el de
+     la celda situada a la derecha y la situada debajo y, en caso  que uno de los
+     niveles de isolínea tenga que pasar entre estas celdas, se hace una
+     interpolación para encontrar el punto donde debe situarse el vértice
+     correspondiente. Una vez se han generado todos los vértices, se procede a la generación
+     de las isolíneas. Desde el nivel de valor más bajo, y para cada nivel
+     de isolínea, se va generando cada isolínea a partir de los vértices
+     interpolados del MDT.</p>
 
-    <p>Les dades bàsiques necessàries per a la generació d'isolínies són
-    el ràster de l'MDT, l'equidistància desitjada i el fitxer
-    vectorial de sortida. El ràster del model digital del terreny (MDT) ha de
-    ser un fitxer en format .IMG i el tipus de dades pot ser qualsevol dels
-    suportats per MiraMon (<a href="..%5Cmm32%5CAP1.htm">consultar formats
-    ràster suportats per MiraMon</a>). El fitxer de sortida serà un vector
-    estructurat en format .ARC.</p>
+     <p>Los datos básicos necesarios para la generación de isolíneas son
+     el ráster del MDT, la equidistancia deseada y el archivo
+     vectorial de salida. El ráster del MDT debe
+     ser un archivo en formato IMG y el tipo de datos puede ser cualquiera de los
+     soportados por MiraMon  (se puede consultar <a href="..\mm32\AP1.htm">Descripción de los formatos ráster de MiraMon</a>). El archivo de salida será un vector
+     estructurado en formato ARC.</p>
 
-    <p>A partir del valor de l'equidistància i dels valors mínim i màxim
-    documentats en les metadades de l'MDT, es calcularan els diferents
-    nivells d'isolínies buscant múltiples des del valor origen que, en el
-    cas que l'usuari no l'assigni, per defecte, serà 0. En el cas que
-    el mínim valor de l'MDT no correspongui a un valor Z d'una
-    isolínia, s'escollirà el valor Z de la primera isolínia que estigui
-    per sobre del mínim de l'MDT, per exemple, si el mínim de l'MDT és
-    230 m i l'equidistància és 100 m, s’escollirà el valor mínim de 300 m.
-    En el cas que el màxim valor de l'MDT no correspongui a un valor Z
-    d'una isolínia, s'escollirà el valor Z de la primera isolínia que
-    estigui per sota del màxim de l'MDT, per exemple, si el màxim de
-    l'MDT és 679 m i l'equidistància és 200 m, s’escollirà el valor
-    màxim de 600 m. Existeix la possibilitat que l'usuari pugui escollir
-    entre quins valors Z vol generar isolínies mitjançant els paràmetres
-    opcionals de mínim i màxim valor Z de les isolínies.</p>
-
-    <div align="center">
-      <p><img id="_x0000_i1025" src="isolinies.gif" width="800"/></p>
-
-      <p>Exemple de la generació d'isolínies.</p>
-    </div>
-
-    <p>En el cas que es vulgui generar isolínies de dos o més MDT limítrofs,
-    l'algorisme permet limitar la cerca de vèrtexs d'isolínies fins a
-    una distància de mig píxel de les vores de l'MDT. En aquest cas, es
-    necessari que hi hagi un recobriment comú d'un píxel entre els MDT a
-    fi d'aconseguir un perfecte casat entre els processos de generació
-    d'isolínies a ambdós fitxers. Per a un recobriment correcte, cal
-    assignar el mateix índex de densificació i la mateixa tolerància del valor
-    Z, en el cas que el valor de la cel·la de l'MDT coincideixi amb el
-    valor Z d'una de les isolínies, per a cada MDT limítrof.</p>
-
-    <p>L'algorisme permet generar unes isolínies obtingudes des d'un
-    MDT densificat a major resolució. Aquesta opció densifica dinàmicament
-    cada 2 files per generar els vèrtexs de les isolínies. Per tal que aquest
-    procés es realitzi satisfactòriament, l'índex de densificació ha de
-    ser necessàriament un nombre enter i senar entre 1 i 9.</p>
+    <p>A partir del valor de la equidistancia y de los valores mínimo y máximo
+    documentados en los metadatos del MDT, se calcularán los diferentes
+    niveles de isolíneas buscando múltiplos desde el valor origen que, en el
+    en caso  que el usuario no lo asigne, por defecto, será 0. En caso  que
+    el mínimo valor del MDT no corresponda a un valor Z de una
+    isolínea, se escogerá el valor Z de la primera isolínea que esté
+    por encima del mínimo del MDT; por ejemplo, si el mínimo del MDT es
+    230 m y la equidistancia es 100 m, se escogerá el valor mínimo de 300 m.
+    En caso que el máximo valor del MDT no corresponda a un valor Z
+    de una isolínea, se escogerá el valor Z de la primera isolínea que
+    esté por debajo del máximo del MDT; por ejemplo, si el máximo de
+    el MDT es 679 m y la equidistancia es 200 m, se escogerá el valor
+    máximo de 600 m. Existe la posibilidad  que el usuario pueda escoger
+    entre qué valores Z quiere generar isolíneas mediante los parámetros
+    opcionales de mínimo y máximo valor Z de las isolíneas.</p>
 
     <div align="center">
-      <p><img id="_x0000_i1025" src="densificacio.gif" width="800"/></p>
+      <p><img id="_x0000_i1025" src="MDTIso_isolinies.gif" width="800"/></p>
 
-      <p>Exemple de la generació d'isolínies sense densificació (esquerra)
-      i amb densificació (dreta).</p>
+      <p><i>Ejemplo de la generación de isolíneas.</i></p>
     </div>
 
-    <p>Per evitar conflictes en les isolínies (isolínia d'un o dos
-    vèrtexs, isolínies que no poden tancar,... sobretot en zones planes), és
-    necessari aplicar una tolerància del valor Z; aquesta correspon al valor
-    que s'afegeix o es resta al valor d'una cel·la que tingui el
-    mateix valor Z que un dels nivells d'isolínies. El valor de la
-    tolerància correspon a parts per mil respecte el valor de
-    l'equidistància i pot valer entre 0.1 i 100, o entre -0.1 i -100 si
-    desitgem baixar infinitesimalment la cota. La tolerància per defecte és
-    -1, o sigui, es redueix 1 mm si l'equidistància és d'1 m.</p>
+    <p>En caso  que se desee generar isolíneas de dos o más MDT colindantes,
+     el algoritmo permite limitar la búsqueda de vértices de isolíneas hasta
+     una distancia de medio píxel de los bordes del MDT. En este caso, es
+     necesario que haya un recubrimiento común de un píxel entre los MDT a
+     fin de conseguir una perfecta coincidencia en los procesos de generación
+     de isolíneas en ambos archivos en los puntos de contacto entre ellos. Para un recubrimiento correcto, es necesario
+     asignar el mismo índice de densificación y la misma tolerancia del valor
+     Z, en caso  que el valor de la celda del MDT coincida con el
+     valor Z de una de las isolíneas, para cada MDT colindante.</p>
 
-    <p>Un cop generades les isolínies, es pot aplicar una generalització
-    basada en l'algorisme de Douglas-Peucker, el que implica una
-    simplificació de les isolínies que redueix substancialment el seu nombre
-    de vèrtexs i fa, doncs, que el fitxer sigui de menor grandària, sense que
-    això signifiqui en general un decrement sensible de la qualitat.</p>
+    <p>El algoritmo permite generar  isolíneas obtenidas desde un
+     MDT densificado a mayor resolución. Esta opción densifica dinámicamente
+     cada 2 filas para generar los vértices de las isolíneas. Para que este
+     proceso se realice satisfactoriamente, el índice de densificación debe
+     ser necesariamente un número entero e impar entre 1 y 9. Un índice 1 en realidad equivale a no densificar, y un índice 9 genera curvas con muchos más vértices, lo que implica un tiempo de cálculo también mayor.</p>
 
-    <p>En cas que hi hagi isolínies conflictives, aquest mòdul pot generar, si
-    es demana, un fitxer vectorial estructurat de punts amb els extrems
-    d'aquestes isolínies. En cas que no hi hagi cap punt problemàtic i
-    totes les isolínies s'hagin generat satisfactòriament, no es crearà
-    aquest fitxer.</p>
+    <div align="center">
+      <p><img id="_x0000_i1025" src="MDTIso_densificacio.gif" width="800"/></p>
 
+      <p><i>Ejemplo de la generación de isolíneas sin densificación (izquierda)
+       y con densificación (derecha).</i></p>
+    </div>i
+
+    <p>Para evitar conflictos en las isolíneas (isolínea de uno o dos
+     vértices, isolíneas que no pueden cerrar,... especialmente en zonas llanas), es
+     necesario aplicar una tolerancia del valor Z; ésta corresponde al valor
+     que se añade o se resta al valor de una celda que tenga el
+     mismo valor Z que uno de los niveles de isolíneas. El valor de la
+     tolerancia corresponde a partes por mil en relación al valor de
+     la equidistancia y puede valer entre 0.1 y 100, o entre -0.1 y -100 si
+     deseamos bajar infinitesimalmente la cota. La tolerancia por defecto es
+     -1, es decir, se reduce 1 mm si la equidistancia es de 1 m.</p>
+
+    <p>Una vez generadas las isolíneas, se puede aplicar una generalización
+     basada en el algoritmo de Douglas-Peucker (1973), lo que implica una
+     simplificación de las isolíneas que reduce sustancialmente su número
+     de vértices y hace, pues, que el archivo sea de menor tamaño, sin que
+     esto signifique por lo general un decremento sensible de la calidad. Nótese que no es una operación de suavizado de las curvas; si desea un suavizado importante se debe aplicar el módulo  <a href="GenVLin.htm">GenVLin</a> al resultado, pero controlando que el suavizado no llegue a generar intersecciones de curvas (lo que se puede hacer verificando que no aparezcan nodos típicos y que sólo haya nodos finales y nodos de anillo).</p>
+
+   <p>En caso  que existan isolíneas conflictivas, este módulo puede generar, si
+     se pide, un archivo vectorial estructurado de puntos con los extremos
+     de estas isolíneas. En caso  que no haya ningún punto problemático y
+     todas las isolíneas se hayan generado satisfactoriamente, no se creará
+     este archivo.</p>
+	 
+   <p>Para más información se puede consultar la siguiente referencia:</p>
+    <p><b>Douglas D, Peucker T</b> (1973) <i>Algorithms for the reduction of the number of points required to represent a digitized line or its caricature</i>. The Canadian Cartographer 10(2), 112?122 doi:10.3138/FM57-6770-U75U-7727 </p>
     <div align="center" class="MsoNormal" style="text-align:center">
       <hr align="center" size="2" width="100%"/>
     </div>
@@ -120,7 +121,7 @@
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
       <p class="MsoNormal"><br/>
-      Exemples:</p>
+      Ejemplos:</p>
 
       <p class="MsoNormal">MDTISO C:\FitxerMDT.img C:\FitxerIsolinies.arc 20
       /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3
