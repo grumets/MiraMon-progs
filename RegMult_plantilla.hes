@@ -1,7 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 16-05-2023 */-->
 <head>
-  <title>RegMult: Regresión múltiple + interpolación de residuos</title>
-  <!-- Traduït per Teresa Mata -->
+  <title>RegMult: Regresión multivariante e interpolación de residuos</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -17,7 +17,7 @@
   que la variable dependiente <i>Y</i> se intenta obtener de las variables
   independientes <i>x<sub>n</sub></i>, a partir de una expresión del tipo:</p>
 
-  <p align="center"><img height="24" src="f_multilinial.gif" width="216"/></p>
+  <p align="center"><img height="24" src="RegMult_f_multilinial.gif" width="216"/></p>
 
   <p>Los coeficientes a<sub>0</sub>, a<sub>1</sub>,... a<sub>n</sub> se ajustan
   por mínimos cuadrados. El módulo ofrece la posibilidad de añadir una
@@ -32,7 +32,7 @@
   posibles variables independientes. Estas muestras se proporcionarán bien en
   un fichero estructurado de puntos <b>PNT</b>, o en una tabla en formato
   <b>DBF</b>, o bien en una tabla en cualquiera de los formatos accesibles
-  mediante un <i>driver</i> <b>ODBC</b> (<i>Open DataBase Connectivity</i>).
+  mediante un <i>driver</i> <b><a href="../mm32/ap9.htm">ODBC</a></b> (<i>Open DataBase Connectivity</i>).
   Las variables independientes deben proporcionarse como rásters en formato
   <b>IMG</b> del mismo ámbito geográfico y tamaño de píxel. El resultado
   predictivo será también un ráster en formato <b>IMG.</b></p>
@@ -44,17 +44,15 @@
   de todas las regresiones posibles: desde la regresión con todas las
   variables independientes inicialmente introducidas hasta las regresiones con
   una única variable independiente. Analizando los parámetros estadísticos de
-  cada regresión y, en función del criterio escogido, mejor coeficiente
-  R<sup>2</sup> ajustado o <i>C<sub>p</sub> de Mallows</i>, se obtiene la que se
+  cada regresión y, en función del criterio escogido (mejor coeficiente
+  R<sup>2</sup> ajustado o <i>C<sub>p</sub> de Mallows</i>), se obtiene la que se
   considera mejor regresión de todas (siempre que se supere el mínimo umbral
   de significación exigido).</p>
-
-  <p> </p>
 
   <table border="1" bordercolor="#FFFFFF" width="75%">
     <tr>
       <td bordercolor="#FFFFFF" width="48%">
-        <p align="center"><img height="58" src="r2_adjusted.gif" width="182"/></p>
+        <p align="center"><img height="58" src="RegMult_r2_adjusted.gif" width="182"/></p>
 
         <p align="center">n: número de puntos de ajuste</p>
 
@@ -64,7 +62,7 @@
       </td>
 
       <td bordercolor="#FFFFFF" width="52%">
-        <p align="center"><img height="58" src="CpMallows.gif" width="258"/></p>
+        <p align="center"><img height="58" src="RegMult_CpMallows.gif" width="258"/></p>
 
         <p align="center">p: número de variables independientes
         seleccionadas</p>
@@ -76,8 +74,6 @@
     </tr>
   </table>
 
-  <p> </p>
-
   <p>Durante el procedimiento de selección de la regresión óptima, el programa
   informa de los parámetros estadísticos de la regresión con todas las
   variables independientes introducidas y de los parámetros estadísticos de la
@@ -87,18 +83,18 @@
   Si el usuario ha seleccionado la opción de sólo regresión multivariante, el
   modelo resultado se generará calculando en todo el ámbito de estudio la
   solución de la regresión seleccionada a partir de los coeficientes ajustados
-  aplicados a las variables independientes, las cuales las cuales estan definidas necesariamente en todo el
+  aplicados a las variables independientes, las cuales están definidas necesariamente en todo el
   ámbito de estudio.</p>
 
   <p>Si el usuario ha seleccionado obtener el modelo con el algoritmo
-  completo (regresión+interpolación de residuos), habrá una segunda fase
+  completo (regresión e interpolación de residuos), habrá una segunda fase
   consistente en el cálculo de los residuos de la muestra de puntos de ajuste.
   Los residuos se obtienen calculando las diferencias entre el modelo predicho
   por la regresión multivariante y el valor conocido de la variable
   dependiente. Estos residuos conocidos solo en las localizaciones de los
   puntos de ajuste, se extenderán por todo el ámbito de estudio mediante una
   interpolación. El usuario podrá elegir entre dos métodos de interpolación:
-  Inverso de la distancia ponderada o Función regularizada <i>spline</i>. Véanse los
+  Inverso de la distancia ponderada (IDW) o Función regularizada <i>spline</i>. Se pueden consultar los
   parámetros y las características de ambas metodologías en <a href="InterPNT.htm">InterPNT.htm</a>.<br/>
   Es importante la búsqueda del juego de parámetros que dará lugar a la óptima
   interpolación de los residuos. Los resultados de la interpolación, y del
@@ -106,7 +102,7 @@
   de parámetros u otro. En este sentido, es muy aconsejable reservar una
   muestra independiente de los puntos con datos para realizar el test de
   verificación. Este test consistirá fundamentalmente en calcular el
-  <b>RMS</b> (raiz de la mediana del error cuadrático) total de los puntos de test, verificando
+  <b>RMS</b> (raíz de la mediana del error cuadrático) total de los puntos de test, verificando
   que no haya ningún punto en particular con un error excesivamente elevado.
   Este indicador (<b>RMS</b>) constituye una buena base para aceptar un
   determinado juego de parámetros. Otros criterios complementarios podrían ser
@@ -116,7 +112,7 @@
   <p>Para facilitar el análisis, que debe dar lugar al mejor modelo posible,
   el programa ofrece la posibilidad de generar dos capas resultado. La primera,
   es una capa vectorial de puntos que contiene aquellos puntos válidos con
-  datos que, o bien participan en el ajuste y posteriormente se usarán para
+  datos que, o participan en el ajuste y posteriormente se usarán para
   interpolar los residuos conocidos, o bien sirven de test para validar la
   solución interpolada. Para los puntos de test se informa, en la base de datos,
   de la diferencia entre el valor conocido y el predicho por el modelo
@@ -124,7 +120,7 @@
   residuo obtenido como la diferencia entre el valor conocido y el valor
   predicho (sólo regresión). La siguiente ilustración muestra estos detalles:</p>
 
-  <p align="center"><img height="149" src="BD_rms.png" width="524"/></p>
+  <p align="center"><img height="149" src="RegMult_BD_rms.png" width="524"/></p>
 
   <p>La otra capa resultado, opcional e informativa, es el ráster resultado de
   la interpolación de los residuos. Una inspección de dicha capa servirá para
@@ -137,7 +133,7 @@
 
   <p>En principio, todos los puntos que tengan datos válidos dentro de la zona
   de estudio del fichero <b>PNT</b> con las muestras se usarán bien como
-  puntos de ajuste o bien como puntos de test.Así mismo, el programa permite filtrar
+  puntos de ajuste o bien como puntos de test. Así mismo, el programa permite filtrar
   aquellos datos que no se consideren apropiados aplicando restricciones sobre
   la base de datos. Si la muestra no conlleva capa gráfica explícita, en cuyo
   caso deben definirse necesariamente los campos con las coordenadas, las
@@ -152,13 +148,13 @@
   aleatoria puede originarse a partir de una semilla fija (generando
   submuestras reproducibles), o a partir de una semilla variable (obteniendo
   submuestras diferentes en cada nueva ejecución). También se ofrece la
-  posibilidad de decidir a partir de un campo de la base de datos asignando un
+  posibilidad de realizar esta elección gobernada por un campo de su base de
+   datos: en este campo será necesario asignar un
   valor <b>A</b> para los puntos de ajuste y un valor <b>T</b> para los de
   test. También se ofrece la posibilidad de realizar una validación cruzada.
-  En este caso el ráster resultado se obtienen usando todos los puntos como
-  puntos de ajuste i, para hacer el test, se llevan a cabo un serie de iteraciones, en nombre igual al nombre total de puntos, donde
-  en cada de ellas se vuelve hacer el ajuste dejando fuera un punto para
-  realizar el test. El RMS final se calcula como la raiz cuadrada de la mediana de los errores de cada iteración previamente elevadas al cuadrado. 
+  En este caso el ráster resultado se obtiene usando todos los puntos como
+  puntos de ajuste y, para hacer el test, se llevan a cabo un serie de iteraciones, en número igual al número total de puntos, donde en cada una de ellas se vuelve hacer el ajuste dejando fuera un punto para
+  realizar el test. El RMS final se calcula como la raíz cuadrada de la mediana de los errores de cada iteración previamente elevados al cuadrado. 
   Este tipo de validación es especialmente interesante cuando la variable dependiente tiene pocas
   muestras y no se puede prescindir de ninguna para usarlas como puntos de
   test. Utilizando la validación cruzada todas las muestras son a la vez de
@@ -180,27 +176,25 @@
 
   <p>El ráster <b>IMG</b> resultado del modelo predictivo tendrá el mismo
   ámbito geográfico y tamaño de píxel que los rásters de las variables
-  independientes. Sin embargo, se pueden delimitar, mediante una máscara de
+  independientes; se puede delimitar, mediante una máscara de
   exclusión, las zonas donde no es necesario calcular el valor resultado
   (asignándose sindatos). El hecho de evitar calcular la solución del modelo en
   estas zonas puede acelerar considerablemente la velocidad de ejecución.
   También se pueden definir unos valores extremos de visualización (mínimo y máximo) que permitirán realizar mapas visualmente comparables al conseguir
   mantener constante la asignación entre el rango de valores y los colores de
   la paleta asignada.</p>
+  
+<p>Para más información se puede consultar la  siguiente referencia:</p>
 
-  <p> </p>
+<p><b>Ninyerola M, Pons X, Roure JM</b> (2000)<i> A methodological approach of climatological modelling of air temperature and precipitation through GIS techniques</i>. International Journal of Climatology 20: 1823-1841. DOI: 10.1002/1097-0088(20001130)20:14<1823::AID-JOC566>3.0.CO;2-B. <a href="https://rmets.onlinelibrary.wiley.com/doi/epdf/10.1002/1097-0088(20001130)20:14<1823::AID-JOC566>3.0.CO;2-B">https://rmets.onlinelibrary.wiley.com/doi/epdf/10.1002/1097-0088(20001130)20:14<1823::AID-JOC566>3.0.CO;2-B</a>.
+
   <hr/>
 
   <exclusiva>
    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
-    <br/>
-    Es el conjunto de parámetros que definen la selección en función de los
-    atributos de los puntos en la base de datos alfanumérica. Para saber más
-    sobre los valores de estos parámetros siga las indicaciones del documento
-    de <a href="general.htm#SelecAtrib">sintaxis general</a>. 
-    <!-- $$EXCLUSIVA$$
+<!-- $$EXCLUSIVA$$
 Para obtener la ayuda completa escriba:
 RegMutlt ?
 </EXCLUSIVA> 
