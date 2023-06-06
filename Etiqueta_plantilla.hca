@@ -1,7 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 06-06-2023 */-->
 <head>
-  <title>Etiqueta: Generació d'etiquetes a l'interior d'un
-  polígon</title>
+  <title>Etiqueta: Generació d'etiquetes a l'interior de polígons</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -10,45 +10,45 @@
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
   <p>Un polígon és una figura geomètrica bidimensional que descriu una àrea
-  tancada. En Miramon, a més, és una entitat topològica descrita per una
+  tancada. En el MiraMon, a més, pot ser una entitat topològica descrita per una
   successió d'arcs que en defineixen les vores. Els polígons poden tenir
-  atribut alfanumèrics associats. (per exemple el tipus de vegetació present a
-  aquell polígon) Una possible manera de transferir o associar aquests
-  atributs als polígons és amb un punt a l'interior de cada polígon; cada
-  punt durà associats els atributs que desitgem transferir al corresponent
-  polígon. Aquests punts s'anomenen etiquetes, i del procés de
+  atributs geomètrico-topològics (com l'àrea) i temàtics (com el tipus de vegetació present a aquell polígon) associats. Una possible manera de transferir o associar els atributs temàtics als polígons (els geomètrico-topològics són generats automàticament pel MiraMon) és amb un punt a l'interior de cada polígon; cada
+  punt durà associats els atributs que es desitja transferir al corresponent
+  polígon. En el cas del format POL s'hi poden transferir tants atributs com es desitgi i, a més, s'hi poden transferir diversos registres amb la mateixa estructura d'atributs (camps d'una taula): per exemple diversos propietaris d'una parcel·la en sengles registres (multiregistre), cadascun dels quals amb tants camps com atributs (nom del propietari, cognom, etc) com sigui necessari. En el cas del format VEC només s'admet un atribut i un registre). Aquests punts s'anomenen etiquetes, i del procés de
   transferència dels atributs des dels punts als polígons, etiquetatge
-  (<a href="atripol.htm">ATRIPOL</a>, <a href="atritop.htm">ATRITOP</a>). De
+  (<a href="AtriPol.htm">AtriPol</a>, <a href="AtriTop.htm">AtriTop</a>). De
   vegades, però, interessa fer el procés invers, és a dir, a partir d'una
   capa de polígons, obtenir les etiquetes que servirien per a
   etiquetar-los.</p>
+  
+  <p>Aquest interès pot venir per qüestions d'estètica cartogràfica (la posició de l'etiquetatge automàtic generada per les funcions de simbolització del programa no resulten prou satisfactòries) o per qüestions de geoprocessament (s'ha reconstruït la topologia des de zero i es vol tornar a aplicar les etiquetes que ja es tenien, potser eliminant-ne o afegint-ne alguna, afegint o eliminant registres en cas de registre múltiple, canviant els atributs, etc). A efectes de geoprocessament no sempre és necessari treballar amb etiquetes, i a partir de la versió 9 del MiraMon la digitalització de capes vectorials amb estructuració topològica interactiva permet resoldre la majoria de qüestions de manera visual.</p>
 
+  <p>Aquest programa permet la generació de punts que són etiquetes de
+  polígons a partir d'un fitxer POL (estructurat topològicament o no), o d'un fitxer VEC (que sempre és un fitxer de polígons explícits). Les noves etiquetes poden heretar, o no, els atributs preexistents dels polígons i s'escriuen en el mateix ordre que els polígons originals. El programa permet posar, o no, una etiqueta sobre el polígon zero (el polígon exterior, o universal, que envolta tots els altres).</p>
+  
  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>Les etiquetes només poden ser generades de manera totalment automàtica a
-  partir d'un fitxer amb topologia (POL) o a partir d'un fitxer de
-  polígons explícits (VEC) sempre que no existeixin polígons superposats. A
-  més, en el cas de VEC amb polígons explícits, cap polígon no pot contenir
-  illes interiors (polígons inscrits dins de polígons); és per això que en el
-  cas d'un fitxer VEC de polígons explícits hi ha una opció per verificar
-  si hi ha errors en la generació de les etiquetes.</p>
+  <p>Les etiquetes només poden ser generades de manera totalment automàtica i correcta a
+  partir d'un fitxer amb topologia (POL) o, en el cas d'un fitxer VEC, sempre que no existeixin polígons superposats. A més, en el cas del format VEC, cap polígon no pot contenir illes interiors (polígons ubicats dins de polígons); és per això que en el
+  cas d'un fitxer VEC hi ha una opció per a verificar si hi ha errors en la generació de les etiquetes.</p>
+
+  <p>En el cas de fitxers POL que continguin grups, com un arxipèlag d'illes, es genera una etiqueta per a cada polígon elemental.</p>
 
   <p>La posició del punt en la dimensió Y és propera a la mitjana aritmètica
   de les seves coordenades. La posició del punt en la dimensió X pot ser
-  establerta o bé a una distància menor o igual a la tolerància (indicada en
-  línia de comanda) de la vora dreta o esquerra del polígon o bé tant al
+  establerta o bé a una distància igual a la tolerància (indicada en
+  línia de comanda) de la vora dreta o esquerra del polígon, o bé tan al
   centre com ho permeti la geometria de cada polígon.</p>
 
-  <p>Pel cas d'un fitxer VEC de polígons explícits, en general
+  <p>Pel cas d'un fitxer VEC, en general
   s'obtenen millors resultats si la tolerància és petita i els punts
   queden molt a la vora del límit dels polígons. En canvi, en el cas de
   fitxers POL, es pot optar directament per etiquetar de forma centrada, ja
   que estèticament sol ser millor.</p>
 
-  <p>Quan el fitxer origen és un VEC de polígons explícits el fitxer resultat
-  és un fitxer VEC de punts, en el cas d'un fitxer POL, el fitxer de
+  <p>Quan el fitxer origen és un VEC el fitxer resultat és un fitxer VEC de punts; en el cas d'un fitxer POL, el fitxer de
   sortida és un fitxer PNT.</p>
   <hr/>
 

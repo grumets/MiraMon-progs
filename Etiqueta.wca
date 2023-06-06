@@ -2,14 +2,14 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:Etiqueta:Param1</ows:Identifier>
-		<ows:Title>ETIQUETA</ows:Title>
-		<ows:Metadata xlink:title="Title:Generació d&apos;etiquetes a l&apos;interior d&apos;un polígon"/>
+		<ows:Title>Etiqueta</ows:Title>
+		<ows:Metadata xlink:title="Title:Generació d&apos;etiquetes a l&apos;interior de polígons"/>
 		<ows:Metadata xlink:title="Abstract:Aquest programa permet la generació de punts que són etiquetes de polígons a partir d&apos;un fitxer POL o d&apos;un fitxer VEC de polígons explícits. Les noves etiquetes poden heretar o no els atributs preexistents dels polígons i tenen el mateix ordre que els polígons originals. El programa permet posar o no una etiqueta sobre el polígon 0 (el polígon exterior que envolta tots els altres)."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opció</ows:Title>
-				<ows:Abstract><![CDATA[<li>1. Crea un fitxer PNT on cada punt està dins d'un polígon del fitxer Fitxer_Poligons (POL). Es transfereix a la base de dades de punts tots els registres de la base de dades del polígon corresponent a cada punt.</li><li>2. Crea un fitxer PNT on cada punt està dins d'un polígon del fitxer Fitxer_Poligons (POL). La base de dades resultant només conté un registre amb l'identificador gràfic per cada punt i no es transfereix cap informació de la taula de polígons.</li><li>3. Crea un fitxer de punts (VEC) amb les etiquetes dels polígons del fitxer Fitxer_Polígons (VEC). Cada punt té com a atribut, l'atribut del polígon corresponent.</li><li>4. Com l'opció 3 però es verifica que a cada polígon li correspongui una sola etiqueta del fitxer de punts. Tots els problemes detectats són descrits en pantalla.</li>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[<li>1. Crea un fitxer PNT on cada punt està dins d'un polígon del fitxer Fitxer_Polígons (POL). Es transfereix a la base de dades de punts tots els registres i camps de la base de dades del polígon corresponent a cada punt.</li><li>2. Crea un fitxer PNT on cada punt està dins d'un polígon del fitxer Fitxer_Polígons (POL). La base de dades resultant només conté un registre amb l'identificador gràfic per cada punt (no es transfereix cap informació de la taula de polígons, ni tampoc hi ha registres múltiples si la capa de polígons en tenia).</li><li>3. Crea un fitxer VEC de punts amb les etiquetes dels polígons del fitxer Fitxer_Polígons (VEC). Cada punt té, com a atribut, l'atribut del polígon corresponent.</li><li>4. Com l'opció 3, però es verifica que a cada polígon li correspongui una sola etiqueta del fitxer de punts. Tots els problemes detectats són descrits en pantalla.</li>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -24,8 +24,8 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Fitxer_Poligons</ows:Identifier>
-				<ows:Title>Fitxer Polígons</ows:Title>
-				<ows:Abstract>Es el fitxer de polígons a partir del qual es generara la capa d'etiquetes.</ows:Abstract>
+				<ows:Title>Fitxer polígons</ows:Title>
+				<ows:Abstract>Es el fitxer de polígons a partir del qual es generarà la capa d'etiquetes.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Fitxer_Polígons"/>
 				<ComplexData>
@@ -46,7 +46,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Posicio</ows:Identifier>
 				<ows:Title>Posició</ows:Title>
-				<ows:Abstract><![CDATA[<ul><li>     1: L'etiqueta està a una distància Tolerància (en X) des de la vora esquerra.</li><li>     2: L'etiqueta està centrada entre la vora dreta i l'esquerra (la Tolerància només aplica en la posició del polígon 0 que queda a una distància Tolerància (en X) a la esquerra de la vora X mínima de la envolupant). És l'opció recomanada per a fitxers POL.</li><li>     3: L'etiqueta està a una distància Tolerància (en X) des de la vora dreta.</li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[<ul><li>     1: L'etiqueta està a una distància Tolerància (en X) des de la vora esquerra.</li><li>     2: L'etiqueta està centrada entre la vora dreta i l'esquerra (la Tolerància només aplica en la posició del polígon zero, que queda a una distància Tolerància (en X) a la esquerra de la vora X mínima de l'envolupant). És l'opció recomanada per a fitxers POL.</li><li>     3: L'etiqueta està a una distància Tolerància (en X) des de la vora dreta.</li></ul>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:Posició"/>
 				<LiteralData>
@@ -72,7 +72,7 @@
 			<Input minOccurs="0" maxOccurs="0">
 				<ows:Identifier>p_zero</ows:Identifier>
 				<ows:Title>Etiqueta polígon zero</ows:Title>
-				<ows:Abstract><![CDATA[(només vàlid per fitxers POL)<ul><li>     0: No vull etiqueta sobre el polígon 0 (opció per defecte).</li><li>     1: Vull etiqueta sobre el polígon 0.</li><li>     2: Vull etiqueta sobre el polígon 0 amb posició x molt negatiu sense tenir-la en compte en el càlcul de la envolupant.</li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[(només vàlid per fitxers POL)<ul><li>     0: No genera etiqueta sobre el polígon zero (opció per defecte).</li><li>     1: Genera etiqueta sobre el polígon zero.</li><li>     2: Genera etiqueta sobre el polígon zero amb posició X molt negativa, que no serà tinguda en compte en el càlcul de l'envolupant de la capa d'etiquetes. S'utilitza quan aquesta etiqueta només ha de tenir una funció analítica, però no es vol que aparegui representada en els mapes.</li></ul>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param6"/>
 				<ows:Metadata xlink:title="Name:p_zero"/>
 				<LiteralData>
@@ -88,8 +88,8 @@
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>Fitxer_Punts</ows:Identifier>
-				<ows:Title>Fitxer de Punts</ows:Title>
-				<ows:Abstract>Fitxer de punts de generat</ows:Abstract>
+				<ows:Title>Fitxer de punts</ows:Title>
+				<ows:Abstract>Fitxer de punts de generat.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:Fitxer_Punts"/>
 				<ComplexOutput>
