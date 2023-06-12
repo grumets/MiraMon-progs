@@ -3,14 +3,14 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:InsolDia:1</ows:Identifier>
 		<ows:Title>InsolDia</ows:Title>
-		<ows:Abstract>Given a digital elevation model (DEM), this program calculates the incident solar radiation at each point during a particular day of the year. In addition to solar irradiance and atmospheric transmittance, the program takes into account the position of the Sun in user-defined time limits (one hour, for example), the incidence angles, the projected shadows and the distance from the Earth to the Sun..</ows:Abstract>
+		<ows:Abstract>Given a digital elevation model (DEM), this program calculates the incident solar radiation at each point during a particular day of the year. In addition to solar irradiance and atmospheric transmittance, the program takes into account the position of the Sun in user-defined time limits (one hour, for example), the incidence angles, the projected shadows and the distance from the Earth to the Sun.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Program for computing the solar radiation during one day"/>
 		<ows:Metadata xlink:title="Abstract:Given a digital elevation model (DEM), this program calculates the incident solar radiation at each point during a particular day of the year. In addition to solar irradiance and atmospheric transmittance, the program takes into account the position of the Sun in user-defined time limits (one hour, for example), the incidence angles, the projected shadows and the distance from the Earth to the Sun."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>MDE</ows:Identifier>
-				<ows:Title>Digital Elevation Model</ows:Title>
-				<ows:Abstract>Digital Elevation Model in IMG raster format</ows:Abstract>
+				<ows:Title>Digital elevation model</ows:Title>
+				<ows:Abstract>Digital elevation model in IMG raster format</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:DEM"/>
 				<ComplexData>
@@ -30,6 +30,7 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>directori_ombra</ows:Identifier>
+				<ows:Abstract><![CDATA[Directory where the different models derived from the DEM generated with <a href="Ombra.htm">Ombra</a> module have been saved. It is necessary to have a series of models that contain the range of possible azimuths that will occur during the chosen day. Within this range, representative ones will be generated (eg every 10 degrees) and must have their corresponding azimuth by name (...<i>110.img </i>, <i>120.img</i> ...). The program automatically determines (from the file names) the angular interval between available shadow layers (10 degrees in the example above). The minimum admissible interval is 1 degree (files ... 111.img, 112.img, 113.img, ...), but with intervals of the order of 10 degrees, sufficiently precise results are usually obtained]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
@@ -81,7 +82,7 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>mes</ows:Identifier>
-				<ows:Title>month</ows:Title>
+				<ows:Title>Month</ows:Title>
 				<ows:Abstract>Numerical parameters (day, month, year) that set the day for which the solar radiation calculation is carried out</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:month"/>
@@ -116,7 +117,7 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>irradiancia_exoatm</ows:Identifier>
-				<ows:Title>irradiancia_exoatm</ows:Title>
+				<ows:Title>Exoatmospheric irradiance</ows:Title>
 				<ows:Abstract>Estimated value of solar irradiance that reaches the outside of the Earth's atmosphere; 1366 is suggested</ows:Abstract>
 				<ows:Metadata xlink:title="Param7"/>
 				<ows:Metadata xlink:title="Name:exoatmospheric_irradiance"/>
@@ -139,7 +140,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>increment_horari</ows:Identifier>
 				<ows:Title>Hourly increase</ows:Title>
-				<ows:Abstract>Increase in hourly units that is applied to the new solar position from the starting position and successively, to determine a new instantaneous calculation of potential radiation that represents the defined interval on average. It is positive from noon to sunset, or negative from noon to sunrise. By default, 1 is suggested.</ows:Abstract>
+				<ows:Abstract>Increase in hourly units that is applied to the new solar position from the starting position and successively, to determine a new instantaneous calculation of potential radiation that represents the defined interval on average. It is positive from noon to sunset, or negative from noon to sunrise. By default, 1 is suggested</ows:Abstract>
 				<ows:Metadata xlink:title="Param9"/>
 				<ows:Metadata xlink:title="Name:hourly_increase"/>
 				<LiteralData>
@@ -177,7 +178,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>IRRAD_SPECTRAL</ows:Identifier>
 				<ows:Title>Spectral irradiance</ows:Title>
-				<ows:Abstract>Indicates that the solar irradiance provided is spectral and therefore the units of the output raster will be documented in 10 kJ / (m2·µm). If not specified, the units of the output raster will be documented in 10 kJ/m2.</ows:Abstract>
+				<ows:Abstract><![CDATA[Indicates that the solar irradiance provided is spectral and therefore the units of the output raster will be documented in 10 kJ / (m<sup>2</sup>·µm). If not specified, the units of the output raster will be documented in 10 kJ/m<sup>2</sup>.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -190,7 +191,10 @@
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>fitxer_sortida</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>IMG raster result of solar radiation calculation</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:output_file"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
