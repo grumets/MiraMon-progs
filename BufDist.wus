@@ -2,15 +2,15 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:BufDist:Param3</ows:Identifier>
-		<ows:Title>Buffer</ows:Title>
-		<ows:Abstract>Generates areas of influence (buffers) at a certain distance around predefined entities in a raster or vector file. The entities that are used to calculate distances, and hence to generate the buffers, are called "target entities". The program generates a Buffer and not a Distance map due to the presence of "LowBufferLim" in the syntax.</ows:Abstract>
-		<ows:Metadata xlink:title="Title:Buffers and distance maps generation"/>
-		<ows:Metadata xlink:title="Abstract:The program allows the creation of both continuous distance maps (raster result) and raster and vector (buffers) at a specified distance from the target entities."/>
+		<ows:Title>Influence areas (buffers)</ows:Title>
+		<ows:Abstract>Generates influence areas (buffers) at a certain distance around predefined entities in a raster or vector file. The entities that are used to calculate distances, and hence to generate the influence areas are called "target entities". The program generates influence areas and not a distance map due to the presence of "LowBufferLim" in the syntax.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Influence areas (buffers) and distance maps generation"/>
+		<ows:Metadata xlink:title="Abstract:The program allows the creation of both continuous distance maps (raster result) and influence maps (buffers) at a specified distance from the target entities (raster and vector result)."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerAmbEntitatsDiana</ows:Identifier>
 				<ows:Title>Raster or vector file containing the entities from which the distances are to be calculated</ows:Title>
-				<ows:Abstract>The target entities can be raster or vector. If they are raster then any cell with a value different from NoData is taken as a target cell. For the vector case, any entity (point, line or polygon) is taken as a target entity, (in raster treatment in buffer of vector files it is also possible to choose only those vector entities with a certain attribute). For rasters, in order to use only certain elements as the target entities it is necessary to first either perform an attribute query from MiraMon and to save the result in a new file or use CalcImg. Similarly, if a lot of processing is required with many files, then the target entity selection process can be performed automatically either from CalcImg or from VecSelec.</ows:Abstract>
+				<ows:Abstract><![CDATA[The target entities can be raster or vector. If they are raster then any cell with a value different from NoData is taken as a target cell. For the vector case, any entity (point, line or polygon) is taken as a target entity, (in raster treatment in influence areas of vector files it is also possible to choose only those vector entities with a certain attribute). For rasters, in order to use only certain elements as the target entities it is necessary to first either perform an attribute query from MiraMon and to save the result in a new file or use  <a href="CalcImg.htm">CalcImg</a>. Similarly, if a lot of processing is required with many files, then the target entity selection process can be performed automatically either from  <a href="CalcImg.htm">CalcImg</a> or from <a href="VecSelec.htm">VecSelec</a>.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:TargetEntitiesFile"/>
 				<ComplexData>
@@ -50,8 +50,8 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>LimitInfBuffer</ows:Identifier>
-				<ows:Title>Lower limit of the buffer</ows:Title>
-				<ows:Abstract>Lower distance limit used to perform  the buffer. The program generates a buffer and not a distance map due to the presence of "LowBufferLim" in the syntax.</ows:Abstract>
+				<ows:Title>Lower limit of the influence area</ows:Title>
+				<ows:Abstract>Lower distance limit used to perform  the influence area. The program generates an influence area and not a distance map due to the presence of "LowBufferLim" in the syntax.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:LowBufferLim"/>
 				<LiteralData>
@@ -61,8 +61,8 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>LimitSupBuffer</ows:Identifier>
-				<ows:Title>Upper limit of the buffer</ows:Title>
-				<ows:Abstract>Upper distance limit used to perform the buffer.</ows:Abstract>
+				<ows:Title>Upper limit of the influence area</ows:Title>
+				<ows:Abstract>Upper distance limit used to perform the influence area.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:UpBufferLim"/>
 				<LiteralData>
@@ -127,7 +127,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>REPE</ows:Identifier>
 				<ows:Title>Indicates the record in multirecord case</ows:Title>
-				<ows:Abstract><![CDATA[Indicates which record is used when there are more than one record for a graphic identifier (multiple record). For more information on the values of this parameter refer to the document <a href=general.htm>general syntax</a>.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Indicates which record is used when there is more than one record for a graphic identifier (multiple record). For more information on the values of this parameter refer to the document <a href=general.htm>general syntax</a>.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
@@ -137,7 +137,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>OPER_DIANA</ows:Identifier>
 				<ows:Title>Limit the target entities</ows:Title>
-				<ows:Abstract>May be EQ or NO_EQ in order to limit the target entities to just those that have attributes equal to, or not equal to, the /ATR_DIANA= attribute. /ATR_DIANA= is the attribute that defines the logical condition used to limit the values of the candidates for the target entities. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<ows:Abstract>May be EQ or NO_EQ in order to limit the target entities to just those that have attributes equal to, or not equal to, the /ATR_DIANA= attribute. /ATR_DIANA= is the attribute that defines the logical condition used to limit the values of the candidates for the target entities.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -149,7 +149,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>ATR_DIANA</ows:Identifier>
 				<ows:Title>Attribute</ows:Title>
-				<ows:Abstract>Is the attribute that defines the logical condition used to limit the values of the candidates for the target entities. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<ows:Abstract>Is the attribute that defines the logical condition used to limit the values of the candidates for the target entities.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -203,7 +203,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TOLERANCIA</ows:Identifier>
 				<ows:Title>Tolerance</ows:Title>
-				<ows:Abstract>Is the maximum error when a arc of circle is translated to a vertices sequence, in the vector treatment for buffers. Only applies if TargetEntitiesFile is a vectorial layer and the treatment is also vectorial.</ows:Abstract>
+				<ows:Abstract>Is the maximum error when a arc of circle is translated to a vertices sequence, in the vector treatment for influence areas. Only applies if TargetEntitiesFile is a vectorial layer and the treatment is also vectorial.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
 					<ows:AnyValue/>
@@ -228,7 +228,7 @@
 			<Output>
 				<ows:Identifier>FitxerBuffer</ows:Identifier>
 				<ows:Title>Areas at a distance between [N,M] UNITS from the entities FILE</ows:Title>
-				<ows:Abstract>The output file is either raster "byte-RLE" or vector of topologically-structured polygons. The result of a buffers can be either in raster or vector format; When the result is a vector file, it is possible to perform a full vector treatment or a raster treatment where the result is the vectorization of rasters, therefore, the parameters that define the temporary raster extents are needed.</ows:Abstract>
+				<ows:Abstract>The output file is either raster "byte-RLE" or vector of topologically-structured polygons. The result of influence areas can be either in raster or vector format; When the result is a vector file, it is possible to perform a full vector treatment or a raster treatment where the result is the vectorization of rasters, therefore, the parameters that define the temporary raster extents are needed.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:BufferFile"/>
 				<ComplexOutput>
@@ -255,12 +255,12 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:BufDist:!Param3</ows:Identifier>
 		<ows:Title>Distance maps</ows:Title>
-		<ows:Abstract>Generates continuous distance maps (raster result)  at a specified distance from the target entities. The entities that are used to calculate distances are called "target entities". The program generates a Distance map and not a Buffer due to the non-presence of the modifier of "LowBufferLim" in the syntax.</ows:Abstract>
+		<ows:Abstract>Generates continuous distance maps (raster result)  at a specified distance from the target entities. The entities that are used to calculate distances are called "target entities".</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerAmbEntitatsDiana</ows:Identifier>
 				<ows:Title>Raster or vector file containing the entities from which the distances are to be calculated</ows:Title>
-				<ows:Abstract>The target entities can be raster or vector. If they are raster then any cell with a value different from NoData is taken as a target cell. For the vector case, any entity (point, line or polygon) is taken as a target entity, (in raster treatment in buffer of vector files it is also possible to choose only those vector entities with a certain attribute). For rasters, in order to use only certain elements as the target entities it is necessary to first either perform an attribute query from MiraMon and to save the result in a new file or use CalcImg. Similarly, if a lot of processing is required with many files, then the target entity selection process can be performed automatically either from CalcImg or from VecSelec.</ows:Abstract>
+				<ows:Abstract><![CDATA[The target entities can be raster or vector. If they are raster then any cell with a value different from NoData is taken as a target cell. For the vector case, any entity (point, line or polygon) is taken as a target entity, (in raster treatment in influence areas of vector files it is also possible to choose only those vector entities with a certain attribute). For rasters, in order to use only certain elements as the target entities it is necessary to first either perform an attribute query from MiraMon and to save the result in a new file or use  <a href="CalcImg.htm">CalcImg</a>. Similarly, if a lot of processing is required with many files, then the target entity selection process can be performed automatically either from  <a href="CalcImg.htm">CalcImg</a> or from <a href="VecSelec.htm">VecSelec</a>.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:TargetEntitiesFile"/>
 				<ComplexData>
@@ -355,7 +355,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>REPE</ows:Identifier>
 				<ows:Title>Indicates the record in multirecord case</ows:Title>
-				<ows:Abstract><![CDATA[Indicates which record is used when there are more than one record for a graphic identifier (multiple record). For more information on the values of this parameter refer to the document <a href=general.htm>general syntax</a>.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Indicates which record is used when there is more than one record for a graphic identifier (multiple record). For more information on the values of this parameter refer to the document <a href=general.htm>general syntax</a>.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
@@ -365,7 +365,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>OPER_DIANA</ows:Identifier>
 				<ows:Title>Limit the target entities</ows:Title>
-				<ows:Abstract>May be EQ or NO_EQ in order to limit the target entities to just those that have attributes equal to, or not equal to, the /ATR_DIANA= attribute. /ATR_DIANA= is the attribute that defines the logical condition used to limit the values of the candidates for the target entities. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<ows:Abstract>May be EQ or NO_EQ in order to limit the target entities to just those that have attributes equal to, or not equal to, the /ATR_DIANA= attribute. /ATR_DIANA= is the attribute that defines the logical condition used to limit the values of the candidates for the target entities.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -377,7 +377,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>ATR_DIANA</ows:Identifier>
 				<ows:Title>Attribute</ows:Title>
-				<ows:Abstract>Is the attribute that defines the logical condition used to limit the values of the candidates for the target entities. Only applies if file TargetEntitiesFile is a structured vector layer with a raster treatment.</ows:Abstract>
+				<ows:Abstract>Is the attribute that defines the logical condition used to limit the values of the candidates for the target entities.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -431,7 +431,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TOLERANCIA</ows:Identifier>
 				<ows:Title>Tolerance</ows:Title>
-				<ows:Abstract>Is the maximum error when a arc of circle is translated to a vertices sequence, in the vector treatment for buffers. Only applies if TargetEntitiesFile is a vectorial layer and the treatment is also vectorial.</ows:Abstract>
+				<ows:Abstract>Is the maximum error when a arc of circle is translated to a vertices sequence, in the vector treatment for influence areas. Only applies if TargetEntitiesFile is a vectorial layer and the treatment is also vectorial.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
 					<ows:AnyValue/>

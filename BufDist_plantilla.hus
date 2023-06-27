@@ -1,37 +1,36 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 04-05-2023 */-->
+<!--/* Rev AA 27-06-2023 */-->
 <head>
-  <title>BufDist: Buffers and distance maps generation</title>
+  <title>BufDist: Influence areas (buffers) and distance maps generation</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-	The program allows both generate continuous distances maps (raster result)
-such as raster areas or vector (buffers) at a distance of target entities.
+The program allows the creation of both continuous distance maps (raster result) and influence maps (buffers) at a specified distance from the target entities (raster and vector result).
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
   <p>The target entities can be raster or vector. If they are raster then any
   cell with a value different from NoData is taken as a target cell. For the
   vector case, any entity (point, line or polygon) is taken as a target
-  entity (in raster treatment in buffer of vector files it is also possible
+  entity (in raster treatment in influence areas of vector files it is also possible
   to choose only those vector entities with a certain attribute). For rasters,
   in order to use only certain elements as the target entities it is necessary
   to first either carry out an attribute query from MiraMon and to save the
   result in a new file or to use <a href="CalcImg.htm">CalcImg</a>. Similarly if
   a lot of processing is required with many files then the target entity
-  selection process can be performed automatically either from CalcImg or from
+  selection process can be performed automatically either from <a href="CalcImg.htm">CalcImg</a> or from
   <a href="VecSelec.htm">VecSelec</a>.</p>
 
-  <p>The result of a <i>buffer</i> can be either in raster
+  <p>The result of an influence area can be either in raster
   or vector format; When the result is a vector file, it is possible to perform a
   full vector treatment or a raster treatment where the result is the
   vectorization of rasters, therefore, the parameters that define the
-  temporary raster extent are needed. Whenever a <i>buffer</i> is requested
+  temporary raster extent are needed. Whenever an influence area is requested
   and the input file is a raster, the program starts by generating a distance
-  map and then selects the areas within the specified distances.</p>
+  map and then selects the areas within the specified distances. It is also possible to run subsequently the <a href="GenVPol.htm">GenVPol</a> module in order to smooth the edges of the obtained influence areas.</p>
 
   <p>In the rasters model, distances are calculated by the <b>SHORTEST
   ROUTE</b> from the center of each cell to the center of the nearest target cell. When necessary this requires
@@ -57,7 +56,7 @@ such as raster areas or vector (buffers) at a distance of target entities.
     <li>The title of the output file is converted into "Distances derived
     from FILE " (where FILE is the name of the file containing the target
     entities).</li>
-  </ul>If a "buffer" map is requested:
+  </ul>If an influence area is requested:
 
   <ul>
     <li>The output file is either raster "byte-RLE" or vector of
@@ -89,15 +88,15 @@ such as raster areas or vector (buffers) at a distance of target entities.
     </li>
 
     <li>The result of a vector treatment is a polygon file that inherits point
-    or arc attributes. If an interval buffer [M,N] (where M is different from
+    or arc attributes. If an interval of an influence area [M,N] (where M is different from
     0) has been requested, an additional attribute (BUFFER field) is added
     containing one of the following values:
 
       <ul>
-        <li>i: Inner zones to buffer, it means, with distance lower that
+        <li>i: Inner zones to the influence area, it means, with distance lower that
         M.</li>
 
-        <li>b: Buffer zones, it means, with distance between M and N.</li>
+        <li>b: Influence areas, it means, with distance between M and N.</li>
       </ul>In this case, areas at distances &gt; N are grouped to the polygon
       0 and they have no attributes.
     </li>
@@ -137,7 +136,7 @@ such as raster areas or vector (buffers) at a distance of target entities.
   geodesic distances then select /DIST_GEOD=0.</p>
 
   <p>Unless explicitly indicated, BufDist does not consider circularities in
-  the calculations (ie. when maps represent the whole Earth it does not consider that the extreme left and right (west and east) are
+  the calculations (i.e. when maps represent the whole Earth it does not consider that the extreme left and right (west and east) are
   close together, and it calculates on a flat map). If distances are to be
   calculated over the whole globe then it must be used the /MAPAMUNDI parameter in order to consider circularities when using BufDist. Before using /MAPAMUNDI, it must be considered:</p>
 
@@ -161,8 +160,12 @@ such as raster areas or vector (buffers) at a distance of target entities.
   <p>If using a projection that is neither UTM nor Mercator nor
   Equirectangular, check that the projection allows cartesian distances to be
   calculated without significant errors. If necessary,  consult <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>.</p>
+  
   <p>More information can be consulted at the following reference:</p>
-<p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las herramientas SIG de análisis de distancias y superfícies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
+
+<p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las herramientas SIG de análisis de distancias y superficies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
+
+<p>Finally, it should be noted that in other popular software, the vector result can be wrong with regard to the attributes of the polygons generated in the influence areas mode. Indeed, when the influence areas of two or more target entities with different attributes overlap, these softwares do not allow to know of which target entity the influence area comes from and end up generating erroneous results as they are awarded wrong attributes in the influence areas - those attributes are further away than indicated as an influence area.</p>
 
   <hr/>
   <exclusiva>

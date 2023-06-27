@@ -1,38 +1,38 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 04-05-2023 */-->
+<!--/* Rev AA 27-06-2023 */-->
 <head>
-<title>BufDist: Generació de buffers i mapes de distàncies</title>
+<title>BufDist: Generació d'àrees d'influència (<i>buffers</i>) i mapes de distàncies</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
   El programa permet tant generar mapes de distàncies contínues (resultat ràster)
-com zones ràster o vectorials (<i>buffers</i>) a una certa distància de les
-entitats diana.
+com àrees d'influència (<i>buffers</i>) a una certa distància de les
+entitats diana (resultat ràster o vectorial):
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
   <p>Les entitats diana poden ser tant de tipus ràster com vectorial. En el
   cas ràster, qualsevol cel·la de valor diferent a sensedades es considera una
   cel·la diana. En el cas vectorial, qualsevol entitat (punt, línia o polígon)
-  es considera una entitat diana (en el tractament ràster d'aquests
-  <i>buffers</i> de vectors, també es pot indicar que només siguin considerades com a
+  es considera una entitat diana (en el tractament ràster d'aquestes
+  àrees d'influència de vectors, també es pot indicar que només siguin considerades com a
   diana les entitats vectorials amb un cert atribut); en el cas de ràsters, si
   només desitgeu usar com a diana uns certs elements, realitzeu una consulta
   per atributs des del MiraMon i deseu el resultat en un nou fitxer, o bé
-  utilitzeu <a href="CalcImg.htm">CalcImg</a>; igualment, si heu de fer un
+  utilitzeu el <a href="CalcImg.htm">CalcImg</a>; igualment, si heu de fer un
   procés massiu amb molts fitxers, podeu automatitzar el procés de selecció de
-  les entitats diana des de CalcImg o des de <a href="VecSelec.htm">VecSelec</a>.</p>
+  les entitats diana des del <a href="CalcImg.htm">CalcImg</a> o des del <a href="VecSelec.htm">VecSelec</a>.</p>
 
-  <p>Els <i>buffers</i> resultants poden ser ràsters o
+  <p>Les àrees d'influència resultants poden ser ràsters o
   vectorials; en el cas vectorial es pot fer un tractament totalment vectorial o
   un tractament ràster on el resultat és la vectorització del cas ràster i,
   per tant, necessita els paràmetres que defineixen l'àmbit del ràster
   temporal.<br/>
-  Sempre que es demani un <i>buffer</i> i el fitxer origen sigui un ràster, el
+  Sempre que es demani una àrea d'influència i el fitxer origen sigui un ràster, el
   programa igualment comença generant el mapa de distàncies i, posteriorment,
-  selecciona les zones a l'interval de distàncies demanat.</p>
+  selecciona les zones a l'interval de distàncies demanat. Sempre podeu posteriorment executar el <a href="GenVPol.htm">GenVPol</a> per tal de suavitzar les vores de les àrees d'influència obtingudes.</p>
 
   <p>En el model ràster, les distàncies es calculen a través del <b>CAMÍ MÉS
   CURT</b> des del centre de cada cel·la al centre de la cel·la diana més
@@ -44,7 +44,7 @@ entitats diana.
 
   <p>A diferència d'altres programes de SIG, que realitzen aquest càlcul
   en precisió simple i que perden precisió amb cel·les petites o valors de
-  coordenades molt grans, BufDist el duu a terme en doble precisió i amb un
+  coordenades molt grans, el BufDist el duu a terme en doble precisió i amb un
   tractament òptim dels valors numèrics, amb la qual cosa les distàncies
   resulten ben calculades fins i tot en fitxers molt grans (amb moltes files i
   columnes). Hem pogut detectar que en fitxers de 341 files x 341 columnes i
@@ -61,7 +61,7 @@ entitats diana.
     <li>El títol del fitxer resultant esdevé "Distàncies derivades de
     FITXER" (on FITXER és el nom del fitxer que conté les entitats
     diana).</li>
-  </ul>Si es demana obtenir un mapa "<i>buffer</i>":
+  </ul>Si es demana obtenir una àrea d'influència:
 
   <ul>
     <li>El fitxer resultant és de tipus ràster "byte-RLE" o bé de
@@ -94,15 +94,15 @@ entitats diana.
 
     <li>El resultat d'un tractament vectorial és un fitxer de polígons que
     hereta els atributs dels punts o arcs diana originals. Si s'ha
-    demanat un <i>buffer</i> per interval [M,N] (on M és diferent de 0) s'afegeix
+    demanat una àrea d'influència per interval [M,N] (on M és diferent de 0) s'afegeix
     un atribut addicional a la taula principal (camp BUFFER) que pot contenir
     els següents valors:
 
       <ul>
-        <li>i: Zones interiors al <i>buffer</i>, és a dir, de distància menor a
+        <li>i: Zones interiors a l'àrea d'influència, és a dir, de distància menor a
         M.</li>
 
-        <li>b: Zones de <i>buffer</i>, és a dir, a distàncies entre M i N.</li>
+        <li>b: Zones de l'àrea d'influència, és a dir, a distàncies entre M i N.</li>
       </ul>En aquest cas, les zones a distàncies &gt; N s'agrupen al
       polígon 0 i no tenen atributs.
     </li>
@@ -117,7 +117,7 @@ entitats diana.
   distàncies projectades -Mercator, Equirectangular "lat/long",
   etc-, els càlculs podrien tenir errors importants si les distàncies es
   calculessin de forma cartesiana (rectangular), degut a les característiques
-  de la pròpia projecció. És per això que BufDist, quan detecta projeccions
+  de la pròpia projecció. És per això que el BufDist, quan detecta projeccions
   "Mercator", "Equirectangular" (latitud/longitud en
   graus), etc, fa les correccions pertinents per tal que els resultats siguin
   realistes.</p>
@@ -169,10 +169,17 @@ entitats diana.
   Equirectangular, cal assegurar-se que la projecció utilitzada permet distàncies
   cartesianes sense errors importants. Si és necessari, es pot consultar a 
   <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>.</p>
+  
   <p>Per a més informació es pot consultar la següent referència:</p>
+  
   <p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las 
-  herramientas SIG de análisis de distancias y superfícies</i>. 
+  herramientas SIG de análisis de distancias y superficies</i>. 
   6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
+  
+  <p>Finalment, cal indicar que en altres programaris populars el resultat vectorial pot ser  erroni pel que fa als atributs dels polígons generats en el mode àrees d'influència. En efecte, quan les àrees d'influència de dues o més entitats diana amb atributs diferents s'encavalquen, aquests programaris no permeten conèixer de quina entitat diana prové l'àrea d'influència i arriben a generar resultats erronis per tal com s'atorguen atributs equivocats a les àrees d'influència: aquells atributs estan més lluny del que s'ha indicat com a àrea d'influència.</p>
+  
+  
+  
   <hr/>
   <exclusiva>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->

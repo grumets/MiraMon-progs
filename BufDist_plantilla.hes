@@ -1,7 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 04-05-2023 */-->
+<!--/* Rev AA 27-06-2023 */-->
 <head>
-  <title>BufDist: Generación de buffers y mapas de distancias</title>
+  <title>BufDist: Generación de áreas de influencia (<i>buffers</i>) y mapas de distancias</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -9,32 +9,31 @@
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 	El programa permite tanto generar mapas de distancias continuas (resultado ráster)
-como zonas ráster o vectoriales (<i>buffers</i>) a una cierta distancia de las
-entidades diana.
+como áreas de influencia (<i>buffers</i>) a una cierta distancia de las
+entidades diana (resultado ráster o vectorial).
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
   <p>Las entidades diana pueden ser tanto de tipo ráster como vectorial. En el
   caso ráster, cualquier celda de valor diferente a sindatos se considera una
   celda diana. En el caso vectorial, cualquier entidad (punto, línea o
-  polígono) se considera una entidad diana (en el tratamiento ráster de
-  <i>buffers</i> de vectores, también puede indicarse que solamente se consideren
+  polígono) se considera una entidad diana (en el tratamiento ráster de estas áreas de influencia de vectores, también puede indicarse que solamente se consideren
   diana las entidades vectoriales con cierto atributo); en el caso de rásters,
   si solamente desea usar como diana ciertos elementos, realice una consulta
   por atributos desde MiraMon y guarde el resultado en un nuevo fichero, o
   bien utilice <a href="CalcImg.htm">CalcImg</a>; igualmente, si debe lanzar
   un proceso masivo con muchos ficheros, puede automatizar el proceso de
-  selección de las entidades diana desde CalcImg o desde <a href="VecSelec.htm">VecSelec</a>.</p>
+  selección de las entidades diana desde <a href="CalcImg.htm">CalcImg</a> o desde <a href="VecSelec.htm">VecSelec</a>.</p>
 
-  <p>Los <i>buffers</i> resultantes
+  <p>Las áreas de influencia resultantes
   pueden ser ráster o vectoriales; en el caso vectorial se puede realizar un
   tratamiento totalmente vectorial o un tratamiento ráster donde el resultado
   es la vectorización del caso ráster, y por lo tanto, necesita de los
   parámetros que definen el ámbito del ráster temporal.
-  Siempre que se solicite un <i>buffer</i> y el fichero origen sea un ráster,
+  Siempre que se solicite un área de influencia y el fichero origen sea un ráster,
   el programa empieza generando igualmente el mapa de distancias y,
   posteriormente, selecciona las zonas en el intervalo de distancias
-  solicitado.</p>
+  solicitado. Siempre se puede posteriormente ejecutar <a href="GenVPol.htm">GenVPol</a> para suavizar los bordes de las áreas de influencia obtenidas.</p>
 
   <p>El modelo ráster las distancias se calculan a través del <b>CAMINO MÁS
   CORTO</b> desde el centro de cada celda al centro de la celda diana más
@@ -63,7 +62,7 @@ entidades diana.
     <li>El título del fichero resultante se convierte en "Distancias
     derivadas de FICHERO" (donde FICHERO es el nombre del fichero que
     contiene las entidades diana).</li>
-  </ul>Si se solicita obtener un mapa "<i>buffer</i>":
+  </ul>Si se solicita obtener un área de influencia:
 
   <ul>
     <li>El fichero resultante es de tipo ráster "byte-RLE" o bien de
@@ -97,15 +96,15 @@ entidades diana.
 
     <li>El resultado de un tratamiento vectorial es un fichero de polígonos
     que heredan los atributos de los puntos o arcos diana originales. Si se ha
-    solicitado un <i>buffer</i> de intervalo [M,N] (donde M es diferente de 0) se
+    solicitado un área de influencia de intervalo [M,N] (donde M es diferente de 0) se
     añade un atributo adicional en la tabla principal (campo BUFFER) que puede
     contener los siguientes valores:
 
       <ul>
-        <li>i: Zonas interiores al <i>buffer</i>, es decir, de distancia menor a
+        <li>i: Zonas interiores al área de influencia, es decir, de distancia menor a
         M.</li>
 
-        <li>b: Zonas de <i>buffer</i>, es decir, a distancias entre M y N.</li>
+        <li>b: Zonas del área de influencia, es decir, a distancias entre M y N.</li>
       </ul>En este caso, las zonas a distancias &gt; N se agrupan al polígono
       0 y no tienen atributos.
     </li>
@@ -172,12 +171,16 @@ entidades diana.
   <p>Si se utiliza una proyección que no es ni UTM, ni Mercator ni
   Equirectangular, es necesario asegurarse de que la proyección utilizada permite distancias
   cartesianas sin errores importantes. En caso necesario, se puede consultar a <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>.</p>
+  
   <p>Para más información se puede consultar la  siguiente referencia:</p>
+  
   <p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las herramientas 
-  SIG de análisis de distancias y superfícies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
+  SIG de análisis de distancias y superficies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
+  
+  <p>Por último, cabe indicar que en otros softwares populares el resultado vectorial puede ser erróneo en lo que se refiere a los atributos de los polígonos generados en el modo áreas de influencia. En efecto, cuando las áreas de influencia de dos o más entidades diana con atributos diferentes se solapan, estos softwares no permiten conocer de qué entidad diana proviene el área de influencia y llegan a generar resultados erróneos por cuanto se otorgan atributos equivocados a las áreas de influencia: aquellos atributos están más lejos de lo indicado como área de influencia.</p>
 
-  <exclusiva>
     <hr/>
+	  <exclusiva>
     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
