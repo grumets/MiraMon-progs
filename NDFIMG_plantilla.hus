@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 04-07-2023 */-->
+<!--/* Rev AA 07-07-2023 */-->
 <head>
   <title>NDFIMG: Transform NDF raster format files (satellite images, etc) to
   MiraMon IMG format</title>
@@ -22,20 +22,19 @@
   "Level 1 Product Output Files. Data Format Control Book". Volume
   5, Book 2. Revision 5. April 2001<br/></p>
   
-  <p>The images are converted to MiraMon IMG v. 4 format, so the different
-  spectral bands are stored in as many IMG files as there are spectral bands
-  the original image. All the converted IMG files are stored in the same
-  directory, so the user is asked to enter a directory name rather than an
-  output file name for each spectral band. The program compresses the images
-  into RLE extracompressed format.</p>
+  <p>The images are converted to MiraMon IMG format, so the different
+  spectral bands are stored in as many IMG files as spectral bands
+  are present in the source file. All the converted IMG files are stored in the same
+  directory, so the user is asked to enter a directory name rather than a
+  target file name for each spectral band. The program also compresses the images
+  into a RLE extracompressed and indexed format.</p>
 
-  <p>The names of the IMG files that will contain the different spectral bands
-  or channels are assigned according to the following pattern:
+  <p>The names of the IMG files that will contain the different spectral bands are assigned according to the following pattern:
   orbit&amp;image_date_Nband.img. An example could be: 197031_13062002_1
   corresponding to the orbit 197, image 031, taken 13 June 2002 in spectral
-  channel 1 (blue).</p>
+  band 1 (blue).</p>
 
-  <p>In case of floating images, the NDF heading files indicate the scene of
+  <p>In case of floating (along path) images, the NDF heading files indicate the scene of
   beginning and end with a decimal figure. This information is used to obtain
   the scene number identifying of the scene, from the average rounded to
   integer of the initial and final scene number.</p>
@@ -45,28 +44,25 @@
    Path/Strip no.:     197                        Start Row no.:      030.9
                                                   End Row no.:        031.9
 </pre>the names of the different bands will follow the pattern:
-197031_13062002_?.
+197031_13062002_31.
 
-  <p>The metadata contained in the files that are usually found on an
-  ETM+/TM/MSS CD-ROM, like for example the date and hour of acquisition,
+  <p>The metadata contained in the files that are usually found on a distribution CD-ROM, like, for example, the date and hour of acquisition,
   preprocessing details, etc, are stored in the I.rel file in the same
   directory where the images are stored. This multiband metadata file
   distinguishes between the data specific to each band (such as the spectral
-  range covered), from the data common to all bands (like the acquisition
+  range covered), the data common to all bands (like the acquisition
   date) and those data which relate to both (like for instance the number of
-  columns and rows, which is the same for all the multispectral bands but is
-  usually double for the panchromatic band of ETM+ images).</p>
+  columns and rows, which is the same for all the multispectral bands but that is
+  usually double for the panchromatic band of ETM+ images, and is recorded in the I.rel metadata file).</p>
 
-  <p>The different bands are found in the metadata file in the following
-  order:</p>
+  <p>The different bands are found in the metadata file in in spectral order, from short to long wavelengths. Examples:</p>
 
   <div style="margin-left: 2em">
     * <u>ETM+ and TM</u>
 
     <div style="margin-left: 2em">
       <p>- First the PAN image (band 8), as it has the highest spatial
-      resolution and is unique in the set. This band is only available with
-      the ETM+ sensor and not TM.</p>
+      resolution and is unique in the set. This band is only available in ETM+ imagery.</p>
 	</div>
 	
 	<div style="margin-left: 2em">
@@ -75,13 +71,13 @@
 	  </div>
 
 	<div style="margin-left: 2em">
-      <p>-Then the bands 5-7, that provide the response in the middle infrared
+      <p>-Then the bands 5-7, that provide the response in the short wave  infrared
       spectral region.</p>
 	  </div>
 
 	<div style="margin-left: 2em">
-      <p>- Finally band 6, corresponding to the thermal infrared that has a
-      resolution of 60 m in ETM+ and 120 m in TM, but is distributed resampled
+      <p>- Finally, band 6, corresponding to the thermal infrared that has a
+      resolution of 60 m in ETM+ and 120 m in TM, but that is distributed resampled
       to 30 m. In the case of ETM+ images, sometimes these are distributed
       with an additional band 9, corresponding to the thermal channel but with
       a high gain radiometric calibration.</p>
@@ -93,10 +89,10 @@
 
     <div style="margin-left: 2em">
       - The bands 1-2-3-4-5 that provide the spectral response in the ranges
-      green - red - near infrared 1- near infrared 2 - thermic. Band 5 is
-      only available with the mission Landsat-3 of MSS sensor.
+      green - red - near infrared 1- near infrared 2 - thermal. Band 5 is
+      only available with the mission Landsat-3 of the MSS sensor.
     </div>
-  </div>The MiraMon Metadata Manager (GeMM) may be used to make any changes or
+  </div>The Universal MiraMon Metadata Manager (GeM+) may be used to make any changes or
   minor modifications as needed after importing the images.
   <hr/>
 

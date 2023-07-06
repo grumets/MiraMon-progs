@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 04-07-2023 */-->
+<!--/* Rev AA 07-07-2023 */-->
 <head>
   <title>NDFIMG: Transforma ràsters en format NDF al format IMG de
   MiraMon</title>
@@ -22,21 +22,21 @@
   "Level 1 Product Output Files. Data Format Control Book". Volume
   5, Book 2. Revision 5. April 2001<br/></p>
 
-  <p>Les imatges són convertides al format IMG de la v. 4 de MiraMon, de forma
+  <p>Les imatges són convertides al format IMG del MiraMon, de forma
   que les diferents bandes espectrals s'emmagatzemen en tants fitxers IMG
   com bandes espectrals contingui la imatge original. Tots els fitxers IMG
   convertits s'ubiquen en un mateix directori, per la qual cosa es demana
-  a l'usuari que faciliti un nom de directori i no un nom de sortida per a
+  a la persona usuària que faciliti un nom de directori i no un nom de sortida per a
   cada banda espectral. El programa comprimeix les imatges en format RLE
-  extracomprimit.</p>
+  extracomprimit i indexat.</p>
 
-  <p>El nom dels fitxers IMG que contindran les diferents bandes o canals
+  <p>El nom dels fitxers IMG que contindran les diferents bandes
   espectrals s'assigna segons el següent patró:
   orbita&amp;imatge_data_Nbanda.img. Un exemple podria ser: 197031_13062002_1
   corresponent a l'òrbita 197, imatge 031, presa el 13 de juny de 2002 en
-  el canal espectral 1 (blau).</p>
+  la banda espectral 1 (blau).</p>
 
-  <p>En el cas d'imatges flotants, els fitxers de capçalera NDF indiquen
+  <p>En el cas d'imatges flotants (al llarg de la traça), els fitxers de capçalera NDF indiquen
   l'escena d'inici i final amb un decimal. Aquesta informació
   s'utilitza per a obtenir el número d'escena identificador de
   l'escena, a partir de la mitjana arrodonida a un enter del número
@@ -46,21 +46,21 @@
   <pre>
    Path/Strip no.:     197                        Start Row no.:      030.9
                                                   End Row no.:        031.9
-</pre>els noms de les diferents bandes seguiran el patró: 197031_13062002_?.
+</pre>els noms de les diferents bandes seguiran el patró: 197031_13062002_31.
 
   <p>Les metadades contingudes als fitxers que típicament conté un CD-ROM de
-  distribució de dades ETM+/TM/MSS, com ara data i hora de captació, detalls
+  distribució, com ara, data i hora de captació, detalls
   de preprocessament, etc, són emmagatzemades en un fitxer I.rel ubicat al
-  mateix directori on heu decidit desar les imatges. Aquest fitxer de
+  mateix directori on s'ha decidit desar les imatges. Aquest fitxer de
   metadades multibanda diferencia adequadament les dades específiques de cada
-  banda (com ara la regió espectral que cobreixen), de les comunes a totes les
-  bandes (com ara la data de captació) i de les que es troben en una situació
+  banda (com ara la regió espectral que cobreixen), les comunes a totes les
+  bandes (com ara la data de captació) i les que es troben en una situació
   mixta (com ara el nombre de columnes i files, que és general per a totes les
   bandes multispectrals però que sol ser doble en la banda pancromàtica
-  present a imatges ETM+).</p>
+  present a imatges ETM+, i es registra al fitxer de metadades I.rel).</p>
 
   <p>Les diferents bandes es presenten en el fitxer de metadades per
-  l'ordre que ens ha semblat més lògic d'implementar:</p>
+  l'ordre espectral, de longituds d'ona curtes a llargues. Exemples:</p>
 
   <div style="margin-left: 2em">
     * <u>ETM+ i TM</u>
@@ -68,7 +68,7 @@
     <div style="margin-left: 2em">
       - En primer lloc la PAN (banda 8), per ser la de més resolució espacial
       i singular respecte al conjunt. Aquesta banda només està disponible en
-      el sensor ETM+, no en TM.
+      les imatges d'ETM+.
     </div>
 
     <div style="margin-left: 2em">
@@ -78,15 +78,15 @@
 
     <div style="margin-left: 2em">
       - A continuació les bandes 5-7, que proporcionen la resposta en la regió
-      espectral infraroig mitjà.
+      espectral infraroig d'ona curta.
     </div>
 
     <div style="margin-left: 2em">
-      - Finalment la banda 6, corresponent a l'infraroig tèrmic, que
+      - Finalment, la banda 6, corresponent a l'infraroig tèrmic, que
       presenta una resolució de 60 m en ETM+ i de 120 m en TM, però que es
       distribueix remostrejada a 30. En el cas d'imatges ETM+, de vegades
-      se serveix addicionalment una banda 9, corresponent al mateix canal
-      tèrmic però amb una calibració radiomètrica d'alt guany.
+      se serveix addicionalment una banda 9, corresponent a la mateixa banda 
+      tèrmica però amb una calibració radiomètrica d'alt guany.
     </div>
   </div>
 
@@ -99,8 +99,8 @@
       tèrmic. La banda 5 només està disponible en el sensor MSS de la missió
       Landsat-3.
     </div>
-  </div>Podeu utilitzar el Gestor de Metadades de MiraMon (GeMM) per a
-  efectuar els canvis i/o retocs que considereu necessaris un cop importades
+  </div>Es pot utilitzar el Gestor Universal de Metadades del MiraMon (GeM+) per a
+  efectuar els canvis i/o retocs que es considerin necessaris un cop importades
   les imatges.
   <hr/>
 
