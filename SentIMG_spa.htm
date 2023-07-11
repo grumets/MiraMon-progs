@@ -1,0 +1,75 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 02-05-2023 */-->
+<head>
+<title>SentIMG: Importación de imágenes Sentinel-2</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">SentIMG: Importación de imágenes Sentinel-2.</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<p align="justify">Este módulo importa datos de la misión Sentinel-2 de la serie de satélites Sentinel, gestionada por la ESA a formato MiraMon. El módulo tiene dos opciones:</p> 
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>Importación de un producto de datos Sentinel-2.</b></ul>
+<ul><b>Importación de una lista de imágenes Sentinel-2 de una misma tesela.</b></ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+<p align="justify">Un producto de Sentinel es un conjunto de datos (imágenes radiométricas y auxiliares, etc) y metadatos que describen los elementos que componen el producto. Cada producto está dividido en un conjunto de teselas que cubren  zonas geográficas. En cada tesela original se pueden encontrar las diferentes bandas multiespectrales y sus metadatos en formato XML y las diferentes máscaras de calidad en formato GML. SentIMG permite importar productos con reflectancias TOA o BOA ortorectificados (nivel 1C, 2Ap y 2A o L1C, L2Ap y L2A) donde estas teselas se corresponden con zonas de 100 km x 100 km de la malla UTM en la proyección cartográfica UTM en el datum WGS84.</p>
+
+<p align="justify">Para importar imágenes Sentinel, este módulo permite dos opciones:
+<ul><li>Importar todo el producto en base al fichero XML del <i>User Product</i>. En esta opción, el parámetro de entrada es el fichero XML de metadatos del <i>User Product</i> y la distribución de las carpetas tiene que ser la misma que en el fichero ZIP descargado que proporciona la ESA. En el directorio de salida se creará una carpeta con el nombre S2A_Lxx_aaaammdd donde xx es el nivel de corrección de la imagen (por ejemplo, L1C en el caso del nivel 1C) y aaaa, mm y dd corresponden al año, mes y día de la fecha de captación. Dentro de esta carpeta, se crearán tantas carpetas como teselas siguiendo la nomenclatura aabcc, donde aa, b y cc son el huso, la faja de 8 grados de latitud y las dos letras de la zona UTM de 100 km x 100 km a que corresponde la tesela. Para cada tesela, se importará las diferentes bandas multiespectrales y las capas ráster que proporcionan el ángulo de iluminación y el ángulo de visión, en ambos casos expresados, a su vez, a través del ángulo a azimutal y cenital. SentIMG también da la posibilidad de importar las máscaras de calidad en formato IMG o directamente copiarlas al directorio de salida en su formato original.</li>
+
+<li>Importar una o diversas bandas en formato JP2 correspondientes a una misma tesela. En esta opción, el parámetro de entrada es un fichero o una lista de ficheros en formato JP2 correspondientes a una misma tesela. Se recomienda incluir el fichero XML del <i>User Product</i> y el fichero XML de metadatos de la tesela ya que se añadirán, al fichero o fichero de salida, los metadatos que contienen estos ficheros.
+</li></ul></p>
+
+<p align="justify">Para el correcto funcionamiento del módulo, es necesario tener las librerías lti_dsdk_cdll.dll y lti_dsdk_dll.dll en el directorio de instalación de MiraMon.</p> 
+
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxis:</h3>
+<ul style="list-style-type:none;">
+<li>SentIMG        1 FicheroXMLUserProduct DirSalida  [/ImportQualMask] [/CopyQualMask]  </li>
+<li>SentIMG        1 ListaFicherosJP2 DirSalida  [/FitxerXMLUserProduct] [/FitxerXMLGranule]  </li>
+</ul>
+<h4>Opciones:</h4>
+<ul>
+<li>1: 
+								De momento, solamente puede valer 1.</li>
+</ul>
+<h4>Parámetros:</h4>
+<ul style="list-style-type:none;">
+<li><b>FicheroXMLUserProduct</b> 
+										(Fichero XML User Product -
+										Parámetro de entrada): Fichero XML de metadatos del <i>User Product</i> del producto descomprimido de datos de Sentinel-2.</li>
+<li><b>DirSalida</b> 
+										(Directorio de salida -
+										Parámetro de salida): Directorio de salida donde se importan a formato MiraMon todos los datos de cada tesela del producto de Sentinel-2 o todas las imágenes de la lista de ficheros JP2.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>ListaFicherosJP2</b> 
+										(Lista de ficheros JP2 de una misma tesela. -
+										Parámetro de entrada): Lista de ficheros JP2 de una misma tesela de un producto de Sentinel-2.</li>
+</ul>
+<h4>Modificadores:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>ImportQualMask</b>  
+						(Importar máscaras de calidad)
+						 Importar las diferentes máscaras de calidad en formato GML que hay en cada tesela a formato MiraMon.  (Parámetro de entrada) <li></li> <b>/</b><b>CopyQualMask</b>  
+						(Copiar máscaras de calidad)
+						 Copiar las diferentes máscaras de calidad en formato GML que hay en cada tesela.  (Parámetro de entrada) <li></li>  <b>/</b><b>FitxerXMLUserProduct</b>= (Fichero XML User Product) Fichero XML de metadatos del <i>User Product</i> del producto descomprimido de datos de Sentinel-2.  (Parámetro de entrada) <li></li> <b>/</b><b>FitxerXMLGranule</b>= 
+						(Fichero XML de la tesela)
+						 Fichero XML de metadatos de la tesela correspondiente al listado de las imágenes de entrada.  (Parámetro de entrada) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+   <!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+SENTIMG ?
+-->
+  </exclusiva>
+</body>
+</html>

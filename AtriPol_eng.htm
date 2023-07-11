@@ -1,0 +1,184 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 08-05-2023 */-->
+<head>
+  <title>AtriPol: Program to label topologically structured polygons</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">AtriPol: Program to label topologically structured polygons</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p>This program adds attributes (labels) to the polygons generated with the
+  <a href="Ciclar.htm">Ciclar</a> program. Attributes are added to the P.DBF
+  file as new fields of the database. The main use of the program is the
+  inclusion of attributes not inherent to the geometry and topological
+  structure of the polygons, but that give thematic meaning to each region
+  (for ex. which type of vegetation has a given polygon). This program has two options:</p>
+ <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>AtriPol</b>: 
+		 Adds attributes (labels) to the polygons generated with the Ciclar program.</ul>
+<ul><b>AtriPol Field</b>: 
+		 Adds attributes (labels) to the polygons using a fields file where the fields to be added are specified.</ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>Attributes are associated to polygons by transfer of the attributes from a
+  point inside the polygon. This point is usually called 'label'.
+  Three different types of files can be used as label files:</p>
+
+  <ul>
+    <li>PNT file (recommended format): The polygons file will inherit one or
+    more fields of the points database. The 'x' parameter controls
+    which fields are copied. It can be generated with <a href="VecPNT.htm">VecPNT</a>.<br/>
+      If the main table has multiples records for each graphic identifier then
+      it must be used <a href="AtriTop.htm">AtriTop</a>.
+    </li>
+
+    <li>VEC file containing points: A new field is added to the P.DBF file;
+    this field contains the attribute of each label. The field name and its descriptor are
+    interactively requested.</li>
+
+    <li>Special DBF file for AtriPol: This file has two numeric (N) fields,
+    called MAPX and MAPY, where the map coordinates of the point are
+    expressed. The polygons file will inherit some or all fields of the DBF
+    file.</li>
+  </ul>
+
+  <p>Prior to start the labeling operation, the POL input file must have only
+  one record for all and every graphic element (the <a href="Ciclar.htm">Ciclar</a> program generates a POL with such characteristics).
+  So it is still NOT supported:</p>
+
+  <ul>
+    <li>The lack of records in the polygons database, i.e., all the polygons
+    must have an associated record before labeling.</li>
+
+    <li>The existence of polygons that previously present multiple record,
+    even when the program is able to generate them.</li>
+  </ul>In these cases you have to use <a href="AtriTop.htm">AtriTop</a>.
+
+  <p>When the labels file does not give any label on a polygon, the field will
+  remain blank, except in the case where the field already existed; in this
+  case the pre-existing attribute or attributes are preserved.</p>
+
+  <p>When the labels file has only one label with only one record on a
+  polygon, the program will act depending on the 'n' option of the
+  command line:</p>
+
+  <ul>
+    <li>n=0, pre-existing fields that are not blank are preserved;</li>
+
+    <li>n=1, pre-existing fields are overwritten with the new values;</li>
+
+    <li>n=2, a new record in the database is generated except if the
+    pre-existing attributes and the new ones are equal. When new records have
+    to be generated, the last record is copied and the fields are updated
+    according to the labels file.</li>
+  </ul>When the labels file has more than one label or some label with more
+  than one record on a given polygon, the logic is the following:
+
+  <ul>
+    <li>n=0, all the pre-existing fields are preserved except the ones in
+    blank. Blank fields are modified while new fields take values from the
+    first record of the first label found.</li>
+
+    <li>n=1, pre-existent fields are overwritten with the new values of the
+    last record of the last label found.</li>
+
+    <li>n=2, the program generates as many new records as point records
+    exists. Old records are preserved (in first position), but if a new record
+    is equal to the old one, the new is not written (it is not
+    duplicated).</li>
+  </ul>AtriPol only modifies the P.DBF and P.REL files. An original copy of
+  these files can be recovered since two back-up copies P.BK1 and P.BK2 are
+  respectively created.
+
+  <p>In addition, the program generates three files:</p>
+
+  <ul>
+    <li>QUEIXES.TXT (complaint) file, editable with any text editor, in which
+    you will find:
+
+      <ul>
+        <li>Non labeled polygons.</li>
+
+        <li>Incoherently relabeled polygons.</li>
+
+        <li>Coherently relabeled polygons (having labels with equal
+        values).</li>
+      </ul>
+    </li>
+
+    <li>BADPOINT.VEC file: incoherent labels.</li>
+
+    <li>BADPOL.VEC file, with rectangles that enclose each non label
+    polygon.</li>
+  </ul>
+
+  <p>These files are also created when option 2 of the program is chosen (the
+  option that allows inheriting several labels on one polygon). In this case,
+  probably it will only be useful for non labeled polygons.</p>
+
+  <p>In all cases, fields called MAPX and MAPY can be created in the P.DBF
+  file. These fields contain the X,Y coordinates of the used labels, which can have documentary value.
+  For PNT files, even the graphic identifier could
+  be inherited from the point, of course provided if it has a different field
+  name than the polygon graphic identifier. When the option 'x' is
+  equal to 0 (copy of all fields) the field ID_GRAFIC is NOT transferred to
+  the P.DBF. In option x=2, fields are selected reading a list in a file. The
+  format of this file is:</p>
+  <pre>
+FieldNameA &quot;Field Descriptor A&quot;
+FieldNameB &quot;Field Descriptor B&quot;
+...
+</pre>Note: the descriptor must be quoted.
+  <hr/>
+
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Syntax:</h3>
+<ul style="list-style-type:none;">
+<li>AtriPol     PointsFile OutputFile n x     </li>
+<li>AtriPol     PointsFile OutputFile n FieldFile     </li>
+</ul>
+<ul>
+</ul>
+<h4>Parameters:</h4>
+<ul style="list-style-type:none;">
+<li><b>PointsFile</b> 
+										(Points file (with extension) -
+										Input parameter): Can be a PNT file, a VEC file containing points, or a DBF.</li>
+<li><b>OutputFile</b> 
+										(Output file -
+										Output parameter): Is a polygon file.</li>
+<li><b>n</b> 
+										(Multiple label -
+										Input parameter): <ul><li>0: If there are two or more labels on a polygon, the first one found is transferred.</li><li>1: If there are two or more labels on a polygon, the last one found is transferred.</li><li>2: If there are two or more labels on a polygon, all the labels are transferred and n additional records are generated in the polygons database for the n labels.</li></ul></li>
+<li><b>x</b> 
+										(Add fields -
+										Input parameter): <ul><li>0: All the fields of the PointsFile are added, including MAPX and MAPY.</li><li>1: One or more fields in the points file are added (it is requested by the program). If labeling from a PNT or a VEC file, the program also asks about including MAPX and MAPY.</li><li>2: The fields listed in FieldFile file are added.</li></ul></li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FieldFile</b> 
+										(Field file -
+										Input parameter): In option x=2 the fields are selected through a field file that has the following format: FieldName A "Field descriptor A", FieldName B "Field descriptor B".</li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+   <!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+AtriPol ?
+-->
+  </exclusiva>
+  <hr/>
+  <p>This program works and generates files of v. 1.1</p>
+
+  <center>
+    <a href="Ciclar.htm"><img src="Ciclar.gif"/></a><a href="TestTop.htm"><img src="TestTop.gif"/></a>
+  </center>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 25-04-2023 */-->
+<head>
+  <title>ClsMix: Clasificación híbrida (o mixta) de imágenes</title>
+  <!-- Traduït per Teresa Mata -->
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">ClsMix: Clasificación híbrida (o mixta) de imágenes</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+ClsMix es un módulo de clasificación híbrida (o mixta) de imágenes de teledetección. El adjetivo híbrida (o mixta) se aplica porque el método de clasificación combina elementos de una clasificación supervisada (las áreas de entrenamiento) con elementos de una clasificación no supervisada (el resultado de ésta).
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+<p>Así, partiendo de una imagen donde hay diversas áreas de entrenamiento, y de una
+  imagen producida mediante algún método de clasificación no supervisada se
+  crea una nueva imagen clasificada. Como método de clasificación no
+  supervisada sugerimos el módulo <a href="ISoMM.htm">IsoMM</a> de MiraMon</p>
+
+  <p>La imagen con las clases obtenidas por clasificación no supervisada debe ser de tipo <i>byte</i> o <i>integer</i>, comprimida o no. Las clases no
+  supervisadas empezarán con un valor 1, quedando reservado el valor cero por
+  si hay píxeles de la imagen que no fueron clasificados.<br/>
+  La imagen con las áreas de entrenamiento debe ser del mismo ámbito y
+  resolución que la imagen producida mediante la clasificación no supervisada,
+  y debe ser <i>byte</i>, comprimida o no. Las clases de áreas de
+  entrenamiento tendrán que estar enumeradas consecutivamente desde el número
+  1 (el valor cero será para todos los píxeles de la imagen que no estén
+  dentro de ninguna área de entrenamiento).</p>
+
+  <p>El módulo creará un fichero de texto donde, para cada clase temática
+  (grupo de áreas de entrenamiento que son muestras de un mismo tipo de
+  cubierta), se dará las proporciones de las diferentes clases espectrales
+  (clases obtenidas a partir de la clasificación no supervisada) que la
+  representan (véase, más adelante, el concepto de representatividad). Se dará
+  también, para cada clase espectral, las proporciones de las diferentes
+  clases temáticas a las cuales podría contribuir. Si hay diversas posibles
+  clases temáticas, se escogerá la que tenga la frecuencia mayor. Utilizando
+  unos umbrales de frecuencia dados por el usuario (fidelidad y
+  representatividad), a cada clase espectral se le hará corresponder una clase
+  temática concreta o se decidirá dejarla como no clasificada. Con estos
+  resultados se creará la imagen producto de esta clasificación híbrida (o mixta). A los
+  píxeles no clasificados se les dará valor cero.</p>
+
+  <p>Conceptos clave del clasificador:</p>
+
+  <ol>
+    <li>FIDELIDAD de la clase espectral a la clase temática (o informacional): Mínima proporción
+    con que una clase espectral está dentro de la clase temática a la cual se
+    asignará finalmente. La proporción se expresa con respecto a la clase
+    espectral. Para comprender este concepto, piense que cada clase espectral
+    se acabará asignando a la clase temática a la cual el cruce de las
+    imágenes revele que la clase espectral se corresponde más frecuentemente;
+    sin embargo, quizás no interese que esta asignación se produzca si la
+    clase temática con máxima frecuencia de correspondencia sólo contiene un
+    20 % de los píxeles de la clase espectral. Normalmente tiene que ser un
+    número entre 0.5 y 1, pero con 1 difícilmente la clase espectral se
+    asignará a ninguna clase temática, ya que la exigencia es demasiado
+    fuerte. Un 0.5 implica que se puede asignar una clase espectral a una clase temática cuando tan sólo la mitad de los píxeles de la primera coinciden espacialmente, en las áreas de entrenamiento, con esa clase temática; se puede reducir este valor, pero debe tenerse en cuenta que valores progresivamente menores a un 50 % implican una relación cada vez más débil. Con valores más cercanos a 1 (por ejemplo 0.8) la asignación (fidelidad) es más robusta, pero quedarán más píxeles sin clasificar.</li>
+
+    <li>REPRESENTATIVIDAD de la clase espectral en la clase temática. Es la
+    mínima proporción de la clase espectral dentro de la clase temática. Por
+    ejemplo se puede indicar que una clase espectral no merece pertenecer a
+    ninguna clase temática si con la clase con la cual presenta más
+    correspondencia presenta una correspondencia de sólo 0.01 %: la clase
+    espectral es tan poco representativa que no vale la pena correr el riesgo
+    de utilizarla. Normalmente tiene que ser un número muy pequeño, a menos
+    que se esté muy seguro de correspondencia biunívoca entre las clases
+    temáticas y espectrales.</li>
+  </ol>
+  <p>Para más información se pueden consultar las  siguientes referencias:</p>
+<p><b>Serra P, Moré G, Pons X</b> (2005) <i>Application of a hybrid classifier to discriminate Mediterranean crops and forests. Different problems and solutions</i>. XXII International Cartographic Conference (ed.) Mapping approaches into a changing world CD-ROM. (ISBN: 0-958-46093-0) La Coruña. 
+<p><b> Moré G, Pons X, Serra P </b>(2006) Improvements on Classification by Tolerating NoData Values - Application to a Hybrid Classifier to Discriminate Mediterranean Vegetation with a Detailed Legend Using Multitemporal Series of Images. IEEE Press Vol. I, 192-195. DOI 10.1109/IGARSS.2006.582. ISBN 0-7803-95-10-7 IGARSS06: <i>International Geoscience & Remote Sensing Symposium </i>- Remote Sensing: A Natural Global Partnership. Denver (Colorado).
+  <hr/>
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxis:</h3>
+<ul style="list-style-type:none;">
+<li>ClsMix        ImagenEntrenamiento ImagenClsNoSupervisada ImagenResultado TextoResultados Fidelidad Representatividad Ponderacion        </li>
+</ul>
+<ul>
+</ul>
+<h4>Parámetros:</h4>
+<ul style="list-style-type:none;">
+<li><b>ImagenEntrenamiento</b> 
+										(Imagen entrenamiento -
+										Parámetro de entrada): Nombre de la imagen con las áreas de entrenamiento (sin extensión).</li>
+<li><b>ImagenClsNoSupervisada</b> 
+										(Imagen Cls no supervisada -
+										Parámetro de entrada): Nombre de la imagen producida mediante una clasificación no supervisada (sin extensión).</li>
+<li><b>ImagenResultado</b> 
+										(Imagen resultado -
+										Parámetro de salida): Nombre de la imagen a crear (sin extensión).</li>
+<li><b>TextoResultados</b> 
+										(Texto resultados -
+										Parámetro de salida): Nombre del fichero de texto con los resultados (con extensión si se desea; típicamente se usa .txt).</li>
+<li><b>Fidelidad</b> 
+										(Fidelidad -
+										Parámetro de entrada): Fidelidad de la clase espectral a la clase temática, en tanto por 1.</li>
+<li><b>Representatividad</b> 
+										(Representatividad -
+										Parámetro de entrada): Representatividad de la clase espectral en la clase temática, en tanto por 1.</li>
+<li><b>Ponderacion</b> 
+										(Ponderación -
+										Parámetro de entrada): Posible ponderación de frecuencias de las clases temáticas según el número de píxeles de cada área de entrenamiento. Opciones:<ul><li>0: sin ponderación.</li><li>1: con ponderación</li><li>2: ponderación mediante probabilidades condicionadas, que deberán estar en un fichero de texto que se pedirá durante la ejecución del módulo (2 columnas -separadas por espacios o tabuladores-, la primera con el código de la clase temática y la segunda con la frecuencia en tanto por uno). El programa exige que la suma total de las frecuencias sea 1.</li></ul></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+ClsMix ?
+--></p>
+  </exclusiva>
+
+</body>
+</html>

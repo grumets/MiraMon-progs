@@ -1,0 +1,79 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 02-05-2023 */-->
+<head>
+<title>SentIMG: Import Sentinel-2 images.</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">SentIMG: Importing images Sentinel-2.</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<p align="justify">This module imports data from the Sentinel-2 mission of the Sentinel satellite series, managed by the ESA to MiraMon format. This module has two options:</p> 
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>Import a Sentinel-2 data product.</b></ul>
+<ul><b>Import a list of Sentinel-2 images of the same tile.</b></ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+<p align="justify">A Sentinel product is a set of data (radiometric and auxiliary images, etc) and metadata describing the elements that compose the product. Each product is divided into a set of tiles that cover respective geographical areas. In each original tile there are the different multispectral bands and their metadata in XML format and the different quality masks in GML format. SentIMG allows to import orthorectified products with TOA and BOA reflectances  (Level 1C, 2Ap and 2A or L1C, L2Ap and L2A) where these tiles correspond to areas of 100 km x 100 km in the UTM grid in UTM map projection and WGS84 datum.</p>
+
+<p align="justify">
+
+
+
+This module allows two options to import images Sentinel:
+<ul><li>Import all the product based on the <i>User Product</i> XML file. In this option, the input parameter is the <i>User Product</i> metadata XML file and the distribution of the folders must be the same as the downloaded ZIP file provided by the ESA. In the output folder, a S2A_Lxx_aaaammdd named folder will be created where xx is the correction level of the image (for example, L1C in case of level 1C) and aaaa, mm and dd correspond to the year, month and day of the date of the acquisition. Inside the folder, many folders as tiles will be created following the nomenclature aabcc, where aa, b and cc are the fuse, the strip of 8 degrees of latitude and the two letters of the UTM zone of 100 km x 100 km that corresponds the tile. For each tile, it will import the different multispectral bands and the raster layers that provide the illumination angle and the vision angle, in both cases expressed, in turn, through the azimuthal and zenithal angle. SentIMG also gives the possibility to import quality masks to IMG format or directly to copy them to the output folder in its original format.</li>
+
+<li>Import one o more bands in JP2 format corresponding to the same tile. In this option, the input parameter is a file or a file list in JP2 format corresponding to the same tile.  It is recommended to include the XML file of the <i>User Product</i> and the XML file of the tile metadata, because the metadata will be added to the output file or files.
+</li></ul></p>
+
+<p align="justify">For proper performance of the module, it is necessary to have the lti_dsdk_cdll.dll and lti_dsdk_dll.dll libraries in the MiraMon installation folder.</p>
+
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Syntax:</h3>
+<ul style="list-style-type:none;">
+<li>SentIMG        1 FileXMLUserProduct OutputFolder  [/ImportQualMask] [/CopyQualMask]  </li>
+<li>SentIMG        1 FileListJP2 OutputFolder  [/FitxerXMLUserProduct] [/FitxerXMLGranule]  </li>
+</ul>
+<h4>Options:</h4>
+<ul>
+<li>1: 
+									At the moment, it can only be 1.</li>
+</ul>
+<h4>Parameters:</h4>
+<ul style="list-style-type:none;">
+<li><b>FileXMLUserProduct</b> 
+										(XML User Product file -
+										Input parameter): <i>User Product</i> XML metadada file of the unzipped product of Sentinel-2 data.</li>
+<li><b>OutputFolder</b> 
+										(Output folder -
+										Output parameter): Output directory where all data from each Sentinel-2 product tile or all images from the JP2 file list are imported in MiraMon format.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FileListJP2</b> 
+										(List of JP2 files of the same tile. -
+										Input parameter): List of JP2 files of the same tile of a Sentinel-2 product.</li>
+</ul>
+<h4>Modifiers:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>ImportQualMask</b>  
+						(Import quality masks)
+						 Import the different quality masks in GML format in each tile to MiraMon format.  (Input parameter) <li></li> <b>/</b><b>CopyQualMask</b>  
+						(Copy quality masks)
+						 Copy the different quality masks in GML format in each tile.  (Input parameter) <li></li>  <b>/</b><b>FitxerXMLUserProduct</b>= (XML User Product file) <i>User Product</i> XML metadada file of the unzipped product of Sentinel-2 data.  (Input parameter) <li></li> <b>/</b><b>FitxerXMLGranule</b>= 
+						(Tile XML file)
+						 XML metadata file of the tile belonging to the list of tile input images.  (Input parameter) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+SentIMG ?
+--></p>
+  </exclusiva>
+</body>
+</html>

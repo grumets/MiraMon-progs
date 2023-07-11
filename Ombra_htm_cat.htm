@@ -1,0 +1,103 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 20-04-2023 */-->
+<head>
+  <title>Ombra: Càlcul dels angles límit que provoquen ombres projectades en
+  un MDE</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">Ombra: Càlcul dels angles límit que provoquen ombres projectades en un MDE</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+Aquest programa calcula, a partir d'un Model Digital d'Elevacions (MDE), i un determinat azimut solar, l'angle d'elevació del Sol a partir del qual cada punt del terreny (cel·la del ràster) ja rep llum directa del Sol (el punt ja no és a l'ombra d'un altre punt en aquella direcció d'azimut). Aquest programa també resol l'anomenat "problema de l'horitzó", és a dir, determina, per a un punt concret i en una direcció (azimut) determinada, quin és l'angle d'elevació a partir del qual des del punt es veu el cel.
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <p>L'azimut solar s'expressa en graus des del Nord en sentit horari
+  (per exemple 134.97 és aprox. SE); l'aplicació <a href="Astres.htm">Astres</a> pot donar aquesta
+  informació per a qualsevol dia de l'any, a qualsevol hora i en qualsevol
+  lloc de la Terra.</p>
+
+  <p>El MDE pot ser en format byte, (short) integer (amb signe o sense) o real, comprimit o
+  no-comprimit.</p>
+
+  
+  <!-- Aquest paràmetre ja es llegeix sempre de les metadades i no té sentit
+Si el paràmetre "Conversor_alçades->Unitats_mapa" és 'x', el programa intentarà
+deduir-lo del camp "value units" de la documentació del FitxerMDE; per exemple,
+si les unitats del sistema de referència són metres ('m') i les unitats dels
+valors són decímetres ('dm'), el programa deduirà que ha d'aplicar un factor
+0.1 a les alçades per tal que siguin comparables amb la planimetria del MDE. 
+Si indiqueu un conversor (per exemple 1 si el sistema de referència i les alçades 
+s'expressen en les mateixes unitats), aquest valor serà utilitzat, sense tenir en 
+compte la documentació del fitxer.
+<P>
+-->
+  <p>El fitxer resultant és un ràster (byte, o byte-RLE si hi ha zones amb valors sensedades) els
+  valors del qual expressen, en graus, l'angle d'elevació solar mínim
+  que il·lumina cada punt quan el Sol està en la direcció (azimut) donada al
+  programa. Per tant, els valors en el fitxer de sortida estaran en
+  l'interval [0,90). La paleta cOmbra256.dbf és especialment adequada per a
+  veure el fitxer resultat d'aquest programa.</p>
+
+  <p>Si el MDE conté àrees amb valors sensedades i aquests estan
+  correctament documentats, als píxels afectats per un sensedades en el MDE
+  original se'ls tractarà com a &quot;transparents&quot; a l'horitzó,
+  és a dir, s'ignoraran en els càlculs.</p>
+
+  <p>Si el MDE és un ràster multibanda, amb diferents costats de píxel per a
+  cada banda, cal usar el paràmetre <i>/MULTIBANDA</i> per tal de generar com a
+  resultat un ràster multibanda amb els corresponents models d'ombra. Cal
+  tenir en compte que la posició solar es considera única per a totes les
+  bandes, i que si els àmbits fossin excessivament allunyats caldria fer una
+  execució banda a banda amb la posició solar corresponent al centre de
+  l'àmbit.<br/>
+  Pel cas multibanda, el paràmetre <i>/PREFIX=</i> indica el prefix que
+  s'afegeix als noms dels fitxers originals per a determinar els noms dels
+  fitxers calculats per al cas multibanda. Per defecte aquest prefix és
+  <i>o_</i>.</p>
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxi:</h3>
+<ul style="list-style-type:none;">
+<li>Ombra        MDE FitxerSortida AzimutSol   [/MULTIBANDA] [/PREFIX]  </li>
+</ul>
+<ul>
+</ul>
+<h4>Paràmetres:</h4>
+<ul style="list-style-type:none;">
+<li><b>MDE</b> 
+										(Model Digital d'Elevacions -
+										Paràmetre d'entrada): Model Digital d'Elevacions sobre el que es projectaran les ombres.</li>
+<li><b>FitxerSortida</b> 
+										(Fitxer de sortida -
+										Paràmetre de sortida): El fitxer resultant és un ràster (byte o byte-RLE si hi ha zones sensedades) els valors del qual expressen, en graus, l'angle d'elevació solar mínim que il·lumina cada punt quan el Sol està en la direcció (azimut) donada al programa. Per tant, els valors en el fitxer de sortida estaran en l'interval [0,90). La paleta OMBRA256.P25 és especialment adequada per a veure el fitxer resultat d'aquest programa.</li>
+<li><b>AzimutSol</b> 
+										(Azimut solar -
+										Paràmetre d'entrada): L'azimut solar s'expressa en graus des del Nord en sentit horari (per exemple 134.97 és aprox. SE); l'aplicació ASTRES pot donar aquesta informació per a qualsevol dia de l'any, a qualsevol hora i en qualsevol lloc de la Terra.</li>
+</ul>
+<h4>Modificadors:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>MULTIBANDA</b>  
+						(MULTIBANDA)
+						 En cas que el MDE d'entrada sigui de tipus Multibanda i es vulgui calcular a totes les bandes.  (Paràmetre d'entrada) <li></li> <b>/</b><b>PREFIX</b>= 
+						(Prefix)
+						 Indica el prefix que s'afegeix als noms dels fitxers originals per a determinar els noms dels fitxers calculados per al cas Multibanda  (Paràmetre d'entrada) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+    <p><!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+OMBRA ?
+--></p>
+  </exclusiva>
+</body>
+</html>

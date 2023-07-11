@@ -1,0 +1,126 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 25-04-2023 */-->
+<head>
+  <title>ClsMix: Classificació híbrida (o mixta) d'imatges</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">ClsMix: Classificació híbrida (o mixta) d'imatges</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+ClsMix és un mòdul de classificació híbrida (o mixta) d'imatges de teledetecció. L'adjectiu híbrida (o mixta) s'aplica perquè el mètode de classificació combina elements d'una classificació supervisada (les àrees d'entrenament) amb elements d'una classificació no supervisada (el resultat d'aquesta).
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>Així, partint d'una imatge on hi ha diverses àrees
+  d'entrenament, i d'una imatge produïda mitjançant algun mètode de
+  classificació no supervisada es crea una nova imatge classificada. Com a
+  mètode de classificació no supervisada suggerim el mòdul <a href="ISoMM.htm">IsoMM</a> del MiraMon.</p>
+
+  <p>La imatge amb les classes obtingudes per classificació no supervisada ha
+  de ser de tipus <i>byte</i> o <i>integer</i>, comprimida o no. Les classes
+  no supervisades començaran amb un valor 1, quedant reservat el valor zero
+  per si hi ha píxels de la imatge que no van ser classificats.<br/>
+  La imatge amb les àrees d'entrenament ha de ser del mateix àmbit i
+  resolució que la imatge produïda mitjançant la classificació no supervisada,
+  i ha de ser <i>byte</i>, comprimida o no. Les classes d'àrees
+  d'entrenament hauran d'estar enumerades consecutivament des del
+  número 1 (el valor zero serà per a tots els píxels de la imatge que no
+  estiguin dins de cap àrea d'entrenament).</p>
+
+  <p>El mòdul crearà un fitxer de text on, per a cada classe temàtica (grup
+  d'àrees d'entrenament que són mostres d'un mateix tipus de
+  coberta), es donarà les proporcions de les diferents classes estadístiques o espectrals
+  (classes obtingudes a partir de la classificació no supervisada) que la
+  representen (vegeu, més endavant, el concepte de representativitat). Es
+  donarà també, per a cada classe espectral, les proporcions de les diferents
+  classes temàtiques a les quals podria contribuir. Si hi ha diverses
+  possibles classes temàtiques, es triarà la que tingui la freqüència més
+  gran. Utilitzant uns llindars de freqüència donats per l'usuari
+  (fidelitat i representativitat), a cada classe espectral se li farà
+  correspondre una classe temàtica concreta o es decidirà deixar-la com a no
+  classificada. Amb aquests resultats es crearà la imatge producte
+  d'aquesta classificació híbrida (o mixta). Als píxels no classificats se'ls
+  donarà valor zero.</p>
+
+  <p>Conceptes clau del classificador:</p>
+
+  <ol>
+    <li>FIDELITAT de la classe espectral a la classe temàtica (o informacional): Mínima
+    proporció amb què una classe espectral és dintre la classe temàtica a la
+    qual s'assignarà finalment. La proporció s'expressa respecte a la
+    classe espectral. Per a comprendre aquest concepte, penseu que cada classe
+    espectral s'acabarà assignant a la classe temàtica a la qual
+    l'encreuament de les imatges reveli que la classe espectral es
+    correspon més freqüentment; tanmateix, potser no ens interessa que aquesta
+    assignació es produeixi si la classe temàtica amb màxima freqüència de
+    correspondència només conté un 20 % dels píxels de la classe espectral.
+    Normalment ha de ser un nombre entre 0.5 i 1, però amb 1 difícilment la
+    classe espectral s'assignarà a cap classe temàtica, ja que
+    l'exigència és massa forta. Un 0.5 implica que es pot assignar una classe espectral a una classe temàtica quan tan sols la meitat dels píxels de la primera coincideixen espacialment, en les àrees d'entrenament, amb aquella classe temàtica; es pot reduir aquest valor, però cal tenir en compte que valors progressivament menors a un 50 % impliquen una relació cada cop més feble. Amb valors més propers a 1 (per exemple 0.8) l'assignació (fidelitat) és més robusta, però quedaran més píxels sense classificar.</li>
+
+    <li>REPRESENTATIVITAT de la classe espectral en la classe temàtica. És la
+    mínima proporció de la classe espectral dintre la classe temàtica. Per
+    exemple podem indicar que pensarem que una classe espectral no mereix
+    pertànyer a cap classe temàtica si amb la classe amb la qual presenta més
+    correspondència presenta una correspondència de només 0.01 %: la classe
+    espectral és tan poc representativa que no val la pena córrer el risc
+    d'utilitzar-la. Normalment ha de ser un nombre molt petit, llevat que
+    estiguem molt segurs de la correspondència biunívoca entre les classes
+    temàtiques i espectrals.</li>
+  </ol>
+  
+  <p>Per a més informació es pot consultar les següents referències:</p>
+<p><b>Serra P, Moré G, Pons X</b> (2005) <i>Application of a hybrid classifier to discriminate Mediterranean crops and forests. Different problems and solutions</i>. XXII International Cartographic Conference (ed.) Mapping approaches into a changing world CD-ROM. (ISBN: 0-958-46093-0) La Coruña.
+
+<p><b>Moré G, Pons X, Serra P</b> (2006) Improvements on Classification by Tolerating NoData Values - Application to a Hybrid Classifier to Discriminate Mediterranean Vegetation with a Detailed Legend Using Multitemporal Series of Images. IEEE Press Vol. I, 192-195. DOI 10.1109/IGARSS.2006.582. ISBN 0-7803-95-10-7 IGARSS06: <i>International Geoscience & Remote Sensing Symposium</i> - Remote Sensing: A Natural Global Partnership. Denver (Colorado).
+  
+  <hr/>
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxi:</h3>
+<ul style="list-style-type:none;">
+<li>ClsMix        ImatgeEntrenament ImatgeClsNoSupervisada ImatgeResultat TextResultats Fidelitat Representativitat Ponderacio        </li>
+</ul>
+<ul>
+</ul>
+<h4>Paràmetres:</h4>
+<ul style="list-style-type:none;">
+<li><b>ImatgeEntrenament</b> 
+										(Imatge entrenament -
+										Paràmetre d'entrada): Nom de la imatge amb les àrees d'entrenament (sense extensió).</li>
+<li><b>ImatgeClsNoSupervisada</b> 
+										(Imatge Cls no supervisada -
+										Paràmetre d'entrada): Nom de la imatge produïda mitjançant una classificació no supervisada (sense extensió).</li>
+<li><b>ImatgeResultat</b> 
+										(Imatge resultat -
+										Paràmetre de sortida): Nom de la imatge a crear (sense extensió).</li>
+<li><b>TextResultats</b> 
+										(Text resultats -
+										Paràmetre de sortida): Nom del fitxer de text amb els resultats (amb extensió si es vol; típicament s'usa .txt).</li>
+<li><b>Fidelitat</b> 
+										(Fidelitat -
+										Paràmetre d'entrada): Fidelitat de la classe espectral a la classe temàtica, en tant per 1.</li>
+<li><b>Representativitat</b> 
+										(Representativitat -
+										Paràmetre d'entrada): Representativitat de la classe espectral en la classe temàtica, en tant per 1.</li>
+<li><b>Ponderacio</b> 
+										(Ponderació -
+										Paràmetre d'entrada): Possible ponderació de freqüències de les classes temàtiques segons el nombre de píxels agafats en cada àrea d'entrenament. Opcions:<ul><li>0: sense ponderació.</li><li>1: amb ponderació.</li><li>2: ús de probabilitats condicionades, que es tindrà en un fitxer de text que es demanarà (2 columnes -separades per espais o tabuladors-, la primera amb el codi de la classe temàtica i la segona amb la freqüència en tant per u). El programa exigeix que la suma total de les freqüències sigui 1.</li></ul></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+ClsMix ?
+--></p>
+  </exclusiva>
+
+</body>
+</html>

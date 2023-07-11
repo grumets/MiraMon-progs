@@ -1,0 +1,123 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 25-04-2023 */-->
+<head>
+  <title>ClsMix: Hybrid (or mixed) classification of images</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">ClsMix: Hybrid (or mixed) classification of images</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+ClsMix is a module for the hybrid (or mixed) classification of remote sensing images. The adjective hybrid (or mixed) is used because the classification method combines elements of a supervised classification (the training areas) with elements of an unsupervised classification (the results of the latter).
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  
+  <p>In this way, starting from an image in which there are several training areas and an
+  image produced through an unsupervised classification method, a new
+  classified image is created. We recommend the MiraMon <a href="ISoMM.htm">IsoMM</a> unsupervised classification method.</p>
+
+  <p>The image with the classes that have been obtained by unsupervised
+  classification must be of the <i>byte</i> or <i>integer</i> types,
+  regardless of whether it is compressed or not. The unsupervised classes will
+  begin with a value of 1, reserving the value of zero in case there are image
+  pixels that have not been classified.<br/>
+  The image with the training areas must be of the same type and resolution as
+  the image produced through unsupervised classification, and must be
+  <i>byte</i>, regardless of whether it is compressed or not. The classes of
+  training areas must be numbered consecutively from the number 1 (the zero
+  value will be for all the pixels of the image that are not in any training
+  area).</p>
+
+  <p>The module will create a text file in which, for every thematic class
+  (group of training areas which are samples of one kind of cover), the
+  proportions of the different spectral classes that represent it (obtained
+  from unsupervised classification) will be given (see below for an
+  explanation of representativity). Moreover, the proportions of the different
+  thematic classes to which each spectral class could contribute will also be
+  given. If there are several different thematic classes are possible, the
+  module will select that which has the greatest frequency. Using a number of
+  frequency thresholds given by the user (fidelity and representativity), each
+  spectral class will be linked to a corresponding thematic class or left as
+  unclassified. With these results, the image produced by this hybrid (or mixed) 
+  classification will be created. Unclassified pixels will be given a value of
+  0.</p>
+
+  <p>Key concepts of the classifier:</p>
+
+  <ol>
+    <li>FIDELITY of the spectral class to the thematic (or informational) class: the minimum
+    proportion by which a spectral class is within the thematic class to which
+    it will ultimately be assigned. The proportion is expressed in relation to
+    the spectral class. In order to understand this concept, it is necessary
+    to know that each spectral class will ultimately be assigned to the
+    thematic class which the crossing of images shows it most frequently
+    corresponds to. However, it may not be desirable for this assignation to
+    take place if the thematic class with maximum frequency of correspondence
+    only contains 20 % of the pixels of the spectral class. It should normally
+    be a number between 0.5 and 1, but with 1 it is unlikely that the spectral
+    class will be assigned to any given thematic class since the demand is too high. A 0.5 implies that a spectral class can be assigned to a thematic class when only half of the pixels of the first spatially coincide, in the training areas, with that thematic class; you can reduce this value, but note that values progressively lower than 50&nbsp;% imply an increasingly weak relationship. With values closer to 1 (for example 0.8) the assignment (fidelity) is more robust, but more pixels will remain unclassified.</li>
+
+    <li>REPRESENTATIVITY of the spectral class in the thematic class. This is
+    the minimum proportion of the spectral class within the thematic class.
+    For example, it is possible to indicate that a spectral class does not
+    deserve to belong to any thematic class if it displays a correspondence of
+    less than 0.01 % with the thematic class with which it has the highest
+    correspondence: the spectral class is so unrepresentative that it is not
+    worth taking the risk of using it. It must normally be a very low number,
+    unless one is very sure of a biunivocal correspondence between thematic
+    and spectral classes.</li>
+  </ol>
+  
+  <p>More information can be consulted at the following references:</p>
+  <p><b>Serra P, Moré G, Pons X</b> (2005) <i>Application of a hybrid classifier to discriminate Mediterranean crops and forests. Different problems and solutions</i>. XXII International Cartographic Conference (ed.) Mapping approaches into a changing world CD-ROM. (ISBN: 0-958-46093-0) La Coruña. 
+  <p><b>Moré G, Pons X, Serra P</b> (2006) Improvements on Classification by Tolerating NoData Values - Application to a Hybrid Classifier to Discriminate Mediterranean Vegetation with a Detailed Legend Using Multitemporal Series of Images. IEEE Press Vol. I, 192-195. DOI 10.1109/IGARSS.2006.582. ISBN 0-7803-95-10-7 IGARSS06: <i>International Geoscience & Remote Sensing Symposium</i> - Remote Sensing: A Natural Global Partnership. Denver (Colorado).
+  <hr/>
+
+  <exclusiva>
+    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Syntax:</h3>
+<ul style="list-style-type:none;">
+<li>ClsMix        TrainingImage UnsupervisedClsImage ResultingImage TextResultats Fidelity Representativity Weighting        </li>
+</ul>
+<ul>
+</ul>
+<h4>Parameters:</h4>
+<ul style="list-style-type:none;">
+<li><b>TrainingImage</b> 
+										(Training image -
+										Input parameter): Name of the image with the training areas (without extension).</li>
+<li><b>UnsupervisedClsImage</b> 
+										(Unsupervised Cls image -
+										Input parameter): Name of the image produced by unsupervised classification (without extension).</li>
+<li><b>ResultingImage</b> 
+										(Resulting image -
+										Output parameter): Name of the image to be created (without extension).</li>
+<li><b>TextResultats</b> 
+										(Text results -
+										Output parameter): Name of the text file with the results (with extension, if desired; .txt is commonly used).</li>
+<li><b>Fidelity</b> 
+										(Fidelity -
+										Input parameter): Fidelity of the spectral class to a thematic class, in per one percentage.</li>
+<li><b>Representativity</b> 
+										(Representativity -
+										Input parameter): Representativity of the spectral class in the thematic class, in per one percentage.</li>
+<li><b>Weighting</b> 
+										(Weighting -
+										Input parameter): Possible frequency weighting of the thematic classes according to the number of pixels of each training area. Options:<ul><li>0: Without weighting</li><li>1: With weighting</li><li>2: Weighting by conditioned probabilities, which should be in a text file which will be required during the execution of the module (2 columns, the first with the code of the thematic class, and the second with the frequency)</li></ul></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+ClsMix ?
+--></p>
+  </exclusiva>
+
+</body>
+</html>
