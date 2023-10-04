@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 11-05-2023 */-->
+<!--/* Rev AA 04-10-2023 */-->
 <head>
 <title>BDPNT: Extract PNT points from a database</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/>
@@ -35,11 +35,11 @@
 
   <p>A special case for the use of this program is for recovering the labels
   that were used to assign attributes to a polygon layer as the
-  polygon database (P.DBF) often contains, in the MAPX and MAPY fields, the
-  coordinates of the labels.</p>
+  polygon database (P.dbf) often contains, in the MAPX and MAPY fields, the
+  coordinates of the labels. It must be remembered, however, that it is always possible to recover the labels of a polygon layer through <a href="Etiqueta.htm">Etiqueta</a>.</p>
 
   <p>Thus, the input table may be a DBF format table, a DBF table associated
-  with a polygon database (P.DBF), or a table from any of a number of
+  with a polygon database (P.dbf), or a table from any of a number of
   databases (ACCESS, EXCEL, ORACLE, DB2, SQL-Server, etc). Whatever the case,
   the input table must have two fields that contain the X and the Y
   coordinates of the point respectively. When the points are extracted from a
@@ -49,11 +49,11 @@
   topology structuring process).</p>
 
   <p>When the points are extracted from a DBF file or table in a generic
-  database, all the fields are exported to the points database (T.DBF) only in
+  database, all the fields are exported to the points database (T.dbf) only in
   those cases where the user has chosen not to maintain the link with the
   original database. On the other hand, when the labels are extracted from a
-  structured polygon file (P.DBF) the only fields that are exported to the
-  T.DBF are those fields that do NOT refer to the geometric and topological
+  structured polygon file (P.dbf) the only fields that are incorporated to the
+  T.dbf are those fields that do NOT refer to the geometric and topological
   characteristics of the polygons (fields like AREA, PERIMETRE, N_VERTEXS,
   etc, are not exported). If it is necessary to select just a few fields, then
   use a SQL sentence via ODBC.</p>
@@ -62,12 +62,10 @@
   character (C) fields. In the latter case, the format of degrees, minutes
   and seconds is supported: Dº M' S&quot;.</p>
 
-  <p>At the end of the process the program applies the user-defined tolerance.
-  When, as a result of this, points merge or overlap, a multiple register is
-  generated in the associated database except where the registers are
-  identical. In the case where the link to the original database is maintained
-  via ODBC, such multiple registers are naturally created and the program does
-  not try to delete identical registers.</p>
+  <p><p>By default, the program  structures topologically the layer of points created, that is, it ensures spatial uniqueness so that two points located at a distance less than or equal to a given tolerance are considered the same point. From the "Advanced" button it is possible to indicate the value of this tolerance (which will have a zero value if no other is indicated). Also from this "Advanced" button the user can indicate that do not want to structure topologically, and in this case two or more points located in the same place will be kept as independent points.</p>
+<p>As just explained, the tolerance value, which only applies when it is structured topologically, must be expressed in the same units as the XY coordinates and serves to consider two points located as equal at a Euclidean distance less than or equal to this value. When this happens, if the attributes of the two or more points located within a radius less than or equal to the tolerance are different (in any of the subject fields in the database), the point becomes, in the T.dbf table, as many records as original points had different attributes (a situation described as "multiple record"). Instead, if the attributes are the same (very close points but with repeated information) a single record is generated, in the T.dbf table, for the point. In the case of maintaining the link to the original database via ODBC and having to generate multiple records due to topological structuring and tolerance, this multiple record is created naturally.</p>
+<p>Through the "Advanced" button it is also possible to indicate the reference system. If not specified, the default reference system (saved in MiraMon.par) is applied.</p>
+<p>If in the last run a non-zero tolerance was defined, or a different reference system than the default system indicated in MiraMon.par, the symbol '!' next to the "Advanced..." button will warn that it is very convenient to press the button and check if the user still wants to apply these special parameters.</p></p>
 
   <hr/>
   <exclusiva>
@@ -88,7 +86,7 @@ The field names CAMPX, CAMPY, CAMPID must follow the DBF specifications.<BR>
 <B>For example:</B><BR>
 /CAMPX=X<BR>
 /CAMPY=Y<BR>
-/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntitat AS IDE FROM DataFile.TXT"<BR><BR>
+/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntitat AS IDE FROM DataFile.txt"<BR><BR>
 
     <!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:

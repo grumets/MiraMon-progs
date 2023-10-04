@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 11-05-2023 */-->
+<!--/* Rev AA 04-10-2023 */-->
 <head>
   <title>BDPNT: Extracció de punts PNT a partir d'una base de dades</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -35,25 +35,25 @@
 
   <p>Un cas particular d'aplicació d'aquest programa és la recuperació
   de les etiquetes que es van fer servir per a assignar atributs a una capa de
-  polígons, ja que la base de polígons (P.DBF) sovint conté, en els camps MAPX
-  i MAPY, les coordenades de les etiquetes.</p>
+  polígons, ja que la base de polígons (P.dbf) sovint conté, en els camps MAPX
+  i MAPY, les coordenades de les etiquetes. Cal recordar, però, que sempre es permet recuperar les etiquetes d'una capa de polígons a través d'<a href="Etiqueta.htm">Etiqueta</a>.</p>
 
   <p>La taula origen, doncs, pot ser una taula en format DBF, una taula DBF
-  associada a una base de polígons (P.DBF), o una taula en qualsevol base de
+  associada a una base de polígons (P.dbf), o una taula en qualsevol base de
   dades (ACCESS, EXCEL, ORACLE, DB2, SQL-Server, etc). En qualsevol cas, la
   taula origen ha de presentar dos camps que continguin, respectivament, les
-  coordenades X i Y del punt. Quan s'extreuen els punts d'un DBF o
+  coordenades X i Y del punt. Quan s'extreuen els punts d'una DBF o
   d'una taula en qualsevol base de dades genèrica, aquests camps poden
   tenir qualsevol nom; en canvi, s'han de dir MAPX i MAPY quan es tracta
-  del DBF associat a una base de polígons (opció per defecte en el procés
+  de la DBF associada a una base de polígons (opció per defecte en el procés
   d'estructuració topològica del MiraMon).</p>
 
-  <p>Quan s'extreuen els punts d'un DBF o d'una taula en una base
+  <p>Quan s'extreuen els punts d'una DBF o d'una taula en una base
   de dades genèrica qualsevol, s'exporten tots els camps cap a la base de
-  punts (T.DBF) només en aquells casos que s'ha indicat que no es vol
+  punts (T.dbf) només en aquells casos que s'ha indicat que no es vol
   mantenir el lligam amb la base de dades original. En canvi, quan
   s'extreuen les etiquetes d'un fitxer de polígons estructurat
-  topològicament (P.DBF), només s'exportaran al T.DBF aquells camps que NO
+  topològicament (P.dbf), només s'incorporaran a la T.dbf aquells camps que NO
   fan referència a les característiques geomètriques ni topològiques dels
   polígons (els camps com AREA, PERIMETRE, N_VERTEXS, etc, no
   s'exporten). Si és necessari escollir només alguns camps cal utilitzar una
@@ -65,13 +65,10 @@
   cas, se suporta el format de graus, minuts i segons amb la següent forma: Gº
   M' S&quot;.</p>
 
-  <p>Al final de l'extracció dels punts de la base de dades el programa
-  aplica la tolerància demanada per l'usuari. En el cas que, com a
-  resultat d'aplicar la tolerància, es fusionin punts, es genera registre
-  múltiple a la base de dades associada als punts, excepte quan el contingut
-  dels registres és idèntic. En el cas de mantenir el lligam a la base de
-  dades original via ODBC, aquest registre múltiple es crea de manera natural:
-  en aquest cas no s'intenta eliminar els registres idèntics.</p>
+  <p>Per defecte, el programa estructura topològicament la capa de punts creada, és a dir, vetlla per la unicitat espacial de manera que dos punts situats a una distància inferior o igual a una tolerància indicada es consideren el mateix punt. Des del botó "Avançades" es permet indicar el valor d'aquesta tolerància (que tindrà valor zero si no se n'indica un altre). També des d'aquest botó "Avançades" es pot indicar que no es desitja estructurar topològicament, i en aquest cas dos o més punts situats al mateix lloc seran mantinguts com a punts independents.</p>
+<p>Com s'acaba d'explicar, el valor de la tolerància, que només aplica quan s'estructura topològicament, s'ha d'expressar en les mateixes unitats que les coordenades XY i serveix per tal de considerar iguals dos punts ubicats a una distància euclidiana inferior o igual a aquest valor. Quan això passa, si els atributs dels dos o més punts situats en un radi inferior o igual a la tolerància són diferents (en qualsevol dels camps temàtics de la base de dades), el punt passa a tenir, a la taula T.dbf, tants registres com punts originals tenien atributs diferents (situació que es descriu com a "registre múltiple"). En canvi, si els atributs són iguals (punts molt propers però amb informació repetida) es genera un registre únic, a la taula T.dbf, per al punt. En el cas de mantenir el lligam a la base de dades original via ODBC i d'haver-se de generar registre múltiple per l'estructuració topològica i la tolerància, aquest registre múltiple es crea de manera natural.</p>
+<p>A través del botó "Avançades" també es permet indicar el sistema de referència. Si no s'indica, s'aplica el sistema de referència per defecte (desat al MiraMon.par).</p>
+<p>Si en la darrera execució va definir-se una tolerància diferent de zero, o un sistema de referència diferent del sistema per defecte indicat al MiraMon.par, el símbol '!' al costat del botó "Avançades..."  avisarà que és molt convenient polsar el botó i revisar si encara es vol aplicar aquests paràmetres especials.</p>
 
 <hr/>
   <exclusiva>
@@ -94,7 +91,7 @@ són modificats, i el nom original passa a ser el descriptor del camp en el REL.<
 <B>Per exemple:</B><BR>
 /CAMPX=X<BR>
 /CAMPY=Y<BR>
-/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntitat AS IDE FROM FitxerAmbLesDades.TXT"<BR><BR>
+/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntitat AS IDE FROM FitxerAmbLesDades.txt"<BR><BR>
 
    <!-- $$EXCLUSIVA$$
 Per a obtenir l'ajuda completa escriviu:

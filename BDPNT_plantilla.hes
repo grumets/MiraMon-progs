@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 11-05-2023 */-->
+<!--/* Rev AA 04-10-2023 */-->
 <head>
   <title>BDPNT: Extracción de puntos PNT a partir de una base de datos</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -35,25 +35,25 @@
 
   <p>Un caso particular de aplicación de este programa es la recuperación de
   las etiquetas que se usaron para asignar atributos a una capa de polígonos,
-  ya que la base de polígonos (P.DBF) a menudo contiene, en los campos MAPX y
-  MAPY, las coordenadas de las etiquetas.</p>
+  ya que la base de polígonos (P.dbf) a menudo contiene, en los campos MAPX y
+  MAPY, las coordenadas de las etiquetas. Sin embargo, debe recordarse que siempre se permite recuperar las etiquetas de una capa de polígonos a través de <a href="Etiqueta.htm">Etiqueta</a>.</p>
 
   <p>La tabla origen, por tanto, puede ser una tabla en formato DBF, una tabla
-  DBF asociada a una base de polígonos (P.DBF), o una tabla en cualquier base
+  DBF asociada a una base de polígonos (P.dbf), o una tabla en cualquier base
   de datos (ACCESS, EXCEL, ORACLE, DB2, SQL-Server, etc). En cualquier caso, la
   tabla origen debe presentar dos campos que contengan, respectivamente, las
-  coordenadas X e Y del punto. Cuando se extraen los puntos de un DBF o de una
+  coordenadas X e Y del punto. Cuando se extraen los puntos de una DBF o de una
   tabla en cualquier base de datos genérica, estos campos pueden tener
-  cualquier nombre; en cambio, deben llamarse MAPX y MAPY cuando se trata del
-  DBF asociado a una base de polígonos (opción por defecto en el proceso de
+  cualquier nombre; en cambio, deben llamarse MAPX y MAPY cuando se trata de la
+  DBF asociada a una base de polígonos (opción por defecto en el proceso de
   estructuración topológica de MiraMon).</p>
 
-  <p>Cuando se extraen los puntos de un DBF o de una tabla en una base de
+  <p>Cuando se extraen los puntos de una DBF o de una tabla en una base de
   datos genérica cualquiera, se exportan todos los campos hacia la base de
-  puntos (T.DBF) solo en aquellos casos en los que se ha indicado que no se
+  puntos (T.dbf) solo en aquellos casos en los que se ha indicado que no se
   desea mantener el vínculo con la base de datos original. En cambio, cuando
   se extraen las etiquetas de un fichero de polígonos estructurado
-  topológicamente (P.DBF), solamente se exportarán al T.DBF aquellos campos
+  topológicamente (P.dbf), solamente se incorporarán a la T.dbf aquellos campos
   que NO hacen referencia a las características geométricas ni topológicas de
   los polígonos (los campos como AREA, PERIMETRE, N_VERTEXS, etc, no se
   exportan). Si se debe escoger solamente algunos campos debe utilizarse una
@@ -65,13 +65,10 @@
   (C). En este último caso, se soporta el formato de grados, minutos y
   segundos con la forma siguiente: Gº M' S&quot;.</p>
 
-  <p>Al final de la extracción de los puntos de la base de datos el programa
-  aplica la tolerancia solicitada por el usuario. En caso de que, como
-  resultado de aplicar la tolerancia, se fusionen puntos, se genera registro
-  múltiple en la base de datos asociada a los puntos, excepto cuando el
-  contenido de los registros es idéntico. En caso de mantener el vínculo a la
-  base de datos original vía ODBC, este registro múltiple se crea de manera
-  natural: en este caso no se intenta eliminar los registros idénticos.</p>
+  <p><p>Por defecto, el programa estructura topológicamente la capa de puntos creada, es decir, vela por la unicidad espacial por lo que dos puntos situados a una distancia inferior o igual a una tolerancia indicada se consideran el mismo punto. Desde el botón "Avanzadas" se permite indicar el valor de esta tolerancia (que tendrá valor cero si no se indica otro). También desde este botón "Avanzadas" se puede indicar que no se desea estructurar topológicamente, y en este caso dos o más puntos situados en el mismo sitio serán mantenidos como puntos independientes.</p>
+<p>Como acaba de explicarse, el valor de la tolerancia, que sólo aplica cuando se estructura topológicamente, debe expresarse en las mismas unidades que las coordenadas XY y sirve para considerar iguales dos puntos ubicados a una distancia euclídea inferior o igual a ese valor. Cuando esto ocurre, si los atributos de los dos o más puntos situados en un radio inferior o igual a la tolerancia son diferentes (en cualquiera de los campos temáticos de la base de datos), el punto pasa a tener, en la tabla T.dbf, tantos registros como puntos originales tenían atributos distintos (situación que se describe como "registro múltiple"). Sin embargo, si los atributos son iguales (puntos muy cercanos pero con información repetida) se genera un registro único, en la tabla T.dbf, para el punto. En el caso de mantener el vínculo en la base de datos original vía ODBC y de tener que generarse registro múltiple por la estructuración topológica y la tolerancia, este registro múltiple se crea de forma natural.</p>
+<p>A través del botón "Avanzadas" también se permite indicar el sistema de referencia. Si no se indica, se aplica el sistema de referencia por defecto (guardado en MiraMon.par).</p>
+<p>Si en la última ejecución se definió una tolerancia diferente de cero, o un sistema de referencia diferente al sistema por defecto indicado en MiraMon.par, el símbolo '!' junto al botón "Avanzadas..." avisará de que es muy conveniente pulsar el botón y revisar si todavía se quiere aplicar estos parámetros especiales.</p></p>
   <hr/>
 
   <exclusiva>
@@ -94,7 +91,7 @@ son modificados, y el nombre original pasa a ser el descriptor del campo en el R
 <B>Por ejemplo:</B><BR>
 /CAMPX=X<BR>
 /CAMPY=Y<BR>
-/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntidad AS IDE FROM FicheroConLosDatos.TXT"<BR><BR>
+/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntidad AS IDE FROM FicheroConLosDatos.txt"<BR><BR>
 
     <!-- $$EXCLUSIVA$$
 
