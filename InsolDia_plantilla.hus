@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 15-06-2023 */-->
+<!--/* Rev AA 5-10-2023 */-->
 <head>
   <title>InsolDia: Program for computing the solar radiation during one
   day</title>
@@ -15,7 +15,11 @@
 
  <p>The diffuse radiation is estimated from the direct radiation and from the exoatmospheric irradiance of direct radiation with the Page equation (1986) and fitted by Baldasano et al. with information from Catalonia 1994. It is necessary to provide the solar exoatmospheric irradiance for the desired range of wavelengths, in W/(m<sup>2</sup>·µm), [or the solar exoatmospheric irradiance, in W/m<sup>2</sup>], transmittance (extinction constant) tau, and the shadows files in predefined intervals (<i>e.g.</i> one hour)(it is suggested to create a BAT or PS1 to write them automatically from the <a href="Ombra.htm"> Ombra</a> module). If the calculation for the whole solar spectrum is desired, the suggested value for the solar exoatmospheric irradiance is 1366 W/m<sup>2</sup> (ISO 21348:2007), and the value of 0.288 as tau (clear forest medium atmosphere, Rothermel 1986).</p>
 
- <p>The solar position is calculated for the center of the DEM. The result of the program is a file in 10 KJ/(m<sup>2</sup>·µm) in the case of providing spectral irradiances, or in 10 kJ/m<sup>2</sup> in the case of providing irradiances. The file is stored in a 2-byte/pixel integer raster. During the calculation, the DEM, the lighting matrix and the temporary radiation calculation matrix are loaded in the memory.</p>
+ <p>The solar position is calculated for the center of the DEM. The result of the program is a file in 10 KJ/(m<sup>2</sup>·µm·day) in the case of providing spectral irradiances, or in 10 kJ/(m<sup>2</sup>·day) in the case of providing irradiances. To indicate that the irradiance data provided is spectral (default value) use the optional parameter /IRRAD_ESPEC=1; otherwise specify /IRRAD_ESPEC=0. By default, the file is stored in a 2-byte/pixel integer raster; if the user wants the file to be real 4 bytes/pixel the optional parameter /DadesRad=Real_10kJ must be used. During the calculation, the DEM, the lighting matrix and the temporary radiation calculation matrix are loaded in the memory.</p>
+
+ <p>Note 1: Typically, when the given exoatmospheric irradiance is the solar constant [which includes the entire solar electromagnetic spectrum] it is convenient to request that it be documented as 10 kJ/(m²·day) with /IRRAD_ESPEC=0, while when the user wants to calculate radiation in a particular spectral region, such as red, the exoatmospheric irradiance provided is usually spectral [per unit wavelength] and should be requested to be reported as 10 kJ/(m²·µm·day).</p>
+ <p>Note 2: If at latitudes close to the poles the calculation is requested on a date when the Sun does not rise at any time of the day, zero radiation values are generated, except in areas where there is no data in the MDE, in which also write a NoData.</p>
+ <p>Note 3: If the units of the MDE are not the same as the planimetric ones, the program does the calculation correctly anyway or warns if it does not know how to perform the conversion.</p>
 
 <p>Papers that show and discuss used algorithm:</p>
 <ul>
