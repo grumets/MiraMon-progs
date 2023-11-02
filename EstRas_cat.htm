@@ -1,0 +1,150 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 09-10-2023 */-->
+<head>
+  <title>EstRas: Càlculs estadístics d'imatges ràster</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">EstRas: Estadístiques d'un ràster o d'una sèrie de ràsters</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+
+	<p>Aquest mòdul calcula dades estadístiques d'imatges ràster en el que es pot escollir entre tres opcions: 
+	El càlcul de dades estadístiques d'un sol ràster (monobanda o multibanda), el càlcul d'una imatge amb el resultat 
+	de la funció estadística escollida a partir d'una sèrie de ràsters i la normalització d'un ràster (monobanda o multibanda).</p>
+	
+	<p>A l'opció de càlcul de dades estadístiques d'un sol ràster, el fitxer d'entrada ha de ser un fitxer ràster IMG i cal seleccionar com a mínim una de les funcions estadístiques disponibles
+	(depenent del tractament de les dades que es seleccioni). El fitxer de sortida ha de ser un fitxer INI on s'escriurà el resultat dels diferents càlculs estadístics escollits. Aquesta opció 
+	permet fer aquest càlcul per a totes les bandes d'un fitxer ràster multibanda.</p>
+
+	<p>A l'opció de càlcul d'una imatge de les estadístiques d'una sèrie de ràsters, el fitxer d'entrada ha de ser un fitxer TXT amb la llista de fitxers ràsters en format IMG que es vol utilitzar pel càlcul.
+	Ha d'haver com a mínim dos fitxers ràsters per poder realitzar el càlcul i han de tenir el mateix nombre de files i columnes.
+	El càlcul es fa píxel a píxel on per a cada píxel s'escull tots els valors vàlids del píxel que està en la mateixa posició en els ràsters d'entrada i amb aquests valors s'aplica la funció estadística escollida
+	i el resultat s'escriu al fitxer ràster de sortida que ha de ser un fitxer ràster IMG.</p>
+
+	<p>A l'opció de la normalització d'un ràster, el fitxer d'entrada i el fitxer de sortida han de ser un fitxer ràster IMG. Aquesta opció permet fer aquest càlcul per a totes les bandes d'un fitxer 
+	ràster multibanda.</p>
+	
+	<p>Si es desitja calcular les freqüències o les àrees de les diferents categories d'un ràster categòric, es pot emprar el mòdul <a href="Histo.htm">Histo</a> o bé la <a href="../mm32/minfo.htm#consab">consulta per atributs</a> del mòdul principal del MiraMon.</p>
+ 
+  <br/>
+  
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h3>Sintaxi:</h3>
+<ul style="list-style-type:none;">
+<li>EstRas                                 1 FitxerIMG FitxerINI Tractament   [/N_VAL] [/MIN] [/MAX] [/MITJANA] [/DESV_STD] [/MEDIANA] [/DESV_MEDIANA] [/MODA] [/I_SHAN] [/1Q] [/3Q] [/PERCENTIL] [/MULTIBANDA] [/MEDIANA_EMPAT]  </li>
+<li>EstRas          2 FuncióEstadística LlistaIMG FitxerIMGSortida [Percentil]   [/MEDIANA_EMPAT]  [/AJUST]  </li>
+<li>EstRas        3 FitxerIMG FitxerIMGNorm  [/MULTIBANDA] [/PREFIX]  </li>
+</ul>
+<h4>Opcions:</h4>
+<ul>
+<li>1: 
+								Dades estadístiques d'un ràster.</li>
+<li>2: 
+								Imatge de les estadístiques d'una sèrie de ràsters.</li>
+<li>3: 
+								Normalització d'un ràster.</li>
+</ul>
+<h4>Paràmetres:</h4>
+<ul style="list-style-type:none;">
+<li><b>FitxerIMG</b> 
+										(Fitxer IMG -
+										Paràmetre d'entrada): Fitxer ràster a usar pel càlcul d'estadístiques.</li>
+<li><b>FitxerINI</b> 
+										(Fitxer INI -
+										Paràmetre de sortida): Fitxer INI amb el resultat de les dades estadístiques calculades.</li>
+<li><b>Tractament</b> 
+										(Tractament de les dades origen -
+										Paràmetre d'entrada): Indica el tractament de les dades del ràster origen:<ul>
+          <li>C: Categòric.</li>
+          <li>N: Quantitatiu.</li>
+          <li>M: Segons metadades.</li>
+          </ul></li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FuncióEstadística</b> 
+										(Funció estadística -
+										Paràmetre d'entrada): Funció estadística a calcular per a cada píxel d'una sèrie de ràsters:<ul>
+          <li>1: Mínim.</li>
+          <li>2: Màxim.</li>
+          <li>3: Mitjana.</li>
+          <li>4: Desviació estàndard.</li>      
+          <li>5: Mediana.</li>
+          <li>6: Moda.</li>
+          <li>7: Índex de Shannon.</li>
+          <li>8: Mitjana de les desviacions absolutes respecte de la mediana.</li>      
+          <li>10: Primer quartil.</li>
+          <li>12: Tercer quartil.</li>      
+          <li>14: Percentil.</li>
+          <li>15: Recta de regressió.</li>
+          </ul></li>
+<li><b>LlistaIMG</b> 
+										(Llista IMG -
+										Paràmetre d'entrada): Fitxer TXT amb la llista de fitxers que es volen usar pel càlcul de la imatge de la funció estadística escollida.</li>
+<li><b>FitxerIMGSortida</b> 
+										(Fitxer IMG -
+										Paràmetre de sortida): Fitxer IMG amb el resultat de les dades estadístiques calculades.</li>
+<li><b>Percentil</b> (Paràmetre d'entrada): En el cas d'escollir la funció estadística Percentil, indica quin percentil es vol calcular.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FitxerIMGNorm</b> 
+										(Fitxer IMG -
+										Paràmetre de sortida): Fitxer IMG amb el resultat de la normalització de la imatge d'entrada.</li>
+</ul>
+<h4>Modificadors:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>N_VAL</b>  
+						(Nombre de valors)
+						 Per calcular el nombre de píxels del ràster origen (sense comptar els píxels amb valor sensedades en el cas que n'hi hagi).  (Paràmetre d'entrada) <li></li> <b>/</b><b>MIN</b>  
+						(Mínim valor)
+						 Per calcular el valor mínim del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>MAX</b>  
+						(Màxim valor)
+						 Per calcular el valor màxim del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>MITJANA</b>  
+						(Mitjana)
+						 Per calcular la mitjana del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>DESV_STD</b>  
+						(Desviació estàndard)
+						 Per calcular la desviació estàndard del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>MEDIANA</b>  
+						(Mediana)
+						 Per calcular la mediana del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>DESV_MEDIANA</b>  
+						(Mitjana de les desviacions absolutes respecte de la mediana)
+						 Per calcular la mitjana de les desviacions absolutes respecte de la mediana del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>MODA</b>  
+						(Moda)
+						 Per calcular la moda del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>I_SHAN</b>  
+						(Índex de Shannon)
+						 Per calcular l'índex de Shannon del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>1Q</b>  
+						(Primer quartil)
+						 Per calcular el primer quartil del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>3Q</b>  
+						(Tercer quartil)
+						 Per calcular el tercer quartil del ràster origen.  (Paràmetre d'entrada) <li></li> <b>/</b><b>PERCENTIL</b>= 
+						(Percentil)
+						 Per calcular el percentil escollit per l'usuari del ràster origen.  (Paràmetre d'entrada) <li></li>  <b>/</b><b>MEDIANA_EMPAT</b>= (Desempat per a la mediana) Si s'ha sol·licitat el càlcul de la mediana, indica el tipus de desempat a usar per al seu càlcul, en cas de tenir un nombre parell de valors. El criteri també s'aplicarà quan s'ha de calcular la mitjana de les desviacions absolutes respecte de la mediana (ja que requereix calcular la mediana), o algun quartil o percentil (en què es poden donar situacions d'empat). Les opcions de càlcul són:<ul>
+          <li>1: per escollir valor alternat.</li>
+          <li>2: per escollir valor superior.</li>
+          <li>3: per escollir valor inferior.</li>
+          <li>4: per escollir mitjana dels valors centrals.</li>          
+          </ul>  (Paràmetre d'entrada) <li></li> <b>/</b><b>AJUST</b>= 
+						(Tipus d'ajust per a la recta de regressió)
+						 En el cas que s'hagi indicat calcular la Recta de regressió, indica el tipus d'ajust a realitzar:<ul>
+          <li>L: Lineal.</li>
+          <li>Q: Quadràtica.</li>
+          </ul>  (Paràmetre d'entrada) <li></li>  <b>/</b><b>MULTIBANDA</b>  (Multibanda) Paràmetre opcional per si es vol utilitzar totes les bandes del fitxer d'entrada.  (Paràmetre d'entrada) <li></li> <b>/</b><b>PREFIX</b>= 
+						(Prefix)
+						 Prefix dels fitxers de sortida.  (Paràmetre d'entrada) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+EstRas ?
+--></p>
+  </exclusiva>
+</body>
+</html>

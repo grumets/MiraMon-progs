@@ -1,0 +1,152 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 09-10-2023 */-->
+<head>
+  <title>EstRas: Cálculos estadísticos de imágenes ráster</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">EstRas: Estadísticas de un ráster o de una serie de rásters</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+ 
+	<p>Este módulo calcula datos estadísticos de imágenes ráster en el que se puede elegir entre tres opciones: 
+	El cálculo de datos estadísticos de un solo ráster (monobanda o multibanda), el cálculo de una imagen con el resultado de la 
+	función estadística escogida partir de una serie de rásters y la normalización de un ráster (monobanda o multibanda).</p>
+	
+	<p>En la opción de cálculo de datos estadísticos de un solo ráster, el fichero de entrada debe ser un fichero ráster IMG y hay que seleccionar al menos una de las funciones estadísticas disponibles 
+	(dependiendo del tratamiento de los datos que se seleccione). El fichero de salida debe ser un fichero INI en el cual se escribirá el resultado de los diferentes cálculos estadísticos elegidos. Esta opción 
+	permite hacer este cálculo para todas las bandas de un fichero ráster multibanda.</p>
+	
+	<p>En la opción de cálculo de una imagen de las estadísticas de una serie de rásters, el fichero de entrada debe ser un fichero TXT con la lista de ficheros rásters en formato IMG que se quiere 
+	utilizar para el cálculo. Debe incluir al menos dos ficheros rásters para poder realizar el cálculo y deben tener el mismo número de filas y columnas. El cálculo se hace píxel a píxel donde para cada 
+	píxel se escoge todos los valores válidos del píxel que está en la misma posición en los rásters de entrada y con estos valores se aplica la función estadística elegida y el resultado se escribe en
+	el fichero ráster de salida que debe ser un fichero ráster IMG.</p>
+	
+	<p>En la opción de la normalización de un ráster, el fichero de entrada y el fichero de salida deben ser un fichero ráster IMG. Esta opción permite hacer este cálculo para todas las bandas de un 
+	fichero ráster multibanda.</p>
+	
+	<p>Si se desea calcular las frecuencias o las áreas de las diferentes categorías de un ráster categórico, se puede emplear el módulo <a href="Histo.htm">Histo</a> o bien la <a href="../mm32/minfo.htm#consab">consulta por atributos</a> del módulo principal de MiraMon.</p>
+	
+  <br/>
+  
+  <hr/>
+
+  <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h3>Sintaxis:</h3>
+<ul style="list-style-type:none;">
+<li>EstRas                                 1 FicheroIMG FicheroINI Tratamiento   [/N_VAL] [/MIN] [/MAX] [/MITJANA] [/DESV_STD] [/MEDIANA] [/DESV_MEDIANA] [/MODA] [/I_SHAN] [/1Q] [/3Q] [/PERCENTIL] [/MULTIBANDA] [/MEDIANA_EMPAT]  </li>
+<li>EstRas          2 FunciónEstadística ListaIMG FicheroIMGSalida [Percentil]   [/MEDIANA_EMPAT]  [/AJUST]  </li>
+<li>EstRas        3 FicheroIMG FicheroIMGNorm  [/MULTIBANDA] [/PREFIX]  </li>
+</ul>
+<h4>Opciones:</h4>
+<ul>
+<li>1: 
+								Datos estadísticos de un ráster.</li>
+<li>2: 
+								Imagen de las estadísticas de una serie de rásters.</li>
+<li>3: 
+								Normalización de un ráster.</li>
+</ul>
+<h4>Parámetros:</h4>
+<ul style="list-style-type:none;">
+<li><b>FicheroIMG</b> 
+										(Fichero IMG -
+										Parámetro de entrada): Fichero ráster a usar para el cálculo de estadísticas.</li>
+<li><b>FicheroINI</b> 
+										(Fichero INI -
+										Parámetro de salida): Fichero INI con el resultado de los datos estadísticos calculados.</li>
+<li><b>Tratamiento</b> 
+										(Tratamiento de los datos origen -
+										Parámetro de entrada): Indica el tratamiento de los datos del ráster origen:<ul>
+          <li>C: Categórico.</li>
+          <li>N: Cuantitativo.</li>
+          <li>M: Según metadatos.</li>
+          </ul></li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FunciónEstadística</b> 
+										(Función estadística -
+										Parámetro de entrada): Función estadística a calcular para cada píxel de una serie de rásters:<ul>
+          <li>1: Mínimo.</li>
+          <li>2: Máximo.</li>
+          <li>3: Media.</li>
+          <li>4: Desviación estándar.</li>      
+          <li>5: Mediana.</li>
+          <li>6: Moda.</li>
+          <li>7: Índice de Shannon.</li>
+          <li>8: Media de las desviaciones absolutas respecto de la mediana.</li>      
+          <li>10: Primer cuartil.</li>
+          <li>12: Tercer cuartil.</li>      
+          <li>14: Percentil.</li>
+          <li>15: Recta de regresión.</li>
+          </ul></li>
+<li><b>ListaIMG</b> 
+										(Lista IMG -
+										Parámetro de entrada): Fichero TXT con la lista de archivos que se quieren usar para el cálculo de la imagen de la función estadística elegida.</li>
+<li><b>FicheroIMGSalida</b> 
+										(Fichero IMG -
+										Parámetro de salida): Fichero IMG con el resultado de los datos estadísticos calculados.</li>
+<li><b>Percentil</b> (Parámetro de entrada): En el caso de elegir la función estadística Percentil, indica qué percentil se quiere calcular.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroIMGNorm</b> 
+										(Fichero IMG -
+										Parámetro de salida): Fichero IMG con el resultado de la normalización de la imagen de entrada.</li>
+</ul>
+<h4>Modificadores:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>N_VAL</b>  
+						(Número de valores)
+						 Para calcular el número de píxeles del ráster origen (sin contar los píxeles con valor sindatos en caso de que existan).  (Parámetro de entrada) <li></li> <b>/</b><b>MIN</b>  
+						(Mínimo valor)
+						 Para calcular el valor mínimo del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>MAX</b>  
+						(Máximo valor)
+						 Para calcular el valor máximo del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>MITJANA</b>  
+						(Media)
+						 Para calcular la media del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>DESV_STD</b>  
+						(Desviación estándar)
+						 Para calcular la desviación estándar del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>MEDIANA</b>  
+						(Mediana)
+						 Para calcular la mediana del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>DESV_MEDIANA</b>  
+						(Media de las desviaciones absolutas respecto de la mediana)
+						 Para calcular la media de las desviaciones absolutas respecto de la mediana del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>MODA</b>  
+						(Moda)
+						 Para calcular la moda del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>I_SHAN</b>  
+						(Índice de Shannon)
+						 Para calcular el índice de Shannon del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>1Q</b>  
+						(Primer cuartil)
+						 Para calcular el primer cuartil del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>3Q</b>  
+						(Tercer cuartil)
+						 Para calcular el tercer cuartil del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>PERCENTIL</b>= 
+						(Percentil)
+						 Para calcular el percentil escogido por el usuario del ráster origen.  (Parámetro de entrada) <li></li> <b>/</b><b>MEDIANA_EMPAT</b>= 
+						(Desempate para la mediana)
+						 Si se ha solicitado el cálculo de la mediana, indica el tipo de desempate a utilizar para su cálculo, en caso de tener un número par de valores. El criterio también se aplicará cuando debe calcularse la media de las desviaciones absolutas respecto de la mediana (ya que requiere calcular la mediana), o algún cuartil o percentil (en la que se pueden dar situaciones de empate). Las opciones de cálculo son:<ul>
+          <li>1: para elegir valor alternado.</li>
+          <li>2: para elegir valor superior.</li>
+          <li>3: para elegir valor inferior.</li>
+          <li>4: para elegir promedio de los valores centrales.</li>  
+          </ul>  (Parámetro de entrada) <li></li> <b>/</b><b>AJUST</b>= 
+						(Tipo de ajuste para la recta de regresión)
+						 En caso de que se haya indicado calcular la Recta de regresión, indica el tipo de ajuste a realizar:<ul>
+          <li>L: Lineal.</li>
+          <li>Q: Cuadrática.</li>
+          </ul>  (Parámetro de entrada) <li></li>  <b>/</b><b>MULTIBANDA</b>  (Multibanda) Parámetro opcional por si se quiere utilizar todas las bandas del fichero de entrada.  (Parámetro de entrada) <li></li> <b>/</b><b>PREFIX</b>= 
+						(Prefijo)
+						 Prefijo de los ficheros de salida.  (Parámetro de entrada) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+EstRas ?
+--></p>
+  </exclusiva>
+</body>
+</html>
