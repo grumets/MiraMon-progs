@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 02-11-2023 */-->
+<!--/* Rev AA 03-11-2023 */-->
 <head>
   <title>CanviRes: Cambio de lado de píxel en rasters (múltiplos)</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -12,9 +12,7 @@
   <p>Este programa cambia el lado del píxel de un ráster sin cambiar el origen
   de la malla. El cambio de lado del píxel puede efectuarse por expansión o
   por contracción de los píxeles originales. Para cambiar el origen de
-  la malla del ráster se debe utilizar el programa <a href="DensRas.htm">DensRas</a>.
-  Al final de esta ayuda se incluye un resumen de consideraciones sobre cuándo
-  utilizar CanviRes y cuándo utilizar <a href="DensRas.htm">DensRas</a>,
+  la malla del ráster se debe utilizar el programa <a href="DensRas.htm">DensRas</a>, o el programa <a href="AdapRas.htm">AdapRas</a> para operaciones más sofisticadas, particularmente para ampliar el ámbito geográfico llenándolo con sindatos. Al final de esta ayuda se incluye un resumen de consideraciones sobre cuándo utilizar CanviRes y cuándo utilizar <a href="DensRas.htm">DensRas</a>,
   con las opciones de elección en cada programa.</p>
 
   <ul>
@@ -49,9 +47,9 @@ En imágenes long el criterio sólo puede ser valor Central.-->
         <li>Para imágenes de sensores se usará CanviRes cuando no se desee corromper 
 	la radiometría porque se pretende hacer una clasificación;
         esta opción raramente  interesará ya que es más eficiente
-        clasificar la imagen en su lado del píxel (poder informativo) original
+        clasificar la imagen en su resolución (poder informativo) original
         y después expandir el resultado. Se usará la media o el programa
-        <a href="DensRas.htm">DensRas</a> (RECOMENDADO) cuando se desee la
+        <a href="DensRas.htm">DensRas</a> (RECOMENDADO, y en modo bilineal) cuando se desee la
         expansión para interpretación visual.</li>
 
         <li>Para modelos digitales de elevaciones el programa
@@ -68,17 +66,17 @@ En imágenes long el criterio sólo puede ser valor Central.-->
     donde no quede inequívocamente definida, a menos que se especifique alguna de las 
     opciones que la evitan: /MODA_NO_UNICA_IMPARCIAL, /MODA_NO_UNICA_PRIMER y/o /MODA_NO_UNICA_FITXER.</li>
 
-    <li>Imágenes de variables CONTINUAS. Puede usarse cualquiera de los tres
+    <li>Imágenes de variables CONTINUAS. Puede usarse cualquiera de los seis
     métodos de CanviRes, aunque la Moda no suele tener una significación
     espacial interesante en ningún caso.
 
       <ul>
         <li>Para imágenes de sensores se usará el valor Central cuando no
         se desee corromper la radiometría (por ejemplo en clasificación de imágenes) y se usará la
-        media cuando se desee  la contracción para interpretación visual. El
+        mediana o la media cuando se desee  la contracción para interpretación visual. El
         programa <a href="DensRas.htm">DensRas</a> no suele ser adecuado
         porque sólo tendrá en cuenta los píxeles inmediatamente envolventes del
-        valor central y no toda la ventana.</li>
+        valor central y no toda la ventana, a menos que previamente se haga una aproximación al tamaño de la celda deseada con CanviRes.</li>
 
         <li>Para modelos digitales de elevaciones se usará la media si
         se desea que el valor del píxel informe de la altitud media de toda la
@@ -87,27 +85,27 @@ En imágenes long el criterio sólo puede ser valor Central.-->
         central de la celda (el método del valor Central de CanviRes no es más
         que un caso particular que <a href="DensRas.htm">DensRas</a> ya
         contempla en el transcurso de sus cálculos, ya que este programa
-        aplica interpoladores exactos).</li>
+        aplica interpoladores exactos [se recomienda el modo bilineal]).</li>
       </ul>
     </li>
 
     <li>Imágenes de cualquier tipo (variables CATEGÓRICAS o CONTINUAS): Se
-    puede usar el valor Central (con un valor de CostatFinestra
+    puede usar el valor Central (con un valor de LadoVentana 
     suficientemente grande) cuando se desea efectuar un muestreo que permita
     evitar la auto correlación espacial. Dadas las características del módulo
     CanviRes, el muestreo será regularmente distribuido en el espacio.</li>
-  </ul>RESUMEN DE RECOMENDACIONES
+  </ul>RESUMEN DE RECOMENDACIONES (donde indica DensRas también aplica a AdapRas)
   <pre>
-EXPANSIÓN:   + Mapa categórico:    CanviRes [seguido de método tesis X.Pons]
+EXPANSIÓN:   + Mapa categórico:    CanviRes [seguido opcionalmente de método tesis X. Pons]
              + Imagen de sensor:   CanviRes para clasificación (no recomendado)
-                                  <a href="DensRas.htm">DensRas</a>  para análisis visual
-             + MDE:               <a href="DensRas.htm">DensRas</a>
+                                  <a href="DensRas.htm">DensRas</a> L,  para análisis visual
+             + MDE:               <a href="DensRas.htm">DensRas</a> L
 
 CONTRACCIÓN: + Mapa categórico:    CanviRes, opción M
              + Imagen de sensor:   CanviRes, opción C para clasificación
-                                   CanviRes, opción m para análisis visual
-             + MDE:                CanviRes, opción m para altitudes medias
-                                 <a href="DensRas.htm">DensRas</a>,  para altitudes centrales
+                                   CanviRes, opción d o m para análisis visual
+             + MDE:                CanviRes, opción d o m para altitudes medianas o medias
+                                 <a href="DensRas.htm">DensRas</a> L,  para altitudes que prioricen valores centrales a la celda resultante
 </pre>
   <hr/>
 

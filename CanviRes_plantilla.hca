@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 02-11-2023 */-->
+<!--/* Rev AA 03-11-2023 */-->
 <head>
   <title>CanviRes: Canvi de costat de píxel d'un ràster (múltiples)</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -11,7 +11,7 @@
   <p>Aquest programa canvia el costat del píxel d'un ràster sense canviar
   l'origen de la malla. El canvi de costat del píxel es pot efectuar per
   expansió o per contracció dels píxels originals. Per a canviar
-  l'origen de la malla del ràster cal utilitzar el programa <a href="DensRas.htm">DensRas</a>. Al final d'aquesta ajuda s'inclou un resum de
+  l'origen de la malla del ràster cal utilitzar el programa <a href="DensRas.htm">DensRas</a>, o el programa <a href="AdapRas.htm">AdapRas</a> per a operacions més sofisticades, particularment per a ampliar l'àmbit geogràfic omplint-lo amb sensedades. Al final d'aquesta ajuda s'inclou un resum de
   consideracions sobre quan utilitzar CanviRes i quan utilitzar <a href="DensRas.htm">DensRas</a>, amb les opcions d'elecció en cada
   programa.</p>
   <ul>
@@ -46,8 +46,8 @@ En imatges long el criteri només pot ser valor Central.-->
         <li>Per a imatges de sensors s'usarà CanviRes quan no es vulgui corrompre
         la radiometria perquè es pretén fer una classificació; aquesta opció
         rarament interessarà ja que és més eficient classificar la imatge
-        en el seu costat de píxel (poder informatiu) original i després
-        expandir el resultat. S'usarà la mitjana o el programa <a href="DensRas.htm">DensRas</a> (RECOMANAT) 
+        en la seva resolució (poder informatiu) original i després
+        expandir el resultat. S'usarà la mitjana o el programa <a href="DensRas.htm">DensRas</a> (RECOMANAT, i en mode bilineal) 
 	quan  es vulgui l'expansió per a interpretació visual.</li>
 
         <li>Per a models digitals d'elevacions el programa <a href="DensRas.htm">DensRas</a> és la solució òptima.
@@ -64,26 +64,26 @@ En imatges long el criteri només pot ser valor Central.-->
     on no quedi inequívocament definida, si no s'especifica alguna de les
     opcions que l'eviten: /MODA_NO_UNICA_IMPARCIAL, /MODA_NO_UNICA_PRIMER i/o /MODA_NO_UNICA_FITXER.</li>
 
-    <li>Imatges de variables CONTÍNUES. Es pot usar qualsevol dels tres
-    mètodes de CanviRes, encara que la Moda no sol tenir una
+    <li>Imatges de variables CONTÍNUES. Es pot usar qualsevol dels sis
+    mètodes del CanviRes, encara que la Moda no sol tenir una
     significació espacial interessant en cap cas.
 
       <ul>
         <li>Per a imatges de sensors s'usarà el valor Central quan no es vulgui
-        corrompre la radiometria (per exemple en classificació d'imatges) i s'usarà la mitjana quan
+        corrompre la radiometria (per exemple en classificació d'imatges) i s'usarà la mediana o la mitjana quan
         es vulgui la contracció per a interpretació visual. El programa
           <a href="DensRas.htm">DensRas</a> no sol ser adequat perquè només
           tindrà en compte els píxels immediatament envolupants del valor
-          central i no tota la finestra.</li>
+          central i no tota la finestra, llevat que prèviament es faci una aproximació a la grandària de la cel·la desitjada amb el CanviRes.</li>
 
         <li>Per a models digitals d'elevacions s'usarà la mitjana si es vol
         que el valor del píxel informi de l'altitud mitjana de tota la
         cel·la i s'usarà el programa <a href="DensRas.htm">DensRas</a> si es vol 
         que el valor del píxel informi de l'altitud al punt central de la
-        cel·la (el mètode del valor Central de CanviRes no és més que un cas
+        cel·la (el mètode del valor Central del CanviRes no és més que un cas
         particular que <a href="DensRas.htm">DensRas</a> ja contempla en el
         transcurs dels seus càlculs ja que aquest programa aplica
-        interpoladors exactes).</li>
+        interpoladors exactes [es recomana el mode bilineal]).</li>
       </ul>
     </li>
 
@@ -93,18 +93,18 @@ En imatges long el criteri només pot ser valor Central.-->
     l'autocorrelació espacial. Donades les característiques del mòdul
     CanviRes, el mostreig serà regularment distribuït en
     l'espai.</li>
-  </ul>RESUM DE RECOMANACIONS
+  </ul>RESUM DE RECOMANACIONS (on indica DensRas també aplica a AdapRas)
   <pre>
-EXPANSIÓ:   + Mapa categòric:    CanviRes [seguit de mètode tesi X.Pons]
+EXPANSIÓ:   + Mapa categòric:    CanviRes [seguit opcionalment de mètode tesi X. Pons]
             + Imatge de sensor:  CanviRes per a classificació (no recomanat)
-                                 <a href="DensRas.htm">DensRas</a> per a anàlisi visual
-            + MDE:               <a href="DensRas.htm">DensRas</a>
+                                 <a href="DensRas.htm">DensRas</a> L, per a anàlisi visual
+            + MDE:               <a href="DensRas.htm">DensRas</a> L
 
 CONTRACCIÓ: + Mapa categòric:    CanviRes, opció M
             + Imatge de sensor:  CanviRes, opció C per a classificació
-                                 CanviRes, opció m per a anàlisi visual
-            + MDE:               CanviRes, opció m per a altituds mitjanes
-                                 <a href="DensRas.htm">DensRas</a>, per a altituds centrals
+                                 CanviRes, opció d o m per a anàlisi visual
+            + MDE:               CanviRes, opció d o m per a altituds medianes o mitjanes
+                                 <a href="DensRas.htm">DensRas</a> L, per a altituds que prioritzin valors centrals a la cel·la resultant
 </pre>
   <hr/>
 

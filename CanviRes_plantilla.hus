@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 02-11-2023 */-->
+<!--/* Rev AA 03-11-2023 */-->
 <head>
   <title>CanviRes: Changing raster pixel side (multiples)</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -12,7 +12,7 @@
   <p>This program changes a raster pixel side without changing its origin.
   Pixel side change can be done either by contraction or expansion of the
   original pixels. In order to change the origin of the raster grid, 
-  the program <a href="DensRas.htm">DensRas</a> should be used. At the end of this text
+  the program <a href="DensRas.htm">DensRas</a> should be used, or the program <a href="AdapRas.htm">AdapRas</a> for more sophisticated operations, particularly to expand the geographic extent by filling it with NoData. At the end of this text
   there is a summary explaining when CanviRes should be used and when 
   <a href="DensRas.htm">DensRas</a> should be used, including the options for each one.</p>
 
@@ -47,9 +47,9 @@ In long images the criterion can only be the central value. -->
         <li>For sensor images CanviRes will be used in order to avoid
         corrupting the radiometry since a classification is wanted; this
         option will is rarely interesting since it is more efficient to classify
-        the image in its original pixel side (informative power) and then
+        the image in its original resolution (informative power) and then
         expand the result. We will use the mean or the program 
-	<a href="DensRas.htm">DensRas</a> (RECOMMENDED) when what we want to do is an
+	<a href="DensRas.htm">DensRas</a> (RECOMMENDED, and in bilinear mode) when what the user  wants to do is an
         expansion for visual interpretation.</li>
 
         <li>For digital elevation models the program <a href="DensRas.htm">DensRas</a> is the optimal solution.</li>
@@ -63,43 +63,43 @@ In long images the criterion can only be the central value. -->
     general, for its superior performance in generalization.<br/>
     Notice that the Mode can originate new NoData values in those cells where it is not     unequivocally defined, unless one of the options to avoid it will be specified:     /MODA_NO_UNICA_IMPARCIAL, /MODA_NO_UNICA_PRIMER y/o /MODA_NO_UNICA_FITXER.</li>
 
-    <li>Images for CONTINUOUS variables. Any of the three methods of CanviRes
+    <li>Images for CONTINUOUS variables. Any of the six methods of CanviRes
     can be used, even though the Mode does not usually have any interesting
     spatial significance.
 
       <ul>
         <li>For sensor images the Central value will be used to avoid 
         corrupting the radiometry (for instance in image classification) and 
-	the mean will be used to contract for a visual interpretation. Program <a 	href="DensRas.htm">DensRas</a> is not usually adequate since it only takes
+	the median or the mean will be used to contract for a visual interpretation. Program <a 	href="DensRas.htm">DensRas</a> is not usually adequate since it only takes
         into account pixels immediately around the central value and not the
-        whole window.</li>
+        whole window, unless the user previously approximates the size of the desired cell with CanviRes.</li>
 
         <li>For digital elevation models the mean will be used in case 
         the value of each pixel informs on the mean height of the whole
         cell and the program <a href="DensRas.htm">DensRas</a> will be used in case
         the value of the pixel informs on the height of the central
         point of the cell (the method of the central value of CanviRes is
-        nothing more than a particular case that <a href="DensRas.htm">DensRas</a> already 	takes into account when performing its calculations since this program applies exact 		interpolators).</li>
+        nothing more than a particular case that <a href="DensRas.htm">DensRas</a> already 	takes into account when performing its calculations since this program applies exact interpolators [bilinear mode is recommended]).</li>
       </ul>
     </li>
 
     <li>Images of all kind (CATEGORICAL or CONTINUOUS): The Central
-    value (with a value of CostatFinestra large enough) can be used to
+    value (with a value of WindowSide large enough) can be used to
     perform a sampling avoiding spatial autocorrelation. Given the
     characteristics of the CanviRes module, sampling will be regularly
     distributed over the space.</li>
-  </ul>RECOMMENDATIONS SUMMARY
+  </ul>RECOMMENDATIONS SUMMARY (where DensRas is indicated also applies to AdapRas)
   <pre>
-EXPANSION:  + Categorical Map:   CanviRes [followed by the method in X.Pons' Ph D thesis]
+EXPANSION:  + Categorical Map:   CanviRes [followed by the method in X. Pons' Ph D thesis]
             + Sensor image:      CanviRes for classification (not recommended)
-                                 <a href="DensRas.htm">DensRas</a> for visual analysis
-            + DEM:               <a href="DensRas.htm">DensRas</a>
+                                 <a href="DensRas.htm">DensRas</a> L, for visual analysis
+            + DEM:               <a href="DensRas.htm">DensRas</a> L
 
 CONTRACTION:+ Categorical Map:   CanviRes, M option
             + Sensor image:      CanviRes, C option for classification
-                                 CanviRes, m option for visual analysis
-            + DEM:               CanviRes, m option for mean heights
-                                 <a href="DensRas.htm">DensRas</a>, for central heights
+                                 CanviRes, d or m option for visual analysis
+            + DEM:               CanviRes, d or m option for median or mean heights
+                                 <a href="DensRas.htm">DensRas</a> L, for heights that prioritize central values in the resulting cell
 </pre>
   <hr/>
 

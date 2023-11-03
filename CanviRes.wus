@@ -3,7 +3,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:CanviRes:!Param4</ows:Identifier>
 		<ows:Title>EXPANSION</ows:Title>
-		<ows:Abstract>Is done by repeating pixel values both in rows and columns. Parameter CostatFinestra (or expansion factor) will be a positive integer number; e.g. a value of 2 indicates that the number of files and columns will be doubled.</ows:Abstract>
+		<ows:Abstract>Is done by repeating pixel values both in rows and columns. Parameter WindowSide  (or expansion factor) will be a positive integer number; e.g. a value of 3 indicates that the number of files and columns will be tripled (and make the file 9 times larger in number of cells).</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Changing raster pixel side (multiples)"/>
 		<ows:Metadata xlink:title="Abstract:This program changes a raster pixel side without changing its origin. Pixel side change can be done either by contraction or expansion of the original pixels."/>
 		<DataInputs>
@@ -99,7 +99,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:CanviRes:Param4</ows:Identifier>
 		<ows:Title>CONTRACTION</ows:Title>
-		<ows:Abstract>Is performed from the central value, the mode value, average, median or maximum value of a 'window' of pixels. The CostatFinestra Parameter (or contraction factor) will be a negative integer number. When CostatFinestra is an even number and the Central value criterion is chosen the lower left pixel of the four central pixels is taken. When using the Modal value as the contraction criterion and if the most frequent value for a given window is represented two or more times, we can choose between: MODA_NO_UNICA_NODATA,  MODA_NO_UNICA_PRIMER or MODA_NO_UNICA_IMPARCIAL, and/or MODA_NO_UNICA_FITXER</ows:Abstract>
+		<ows:Abstract>Is performed from the central value, the mode value, average, median or maximum value of a 'window' of pixels. The WindowSide parameter (or contraction factor) will be a negative integer number. When WindowSide is an even number and the Central value criterion is chosen the lower left pixel of the four central pixels is taken. When using the Modal value as the contraction criterion and if the most frequent value for a given window is represented two or more times, we can choose between: MODA_NO_UNICA_NODATA,  MODA_NO_UNICA_PRIMER or MODA_NO_UNICA_IMPARCIAL, and/or MODA_NO_UNICA_FITXER</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerOrigen</ows:Identifier>
@@ -140,7 +140,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>CriteriContraccio</ows:Identifier>
 				<ows:Title>Contraction criterion</ows:Title>
-				<ows:Abstract><![CDATA[Contraction criterion is only specified when WindowSide is negative. Its value can be:<ul><li>C (Central value)</li><li>M (Mode)</li><li>m (mean)</li><li>d (median)</li><li>X (maximum)</li></ul>.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Contraction criterion is only specified when WindowSide is negative. Its value can be:<ul><li>C (Central value)</li><li>M (Mode)</li><li>m (mean)</li><li>d (median)</li><li>X (maximum)</li><li>i (minimum)</li></ul>.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:ContractionCriterion"/>
 				<LiteralData>
@@ -217,7 +217,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MODA_NO_UNICA_FITXER</ows:Identifier>
 				<ows:Title>Modal value not unique raster value</ows:Title>
-				<ows:Abstract>In case there is more than one modal value,  the reference raster file will be consulted to assign a value to the result. For the cells in which this raster has no value, the other criteria (smaller value, NoData or impartial) will be applied.</ows:Abstract>
+				<ows:Abstract>In case there is more than one modal value,  the reference raster file will be where the programm consults the value to assign a value to the result. For the cells in which this raster has no value, the other criteria (smaller value, NoData or impartial) will be applied.</ows:Abstract>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -236,7 +236,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MEDIANA_EMPAT</ows:Identifier>
 				<ows:Title>Decision for the median</ows:Title>
-				<ows:Abstract><![CDATA[If the calculation of the median has been requested, indicate the type of tiebreaker to be used for its calculation, in case of having an even number of values. The criterion will also be applied when the mean of the absolutes deviations with respect to the median must be calculated (since it requires calculating the median), or some quartile or percentile (in which tie situations can occur). The calculation options are:<ul><li> 1 to choose alternate value. </li> <li> 2 to choose lower value. </li> <li> 3 to choose upper value. </ Li > <li> 4 to choose average of the central values. </li> </ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[If the calculation of the median has been requested, indicate the type of tiebreaker to be used for its calculation, in case of having an even number of values. The criterion will also be applied when the mean of the absolute deviations with respect to the median must be calculated (since it requires calculating the median), or some quartile or percentile (in which tie situations can occur). The calculation options are:<ul><li> 1 to choose alternate value. </li> <li> 2 to choose lower value. </li> <li> 3 to choose upper value. </ Li > <li> 4 to choose average of the central values. </li> </ul>]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
