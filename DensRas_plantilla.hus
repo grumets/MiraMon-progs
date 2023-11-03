@@ -1,7 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 03-11-2023 */-->
 <head>
-  <title>DensRas: Densification of rasters by bilinear or bicubic
-  interpolation</title>
+  <title>DensRas: Raster densification</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -13,26 +13,38 @@
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
   <p>This program changes the spatial resolution of a raster by interpolating
-  its values. The program reads the documentation file and, if a flag value is
+  its values. The program reads the documentation file and, if a NoData value is
   indicated, it is not considered in the interpolation process. Byte, (short)
   integer and real data types are supported.</p>
 
-  <p>If you wish to densify exactly the same coordinates of the original file
-  (by indicating x x x x in the command line) you must keep in mind that in
-  the borders a simplification will be applied. Therefore, it is not
+  <p>If it is densified exactly within the coordinates of the original raster (specifying the bounding box with the minimum and maximum X and Y coordinates) it must be taken into account that a simplification will be applied to the borders. Therefore, it is not
   convenient to connect by adjacency the result of the densification with
   another densification. In this case, it is better to have some extra area
-  around the region considered as fully reliable. In addition, when you
-  densify exactly the same coordinates than the original file, it is neither
+  around the region considered as fully reliable. In addition, when
+  densifying exactly the same coordinates than the original file, it is neither
   convenient to apply algorithms related to hydrological fluxes; if necessary,
   omit the most exterior concentric area:</p>
 
   <blockquote>
-    If you use bilinear interpolation, eliminate a buffer of 1 pixel all
-    around the image, if you use bicubic interpolation eliminate a buffer of 2
-    pixels all around the image.
+   <li> When using bilinear interpolation, eliminate a buffer of 1 pixel all
+    around the image.</li>
+	<li>When using bicubic interpolation eliminate a buffer of 2
+    pixels all around the image.</li>
   </blockquote>
-  <hr/>
+  
+  <p>RECOMMENDATIONS SUMMARY (where <a href="DensRas.htm">DensRas</a> program is indicated also applies to <a href="AdapRas.htm">AdapRas</a>AdapRas)
+  <pre>
+EXPANSION:  + Categorical map:   CanviRes [followed by the method in X. Pons' Ph D thesis]
+            + Sensor image:      CanviRes for classification (not recommended)
+                                 DensRas L, for visual analysis
+            + DEM:               DensRas L
+
+CONTRACTION:+ Categorical map:   CanviRes, M option
+            + Sensor image:      CanviRes, C option for classification
+                                 CanviRes, d or m option for visual analysis
+            + DEM:               CanviRes, d or m option for median or mean heights
+                                 DensRas L, for heights that prioritize central values in the resulting cell
+</pre><hr/>
 
   <exclusiva>
    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->

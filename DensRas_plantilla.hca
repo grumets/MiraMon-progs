@@ -1,4 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 03-11-2023 */-->
 <head>
   <title>DensRas: Densificació de ràsters</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -11,9 +12,30 @@
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-<p>Cal tenir present que, quan el canvi de mida de píxel és d'un factor superior a 2, la moda realitzada pot ser insatisfactòria en no fer servir tots els píxels originals que cauen geomètricament sobre els píxels finals, sinó només els 4 centrals. En aquests casos, és preferible acostar-se a la mida de píxel desitjada mitjançant  <a href="CanviRes.HTM">CanviRes</a> abans d'usar DensRas. Aquest defecte també és present, per definició, quan es fan interpolacions bilineals. En aquest cas es pot procedir per increments progressius de mida de píxel en factors de 2.</p>
-<p>Si es densifica exactament entre les coordenades del RasterOriginal (cal indicar x x x x en la línia de comanda) cal tenir en compte que a les vores s'aplicarà una simplificació. Per tant, no és convenient connectar directament per adjacència el resultat amb una altra densificació, sinó que cal disposar d'una certa àrea extra a l'entorn de la desitjada com a plenament fiable. Igualment, quan es densifica exactament entre les coordenades del ràster original tampoc no és convenient d'aplicar algorismes relacionats amb fluxos hidrològics; si això és necessari, cal rebutjar l'àrea concèntrica més exterior:</p>
-<blockquote>Si s'ha utilitzat interpolació bilineal, es recomana  eliminar una franja d'1 píxel tot al volt; si s'ha utilitzat interpolació bicúbica, es recomana eliminar una franja de 2 píxels tot al volt.</blockquote>
+
+<p>Cal tenir present que quan el canvi de mida de píxel és d'un factor superior a 2 la moda realitzada pot ser insatisfactòria en no fer servir tots els píxels originals que cauen geomètricament sobre els píxels finals, sinó només els 4 centrals. En aquests casos, és preferible acostar-se a la mida de píxel desitjada mitjançant  <a href="CanviRes.HTM">CanviRes</a> abans d'usar DensRas. Aquest defecte també és present, per definició, quan es fan interpolacions bilineals. En aquest cas es pot procedir per increments progressius de mida de píxel en factors de 2.</p>
+
+<p>Si es densifica exactament dins les coordenades del RasterOriginal (tot especificant l'àmbit amb les coordenades X i Y mínimes i màximes) cal tenir en compte que a les vores s'aplicarà una simplificació. Per tant, no és convenient connectar directament per adjacència el resultat amb una altra densificació, sinó que cal disposar d'una certa àrea extra a l'entorn de la desitjada com a plenament fiable. Igualment, quan es densifica exactament entre les coordenades del ràster original tampoc no és convenient aplicar algorismes relacionats amb fluxos hidrològics; si fos necessari, caldria rebutjar l'àrea concèntrica més exterior:</p>
+
+<blockquote>
+<li>Si s'ha utilitzat interpolació bilineal, es recomana  eliminar una franja d'1 píxel a tot el marge del ràster</li> 
+<li>Si s'ha utilitzat interpolació bicúbica, es recomana eliminar una franja de 2 píxels a tot el marge del ràster.</li>
+</blockquote>
+
+<p>RESUM DE RECOMANACIONS (on s'indica el programa <a href="DensRas.htm">DensRas</a> també aplica a l'<a href="AdapRas.htm">AdapRas</a>AdapRas)
+  <pre>
+EXPANSIÓ:   + Mapa categòric:    CanviRes [seguit opcionalment de mètode tesi X. Pons]
+            + Imatge de sensor:  CanviRes per a classificació (no recomanat)
+                                 DensRas L, per a anàlisi visual
+            + MDE:               DensRas L
+
+CONTRACCIÓ: + Mapa categòric:    CanviRes, opció M
+            + Imatge de sensor:  CanviRes, opció C per a classificació
+                                 CanviRes, opció d o m per a anàlisi visual
+            + MDE:               CanviRes, opció d o m per a altituds medianes o mitjanes
+                                 DensRas L, per a altituds que prioritzin valors centrals a la cel·la resultant
+</pre>
+
 <hr/>
   <exclusiva>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->

@@ -1,9 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 03-11-2023 */-->
 <head>
-  <!--Traduït per Agustí Escobar-->
-
-  <title>DensRas: Densificación de rásters mediante interpolación bilineal o
-  bicúbica</title>
+  <title>DensRas: Densificación de rásters </title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -14,22 +12,28 @@
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-  <p>Si se densifica exactamente entre las coordenadas del RasterOriginal
-  (indique x x x x en la línea de comando) tenga en cuenta que en los bordes
-  se aplicará una simplificación. Por tanto no es conveniente conectar
-  directamente por adyacente el resultado con otra densificación, sino que
-  hay que disponer de una cierta área extra alrededor de la deseada como
-  plenamente fiable. Igualmente, cuando se densifica exactamente entre las
-  coordenadas del RasterOriginal tampoco es conveniente aplicar algoritmos
-  relacionados con flujos hidrológicos; si esto es necesario, rechace el área
-  concéntrica más exterior:</p>
+  <p>Se debe tener presente que cuando el cambio de tamaño de píxel es de un factor superior a 2 la moda realizada puede ser insatisfactoria al no utilizar todos los píxeles originales que caen geométricamente sobre los píxeles finales, sino sólo los 4 centrales. En estos casos, es preferible acercarse al tamaño de píxel deseado mediante <a href="CanviRes.HTM">CanviRes</a> previamente a usar DensRas. Este defecto también está presente, por definición, cuando se realizan interpolaciones bilineales. En este caso se puede proceder por incrementos progresivos de tamaño de píxel en factores de 2.</p>
+  
+  <p>Si se densifica exactamente dentro de las coordenadas del ráster original (especificando el ámbito con las coordenadas X e Y mínimas y máximas) se debe tener en cuenta que en los bordes se aplicará una simplificación. Por tanto, no es conveniente conectar directamente por adyacencia el resultado con otra densificación, sino que se debe disponer de una cierta área extra en torno a la deseada como plenamente fiable. Asimismo, cuando se densifica exactamente en las coordenadas del ráster original tampoco es conveniente aplicar algoritmos relacionados con flujos hidrológicos; si fuera necesario, debería rechazarse el área concéntrica más exterior:</p>
+  
+<blockquote>
+<li>Si se ha utilizado interpolación bilineal, se recomienda eliminar una franja de 1 píxel en todo el margen del ráster. </li> 
+<li>Si se ha utilizado interpolación bicúbica, se recomienda eliminar una franja de 2 píxeles en todo el margen del ráster. </li>
+</blockquote>
 
-  <blockquote>
-    Si se ha utilizado interpolación bilineal, elimine una franja de 1 píxel
-    alrededor; si se ha utilizado interpolación bicúbica, elimine una franja
-    de 2 píxels alrededor.
-  </blockquote>
-  <hr/>
+<p>RESUMEN DE RECOMENDACIONES (donde se indica el programa  <a href="DensRas.htm">DensRas</a> también aplica al  <a href="AdapRas.htm">AdapRas</a>)
+  <pre>
+EXPANSIÓN:   + Mapa categórico:    CanviRes [seguido opcionalmente de método tesis X. Pons]
+             + Imagen de sensor:   CanviRes para clasificación (no recomendado)
+                                  DensRas L,  para análisis visual
+             + MDE:               DensRas L
+
+CONTRACCIÓN: + Mapa categórico:    CanviRes, opción M
+             + Imagen de sensor:   CanviRes, opción C para clasificación
+                                   CanviRes, opción d o m para análisis visual
+             + MDE:                CanviRes, opción d o m para altitudes medianas o medias
+                                 DensRas L,  para altitudes que prioricen valores centrales a la celda resultante
+</pre>  <hr/>
 
   <exclusiva>
   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->

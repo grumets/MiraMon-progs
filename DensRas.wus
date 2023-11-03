@@ -3,14 +3,14 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:DensRas</ows:Identifier>
 		<ows:Title>DensRas:Densification of rasters</ows:Title>
-		<ows:Abstract>This program changes the spatial resolution of a raster by interpolating its values. The program reads the documentation file and, if a flag value is indicated, it is not considered in the interpolation process. Byte, (short) integer and real data types are supported.</ows:Abstract>
-		<ows:Metadata xlink:title="Title:Densification of rasters"/>
-		<ows:Metadata xlink:title="Abstract:This program changes the spatial resolution of a raster by interpolating its values. The program reads the documentation file and, if a flag value is indicated, it is not considered in the interpolation process. Byte, (short) integer and real data types are supported."/>
+		<ows:Abstract><![CDATA[This program changes the spatial resolution of a raster (densifies it)  using one of the four resampling methods: nearest neighbor, 4 neighbors mode, bilinear interpolation, or bicubic interpolation. The program makes a careful treatment of the NoData value (does not consider it in the interpolation). In order to change the pixel side of a raster without changing the origin of the net, use the <a href="CanviRes.HTM">CanviRes</a> program. For more sophisticated operations, particularly to expand the geographic extent by filling it with NoData use the program <a href="AdapRas.HTM">AdapRas</a>. At the end of this text there is a summary explaining when CanviRes should be used and when DensRas should be used, including the options for each one.]]></ows:Abstract>
+		<ows:Metadata xlink:title="Title:Raster densification"/>
+		<ows:Metadata xlink:title="Abstract:This program changes the spatial resolution of a raster (densifies it)  using one of the four resampling methods: nearest neighbor, 4 neighbors mode, bilinear interpolation, or bicubic interpolation. The program makes a careful treatment of the NoData value (does not consider it in the interpolation). In order to change the pixel side of a raster without changing the origin of the net, use the &lt;a href=&quot;CanviRes.HTM&quot;&gt;CanviRes&lt;/a&gt; program. For more sophisticated operations, particularly to expand the geographic extent by filling it with NoData use the program &lt;a href=&quot;AdapRas.HTM&quot;&gt;AdapRas&lt;/a&gt;. At the end of this text there is a summary explaining when CanviRes should be used and when DensRas should be used, including the options for each one."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>RasterOriginal</ows:Identifier>
-				<ows:Title>Original Raster</ows:Title>
-				<ows:Abstract>Name of the input raster file.</ows:Abstract>
+				<ows:Title>Original raster</ows:Title>
+				<ows:Abstract>Name of the input raster file to densifier.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:OriginalRaster"/>
 				<ComplexData>
@@ -29,44 +29,44 @@
 				</ComplexData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>xmin</ows:Identifier>
-				<ows:Title>X min</ows:Title>
-				<ows:Abstract>Define the X min of the densified raster bounding coordinates.</ows:Abstract>
+				<ows:Identifier>Xmin</ows:Identifier>
+				<ows:Title>Minimum X</ows:Title>
+				<ows:Abstract>Define the minimum X of the densified raster bounding box.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:xmin"/>
+				<ows:Metadata xlink:title="Name:Xmin"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>xmax</ows:Identifier>
-				<ows:Title>X max</ows:Title>
-				<ows:Abstract>Define the X max of the densified raster bounding coordinates.</ows:Abstract>
+				<ows:Identifier>Xmax</ows:Identifier>
+				<ows:Title>Maximum X</ows:Title>
+				<ows:Abstract>Define the maximum X of the densified raster bounding box.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:xmax"/>
+				<ows:Metadata xlink:title="Name:Xmax"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>ymin</ows:Identifier>
-				<ows:Title>Y Min</ows:Title>
-				<ows:Abstract>Define the Y min of the densified raster bounding coordinates.</ows:Abstract>
+				<ows:Identifier>Ymin</ows:Identifier>
+				<ows:Title>Minimum Y</ows:Title>
+				<ows:Abstract>Define the minimum Y of the densified raster bounding box.</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
-				<ows:Metadata xlink:title="Name:ymin"/>
+				<ows:Metadata xlink:title="Name:Ymin"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>ymax</ows:Identifier>
-				<ows:Title>Y Max</ows:Title>
-				<ows:Abstract>Define the X max of the densified raster bounding coordinates.</ows:Abstract>
+				<ows:Identifier>Ymax</ows:Identifier>
+				<ows:Title>Maximum Y</ows:Title>
+				<ows:Abstract>Define the maximum X of the densified raster bounding box.</ows:Abstract>
 				<ows:Metadata xlink:title="Param6"/>
-				<ows:Metadata xlink:title="Name:ymax"/>
+				<ows:Metadata xlink:title="Name:Ymax"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -75,7 +75,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Cpix</ows:Identifier>
 				<ows:Title>Pixel side</ows:Title>
-				<ows:Abstract>Is the pixel side of the DensifiedRaster. maxX and maxY will be adapted according to this value.</ows:Abstract>
+				<ows:Abstract>Pixel side of the densified raster. MaxX and MaxY will be adapted according to this value.</ows:Abstract>
 				<ows:Metadata xlink:title="Param7"/>
 				<ows:Metadata xlink:title="Name:Spix"/>
 				<LiteralData>
@@ -84,11 +84,11 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Interpol</ows:Identifier>
-				<ows:Title>Interpolation type</ows:Title>
-				<ows:Abstract>Points the interpolation type: 'V' stays for the nearest neighbour, 'M' for the 4 neighbors mode, 'L' for bilineal interpolation and 'C' for bicubic interpolation.</ows:Abstract>
+				<ows:Identifier>Remostreig</ows:Identifier>
+				<ows:Title>Resampling mode</ows:Title>
+				<ows:Abstract>Points the resampling mode: 'V' for the nearest neighbor, 'M' for the 4 neighbors mode, 'L' for bilineal interpolation and 'C' for bicubic interpolation interpolation.</ows:Abstract>
 				<ows:Metadata xlink:title="Param8"/>
-				<ows:Metadata xlink:title="Name:Interpol"/>
+				<ows:Metadata xlink:title="Name:Resampling"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -103,8 +103,8 @@
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>RasterDensificat</ows:Identifier>
-				<ows:Title>Densified Raster</ows:Title>
-				<ows:Abstract>Is the name of the densified raster file. If not indicated, it is assumed that both files have IMG extension.</ows:Abstract>
+				<ows:Title>Densified raster</ows:Title>
+				<ows:Abstract>Name of the densified raster file. If not indicated, it is assumed that both files have IMG extension.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:DensifiedRaster"/>
 				<ComplexOutput>
