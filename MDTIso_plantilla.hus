@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 11-05-2023 */-->
+<!--/* Rev AA 08-11-2023 */-->
 <head>
   <title>MDTIso: Generation of contour lines from a DTM</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -49,6 +49,13 @@
 
     <p>In case there are conflictive contour lines, this module can generate, if required, a vector structured file of points containing the ends of these contour lines. In case there are no conflictive points and all contour lines have been generated successfully, this file will not be created.</p>
 	
+	<p>A few final tricks, in case they are needed:</p>
+<ul>
+<li>Eliminate isolines irrelevant in terms of their length (very short) automatically. For this purpose, selections of sufficiently long arcs can be made with <a href="VecSelec.htm">VecSelec</a>.</li>
+<li>If the previous step was not enough, to remove artifacts such as non-closed isolines in the middle of the map [without contact with the bounding box] can be done as follows:<ul>
+<li>With manual control: Opening the original MDT and the problem point layer generated with the /PROBL= parameter, then opening the generated arcs layer in digitizing mode (F2) and examining each problem point case (usually they will be end nodes) and decide whether to delete the line, whether to close it on itself, etc.</li>
+<li>Automatically: Selecting the lines that have a length greater than a certain threshold that is considered relevant [which will have to be estimated beforehand visually] and which, at the same time, do NOT contain end nodes [it will be convenient to make a join between the table of arcs and that of nodes to obtain, for each arc, which have end nodes (node type = 3)].</li>
+	
 	<p>For more information, consult the following reference:</p>
     <p><b>Douglas D, Peucker T</b> (1973) <i>Algorithms for the reduction of the number of points required to represent a digitized line or its caricature</i>. The Canadian Cartographer 10(2), 112?122 doi:10.3138/FM57-6770-U75U-7727 </p>
 
@@ -66,13 +73,13 @@
       <p class="MsoNormal"><br/>
       Examples:</p>
 
-      <p class="MsoNormal">MDTISO C:\FitxerMDT.img C:\FitxerIsolinies.arc 20
+      <p class="MsoNormal">MDTISO C:\DTMFile.img C:\CountourLinesFile.arc 20
       /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3
-      /MIGPIXEL /GENERALITZACIO /PROBL=C:\FitxerProbls.pnt</p>
+      /MIGPIXEL /GENERALITZACIO /PROBL=C:\ProblsFile.pnt</p>
 
-      <p class="MsoNormal">MDTISO C:\FitxerMDT.img C:\FitxerIsolinies.arc 20
+      <p class="MsoNormal">MDTISO C:\DTMFile.img C:\CountourLinesFile.arc 20
       /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3
-      /GENERALITZACIO /ZINCREM=10 /PROBL=C:\FitxerProbls.pnt</p>
+      /GENERALITZACIO /ZINCREM=10 /PROBL=C:\ProblsFile.pnt</p>
 
       <p class="MsoNormal"> </p>
       <hr/>
