@@ -2,10 +2,10 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:DensRas</ows:Identifier>
-		<ows:Title>DensRas:Densificación de rásters</ows:Title>
-		<ows:Abstract><![CDATA[Este programa cambia el tamaño de un píxel de un ráster (lo densifica) mediante uno de los cuatro métodos de remuestreo: vecino más cercano, moda de 4 vecinos, interpolación bilineal o interpolación bicúbica. El programa hace un tratamiento cuidadoso del valor de los sindatos (no lo considera en la interpolación). Para cambiar el lado del píxel de un ráster sin cambiar el origen de la malla es necesario utilizar el programa <a href="CanviRes.HTM">CanviRes</a>. Para operaciones más sofisticadas, particularmente para ampliar el ámbito geográfico llenándolo con sindatos es necesario utilizar el programa <a href="AdapRas.HTM">AdapRas</a>. Al final de esta ayuda se incluye un resumen de consideraciones sobre cuándo utilizar CanviRes y cuándo utilizar DensRas, con las opciones de elección en cada programa.]]></ows:Abstract>
-		<ows:Metadata xlink:title="Title:Densificación de rásters"/>
-		<ows:Metadata xlink:title="Abstract:Este programa cambia el tamaño de un píxel de un ráster (lo densifica) mediante uno de los cuatro métodos de remuestreo: vecino más cercano, moda de 4 vecinos, interpolación bilineal o interpolación bicúbica. El programa hace un tratamiento cuidadoso del valor de los sindatos (no lo considera en la interpolación). Para cambiar el lado del píxel de un ráster sin cambiar el origen de la malla es necesario utilizar el programa &lt;a href=&quot;CanviRes.HTM&quot;&gt;CanviRes&lt;/a&gt;. Para operaciones más sofisticadas, particularmente para ampliar el ámbito geográfico llenándolo con sindatos es necesario utilizar el programa &lt;a href=&quot;AdapRas.HTM&quot;&gt;AdapRas&lt;/a&gt;. Al final de esta ayuda se incluye un resumen de consideraciones sobre cuándo utilizar CanviRes y cuándo utilizar DensRas, con las opciones de elección en cada programa."/>
+		<ows:Title>DensRas:Densificación y desdensificación de rásters</ows:Title>
+		<ows:Abstract>Este programa cambia el lado de la celda de un ráster (lo densifica o desdensifica, según el caso), sin exceder la envolvente del ráster original, y permitiendo, en su caso, un cambio de origen de malla. El procedimiento actúa mediante uno de los cuatro métodos de remuestreo: vecino más cercano, moda de 4 vecinos, interpolación bilineal o interpolación bicúbica. El programa hace un tratamiento cuidadoso del valor del sindatos (no lo considera en el remuestreo: por ejemplo, si uno de los 4 vecinos en la posición de una celda en el nuevo ráster es un sindatos y el criterio es la moda, esta moda se calculará considerando sólo los 3 vecinos con datos).</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Densificación y desdensificación de rásters"/>
+		<ows:Metadata xlink:title="Abstract:Este programa cambia el lado de la celda de un ráster (lo densifica o desdensifica, según el caso), sin exceder la envolvente del ráster original, y permitiendo, en su caso, un cambio de origen de malla. El procedimiento actúa mediante uno de los cuatro métodos de remuestreo: vecino más cercano, moda de 4 vecinos, interpolación bilineal o interpolación bicúbica. El programa hace un tratamiento cuidadoso del valor del sindatos (no lo considera en el remuestreo: por ejemplo, si uno de los 4 vecinos en la posición de una celda en el nuevo ráster es un sindatos y el criterio es la moda, esta moda se calculará considerando sólo los 3 vecinos con datos)."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>RasterOriginal</ows:Identifier>
@@ -74,8 +74,8 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Cpix</ows:Identifier>
-				<ows:Title>Lado de píxel</ows:Title>
-				<ows:Abstract>Lado de píxel del ráster densificado.  Xmax y Ymax serán adaptadas convenientemente en función de este valor.</ows:Abstract>
+				<ows:Title>Lado de la celda</ows:Title>
+				<ows:Abstract><![CDATA[Lado de la celda o píxel del ráster densificado.  Si Xmax no corresponde a un valor entero <i>n</i> tal que Xmax=Xmin+n*Cpix, Xmax será convenientemente adaptada. Análogamente para Ymax.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param7"/>
 				<ows:Metadata xlink:title="Name:Lpix"/>
 				<LiteralData>
@@ -104,7 +104,7 @@
 			<Output>
 				<ows:Identifier>RasterDensificat</ows:Identifier>
 				<ows:Title>Ráster densificado</ows:Title>
-				<ows:Abstract>Nombre del ráster densificado. Se asume que los ficheros tienen extensión IMG si no se indica.</ows:Abstract>
+				<ows:Abstract>Nombre del ráster densificado. Se asume que los ficheros tienen extensión img si no se indica.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:RasterDensificado"/>
 				<ComplexOutput>

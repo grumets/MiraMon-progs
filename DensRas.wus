@@ -2,10 +2,10 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:DensRas</ows:Identifier>
-		<ows:Title>DensRas:Densification of rasters</ows:Title>
-		<ows:Abstract><![CDATA[This program changes the spatial resolution of a raster (densifies it)  using one of the four resampling methods: nearest neighbor, 4 neighbors mode, bilinear interpolation, or bicubic interpolation. The program makes a careful treatment of the NoData value (does not consider it in the interpolation). In order to change the pixel side of a raster without changing the origin of the net, use the <a href="CanviRes.HTM">CanviRes</a> program. For more sophisticated operations, particularly to expand the geographic extent by filling it with NoData use the program <a href="AdapRas.HTM">AdapRas</a>. At the end of this text there is a summary explaining when CanviRes should be used and when DensRas should be used, including the options for each one.]]></ows:Abstract>
-		<ows:Metadata xlink:title="Title:Raster densification"/>
-		<ows:Metadata xlink:title="Abstract:This program changes the spatial resolution of a raster (densifies it)  using one of the four resampling methods: nearest neighbor, 4 neighbors mode, bilinear interpolation, or bicubic interpolation. The program makes a careful treatment of the NoData value (does not consider it in the interpolation). In order to change the pixel side of a raster without changing the origin of the net, use the &lt;a href=&quot;CanviRes.HTM&quot;&gt;CanviRes&lt;/a&gt; program. For more sophisticated operations, particularly to expand the geographic extent by filling it with NoData use the program &lt;a href=&quot;AdapRas.HTM&quot;&gt;AdapRas&lt;/a&gt;. At the end of this text there is a summary explaining when CanviRes should be used and when DensRas should be used, including the options for each one."/>
+		<ows:Title>DensRas:Raster densification and dedensification</ows:Title>
+		<ows:Abstract>This program changes the spatial resolution of a raster (densifies or dedensifies it, depending on the case), without exceeding the bounding box of the original raster and allowing, if necessary, a change of the origin grid. The procedure acts using one of the four resampling methods: nearest neighbor, 4 neighbors mode, bilinear interpolation, or bicubic interpolation. The program makes a careful treatment of the NoData value (it does not consider it in resampling: for example, if one of the 4 neighbors at the position of a cell in the new raster is NoData and the criterion is the mode, this mode will be calculated considering only the 3 neighbors with data).</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Raster densification and dedensification"/>
+		<ows:Metadata xlink:title="Abstract:This program changes the spatial resolution of a raster (densifies or dedensifies it, depending on the case), without exceeding the bounding box of the original raster and allowing, if necessary, a change of the origin grid. The procedure acts using one of the four resampling methods: nearest neighbor, 4 neighbors mode, bilinear interpolation, or bicubic interpolation. The program makes a careful treatment of the NoData value (it does not consider it in resampling: for example, if one of the 4 neighbors at the position of a cell in the new raster is NoData and the criterion is the mode, this mode will be calculated considering only the 3 neighbors with data)."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>RasterOriginal</ows:Identifier>
@@ -74,8 +74,8 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Cpix</ows:Identifier>
-				<ows:Title>Pixel side</ows:Title>
-				<ows:Abstract>Pixel side of the densified raster. MaxX and MaxY will be adapted according to this value.</ows:Abstract>
+				<ows:Title>Cell side</ows:Title>
+				<ows:Abstract><![CDATA[Cell side or pixel of the densified raster. If Xmax does not correspond to an integer value <i>n</i> such that Xmax=Xmin+n*Cpix, Xmax will be adapted accordingly. Similarly for Ymax.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param7"/>
 				<ows:Metadata xlink:title="Name:Spix"/>
 				<LiteralData>
@@ -104,7 +104,7 @@
 			<Output>
 				<ows:Identifier>RasterDensificat</ows:Identifier>
 				<ows:Title>Densified raster</ows:Title>
-				<ows:Abstract>Name of the densified raster file. If not indicated, it is assumed that both files have IMG extension.</ows:Abstract>
+				<ows:Abstract>Name of the densified raster file. If not indicated, it is assumed that both files have img extension.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:DensifiedRaster"/>
 				<ComplexOutput>
