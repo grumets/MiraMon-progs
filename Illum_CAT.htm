@@ -1,0 +1,198 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 10-11-2023 */-->
+<head>
+  <title>Illum: Càlcul de la il·luminació en cada punt d'un Model Digital
+  d'Elevacions</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/> Illum: Càlcul de la il·luminació en cada punt
+  d'un Model Digital d'Elevacions</h1>
+
+  <p>Aquest programa calcula, a partir d'un Model Digital d'Elevacions
+  (MDE), la il·luminació que rep cada punt del terreny quan el Sol ocupa una
+  certa posició a la volta celeste. Aquesta posició es pot donar:</p>
+
+  <ul>
+    <li>A partir d'una elevació i azimut solars en graus (per exemple
+    74.82 i 170.34, el programa <a href=".htm"></a> us donarà
+    aquesta informació si no la coneixeu) que són constants a tot l'àmbit
+    del MDE. Correspon a l'opció 1 del programa.
+    </li>
+
+    <li>A partir d'uns fitxers d'elevació (o angle respecte del zenit)
+    i azimut solars en graus o en unitats múltiples de grau (definint el
+    factor corresponent en la sintaxi), per exemple tal i com es proporciona
+    en el productes de MODIS MOD09 (podeu consultar <i>Surface Reflectance
+    User's Guide</i>). Correspon a les opcions 2 i 3 del programa.</li>
+  </ul>
+
+  <p>El fitxer resultant conté els valors del cosinus de l'angle
+  d'incidència, és a dir, els cosinus de l'angle entre el vector
+  normal al pla de màxim pendent en cada punt i el vector solar (donat per
+  l'elevació i azimut solars). Dels dos angles possibles (i&lt;180º i
+  i'&gt;180º, i+i'=360º) es dóna el cosinus del menor. 
+  <!-- Aquest paràmetre ja es llegeix sempre de les metadades i no té sentit
+Si el paràmetre "Conversor_alçades->Unitats_mapa" és 'x', el programa intentarà
+deduir-lo del camp "value units" de la documentació del FitxerMDE; per exemple,
+si les unitats del sistema de referència són metres ('m') i les unitats dels
+valors són decímetres ('dm'), el programa deduirà que ha d'aplicar un factor
+0.1 a les alçades per tal que siguin comparables amb la planimetria del MDE. Si 
+indiqueu un conversor (per exemple 1 si el sistema de referència i les alçades 
+s'expressen en les mateixes unitats), aquest valor serà utilitzat, sense tenir 
+en compte la documentació del fitxer.
+<P>
+--></p>
+
+  <p>El MDE pot ser en format byte, (short) integer o real, comprimit o
+  no-comprimit. Per defecte, el seu àmbit i resolució es traslladarà al Model
+  d'Il·luminacions resultat, però també pot ser de major detall i llavors
+  s'ajusta una petita superfície de tendència local al conjunt de cel·les
+  d'elevacions que donen lloc a una cel·la resultat. El vector normal a
+  aquesta superfície donarà lloc als càlculs relatius a la posició solar.</p>
+
+  <p>El fitxer resultant és sempre en format byte i conté els valors
+  'v' del cosinus de l'angle d'incidència escalats així:
+  v*100+100. D'aquesta manera, els valors del cosinus, que haurien de ser
+  en l'interval [-1,1], passen a ser en l'interval [0,200], adequat
+  per al format byte i que recull el valor del cosinus amb 3 xifres
+  significatives, suficient per a la majoria d'aplicacions. Així doncs, un
+  valor resultant de 173 ha d'interpretar-se com a un valor de cosinus de
+  0.73, corresponent a un angle d'incidència de 43º.</p>
+
+  <p>Si el vostre MDE conté cel·les amb valors especials sensedades (NODATA) i
+  aquests estan correctament documentats a les metadades, als píxels afectats
+  per un valor de fons en el MDE original se'ls assigna un valor final
+  255, que serà documentat com a NODATA. Això provocarà que tingueu una
+  lleugera reducció de l'àrea útil a les zones frontereres entre els
+  valors sensedades i els valors d'elevació, just perquè aquells valors
+  impedeixen d'efectuar en rigor el càlcul d'il·luminació. Una manera
+  de pal·liar aquest problema és executar una iteració de <a href="FagoVal.htm">FagoVal</a> abans d'executar Illum. Això permet ampliar
+  suficientment l'àrea amb alçades amb valors &quot;raonables&quot;. En
+  aquesta execució doneu el valor de fons com a valor a fagocitar i demaneu un
+  criteri de mitjana en la substitució.</p>
+
+  <p>Quan s'utilitza una resolució del MDE igual a la del Model
+  d'Il·luminacions resultant, el programa permet fer el càlcul amb els 4 veïns
+  més immediats a cada punt o bé utilitzar 8 veïns, que són els 4 anteriors i
+  els 4 veïns en diagonal. En aquest darrer cas, el pes dels 4 veïns en
+  diagonal és inferior en proporció a la major distància que els separa del
+  punt central a avaluar. Com s'ha dit, quan s'utilitza un MDE de resolució
+  superior, en realitat la modelització del pla del pendent es realitza, a
+  cada cel·la del Model d'Il·luminacions resultant, amb totes les cel·les del
+  MDE que estan ubicades al seu interior.</p>
+
+  <p>Si el MDE és un ràster multibanda, amb diferents costats de píxel per a
+  cada banda, cal usar el paràmetre <i>/MULTIBANDA</i> i generar com a
+  resultat un ràster multibanda amb els corresponents Models
+  d'Il·luminació. Cal tenir en compte que per l'opció 1, la posició
+  solar es considera única per a totes les bandes, i que si els àmbits fossin
+  excessivament allunyats caldria fer una execució banda a banda amb la
+  posició solar corresponent al centre de l'àmbit, o usar les opcions 2 o
+  3 on la posició solar es llegeix d'un fitxer.<br/>
+  Pel cas multibanda és possible definir un prefix que s'afegeixi als noms
+  dels fitxers originals per tal d'evitar conflictes de noms quan el resultat
+  s'ubica al mateix directori on hi ha fitxers amb noms iguals als dels
+  fitxers resultat.</p>
+  <hr/>
+
+  <exclusiva>
+    <a id="sintaxi" name="sintaxi"></a> Sintaxi:<br/>
+    Illum Opció MDE Resultat ElevacióSol AzimutSol N_veïns_o_grau [Patró]
+    <i>/MULTIBANDA /PREFIX= /FACTOR=</i>
+
+    <ul>
+      <li>Opció: Defineix les opcions principals del programa:
+
+        <ul>
+          <li>1: Elevació i azimut són paràmetres constants per tot
+          l'àmbit.</li>
+
+          <li>2: Elevació i azimut són fitxers ràster.</li>
+
+          <li>3: Variant de l'opció 2, on es proporciona un fitxer
+          d'angles solars respecte del zenit en comptes de respecte
+          l'horitzó (elevacions). L'angle zenital i el d'elevació
+          són angles complementaris.</li>
+        </ul>
+      </li>
+
+      <li>MDE: Model Digital d'Elevacions en format ràster IMG. També pot
+      ser un fitxer de text que llista un conjunt de fitxers ràster IMG en el
+      cas de les opcions vinculades al càlcul des d'una superfície de
+      tendència.</li>
+
+      <li>Resultat: Model d'Il·luminacions resultat en format ràster
+      IMG.</li>
+
+      <li>ElevacióSol: Valor o fitxer que determina l'elevació solar
+      (excepte en l'opció 3, que és un fitxer d'angles zenitals). En
+      el cas de ser un fitxer, ha de ser ràster IMG i no necessàriament amb la
+      mateixa resolució del Model d'Il·luminacions que es desitja
+      generar.</li>
+
+      <li>AzimutSol: Valor o fitxer que determina l'azimut solar. En el
+      cas de ser un fitxer, ha de ser ràster IMG i no necessàriament amb la
+      mateixa resolució del Model d'Il·luminacions que es desitja
+      generar.</li>
+
+      <li>N_veïns_o_grau:
+
+        <ul>
+          <li>4: S'usen 4 veïns pel càlcul de la normal a la superfície
+          del terreny. En aquesta opció, el Model d'Il·luminacions generat
+          serà de la mateixa resolució i àmbit que el MDE.</li>
+
+          <li>8: S'usen 8 veïns pel càlcul de la normal a la superfície
+          del terreny. Mateixes condicions que l'opció 4.</li>
+
+          <li>1: Es defineix una superfície de tendència local de grau 1 pel
+          càlcul de la normal a la superfície del terreny. En aquesta opció
+          el MDE té una resolució espacial superior (costat de cel·la
+          menor) al Model d'Il·luminacions generat, el qual hereta
+          l'àmbit i el costat de cel·la d'un fitxer Patró.</li>
+
+          <li>2: Es defineix una superfície de tendència local de grau 2 pel
+          càlcul de la normal a la superfície del terreny. Mateixes condicions
+          que l'opció 1.</li>
+
+          <li>3: Es defineix una superfície de tendència local de grau 3 pel
+          càlcul de la normal a la superfície del terreny. Mateixes condicions
+          que l'opció 1.</li>
+        </ul>
+      </li>
+
+      <li>[Patró] Paràmetre obligatori per les opcions 1, 2, 3 de
+      l'anterior paràmetre N_veïns_o_grau, que indica el ftxer ràster
+      patró que serveix per definir l'àmbit i el costat de cel·la del
+      Model d'Il·luminacions resultat.</li>
+    </ul>
+
+    <p>[Paràmetres optatius]</p>
+
+    <ul>
+      <li><i>/MULTIBANDA</i> Si el MDE és multibanda (habitualment
+      d'àmbit semblant i diferents costats de cel·la entre les bandes),
+      aquest paràmetre indica que es desitja un Model d'Il·luminacions
+      resultat també multibanda. Si el MDE és multibanda però no s'indica
+      aquest paràmetre s'efectua el càlcul d'il·luminacions sobre el fitxer
+      IMG indicat a la línia de comanda.</li>
+
+      <li><i>/PREFIX=</i> Defineix el prefix que s'afegeix als noms dels
+      fitxers originals per a determinar els noms dels fitxers corregits per
+      al cas <i>/MULTIBANDA</i>. Per defecte aquest prefix és <i>i_</i></li>
+
+      <li><i>/FACTOR=</i> Indica el factor multiplicatiu per passar de les
+      unitats dels valors del fitxers d'elevacions i azimuts a graus. Per
+      exemple per un ràster on les unitats són dècimes de grau (com en els
+      fitxers proporcionats per a MODIS), cal definir /FACTOR=0.01. Aquest
+      paràmetre és opcional (per defecte el factor serà 1) i només té sentit
+      per a les opcions principals 2 i 3. <!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+Illum ?
+--></li>
+    </ul>
+  </exclusiva>
+</body>
+</html>
