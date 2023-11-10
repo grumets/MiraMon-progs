@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 08-11-2023 */-->
+<!--/* Rev AA 10-11-2023 */-->
 <head>
   <title>MDTIso: Generació d'isolínies a partir d'un MDT.</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -24,7 +24,7 @@
     </ul>
 
     <p>En la fase de la generació dels vèrtexs d'isolínies es recorre el
-    ràster de l'MDT començant des de la cel·la situada a la part superior
+    ràster del MDT començant des de la cel·la situada a la part superior
     esquerra. Per a cada cel·la, es mira el seu valor Z i es compara amb el de
     la cel·la situada a la dreta i la situada a sota i, en el cas que un dels
     nivells d'isolínia hagi de passar entre aquestes cel·les, es fa una
@@ -35,24 +35,23 @@
     interpolats del MDT.</p>
 
     <p>Les dades bàsiques necessàries per a la generació d'isolínies són
-    el ràster de l'MDT, l'equidistància desitjada i el fitxer
-    vectorial de sortida. El ràster de l'MDT ha de
+    el ràster del MDT, l'equidistància desitjada i el fitxer
+    vectorial de sortida. El ràster del MDT ha de
     ser un fitxer en format .IMG i el tipus de dades pot ser qualsevol dels
     suportats pel MiraMon (consulteu <a href="..\mm32\AP1.htm">Descripció dels formats ràster del MiraMon</a>). El fitxer de sortida serà un vector
     estructurat en format .ARC.</p>
 
     <p>A partir del valor de l'equidistància i dels valors mínim i màxim
-    documentats en les metadades de l'MDT, es calcularan els diferents
+    documentats en les metadades del MDT, es calcularan els diferents
     nivells d'isolínies buscant múltiples des del valor origen que, en el
     cas que l'usuari no l'assigni, per defecte, serà 0. En el cas que
-    el mínim valor de l'MDT no correspongui a un valor Z d'una
+    el mínim valor del MDT no correspongui a un valor Z d'una
     isolínia, s'escollirà el valor Z de la primera isolínia que estigui
-    per sobre del mínim de l'MDT; per exemple, si el mínim de l'MDT és
+    per sobre del mínim del MDT; per exemple, si el mínim del MDT és
     230 m i l'equidistància és 100 m, s'escollirà el valor mínim de 300 m.
-    En el cas que el màxim valor de l'MDT no correspongui a un valor Z
+    En el cas que el màxim valor del MDT no correspongui a un valor Z
     d'una isolínia, s'escollirà el valor Z de la primera isolínia que
-    estigui per sota del màxim de l'MDT; per exemple, si el màxim de
-    l'MDT és 679 m i l'equidistància és 200 m, s'escollirà el valor
+    estigui per sota del màxim del MDT; per exemple, si el màxim del MDT és 679 m i l'equidistància és 200 m, s'escollirà el valor
     màxim de 600 m. Existeix la possibilitat que l'usuari pugui escollir
     entre quins valors Z vol generar isolínies mitjançant els paràmetres
     opcionals de mínim i màxim valor Z de les isolínies.</p>
@@ -65,12 +64,12 @@
 
     <p>En el cas que es vulgui generar isolínies de dos o més MDT limítrofs,
     l'algorisme permet limitar la cerca de vèrtexs d'isolínies fins a
-    una distància de mig píxel de les vores de l'MDT. En aquest cas, és
+    una distància de mig píxel de les vores del MDT. En aquest cas, és
     necessari que hi hagi un recobriment comú d'un píxel entre els MDT a
     fi d'aconseguir una perfecta coincidència en els processos de generació
     d'isolínies a ambdós fitxers en els punts de contacte entre ells. Per a un recobriment correcte, cal
     assignar el mateix índex de densificació i la mateixa tolerància del valor
-    Z, en el cas que el valor de la cel·la de l'MDT coincideixi amb el
+    Z, en el cas que el valor de la cel·la del MDT coincideixi amb el
     valor Z d'una de les isolínies, per a cada MDT limítrof.</p>
 
     <p>L'algorisme permet generar isolínies obtingudes des d'un
@@ -112,7 +111,7 @@
 <ul>
 <li>Eliminar isolínies irrellevants quant a la seva longitud (molt curtes) de manera automàtica. A tal efecte, es poden fer seleccions dels arcs prou llargs amb <a href="VecSelec.htm">VecSelec</a>.</li>
 <li>Si el pas anterior no fos suficient, per a eliminar artefactes com isolínies no tancades al mig del mapa [sense contacte amb l'envolupant] es pot fer de la següent manera:<ul>
-<li>Amb control manual: obrint l'MDT original i la capa de punts problema generada amb el paràmetre /PROBL= i, a continuació, obrir la capa d'arcs generada en mode digitalització (F2) i examinar cada cas de punt problemàtic (normalment seran nodes finals) i decidir si eliminar la línia, si tancar-la sobre si mateixa, etc.</li>
+<li>Amb control manual: obrint el MDT original i la capa de punts problema generada amb el paràmetre /PROBL= i, a continuació, obrir la capa d'arcs generada en mode digitalització (F2) i examinar cada cas de punt problemàtic (normalment seran nodes finals) i decidir si eliminar la línia, si tancar-la sobre si mateixa, etc.</li>
 <li>Automàticament: seleccionant les línies que tenen una longitud més gran a un cert llindar que es consideri rellevant [que haurà de ser estimar prèviament de manera visual] i que, alhora, NO contenen nodes finals [convindrà fer un <i>join</i> entre la taula d'arcs i la de nodes per a obtenir, per a cada arc, quins tenen nodes finals (tipus de node = 3)].</li>
 </ul>
 </ul>
