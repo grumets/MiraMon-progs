@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 03-11-2023 */-->
+<!--/* Rev AA 16-11-2023 */-->
 <head>
   <title>AdapRas: Raster fitting</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -15,53 +15,46 @@
   <p>The operation in AdapRas is made based on the relation of the three parameters described below:  </p>
   <blockquote>
     <li>Side</li>
-    <li>Net</li>
+    <li>Grid origin</li>
     <li>Horizontal reference system</li>
   </blockquote>
 
-    <p>If the sides, net and horizontal reference systems are equal, an adaptation is made to the envelope of the second raster. The values of the result will be the same as those of the raster to be adapted, except those of the area of the raster that does not have any point on the raster to be adapted, in this case the values will be equal to NoData. Any resampling is done.</p>
+    <p>If the sides, grid origin and horizontal reference systems are equal, an adaptation is made to the bounding box of the second raster. The values of the result will be the same as those of the raster to be adapted, except those of the area of the raster that does not have any point on the raster to be adapted, in these cells, the values will be equal to NoData. Any resampling is done.</p>
 
-    <p>If the reference systems are the same, but the sides and/or the nets are different, a fitting by densification of rasters is performed, according to one of the four resampling methods: nearest neighbor, 4 neighbors mode, bilinear interpolation or bicubic interpolation.</p>
+    <p>If the reference systems are the same, but the sides and/or the grid origin are different, a fitting by raster resampling is performed, according to one of the four  following methods: nearest neighbor, 4 neighbors mode, bilinear interpolation or bicubic interpolation. In these last two options (bilinear interpolation and bicubic interpolation), when the value resulting from the resampling is a value outside the range of values of the original raster (lower than the minimum value or higher than the maximum value of the original raster), the user is allowed to select between to saturate the resampled value to the minimum value of the original raster (or maximum as appropriate) or assign NoData.</p>
 
-    <p>If the geographic reference systems are different, a system change is made (projection parameters, datum). In this case, a resampling will be done according to one of the four methods: nearest neighbor, 4 neighbors mode, bilinear interpolation or bicubic interpolation.</p>
+    <p>If the horizontal reference systems are different, a system change is made (projection parameters, datum, etc). In this case, a resampling will be done according to one of the four methods explained before.</p>
 
-  <p>The NoData value will be equal, as appropriate, to the value given by the user, if not beyond the range of raster data representation to adapt or, alternatively, the present value of the raster to adapt or, however, if this is not defined, an implicit value that depends on the type of raster data to adapt as detailed below.</p>
+  <p>The NoData value will be equal, as appropriate, to the value given by the user if not beyond the range of raster data representation to adapt or, otherwise, the present value of the raster to adapt, except when it is not defined, case in which it is written a value that depends on the type of raster data to adapt as detailed below.</p>
 
   <div align="center">
-    <table border="2" bordercolor="#000000" width="332">
-      <tr>
-        <th scope="col" width="162">Data Type</th>
-
-        <th scope="col" width="160"><b>NoData Value</b></th>
+    <table border="1" bordercolor="#000000" width="332">
+      <tr bgcolor="#ABC8FE">
+        <th scope="col" width="162">Data type</th>
+        <th scope="col" width="160"><b>NoData value</b></th>
       </tr>
-
       <tr>
         <td>bit (logical)</td>
-
         <td>0</td>
       </tr>
-
       <tr>
-        <td>byte (character)</td>
-
+        <td>byte</td>
         <td>255</td>
       </tr>
-
       <tr>
-        <td>integer (enter)</td>
-
+        <td>integer</td>
         <td>-32768</td>
       </tr>
-
+      <tr>
+        <td>unsigned integer</td>
+        <td>65535</td>
+      </tr>
       <tr>
         <td>long</td>
-
         <td>-2147483648</td>
       </tr>
-
       <tr>
         <td>real</td>
-
         <td>-3.4E+38</td>
       </tr>
     </table>

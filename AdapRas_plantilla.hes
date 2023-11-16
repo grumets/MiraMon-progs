@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 03-11-2023 */-->
+<!--/* Rev AA 16-11-2023 */-->
 <head>
   <title>AdapRas: Adaptación de rásters</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -11,60 +11,51 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-
   <p>La operación que se lleva a cabo con AdapRas depende de la relación de los tres parámetros siguientes:</p>
     <blockquote>
     <li>Lado</li>
-    <li>Malla</li>
+    <li>Origen de malla</li>
     <li>Sistema de referencia horizontal</li>
   </blockquote>
 
-    <p>Si los lados, las mallas i los sistemas de referencia geográfica son iguales, se realiza una adaptación a la envolvente del segundo ráster. Los valores del resultado serán los mismos que los del ráster a adaptar, excepto los del ámbito del ráster que no tenga ningún punto sobre el ráster a adaptar, en este caso los valores serán iguales a sindatos. No se hace realiza ningún remuestreo.</p>
+    <p>Si los lados, el origen de malla y los sistemas de referencia geográfica son iguales, se realiza una adaptación a la envolvente del segundo ráster. Los valores del resultado serán los mismos que los del ráster a adaptar, excepto los del ámbito del ráster que no tenga ningún punto sobre el ráster a adaptar, en estas celdas, los valores serán iguales a sindatos. No se hace realiza ningún remuestreo.</p>
 
-    <p>Si los sistemas de referencia son iguales, pero los lados y/o las mallas son distintas, se realiza una adaptación por densificación de rásters, según uno de los cuatro métodos de remuestreo: vecino más próximo, moda a 4 vecinos, interpolación bilineal o interpolación bicúbica.</p>
+    <p>Si los sistemas de referencia son iguales, pero los lados y/o el origen de malla son distintos, se realiza una adaptación por remuestreo de rásters, según uno de los cuatro métodos siguientes: vecino más próximo, moda a 4 vecinos, interpolación bilineal o interpolación bicúbica. En estas dos últimas opcions (interpolación bilineal y interpolación bicúbica), cuando el valor resultado del remuestreo es un valor fuera del rango de valores del ráster original (inferior al valor mínimo o superior al valor máximo del ráster original), se permite que la persona usuaria seleccione si se desea saturar el valor remuestreado al valor mínimo del ráster original (o máximo según corresponda) o asignar sindatos. </p>
 
-    <p>Si los sistemas de referencia geográfica son distintos, se realiza un cambio de sistema (parámetros de la proyección, datum). En este caso se hará un remuestreo según uno de los cuatro métodos: el vecino mas próximo, la moda a 4 vecinos, la interpolación bilineal o la interpolación bicúbica.</p>
+    <p>Si los sistemas de referencia horizontal son distintos, se realiza un cambio de sistema (parámetros de la proyección, datum, etc). En este caso se hará un remuestreo según uno de los cuatro métodos del parágrafo anterior.</p>
 
-
-  <p>El valor sindatos será igual, según el caso, al valor dado por la persona usuaria, si este no ultrapasa el rango de representación de los datos del ráster a
-  adaptar o, en su defecto, al valor presente en el ráster a adaptar, o bien,
-  si este no esta definido, a un valor implícito que depende del tipo de datos del ráster a adaptar que se detalla abajo.</p>
+  <p>El valor sindatos será igual, según el caso, al valor dado por la persona usuaria si este no ultrapasa el rango de representación de los datos del ráster a
+  adaptar o, en caso contrario, al valor presente en el ráster a adaptar, excepto cuando
+ este no está definido, caso en el cual se escribe un valor que depende del tipo de datos del ráster a adaptar y que se detalla abajo.</p>
 
   <div align="center">
-    <table border="2" bordercolor="#000000" width="332">
-      <tr>
+    <table border="1" bordercolor="#000000" width="332">
+      <tr bgcolor="#ABC8FE">
         <th scope="col" width="162">Tipo de datos</th>
-
         <th scope="col" width="160"><b>Valor sindatos</b></th>
       </tr>
-
       <tr>
         <td>bit (lógico)</td>
-
         <td>0</td>
       </tr>
-
       <tr>
-        <td>byte (carácter)</td>
-
+        <td>byte</td>
         <td>255</td>
       </tr>
-
       <tr>
-        <td>integer (enter)</td>
-
+        <td>integer (entero)</td>
         <td>-32768</td>
       </tr>
-
+       <tr>
+        <td>unsigned integer (entero corto sin signo)</td>
+        <td>65535</td>
+      </tr>
       <tr>
-        <td>long (largo)</td>
-
+        <td>long (entero largo)</td>
         <td>-2147483648</td>
       </tr>
-
       <tr>
         <td>real</td>
-
         <td>-3.4E+38</td>
       </tr>
     </table>
@@ -72,15 +63,15 @@
 
   <p>RESUMEN DE RECOMENDACIONES (donde se indica el programa  <a href="DensRas.htm">DensRas</a> también aplica al  <a href="AdapRas.htm">AdapRas</a>)
   <pre>
-EXPANSIÓN:   + Mapa categórico:    CanviRes [seguido opcionalmente de método tesis X. Pons]
-             + Imagen de sensor:   CanviRes para clasificación (no recomendado)
-                                  DensRas L,  para análisis visual
-             + MDE:               DensRas L
+EXPANSIÓN:   + Mapa categórico:  CanviRes [seguido opcionalmente de método tesis X. Pons]
+             + Imagen de sensor: CanviRes para clasificación (no recomendado)
+                                 DensRas L,  para análisis visual
+             + MDE:              DensRas L
 
-CONTRACCIÓN: + Mapa categórico:    CanviRes, opción M
-             + Imagen de sensor:   CanviRes, opción C para clasificación
-                                   CanviRes, opción d o m para análisis visual
-             + MDE:                CanviRes, opción d o m para altitudes medianas o medias
+CONTRACCIÓN: + Mapa categórico:  CanviRes, opción M
+             + Imagen de sensor: CanviRes, opción C para clasificación
+                                 CanviRes, opción d o m para análisis visual
+             + MDE:              CanviRes, opción d o m para altitudes medianas o medias
                                  DensRas L,  para altitudes que prioricen valores centrales a la celda resultante
 </pre>  <hr/>
   <exclusiva>

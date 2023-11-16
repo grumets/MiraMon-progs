@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 03-11-2023 */-->
+<!--/* Rev AA 16-11-2023 */-->
 <head>
   <title>AdapRas: Adaptació de ràsters</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -15,70 +15,60 @@
   <p>L'operació que es duu a terme amb l'AdapRas depèn de la relació dels tres paràmetres següents: </p>
    <blockquote>
     <li>Costat</li> 
-    <li>Malla</li>
+    <li>Origen de malla</li>
     <li>Sistema de referència horitzontal</li>
   </blockquote>
-
   
-    <p>Si els costats, les malles i els sistemes de referència geogràfica
+    <p>Si els costats, l'origen de malla i els sistemes de referència geogràfica
     són iguals, es realitza una adaptació a l'envolupant del segon ràster. Els
     valors del resultat seran els mateixos que els del ràster a adaptar, tret
     de l'àmbit del ràster resultat que no tingui cap punt sobre el del ràster
-    a adaptar, i en aquest cas, els valors seran iguals a sensedades. No es realitza cap
+    a adaptar, i en aquestes cel·les, els valors seran iguals a sensedades. No es realitza cap
     remostreig.</p>
 
-    <p>Si els sistemes de referència són iguals, però els costats i/o les
-    malles són diferents, es realitza una adaptació per
-    densificació de ràsters, segons un dels quatre mètodes de remostreig: veí més proper,
-    moda de 4 veïns, interpolació bilineal o interpolació bicúbica.</p>
+    <p>Si els sistemes de referència són iguals, però els costats i/o l'origen de
+    malla són diferents, es realitza una adaptació per
+    remostreig de ràsters, segons un dels quatre mètodes següents: veí més proper,
+    moda de 4 veïns, interpolació bilineal o interpolació bicúbica. En aquestes dues darreres opcions (interpolació bilineal i interpolació bicúbica), quan el valor resultat del remostreig és un valor fora del rang de valors  del ràster original (inferior al valor mínim o superior al valor màxim del ràster original), es permet que la persona usuària seleccioni si es desitja saturar el valor remostrejat al valor mínim del ràster original (o màxim segons correspongui) o bé assignar sensedades. </p>
 
-    <p>Si els sistemes de referència geogràfica són diferents, es realitza
-    un canvi de sistema (paràmetres de la projecció, dàtum). En aquest cas es
-    farà un remostreig segons un dels quatre mètodes: el veí més proper, la
-    moda de 4 veïns, la interpolació bilineal o la interpolació bicúbica.</p>
+    <p>Si els sistemes de referència horitzontal són diferents, es realitza
+    un canvi de sistema (paràmetres de la projecció, dàtum, etc). En aquest cas es
+    farà un remostreig segons un dels quatre mètodes del paràgraf anterior.</p>
 
-
-  <p>El valor sensedades serà igual, segons el cas, al valor donat per la persona usuària,
+  <p>El valor sensedades serà igual, segons el cas, al valor donat per la persona usuària
   si aquest no ultrapassa el rang de representació de les dades del ràster a
-  adaptar o, en el seu defecte, al valor present en el ràster a adaptar, o bé,
-  si aquest no està definit, a un valor implícit que depèn del tipus de dades
-  del ràster a adaptar que es detalla més avall.</p>
+  adaptar o, en cas contrari, al valor present en el ràster a adaptar, excepte quan
+  aquest no està definit, cas en el qual s'escriu un valor que depèn del tipus de dades
+  del ràster a adaptar i que es detalla més avall.</p>
 
   <div align="center">
-    <table border="2" bordercolor="#000000" width="332">
-      <tr>
+    <table border="1" bordercolor="#000000" width="332">
+      <tr bgcolor="#ABC8FE">
         <th scope="col" width="162">Tipus de dades</th>
-
         <th scope="col" width="160"><b>Valor sensedades</b></th>
       </tr>
-
       <tr>
         <td>bit (lògic)</td>
-
         <td>0</td>
       </tr>
-
       <tr>
-        <td>byte (caràcter)</td>
-
+        <td>byte</td>
         <td>255</td>
       </tr>
-
       <tr>
         <td>integer (enter)</td>
-
         <td>-32768</td>
       </tr>
-
       <tr>
-        <td>long (llarg)</td>
-
+        <td>unsigned integer (enter curt sense signe)</td>
+        <td>65535</td>
+      </tr>
+      <tr>
+        <td>long (enter llarg)</td>
         <td>-2147483648</td>
       </tr>
-
       <tr>
         <td>real</td>
-
         <td>-3.4E+38</td>
       </tr>
     </table>
