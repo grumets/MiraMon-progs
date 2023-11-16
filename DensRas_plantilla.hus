@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 09-11-2023 */-->
+<!--/* Rev AA 16-11-2023 */-->
 <head>
   <title>DensRas: Raster densification and dedensification</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -13,19 +13,21 @@
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
   <p>In order to change the cell size of a raster without changing the grid origin, use the <a href="CanviRes.HTM">CanviRes</a> program. For more sophisticated operations, and particularly to expand the geographic extent by filling it with NoData, use the program <a href="AdapRas.HTM">AdapRas</a>. At the end of this text there is a summary explaining when CanviRes should be used and when DensRas should be used, including the options for each one.</p>
+  
   <p>It must be considered that if the cell side change is a factor greater than 2, the mode created may be unsatisfactory because it is not using all the original cells that fall geometrically on the final cells, but only the 4 central ones. In these cases, it is preferable to approach the desired cell size using <a href="CanviRes.HTM">CanviRes</a> before using DensRas. This "defect" is also present, by definition, when bilinear (or bicubic) interpolations are performed. In this case, you can proceed by progressive increments of cell size in factors of 2. However, if the user prefers each cell of the new raster to have a value calculated from the original values closest to its center, it is correct to apply the DensRas directly. This would be the case if the user has a Digital Elevation Model (DEM) of 2 m cell side and wants to obtain a new DEM with cells of 20 m side but in which the value in each cell is not calculated (operation that would be carried out with CanviRes) with the median or mean of the 100 2x2 m<sup>2</sup> cells corresponding to each new 20x20 m<sup>2</sup> cell, but rather it is calculated with bilinear interpolation  of the 4 2x2 m<sup>2</sup> cells closest to the center of the new cell, or with the bicubic interpolation of the 16 2x2 m<sup>2</sup> cells closest to the center of the new cell. In this case, the data from the cells of the new raster will report the elevations in the center of the 20x20 m<sup>2</sup> cell, while if it had been done with CanviRes they would report a more representative data (by the median or mean) of all elevations of the 20x20 m<sup>2</sup> cell. It is important to realize that:
 <ul>
 <li>One method is not better than the other: Depending on the objective of changing the raster cell size, CanviRes (values are more representative of the cell surface) or DensRas (values more representative of the center of the cell) may be more convenient, and the values of cells in the output raster may be quite different from those located at approximately the same cell centers in the original raster.</li>
 <li>If the difference between input and output cell sizes is small or non-existent (such as when the user only wants to change the origin grid), using one method or the other will not imply large differences between the values of the output raster cells and those located at approximately the same cell centers in the original raster.</li>
 </ul>
-</p>
+
   <p>In the process of densification (or dedensification) of a raster, with the same bounding box as the original raster, the treatment that is carried out on the edges during resampling is, in reality, a simplification, due to the non existence of cell information beyond the bounding box. Therefore, it is not convenient to directly connect adjacent tiles resulting from a densification, but it is necessary to have a certain extra area around the desired one in order to be fully reliable. In other words, when the user densifies exactly between the original raster coordinates on a tessellation and does the same procedure on a neighboring tessellation that does not have data in common geographic areas (i.e., no overlap between tiles), the application of algorithms related to hydrological flows may cause inaccuracies or calculation artifacts in the border areas between tiles once the tiles are mosaicked; in these cases the ideal is to have, for each tile, an extra "concentric" strip (all the way around), do the resampling and finally, before making the mosaic of the tiles to obtain a single work area, cut each tile to exclude the extra area and that they are again "exactly touching, without overlapping" (but having been calculated with an extra area for more accuracy of resampling):</p>
+  
   <blockquote>
    <li> If bilinear interpolation is to be used, it is recommended to extend a 1-cell strip to the entire margin of the original raster, run DensRas and finally remove this 1-cell strip.</li>
 	<li>If bicubic interpolation has been used, it is recommended to proceed in a similar way but in this case extending (and removing at the end) a strip of 2 cells to the entire margin of the raster.</li>
   </blockquote>
   
-  <p>RECOMMENDATIONS SUMMARY (where <a href="DensRas.htm">DensRas</a> program is indicated also applies to <a href="AdapRas.htm">AdapRas</a>AdapRas)
+  <p>RECOMMENDATIONS SUMMARY (where <a href="DensRas.htm">DensRas</a> program is indicated also applies to <a href="AdapRas.htm">AdapRas</a>)
   <pre>
 EXPANSION:  + Categorical map:   CanviRes [followed by the method in X. Pons' Ph D thesis]
             + Sensor image:      CanviRes for classification (not recommended)
@@ -37,7 +39,9 @@ CONTRACTION:+ Categorical map:   CanviRes, M option
                                  CanviRes, d or m option for visual analysis
             + DEM:               CanviRes, d or m option for median or mean heights
                                  DensRas L, for heights that prioritize central values in the resulting cell
-</pre><hr/>
+</pre>
+
+<hr/>
 
   <exclusiva>
    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->

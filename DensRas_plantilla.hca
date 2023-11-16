@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 09-11-2023 */-->
+<!--/* Rev AA 16-11-2023 */-->
 <head>
   <title>DensRas: Densificació i desdensificació de ràsters</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -18,16 +18,16 @@
 <ul>
 <li>Un mètode no és millor que l'altre: segons l'objectiu del canvi de grandària de cel·la del ràster, pot convenir més CanviRes (valors més representatius de la superfície de la cel·la) o DensRas (valors més representatius del centre de la cel·la), i els valors de les cel·les del ràster de sortida poden ser força diferents als de les situades aproximadament als mateixos centres de cel·la al ràster original. </li>
 <li>Si la diferència entre grandàries de cel·la d'origen i destí és petita o nul·la (com quan només volem canviar l'origen de malla), utilitzar un mètode o un altre no implicarà grans diferències entre els valors de les cel·les del ràster de sortida i els de les situades aproximadament als mateixos centres de cel·la al ràster original.</li>
-</ul></p>
+</ul>
 
-<p>Cal tenir present que en procés de densificació (o desdensificació) d'un ràster, amb la mateixa envolupant del ràster original, el tractament que es realitza a les vores durant el remostreig és, en realitat, una simplificació, a causa de la no existència d'informació de les cel·les més enllà de l'envolupant. Per tant, no és convenient connectar directament per adjacència tessel·les resultat d'una densificació, sinó que cal disposar d'una certa àrea extra a l'entorn de la desitjada per tal que sigui plenament fiable. En altres paraules, quan es densifica exactament entre les coordenades del ràster original en una tessel·la i es realitza el mateix procediment en una tessel·la veïna que no té dades en zones geogràfiques comunes (i.e., no hi ha encavalcament entre tessel·les), l'aplicació d'algorismes relacionats amb fluxos hidrològics pot provocar imprecisions o artefactes de càlcul a les zones frontereres entre tessel·les un cop es fa el mosaic de les tessel·les; en aquests casos l'ideal és disposar, per a cada tessel·la, d'una franja “concèntrica” (a tot el marge) extra, fer el remostreig i finalment, abans de fer el mosaic de les tessel·les per a obtenir una àrea única de treball, retallar cada tessel·la per tal d'excloure l'àrea extra i que ja quedin de nou “tocant-se exactament, sense encavalcaments” (però havent-se calculat amb una zona extra per a més exactitud del remostreig):</p>
+<p>Cal tenir present que en procés de densificació (o desdensificació) d'un ràster, amb la mateixa envolupant del ràster original, el tractament que es realitza a les vores durant el remostreig és, en realitat, una simplificació, a causa de la no existència d'informació de les cel·les més enllà de l'envolupant. Per tant, no és convenient connectar directament per adjacència tessel·les resultat d'una densificació, sinó que cal disposar d'una certa àrea extra a l'entorn de la desitjada per tal que sigui plenament fiable. En altres paraules, quan es densifica exactament entre les coordenades del ràster original en una tessel·la i es realitza el mateix procediment en una tessel·la veïna que no té dades en zones geogràfiques comunes (i.e., no hi ha encavalcament entre tessel·les), l'aplicació d'algorismes relacionats amb fluxos hidrològics pot provocar imprecisions o artefactes de càlcul a les zones frontereres entre tessel·les un cop es fa el mosaic de les tessel·les; en aquests casos l'ideal és disposar, per a cada tessel·la, d'una franja "concèntrica" extra (a tot el marge), fer el remostreig i finalment, abans de fer el mosaic de les tessel·les per a obtenir una àrea única de treball, retallar cada tessel·la per tal d'excloure l'àrea extra i que ja quedin de nou "tocant-se exactament, sense encavalcaments" (però havent-se calculat amb una zona extra per a més exactitud del remostreig):</p>
 
 <blockquote>
 <li>Si s'ha d'utilitzar interpolació bilineal, es recomana  ampliar una franja d'1 cel·la a tot el marge del ràster original, executar el DensRas i finalment eliminar aquesta franja d'1 cel·la.</li> 
 <li>Si s'ha d'utilitzar interpolació bicúbica, es recomana procedir de manera similar però en aquest cas ampliant (i eliminant al final) una franja de 2 cel·les a tot el marge del ràster.</li>
 </blockquote>
 
-<p>RESUM DE RECOMANACIONS (on s'indica el programa <a href="DensRas.htm">DensRas</a> també aplica a l'<a href="AdapRas.htm">AdapRas</a>AdapRas)
+<p>RESUM DE RECOMANACIONS (on s'indica el programa <a href="DensRas.htm">DensRas</a> també aplica a l'<a href="AdapRas.htm">AdapRas</a>)
   <pre>
 EXPANSIÓ:   + Mapa categòric:    CanviRes [seguit opcionalment de mètode tesi X. Pons]
             + Imatge de sensor:  CanviRes per a classificació (no recomanat)
