@@ -3,9 +3,9 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:InsolDia:1</ows:Identifier>
 		<ows:Title>InsolDia</ows:Title>
-		<ows:Abstract>Given a digital elevation model (DEM), this program calculates the incident solar radiation at each point during a particular day of the year. In addition to solar irradiance and atmospheric transmittance, the program takes into account the position of the Sun in user-defined time limits (one hour, for example), the incidence angles, the projected shadows and the distance from the Earth to the Sun.</ows:Abstract>
+		<ows:Abstract>This program calculates the incident solar radiation at each point during a particular day of the year, given a Digital Elevation Model (DEM). In addition to solar irradiance and atmospheric transmittance, the program takes into account the position of the Sun in user-defined time limits (one hour, for example), the incidence angles, the projected shadows and the distance from the Earth to the Sun.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Program for computing the solar radiation during one day"/>
-		<ows:Metadata xlink:title="Abstract:Given a digital elevation model (DEM), this program calculates the incident solar radiation at each point during a particular day of the year. In addition to solar irradiance and atmospheric transmittance, the program takes into account the position of the Sun in user-defined time limits (one hour, for example), the incidence angles, the projected shadows and the distance from the Earth to the Sun."/>
+		<ows:Metadata xlink:title="Abstract:This program calculates the incident solar radiation at each point during a particular day of the year, given a Digital Elevation Model (DEM). In addition to solar irradiance and atmospheric transmittance, the program takes into account the position of the Sun in user-defined time limits (one hour, for example), the incidence angles, the projected shadows and the distance from the Earth to the Sun."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>MDE</ows:Identifier>
@@ -164,7 +164,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>percent_difus</ows:Identifier>
 				<ows:Title>Percentage of diffuse vs direct radiation</ows:Title>
-				<ows:Abstract>Percentage of diffuse radiation with respect to direct radiation with tau_0_day_clear. It can be a constant value for the entire raster, or be read from a raster specified in the /PERC_DIF_VS_DIRECT= parameter. Typically a value of 20 for 20% can be used.</ows:Abstract>
+				<ows:Abstract>Percentage of diffuse radiation (calculated with tau_0_dia_clar) with respect to direct radiation. It can be a constant value for the entire raster, or be read from a raster specified in the /PERC_DIF_VS_DIRECT= parameter. Typically a value of 20 for 20% can be used.</ows:Abstract>
 				<ows:Metadata xlink:title="Param11"/>
 				<ows:Metadata xlink:title="Name:percent_diffuse"/>
 				<LiteralData>
@@ -233,7 +233,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PERC_DIF_VS_DIRECT</ows:Identifier>
 				<ows:Title>PERC_DIF_VS_DIRECT</ows:Title>
-				<ows:Abstract><![CDATA[It is allowed, through the optional parameter /PERC_DIF_VS_DIRECT=, that the percentage of diffuse radiation in relation to direct radiation be a specific value for each cell of the MDE (for example by interpolating data from solar radiation ground stations). In this case, /PERC_DIF_VS_DIRECT= will indicate where is the raster that contains the percentage values in each cell; for example /PERC_DIF_VS_DIRECT=c:\RadSolar\Perc_difusa_vs_directa.img. This raster contains 4-byte real values and will have the same SRH and dimensions as the MDE; <a href="CanviPrj.htm">CanviPrj</a> and/or <a href="AdapRas.htm">AdapRas</a> can be used if needed. When the /PERC_DIF_VS_DIRECT= parameter is specified, the program ignores the eleventh parameter of the command line (which is a general percentage value for the entire raster); in this case it is suggested to indicate, for neatness, a value of -1 in the eleventh parameter. Raster values are expressed as a percentage.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[It is allowed, through this optional parameter, that the percentage of diffuse radiation in relation to direct radiation be a specific value for each cell of the MDE (for example by interpolating data from solar radiation ground stations). In this case, /PERC_DIF_VS_DIRECT= will indicate where is the raster that contains the percentage values in each cell; for example /PERC_DIF_VS_DIRECT=c:\RadSolar\Perc_difusa_vs_directa.img. This raster contains 4-byte real values and will have the same SRH and dimensions as the MDE; <a href="CanviPrj.htm">CanviPrj</a> and/or <a href="AdapRas.htm">AdapRas</a> can be used if needed. When the /PERC_DIF_VS_DIRECT= parameter is specified, the program ignores the eleventh parameter of the command line (which is a general percentage value for the entire raster); in this case it is suggested to indicate, for neatness, a value of -1 in the eleventh parameter. Raster values are expressed as a percentage.]]></ows:Abstract>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -252,7 +252,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>IRRAD_ESPEC</ows:Identifier>
 				<ows:Title>IRRAD_ESPEC</ows:Title>
-				<ows:Abstract>It is allowed to indicate whether the units to be documented are irradiance (indicate 0) or spectral irradiance [per wavelength unit] (indicate 1). The default value is 1, which corresponds to program versions prior to September 2023.</ows:Abstract>
+				<ows:Abstract>It is allowed to indicate whether the units to be documented are irradiance (0 must be indicated), typical when the exoatmospheric irradiance provided is the solar constant (in this case 10 kJ/(m²*day) will be documented for example), or spectral irradiance [per wavelength unit] (1 must be specified), typical when to calculate radiation in a spectral region, such as red, and the exoatmospheric irradiance provided is spectral [per unit wavelength] (in this case for example 10 kJ/(m²*µm*day) will be documented). The default value is 1, which corresponds to program versions prior to September 2023.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -264,7 +264,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>DadesRad</ows:Identifier>
 				<ows:Title>DadesRad</ows:Title>
-				<ows:Abstract>It is allowed to indicate (Int_10kJ) whether the desired output format is 2-byte signed rounded integers (default mode and equal to program versions before September 2023) or 4-byte reals (Real_10kJ).</ows:Abstract>
+				<ows:Abstract>It is allowed to indicate (Int_10kJ) whether the desired output format is 2-byte signed rounded integers of "10 kJ/(m²*day*µm) (default mode and equal to program versions before September 2023) or 4-byte reals (Real_10kJ).</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
