@@ -5,7 +5,7 @@
 		<ows:Title>Datos estadísticos de un ráster.</ows:Title>
 		<ows:Abstract>Esta opción calcula datos estadísticos de un solo ráster (monobanda o multibanda).</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Estadísticas de un ráster o de una série de rásters"/>
-		<ows:Metadata xlink:title="Abstract:Este módulo realiza cálculos estadísticos de un ráster, de una serie de rásters o la normalización de un ráster."/>
+		<ows:Metadata xlink:title="Abstract:Esta aplicación realiza cálculos estadísticos de un ráster, de una serie de rásters o la normalización de un ráster."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -43,15 +43,41 @@
 				</ComplexData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tractament</ows:Identifier>
+				<ows:Metadata xlink:title="Param4"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>C</ows:Value>
+						<ows:Value>N</ows:Value>
+						<ows:Value>M</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>M</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Tratamiento</ows:Identifier>
 				<ows:Title>Tratamiento de los datos origen</ows:Title>
-				<ows:Abstract>Indica el tratamiento de los datos del ráster origen:<![CDATA[<ul>
+				<ows:Abstract><![CDATA[Indica el tratamiento de los datos del ráster origen:<ul>
           <li>C: Categórico.</li>
           <li>N: Cuantitativo.</li>
           <li>M: Según metadatos.</li>
           </ul>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:Tratamiento"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>C</ows:Value>
+						<ows:Value>N</ows:Value>
+						<ows:Value>M</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>M</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Treatment</ows:Identifier>
+				<ows:Metadata xlink:title="Param4"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -196,16 +222,14 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PERCENTIL</ows:Identifier>
-				<ows:Title>Percentil</ows:Title>
-				<ows:Abstract>Para calcular el percentil escogido por el usuario del ráster origen.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Range>
 							<ows:MinimumValue>0</ows:MinimumValue>
 							<ows:MaximumValue>100</ows:MaximumValue>
+							<ows:Spacing></ows:Spacing>
 						</ows:Range>
-						<ows:Value/>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -213,17 +237,11 @@
 				<ows:Identifier>MULTIBANDA</ows:Identifier>
 				<ows:Title>Multibanda</ows:Title>
 				<ows:Abstract>Parámetro opcional por si se quiere utilizar todas las bandas del fichero de entrada.</ows:Abstract>
-				<LiteralData>
-					<ows:AllowedValues>
-						<ows:Value>##blank##</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MEDIANA_EMPAT</ows:Identifier>
 				<ows:Title>Desempate para la mediana</ows:Title>
-				<ows:Abstract>En caso de que se haya indicado el cálculo de la Mediana o de la Media de la desviación absoluta respecto la mediana, indica qué desempate usar para la mediana, en caso de tener un número par de valores:<![CDATA[<ul>
+				<ows:Abstract><![CDATA[En caso de que se haya indicado el cálculo de la Mediana o de la Media de la desviación absoluta respecto la mediana, indica qué desempate usar para la mediana, en caso de tener un número par de valores:<ul>
           <li>1: Valor alternado.</li>
           <li>2: Valor inferior.</li>
           <li>3: Valor superior.</li>
@@ -238,6 +256,34 @@
 						<ows:Value>4</ows:Value>
 					</ows:AllowedValues>
 					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PERCENTIL</ows:Identifier>
+				<ows:Title>Percentil</ows:Title>
+				<ows:Abstract>Para calcular el percentil escogido por el usuario del ráster origen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>100</ows:MaximumValue>
+							<ows:Spacing></ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PERCENTIL</ows:Identifier>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>100</ows:MaximumValue>
+							<ows:Spacing></ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
 		</DataInputs>
@@ -287,7 +333,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FEstadistica</ows:Identifier>
 				<ows:Title>Función estadística</ows:Title>
-				<ows:Abstract>Función estadística a calcular para cada píxel de una serie de rásters:<![CDATA[<ul>
+				<ows:Abstract><![CDATA[Función estadística a calcular para cada píxel de una serie de rásters:<ul>
           <li>1: Mínimo.</li>
           <li>2: Máximo.</li>
           <li>3: Media.</li>
@@ -344,23 +390,17 @@
 				</ComplexData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>MEDIANA_EMPAT</ows:Identifier>
-				<ows:Title>Desempate para la mediana</ows:Title>
-				<ows:Abstract>En caso de que se haya indicado el cálculo de la Mediana o de la Media de la desviación absoluta respecto la mediana, indica qué desempate usar para la mediana, en caso de tener un número par de valores:<![CDATA[<ul>
-          <li>1: Valor alternado.</li>
-          <li>2: Valor superior.</li>
-          <li>3: Valor inferior.</li>
-          <li>4: Media de los valores centrales.</li>  
-          </ul>]]></ows:Abstract>
+				<ows:Identifier>Percentil</ows:Identifier>
+				<ows:Metadata xlink:title="Param5"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>1</ows:Value>
-						<ows:Value>2</ows:Value>
-						<ows:Value>3</ows:Value>
-						<ows:Value>4</ows:Value>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>100</ows:MaximumValue>
+							<ows:Spacing></ows:Spacing>
+						</ows:Range>
 					</ows:AllowedValues>
-					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -375,15 +415,49 @@
 						<ows:Range>
 							<ows:MinimumValue>0</ows:MinimumValue>
 							<ows:MaximumValue>100</ows:MaximumValue>
+							<ows:Spacing></ows:Spacing>
 						</ows:Range>
-						<ows:Value/>
 					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Percentil</ows:Identifier>
+				<ows:Metadata xlink:title="Param5"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>100</ows:MaximumValue>
+							<ows:Spacing></ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MEDIANA_EMPAT</ows:Identifier>
+				<ows:Title>Desempate para la mediana</ows:Title>
+				<ows:Abstract><![CDATA[En caso de que se haya indicado el cálculo de la Mediana o de la Media de la desviación absoluta respecto la mediana, indica qué desempate usar para la mediana, en caso de tener un número par de valores:<ul>
+          <li>1: Valor alternado.</li>
+          <li>2: Valor inferior.</li>
+          <li>3: Valor superior.</li>
+          <li>4: Media de los valores centrales.</li>          
+          </ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>AJUST</ows:Identifier>
 				<ows:Title>Tipo de ajuste para la recta de regresión</ows:Title>
-				<ows:Abstract>En caso de que se haya indicado calcular la Recta de regresión, indica el tipo de ajuste a realizar:<![CDATA[<ul>
+				<ows:Abstract><![CDATA[En caso de que se haya indicado calcular la Recta de regresión, indica el tipo de ajuste a realizar:<ul>
           <li>L: Lineal.</li>
           <li>Q: Cuadrática.</li>
           </ul>]]></ows:Abstract>
@@ -465,12 +539,6 @@
 				<ows:Identifier>MULTIBANDA</ows:Identifier>
 				<ows:Title>Multibanda</ows:Title>
 				<ows:Abstract>Parámetro opcional por si se quiere utilizar todas las bandas del fichero de entrada.</ows:Abstract>
-				<LiteralData>
-					<ows:AllowedValues>
-						<ows:Value>##blank##</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PREFIX</ows:Identifier>

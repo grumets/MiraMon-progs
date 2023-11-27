@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 07-07-2023 */-->
+<!--/* Rev AA 24-11-2023 */-->
 <head>
   <title>RasTop: Vectorization of categorical rasters</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -24,7 +24,7 @@
     <p>When the raster file has cells with NoData values, in being vectorized, they are associated to 0 polygon forming a group. Finally, in a raster consisting of one or more spots (sets of pixels) on a background of cells labeled with NoData, the program does not generate any frame that includes the entire raster, but polygon 0 directly delimits the set of spots of the raster (in other words, the raster polygons are "floating" inside polygon 0, with no rectangular frame corresponding to the original raster).</p>
 
   <p>It is possible to generate a vector layer based on n raster layers. The
-  resulting vector file will create a contour between different polygons if one or more of the rasters have different values in the pixels to either side. The polygon database will contain the values of each raster in independent fields. These fields will be associated with the corresponding thesaurus of each raster if the values of the raster were associated with the thesaurus. When there are several rasters they must have the same extent and resolution. The  <a href="AdapRas.htm">AdapRas</a>  module can be used to adjust the extent and resolution between different rasters.</p>
+  resulting vector file will create a contour between different polygons if one or more of the rasters have different values in the pixels to either side. The polygon database will contain the values of each raster in independent fields. These fields will be associated with the corresponding thesaurus of each raster if the values of the raster were associated with the thesaurus. When there are several rasters they must have the same extent and resolution. The  <a href="AdapRas.htm">AdapRas</a>  application can be used to adjust the extent and resolution between different rasters.</p>
 
   <p>The program calculates the arcs lengths in their projection and saves them in the LONG-ARC field in the arc main table. If the projection is known it also adds the lengths in the ellipsoid saving them to the LONG_ARCE field. Similarly, for each polygon it calculates the perimeter and the area, documenting these values in the PERIMETRE and AREA fields of the polygon main table. If the projection is known it also notes the perimeter and area over the ellipsoid in the PERIMETREE and AREAE fields.</p>
   
@@ -34,9 +34,9 @@
 
   <p>This program does not carry out any line smoothing. This implies the closest possible match to the original raster file and at the same time, an arcs vector file size as small as possible. If smoothing is required it is necessary to use the specific "generalize" option.</p>
   
-  <p>Generalization is carried out by applying the moving average and Douglas-Peucker generalization algorithms of the <a href="GenVPol.htm">GenVPol</a> module in the "Automatic, weights based on the inverse of the distance to the central vertex of the moving average" with "equal tolerance to the side of the original raster", "size of the moving average of 3" and "epsilon equal to the tenth part of the side pixel of the original raster", which usually provide good results; however, if  the result is not satisfactory enough, RasTop can be used to generate the result without generalizing and then generalize the result with GenVPol with the parameters that are most convenient.</p>
+  <p>Generalization is carried out by applying the moving average and Douglas-Peucker generalization algorithms of the <a href="GenVPol.htm">GenVPol</a> application in the "Automatic, weights based on the inverse of the distance to the central vertex of the moving average" with "equal tolerance to the side of the original raster", "size of the moving average of 3" and "epsilon equal to the tenth part of the side pixel of the original raster", which usually provide good results; however, if  the result is not satisfactory enough, RasTop can be used to generate the result without generalizing and then generalize the result with GenVPol with the parameters that are most convenient.</p>
   
-  <p>RasTop allows, optionally, that polygons with the same attribute that are in contact by a node to be grouped (equivalent to recycling for nodes of the <a href="Ciclar.htm">Ciclar</a> module), which is convenient in certain landscape analysis and/or cartographic generalization (for example after digital classification of images, in order to eliminate small groups of pixels  of the same category and in contact by side or by vertex). In this case the final number of polygons obtained is, obviously, lower (the program informs when finished).</p>
+  <p>RasTop allows, optionally, that polygons with the same attribute that are in contact by a node to be grouped (equivalent to recycling for nodes of the <a href="Ciclar.htm">Ciclar</a> application), which is convenient in certain landscape analysis and/or cartographic generalization (for example after digital classification of images, in order to eliminate small groups of pixels  of the same category and in contact by side or by vertex). In this case the final number of polygons obtained is, obviously, lower (the program informs when finished).</p>
   
   <p>RasTop also allows vectorization without generating polygons (simply tracing the contours between them like arcs).</p>
   
