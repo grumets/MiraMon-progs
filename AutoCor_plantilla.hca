@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Rev AA 28-11-2023 */-->
 <head>
 <title>AutoCor:Autocorrelació en imatges ràster</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -7,17 +7,23 @@
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-<p>Aquesta aplicació permet quantificar el grau d'autocorrelació espacial d'una variable ràster mitjançat el càlcul d'un indicador, en aquest cas l'índex de Moran.</p> 
+<p>Aquesta aplicació permet quantificar el grau d'autocorrelació espacial d'una variable en un fitxer ràster mitjançat el càlcul d'un indicador, en aquest cas a través de l'índex <i>I</i>(i) de Moran.</p> 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+ <p>L'autocorrelació espacial és una propietat present en la distribució espacial d'una variable si els valors en qualsevol localització estan influenciats per valors de localitzacions properes (seguint la primera llei de la Geografia de Tobler <a href="https://en.wikipedia.org/wiki/Tobler%27s_first_law_of_geography"> https://en.wikipedia.org/wiki/Tobler%27s_first_law_of_geography</a>). El concepte de "proper" quedarà referit al llindar d'autocorrelació, distància límit on l'autocorrelació és molt baixa o inexistent. Aquest llindar és útil per a imposar les condicions espacials idònies per al mostreig de la variable i per a aplicar determinats models estadístics associats.</p> 
 
- <p>L'autocorrelació espacial és una propietat present en la distribució espacial d'una variable si els valors en qualsevol localització estan influenciats per valors de localitzacions properes (seguint la 1a llei de la Geografia, Tobler). El concepte de proper quedarà referit al llindar d'autocorrelació, distància límit on l'autocorrelació és molt baixa o inexistent. Aquest llindar és útil per a imposar les condicions espacials idònies sobre el mostreig de la variable i determinats models estadístics associats. L'autocorrelació espacial permet identificar patrons espacials diferents de patrons purament aleatoris.</p> 
+<p>L'índex <i>I</i> de Moran es calcula amb la següent fórmula: </p>  
+<p><img src="AutoCor.png"/></p>
+<p>On:</p>
+<p><img src="AutoCor1.png"/> és el nombre d'unitats espacials, indexades per <i>i</i> i <i>j</i>;  <img src="AutoCor3.png"/> és la variable d'interès; <img src="AutoCor4.png"/> és la mitjana de la variable d'interès; <img src="AutoCor5.png"/> és un element d'una matriu de pesos espacials amb zeros a la diagonal; <img src="AutoCor6.png"/> és la suma de tots els elements de la matriu de pesos, és a dir:<br><img src="AutoCor7.png"/>.
+<p>La matriu de pesos formada pel conjunt de <img src="AutoCor5.png"/> es pot definir seguint el moviment de les torres dels escacs (<i>rook</i> en anglès), o bé seguint el moviment de la reina dels escacs (<i>queen</i> en anglès). En ambdós casos la matriu assigna un pes 1 a les cel·les veïnes en les direccions nord, sud, est i oest. En el primer cas s'assigna un pes 0 a les altres direccions (diagonals), mentre que en el segon cas s'assigna un pes 0.70711 (=0.5·&#8730;2) a les altres direccions.</p>
 
-<p>L'índex de Moran es calcula com: </p>  
-<p><img height="125" src="AutoCor.png"/></p>
-<p><img height="50" src="AutoCor_2.png"/> és la matriu de pesos i val per les cel·les veïnes 1 en les direccions nord, sud, est i oest  i 0.70711 en les diagonals pel cas Rock o 0 pel cas King;  val 0 per les cel·les no adjacents. </p>   
-<p><img height="25" src="AutoCor_3.png"/> és la mitjana.</p>  
+<p>L'autocorrelació espacial permet identificar patrons espacials diferents de patrons purament aleatoris i de patrons regulars, com un tauler d'escacs. En l'exemple del tauler d'escacs, i aplicant el criteri de pesos de 4 veïns en creu, l'índex obtingut té un valor -1; en canvi si els escacs (quadrats) blancs s'apilen a una meitat del tauler i els negres a l'altra, l'índex s'acosta a +1 a mesura que N augmenta; finalment, en una disposició aleatòria dels escacs l'índex retornat serà un valor proper a 0. Valors més petits que -1 o més grans que +1 són possibles, però habitualment corresponen a situacions molt esbiaixades de l'histograma i amb alguns valors que tenen molt pocs veïns en relació a la distància analitzada.</p> 
+
+<p>Per a més informació es pot consultar la següent referència:</p> 
+<b> Goodchild, M.F.</b> (1986) <i> Spatial Autocorrelation</i>. Concepts and Techniques in Modern Geography (CATMOG) n. 47, Geo Books, Norwich. 56 p. <a href="https://alexsingleton.files.wordpress.com/2014/09/47-spatial-aurocorrelation.pdf">https://alexsingleton.files.wordpress.com/2014/09/47-spatial-aurocorrelation.pdf</a> 
+  
   <hr/>
   <exclusiva>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
