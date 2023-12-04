@@ -647,10 +647,23 @@
 		<ows:Abstract><![CDATA[<p>Variación del índice SAVI para contemplar el efecto del brillo del suelo.<center>TSAVI= &#947; · (&#961;<sub>IRc</sub> - &#947; · &#961;<sub>R</sub> - &#948;) / [&#961;<sub>R</sub> + &#947; · &#961;<sub>IRc</sub> - &#947; · &#948; + &#954; · (1 + &#947;<sup>2</sup>)]</center>donde: <br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano<br>&#961;<sub>R</sub> es la reflectancia en la región espectral del rojo<br>&#947; y &#948; son la pendiente y la ordenada en el origen, respectivamente, de la <a href="https://www.termcat.cat/ca/diccionaris-en-linia/197/search/l%C3%ADnia%2Bde%2Bbase%2Bdel%2Bs%C3%B2l?type=basic&language=&condition=match">línea de base del suelo</a><br>  &#954; representa un factor de ajuste para minimizar el efecto del suelo, que los autores recomiendan aplicar con valor de 0.08. <p>El TSAVI toma valores entre 0 y 1. Valores de TSAVI cercanos a cero corresponden al suelo desnudo y valores cercanos a 1 (por lo general superiores a 0.70) corresponden a zonas con vegetación activa. <p>Este índice está muy indicado para regiones semiáridas, donde la humedad del suelo y la cobertura de vegetación son muy bajas.<p><ul><font size="-1"><b>Baret, E., Guyot, G., Major, D. J. </b> (1989) <i>A vegetation index which minimizes soil brightness effects on LAI and APAR estimation</i>. Proceedings of the 12th Canadian Symposium on Remote Sensing, Vancouver, Canada, 1355-1358.<p><b>Baret, E., Guyot, G. </b> (1991) <i>Potentials and limits of vegetation indices for LAI and APAR assessment</i>. Remote Sensing of Environment, 35:161-173.</font></ul>]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[TSAVI (<i>transformed soil adjusted vegetation index</i>, índice de vegetación transformado ajustado al suelo)]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>8</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>kappa</ows:Identifier>
 				<ows:Title>kappa</ows:Title>
 				<ows:Abstract><![CDATA[Parámetro kappa de las ecuaciones (&#954;).]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:kappa"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
@@ -661,7 +674,7 @@
 				<ows:Identifier>BandaIR</ows:Identifier>
 				<ows:Title>Banda IRc</ows:Title>
 				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:BandaIRc"/>
 				<ComplexData>
 					<Default>
@@ -682,7 +695,7 @@
 				<ows:Identifier>BandaR</ows:Identifier>
 				<ows:Title>Banda R</ows:Title>
 				<ows:Abstract>Banda que corresponde a la región espectral del rojo.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:BandaR"/>
 				<ComplexData>
 					<Default>
@@ -703,7 +716,7 @@
 				<ows:Identifier>gamma</ows:Identifier>
 				<ows:Title>gamma</ows:Title>
 				<ows:Abstract><![CDATA[Parámetro gamma de las ecuaciones (&#947;).]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Param6"/>
 				<ows:Metadata xlink:title="Name:gamma"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
@@ -714,7 +727,7 @@
 				<ows:Identifier>delta</ows:Identifier>
 				<ows:Title>delta</ows:Title>
 				<ows:Abstract><![CDATA[Parámetro delta de las ecuaciones (&#948;).]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Param7"/>
 				<ows:Metadata xlink:title="Name:delta"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
@@ -727,7 +740,7 @@
 				<ows:Identifier>ImatgeSortida</ows:Identifier>
 				<ows:Title>Imagen de salida</ows:Title>
 				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:ImagenSalida"/>
 				<ComplexOutput>
 					<Default>
@@ -752,10 +765,23 @@
 		<ows:Abstract><![CDATA[<p>Variación del índice SAVI, con un factor de ajuste L que no es constante, sino que es una función que varía inversamente con la presencia de vegetación.<center>MSAVI= (1 + L) · (&#961;<sub>IRc</sub> - &#961;<sub>R</sub>) / (&#961;<sub>IRc</sub> + &#961;<sub>R</sub> + L)</center>donde: <br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano<br>&#961;<sub>R</sub> es la reflectancia en la región espectral del rojo<br><i>L</i> es un factor que depende del tipo de suelo, factor que a su vez depende de &#947;, que es la pendiente de la <a href="https://www.termcat.cat/ca/diccionaris-en-linia/197/search/l%C3%ADnia%2Bde%2Bbase%2Bdel%2Bs%C3%B2l?type=basic&language=&condition=match">línea de base del suelo</a>, del NDVI y del WDVI: <p><center>L = 1 - 2 · &#947; · NDVI · WDVI</center> <br><i>L</i> toma valores comprendidos entre 0 y 1. Valores cercanos a 0 corresponden a zonas con muy poco recubrimiento vegetal, mientras que valores cercanos a 1 corresponden a zonas con una vegetación densa.<p>El MSAVI-1 toma valores comprendidos entre -1 y 1, con valores negativos en zonas con muy baja cobertura de vegetación y positivos en zonas con vegetación activa, aumentando el vigor de la vegetación cuanto más cercano a 1 es el valor obtenido. Cuando L = 0, el MSAVI-1 es exactamente igual al NDVI.]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[MSAVI-1 (<i>modified soil adjusted vegetation index - 1</i>, índice de vegetación ajustado al suelo modificado - 1)]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>9</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>eta</ows:Identifier>
 				<ows:Title>eta</ows:Title>
 				<ows:Abstract><![CDATA[Parámetro eta de las ecuaciones (&#951;).]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:eta"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
@@ -766,7 +792,7 @@
 				<ows:Identifier>BandaIR</ows:Identifier>
 				<ows:Title>Banda IRc</ows:Title>
 				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:BandaIRc"/>
 				<ComplexData>
 					<Default>
@@ -787,7 +813,7 @@
 				<ows:Identifier>BandaR</ows:Identifier>
 				<ows:Title>Banda R</ows:Title>
 				<ows:Abstract>Banda que corresponde a la región espectral del rojo.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:BandaR"/>
 				<ComplexData>
 					<Default>
@@ -808,7 +834,7 @@
 				<ows:Identifier>gamma</ows:Identifier>
 				<ows:Title>gamma</ows:Title>
 				<ows:Abstract><![CDATA[Parámetro gamma de las ecuaciones (&#947;).]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Param6"/>
 				<ows:Metadata xlink:title="Name:gamma"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
@@ -821,7 +847,7 @@
 				<ows:Identifier>ImatgeSortida</ows:Identifier>
 				<ows:Title>Imagen de salida</ows:Title>
 				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:ImagenSalida"/>
 				<ComplexOutput>
 					<Default>
@@ -848,13 +874,13 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[TSAVI (<i>transformed soil adjusted vegetation index</i>, índice de vegetación transformado ajustado al suelo)]]></ows:Abstract>
+				<ows:Abstract><![CDATA[MSAVI-2 (<i>modified soil adjusted vegetation index - 2</i>, índice de vegetación ajustado al suelo modificado - 2)]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>8</ows:Value>
+						<ows:Value>10</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -933,13 +959,13 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[MSAVI-1 (<i>modified soil adjusted vegetation index - 1</i>, índice de vegetación ajustado al suelo modificado - 1)]]></ows:Abstract>
+				<ows:Abstract><![CDATA[TWVI (<i>two-axis adjusted vegetation index</i>, índice de vegetación ajustado a dos ejes)]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>9</ows:Value>
+						<ows:Value>11</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -1040,115 +1066,6 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[MSAVI-2 (<i>modified soil adjusted vegetation index - 2</i>, índice de vegetación ajustado al suelo modificado - 2)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
-				<ows:Metadata xlink:title="Name:Opción"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>10</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>BandaIR</ows:Identifier>
-				<ows:Title>Banda IRc</ows:Title>
-				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:BandaIRc"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>BandaR</ows:Identifier>
-				<ows:Title>Banda R</ows:Title>
-				<ows:Abstract>Banda que corresponde a la región espectral del rojo.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:BandaR"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>TWVI (Two-axis adjusted Vegetation Index)</ows:Title>
-				<ows:Abstract><![CDATA[TWVI (<i>two-axis adjusted vegetation index</i>, índice de vegetación ajustado a dos ejes)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:Opcio"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>11</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>gamma</ows:Identifier>
-				<ows:Title>gamma</ows:Title>
-				<ows:Abstract><![CDATA[Parámetro gamma de las ecuaciones (&#947;).]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param6"/>
-				<ows:Metadata xlink:title="Name:gamma"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
-				<ows:Identifier>ImatgeSortida</ows:Identifier>
-				<ows:Title>Imagen de salida</ows:Title>
-				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
-				<ows:Metadata xlink:title="Name:ImagenSalida"/>
-				<ComplexOutput>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>
-	</ProcessDescription>
-	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Indexs:Param1:13</ows:Identifier>
-		<ows:Title><![CDATA[SARVI (<i>soil adjusted and atmospherically resistant vegetation index</i>, índice de vegetación ajustado al suelo y atmosféricamente resistente)]]></ows:Title>
-		<ows:Abstract><![CDATA[<p>Índice de vegetación que corrige la radiancia del rojo por efecto de los aerosoles incorporando la banda del azul. <center>SARVI= (1 + L) · (&#961;<sub>IRc</sub> - &#961;<sub>RB</sub>) / (&#961;<sub>IRc</sub> + &#961;<sub>RB</sub> + L)</center>donde: <br>&#961;<sub>IRc</sub> es la reflectancia aparente (techo de la atmósfera) en la región espectral del infrarrojo cercano <br>&#961;<sub>RB</sub> es la reflectancia aparente combinada de las dos regiones espectrales del rojo y del azul, que se calcula: <center>&#961;<sub>RB</sub>= &#961;<sub>R</sub> - &#951;·(&#961;<sub>B</sub>- &#961;<sub>R</sub>)</center><p>  <ul>donde: <br>&#961;<sub>R</sub> es la reflectancia aparente en la región espectral del rojo <br>&#961;<sub>B</sub> es la reflectancia aparente en la región espectral del azul <br>&#951; (eta, escrito &#947; en el artículo original) es un corrector atmosférico que cuando vale 0 hace que el ARVI sea igual al NDVI; la investigación original de Kaufman y Tanré (1992) demostró que &#951; = 1 es un compromiso adecuado para la mayoría de las aplicaciones de teledetección terrestres, especialmente aquellas centradas en la vegetación en atmósferas con partículas de aerosoles de tamaño pequeño y moderado (por ejemplo, aerosoles antropogénicos y humo) y en ambientes con partículas grandes, pero muy secos (Sahel), y que valores cercanos a 2 no son adecuados.  </ul><br><i>L</i> es una constante que depende de la cobertura de vegetación y que puede tomar un valor comprendido entre 0 y 1. A menudo se toma L = 0 para densidades de vegetación muy altas, L = 0.5 para densidades intermedias y L = 1 para densidades de vegetación muy bajas. Cuando L = 0, el SARVI es exactamente igual al ARVI.<p>Este índice toma valores comprendidos entre -1 y 1. Valores negativos del índice corresponden a zonas de agua, valores cercanos a cero corresponden al suelo desnudo y valores positivos corresponden a zonas de vegetación, aumentando el vigor de la vegetación cuanto más cercano a 1 es el valor obtenido.<p><u>Importante</u>: este índice, debido a que trabaja con reflectancias aparentes (o incluso en radiancias aparentes), no debe aplicarse a imágenes que han sido corregidas radiométricamente con el fin de obtener reflectancias a nivel de objeto (en la parte inferior de la atmósfera).<br><br><ul><font size="-1"><b>Kaufman, Y. J., Tanré, D.</b> 1992. <i>Atmospherically resistant vegetation index (ARVI) for EOS-MODIS</i>. IEEE Trans. on Geosciences and Remote Sensing, 30(2): 261-270.</font></ul>]]></ows:Abstract>
-		<DataInputs>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
 				<ows:Abstract><![CDATA[ARVI (<i>atmospherically resistant vegetation index</i>, índice de vegetación atmosféricamente resistente)]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opción"/>
@@ -1200,37 +1117,13 @@
 						</Format>
 					</Supported>
 				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>TWVI (Two-axis adjusted Vegetation Index)</ows:Title>
-				<ows:Abstract><![CDATA[TWVI (<i>two-axis adjusted vegetation index</i>, índice de vegetación ajustado a dos ejes)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:Opcio"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>11</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
+			</Input>			
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>gamma</ows:Identifier>
 				<ows:Title>gamma</ows:Title>
 				<ows:Abstract><![CDATA[Parámetro gamma de las ecuaciones (&#947;).]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param6"/>
 				<ows:Metadata xlink:title="Name:gamma"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>L</ows:Identifier>
-				<ows:Title>L</ows:Title>
-				<ows:Abstract>Parámetro L de las ecuaciones.</ows:Abstract>
-				<ows:Metadata xlink:title="Param7"/>
-				<ows:Metadata xlink:title="Name:L"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
 					<ows:AnyValue/>
@@ -1262,137 +1155,9 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Indexs:Param1:14</ows:Identifier>
-		<ows:Title><![CDATA[TSARVI (<i>transformed soil atmospherically resistant vegetation index</i>, índice transformado de suelo-vegetación atmosféricamente resistente)]]></ows:Title>
-		<ows:Abstract><![CDATA[<p>Este índice es una variante del índice SARVI para tener en cuenta el efecto del brillo del suelo.  <center>TSARVI= &#947;<sub>RB</sub>·(&#961;<sub>IRc</sub> - &#947;<sub>RB</sub> · &#961;<sub>RB</sub> - &#948;<sub>RB</sub>) / [&#947;<sub>RB</sub>· &#961;<sub>IRc</sub> + &#961;<sub>RB</sub> - &#947;<sub>RB</sub> · &#948;<sub>RB</sub> + &#954;·(1 + &#947; <sub>RB</sub><sup>2</sup>)]</center>  donde:<br>  &#961;<sub>IRc</sub> es la reflectancia aparente (techo de la atmósfera) en la región espectral del infrarrojo cercano <br>  &#961;<sub>RB</sub> es la reflectancia aparente en la banda combinada de las bandas roja y azul, de acuerdo con la fórmula: <center>&#961;<sub>RB</sub>= &#961;<sub>R</sub> - &#951;·(&#961;<sub>B</sub>- &#961;<sub>R</sub>)</center><p> <ul>donde: <br>&#961;<sub>R</sub> es la reflectancia aparente a la región espectral del rojo<br>&#961;<sub>B</sub> es la reflectancia aparente a la región espectral del azul <br>&#951; (eta, escrito &#947; en el artículo original) es un corrector atmosférico que cuando vale 0 hace que el ARVI sea igual al NDVI; la investigación original de Kaufman y Tanré (1992) demostró que &#951; = 1 es un compromiso adecuado para la mayoría de las aplicaciones de teledetección terrestres, especialmente aquellas centradas en la vegetación en atmósferas con partículas de aerosoles de tamaño pequeño y moderado (por ejemplo, aerosoles antropogénicos y humo) y en ambientes con partículas grandes, pero muy secos (Sahel), y que valores cercanos a 2 no son adecuados.</ul><br>   &#947;<sub>RB</sub> y &#948;<sub>RB</sub> son, respectivamente, la pendiente y la ordenada en el origen de la <a href="https:// www.termcat.cat/ca/diccionaris-en-linia/197/search/l%C3%ADnia%2Bde%2Bbase%2Bdel%2Bs%C3%B2l?type=basic&language=&condition=match">línea de base del suelo </a> en el espacio espectral rojo-azul y del IRc, definida por: <center>&#961;<sub>IRc</sub> = &#947;<sub>RB</sub> · &#961; <sub>RB</sub> + &#948;<sub>RB</sub></center> Nota: la constante &#947; del TSARVI no es la constante &#951; que se utiliza para calcular la banda RB en el  ARVI, SARVI y TSARVI. <br>  &#954; representa un factor de ajuste para minimizar el ruido del suelo, que los autores recomiendan aplicar con valor de &#954; = 0.08. <p>Este índice toma valores comprendidos entre -1 y 1. Valores negativos del índice corresponden a zonas de agua, valores cercanos a cero corresponden al suelo desnudo y valores positivos corresponden a zonas de vegetación, aumentando el vigor de la vegetación cuanto más cercano a 1 es el valor obtenido.<p><u>Importante</u>: este índice, debido a que trabaja con reflectancias aparentes (o incluso en radiancias aparentes), no debe aplicarse a imágenes que han sido corregidas radiométricamente con el fin de obtener reflectancias a nivel de objeto (en la parte inferior de la atmósfera).<p><ul><font size="-1"><b>Bannari, A., Morin, D. and He, D. C. </b> 1994. <i>High spatial and spectral resolution remote sensing for the management of the urban environment</i>. First International Airborne Remote Sensing Conference and Exhibition, Strasbourg, France, vol. III, 247-260.</font></ul>]]></ows:Abstract>
-		<DataInputs>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>BandaB</ows:Identifier>
-				<ows:Title>Banda azul</ows:Title>
-				<ows:Abstract>Banda que corresponde al azul.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
-				<ows:Metadata xlink:title="Name:BandaB"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>BandaIR</ows:Identifier>
-				<ows:Title>Banda IRc</ows:Title>
-				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:BandaIRc"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>BandaR</ows:Identifier>
-				<ows:Title>Banda R</ows:Title>
-				<ows:Abstract>Banda que corresponde a la región espectral del rojo.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:BandaR"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>TWVI (Two-axis adjusted Vegetation Index)</ows:Title>
-				<ows:Abstract><![CDATA[TWVI (<i>two-axis adjusted vegetation index</i>, índice de vegetación ajustado a dos ejes)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:Opcio"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>11</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>gamma</ows:Identifier>
-				<ows:Title>gamma</ows:Title>
-				<ows:Abstract><![CDATA[Parámetro gamma de las ecuaciones (&#947;).]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param6"/>
-				<ows:Metadata xlink:title="Name:gamma"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>delta</ows:Identifier>
-				<ows:Title>delta</ows:Title>
-				<ows:Abstract><![CDATA[Parámetro delta de las ecuaciones (&#948;).]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param8"/>
-				<ows:Metadata xlink:title="Name:delta"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
-				<ows:Identifier>ImatgeSortida</ows:Identifier>
-				<ows:Title>Imagen de salida</ows:Title>
-				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
-				<ows:Metadata xlink:title="Name:ImagenSalida"/>
-				<ComplexOutput>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>
-	</ProcessDescription>
-	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Indexs:Param1:15</ows:Identifier>
-		<ows:Title><![CDATA[AVI (<i>angular vegetation index</i>, índice de vegetación angular)]]></ows:Title>
-		<ows:Abstract><![CDATA[<p>Índice de vegetación basado en el ángulo definido entre las reflectancias a 555 nm, 670 nm y 870 nm correspondientes a las regiones espectrales del verde, el rojo y el IRc, respectivamente, del sensor IRR del instrumento ATSR- 2 del ERS-2, que caracteriza la absorción de la clorofila, para normalizar los efectos de los suelos y de la atmósfera y mantener la sensibilidad con las propiedades de la vegetación.  <center>AVI= 2 · (&#960; - (a<sub>1</sub> + a<sub>2</sub>)) / &#960;</center>  <br>donde:  <center>a<sub>1</sub>= tan<sup>-1</sup> [((&#955;<sub>IRc</sub> - &#955;<sub>R</sub>) / &#955;<sub>R</sub>) / (&#961;<sub>IRc</sub> - &#961;<sub>R</sub>)]</center>  <br>  <center>a<sub>2</sub>= tan<sup>-1</sup> [((&#955;<sub>R</sub> - &#955;<sub>V</sub>) / &#955;<sub>R</sub>) / (&#961;<sub>V</sub> - &#961;<sub>R</sub>)]</center>  <br>donde:  <br>&#955;<sub>V</sub>, &#955;<sub>R</sub> y &#955;<sub>IRc</sub> corresponden a los centros de las regiones espectrales del verde, el rojo y el infrarrojo cercano, respectivamente, que se obtienen de los metadatos  <br>&#961;<sub>V</sub>, &#961;<sub>R</sub> y &#961;<sub>IRc</sub> corresponden a las reflectancias en las regiones espectrales del verde, el rojo y el infrarrojo cercano, respectivamente.  <br>La función tan<sup>-1</sup> devuelve el ángulo en radianes. Según los autores, los datos resultan escalados entre 0 y 1.  <p><ul><font size="-1"><b>Plummer, S. E., North, P. R. and Briggs, S. A.</b> (1994) <i>The angular vegetation index: an atmospherically resistant index for the second along track scanning radiometer (ATSR-2)</i>. Proceedings of the Sixth International Symposium Physical Measurements and Signatures in Remote Sensing, p. 717-722, Val d'Isère, France.</font></ul>]]></ows:Abstract>
+		<ows:Identifier>MiraMon:Indexs:Param1:13</ows:Identifier>
+		<ows:Title><![CDATA[SARVI (<i>soil adjusted and atmospherically resistant vegetation index</i>, índice de vegetación ajustado al suelo y atmosféricamente resistente)]]></ows:Title>
+		<ows:Abstract><![CDATA[<p>Índice de vegetación que corrige la radiancia del rojo por efecto de los aerosoles incorporando la banda del azul. <center>SARVI= (1 + L) · (&#961;<sub>IRc</sub> - &#961;<sub>RB</sub>) / (&#961;<sub>IRc</sub> + &#961;<sub>RB</sub> + L)</center>donde: <br>&#961;<sub>IRc</sub> es la reflectancia aparente (techo de la atmósfera) en la región espectral del infrarrojo cercano <br>&#961;<sub>RB</sub> es la reflectancia aparente combinada de las dos regiones espectrales del rojo y del azul, que se calcula: <center>&#961;<sub>RB</sub>= &#961;<sub>R</sub> - &#951;·(&#961;<sub>B</sub>- &#961;<sub>R</sub>)</center><p>  <ul>donde: <br>&#961;<sub>R</sub> es la reflectancia aparente en la región espectral del rojo <br>&#961;<sub>B</sub> es la reflectancia aparente en la región espectral del azul <br>&#951; (eta, escrito &#947; en el artículo original) es un corrector atmosférico que cuando vale 0 hace que el ARVI sea igual al NDVI; la investigación original de Kaufman y Tanré (1992) demostró que &#951; = 1 es un compromiso adecuado para la mayoría de las aplicaciones de teledetección terrestres, especialmente aquellas centradas en la vegetación en atmósferas con partículas de aerosoles de tamaño pequeño y moderado (por ejemplo, aerosoles antropogénicos y humo) y en ambientes con partículas grandes, pero muy secos (Sahel), y que valores cercanos a 2 no son adecuados.  </ul><br><i>L</i> es una constante que depende de la cobertura de vegetación y que puede tomar un valor comprendido entre 0 y 1. A menudo se toma L = 0 para densidades de vegetación muy altas, L = 0.5 para densidades intermedias y L = 1 para densidades de vegetación muy bajas. Cuando L = 0, el SARVI es exactamente igual al ARVI.<p>Este índice toma valores comprendidos entre -1 y 1. Valores negativos del índice corresponden a zonas de agua, valores cercanos a cero corresponden al suelo desnudo y valores positivos corresponden a zonas de vegetación, aumentando el vigor de la vegetación cuanto más cercano a 1 es el valor obtenido.<p><u>Importante</u>: este índice, debido a que trabaja con reflectancias aparentes (o incluso en radiancias aparentes), no debe aplicarse a imágenes que han sido corregidas radiométricamente con el fin de obtener reflectancias a nivel de objeto (en la parte inferior de la atmósfera).<br><br><ul><font size="-1"><b>Kaufman, Y. J., Tanré, D.</b> 1992. <i>Atmospherically resistant vegetation index (ARVI) for EOS-MODIS</i>. IEEE Trans. on Geosciences and Remote Sensing, 30(2): 261-270.</font></ul>]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -1449,17 +1214,154 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>gamma</ows:Identifier>
+				<ows:Title>gamma</ows:Title>
+				<ows:Abstract><![CDATA[Parámetro gamma de las ecuaciones (&#947;).]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:gamma"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>L</ows:Identifier>
+				<ows:Title>L</ows:Title>
+				<ows:Abstract>Parámetro L de las ecuaciones.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:L"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>ImatgeSortida</ows:Identifier>
+				<ows:Title>Imagen de salida</ows:Title>
+				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ImagenSalida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Indexs:Param1:14</ows:Identifier>
+		<ows:Title><![CDATA[TSARVI (<i>transformed soil atmospherically resistant vegetation index</i>, índice transformado de suelo-vegetación atmosféricamente resistente)]]></ows:Title>
+		<ows:Abstract><![CDATA[<p>Este índice es una variante del índice SARVI para tener en cuenta el efecto del brillo del suelo.  <center>TSARVI= &#947;<sub>RB</sub>·(&#961;<sub>IRc</sub> - &#947;<sub>RB</sub> · &#961;<sub>RB</sub> - &#948;<sub>RB</sub>) / [&#947;<sub>RB</sub>· &#961;<sub>IRc</sub> + &#961;<sub>RB</sub> - &#947;<sub>RB</sub> · &#948;<sub>RB</sub> + &#954;·(1 + &#947; <sub>RB</sub><sup>2</sup>)]</center>  donde:<br>  &#961;<sub>IRc</sub> es la reflectancia aparente (techo de la atmósfera) en la región espectral del infrarrojo cercano <br>  &#961;<sub>RB</sub> es la reflectancia aparente en la banda combinada de las bandas roja y azul, de acuerdo con la fórmula: <center>&#961;<sub>RB</sub>= &#961;<sub>R</sub> - &#951;·(&#961;<sub>B</sub>- &#961;<sub>R</sub>)</center><p> <ul>donde: <br>&#961;<sub>R</sub> es la reflectancia aparente a la región espectral del rojo<br>&#961;<sub>B</sub> es la reflectancia aparente a la región espectral del azul <br>&#951; (eta, escrito &#947; en el artículo original) es un corrector atmosférico que cuando vale 0 hace que el ARVI sea igual al NDVI; la investigación original de Kaufman y Tanré (1992) demostró que &#951; = 1 es un compromiso adecuado para la mayoría de las aplicaciones de teledetección terrestres, especialmente aquellas centradas en la vegetación en atmósferas con partículas de aerosoles de tamaño pequeño y moderado (por ejemplo, aerosoles antropogénicos y humo) y en ambientes con partículas grandes, pero muy secos (Sahel), y que valores cercanos a 2 no son adecuados.</ul><br>   &#947;<sub>RB</sub> y &#948;<sub>RB</sub> son, respectivamente, la pendiente y la ordenada en el origen de la <a href="https:// www.termcat.cat/ca/diccionaris-en-linia/197/search/l%C3%ADnia%2Bde%2Bbase%2Bdel%2Bs%C3%B2l?type=basic&language=&condition=match">línea de base del suelo </a> en el espacio espectral rojo-azul y del IRc, definida por: <center>&#961;<sub>IRc</sub> = &#947;<sub>RB</sub> · &#961; <sub>RB</sub> + &#948;<sub>RB</sub></center> Nota: la constante &#947; del TSARVI no es la constante &#951; que se utiliza para calcular la banda RB en el  ARVI, SARVI y TSARVI. <br>  &#954; representa un factor de ajuste para minimizar el ruido del suelo, que los autores recomiendan aplicar con valor de &#954; = 0.08. <p>Este índice toma valores comprendidos entre -1 y 1. Valores negativos del índice corresponden a zonas de agua, valores cercanos a cero corresponden al suelo desnudo y valores positivos corresponden a zonas de vegetación, aumentando el vigor de la vegetación cuanto más cercano a 1 es el valor obtenido.<p><u>Importante</u>: este índice, debido a que trabaja con reflectancias aparentes (o incluso en radiancias aparentes), no debe aplicarse a imágenes que han sido corregidas radiométricamente con el fin de obtener reflectancias a nivel de objeto (en la parte inferior de la atmósfera).<p><ul><font size="-1"><b>Bannari, A., Morin, D. and He, D. C. </b> 1994. <i>High spatial and spectral resolution remote sensing for the management of the urban environment</i>. First International Airborne Remote Sensing Conference and Exhibition, Strasbourg, France, vol. III, 247-260.</font></ul>]]></ows:Abstract>
+		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
 				<ows:Abstract><![CDATA[TSARVI (<i>transformed soil atmospherically resistant vegetation index</i>, índice transformado de suelo-vegetación atmosféricamente resistente)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>14</ows:Value>
 					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaB</ows:Identifier>
+				<ows:Title>Banda azul</ows:Title>
+				<ows:Abstract>Banda que corresponde al azul.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:BandaB"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaIR</ows:Identifier>
+				<ows:Title>Banda IRc</ows:Title>
+				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:BandaIRc"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaR</ows:Identifier>
+				<ows:Title>Banda R</ows:Title>
+				<ows:Abstract>Banda que corresponde a la región espectral del rojo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:BandaR"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>gamma</ows:Identifier>
+				<ows:Title>gamma</ows:Title>
+				<ows:Abstract><![CDATA[Parámetro gamma de las ecuaciones (&#947;).]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:gamma"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>delta</ows:Identifier>
+				<ows:Title>delta</ows:Title>
+				<ows:Abstract><![CDATA[Parámetro delta de las ecuaciones (&#948;).]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:delta"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 		</DataInputs>
@@ -1488,9 +1390,9 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Indexs:Param1:16</ows:Identifier>
-		<ows:Title><![CDATA[GEMI (<i>global environment monitoring index</i>, índice de seguimiento global del medio ambiente)]]></ows:Title>
-		<ows:Abstract><![CDATA[<p>Índice propuesto para imágenes del sensor AVHRR de NOAA con la finalidad de obtener un conocimiento global de la vegetación en todo el planeta. Es un índice no lineal que minimiza el efecto del suelo y de la atmósfera.  <center>GEMI= &#951; · (1 - 0.25·&#951;) - (&#961;<sub>R</sub> - 0.125) · (1 - &#961;<sub>R</sub>)</center>  <br>donde:  <center>&#951;= [2· (&#961;<sup>2</sup><sub>IRc</sub> - &#961;<sup>2</sup><sub>R</sub>) + 1.5 · &#961;<sub>IRc</sub> + 0.5· &#961;<sub>R</sub>] · (&#961;<sub>IRc</sub> + &#961;<sub>R</sub> + 0.5)</center>  donde <br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano<br>&#961;<sub>R</sub> es la reflectancia en la región espectral del rojo.]]></ows:Abstract>
+		<ows:Identifier>MiraMon:Indexs:Param1:15</ows:Identifier>
+		<ows:Title><![CDATA[AVI (<i>angular vegetation index</i>, índice de vegetación angular)]]></ows:Title>
+		<ows:Abstract><![CDATA[<p>Índice de vegetación basado en el ángulo definido entre las reflectancias a 555 nm, 670 nm y 870 nm correspondientes a las regiones espectrales del verde, el rojo y el IRc, respectivamente, del sensor IRR del instrumento ATSR- 2 del ERS-2, que caracteriza la absorción de la clorofila, para normalizar los efectos de los suelos y de la atmósfera y mantener la sensibilidad con las propiedades de la vegetación.  <center>AVI= 2 · (&#960; - (a<sub>1</sub> + a<sub>2</sub>)) / &#960;</center>  <br>donde:  <center>a<sub>1</sub>= tan<sup>-1</sup> [((&#955;<sub>IRc</sub> - &#955;<sub>R</sub>) / &#955;<sub>R</sub>) / (&#961;<sub>IRc</sub> - &#961;<sub>R</sub>)]</center>  <br>  <center>a<sub>2</sub>= tan<sup>-1</sup> [((&#955;<sub>R</sub> - &#955;<sub>V</sub>) / &#955;<sub>R</sub>) / (&#961;<sub>V</sub> - &#961;<sub>R</sub>)]</center>  <br>donde:  <br>&#955;<sub>V</sub>, &#955;<sub>R</sub> y &#955;<sub>IRc</sub> corresponden a los centros de las regiones espectrales del verde, el rojo y el infrarrojo cercano, respectivamente, que se obtienen de los metadatos  <br>&#961;<sub>V</sub>, &#961;<sub>R</sub> y &#961;<sub>IRc</sub> corresponden a las reflectancias en las regiones espectrales del verde, el rojo y el infrarrojo cercano, respectivamente.  <br>La función tan<sup>-1</sup> devuelve el ángulo en radianes. Según los autores, los datos resultan escalados entre 0 y 1.  <p><ul><font size="-1"><b>Plummer, S. E., North, P. R. and Briggs, S. A.</b> (1994) <i>The angular vegetation index: an atmospherically resistant index for the second along track scanning radiometer (ATSR-2)</i>. Proceedings of the Sixth International Symposium Physical Measurements and Signatures in Remote Sensing, p. 717-722, Val d'Isère, France.</font></ul>]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -1573,94 +1475,9 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Indexs:Param1:17</ows:Identifier>
-		<ows:Title><![CDATA[NDWI-MF (<i>normalized difference water index</i> - McFeeters, índice de agua de diferencia normalizada - McFeeters)]]></ows:Title>
-		<ows:Abstract><![CDATA[<p>El NDWI fue propuesto McFeeters (1996) para delinear las masas de agua abiertas como lagos y embalses, y mejorar su detección en las imágenes de satélite.<center>NDWI-MF= (&#961;<sub>V</sub> - &#961;<sub>IRc</sub>) / (&#961;<sub>V</sub> + &#961;<sub>IRc</sub>)</center>donde: <br>&#961;<sub>V</sub> es la reflectancia en la región espectral del verde<br> &#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano.<p>Con este índice las superficies de agua tienen valores positivos, mientras que la superficie de la tierra y la vegetación posen valores de 0 o negativos.<p><ul><font size="-1"><b>McFeeters, SK</b> (1996) <i>The use of the normalized difference water index (NDWI) in the delineation of open water features</i>.  International Journal of Remote Sensing, 17: 1425-1432.</font></ul><br>Este índice corresponde al <a href="https://www.termcat.cat/ca/diccionaris-en-linia/197/search/NDWI1?type=basic&condition=contains">NDWI<sup>1</sup></a> del <a href="https://www.termcat.cat/ca/diccionaris-en-linia/197">Diccionari terminològic de teledetecció</a> de Pons y Arcalís (2012).]]></ows:Abstract>
-		<DataInputs>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>BandaV</ows:Identifier>
-				<ows:Title>Banda del verde</ows:Title>
-				<ows:Abstract>Banda que corresponde al verde.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
-				<ows:Metadata xlink:title="Name:BandaV"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>BandaIR</ows:Identifier>
-				<ows:Title>Banda IRc</ows:Title>
-				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:BandaIRc"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[TSARVI (<i>transformed soil atmospherically resistant vegetation index</i>, índice transformado de suelo-vegetación atmosféricamente resistente)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:Opción"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>14</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
-				<ows:Identifier>ImatgeSortida</ows:Identifier>
-				<ows:Title>Imagen de salida</ows:Title>
-				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:ImagenSalida"/>
-				<ComplexOutput>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>
-	</ProcessDescription>
-	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Indexs:Param1:18</ows:Identifier>
-		<ows:Title><![CDATA[NDWI-OT (<i>normalized difference water index</i> - Ouma &amp; Tateishi, índice de agua de diferencia normalizada - Ouma &amp; Tateishi)]]></ows:Title>
-		<ows:Abstract><![CDATA[<p>El índice NDWI-OT es otra de las muy diversas aproximaciones a índices para delimitación de masas de agua, en este caso una utilizada por Ouma &amp; Tateishi (2006) como parte de una aproximación llamada WI. En concreto el NDWI-OT (que en la terminología de los autores se llama NDWI<sub>3</sub>), usa las bandas del IRoc y el IRc (bandas 5 y 4 de los sensores TM/ETM+) para delimitar la línea de costa de las masas de agua de forma rápida.<center>NDWI-OT=(&#961;<sub>IRoc</sub> - &#961;<sub>IRc</sub>) / (&#961;<sub>IRoc</sub> + &#961;<sub>IRc</sub>)</center>donde: <br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano<br>&#961;<sub>IRoc</sub> es la reflectancia en la región espectral del infrarrojo de onda corta.<p><ul><font size="-1"><b>Ouma, YO; Tateishi, R</b> (2006)  <i>A water index for rapid mapping  of shoreline changes of five East African Rift Valley lakes: an empirical analysis using Landsat TM and ETM+ data</i>. International Journal of Remote Sensing, 27: 3153-3181.</font></ul>]]></ows:Abstract>
+		<ows:Identifier>MiraMon:Indexs:Param1:16</ows:Identifier>
+		<ows:Title><![CDATA[GEMI (<i>global environment monitoring index</i>, índice de seguimiento global del medio ambiente)]]></ows:Title>
+		<ows:Abstract><![CDATA[<p>Índice propuesto para imágenes del sensor AVHRR de NOAA con la finalidad de obtener un conocimiento global de la vegetación en todo el planeta. Es un índice no lineal que minimiza el efecto del suelo y de la atmósfera.  <center>GEMI= &#951; · (1 - 0.25·&#951;) - (&#961;<sub>R</sub> - 0.125) · (1 - &#961;<sub>R</sub>)</center>  <br>donde:  <center>&#951;= [2· (&#961;<sup>2</sup><sub>IRc</sub> - &#961;<sup>2</sup><sub>R</sub>) + 1.5 · &#961;<sub>IRc</sub> + 0.5· &#961;<sub>R</sub>] · (&#961;<sub>IRc</sub> + &#961;<sub>R</sub> + 0.5)</center>  donde <br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano<br>&#961;<sub>R</sub> es la reflectancia en la región espectral del rojo.]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -1672,83 +1489,6 @@
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>16</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>BandaIR</ows:Identifier>
-				<ows:Title>Banda IRc</ows:Title>
-				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:BandaIRc"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[NDWI-MF (<i>normalized difference water index</i> - McFeeters, índice de agua de diferencia normalizada - McFeeters)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:Opción"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>17</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
-				<ows:Identifier>ImatgeSortida</ows:Identifier>
-				<ows:Title>Imagen de salida</ows:Title>
-				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:ImagenSalida"/>
-				<ComplexOutput>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>
-	</ProcessDescription>
-	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Indexs:Param1:19</ows:Identifier>
-		<ows:Title><![CDATA[EVI  (<i>enhanced vegetation index</i>, índice de vegetación mejorado)]]></ows:Title>
-		<ows:Abstract><![CDATA[<p>El índice EVI obtiene respuesta de las variaciones estructurales del dosel vegetal incluyendo el índice de área foliar (LAI), tipo y arquitectura del dosel y etc. EVI fue desarrollado para optimizar la señal de la vegetación con sensibilidad mejorada para altas densidades de biomasa. Esta optimización se logra al separar la señal proveniente de la vegetación de la señal de la influencia atmosférica.<center>EVI= G · (&#961;<sub>IRc</sub> - &#961;<sub>R</sub>) / (&#961;<sub>IRc</sub> + C<sub>1</sub> · &#961;<sub>R</sub> - C<sub>2</sub> · &#961;<sub>B</sub> + L)</center>donde: <br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano<br>&#961;<sub>R</sub> es la reflectancia en la región espectral del rojo<br>&#961;<sub>B</sub> es la reflectancia en la región espectral del azul<br>  C<sub>1</sub> y C<sub>2</sub> son dos coeficientes de corrección de los efectos de dispersión atmosférica de los aerosoles, generalmente empleados con valores de C<sub>1</sub>=6 y C <sub>2</sub>=7.5 <br><i>L</i> es un factor de corrección del suelo, generalmente empleado con valor L = 1 <br>G es un factor de ganancia (<i>gain factor</i>), generalmente empleado con valor de G=2.5 para los datos del sensor MODIS.<p>Este índice toma valores entre 0 y 1, más cercanos a 1 cuanto mayor sea el vigor de la vegetación.<p>A partir del año 2000, y tras el lanzamiento de los dos sensores MODIS en los satélites Terra y Aqua, el EVI ha sido adoptado como un producto estándar de la NASA y se ha hecho muy popular entre sus usuarios por su capacidad de eliminar el ruido de fondo, así como la saturación, problema característico del NDVI en zonas de alta densidad de vegetación.]]></ows:Abstract>
-		<DataInputs>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[NDWI-OT (<i>normalized difference water index</i> - Ouma &amp; Tateishi, índice de agua de diferencia normalizada - Ouma &amp; Tateishi)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
-				<ows:Metadata xlink:title="Name:Opción"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>18</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -1794,18 +1534,90 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>ImatgeSortida</ows:Identifier>
+				<ows:Title>Imagen de salida</ows:Title>
+				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ImagenSalida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Indexs:Param1:17</ows:Identifier>
+		<ows:Title><![CDATA[NDWI-MF (<i>normalized difference water index</i> - McFeeters, índice de agua de diferencia normalizada - McFeeters)]]></ows:Title>
+		<ows:Abstract><![CDATA[<p>El NDWI fue propuesto McFeeters (1996) para delinear las masas de agua abiertas como lagos y embalses, y mejorar su detección en las imágenes de satélite.<center>NDWI-MF= (&#961;<sub>V</sub> - &#961;<sub>IRc</sub>) / (&#961;<sub>V</sub> + &#961;<sub>IRc</sub>)</center>donde: <br>&#961;<sub>V</sub> es la reflectancia en la región espectral del verde<br> &#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano.<p>Con este índice las superficies de agua tienen valores positivos, mientras que la superficie de la tierra y la vegetación posen valores de 0 o negativos.<p><ul><font size="-1"><b>McFeeters, SK</b> (1996) <i>The use of the normalized difference water index (NDWI) in the delineation of open water features</i>.  International Journal of Remote Sensing, 17: 1425-1432.</font></ul><br>Este índice corresponde al <a href="https://www.termcat.cat/ca/diccionaris-en-linia/197/search/NDWI1?type=basic&condition=contains">NDWI<sup>1</sup></a> del <a href="https://www.termcat.cat/ca/diccionaris-en-linia/197">Diccionari terminològic de teledetecció</a> de Pons y Arcalís (2012).]]></ows:Abstract>
+		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>TWVI (Two-axis adjusted Vegetation Index)</ows:Title>
-				<ows:Abstract><![CDATA[TWVI (<i>two-axis adjusted vegetation index</i>, índice de vegetación ajustado a dos ejes)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:Opcio"/>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[NDWI-MF (<i>normalized difference water index</i> - McFeeters, índice de agua de diferencia normalizada - McFeeters)]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>11</ows:Value>
+						<ows:Value>17</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaV</ows:Identifier>
+				<ows:Title>Banda del verde</ows:Title>
+				<ows:Abstract>Banda que corresponde al verde.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:BandaV"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaIR</ows:Identifier>
+				<ows:Title>Banda IRc</ows:Title>
+				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:BandaIRc"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
 		</DataInputs>
 		<ProcessOutputs>
@@ -1813,7 +1625,156 @@
 				<ows:Identifier>ImatgeSortida</ows:Identifier>
 				<ows:Title>Imagen de salida</ows:Title>
 				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:ImagenSalida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Indexs:Param1:18</ows:Identifier>
+		<ows:Title><![CDATA[NDWI-OT (<i>normalized difference water index</i> - Ouma &amp; Tateishi, índice de agua de diferencia normalizada - Ouma &amp; Tateishi)]]></ows:Title>
+		<ows:Abstract><![CDATA[<p>El índice NDWI-OT es otra de las muy diversas aproximaciones a índices para delimitación de masas de agua, en este caso una utilizada por Ouma &amp; Tateishi (2006) como parte de una aproximación llamada WI. En concreto el NDWI-OT (que en la terminología de los autores se llama NDWI<sub>3</sub>), usa las bandas del IRoc y el IRc (bandas 5 y 4 de los sensores TM/ETM+) para delimitar la línea de costa de las masas de agua de forma rápida.<center>NDWI-OT=(&#961;<sub>IRoc</sub> - &#961;<sub>IRc</sub>) / (&#961;<sub>IRoc</sub> + &#961;<sub>IRc</sub>)</center>donde: <br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano<br>&#961;<sub>IRoc</sub> es la reflectancia en la región espectral del infrarrojo de onda corta.<p><ul><font size="-1"><b>Ouma, YO; Tateishi, R</b> (2006)  <i>A water index for rapid mapping  of shoreline changes of five East African Rift Valley lakes: an empirical analysis using Landsat TM and ETM+ data</i>. International Journal of Remote Sensing, 27: 3153-3181.</font></ul>]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[NDWI-OT (<i>normalized difference water index</i> - Ouma &amp; Tateishi, índice de agua de diferencia normalizada - Ouma &amp; Tateishi)]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>18</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaIR</ows:Identifier>
+				<ows:Title>Banda IRc</ows:Title>
+				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:BandaIRc"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>ImatgeSortida</ows:Identifier>
+				<ows:Title>Imagen de salida</ows:Title>
+				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:ImagenSalida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Indexs:Param1:19</ows:Identifier>
+		<ows:Title><![CDATA[EVI  (<i>enhanced vegetation index</i>, índice de vegetación mejorado)]]></ows:Title>
+		<ows:Abstract><![CDATA[<p>El índice EVI obtiene respuesta de las variaciones estructurales del dosel vegetal incluyendo el índice de área foliar (LAI), tipo y arquitectura del dosel y etc. EVI fue desarrollado para optimizar la señal de la vegetación con sensibilidad mejorada para altas densidades de biomasa. Esta optimización se logra al separar la señal proveniente de la vegetación de la señal de la influencia atmosférica.<center>EVI= G · (&#961;<sub>IRc</sub> - &#961;<sub>R</sub>) / (&#961;<sub>IRc</sub> + C<sub>1</sub> · &#961;<sub>R</sub> - C<sub>2</sub> · &#961;<sub>B</sub> + L)</center>donde: <br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano<br>&#961;<sub>R</sub> es la reflectancia en la región espectral del rojo<br>&#961;<sub>B</sub> es la reflectancia en la región espectral del azul<br>  C<sub>1</sub> y C<sub>2</sub> son dos coeficientes de corrección de los efectos de dispersión atmosférica de los aerosoles, generalmente empleados con valores de C<sub>1</sub>=6 y C <sub>2</sub>=7.5 <br><i>L</i> es un factor de corrección del suelo, generalmente empleado con valor L = 1 <br>G es un factor de ganancia (<i>gain factor</i>), generalmente empleado con valor de G=2.5 para los datos del sensor MODIS.<p>Este índice toma valores entre 0 y 1, más cercanos a 1 cuanto mayor sea el vigor de la vegetación.<p>A partir del año 2000, y tras el lanzamiento de los dos sensores MODIS en los satélites Terra y Aqua, el EVI ha sido adoptado como un producto estándar de la NASA y se ha hecho muy popular entre sus usuarios por su capacidad de eliminar el ruido de fondo, así como la saturación, problema característico del NDVI en zonas de alta densidad de vegetación.]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[EVI  (<i>enhanced vegetation index</i>, índice de vegetación mejorado)]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>19</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaIR</ows:Identifier>
+				<ows:Title>Banda IRc</ows:Title>
+				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:BandaIRc"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>BandaR</ows:Identifier>
+				<ows:Title>Banda R</ows:Title>
+				<ows:Abstract>Banda que corresponde a la región espectral del rojo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:BandaR"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>ImatgeSortida</ows:Identifier>
+				<ows:Title>Imagen de salida</ows:Title>
+				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:ImagenSalida"/>
 				<ComplexOutput>
 					<Default>
@@ -1838,10 +1799,23 @@
 		<ows:Abstract><![CDATA[<p>El índice AFRI<sub>2.1</sub> se desarrolla a partir del NDVI y usa la banda del infrarrojo de onda corta (IRoc), de 2.1 µm, en lugar de la del rojo para reducir los efectos de los aerosoles. Se propone con la banda &#961;<sub>2.1</sub> de MODIS   y la banda del infrarrojo cercano, IRc. <center>AFRI<sub>2.1</sub>= (&#961;<sub>IRc</sub> - 0.5 · &#961;<sub>2.1</sub>) / (&#961;<sub>IRc</sub> + 0.5 · &#961;<sub>2.1</sub>)</center>donde: <br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano<br>&#961;<sub>2.1</sub> es la reflectancia en la región espectral del infrarrojo de onda corta, de 2.1 µm, del MODIS.<p>La ventaja del índice AFRI se basa en la capacidad de las bandas del IRoc de penetrar en la columna atmosférica, incluso con la presencia de humo y sulfatos. Por lo tanto estos índices tienen una funcionalidad para la evaluación de la vegetación en presencia de humo, polución antrópicas o erupciones volcánicas. Se debe tener en cuenta que en condiciones de cielos claros con baja influencia atmosférica estos índices se encuentran altamente correlacionados con el NDVI.<p><ul><font size="-1"><b>Karnieli A,  Kaufman YJ, Remer L,  Wald A</b> (2001) <i>AFRI  Aerosol free vegetation index</i>. Remote Sensing of Environment, 77(1):10-21.</font></ul>]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[AFRI2.1 (<i>aerosol free vegetation index 2.1</i>, índice de vegetación libre de aerosoles 2.1)]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>20</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>BandaIRoc</ows:Identifier>
 				<ows:Title>Banda del IRoc</ows:Title>
 				<ows:Abstract>Banda que corresponde al infrarrojo medio.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:BandaIRoc"/>
 				<ComplexData>
 					<Default>
@@ -1862,7 +1836,7 @@
 				<ows:Identifier>BandaIR</ows:Identifier>
 				<ows:Title>Banda IRc</ows:Title>
 				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:BandaIRc"/>
 				<ComplexData>
 					<Default>
@@ -1878,19 +1852,6 @@
 						</Format>
 					</Supported>
 				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[EVI  (<i>enhanced vegetation index</i>, índice de vegetación mejorado)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:Opción"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>19</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
 			</Input>
 		</DataInputs>
 		<ProcessOutputs>
@@ -1925,13 +1886,13 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[AFRI2.1 (<i>aerosol free vegetation index 2.1</i>, índice de vegetación libre de aerosoles 2.1)]]></ows:Abstract>
+				<ows:Abstract><![CDATA[AFRI1.6 (<i>aerosol free vegetation index 1.6</i>, índice de vegetación libre de aerosoles 1.6)]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>20</ows:Value>
+						<ows:Value>21</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -2010,13 +1971,13 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[AFRI1.6 (<i>aerosol free vegetation index 1.6</i>, índice de vegetación libre de aerosoles 1.6)]]></ows:Abstract>
+				<ows:Abstract><![CDATA[PRI (<i>photochemical reflectance index</i>, índice de reflectancia fotoquímica)]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>21</ows:Value>
+						<ows:Value>22</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -2041,26 +2002,13 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[PRI (<i>photochemical reflectance index</i>, índice de reflectancia fotoquímica)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:Opción"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>22</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>ImatgeSortida</ows:Identifier>
 				<ows:Title>Imagen de salida</ows:Title>
 				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:ImagenSalida"/>
 				<ComplexOutput>
 					<Default>
@@ -2085,10 +2033,23 @@
 		<ows:Abstract><![CDATA[<p>Índice que permite la detección de la cubierta nival. <center>NDSI= (&#961;<sub>V</sub> - &#961;<sub>IRoc</sub>) / (&#961;<sub>V</sub> + &#961;<sub>IRoc</sub>)</center>donde: <br>&#961;<sub>V</sub> y &#961;<sub>IRoc</sub> corresponden a las reflectancias en la región espectral del verde y del IRoc, respectivamente, ya que la nieve es muy reflexiva en el visible y, en cambio, absorbente en el infrarrojo de onda corta. En el caso de datos del sensor TM se utiliza como IRoc la banda 5. <p>Valores del NDSI superiores a 0.4 corresponden a zonas con cubierta nival.<p>Varios autores recomiendan aplicar máscaras en zonas de sombras y de lagos para evitar la confusión con áreas innivadas.]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[NDSI (<i>normalized difference snow index</i>, índice de nieve de diferencia normalizada)]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>23</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Banda_570_nm</ows:Identifier>
 				<ows:Title>Banda de 570 nm</ows:Title>
 				<ows:Abstract>Banda de longitud de onda 570 nm.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Banda_570_nm"/>
 				<ComplexData>
 					<Default>
@@ -2105,39 +2066,13 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[TSARVI (<i>transformed soil atmospherically resistant vegetation index</i>, índice transformado de suelo-vegetación atmosféricamente resistente)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:Opción"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>14</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[NDWI-MF (<i>normalized difference water index</i> - McFeeters, índice de agua de diferencia normalizada - McFeeters)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:Opción"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>17</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>ImatgeSortida</ows:Identifier>
 				<ows:Title>Imagen de salida</ows:Title>
 				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:ImagenSalida"/>
 				<ComplexOutput>
 					<Default>
@@ -2162,10 +2097,23 @@
 		<ows:Abstract><![CDATA[<p>Índice empleado en el estudio de las condiciones de los suelos (color, humedad y estructura), especialmente en las regiones áridas y semiáridas.<center>BI= &#8730;(&#961;<sup>2</sup><sub>R</sub> + &#961;<sup>2</sup><sub>IRc</sub>)</center>donde:    <br>&#961;<sub>R</sub> es la reflectancia en la región espectral del rojo<br>&#961;<sub>IRc</sub> es la reflectancia en la región espectral del infrarrojo cercano. <p>Al no tratarse de un índice normalizado, el resultado no está acotado superiormente por ninguna constante. Valores altos del BI indican una mayor reflectancia, situación que corresponde a suelos secos, descubiertos y de color claro.<p>El uso de este índice está recogido en la página 81 de la tesis doctoral de: <p><ul><font size="-1"><b>Sebastien Rapinel</b> (2012) <i>Contribution de la télédétection à l'évaluation des fonctions des zones humides: de l'observation à la modélisation prospective</i>, disponible en <a href="https://tel.archives-ouvertes.fr/tel-00731169/document">https://tel.archives-ouvertes.fr/tel-00731169/document</a>.</font></ul> <p> Existe otro índice con la misma denominación pero con diferente formulación (pág. 27 del texto impreso), donde se añade a la suma el cuadrado de la reflectancia en la banda del verde: <p><ul><font size="-1"><b>Escadafal R, Bacha S</b> (1995) <i>Strategy for the Dynamic Study of Desertification</i>, Proceedings of the ISSS International Symposium, Ouagadougou, Burkina Faso, 6-10 February 1995, pp. 19-34, disponible en  <a href="https://horizon.documentation.ird.fr/exl-doc/pleins_textes/pleins_textes_6/colloques2/010008392.pdf">https://horizon.documentation.ird.fr/exl-doc/pleins_textes/pleins_textes_6/colloques2/010008392.pdf</a>.</font></ul> <p>  Por último, se utiliza una formulación similar (ecuación 2), pero con las bandas del verde y rojo, seguramente menos informativa por la alta correlación habitual entre estas bandas, en el trabajo de: <p><ul><font size="-1"><b>Marques et al.</b> (2020) <i>The use of remote sensing to detect the consequences of erosion in gypsiferous soils</i> Water Conservation Research, 8:383e392.</font></ul>  <p>Nota: Se suele atribuir referencias a este índice que son erróneas o que usan en realidad otras aproximaciones (combinaciones lineales como el brillo de la transformación Tasseled Cap, etc). Para evitar confusiones y pérdidas de tiempo a los usuarios de MiraMon, a continuación se facilita una referencia que NO tiene relación con el índice 24 que está implementado en esta aplicación:<p><ul><font size="-1"><b>Escadafal R, Belghith A, Ben Moussa H</b> (1994) <i>Indices spectraux pour la dégradation des milieux naturels en Tunisie aride</i>. 6ème Symp. Int. Mesures Physiques et Signatures en Télédétection. ISPRS-CNES <a href="https://horizon.documentation.ird.fr/exl-doc/pleins_textes/pleins_textes_5/b_fdi_20-21/26946.pdf">https://horizon.documentation.ird.fr/exl-doc/pleins_textes/pleins_textes_5/b_fdi_20-21/26946.pdf</a> [esta página contiene una fórmula sin sentido y, además, da una referencia que tampoco está relacionada].</font></ul>]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract><![CDATA[BI (<i>brightness index</i>, índice de brillo)]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>24</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Banda_531_nm</ows:Identifier>
 				<ows:Title>Banda de 531 nm</ows:Title>
 				<ows:Abstract>Banda de longitud de onda 531 nm.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Banda_531_nm"/>
 				<ComplexData>
 					<Default>
@@ -2186,7 +2134,7 @@
 				<ows:Identifier>BandaIR</ows:Identifier>
 				<ows:Title>Banda IRc</ows:Title>
 				<ows:Abstract>Banda que corresponde a la región espectral del infrarrojo cercano.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:BandaIRc"/>
 				<ComplexData>
 					<Default>
@@ -2207,7 +2155,7 @@
 				<ows:Identifier>BandaR</ows:Identifier>
 				<ows:Title>Banda R</ows:Title>
 				<ows:Abstract>Banda que corresponde a la región espectral del rojo.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:BandaR"/>
 				<ComplexData>
 					<Default>
@@ -2230,7 +2178,7 @@
 				<ows:Identifier>ImatgeSortida</ows:Identifier>
 				<ows:Title>Imagen de salida</ows:Title>
 				<ows:Abstract>Nombre de la imágen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:ImagenSalida"/>
 				<ComplexOutput>
 					<Default>
@@ -2257,13 +2205,13 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[NDSI (<i>normalized difference snow index</i>, índice de nieve de diferencia normalizada)]]></ows:Abstract>
+				<ows:Abstract><![CDATA[NDWI-Chen (<i>normalized difference water index</i> - Chen, Huang, Jackson,  índice de agua de diferencia normalizada - Chen, Huang, Jackson)]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>23</ows:Value>
+						<ows:Value>25</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -2287,19 +2235,6 @@
 						</Format>
 					</Supported>
 				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[NDWI-MF (<i>normalized difference water index</i> - McFeeters, índice de agua de diferencia normalizada - McFeeters)]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:Opción"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>17</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
 			</Input>
 		</DataInputs>
 		<ProcessOutputs>
