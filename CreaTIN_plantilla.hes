@@ -1,6 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 18-12-2023 */-->
 <head>
-<title>CreaTIN: Generación de un TIN a partir de una nube de puntos</title>
+<title>CreaTIN: Creación de modelos TIN desde una nube de puntos</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
@@ -10,15 +11,36 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p align="justify"> El programa permite hacer una selección de la capa de puntos origen, así como utilizar la cota Z de los puntos, en caso de que sea una capa 3D, o utilizar un campo numérico de la base de datos como cota Z que será asignada a cada vértice los triángulos. Además, también se permite usar puntos que tengan cota sindatos (en el caso de elegir usar cota 3D) o con etiqueta vacía (en el caso de asignar un campo).</p>
+<p>Un TIN es un conjunto de triángulos adyacentes, no solapados y sin agujeros topológicos, construido a partir de coordenadas irregularmente distribuidas provenientes de puntos (como cotas altimétricas), líneas (como crestas o vaguadas) o polígonos (como un borde de un lago). Al ser vectorial proporciona una modelización que respeta los puntos singulares como cimas, fondos de valle, etc.</p>
 
-  <p align="justify">El fichero de entrada debe ser un fichero de puntos en formato PNT y el fichero de salida será de polígonos en formato POL.</p>
-  
-  <hr/>
+<p>La aplicación CreaTIN permite hacer una selección de la capa de puntos origen, así como utilizar la cota Z de los puntos, en caso de que sea una capa 3D, o utilizar un campo numérico de la base de datos como cota Z que será asignada a cada vértice los triángulos. Además, también permite usar puntos que tengan cota sindatos (en el caso de elegir usar cota 3D) o con etiqueta vacía (en el caso de asignar un campo).</p>
+
+<p>El fichero de entrada debe ser un fichero de puntos en formato PNT y el fichero de salida será de polígonos en formato POL.</p>
+
+<p>Al consultar por localización los polígonos resultantes se obtienen la cota calculada en el plano del triángulo 3D si se hace clic en el interior del polígono, la cota calculada a lo largo de la tendencia de cada arista del triángulo si se clica en uno de los bordes del polígono, y la cota del vértice del triángulo si se pulsa sobre uno de los nodos.</p>
+
+<p>La tabla creada contiene varios campos de interés para cada triángulo:</p> 
+<ul> 
+<li>Perímetro y Área 3D (calculados en la proyección cartográfica de la capa; información complementaria al perímetro y el área sobre la proyección plana o sobre el elipsoide terrestre), </li>
+<li>Pendiente y Orientación de cada triángulo, en grados; la orientación se proporciona siguiendo el criterio habitual: 0° para triángulos orientados al N, 90° al E, etc; los triángulos planos, al no estar orientados, describen la orientación en blanco.</li>
+</ul> 
+
+<p>Si se proporciona puntos provenientes de curvas de nivel, sin cotas complementarias, en algunas zonas, particularmente en el interior de las curvas de las zonas culminales, se generarán triángulos coplanares. La pendiente de los triángulos coplanares es 0, y la orientación, al permanecer indefinida, queda escrita en blanco en la tabla de los polígonos triangulares creados.</p>
+
+<p>Ejemplo de malla TIN (en negro) bajo las isolíneas (colores graduados según el valor de la isolínea) a partir de las cuales ha sido creada. Nótese que se simbolizan los vértices de las isolíneas, que se han convertido en vértices (todos nodos en este caso) de los triángulos.</p>
+
+<p align="center"><img src="CreaTIN_1.png"/></p>
+
+<p>Para convertir la capa TIN en un MDT ráster convencional utilícese la aplicación <a href="TiraVec.htm">TiraVec</a> en modo TIN:</p>
+
+<p align="center"><img src="CreaTIN_2.png"/></p>
+
+<hr/>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><!-- $$EXCLUSIVA$$
+
 Para obtener la ayuda completa escriba:
 CreaTIN ?
 --></p>

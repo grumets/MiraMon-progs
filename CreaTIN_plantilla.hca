@@ -1,6 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 18-12-2023 */-->
 <head>
-<title>CreaTIN: Generació d'un TIN a partir d'un núvol de punts</title>
+<title>CreaTIN: Creació de models TIN des d'un núvol de punts</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
@@ -11,11 +12,31 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p align="justify">El programa permet fer una selecció de la capa de punts origen, així com utilitzar la cota Z dels punts, en cas que sigui una capa 3D, o utilitzar un camp numèric de la base de dades com a cota Z que serà assignada a cada vèrtex dels triangles. A més, també es permet usar punts que tinguin cota sensedades (en el cas de triar usar cota 3D) o amb etiqueta buida (en el cas d'assignar un camp).</p>
+<p>Un TIN és un conjunt de triangles adjacents, no solapats i sense forats topològics, construït a partir de coordenades irregularment distribuïdes provinents de punts (com cotes altimètriques), línies (com carenes o tàlvegs) o polígons (com una vora d'un llac). En ser vectorial proporciona una modelització que respecta els punts singulars com cims, fons de vall, etc.</p>
 
-  <p align="justify">El fitxer d'entrada ha de ser un fitxer de punts en format PNT i el fitxer de sortida serà de polígons en format POL.</p>
-  
-  <hr/>
+<p>L'aplicació CreaTIN permet fer una selecció de la capa de punts origen, així com utilitzar la cota Z dels punts, en cas que sigui una capa 3D, o utilitzar un camp numèric de la base de dades com a cota Z que serà assignada a cada vèrtex dels triangles. A més, també permet usar punts que tinguin cota sensedades (en el cas de triar usar cota 3D) o amb etiqueta buida (en el cas d'assignar un camp).</p>
+
+<p>El fitxer d'entrada ha de ser un fitxer de punts en format PNT i el fitxer de sortida serà de polígons en format POL.</p>
+
+<p>En consultar per localització els polígons resultants s'obté la cota calculada en el pla del triangle 3D si es fa clic a l'interior del polígon, la cota calculada al llarg de la tendència de cada aresta del triangle si es clica a una de les vores del polígon, o la cota del vèrtex del triangle si es prem sobre un dels nodes.</p>
+
+<p>La taula creada conté diversos camps d'interès per a cada triangle:</p>
+<ul> 
+<li>Perímetre i Àrea 3D (calculats en la projecció cartogràfica de la capa; informació complementària al perímetre i l'àrea sobre la projecció plana o sobre l'el·lipsoide terrestre),</li>
+<li>Pendent i Orientació, en graus; l'orientació es proporciona seguint el criteri habitual: 0° per a triangles orientats al N, 90° a l'E, etc; els triangles plans, en no estar orientats deixen l'orientació en blanc.</li>
+</ul> 
+
+<p>Si es proporcionen punts provinents de corbes de nivell, sense cotes complementàries, a algunes zones, particularment a l'interior de les corbes de les zones culminals, es generaran triangles coplanars. El pendent dels triangles coplanars és 0, i l'orientació, en restar indefinida, queda escrita en blanc a la taula dels polígons triangulars creats.</p>
+
+<p>Exemple de malla TIN (en negre) sota les isolínies (colors graduats segons el valor de la isolínia) a partir de les quals ha estat creada. Cal notar que se simbolitzen els vèrtexs de les isolínies, que han esdevinguts vèrtexs (tots nodes en aquest cas) dels triangles.</p>
+
+<p align="center"><img src="CreaTIN_1.png"/></p>
+
+<p>Per tal de convertir la capa TIN en un MDT ràster convencional es pot utilitzar l'aplicació <a href="TiraVec.htm">TiraVec</a> en mode TIN:</p>
+ 
+<p align="center"><img src="CreaTIN_2.png"/></p>
+ 
+<hr/>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->

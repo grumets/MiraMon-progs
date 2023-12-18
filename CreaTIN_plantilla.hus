@@ -1,6 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 18-12-2023 */-->
 <head>
-<title>CreaTIN: Generating a TIN from a point cloud</title>
+<title>CreaTIN: TIN models generation from a point cloud</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
@@ -10,11 +11,31 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p align="justify"> The program allows making a selection of the input points file, as well as to use the Z coordinate of the points, in case it is a 3D file, or to use a numeric field of the database as Z coordinate that will be assigned to each vertex of the output triangles. In addition, it is also allowed to use points that have NoData height (in case of choosing to use 3D dimension) or with empty label (in the case of assigning a field).</p>
+<p>A TIN is a set of adjacent triangles, non-overlapping and without topological holes, built from irregularly distributed coordinates coming from points (such as elevation spots), lines (such as ridges or channels) or polygons (such as the edge of a lake). Being a vector model, it respects singular points such as peaks, valleys, etc.</p>
 
-  <p align="justify">The input file must be a point file in PNT format and the output file will be a polygon file in POL format.</p>
-  
-  <hr/>
+<p>The application CreaTIN allows making a selection of the input points file, as well as to use the Z coordinate of the points, in case it is a 3D file, or to use a numeric field of the database as Z coordinate that will be assigned to each vertex of the output triangles. In addition, it allows to use points that have NoData height (in case of choosing to use 3D dimension) or with empty label (in the case of assigning a field).</p>
+
+<p>The input file must be a point file in PNT format and the output file will be a polygon file in POL format.</p>
+
+<p>When querying the resulting polygons by location, the user will obtain the dimension calculated in the plane of the 3D triangle in case of clicking inside the polygon, the dimension calculated along the trend of each edge of the triangle in case of clicking on one of the edges of the polygon, and the coordinate of the vertex of the triangle in case of clicking on one of the nodes.</p>
+
+<p>The created table contains several fields of interest for each triangle:</p> 
+<ul>
+<li>D Perimeter and 3D Area (calculated in the cartographic projection of the layer, it is a  complementary information to the perimeter and area on the projection plane, or on the Earth ellipsoid),</li> 
+<li>Slope and Orientation, in degrees; the orientation is provided following the usual criteria: 0° for triangles oriented to the N, 90° to the E, etc; flat triangles, as they are not oriented, leave the orientation blank.</li>
+</ul>
+
+<p>If the user provides points from contour lines, without complementary elevations, in some areas, particularly inside the curves of the peak areas, coplanar triangles will be generated. The slope of coplanar triangles is 0, and the orientation, if left undefined, is written blank in the table of triangular polygons created.</p>
+
+<p>Example of a TIN grid (in black) under the isolines (graded colors according to the value of the isoline) from which it was created. Note that the vertices of the isolines are symbolized, which have become vertices (all nodes in this case) of the triangles.</p>
+
+<p align="center"><img src="CreaTIN_1.png"/></p>
+
+<p>To convert the TIN layer into a conventional DTM (raster), use the <a href="TiraVec.htm">TiraVec</a> application in TIN mode:</p>
+
+<p align="center"><img src="CreaTIN_2.png"/></p>
+ 
+<hr/>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
