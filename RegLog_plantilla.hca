@@ -1,0 +1,69 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 18-12-2023 */-->
+<head>
+  <title>RegLog: Regressió logística</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+ 
+<p>La variable dependent <i>Y</i> sempre serà dicotòmica i, per tant, els valors numèrics que prendrà seran 1 o 0 (presència/absència, si/no, èxit/fracàs...). El propòsit de l'anàlisi és predir la probabilitat que la variable <i>Y</i> prengui valor 1 en funció dels valors de les variables explicatives,  P(<i>Y</i>=1|<i>X</i>), i avaluar la relació o efecte d'aquestes sobre la variable dependent.</p>
+   
+<p>L'anàlisi està fonamentada en el model de regressió logística binària multivariant el qual assumeix que la probabilitat que la variable <i>Y</i> prengui valor 1 segueix la distribució logística i, per tant, el seu valor pot ser estimat segons la fórmula següent, anomenada funció logística:</p>
+   
+<p align="center"><img src="RegLog.png"/></p>
+   
+<p>on:</p>
+<br><img src="RegLog1.png"/> són les variables independents,</br>
+<br><img src="RegLog2.png"/> és la constant del model o terme independent,</br>
+<br><img src="RegLog3.png"/> són els coeficients de les variables independents.</br>
+   
+<p>Aquesta funció és contínua i pren valors en el rang [0,1].</p>
+   
+<p>El vector de coeficients <img src="RegLog3.png"/> s'estima mitjançant el mètode de màxima versemblança, és a dir, els coeficients són ajustats de manera que es maximitza la funció de versemblança.</p> 
+   
+<p>Donat que una variable dependent dicotòmica segueix una distribució binomial, la funció de versemblança per a una mostra aleatòria de N observacions s'expressa per:</p>
+   
+<p><img src="RegLog4.png"/></p>
+   
+<p>on:</p>
+<br><img src="RegLog5.png"/> és el valor observat (1 o 0) de la variable dependent per la mostra <i>i</i></br>
+<img src="RegLog6.png"/> és el valor predit de la variable dependent per la mostra <i>i</i>, <img src="RegLog7.png"/>.</br>
+   
+<p>Els coeficients que maximitzin L(B) també maximitzaran la seva transformació logarítmica. Per maximitzar el logaritme de la funció de versemblança cal trobar la solució del següent sistema d'equacions no lineals:</p>
+   
+<p><img src="RegLog8.png"/></p>
+  
+<p>on:
+<br><img src="RegLog9.png"/> és el valor observat de la variable independent <img src="RegLog10.png"/> per a la mostra <i>i</i>.
+
+<p>En l'aplicació s'ha implementat l'algoritme iteratiu de Newton-Raphson per resoldre'l. </p>
+  
+<p>Així doncs, per determinar els coeficients de la regressió és necessari proporcionar un conjunt de mostres on és coneguda tant la variable dependent en localitzacions concretes (puntuals) com el conjunt de les possibles variables independents. Aquestes mostres es proporcionaran o bé en un fitxer de punts estructurat PNT o en una taula en format DBF o bé en una taula en qualsevol altre format accessibles mitjançant un <i>driver ODBC</i> (<i>Open DataBase Connectivity</i>). Les variables independents caldrà que siguin proporcionades com a ràsters en format IMG del mateix àmbit geogràfic i costat de píxel. El resultat predictiu serà també un ràster en format IMG.</p>
+
+<p>El procediment de regressió és, de fet, un procés iteratiu d'ajust de totes les regressions possibles: des de la regressió amb totes les variables independents inicialment introduïdes fins a les regressions amb una única variable independent. Analitzant els paràmetres estadístics de cada regressió i en funció del criteri escollit (menor coeficient AIC, menor estadístic <i>Deviance</i> o millor coeficient R<sup>2</sup> de <i>Naglekerke</i>, s'obté la que es considera millor regressió de totes.</p>
+
+<p>Per a més informació  del model de regressió logística, del mètode de màxima versemblança i de l'algoritme iteratiu Newton-Raphson es pot consultar la següent referència:</p>
+ 
+<p><b>Czepiel, S.A.</b> (2002) <i>Maximum Likelihood Estimation of Logistic Regression Models: Theory and Implementation</i> <a href="https://czep.net/stat/mlelr.pdf">https://czep.net/stat/mlelr.pdf</a>.</p>
+ 
+<hr/>
+
+<exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+RegMutlt ?
+</EXCLUSIVA> 
+-->
+  </exclusiva>
+</body>
+</html>

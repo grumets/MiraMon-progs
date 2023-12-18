@@ -1,0 +1,67 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 18-12-2023 */-->
+<head>
+  <title>RegLog: Regresión logística</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->  
+<p>La variable dependiente <i>Y</i> siempre será dicotómica y, por tanto, los valores numéricos que tomará serán 1 o 0 (presencia/ausencia, sí/no, éxito/fracaso...). El propósito del análisis es predecir la probabilidad de que la variable <i>Y</i> tome valor 1 en función de los valores de las variables explicativas, P(<i>Y</i>=1|<i>X </i>), y evaluar la relación o efecto de éstas sobre la variable dependiente.</p>
+   
+<p>El análisis está fundamentado en el modelo de regresión logística binaria multivariante que asume que la probabilidad de que la variable <i>Y</i> tome valor 1 sigue la distribución logística y, por tanto, su valor puede ser estimado según la siguiente fórmula, denominada función logística:</p>
+  
+<p align="center"><img src="RegLog.png"/></p>
+   
+<p>dónde:</p>
+<br><img src="RegLog1.png"/> son las variables independientes,</br>
+<br><img src="RegLog2.png"/> es la constante del modelo o término independente,</br>
+<br><img src="RegLog3.png"/> son los coeficientes de las variables independentes.</br>
+   
+<p>Esta función es continua y toma valores en el rango [0,1].</p>
+
+<p>El vector de coeficientes <img src="RegLog3.png"/> se estima mediante el método de máxima verosimilitud, es decir, los coeficientes son ajustados de forma que se maximiza la función de verosimilitud.</p>
+   
+<p>Dado que una variable dependiente dicotómica sigue una distribución binomial, la función de verosimilitud para una muestra aleatoria de N observaciones se expresa por:</p>
+
+<p><img src="RegLog4.png"/></p>
+   
+<p>dónde:</p>
+<br><img src="RegLog5.png"/> es el valor observado (1 o 0) de la variable dependiente por la muestra <i>i</i></br>
+<img src="RegLog6.png"/> es el valor predicho de la variable dependiente por la muestra <i>i</i>, <img src="RegLog7.png"/>.</br>
+   
+<p>Los coeficientes que maximicen L(B) también maximizarán su transformación logarítmica. Para maximizar el logaritmo de la función de verosimilitud es necesario encontrar la solución del siguiente sistema de ecuaciones no lineales:</p>
+   
+<p><img src="RegLog8.png"/></p>
+  
+<p>dónde:
+<br><img src="RegLog9.png"/> es el valor observado de la variable independiente <img src="RegLog10.png"/> para la muestra <i>i</i>.
+
+<p>En la aplicación se ha implementado el algoritmo iterativo de Newton-Raphson para resolverlo. </p>
+  
+<p>Así pues, para determinar los coeficientes de la regresión es necesario proporcionar un conjunto de muestras en las que es conocida tanto la variable dependiente en localizaciones concretas (puntuales) como el conjunto de las posibles variables independientes. Estas muestras se proporcionarán en un archivo de puntos estructurado PNT o en una tabla en formato DBF o bien en una tabla en cualquier otro formato accesibles mediante un <i>driver ODBC</i> (<i>Open DataBase Connectivity</i>). Las variables independientes tendrán que ser proporcionadas como rásters en formato IMG del mismo ámbito geográfico y lado de píxel. El resultado predictivo será también un ráster en formato IMG.</P>
+
+<p>El procedimiento de regresión es, de hecho, un proceso iterativo de ajuste de todas las regresiones posibles: desde la regresión con todas las variables independientes inicialmente introducidas hasta las regresiones con una única variable independiente. Analizando los parámetros estadísticos de cada regresión y en función del criterio escogido (menor coeficiente AIC, menor estadístico <i>Deviance</i> o mejor coeficiente R<sup>2</sup> de <i>Naglekerke</i>, se obtiene la que se considera es la mejor regresión de todas.</p>
+
+<p>Para más información del modelo de regresión logística, del método de máxima verosimilitud y del algoritmo iterativo Newton-Raphson se puede consultar la siguiente referencia:</p>
+
+<p><b>Czepiel, S.A.</b> (2002) <i>Maximum Likelihood Estimation of Logistic Regression Models: Theory and Implementation</i> <a href="https://czep.net/stat/mlelr.pdf">https://czep.net/stat/mlelr.pdf</a>.</p>
+  <hr/>
+
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+RegMutlt ?
+</EXCLUSIVA> 
+-->
+  </exclusiva>
+</body>
+</html>
