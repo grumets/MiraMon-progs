@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Rev AA 04-01-2024 */-->
 <head>
   <title>OrdreRas: Rank of pixel values in a raster</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -13,17 +13,17 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>The input raster must be in the file format .IMG and the data type can be
-  any supported by MiraMon (more information is explained at <a href="../mm32/AP1.htm">MiraMon raster formats description</a>). The output raster file will be in the IMG
-  format whole numbers of type <i>byte RLE</i>, <i>integer RLE</i> or <i>long
-  RLE</i>, depending on the number of ordination levels requested. The output
+  <p>The most common use of this application is in multicriteria modeling. For example, the user wants to determine the best locations for the installation of a solar farm in a territory. The operation that is typically done is with the calculator/reclassifier <a href="CalcImg.htm">CalcImg</a> from several layers (insolation, land cover, distance to communication routes, protected areas, etc), which will assign to each cell of a raster network the score obtained in that location according to the decision rule (the formula that combines the layers by applying weights according to their suitability for the installation). When the user has the result of this execution from CalcImg, and a histogram of the scores obtained in the different cells of the resulting raster is calculated it will be observed that the values do not usually present a continuous distribution. If, for example, the histogram shows that the cells have the following scores: 0 (not suitable cells), 12.5, 22.7, 23.5, 45.4, and 45.5, a reclassification could be made in which the areas with 0 are assigned a value of 1, areas with 12.5 a value of 2, and so on up to a value of 6 for cells with a value of 45.5, so that the resulting raster, of an ordinal nature, would say which cells have the optimal score (those with a value of 6), sub-optimal (those with a value of 5), etc, and this map would present the multicriteria evaluation data in an easily understandable way, on a continuous scale of integer values. The OrdreRas application facilitates the quickly result of this summary map in a single step, without the need to calculate and analyze the histogram, or make a subsequent reclassification, since the OrdreRas directly orders the values present in the resulting raster of the decision rule and automatically generates, for each value, consecutive integer indices. Despite the interest of this tool as a quick evaluation method, it is important to be aware that with this way of proceeding the quantitative idea of the difference between the scores is lost: in the previous example the cells with values 45.4 and 45.5 have a very similar level of adequacy, and it would probably be convenient that they were part of the same category of optimally scored cells. That is why, in many cases, after a first impression provided by OrdreRas for the evaluation of several decision rules, it may be convenient to do a manual reclassification in order to refine the classes finally presented for the final decision. </p>
+  
+  <p>The input raster must be in the file format .img and the data type can be
+  any supported by MiraMon (more information is explained at <a href="../mm32/AP1.htm">MiraMon raster formats description</a>). The output raster file will be in .img format of integer numbers of type byte RLE, unsigned integer RLE or long RLE, depending on the number of ordination levels requested. The output
   file is always of the type RLE 'extra-compresed'. The value of 0
   will be assigned as the NoData value in the raster output file.</p>
 
   <p>The rank process can be completed using ascending or descending
   criteria but, in either case, the value of 1 will represent the first
   ordination level in the output file. In the case that two cells have the
-  same value, they will be classified to the same ordination level, except in case of forcing the tiebreaker depending on the geographical position, an option that allows a behavior equal to that of the Idrisi Selva Rank application. It is also possible to limit the maximum number of levels to order.</p>
+  same value, they will be classified to the same ordination level, except in case of forcing the tiebreaker depending on the geographical position, an option designed exclusively to allow a behavior equal to that of the Idrisi Rank application. It is also possible to limit the maximum number of levels to order.</p>
 
   <p>It is also possible to define the minimum and maximum threshold values to
   be considered. Depending on whether or not the threshold limit is greater or
@@ -43,7 +43,7 @@
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><br/>
-    Example:</p>
+    Examples:</p>
 
     <p>OrdreRas A C:\InputRaster.img C:\OutputFile.img<br/>
     OrdreRas D C:\InputRaster.img C:\OutputFile.img /LIM_SUP=500<br/>

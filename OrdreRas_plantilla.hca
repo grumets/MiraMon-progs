@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Rev AA 04-01-2024 */-->
 <head>
   <title>OrdreRas: Ordenació dels valors d'un ràster</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -13,17 +13,19 @@
 <span id="wpsopcions"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->   
 
-  <p>El ràster d'entrada ha de ser un fitxer en format .IMG i el tipus de
+  <p>L'ús més habitual d'aquesta aplicació és en la modelització multicriteri. Per exemple, es vol determinar les millors ubicacions per a la instal·lació d'una granja solar en un territori. Típicament es fa una operació amb la calculadora/reclassificadora <a href="CalcImg.htm">CalcImg</a> a partir de diverses capes (d'insolació, de cobertes del sòl, de distància a vies de comunicació, de zones protegides, etc), la qual assignarà a cada cel·la d'una malla ràster la puntuació obtinguda en aquella ubicació segons la regla de decisió (la fórmula que combina les capes aplicant uns pesos segons la seva idoneïtat per a la instal·lació). Quan es té el resultat d'aquesta execució del CalcImg, si es calcula un histograma de les puntuacions obtingudes en les diferents cel·les del ràster resultant s'observarà que no solen presentar una distribució contínua. Si, per exemple,  l'histograma revela que les cel·les tenen les següents puntuacions: 0 (cel·les gens adequades), 12.5, 22.7, 23.5, 45.4 i 45.5, es podria fer una reclassificació en què a les zones amb 0 s'hi assigni un valor 1, a les zones amb 12.5 un valor 2, i així successivament fins a un valor 6 per a les cel·les amb valor 45.5, de manera que el ràster resultant, de natura ordinal, diria quines cel·les tenen una puntuació òptima (les que tenen un valor 6), sub-òptima (les que tenen un valor 5), etc, i aquest mapa presentaria les dades de l'avaluació multicriteri de manera fàcilment comprensible, en una escala contínua de valors enters. L'aplicació OrdreRas facilita l'obtenció ràpida d'aquest mapa resum en un sol pas, sense que la persona usuària hagi de calcular i analitzar l'histograma, ni fer una reclassificació posterior, ja que l'OrdreRas directament ordena els valors presents en el ràster resultant de la regla de decisió i genera automàticament per a cada valor índexs enters consecutius. Tot i l'interès d'aquesta eina com a mètode ràpid d'avaluació, és important ser conscient que amb aquesta manera de procedir es perd la idea quantitativa de la diferència entre les puntuacions: en l'exemple anterior les cel·les amb valors 45.4 i 45.5 tenen un nivell d'adequació molt similar, i segurament seria convenient que formessin part d'una mateixa categoria de cel·les amb puntuació òptima. És per això que, en molts casos, després d'una primera impressió proporcionada per OrdreRas per a l'avaluació de diverses regles de decisió, pot ser convenient fer una reclassificació manual per tal de refinar les classes finalment presentades per a la decisió final.</p>
+  
+  <p>El ràster d'entrada ha de ser un fitxer en format .img i el tipus de
   dades pot ser qualsevol dels suportats pel MiraMon (per a més informació es pot consultar <a href="../mm32/AP1.htm">Descripció dels formats ràster del MiraMon</a>).
-  El ràster de sortida serà un fitxer en format IMG de valors enters, de tipus
-  <i>byte RLE</i>, <i>integer RLE</i> o <i>long RLE</i>, depenent del nombre
-  de nivells d'ordenació assolits. El fitxer de sortida sempre és de tipus
+  El ràster de sortida serà un fitxer en format .img de valors enters, de tipus
+  <i>byte RLE</i>, <i>unsigned integer RLE</i> o <i>long RLE</i>, depenent del nombre
+  de nivells d'ordenació assolit. El fitxer de sortida sempre és de tipus
   RLE extracomprimit. S'assignarà el valor 0 com a valor sensedades del ràster
   de sortida.</p>
 
   <p>L'ordenació es pot fer per un criteri ascendent o descendent però, en
   qualsevol supòsit, el valor 1 en el fitxer de sortida representarà el primer nivell. En el supòsit que dues cel·les tinguin el mateix valor es
-  classificaran al mateix nivell, excepte si es vol forçar el desempat en funció de la posició geogràfica, opció que permet un comportament igual al de l'aplicació Rank de l'Idrisi Selva. Si es desitja, es pot limitar el nombre màxim de nivells a ordenar.</p>
+  classificaran al mateix nivell, excepte si es vol forçar el desempat en funció de la posició geogràfica, opció incorporada exclusivament per permetre un comportament igual al de l'aplicació Rank de l'Idrisi. Si es desitja, es pot limitar el nombre màxim de nivells a ordenar.</p>
 
   <p>També és possible indicar un valor límit que defineixi el llindar màxim o
   mínim a considerar. Depenent de si el límit és superior o inferior,
@@ -44,7 +46,7 @@
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->   
 <p><br/>
-    Exemple:</p>
+    Exemples:</p>
 
     <p>OrdreRas A C:\FitxerRas.img C:\FitxerOrdenat.img<br/>
     OrdreRas D C:\FitxerRas.img C:\FitxerOrdenat.img /LIM_SUP=500<br/>

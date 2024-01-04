@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 27-11-2023 */-->
+<!--/* Rev AA 04-01-2024 */-->
 <head>
   <title>OrdreRas: Ordenación de los valores de un ráster</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
@@ -13,18 +13,15 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>El ráster de entrada debe ser un archivo en formato IMG y el tipo de
-  datos puede ser cualquiera de los soportados por MiraMon (para más información se puede consultar <a href="../mm32/AP1.htm">Descripción de los formatos ráster de MiraMon</a>).
-  El ráster de salida será un archivo en formato IMG de valores enteros, de
-  tipo <em>byte RLE</em>, <em>integer</em> <em>RLE</em> o <em>long</em>
-  <em>RLE</em>, dependiendo del número de niveles de ordenación alcanzados. El
-  archivo de salida siempre es de tipo RLE extracomprimido. Se asignará el
-  valor 0 como valor sindatos del ráster de salida.</p>
+  <p>El uso más habitual de esta aplicación es en la modelización multicriterio. Por ejemplo, se desea determinar las mejores ubicaciones para la instalación de una granja solar en un territorio. Típicamente se realiza una operación con la calculadora/reclasificadora <a href="CalcImg.htm">CalcImg</a> a partir de varias capas (de insolación, de cubiertas del suelo, de distancia a vías de comunicación, de zonas protegidas, etc), la cual asignará a cada celda de una malla ráster la puntuación obtenida en esa ubicación según la regla de decisión (la fórmula que combina las capas aplicando unos pesos según su idoneidad para la instalación). Cuando se tiene el resultado de esta ejecución realizada con CalcImg, si se calcula un histograma de las puntuaciones obtenidas en las distintas celdas del ráster resultante se observará que no suelen presentar una distribución continua. Si, por ejemplo, el histograma revela que las celdas tienen las siguientes puntuaciones: 0 (cedas nada adecuadas), 12.5, 22.7, 23.5, 45.4 y 45.5, se podría hacer una reclasificación en la que en las zonas con 0 se asigne un valor 1, en las zonas con 12.5 un valor 2, y así sucesivamente hasta un valor 6 para las celdas con valor 45.5, de modo que el ráster resultante, de naturaleza ordinal, diría qué celdas tienen una puntuación óptima (las que tienen un valor 6), sub-óptima (las que tienen un valor 5), etc, y este mapa presentaría los datos de la evaluación multicriterio de forma fácilmente comprensible, en una escala continua de valores enteros. La aplicación OrdreRas facilita la obtención rápida de este mapa resumen en un solo paso, sin que la persona usuaria deba calcular y analizar el histograma, ni realizar una reclasificación posterior, ya que OrdreRas ordena directamente los valores presentes en el ráster resultante de la regla de decisión y genera automáticamente para cada valor índices enteros consecutivos. A pesar del interés de esta herramienta como método rápido de evaluación, es importante ser consciente de que con esta forma de proceder se pierde la idea cuantitativa de la diferencia entre las puntuaciones: en el ejemplo anterior las celdas con valores 45.4 y 45.5 tienen un nivel de adecuación muy similar, y seguramente sería conveniente que formaran parte de una misma categoría de celdas con puntuación óptima. Es por ello que, en muchos casos, después de una primera impresión proporcionada por OrdreRas para la evaluación de varias reglas de decisión, puede ser conveniente realizar una reclasificación manual para refinar las clases finalmente presentadas para la decisión final. </p>
+  
+  <p>El ráster de entrada debe ser un archivo en formato .img y el tipo de
+  datos puede ser cualquiera de los soportados por MiraMon (para más información se puede consultar <a href="../mm32/AP1.htm">Descripción de los formatos ráster de MiraMon</a>). El ráster de salida será un archivo en formato .img de valores enteros, de tipo <i>byte RLE</i>, <i>unsigned integer RLE</i> o <i>long RLE</i>, dependiendo del número de niveles de ordenación alcanzado. El archivo de salida siempre es de tipo RLE extracomprimido. Se asignará el valor 0 como valor sindatos del ráster de salida.</p>
 
   <p>La ordenación se puede hacer por un criterio ascendente o descendente
   pero, en cualquier caso, el valor 1 en el fichero de salida representará el
   primer nivel. En el supuesto de que dos celdas tengan el mismo valor se
-  clasificarán en el mismo nivel, excepto si se quiere forzar el desempate en función de la posición geográfica, opción que permite un comportamiento igual al de la aplicación Rank del Idrisi Selva. Si se desea, se puede limitar el número
+  clasificarán en el mismo nivel, excepto si se quiere forzar el desempate en función de la posición geográfica, opción incorporada exclusivamente para permitir un comportamiento igual al de la aplicación Rank de Idrisi. Si se desea, se puede limitar el número
   máximo de niveles a ordenar.</p>
 
   <p>También es posible indicar un valor límite que defina el umbral máximo o
@@ -43,7 +40,7 @@
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><br/>
-    Ejemplo:</p>
+    Ejemplos:</p>
 
     <p>OrdreRas A C:\FitxerRas.img C:\FitxerOrdenat.img<br/>
     OrdreRas D C:\FitxerRas.img C:\FitxerOrdenat.img /LIM_SUP=500<br/>
