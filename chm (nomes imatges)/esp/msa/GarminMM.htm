@@ -1,0 +1,117 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>GarminMM: Intercambio de datos con un GPS Garmin</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/>GarminMM: Intercambio de datos con un GPS Garmin</h1>
+
+  <p>Esta aplicación descarga y carga objetos (puntos y líneas) de los modelos
+  de GPS de la marca GARMIN a MiraMon a través de los puertos serie y USB del
+  ordenador.</p>
+
+  <p>Los objetos que pueden descargarse del GPS a formato MiraMon son:</p>
+
+  <ul>
+    <li><b>Waypoints:</b> se convierten en puntos estructurados de MiraMon
+    <b>(PNT)</b>. En la base de datos asociada al fichero de puntos se guarda
+    un atributo corto, de 6 caracteres, la latitud y longitud original del GPS
+    (antes de la transformación de datum y proyección), la Z (si el GPS es
+    capaz de suministrar esta información), un campo con una descripción más
+    larga, el código del símbolo utilizado y las opciones de visualización de
+    este en el GPS. El fichero de puntos generado no tiene estructura
+    topológica.</li>
+
+    <li><b>Tracks:</b> se convierten en un fichero de arcos de MiraMon
+    <b>ARC</b> sin topología. Para cada arco se guarda en la base de datos el
+    atributo del mismo así como las opciones de visualización y el color en el
+    GPS.</li>
+
+    <li><b>Rutas:</b> los waypoints que forman una ruta se guardan como puntos
+    estructurados <b>(PNT)</b> y en la base de datos asociada a estos se
+    guarda el código de la ruta a la que pertenecen.</li>
+  </ul>
+
+  <p>Los objetos que pueden descargarse de MiraMon al GPS son:</p>
+
+  <ul>
+    <li><b>Puntos (PNT) a Waypoints:</b> hay que escoger un campo de la base
+    de datos asociada al PNT para que haga de identificador. Sugerimos
+    utilizar el identificador de la entidad si existe, o el identificador
+    gráfico en caso contrario. 
+    <!--<LI><B>Puntos (PNT) a Rutas:</B> hay que escoger un campo de la base de datos asociada al PNT para que haga de identificador de la ruta. Sugerimos utilizar el identificador de la entidad si existe, o el identificador gráfico en caso contrario.--></li>
+
+    <li><b>Líneas (ARC) a Tracks:</b> hay que escoger un campo de la base de
+    datos asociada al ARC para que haga de identificador. Sugerimos utilizar
+    el identificador de la entidad si existe, o el identificador gráfico en
+    caso contrario. Hay que tener presente que en algunos modelos de GPS no se
+    puede identificar los diferentes tracks.</li>
+  </ul>
+
+  <p>A continuación se describen los pasos a ejecutar para poder cargar y
+  descargar información del GPS. Para comunicarse con un GPS Garmin hay que
+  configurar las opciones de comunicación del GPS <b>(Menú de sistema,
+  Interface)</b> como <b>GARMN/GARMN y Master</b>. Con esta configuración
+  indicamos al GPS que envíe los datos en el formato propietario de Garmin y
+  que es la aplicación externa la que gobierna la comunicación.</p>
+
+  <ol>
+    <li><b>Escoger, desde GarminMM, el puerto serie o USB</b> del ordenador
+    donde está conectado el GPS.</li>
+
+    <li>El GPS siempre envía las coordenadas de los objetos en
+    longitud/latitud y datum WGS84. <b>La aplicación permite transformar estas
+    coordenadas a cualquier sistema de referencia soportado por MiraMon</b>
+    incluyendo cambio de datum con más exactitud que la suministrada
+    habitualmente por el receptor GPS. Hay que seleccionar el sistema de
+    referencia de la cartografía donde se representarán los objetos
+    descargados (p.ej., en Cataluña UTM-31N UB/ICC).</li>
+
+    <li>Una vez tenemos el GPS conectado al puerto y encendido, hay que pulsar
+    el botón <i>Conectar</i>. Si la conexión es buena, la aplicación nos
+    informa del <b>modelo de GPS y la versión del software</b>.</li>
+
+    <li>Una vez establecida la comunicación hay que escoger la acción a
+    realizar, cargar o descargar objetos, y el tipo de objeto (waypoints,
+    tracks o rutas). Finalmente, hay que indicar el nombre del fichero donde
+    se guardarán los objetos. Por defecto sugiere un nombre que contiene la
+    fecha y la hora actuales.</li>
+  </ol>
+
+  <p><b>Notas:</b></p>
+
+  <ul>
+    <li>Si la acción es cargar objetos en el GPS, el <b>botón selección</b>
+    nos permite seleccionar qué objetos en formato MiraMon se transferirán al
+    GPS. Antes de cargar objetos en el GPS hay que tener presente las
+    limitaciones de éste (número de puntos en memoria, un solo atributo de 6
+    caracteres, etc).</li>
+
+    <li>Al finalizar la descarga de los objetos, la aplicación ofrece la
+    posibilidad de <b>visualizarlos con MiraMon</b>. En caso afirmativo se
+    abre MiraMon y se carga automáticamente el fichero vectorial
+    indicado.</li>
+
+    <li>Si se produce cualquier incidencia durante la transferencia de
+    objetos, ésta se detiene inmediatamente. <b>Puedeu intentar reiniciar las
+    comunicaciones volviendo a pulsar el botón <i>Conectar</i></b>. Si la
+    comunicación continúa sin establecerse puede intentar reiniciar el
+    GPS.</li>
+
+    <li>Cuando se cargan objetos desde MiraMon al GPS hay que tener presentes
+    las limitaciones de este último. En muchos modelos el texto que actúa como
+    indentificador en el GPS está limitado a 6 caracteres básicos (sin
+    accentos, etc). La aplicación recorta y transforma de forma automática el
+    texto de la base de datos para introducirlo en el GPS.</li>
+
+    <li>Cuando se introducen objetos en el GPS, si ya existe un objeto previo
+    con el mismo nombre, este será sobreescrito con las características del
+    nuevo. Ni GarminMM ni el GPS avisan de este suceso.</li>
+
+    <li>Si desea dar estructura topológica a los waypoints, rutas o tracks,
+    utilice las herramientas de estructuración topológica de MiraMon.</li>
+  </ul>
+  <hr/>
+  MiraMon® es programa © de Xavier Pons.<br/>
+</body>
+</html>
