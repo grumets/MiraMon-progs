@@ -1,56 +1,54 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>MatConf: Generació de matrius de confusió per a l'avaluació de
-  cartografia temàtica</title>
+  <title>MatConf: Generación de matrices de confusión para la evaluación de cartografía temática categórica</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
    <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.--> 
-
+<p>Este programa construye la 'Matriz de confusión', una tabla bidimensional de comparación de los datos de la imagen clasificada con los datos de referencia o verdad-terreno. El formato de salida puede ser un fichero de texto o un fichero en formato de hoja de cálculo (CSV).</p>
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>Els ràster de classificació i el de referència han de correspondre al
-  mateix àmbit geogràfic, han de tenir la mateixa resolució les mateixes
-  unitats referides al mateix sistema de referència. Exceptuant el valor de
-  fons, el rang de valors del fitxer a classificar ha d'estar inclòs dins
-  el rang del fitxer veritat-terreny i han de tenir el mateix nombre de
-  categories definides. Aquesta última restricció pot evitar-se definint el
-  paràmetre /CATEG_FIXAT, on el nombre de columnes quedarà fixat per les
-  categories de la imatge veritat-terreny. En canvi, poden ser de diferent
-  tipus (s'exclou el tipus real que no representa dades categòriques) i no
-  importa el grau de compressió.</p>
+<p>El ráster de clasificación y el de referencia deben pertenecer al mismo
+  ámbito geográfico, deben tener la misma resolución, las mismas unidades
+  referidas al mismo sistema de referencia. Exceptuando el valor de fondo, el
+  rango de valores de la imagen clasificada debe estar incluido en el rango
+  del fichero verdad-terreno y deben tener el mismo número de categorías
+  definidas. Esta última restricción puede evitarse definiendo el parámetro
+  <i>/CATEG_FIXAT</i>, donde el número de columnas quedará fijado por las
+  categorías de la imagen verdad-terreno. No obstante, pueden ser de diferente
+  tipo (se excluye el tipo real que no representa datos categóricos) y el
+  grado de compresión no importa.</p>
 
-  <p>El fitxer de sortida conté la 'Matriu de confusió', a les
-  columnes hi ha representats els valors del ràster veritat-terreny i a les
-  files els valors del ràster classificat. En la diagonal de la matriu obtenim
-  els encerts, i els elements no-diagonals són encreuaments no-coincidents
-  entre els dos ràsters. La relació entre uns elements i els altres determina
-  els diferents tipus d'error i exactitud percentuals: error omissió i
-  exactitud del productor per columnes, i error de comissió i exactitud de
-  l'usuari per files.</p>
+  <p>El fichero de salida contiene la 'Matriz de confusión', en las
+  columnas están representados los valores del ráster verdad-terreno y en las
+  filas los valores del ráster clasificado. En la diagonal de la matriz
+  obtenemos los aciertos, y los elementos no diagonales son cruces no
+  coincidentes entre los dos rásters. La relación entre unos y otros elementos
+  determina los diferentes tipos de error y exactitud porcentuales: error
+  omisión y exactitud del productor por columnas, y error de comisión y
+  exactitud del usuario por filas.</p>
 
-  <p>Al final es realitzen diferents recomptes, s'indica l'encert
-  global, l'encert global ponderat per superfície amb diferents criteris,
-  i el paràmetre Kappa per a quantificar l'ajust entre els dos
-  ràsters.</p>
+  <p>Al final se realizan diferentes recuentos, se indica el acierto global,
+  el acierto global ponderado por superficie con diferentes criterios, y el
+  parámetro Kappa para cuantificar el ajuste entre los dos rásters.</p>
 
-  <p>A continuació, de la matriu de confusió i respectius recomptes, hi ha la matriu de freqüència d'ocurrències (cel·les) considerant que la superfície de cada categoria en la capa de veritat terreny sigui proporcional a la superfície de cada categoria en la capa a avaluar (cosa que evita que categories de veritat terreny molt abundants mostrin confusions amb altres categories molt menys abundants en la capa de veritat terreny; aquestes confusions típicament són de pocs píxels en relació a la categoria abundant però en un nombre que és proporcionalment molt important quan es compara amb el total de píxels de la categoria amb la qual mostra la confusió, cosa que desvirtua el càlcul de l'error de comissió i de l'exactitud de l'usuari en la categoria poc representada en la capa de veritat terreny).</p>
+  <p>A continuación, de la matriz de confusión y respectivos recuentos, se encuentra la matriz de frecuencia de ocurrencias (celdas) considerando que la superficie de cada categoría en la capa de verdad terreno sea proporcional a la superficie de cada categoría en la capa a evaluar (lo que evita que categorías de verdad terreno muy abundantes muestren confusiones con otras categorías mucho menos abundantes en la capa de verdad terreno; estas confusiones típicamente son de pocos píxeles en relación a la categoría abundante pero en un número que es proporcionalmente muy importante cuando se compara con el total de píxeles de la categoría con la que muestra la confusión, lo que desvirtúa el cálculo del error de comisión y de la exactitud del usuario en la categoría poco representada en la capa de verdad terreno).</p>
 
-  <p>Tota aquesta informació pot recollir-se en dos formats: un format de
-  fitxer de text que pot paginar-se escollint el nombre màxim de columnes que
-  caben en l'amplada de l'informe, o un format anomenat CSV, que està
-  preparat per a ser llegit per un full de càlcul. És un format de text on un
-  caràcter determinat actua de separador de columnes. Aquest separador pot
-  especificar-se en les opcions avançades, sent el seu valor per defecte el
-  configurat com a separador de llistes en el Panel de Control de Windows. De
-  la mateixa manera que pel format TXT, pel format CSV és possible limitar
-  l'amplada de l'informe, i així evitar sobrepassar el nombre màxim de
-  columnes suportat pel full de càlcul, quan el nombre de categories en joc és
-  força elevat.</p>
+  <p>Toda esta información puede recogerse en dos formatos: un formato de
+  fichero de texto que puede paginarse escogiendo el número máximo de columnas
+  que caben en el ancho del informe, o un formato denominado CSV, que está
+  preparado para ser leído por una hoja de cálculo. Es un formato de texto
+  donde un carácter determinado actúa como separador de columnas. Este
+  separador puede especificarse en las opciones avanzadas, siendo su valor por
+  defecto el configurado como separador de listas en el Panel de Control de
+  Windows. De la misma manera que para el formato TXT, para el formato CSV es
+  posible limitar la anchura del informe, evitando así sobrepasar el número
+  máximo de columnas soportado por la hoja de cálculo, cuando el número de
+  categorías en juego es bastante elevado.</p>
   <hr/>
 
   <exclusiva>
