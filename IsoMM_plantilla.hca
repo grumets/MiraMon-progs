@@ -1,7 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 17-01-2024 */-->
+<!--/* Revisió AA 23-01-2024 */-->
 <head>
-  <title>IsoMM: Classificació no supervisada d'imatges</title>
+  <title>IsoMM: Classificació no supervisada</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -12,7 +12,7 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>En la implementació del classificador al MiraMon (IsoMM), el programa comença per un cert nombre de categories clústers suggerit per la persona usuària. La ubicació inicial d'aquestes categories es distribueix inicialment seguint quatre  criteris (es poden utilitzar ubicacions amb diversos criteris):</p>
+  <p>En la implementació del classificador al MiraMon (IsoMM), l'aplicació comença per un cert nombre de categories clústers suggerit per la persona usuària. La ubicació inicial d'aquestes categories es distribueix inicialment seguint quatre  criteris (es poden utilitzar ubicacions amb diversos criteris):</p>
 
 
   <ol>
@@ -26,13 +26,13 @@
     espectrals proporcionades en un fitxer llista (<i>/FITXER_SIGNATURES=</i>). Les adreces dels fitxers de signatures poden ser  relatives al fitxer llista.</li>
   </ol>
 
-    <p>Es poden demanar entre 0 i 32767 categories de cada criteri, però la suma de totes les categories inicials seguint tots els criteris no pot excedir 32767. Si es produeix desbordament degut a un mostreig excessiu, el programa reduirà la densitat de mostreig; en qualsevol cas, en el criteri 3 la densitat de mostreig és adaptada pel programa a un múltiple del costat de píxel. Alhora, és obligatori que la suma del nombre de categories per tots els criteris sigui si més no 1.</p>
+    <p>Es poden demanar entre 0 i 32767 categories de cada criteri, però la suma de totes les categories inicials seguint tots els criteris no pot excedir 32767. Si es produeix desbordament degut a un mostreig excessiu, l'aplicació reduirà la densitat de mostreig; en qualsevol cas, en el criteri 3 la densitat de mostreig és adaptada per l'aplicació a un múltiple del costat de píxel. Alhora, és obligatori que la suma del nombre de categories per tots els criteris sigui si més no 1.</p>
 
   <p>En imatges grans s'aconsella utilitzar un nombre de, per ex., 250
   categories del criteri 1 i de nbandes*50 del criteri 2, tot i que el criteri 2 es pot deixar a zero si s'indica una certa densitat de mostreig sistemàtic, que sol funcionar millor. Quan el nombre de variables (bandes) proporcionat és molt gran, el criteri 2 resulta pràcticament mancat d'utilitat.  Una altra estratègia que sol donar bons resultats és demanar 0 o poques categories en el criteri 1, 0 en el criteri 2, i un mostreig que impliqui obtenir entre 250 i 500 categories ("N300", per exemple, ampliat si gran part de la imatge conté sensedades [per exemple, mar]). En qualsevol cas, un nombre molt elevat de categories sol donar bons resultats però sol implicar una primera iteració molt lenta.<br/>
 Cal notar que augmentant el paràmetre "Mínima similitud entre classes" es pot obtenir una fusió de les classes més properes en successives iteracions. Aquest paràmetre, però, només està implementat en les classes que provinguin del criteri <i>NClusterInicialMostreig</i>.</p>
 
-  <p>Totes aquestes categories formaran els clústers inicials. Per a cadascun dels píxels multivariables, es mesura la distància a cada un dels centres de clúster i s'assigna el píxel al clúster més proper. El programa ofereix la possibilitat de calcular la distància amb els següents criteris:</p>
+  <p>Totes aquestes categories formaran els clústers inicials. Per a cadascun dels píxels multivariables, es mesura la distància a cada un dels centres de clúster i s'assigna el píxel al clúster més proper. L'aplicació ofereix la possibilitat de calcular la distància amb els següents criteris:</p>
 
   <ul>
     <li>Distància euclidiana</li>
@@ -60,7 +60,7 @@ Cal notar que augmentant el paràmetre "Mínima similitud entre classes" es pot ob
 
     <li>n_bandes-1: Aquesta és la situació més tolerant, i un píxel es
     classifica només que tingui una variable diferent a sensedades. Es pot
-    escriure MAX en aquest paràmetre i el programa calcularà directament "n_bandes-1".</li>
+    escriure MAX en aquest paràmetre i l'aplicació calcularà directament "n_bandes-1".</li>
   </ul>
 
   <p>Amb independència del valor de MaxBandesNODATA, les classes (i les
@@ -68,9 +68,9 @@ Cal notar que augmentant el paràmetre "Mínima similitud entre classes" es pot ob
   
   <p>Per tal d'interpretar els valors de distància que utilitza aquest classificador, es recomana llegir l'apartat "Orientació sobre el significat de les distàncies emprades en els processos de classificació" en l'ajuda de l'aplicació <a href="ClasSup.htm#Orientacio">ClasSup</a>.</p> 
   
-  <p>Per defecte aquesta aplicació carrega totes les imatges en memòria, el que li permet realitzar els processos de manera més àgil. Tanmateix, en ordinadors amb pocs recursos respecte de la grandària de les imatges aquesta estratègia pot no ser viable. És per això que l'opció "No carregar les imatges a classificar en memòria" permet indicar al programa que en els processos mantingui en memòria només aquelles dades que necessita en cada moment, ni que això impliqui un alentiment de l'execució. L'aplicació commuta automàticament a aquest mode si no té prou memòria disponible, per la qual cosa habitualment no cal activar-lo expressament.</p> 
+  <p>Per defecte aquesta aplicació carrega totes les imatges en memòria, el que li permet realitzar els processos de manera més àgil. Tanmateix, en ordinadors amb pocs recursos respecte de la grandària de les imatges aquesta estratègia pot no ser viable. És per això que l'opció "No carregar les imatges a classificar en memòria" permet indicar a l'aplicació que en els processos mantingui en memòria només aquelles dades que necessita en cada moment, ni que això impliqui un alentiment de l'execució. L'aplicació commuta automàticament a aquest mode si no té prou memòria disponible, per la qual cosa habitualment no cal activar-lo expressament.</p> 
   
-   <p> Aquesta aplicació està paral·lelitzat, tant en les versions de 32 com de 64 bits, amb la qual cosa és possible que distribueixi la feina entre els nuclis de processador disponibles en l'ordinador on s'executa. Si, per exemple, es disposa d'un ordinador amb dos processadors de 20 nuclis cadascun, es pot arribar a dividir gairebé entre 40 el temps necessari per a obtenir els resultats, utilitzant tots els nuclis disponibles, cosa que es pot fer amb el paràmetre corresponent en un valor indicat per "MAX"; quan s'indica que el nombre de nuclis a emprar és MAX, l'aplicació utilitza tots els nuclis. Tanmateix, de vegades es pot preferir no comprometre tota la capacitat de càlcul de l'ordinador i indicar SUB_MAX (deixarà un processador lliure per a altres tasques que s'estiguin fent) o indicar un valor numèric  inferior, en tots els casos a través de l'opció "Nombre de nuclis de processador a utilitzar". Demanar més nuclis que els realment disponibles és possible, creant-ne de virtuals, però això no accelera el processat, sinó el contrari. L'Administrador de tasques del Windows permet conèixer de quin nombre total de nuclis disposa l'ordinador, i també pot saber-se executant l'aplicació en mode MAX, ja que indicarà per pantalla quants nuclis està utilitzant. A les versions més recents de la interfície del programa, un botó d'informació també permet obtenir aquesta dada.</p>
+   <p> Aquesta aplicació està paral·lelitzat, tant en les versions de 32 com de 64 bits, amb la qual cosa és possible que distribueixi la feina entre els nuclis de processador disponibles en l'ordinador on s'executa. Si, per exemple, es disposa d'un ordinador amb dos processadors de 20 nuclis cadascun, es pot arribar a dividir gairebé entre 40 el temps necessari per a obtenir els resultats, utilitzant tots els nuclis disponibles, cosa que es pot fer amb el paràmetre corresponent en un valor indicat per "MAX"; quan s'indica que el nombre de nuclis a emprar és MAX, l'aplicació utilitza tots els nuclis. Tanmateix, de vegades es pot preferir no comprometre tota la capacitat de càlcul de l'ordinador i indicar SUB_MAX (deixarà un processador lliure per a altres tasques que s'estiguin fent) o indicar un valor numèric  inferior, en tots els casos a través de l'opció "Nombre de nuclis de processador a utilitzar". Demanar més nuclis que els realment disponibles és possible, creant-ne de virtuals, però això no accelera el processat, sinó el contrari. L'Administrador de tasques del Windows permet conèixer de quin nombre total de nuclis disposa l'ordinador, i també pot saber-se executant l'aplicació en mode MAX, ja que indicarà per pantalla quants nuclis està utilitzant. A les versions més recents de la interfície de l'aplicació, un botó d'informació també permet obtenir aquesta dada.</p>
   <hr/>
 
   <exclusiva>

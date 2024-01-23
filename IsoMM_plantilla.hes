@@ -1,7 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 17-01-2024 */-->
+<!--/* Revisió AA 23-01-2024 */-->
 <head>
-  <title>IsoMM: Clasificación no supervisada de imágenes</title>
+  <title>IsoMM: Clasificación no supervisada</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -12,7 +12,7 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-    <p>En la implementación del clasificador en MiraMon (IsoMM), el programa empieza por un cierto número de categorías  (<i>clusters</i> o conglomerados) sugerido por la persona usuaria. La ubicación inicial de estas categorías se distribuye inicialmente siguiendo cuatro  criterios (pueden utilizarse ubicaciones con varios criterios):</p>
+    <p>En la implementación del clasificador en MiraMon (IsoMM), la aplicación empieza por un cierto número de categorías  (<i>clusters</i> o conglomerados) sugerido por la persona usuaria. La ubicación inicial de estas categorías se distribuye inicialmente siguiendo cuatro  criterios (pueden utilizarse ubicaciones con varios criterios):</p>
 
   <ol>
     <li>A lo largo de la diagonal multivariante de los datos, repartidos de forma equidistante. Se puede restringir el rango en cada variable utilizando un criterio basado en los datos más cercanos a la media de cada banda. La persona usuaria debe definir este rango a partir de cuántas veces (n) admite la desviación alrededor de la media; a tal fin, de cada una de las bandas (variables) originales se calcula su media (M) y desviación estándar (D) y se define el intervalo así: (M-n*D, M+n*D). Finalmente, el intervalo se divide en tantas partes como categorías se haya pedido. Si se indica n=0, se toma todo el rango en cada variable. (<i>NClusterInicialDiagonal</i>)</li>
@@ -26,12 +26,12 @@
     espectrales proporcionados en un fichero lista (<i>/FICHERO_SIGNATURAS=</i>). Las direcciones de los ficheros de signaturas pueden ser relativas al fichero lista.</li>
   </ol>
 
-  <p>Se puede pedir entre 0 y 32767 categorías de cada criterio, pero la suma de todas las categorías iniciales siguiendo todos los criterios no puede exceder 32767. Si se produce desbordamiento debido a un muestreo excesivo, el programa reducirá la densidad de muestreo; en cualquier caso, en el criterio 3 la densidad de muestreo es adaptada por el programa a un múltiplo del lado de píxel. Así mismo, es obligatorio que la suma del número de categorías  por todos los criterios sea al menos 1.</p>
+  <p>Se puede pedir entre 0 y 32767 categorías de cada criterio, pero la suma de todas las categorías iniciales siguiendo todos los criterios no puede exceder 32767. Si se produce desbordamiento debido a un muestreo excesivo, la aplicación reducirá la densidad de muestreo; en cualquier caso, en el criterio 3 la densidad de muestreo es adaptada por la aplicación a un múltiplo del lado de píxel. Así mismo, es obligatorio que la suma del número de categorías  por todos los criterios sea al menos 1.</p>
 
   <p>En imágenes grandes se aconseja utilizar un número de, por ej., 250 categorías del criterio 1 y de nbandas*50 del criterio 2, aunque el criterio 2 se puede dejar a cero si se indica una cierta densidad de muestreo sistemático, que suele funcionar mejor.  Cuando el número de variables (bandas) proporcionado es muy grande, el criterio 2 resulta prácticamente carente de utilidad.  Otra estrategia que suele dar buenos resultados es pedir 0 o pocas categorías en el criterio 1, 0 en el criterio 2, y un muestreo que implique obtener entre 250 y 500 categorías ("N300", por ejemplo, ampliado si gran parte de la imagen contiene sindatos [por ejemplo,  mar]).  En cualquier caso, un número muy elevado de categorías suele dar buenos resultados, pero suele implicar una primera iteración muy lenta. <br/>
   Debe notarse que aumentando el parámetro <i>Mínima similitud entre clases</i> se puede obtener una fusión de las clases más cercanas en sucesivas iteraciones. Este parámetro, sin embargo, sólo está implementado en las clases que provengan del criterio <i>NClusterInicialMuestreo</i>.</p>
 
-  <p>Todas estas categorías formarán los conglomerados iniciales. Para cada uno de los píxeles multivariables, se mide la distancia a cada uno de los centros de conglomerado y se asigna el píxel al conglomerado más próximo. El programa ofrece la posibilidad de calcular la distancia con los siguientes criterios:</p>
+  <p>Todas estas categorías formarán los conglomerados iniciales. Para cada uno de los píxeles multivariables, se mide la distancia a cada uno de los centros de conglomerado y se asigna el píxel al conglomerado más próximo. La aplicación ofrece la posibilidad de calcular la distancia con los siguientes criterios:</p>
 
   <ul>
     <li>Distancia euclidiana</li>
@@ -59,7 +59,7 @@
 
     <li>n_bandas-1: Esta es la situación más tolerante, y un píxel se
     clasifica sólo que tenga una variable diferente a sindatos. Se puede
-    escribir MAX en este parámetro y el programa calculará directamente
+    escribir MAX en este parámetro y la aplicación calculará directamente
     "n_bandas-1".</li>
   </ul>
 
@@ -70,9 +70,9 @@
   
   <p>Para interpretar los valores de distancia que utiliza este clasificador, se recomienda leer el apartado "Orientación sobre el significado de las distancias utilizadas en los procesos de clasificación" en la ayuda de la aplicación <a href="ClasSup.htm#Orientacio">ClasSup</a>.</p> 
   
- <p>Por defecto esta aplicación carga todas las imágenes en memoria, lo que le permite realizar los procesos de manera más ágil. Sin embargo, en ordenadores con pocos recursos respecto del tamaño de las imágenes esta estrategia puede no ser viable. Es por ello que la opción "No cargar las imágenes a clasificar en memoria" permite indicar al programa que en los procesos mantenga en memoria sólo aquellos datos que necesita en cada momento, ni que esto implique una ralentización de la ejecución. La aplicación conmuta automáticamente a este modo si no tiene suficiente memoria disponible, por lo que habitualmente no es necesario activarlo expresamente.</p> 
+ <p>Por defecto esta aplicación carga todas las imágenes en memoria, lo que le permite realizar los procesos de manera más ágil. Sin embargo, en ordenadores con pocos recursos respecto del tamaño de las imágenes esta estrategia puede no ser viable. Es por ello que la opción "No cargar las imágenes a clasificar en memoria" permite indicar a la aplicación que en los procesos mantenga en memoria sólo aquellos datos que necesita en cada momento, ni que esto implique una ralentización de la ejecución. La aplicación conmuta automáticamente a este modo si no tiene suficiente memoria disponible, por lo que habitualmente no es necesario activarlo expresamente.</p> 
 
- <p>Esta aplicación está paralelizada, tanto en las versiones de 32 como de 64 bits, con lo cual es posible que distribuya el trabajo entre los núcleos de procesador disponibles en el ordenador donde se ejecuta. Si, por ejemplo, se dispone de un ordenador con dos procesadores de 20 núcleos cada uno, se puede conseguir  dividir casi entre 40 el tiempo necesario para obtener los resultados, utilizando todos los núcleos disponibles, lo que se puede hacer con el parámetro correspondiente en un valor indicado por "MAX"; cuando se indica que el número de núcleos a emplear es MAX, la aplicación utiliza todos los núcleos. Sin embargo, a veces se puede preferir no comprometer toda la capacidad de cálculo del ordenador e indicar SUB_MAX (dejará un procesador libre para otras tareas que se estén haciendo) o indicar un valor numérico concreto inferior, en todos los casos a través de la opción "Número de núcleos de procesador a utilizar". Pedir más núcleos que los realmente disponibles es posible, creando otros virtuales, pero esto no acelera el procesado, sino al contrario. El Administrador de tareas de Windows permite conocer de qué número total de núcleos dispone el ordenador, y también puede saberse ejecutando la aplicación en modo MAX, ya que indicará por pantalla cuántos núcleos está utilizando. En las versiones más recientes de la interfaz del programa, un botón de información también permite obtener dicho dato.</p> 
+ <p>Esta aplicación está paralelizada, tanto en las versiones de 32 como de 64 bits, con lo cual es posible que distribuya el trabajo entre los núcleos de procesador disponibles en el ordenador donde se ejecuta. Si, por ejemplo, se dispone de un ordenador con dos procesadores de 20 núcleos cada uno, se puede conseguir  dividir casi entre 40 el tiempo necesario para obtener los resultados, utilizando todos los núcleos disponibles, lo que se puede hacer con el parámetro correspondiente en un valor indicado por "MAX"; cuando se indica que el número de núcleos a emplear es MAX, la aplicación utiliza todos los núcleos. Sin embargo, a veces se puede preferir no comprometer toda la capacidad de cálculo del ordenador e indicar SUB_MAX (dejará un procesador libre para otras tareas que se estén haciendo) o indicar un valor numérico concreto inferior, en todos los casos a través de la opción "Número de núcleos de procesador a utilizar". Pedir más núcleos que los realmente disponibles es posible, creando otros virtuales, pero esto no acelera el procesado, sino al contrario. El Administrador de tareas de Windows permite conocer de qué número total de núcleos dispone el ordenador, y también puede saberse ejecutando la aplicación en modo MAX, ya que indicará por pantalla cuántos núcleos está utilizando. En las versiones más recientes de la interfaz de la aplicación, un botón de información también permite obtener dicho dato.</p> 
   <hr/>
 
   <exclusiva>
