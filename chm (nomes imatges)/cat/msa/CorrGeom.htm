@@ -1,0 +1,751 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CorrGeom: Correcció geomètrica de fitxers ràster i
+  vectorials</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<strong></strong>
+<body>
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">CorrGeom: Correcció geomètrica de fitxers
+  ràsters i vectorials</h4>
+</li>
+</ul>
+</h1>
+
+  <h3>Presentació</h3>
+
+  <p>Aquest mòdul es compon de quatre submòduls relacionats:</p>
+
+  <ul>
+    <li>
+      <a href="#raster_vector">Correccions polinòmiques de ràsters i
+      vectors</a>
+    </li>
+
+    <li>
+      <a href="#ortoimg">Generació d'ortoimatges espacials</a>
+    </li>
+
+    <li>
+      <a href="#ortofoto">Generació d'ortofotos</a>
+    </li>
+
+    <li>
+      <a href="#transformacions_geometriques">Transformacions geomètriques
+      (afins i perspectiva) de ràsters i vectors</a>
+    </li>
+  </ul>Cada submòdul utilitza un mètode de correcció en funció de les
+  característiques de la capa a georeferenciar. Aquests  submòduls es
+  descriuen detalladament a continuació.
+
+  <h3>Introducció</h3>
+
+  <p>La cartografia convencional sobre paper ens ofereix una enorme font
+  d'informació per a incorporar en el si d'un Sistema d'Informació
+  Geogràfica (SIG). Tot i que cada cop més la cartografia es genera
+  digitalment en origen, encara hi ha molts casos en què no disposem dels
+  fitxers digitals, bé sigui perquè es tracta d'un document d'una
+  certa antiguitat, bé sigui perquè s'ha elaborat amb tècniques
+  convencionals analògiques, o simplement perquè no tenim accés a la
+  informació digital original.</p>
+
+  <p>En aquests casos, tot i que la digitalització en taula és una
+  possibilitat factible, representa un esforç fatigós i una pèrdua de detall
+  respecte a la possibilitat d'escannejar el document analògic i procedir
+  a la seva digitalització sobre la pantalla de l'ordinador.</p>
+
+  <p>MiraMon permet transformar fitxers procedents de pràcticament qualsevol
+  escànner (formats BMP, TIFF, JPG, etc) a format IMG o JPG (si no ho eren en
+  origen). Un cop en aquest format podrem digitalitzar al damunt les corbes de
+  nivell, carreteres, polígons d'usos del sòl, etc i convertir-los en
+  <b>capes vectorials</b>. Tanmateix, els documents escannejats no estan
+  encara georeferenciats, amb la qual cosa si digitalitzem directament sobre
+  ells, les coordenades dels vectors resultants seran en unitats arbitràries
+  (píxels) del sistema d'escanneig i no en unitats mapa del sistema de
+  destí (per exemple en metres del sistema UTM). Tot i que és possible
+  procedir així i georeferenciar posteriorment el document vectorial resultant
+  amb el programa CorrGeom de MiraMon, resulta aconsellable de georeferenciar
+  el ràster i procedir posteriorment a la digitalització, ja que si escannegem
+  el full per fragments es podran mosaicar amb precisió els resultats i, a
+  més, en qualsevol moment podem sobreimposar al document escannejat altres
+  capes d'informació vectorial de què disposem per tal que ens serveixin
+  de referència. La georeferenciació dels ràsters escannejats també
+  s'efectua des del programa CorrGeom de MiraMon. En resum, doncs, tenim
+  dues alternatives per a la introducció al nostre SIG de capes vectorials a
+  partir de documents en paper escannejats i el programa CorrGeom de
+  MiraMon:</p>
+
+  <ul>
+    <li>Escannejat -&gt; Digitalització -&gt; Georeferenciació dels
+    vectors</li>
+
+    <li>Escannejat -&gt; Georeferenciació del ràster -&gt;Digitalització
+    <b>(ACONSELLAT)</b></li>
+  </ul>
+
+  <p>En tots dos casos el mètode aconsellat és l'ajust polinòmic de primer
+  grau. En el cas molt poc probable amb els escànners moderns, que la imatge
+  escannejada presenti deformacions quadràtiques, utilitzeu un ajust polinòmic
+  de segon grau.</p>
+
+  <p><br/>
+  Per altra banda, existeixen altres fonts d'informació molt interessants
+  per a ser incorporades en el nostre SIG: es tracta de <b>capes ràster</b>
+  com ara les <b>imatges de teledetecció</b> i les <b>fotografies aèries</b>.
+  Aquests materials poden ser obtinguts directament en format digital (cas de
+  la majoria d'imatges de teledetecció) o bé, si venen sobre un suport de
+  paper o fotogràfic (cas de les fotografies aèries convencionals), es poden
+  escannejar i convertir-les així en una imatge digital.</p>
+
+  <p>Les imatges de teledetecció presenten una sèrie de deformacions
+  geomètriques produïdes per la rotació i curvatura de la Terra, l'òrbita
+  de la plataforma, etc. El programa CorrGeom de MiraMon permet corregir
+  aquestes imatges mitjançant les tècniques convencionals basades en polinomis
+  de primer i segon grau. En el cas de les fotografies aèries i de les imatges
+  de teledetecció d'un cert detall (píxel de 50 m o menor) és aconsellable
+  efectuar la correcció tenint en compte el relleu terrestre. CorrGeom ofereix
+  els mètodes &quot;ajust polinòmic amb zetes&quot; per a imatges de satèl·lit
+  amb mides de píxel petites (Landsat TM, SPOT XS i P, IRS LISS, etc) i
+  &quot;ajust mitjançant equacions de col&middot;linealitat&quot; per a fotografia
+  aèria, mètode que aplica les equacions fonamentals de la fotogrametria.
+  Aquestes imatges corregides geomètricament utilitzant el relleu a través
+  d'un Model Digital d'Elevacions (MDE) s'anomenen ortoimatges (i
+  ortofotos en el cas de fotografia aèria).</p>
+
+  <p>El programa CorrGeom, doncs, permet corregir aquestes deformacions
+  (òrbita de les plataformes, relleu terrestre, etc) i adaptar les imatges a
+  un sistema de projecció cartogràfica conegut, com ara l'UTM. Un cop en
+  el sistema de projecció adequat, les imatges podran ser superposades a
+  altres imatges i a capes vectorials en el mateix sistema de projecció.</p>
+
+  <p><br/>
+  Tant per corregir ràsters com vectors habitualment cal disposar d'un
+  conjunt de <b>punts de control sobre el terreny (GCP)</b> els quals ens
+  indiquen diverses coordenades en el sistema de referència origen (no
+  corregit) i destí (corregit). Els GCP es podem entrar amb un editor de
+  textos o es poden digitalitzar amb MiraMon com a punts i convertir-los en
+  GCP amb <a href="VECCOR.htm">VECCOR</a> (vegeu més avall).<br/>
+  En el cas d'imatges captades des d'un sistema que conegui amb prou
+  exactitud la posició i actitud del sensor (GPS+INS) pot arribar-se a fer la
+  correcció sense GCP.</p>
+
+  <p>Per a una major fiabilitat estadística del procés de correcció geomètrica, CorrGeom permet que el fitxer de punts de control contingui dos subconjunts de punts, un que s'utilitza per a efectuar els ajustos de les equacions de correcció, i un altre, que anomenem <i>punts de test</i>, que s'utilitza per a estimar l'error amb un conjunt independent de punts. Per a tots dos conjunts de punts, CorrGeom proporciona l'error RMS en X, Y i global <b>(XY, hipotenusa)</b> per a cada punt així com pel conjunt de punt de control. Lògicament, si només es donen punts d'ajust també només es proporcionen aquests RMS per al conjunt de punts de l'ajust. <b>Addicionalment, es proporciona l'estimador d'error MCF, que és la mitjana dels errors XY.</b></p>
+
+  <p><br/>
+  Si voleu canviar el sistema de projecció de ràsters o vectors, un cop
+  georeferenciats amb MiraMon (o bé ja georeferenciats en origen i importats a
+  MiraMon), utilitzeu el programa <a href="CanviPrj.htm">CanviPrj</a>. No
+  confongueu, doncs, la funcionalitat de <i>CorrGeom</i> que permet
+  georeferenciar una capa no georeferenciada amb <i>CanviPrj</i> que permet
+  reprojectar una capa de la qual ja coneixem la goereferenciació.</p>
+
+  <p>NOTES:</p>
+
+  <ol>
+    <li>Quan parlem de sistema de projecció ens referirem a UTM, Lambert, etc,
+    mentre que quan parlem de sistema de referència ens referirem a
+    UTM-31N-UB/ICC (UTM en el fus 31, l'hemisferi Nord, dàtum europeu ED50
+    amb paràmetres ajustats per UB/ICC), o Goode_Homolosine-WGS84 (Goode
+    Homolosine WGS84 amb dàtum WGS 1984), etc (vegeu l'ajuda <a href="../mm32/ap6.htm">Geodesia</a> per a més informació).
+    </li>
+
+    <li>D'ara en endavant ens referirem a les imatges i vectors que han
+    estat adaptats a algun sistema de referència utilitzant CorrGeom com a
+    &quot;<i>corregits</i>&quot;.</li>
+  </ol>
+  <hr/>
+
+  <h3>CorrGeom</h3>Aquest programa permet corregir geomètricament ràsters (IMG
+  i JPG: imatges de satèl·lit, fotografia aèria, mapes escannejats...) o capes
+  vectorials (VEC, PNT, ARC i els seus derivats POL i NOD) a partir de n punts
+  de control dels quals es coneixen:
+
+  <ul>
+    <li><u>Coordenades en el sistema de referència origen</u> (sistema
+    &quot;no corregit&quot;), p.ex. en unitats píxels, amb origen típicament
+    (0,0) al vèrtex inferior esquerre- en els ràsters, o p. ex. en cm en una
+    fitxer provinent d'una digitalització vectorial d'un mapa de paper
+    efectuada sobre una taula digitalitzadora calibrada a unitats cm de paper.
+    Anomenarem aquestes coordenades, <u>coordenades en el sistema de
+    referència origen</u>: X_SistOri, Y_SistOri.</li>
+
+    <li><u>Coordenades en el sistema de referència escollit</u> (sistema
+    &quot;corregit&quot; o &quot;mapa&quot;, com ara UTM-31N). Aquestes
+    coordenades es determinen manualment amb l'ajut de mapes de paper,
+    sobre la pantalla amb altres mapes digitals, amb GPS sobre el terreny,
+    etc. Anomenarem a aquestes coordenades, <u>coordenades en el sistema de
+    referència destí</u>: X_SistDest, Y_SistDest [, Z_SistDest].</li>
+  </ul>
+
+  <p>A més a més el programa permet aplicar transformacions afins
+  (translacions, rotacions, inclinacions, escalats i miralls) i una
+  perspectiva tant a ràsters com a vectors.</p>
+
+  <p>En el cas de que desitgeu corregir o transformar totes les bandes
+  d'un ràster multibanda (típicament una RGB de 24 bits o una imatge
+  satèl·lit multispectral) podeu indicar-li al programa, amb el paràmetre
+  <i>/MULTIBANDA</i> o activant el botó corresponent que les corregeixi totes
+  en una sola execució i el resultat continuarà essent un ràster multibanda.
+  En aquest cas, aconsellem editar els punts de control sobre la banda amb
+  major resolució. Si la correcció necessita del model digital
+  d'elevacions (MDE), en el cas que les diferents bandes a corregir
+  tinguin diferents costats de píxel, podem usar un MDE multibanda amb tantes
+  bandes com diferents costats de píxel activant el paràmetre
+  <i>/MDE_MULTIBANDA</i>.</p>
+
+  <p>Es pot efectuar la correcció per diferents mètodes:</p>
+
+  <ul>
+    <li>Ajust polinòmic de primer grau o de segon grau.</li>
+
+    <li>Ajust polinòmic amb zetes (típic per a imatges de satèl·lit amb mides
+    de píxel petites i zones amb un cert relleu).</li>
+
+    <li>Ajust mitjançant equacions de col&middot;linealitat (típic per fotografia
+    aèria, digital o analògica).</li>
+
+    <li>Transformacions geomètriques (afins i perspectiva).</li>
+  </ul>
+
+  <ul>
+    <li>
+      <h3><a id="raster_vector" name="raster_vector"></a>Ajust polinòmic de
+      primer o de segon grau</h3>En aquest cas, el mètode no considera les
+      zetes (elevacions). És típic per a corregir fitxers vectorials i ràsters
+      amb poca deformació, com ara imatges, i mapes escannejats ja corregits
+      (com ortofotos o mapes topogràfics) o imatges de satèl·lit de zones amb
+      poc relleu, abast territorial moderat i píxel relativament gros respecte
+      a l'alçada de vol del satèl·lit. L'aplicació d'aquests
+      mètodes a fotografies aèries escannejades o imatges de satèl·lit de
+      relatiu detall (com ara Landsat-TM o SPOT) i extensió només és adequada
+      en zones de relleu pla si es vol obtenir cartografia d'alta qualitat
+      geomètrica. <!--<P> Notes: 
+    <UL>
+      <LI>Si l'RMS de l'ajust de segon grau és més gran que el de primer, pot 
+        ser que hi hagi hagut un error de càlcul degut a la magnitud de les unitats 
+        mapa, p. ex. les Y de les UTM (4123456). Per solucionar això, usualment 
+        només cal treure de les coordenades mapa dels punts de control la primera 
+        xifra de les coordenades conflictives (el primer 4 de la Y en l'exemple 
+        anterior) i executar CorrGeom. Un cop estigui la imatge corregida, cal 
+        afegir la xifra extreta modificant l'envolupant a la secci&oacute; Extensi&oacute; 
+        de la documentaci&oacute; de la nova imatge amb el Gestor Universal de Metadades Geoespacials.<br>
+        En fitxers vectorials aquest problema no se sol produir perquè la transformació 
+        és directa i les coordenades mapa no s'eleven al quadrat. Si, tanmateix, 
+        calgués, utilitzeu <a href="EscalVEC.htm">EscalVEC</a>. 
+        <P> 
+    </UL>-->
+    </li>
+
+    <li>
+      <h3><a id="ortoimg" name="ortoimg"></a>Ajust polinòmic amb zetes</h3>En
+      aquest cas, l'ajust de les columnes es fa utilitzant un polinomi que
+      té en compte simultàniament X,Y i Z. Pel que fa a les files, es pot fer
+      de tres maneres diferents: considerant que no hi ha capcineig del sensor
+      durant la presa de la imatge, considerant, que el capcineig és constant
+      o, considerant que és variable segons un model lineal. Per a més detall
+      vegeu:<br/>
+      <br/>
+      <b>Palà V, Pons X  </b>(1995) <i>Incorporation of relief into
+      geometric corrections based on polynomials</i>. Photogrammetric
+      Engineering &amp; Remote Sensing, 61(7):935-944.
+    </li>
+
+    <li>
+      <h3><a id="ortofoto" name="ortofoto"></a>Ajust mitjançant equacions de
+      col&middot;linealitat</h3>Els paràmetres implicats en les equacions de
+      col&middot;linealitat són: posició (Xc, Yc, Zc) i actitud (omega, fi, kappa) de
+      la cambra o sensor, focal de la cambra (f) i coordenades del punt
+      principal (x_pp, y_pp) de la imatge.<br/>
+      D'aquests paràmetres, l'usuari pot decidir quins cal ajustar i
+      quins venen fixats. Sobre els que cal ajustar, és útil donar uns
+      paràmetres estimats que ajuden al programa a convergir més ràpidament.
+      En algun cas, si el paràmetre inicial és totalment desconegut o
+      l'estimació és poc adequada, pot ser que el sistema no convergeixi
+      vers cap solució o que trobi unes solucions poc satisfactòries. Si es
+      coneixen i es fixen tots els paràmetres, s'aplica la transformació
+      sense tenir en compte els punts de control i usant els punts de test per
+      a avaluar l'error de l'ajust.
+
+      <p>Aquest són els valors inicials dels paràmetres de vol en la primera
+      iteració:</p>
+
+      <ul>
+        <li>Aleteig: omega = 0</li>
+
+        <li>Capcineig: fi = 0</li>
+
+        <li>Deriva: kappa = Es proven diferents valors i s'agafa el que
+        doni un RMS més petit en les primeres iteracions.</li>
+
+        <li>Xc = Mitjana de les coordenades X (destí) dels punts de
+        control.</li>
+
+        <li>Yc = Mitjana de les coordenades Y (destí) dels punts de
+        control.</li>
+
+        <li>Zc = Zc mitjana + altitud de vol, aprox. 2000-3000 m</li>
+      </ul>
+
+      <p>Quan s'hagi d'ajustar el punt principal (x_pp, y_pp), el
+      programa pren com a valors inicials:</p>
+
+      <ul>
+        <li>x_pp = Mitjana de les coordenades x (origen) del punts de control
+        o punt mitjà del ràster .</li>
+
+        <li>y_pp = Mitjana de les coordenades y (origen) del punts de control
+        o punt mitjà del ràster.</li>
+      </ul><br/>
+      Tanmateix, algunes vegades aquestes mitjanes poden quedar força
+      allunyades del punt principal real i en aquest cas el programa pot no
+      convergir (p.ex. si escannegeu només un fragment lateral d'una
+      fotografia aèria analògica). El programa ofereix a l'usuari la
+      possibilitat de canviar el valor per un altre estimat a ull en
+      l'encreuament de les marques fiducials; tingueu en compte que heu
+      d'usar sempre el mateix sistema de medició, coherent amb les
+      coordenades del sistema de referència origen.
+
+      <p>Per a l'ajust de la focal, cal triar un valor inicial proper al
+      real, típicament entre 15 i 35 mm per a càmeres digitals i entre 50 i
+      250 mm per càmeres analògiques.</p>
+
+      <p>Addicionalment caldrà saber els punts per polzada (ppp o dpi)
+      d'escanneig de la imatge (1 polzada = 25.4 mm). En el cas de
+      fotografies analògiques són valors freqüents entre 400 i 200 dpi. En
+      fotografies digitals convindrà consultar les especificacions tècniques
+      (per exemple la càmera AA497-AMDC 28.0 de 2024 columnes x 2041 files i
+      mida del sensor de 18x18 mm dóna lloc a una resolució de 2811x2835 dpi)
+      .</p>
+    </li>
+
+    <li>
+      <h3><a id="transformacions_geometriques" name="transformacions_geometriques"></a>Transformacions geomètriques (afins i
+      perspectiva)</h3>Aquests tipus de transformacions segueixen una
+      filosofia diferent a les anteriors: en comptes d’ajustar la
+      transformació a través d’uns punts de control, volem indicar nosaltres
+      els paràmetres de la transformació ja que els coneixem <i>a priori</i>. Així,
+      pot ser que haguem escannejat un document girat 90º per causa de
+      caber-hi més bé a l’escànner un cop rotat; en aquest cas serà més fàcil
+      indicar que volem efectuar una rotació de 90º per tornar-lo a posar en
+      la posició original i veure’l de forma "natural" (potser abans de
+      col·locar punts de control per a un ajust fi de la geometria). Un segon
+      exemple seria el cas que disposem d’una base vectorial antiga, provinent
+      d’un software que emmagatzemava les coordenades amb precisió simple (com
+      PC-Arc/Info) i per aquesta causa s’havia truncat la xifra més
+      significativa quan era constant per a tota la capa (per exemple a
+      Catalunya en UTM-31N era habitual suprimir el 4 de la coordenada Y, per
+      la qual cosa una coordenada com ara 4619254.734 s’escrivia 619254.734 i
+      així es podia mantenir una precisió decimètrica; en aquest cas podrem
+      recuperar les coordenades originals indicant una transformació de tipus
+      translació de magnitud 4000000. Finalment, un tercer exemple seria
+      disposar d’una base en què les unitats del sistema de referència
+      horitzontal son km i volem tenir-les en m, per a la qual cosa aplicarem
+      un escalat de valor 1000.<br/>
+      Els tipus d'operacions que s'ofereixen són: translacions,
+      escalats, inclinacions, rotacions, perspectives i miralls. Per a les
+      transformacions afins (totes menys la perspectiva) es pot especificar un
+      origen de transformació i per la perspectiva es pot especificar un
+      envolupant sobre el qual actuar. Es dóna la possibilitat
+      d'escollir-ho perquè si volem modificar una capa vectorial sobre un
+      ràster ja modificat, es pugui usar l'envolupant del ràster i
+      superposar així perfectament la capa vectorial transformada sobre el
+      ràster modificat.<br/>
+      És possible realitzar un seguit de transformacions i/o perspectiva una
+      darrera l'altra sobre un ràster o vector amb l'única restricció que
+      només es pot usar una perspectiva. <u>Important</u>: Quan s'inclou més d'una transformació en la línia de comanda, els processos s'executen per ordre d'esquerra a dreta.<br>
+	  En les transformacions elementals, la marca de topologia verificada es perd en aquelles que poden implicar destrucció d'aquesta verificació (conserven la topologia les rotacions, miralls i translacions, la resta podrien perdre-la). Si cal, podeu tornar a efectuar una estructuració topològica de la capa resultant per tal de garantir l'estat plenament correcte d'aquesta marca.
+    </li>
+  </ul>Per a tots els mètodes excepte transformacions geomètriques (afins i
+  perspectiva):
+
+  <div style="margin-left: 2em">
+    El fitxer COR d'entrada conté els punts de control per a l'ajust
+    i, opcionalment, els de test. El fitxer COR de sortida contindrà els
+    mateixos punts i els resultats del procés (coeficients, errors per punts i
+    globals) per a l'ajust i pel test. El programa mostrarà aquest fitxer
+    i es podrà editar per tal de corregir o eliminar els punts de control més
+    dolents i continuar amb el nou conjunt de punts. S'assumeix que
+    l'extensió dels fitxers és COR.
+  </div><br/>
+  Per al cas de transformacions no calen fitxers COR ja que les correccions es
+  fan per paràmetre.
+  <hr/>
+  <u>Nota sobre el format dels fitxers COR:</u>
+
+  <p>Els fitxers COR contenen els punts de control i, opcionalment, de test,
+  tenen el següent format:</p>
+  <pre>
+    Nombre_de_punts [Coments]
+    X_SistOri1 Y_SistOri1 X_SistDest1 Y_SistDest1 [Z_SistDest1] [Coments1]
+        :          :          :           :            :            :
+</pre>
+
+  <ul>
+    <li>La coordenada Z_SistDest1 no és necessària en les dues primeres
+    opcions del programa.</li>
+
+    <li>Els punts de test (optatius) se situaran, amb el mateix format, a sota
+    d'aquesta seqüència. Cal indicar, a l'inici del bloc corresponent,
+    quants n'hi ha.</li>
+
+    <li>El fitxer pot acabar amb comentaris d'extensió indefinida, que el
+    programa no conserva i que són substituïts pels resultats de
+    l'ajust.<br/></li>
+
+    <li>Les coordenades del &quot;Sistema Origen&quot; han de ser cartesianes,
+    és a dir, han de créixer cap a la dreta en x i cap amunt en y. La
+    coordenada 0,0 pot ser situada en qualsevol punt del fitxer origen o fins
+    i tot fora d'ell.</li>
+  </ul>Aquest format pot ser generat amb un editor de text o, més fàcilment,
+  partir d'un fitxer de punts digitalitzats sobre la imatge o vector
+  original a corregir utilitzant el programa <a href="VECCOR.HTM">VECCOR</a>.
+  <hr/>
+  Per imatges ràster i en les opcions del programa que no requereixen la
+  introducció de la resolució ni l'envolupant del fitxer de sortida,
+  aquest hereta aquests paràmetres del MDE. Els valors màxims de
+  l'envolupant del fitxer de sortida s'adapten en funció del valor de
+  la resolució de sortida (res), fent servir la següent expressió:
+  <pre>
+    X<sub>màxima</sub> = X<sub>mínima</sub> + res * arrodonir_per_excés((X<sub>màxima</sub>-X<sub>mínima)</sub>/res)
+    Y<sub>màxima</sub> = Y<sub>mínima</sub> + res * arrodonir_per_excés((Y<sub>màxima</sub>-Y<sub>mínima)</sub>/res)
+</pre>El nombre de columnes i de files de la imatge final poden determinar-se
+de:
+  <pre>
+    N<sub>columnes</sub> = (X<sub>màxima</sub>-X<sub>mínima</sub>)/res
+    N<sub>files</sub> = (Y<sub>màxima</sub>-Y<sub>mínima</sub>)/res
+</pre>
+  El valor de fons o sensedades és el valor que s'escriurà en el fitxer
+corregit quan el fitxer a corregir no tingui dades per a les cel·les de
+sortida a aquella posició. La persona usu&agrave;ria pot decidir el valor de sensedades o pot
+deixar que sigui el programa qui prengui la decisió. En aquest cas, per
+defecte, serà igual al d'entrada si existís o, si en origen no n'hi
+ha, 255 per imatges byte/byte-RLE o el valor negatiu més petit possible per
+als altres formats. Si la imatge a corregir era byte/byte-RLE i no tenia
+sensedades definit, i en corregir es generen valors sensedades, per defecte els valors
+originals vàlids que en destí corresponen al sensedades se saturaran. En imatges
+de 24-bits reduïdes a 8-bits amb paleta optimitzada aquest fet pot provocar
+una visualització incorrecta i per tant es dóna l'opció que el programa
+reclassifiqui aquests valors a l'índex de color més proper, de manera que
+la visualització queda pràcticament inalterada.
+
+  <p>El programa suporta models digitals d'elevacions de tipus de dades
+  byte, integer (short) i real, comprimits o no-comprimits.</p>
+  <hr/>
+
+  <exclusiva>
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxi:</h3>
+    Opcions per fitxers ràster (IMG):<br/>
+    <pre>
+CorrGeom  1/2  cor cor_s  f_i.img  f_s int xm  xM  ym  yM   res 
+CorrGeom 3/4/5 cor cor_s  f_i.img  f_s int MDE 
+CorrGeom   6   cor cor_s  f_i.img  f_s int MDE dpi iter op_posicio op_actitud op_focal op_ppral
+CorrGeom   7   f_i.img  f_s int [T Tx Ty][E Ex Ey][I Id Ir][R g][P Pr][M Md][...]
+</pre>Opcions per fitxers vectorials estructurats (PNT, ARC):<br/>
+    (La correcció dels fitxers POL i NOD es realitza corregint el corresponent
+    fitxer ARC)
+    <pre>
+CorrGeom 1/2 cor cor_s f_i.pnt f_s
+CorrGeom 1/2 cor cor_s f_i.arc f_s
+CorrGeom   7 f_i.pnt  f_s [T Tx Ty][E Ex Ey][I Id Ir][R g][P Pr][M Md][...]
+CorrGeom   7 f_i.arc  f_s [T Tx Ty][E Ex Ey][I Id Ir][R g][P Pr][M Md][...]
+</pre>Opcions per fitxers vectorials no estructurats (VEC):<br/>
+    <pre>
+CorrGeom 1/2 cor cor_s f_i.vec f_s [n_decimals]
+CorrGeom   7 f_i.vec  f_s [T Tx Ty][E Ex Ey][I Id Ir][R g][P Pr][M Md][...]
+</pre>
+
+    <ul>
+      <li>Opció:
+
+        <ul>
+          <li>1: Ajust polinòmic de primer grau</li>
+
+          <li>2: Ajust polinòmic de segon grau<br/></li>
+
+          <li>3: Ajust amb polinomi amb Z per a les columnes i polinomi de 1r
+          grau sense Z per a les files</li>
+
+          <li>4: Com 3 però amb capcineig constant i Z per a les files</li>
+
+          <li>5: Com 3 però amb capcineig variable i Z per a les
+          files<br/></li>
+
+          <li>6: Equacions de col&middot;linealitat</li>
+
+          <li>7: Transformacions geomètriques (afins i perspectiva)</li>
+        </ul>
+      </li>
+
+      <li>cor: És el fitxer que conté els punts de control en format COR.</li>
+
+      <li>cor_s: És el nom del fitxer COR que contindrà les equacions i els
+      errors de l'ajust i el test. Podeu indicar NUL per correccions
+      automàtiques on no desitgeu generar aquest fitxer.</li>
+
+      <li>f_i.img, f_i.pnt, f_i.arc i f_i.vec,: És el fitxer a corregir (amb
+      extensió).</li>
+
+      <li>f_s: És el nom del fitxer corregit (sense extensió) o el nom del
+      directori dels fitxers corregits pel cas multibanda.</li>
+
+      <li>int: Criteri per a decidir el valor del píxel de sortida (tipus
+      d'interpolació):
+
+        <ul>
+          <li>0: Veí més proper (mapes temàtics; preservar radiometria
+          original).</li>
+
+          <li>1: Interpolació bilineal (imatges per a fotointerpretació;
+          MDE).</li>
+
+          <li>2: Interpolació bicúbica (com 1; resultats suavitzats però més
+          lent).</li>
+        </ul>
+      </li>
+
+      <li>xm xM ym yM: són les coordenades de l'envolupant del ràster de
+      sortida en l'ordre Xmínima Xmàxima Ymínima Ymàxima. Indiqueu 'x
+      x x x' si voleu que el programa les calculi (es corregirà tot el
+      ràster origen).</li>
+
+      <li>res: Resolució de la imatge de sortida en unitats mapa.</li>
+
+      <li>MDE: Fitxer ràster amb el model digital d'elevacions de la
+      zona.</li>
+
+      <li>dpi: És la resolució en ppp (píxels per polzada o dpi) per imatges
+      escannejades o fotografies digitals.</li>
+
+      <li>iter: Nombre màxim d'iteracions en el càlcul de l'ajust dels
+      paràmetres de col&middot;linealitat (suggerim 20).</li>
+
+      <li>f, f_ini: Focal de la cambra en mil·límetres o la seva estimació
+      inicial.</li>
+
+      <li>x_pp y_pp: Coordenades del punt principal de la fotografia o imatge,
+      en unitats sistema de referència origen.</li>
+
+      <li>n_decimals: Nombre de xifres decimals en les coordenades del vector
+      de sortida.</li>
+
+      <li>op_posicio, op_actitud, op_focal, op_ppral: Opcions que defineixen
+      si els paràmetres implicats en les equacions de col&middot;linealitat són
+      coneguts i fixats (3), són estimats (2) o són desconeguts (0). El valor
+      (1) és pel cas especial de la posició quan només es té un estimació de
+      l'altitud de vol, però no de la posició X,Y de l'avió.</li>
+    </ul>Paràmetres obligatoris específics per a transformacions geomètriques
+    (afins i perspectiva)</li>
+
+    <ul>
+      <li>T: Indica que la transformació geomètrica a efectuar és una
+      translació.</li>
+
+      <li>Tx: Valor en les unitats del fitxer d'origen per a la component
+      horitzontal de la translació.</li>
+
+      <li>Ty: Valor en les unitats del fitxer d'origen per a la component
+      vertical de la translació.</li>
+    </ul>
+
+    <ul>
+      <li>E: Indica que la transformació geomètrica a efectuar és un
+      escalat.</li>
+
+      <li>Ex: Raó d'escalat horitzontal.</li>
+
+      <li>Ey: Raó d'escalat vertical. Ex i Ey no poden valer 0 o 1
+      simultàniament.<br/>
+      Ni Ex ni Ey no poden valer 0 perquè no es permet col·lapsar el resultat
+      en un punt i per tant el programa no accepta aquests valors.</li>
+    </ul>
+
+    <ul>
+      <li>I: Indica que la transformació geomètrica a efectuar és una
+      inclinació.</li>
+
+      <li>Id: Si volem inclinar en direcció horitzontal el paràmetre ha de ser
+      &quot;x&quot;. Si volem inclinar en direcció vertical el paràmetre ha de
+      ser &quot;y&quot;.</li>
+
+      <li>Ir: Indica la raó d'inclinació. El valor 0 indica que no hi ha
+      inclinació i com més alta és la raó més inclinació tenim. També accepta
+      un nombre negatiu. Valors positius indiquen inclinació cap a la dreta
+      (sentit horitzontal) o cap amunt (sentit vertical) i valors negatius
+      indiquen inclinació cap a l'esquerra (sentit horitzontal) o cap
+      avall (sentit vertical).</li>
+    </ul>
+
+    <ul>
+      <li>R: Indica que la transformació geomètrica a efectuar és una
+      rotació.</li>
+
+      <li>g: Indica els graus de rotació en el sentit horari. Si volem fer-ho
+      en sentit antihorari cal posar el signe &quot;menys&quot;
+      (&quot;-&quot;) davant. El rang permès és de -360 a 360 graus.</li>
+    </ul>
+
+    <ul>
+      <li>P: Indica que la transformació geomètrica a efectuar és una
+      perspectiva.</li>
+
+      <li>Pr: Indica la raó de perspectiva. El valor que pren ha de ser un
+      real major o igual que zero i menor estricte que 1. Si el valor és 0, el
+      resultat no es modifica i com més proper a l'1 és, més es deforma
+      tendint un punt de fuga infinit.</li>
+    </ul>
+
+    <ul>
+      <li>M: Indica que la transformació geomètrica a efectuar és un
+      mirall.</li>
+
+      <li>Md: Indica la direcció de mirall. Si volem fer un mirall respecte
+      l'eix horitzontal cal usar el valor 'x' (o bé 'X').
+      Si volem fer un mirall respecte l'eix vertical cal usar el valor
+      'y' (o bé 'Y').</li>
+    </ul>Hi ha disponibles alguns <a href="#exemples_transformacions">exemples
+    de transformacions geomètriques (afins i perspectiva)</a> més avall.<br/>
+
+    <p>Paràmetres optatius:</p>
+
+    <ul>
+      <li><i>/NODATA=</i> Valor del sensedades per a la imatge corregida. Si
+      l'usuari sap que amb tota seguretat (avaluant la geometria de la
+      transformació, l'àmbit i rang del MDE...) no hi haurà sensedades pot
+      usar-se el valor <i>&quot;NONE&quot;.</i></li>
+
+      <li><i>/PALETA</i>= Paleta (p25, pal, p65) o taula de simbolització
+      (dbf) que determinarà quin índex de color és el color més proper a
+      l'índex de sensedades per a la imatge corregida.</li>
+
+      <li><i>/MULTIBANDA</i>: Per a corregir alhora ràsters multibanda i
+      generar com a resultat un ràster multibanda amb les corresponents bandes
+      corregides.</li>
+
+      <li><i>/PREFIX=</i> Prefix que s'afegeix als noms dels fitxers
+      originals per a determinar els noms dels fitxers corregits per al cas
+      multibanda. Per defecte aquest prefix és <i>c_</i>.</li>
+
+      <li><i>/MDE_MULTIBANDA</i>: Per a corregir alhora ràsters multibanda que
+      tenen diferents costats de píxel amb un MDE que té una banda per a cada
+      valor no repetit de costat de píxel.</li>
+    </ul>
+
+    <p>Paràmetres optatius específics per a equacions de
+    col&middot;linealitat:<br/></p>
+
+    <ul>
+      <li><i>/XCAM=, /YCAM=, /ZCAM</i>= Coordenades de la càmera o sensor en
+      el sistema de referència destí, tant si són posicions ja conegudes, com
+      valors estimats. Si només s'indica <i>/ZCAM,</i> es fa referència a
+      un valor estimat de l'altitud de vol.</li>
+
+      <li><i>/WCAM=, /FCAM=, /KCAM</i>= Indiquen, en graus, els tres angles
+      d'actitud del sensor siguin fixats o estimats.</li>
+
+      <li><i>/FOCAL</i>= Indica en mil·límetres, la focal coneguda o estimada
+      de la cambra.</li>
+
+      <li><i>/DIGITAL, /ANALOG</i>: Si la focal de la cambra és desconeguda,
+      conèixer si és digital o analògica ajuda a prendre un valor inicial que
+      convergeixi més ràpidament cap al valor ajustat.</li>
+
+      <li><i>/XPP=, /YPP=</i> Coordenades conegudes o inicials del punt
+      principal en el sistema de referència origen</li>
+
+      <li><i>/PMRASTER, /PMPCONTROL:</i> Si la localització del punt principal
+      és desconeguda, es pot indicar si els valors inicials es calcularan a
+      partir de la mitjana dels punts de control o del punt mitjà de
+      l'envolupant del ràster a corregir.</li>
+    </ul>
+
+    <p>Paràmetres optatius específics per a transformacions geomètriques
+    (afins i perspectiva)<br/></p>
+
+    <ul>
+      <li><i>/N_DECIMALS=</i> Nombre de xifres decimals en les coordenades del
+      vector de sortida (només aplica en VEC).</li>
+
+      <li><i>/XORI=, /YORI=</i> Indiquen l'origen de la transformació en
+      el cas que n'hi hagi alguna.</li>
+
+      <li><i>/XMIN=, /XMAX=, /YMIN, /YMAX=</i> Indiquen l'àmbit en el qual
+      volem aplicar la transformació. Només és útil quan realitzem una
+      perspectiva ja que en les transformacions sense perspectiva s'usa
+      <i>/XORI, /YORI</i>.</li>
+
+      <li><i>/AJUST_ENV</i> indica que posteriorment a la transformació afí es
+      realitzarà un retall, de manera que, tota fila i tota columna amb només
+      sensedades desaparegui. En ràsters multibanda es tindrà en compte en cada
+      una de les bandes (només aplica en IMG).</li>
+    </ul>Exemples:<br/>
+    Per a imatges ràster:
+    <pre>
+CorrGeom 1 MAP MA2 LANDSAT.img  LND 0 450000 480500 4724500 4750000 30 /NODATA=0
+CorrGeom 2 MAP NUL LANDSAT.img  LND 1    X      X      X       X    30
+CorrGeom 4 MAP MA2 LANDSAT.img  ORTOLND 1 MDE30 
+CorrGeom 6 MAP MA2 FOTOSCAN.img ORTOFOT 1 MDE05 400 20 153   1475 1512
+</pre>Per a fitxers vectorials:
+    <pre>
+CorrGeom 1 MUNIPC_1 MUNIPC_2 MUNI_1.pnt MUNI_COR
+CorrGeom 2 MUNIPC_1 NUL      MUNI_1.arc MUNI_COR
+CorrGeom 1 MUNIPC_1 MUNIPC_2 MUNI_1.vec MUNI_COR 0
+</pre><a id="exemples_transformacions" name="exemples_transformacions"></a>
+Per a transformacions geomètriques (afins i perspectiva):
+    <pre>
+Translació de 6.5 unitats en direcció vertical positiva:
+CorrGeom 7 LANDSAT.img  LND 0 T 0 6.5
+</pre>
+    <pre>
+Translació de 7 unitats en direcció horitzontal negativa:
+CorrGeom 7 LANDSAT.img  LND 0 T -7 0
+</pre>
+    <pre>
+Rotació de 45 graus en el sentit horari:
+CorrGeom 7 LANDSAT.img  LND 0 R 45
+</pre>
+    <pre>
+Rotació de 45 graus en el sentit antihorari:
+CorrGeom 7 LANDSAT.img  LND 0 R -45
+</pre>
+    <pre>
+Escalat de raó 2 (en les dues direccions: vertical i horitzontal) més rotació horària de 90 graus:
+CorrGeom 7 LANDSAT.img  LND 0 E 2 2 R 90
+</pre>
+    <pre>
+Lleugera inclinació en la direcció horitzontal cap a la dreta:
+CorrGeom 7 LANDSAT.img  LND 0 I x 0.1
+</pre>
+    <pre>
+Inclinació del 50% en la direcció hortizontal cap a l'esquerra:
+CorrGeom 7 LANDSAT.img  LND 0 I x -1
+</pre>
+    <pre>
+Perspectiva d'uns punts situats sobre un ràster del qual també hem fet perspectiva (de 0.5). 
+Suposem que el ràster té com a envolupant (XMIN, YMIN)=(0,10), (XMAX, YMAX)=(4500, 6000)
+CorrGeom 7 MUNI_1.pnt MUNI_COR P 0.5 /XMIN=0 /XMAX=4500 /YMIN=10 /YMAX=6000
+Observem que si no apliquéssim aquests paràmetres optatius, els punts no s'adaptarien al ràster modificat.
+</pre>
+    <pre>
+Rotació d'uns punts situats sobre un ràster del qual també hem fet rotació (de 45 graus). 
+Suposem que el ràster té com a envolupant (XMIN, YMIN)=(0,10), (XMAX, YMAX)=(4500, 6000)
+CorrGeom 7 MUNI_1.pnt MUNI_COR R 45 /XORI=0 /YORI=10
+Observem que si no apliquéssim aquests paràmetres optatius, els punts no s'adaptarien al ràster modificat.
+</pre>
+    <pre>
+Escalat de cm a m i després traslladar 4000000 m a les Y's.
+Els arguments de les transformacions afins són transformats pel propi programa, per tant, cal pensar-ho com:
+Escalat de cm a m. Traslladar 400000000 cms a les Y.
+CorrGeom 7 Fitxer.arc Fitxer_sor.arc E 100 100 T 0 400000000
+</pre><!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+CorrGeom ?
+-->
+  </exclusiva>
+
+  <center>
+    <a href="VECCOR.htm"><img src="VECCOR.gif"/></a><a href="CanviPrj.htm"><img src="CanviPrj.gif"/></a>
+  </center>
+</body>
+</html>
