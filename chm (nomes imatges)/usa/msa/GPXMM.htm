@@ -1,0 +1,107 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 19-01-2024 */-->
+<head>
+  <title>GPXMM: Import and export of files in GPX format</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">GPXMM: Import and export of files in GPX format</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+    <p>This module is used to convert a GPX format file (GPS eXchange Format) into MiraMon structured vector format (PNT, ARC/NOD) and viceversa.</p>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>Import</b>: 
+		 Conversion from a GPX format file (GPS eXchange Format) to MiraMon structured vector format (PNT, ARC/NOD).</ul>
+<ul>
+  <b>Export from PNT format or ARC/NOD format to GPX format</b>: 
+		 Export from PNT or ARC/NOD format to GPX format.
+</ul>
+<ul>
+  <b>Export from PNT format and ARC/NOD format to GPX format</b>: 
+		 Export from PNT and ARC/NOD format to GPX format.
+</ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+    <p>A GPX file is a format based on an XML scheme that is intended for data sharing from GNSS receivers (popularly known as GPS)  between different applications. This file may contain 1 or more geo-referenced points of interest (waypoints), tracks or routes. More detailed information about the structure of a GPX file 
+and the definitions for each of these types of elements 
+can be consulted in this <a href="http://www.topografix.com/gpx.asp" target="_blank">webpage</a>.</p>
+
+    <p>In a GPX file importing, the output files will detach from the type of existing data in the input file. If it contains tracks, an arc structured vector file (.arc) will be created. If the GPX file contains points, a point structured vector file (.pnt) will be created. If the GPX file contains tracks (sets of points that define a route to be followed), a structured vector file of points will also be created for the georeferenced points and another structured vector file of arcs that joins them forming a possible trace between them. In any case, a MiraMon Map file will be created too where all the imported data can be seen. In relation with alphanumeric data, all the attributes  are saved for both point-type and arc-type elements contained in the GPX file. Also, in the case of tracks, the initial and final time of the track (timestamp) will be saved in Universal Time Coordinated (UTC) and the minimum and maximum ellipsoidal altitude.    </p>
+
+    <p>In exporting from PNT and/or ARC/NOD format file to a GPX file, and due to the limitations of the GPX format, 
+the program allows to save the attributes of a single field of the table associated with the PNT and/or ARC/NOD file where it will be saved in the &lt;name&gt; attribute of the georeferenced points and/or tracks of the destination file. In case of not assigning any field, by default, the field will be filled with the name of the file followed by the graphical identifier of the corresponding point or arc.     </p>
+
+    <p>According to the specification of GPX format, file data coordinates are relative to WGS84 datum and the measurement unit is meter. However, this application allows the reprojection from the GPX file data to another reference system  during import. For more information about reference system, you can consult the file  <a href="../mm32/ap6.htm">MiraMon horizontal reference systems. Geodesic tables and files</a> for further information.</p>
+
+    <div align="center" class="MsoNormal" style="text-align:center">
+      <hr align="center" size="2" width="100%"/>
+    </div>
+
+    <p class="MsoNormal"/>
+
+    <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h3>Syntax:</h3>
+<ul style="list-style-type:none;">
+<li>GPXMM        1 FitxerGPX FitxerMMM  [/SIST_DEST] [/ELIP]  </li>
+<li>GPXMM              2 FitxerPNToARC FitxerGPX  [/NAME_PNT] [/DESC_PNT] [/NAME_ARC] [/DESC_ARC] [/ELIP]  </li>
+<li>GPXMM               2 FitxerPNT FitxerARC FitxerGPX   [/NAME_PNT] [/DESC_PNT] [/NAME_ARC] [/DESC_ARC] [/ELIP]  </li>
+</ul>
+<h4>Options:</h4>
+<ul>
+<li>1: 
+									Import from GPX format to MMM format.</li>
+<li>2: 
+									Export from PNT and/or ARC/NOD format to GPX format.</li>
+</ul>
+<h4>Parameters:</h4>
+<ul style="list-style-type:none;">
+<li><b>FitxerGPX</b> 
+										(GPX file -
+										Input parameter): GPX file to import or export</li>
+<li><b>FitxerMMM</b> 
+										(MMM file -
+										Output parameter): Output file in MMM format</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FitxerPNToARC</b> 
+										(PNT file o ARC file -
+										Input parameter): PNT or ARC/NOD file to export into a GPX</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FitxerPNT</b> 
+										(PNT file -
+										Input parameter): PNT file to export into a GPX</li>
+<li><b>FitxerARC</b> 
+										(ARC file -
+										Input parameter): ARC/NOD file to export into a GPX</li>
+</ul>
+<h4>Modifiers:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>SIST_DEST</b>= 
+						(Destination reference system)
+						 Reference system identifier of the destination file in case that a reprojection option is performed. If not indicated, it will maintain the reference system stated in the GPXMM.  (Input parameter) 
+  <li></li>  <b>/</b><b>NAME_PNT</b>= (Name of PNT field for Name tag) Field name of the PNT that will perform as a Name tag 
+[name of the point of interest] (if the file to export is a PNT).  (Input parameter) <li></li>  <b>/</b><b>DESC_PNT</b>= (Name of PNT field for Desc tag) field name of the PNT that will perform as a Desc tag 
+[description of the point of interest] (if the file to export is a PNT).  (Input parameter) <li></li>  <b>/</b><b>NAME_ARC</b>= (Name of ARC field for Name tag) Field name of the ARC that will perform as a Name tag 
+[name of the track] (if the file to export is an ARC).  (Input parameter) <li></li>  <b>/</b><b>DESC_ARC</b>= (Name of ARC field for Desc tag) field name of the ARC that will perform as a Desc tag [description of the track]  (if the file to export is an ARC).  (Input parameter) <li></li>  <b>/</b><b>ELIP</b>  (Ellipsoidal altitude to orthometric altitude) Assign the ellipsoidal altitude to the orthometric altitude.  (Input parameter) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p><!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+GPXMM ?
+--></p>
+
+    </exclusiva>
+  </div>
+</body>
+</html>

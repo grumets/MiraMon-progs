@@ -1,0 +1,164 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>SDEMM: Conversión de bases de datos espaciales de ArcSDE a los formatos de MiraMon</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/> SDEMM: Conversión de bases de datos espaciales de ArcSDE a los formatos de MiraMon</h1>
+
+  <p>ArcSDE es una interficie para acceder a bases de datos georgráficos
+  (geodatabases) elaborada por ESRI y que puede utilizar un gestor de bases de
+  datos como Oracle.</p>
+
+  <p>SDEMM importa una capa ArcSDE a formato topológico de MiraMon (PNT,
+  ARC/NOD, POL).</p>
+
+  <p>Se accede a un servidor ArcSDE a partir del nombre o dirección IP y de la
+  instancia. Cada servidor puede tener una o más bases de datos (geodatabases)
+  a las que acceder mediante un usuario y una contraseña. Para facilitar el
+  uso de las geodatabases ArcSDE permite estructurar la información en capas
+  (layers) que contienen sólo un tipo de objeto con una tabla de atributos
+  homogénea (los mismos atributos para cada objeto de la capa). SDEMM permite
+  importar una capa de una base de datos de una instancia de un servidor
+  ArcSDE.</p>
+
+  <p>El programa permite importar del servidor ArcSDE capas de puntos,
+  arcos/nodos o polígonos. Si existe información sobre la z de cada vértice,
+  también la importa. Los atributos de los objetos de la capa se convierten en
+  atributos de los objetos almacenados en la tabla principal de los archivos
+  MiraMon. ArcSDE puede contener objetos de tipo multipartes o multilineas si
+  éstos comparten los mismos atributos. Al importar a MiraMon se generan
+  diversos objetos punto o línea respectivamente asignando en la tabla
+  principal los mismos atributos temáticos.</p>
+
+  <p>En caso de error en la importación, aparece un mensaje indicandolo
+  explícitamente, o en su defecto un código cuyo significado se puede
+  consultar en la <a href="../mm32/cc5.htm#ArcSDE" target="blank">miscelánea</a> .</p>
+
+  <p>Para favorecer la rapidez en la extracción de los datos del servidor
+  ArcSDE, la importación de archivos <u>de puntos, arcos o polígonos</u> se
+  puede realizar de dos modos:</p>
+
+  <ul>
+    <li>La opción 3 del programa no realiza ninguna importación más bien
+    genera un REL de capa.Este REL puede ser modificado para que el usuari
+    pueda introducir descripciones de los campos o cualquier otro metadato
+    referente a la capa ArcSDE.</li>
+
+    <li>La opción 2 del programa realiza una simple importación del formato
+    sin modificar la geometría o la topología de las entidades gráficas: se
+    generan archivos que pueden presentar puntos similares (tolerancia
+    infinitesimal), intersecciones entre líneas, superposiciones de polígonos
+    u otras situaciones no deseadas en un modelo topológico. Construir
+    posteriormente la topología sobre este archivo implica el uso combinado de
+    las herramientas de estructuración topológica: estructuración de puntos,
+    arcos (LinArc) o polígonos (Ciclar y transferencia de atributos mediante
+    AtriTop).</li>
+
+    <li>La opción 1 del programa importa una capa ArcSDE y estructura el
+    archivo para obtener una topología verificada. En capas de polígonos el
+    archivo de arcos no presenta límites duplicados (archivo de arcos de menor
+    tamaño) y el archivo de pológonos no presenta superposiciones. También es
+    posible eliminar eventuales micropolígonos. Esta opción es la recomendada.
+    En el caso de capas ArcSDE de líneas se genera topología arco/nodo
+    eliminando intersecciones y superposiciones. En el caso de capas de puntos
+    se funden en uno solo aquellos objetos situados prácticamente en el mismo
+    lugar (tolerancia infinitesimal). Si los registros de la base de datos son
+    diferentes la tabla principal creada contiene registro múltiple para cada
+    objeto gráfico.</li>
+
+    <li>La opción 0 muestra información sobre el contenido de la base de datos
+    ArcSDE,</li>
+  </ul>
+
+  <p>El programa requiere las librerías sde.dll, pe.dll, sg.dll y MSVCR71.dll
+  que se pueden descargar del archivo general.mmz e intalarlas.</p>
+
+  <p>Los controladores (driver) de cliente ArcSDE no son compatibles con los
+  sistemas operativos Windows 95, Windows 98 o Windows ME y por tanto no se
+  puede acceder a estos datos desde ordenadores con estos sistemas.</p>
+  <hr/>
+
+  <exclusiva>
+    <a id="sintaxi" name="sintaxi"></a> Sintaxis:<br/>
+    SDEMM 0 servidor instancia BaseDeDatos usuario contraseña
+    [archivoInfo]<br/>
+    SDEMM 1 servidor instancia BaseDeDatos usuario contraseña capaSDE
+    capaMiraMon [/NOM_REL_DE_CAPA=] [/ID_ENTITAT=]<br/>
+    SDEMM 2 servidor instancia BaseDeDatos usuario contraseña capaSDE
+    capaMiraMon [/NOM_REL_DE_CAPA=] [/ID_ENTITAT=]<br/>
+    SDEMM 3 servidor instancia BaseDeDatos usuario contraseña capaSDE
+    RelDeCapa [/ID_ENTITAT=]<br/>
+
+    <p>Opciones:</p>
+
+    <ul>
+      <li>0: Información sobre la geodatabase de ArcSDE indicada.</li>
+
+      <li>1: Importación al formato de MiraMon y estructuración topológica
+      (recomendado).</li>
+
+      <li>2: Importación al formato de MiraMon.</li>
+
+      <li>3: Generación de un REL de capa.</li>
+    </ul>
+
+    <ul>
+      <li>servidor es el nombre del servidor donde está almacenada la capa a
+      importar. Por ejemplo 158.109.57.114.</li>
+
+      <li>instancia es la instancia donde está la capa a importar. Por ejemplo
+      5153.</li>
+
+      <li>BaseDeDatos es el nombre de la base de datos del servidor donde está
+      almacenada la capa a importar. Por ejemplo SDE_RefDatabase. Un asterisco
+      ('*') indica que se obtendrá información de todas las bases de
+      datos. Es la opción por defecto en gestores Oracle.</li>
+
+      <li>usuario es el nombre del usuario en el servidor e instancia
+      actuales.</li>
+
+      <li>contraseña es la contraseña del usuario 'usuario' en el
+      servidor e instancia actuales. Un asterisco '*' indica que sólo
+      se pide la contraseña una vez.</li>
+
+      <li>archivoInfo (sin extensión) por defecto toma la extensión
+      '.txt' y contendrá la lista de capas disponibles en el servidor,
+      instancia, base de datos y usuario actuales. En caso de omisión la
+      información sale por pantalla.</li>
+
+      <li>capaMiraMon (sin extensión) es la capa de salida. Se genera una capa
+      en formato MiraMon (PNT, ARC/NOD o POL según el tipo de capa pedida a
+      ArcSDE) con este nombre patrón. Un asterisco '*' indica que el
+      fichero será generado en el temporal y eliminado cuando ya no se
+      necesite.</li>
+
+      <li>capaSDE es el nombre de la capa a importar de la base de datos
+      ArcSDE.</li>
+
+      <li>RelDeCapa és el nom del REL de capa que es genera i que vincula amb
+      la capa capaSDE.</li>
+    </ul>
+
+    <p>Parámetros optativos:</p>
+
+    <ul>
+      <li>ID_ENTITAT indica el nombre del campo de la capaSDE que hará de
+      identificador de entidad. Si se indica este parámetro, la tabla
+      principal contendrá dos camps y la secundaria contendrá tantos campos
+      como la capaSDE (excepto el campo que contiene la información espacial
+      (Shape).</li>
+
+      <li>NOM_REL_DE_CAPA es el nombre del REL de capa que se genera y que
+      vincula con la capa capaSDE.</li>
+
+      <li>CLAU_COD indica que la contraseña está codificada.</li>
+    </ul><!-- $$EXCLUSIVA$$
+Para obtener ayuda escriba:
+SDEMM ?
+-->
+  </exclusiva>
+  <hr/>
+  <!--ArcView és marca registrada d'Esri, Inc.--><br/>
+</body>
+</html>

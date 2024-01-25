@@ -1,0 +1,410 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Traduït per Teresa Mata-->
+
+  <title>GestBD: Gestión y mantenimiento de Tablas de Bases de Datos</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">GestBD: Gestión y mantenimiento de Tablas de Bases de Datos</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+  <p align="justify">Este módulo agrupa un conjunto de herramientas y procedimientos de
+  edición, revisión, actualización, etc, de diferentes elementos (estructura
+  de tablas, campos y registros) de bases de datos o tablas. Es especialmente
+  indicado para automatizar algunos de los procedimientos que habitualmente se
+  hacen de forma interactiva con el Gestor de Tablas <a href="MiraD.htm">MiraDades</a>, pero también tiene operaciones particulares de
+  este módulo. Los diferentes procedimientos se indican a partir de las
+  diferentes opciones detalladas:</p>
+  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>TEST_CONTINGUT_REGISTRES_DBF (1)</b>: 
+		 Realiza algunos tests de consistencia sobre ficheros DBF. El programa soluciona automáticamente todos los casos de diferentes maneras. Esta es la lista de errores detectados y su solución:<ul> 		<li>Las cadenas de texto se han escrito con caracteres 0 al final de su contenido. Se resuelve suprimiendo el carácter 0 e introduciendo los espacios que faltan hasta el final de la celda, como es propio del formato DBF.</li> 		<li>Los números se han escrito con caracteres 0 al final de su contenido. Se resuelve suprimiendo el carácter 0 e introduciendo los espacios que faltan hasta el final de la celda, como es propio del formato DBF.</li> 		<li>Los campos de tipo texto contienen caracteres inferiores al carácter 32 ASCII (p .ej. tabuladores). Se resuelve substituyendo dichos caracteres por espacios.</li> 		<li>Los campos numéricos no están justificados a la derecha. Se resuelve moviendo los valores a la derecha dentro de la celda.</li> 		<li>Los campos numéricos contienen caracteres no numéricos. Se resuelve eliminando los valores erróneos (se rellena con blancos toda la celda).</li> 		<li>Los campos numéricos contienen el carácter ',' como separador decimal. Se resuelve sustituyendo ',' por '.' que es el separador válido en DBF.</li> 		<li>Los campos lógicos contienen valores 0 ó 1. Se resuelve sustituyendo los valores por 'F' (<i>false</i>, o falso) o 'T' (<i>true</i>, o verdadero).</li> 		<li>Los campos lógicos contienen valores no lógicos. Se resuelve blanqueando las celdas erróneas.</li> 		<li>Los campos fecha contienen valores no fecha. Se resuelve blanqueando las celdas erróneas.</li> 		<li>Existen campos numéricos de tipo 'F' (<i>float</i>) cuando podrían ser 'N' (único tipo numérico en DBF). Se resuelve cambiando el tipo de campo de 'F' a 'N'.</li> 		<li>El fichero es más largo de lo esperado. Hay datos después del último registro. Se resuelve truncando el fichero al tamaño necesario.</li></ul></ul>
+<ul><b>TEST_REGISTRE_MULTIPLE (2)</b>: 
+		 Elimina la presencia de registro múltiple para un identificador gráfico de una capa vectorial estructurada de MiraMon, es decir, convierte la relación 1 a n entre la base gráfica y la tabla principal en una relación 1 a 1. El registro múltiple se puede eliminar ya sea sencillamente eliminando todos los registros menos uno (el primero, el último, etc) o bien eliminando los campos que determinan la presencia de registro múltiple al presentar diversos valores para un mismo identificador gráfico. Debe remarcarse que la presencia de registro múltiple no es ningún error, sino que, en la mayoría de casos, es una propiedad interesante de la capa, pero en determinadas situaciones se desea reducir la riqueza de información y se opta por generar una base simplificada eliminando el registro múltiple.</ul>
+<ul><b>PAS_DE_ODBC_A_DBF (3)</b>: 
+		 Permite la generación de una tabla DBF a partir de una base de datos que contenga un enlace a cualquier base o tabla mediante un <i>driver</i> ODBC (por ejemplo una base de Microsoft Access en formato MDB). De esta base de datos se puede generar una tabla DBF a partir de cualquier tabla o vista de la base de datos o a partir de cualquier sentencia SQL.</ul>
+<ul><b>SUPR_CAMP_DBF (4)</b>: 
+		 Elimina un campo o un rango de campos de la tabla DBF, perdiendo todas la celdas implicadas.</ul>
+<ul><b>CREA_CAMP_DBF (5)</b>: 
+		 Crea uno o más campos en una tabla DBF con el contenido en blanco.</ul>
+<ul><b>OMPLE_CAMP_DBF (6)</b>: 
+		 Rellena las celdas (indizadas desde 1) de un campo con un valor constante o con una secuencia de valores en autoincremento.</ul>
+<ul><b>CANVIA_CAMP_DBF (7)</b>: 
+		 Cambia las propiedades del descriptor, nombre, tipo, tamaño o número de decimales de uno o más campos. Debe especificarse todas las propiedades indicadas (con o sin cambios), por este orden y campo a campo.</ul>
+<ul><b>BUSCA_I_SUBS_CAMP_DBF (8)</b>: 
+		 Busca en todos los registros de un campo una determinada cadena o subcadena y la sustituye por otra allá donde la búsqueda ha sido encontrada.</ul>
+<ul><b>FUSIONA_TAULES_DBF (9)</b>: 
+		 Fusiona n tablas de idéntica estructura en una sola tabla receptora añadiendo los registros de las otras tablas al final de la tabla receptora. La tabla receptora puede ser preexistente o no.</ul>
+<ul><b>CONCATENA_CAMPS_DBF (10)</b>: 
+		 Fusiona el contenido de n campos en un solo campo receptor preexistente. Si se desea añadir, en cualquier posición de la concatenación, algún carácter o cadena constante para todos los registros debe indicarse escribiendo const(atributo), donde atributo es un valor constante. Por ejemplo si se desea concatenar unos campos: día, mes y año en un formato día-mes-año, será necesario definir una secuencia como: día const(-) mes const(-) año.</ul>
+<ul><b>DUPLICA_CAMP_DBF (11)</b>: 
+		 Duplica uno o varios campos consecutivos y los sitúa después de un determinado campo.</ul>
+<ul><b>MOU_CAMP_DBF (12)</b>: 
+		 Mueve uno o varios campos consecutivos y los sitúa después de un determinado campo.</ul>
+<ul><b>MOSTRA_VALOR_CAMP_DBF (13)</b>: 
+		 Muestra el contenido de un campo para un determinado rango de registros, indizados desde 1.</ul>
+<ul><b>JOIN_TAULES_DBF (14)</b>: 
+		 Permite la agrupación (<i>join</i>) en una sola tabla de campos de dos tablas DBF diferentes. Se debe establecer una correspondencia entre las dos tablas a partir de uno o múltiples enlaces entre campos equivalentes en las dos tablas; estos campos se denominan campos clave. En la mayoría de casos es suficiente definir un solo campo clave en cada tabla (como se puede ver en el Ejemplo 1) para definir de manera inequívoca la correspondencia entre los registros de las dos tablas. En algunos casos, no obstante, es necesario definir más de un campo clave en una o en las dos tablas implicadas (Ejemplo 2) para definir de manera inequívoca la correspondencia entre las dos tablas; a la combinación de estos campos se llama clave combinada. También se deberá definir todos los campos presentes en la tabla de salida, resultado del <i>join</i>. Si se desea que los campos clave también estén en la tabla de salida, se deberá incluirlos en la lista de campos deseados ya que se podrían usar sólo para actuar de vínculo, pero no  quererlos incluir en la tabla resultado de la operación <i>join</i>.<p><b>Ejemplo 1 --> <i>Join</i> a partir de un campo clave.</b><p><i>Join</i> de la <b>Taula1.dbf</b> (Tabla1.dbf en castellano) y la <b>Taula2.dbf</b> (Tabla2.dbf en castellano) a partir del campo común <b>ID</b> (marcado con un rectángulo rojo en la figura). En este ejemplo se desea que la tabla <b>Resultat.dbf</b> (Resultado.dbf en castellano) contenga todos los campos presentes en las dos tablas sin repetir los campos equivalentes a las dos tablas. <div align="center"> <img src="Exemple1_GestBD.png"/></div><p>GestBD 14 Resultat.dbf Taula1.dbf Taula2.dbf /T1_CLAU<b>1</b>=ID /T2_CLAU<b>1</b>=ID /T1_CAMP<b>1</b>=ID /T1_CAMP<b>2</b>=CITY /T1_CAMP<b>3</b>=POPULATION /T1_CAMP<b>4</b>=KM2 /T2_CAMP<b>3</b>=REGION /T2_CAMP<b>4</b>=COUNTRY /RELACIO_1_N /NOMES_REG_ENLLAC  <div align="center"><img src="Exemple1_Resultat_GestBD.png"/></div><p><b>Ejemplo 2 --> <i>Join</i> a partir de dos campos claves en cada tabla.</b><p><i>Join</i> de la <b>Taula1.dbf</b> (Tabla1.dbf en castellano) y la <b>Taula2.dbf</b> (Tabla2.dbf en castellano) a partir de los campos clave común <b>STATIONID</b> y <b>REGION</b> de la <b>Taula1.dbf </b>, y los campos <b>ID</b> y <b>REGIONID</b> de la <b>Taula2.dbf</b> (todos marcados con un rectángulo rojo). En este ejemplo se desea que la tabla <b>Resultat.dbf</b> (Resultado.dbf en castellano) contenga todos los campos presentes en las dos tablas sin repetir los campos equivalentes a las dos tablas. <p><b>Nota</b>: Los campo clave deben tener la misma estructura (Tipo y Anchura), aunque no es necesario que tengan el mismo nombre.<p>GestBD 14 Resultat.dbf Taula1.dbf Taula2.dbf /T1_CLAU<b>1</b>=STATIONID /T1_CLAU<b>2</b>=REGION /T2_CLAU<b>1</b>=ID /T2_CLAU<b>2</b>=REGIONID /T1_CAMP<b>1</b>=STATIONID /T1_CAMP<b>2</b>=REGION /T1_CAMP<b>3</b>=COORDX /T1_CAMP<b>4</b>=COORDY /T1_CAMP<b>5</b>=COORDZ /T2_CAMP<b>1</b>=CITYNAME /RELACIO_1_N /NOMES_REG_ENLLAC <div align="center"><img src="Exemple2c_GestBD.png"/></div><div align="center"><img src="Exemple2_Resultat_GestBD.png"/></div></ul>
+<ul><b>ORDENA_TAULA_DBF (15)</b>: 
+		 Realiza una ordenación por uno o múltiples criterios de una tabla DBF. La tabla ordenada se genera en un fichero DBF nuevo y se puede indicar el sentido de ordenación ascendente o descendente para cada criterio.</ul>
+<ul><b>SUPR_REGISTRE_DBF (16)</b>: 
+		 Elimina uno o varios registros consecutivos de una tabla DBF. Si se desea  indicar un intervalo indíquese también RegFi. El registro RegFi también será borrado.</ul>
+<ul><b>JOIN_TOTS_ENLLACOS (17)</b>: 
+		 Realiza tantos <i>joins</i> físicos como enlaces tiene la tabla principal y sus tablas asociadas, hasta conseguir una única tabla plana (en formato DBF) con todos los campos de todas las tablas asociadas, excepto los campos clave de las tablas secundarias que implicarían una repetición innecesaria. El tipo de relación indicada en los metadatos gobernará el estilo de <i>join</i> (RELACIO_1_N o RELACIO_N_1). Para realizar este cometido, convierte las tablas ODBC a DBF, lo que puede generar truncados en nombres de campos y cambios de tipos y tamaños. Además, el nombre máximo de campos de la supertabla está limitado a 256 (límite de la dbf resultante).</ul>
+<ul><b>MULTIREGISTRE_A_MULTICAMP (18)</b>: 
+		 Transforma de multiregistro a multicampo. Para definir el multiregistro se toma como criterio las repeticiones de los valores del campo clave, típicamente el campo identificador gráfico. Los campos son replicados como campos múltiples tantas veces como el máximo número de repeticiones de los valores del campo clave.</ul>
+<ul><b>DUPLICA_REGISTRE_DBF (19)</b>: 
+		 Genera duplicados de registros.</ul>
+<ul><b>PAS_DE_ODBC_A_ODBC (20)</b>: 
+		 Permite la generación de una tabla de una base de datos a partir de otra tabla, vista o selección (a partir de una sentencia SQL) de otra base de datos. El acceso a les bases de datos se realiza mediante el <i>driver</i> ODBC y por tanto, las bases de datos pueden ser diferentes entre ellas y de cualquier tipo (MS Access, Oracle, SQL Server...). La aplicación intentará crear un duplicado de la tabla, vista o selección, siguiendo lo más fielmente posible el formato de la tabla o datos originales en cuando a tipos de datos, medidas, restricciones,... (hay tipos de datos que son específicos de cada gestor y que no existen en los otros, en estos casos se escogerá el tipo con características más similares). Esta opción es muy útil cuando se tienen sistemas de bases de datos de tipo servidor y se necesita enviar parte de la información a alguien externo que no tiene acceso a la base de datos, por ejemplo si se tiene  una base de datos tipo Oracle o SQL Server. En este caso se pueden  coger les datos que  interesan e exportarlos hacia una base de datos tipo fichero por ejemplo MS Access, de manera que se tengan los datos en un solo fichero.</ul>
+<ul><b>PURGA_TAULA_DBF (21)</b>: 
+		 Determina si hay registros que hayan sido marcados como borrados pero que todavía estén en  la tabla. En caso de encontrarlos los borra físicamente. Solo cambia la fecha del fichero si realmente se ha encontrado registros a borrar. La mayoría de programas de MiraMon ignoran la marca borrado y consideran los registros marcados como borrados como registros normales de la tabla. Así mismo, tanto Excel como ACCESS no muestran los registros marcados como borrados y el <i>driver</i> ODBC para DBF's lo usa en ejecutar una sentencia SQL DELETE.</ul>
+<ul><b>OMPLE_CAMP_TANTP_CENT_A_DBF (22)</b>: 
+		 Se rellena un campo porcentualmente en función de los valores que contiene campo con un valor parcial y un campo que contiene un valor total.</ul>
+<ul><b>COMPLETA_JOIN_1_A_N (23)</b>: 
+		 Completa la tabla con los valores que puedan faltar en revisar un JOIN 1 a N entre la tabla y un tesauro a partir de los campos clave que hacen el enlace y los campos a completar. Una vez establecido el JOIN entre las dos tablas, se comprueba si los valores de los campos a completar que provienen del tesauro están presentes en la tabla y en caso contrario, se  incorporan como más registros para ese identificador gráfico.</ul>
+<ul><b>ELEMENT_XML_A_DBF (24)</b>: 
+		 Escribe en una celda de un DBF el nodo XML apuntado por el XPath como un texto. Está pensado para recuperar el valor de los nodos "hoja" del árbol de elementos del documento ya sean elementos o atributos. En un documento como:<?xml version="1.0" encoding="UTF-8"?>               <MD_Metadata>                   <fileIdentifier>5400031_full28_ca</fileIdentifier>                                   <hierarchyLevel>                                     <MD_ScopeCode value="series" />                                   </hierarchyLevel>               </MD_Metadata> pedir el xpath "MD_Metadata/fileIdentifier" recupera: "5400031_full28_ca" o pedir el xpath "MD_Metadata/hierarchyLevel/MD_ScopeCode/@value" recupera: "series".<br/>  Recuérdese que si se pide el XPath de un nodo que no es "hoja" se obtendrán los valores de todos los elementos hijos separados por espacios, resultado que no parece demasiado útil. <br/>  Se debe tener cuidado con xpath como este: /bookstore/book[1]/title "IE5 and later has implemented that [0] should be the first node, but according to the W3C standard it should have been [1]!!" </br> En MiraMon, al usar las librerías de Windows (que son las de IE5) se tiene esta "característica", es decir, que los <i>arrays</i> de nodos comienzan a numerarse por 0 y no por 1.</ul>
+<ul><b>CONVERTEIX_EXPRESSIO_EN_RESULTAT (25)</b>: 
+		 Cambia una expresión escrita en un campo por su resultado. Actualmente la única expresión soportada es xpath ().</ul>
+<ul><b>CREA_REGISTRE_BUIT_DBF (26)</b>: 
+		 Crea un registro vacío en la tabla DBF.</ul>
+<ul><b>PAS_DE_ESTESA_A_CLASSICA (27)</b>: 
+		 Convierte una DBF extendida de MiraMon a el formato DBF clásico (dBASE III, dBASE III+ o dBASE IV)</ul>
+<ul><b>MOSTRA_RMS_DE_CAMP (28)</b>: 
+		 Calcula el RMS de un campo de una DBF y lo muestra en pantalla.</ul>
+<ul><b>GENERA_TESAURUS (29)</b>: 
+		 Genera un tesauro a partir de la proyección del campo indicado.</ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+  <p>Muchas de estas opciones forman parte de los procesos que se pueden
+  encadenar en un programa <b>BAT</b> (más información en <a href="../mm32/ap7.htm">Módulos de Soporte en MiraMon</a>) y son elementos de un
+  conjunto de procedimientos más complejos de gestión de bases de datos. La
+  funcionalidad de este módulo es proporcionar este conjunto de herramientas
+  muy específicas que dentro de un procedimiento de gestión más global
+  permitirán realizar determinados retoques en la base de datos resultado de
+  otros procesos o en la preparación de la base de datos para verificar
+  determinadas condiciones necesarias antes de empezar otros procesos.</p>
+  <hr/>
+
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxis:</h3>
+<ul style="list-style-type:none;">
+<li>GestBD      1 FicheroDBF [/APLICAR]  </li>
+<li>GestBD      2 FicheroDBF [/APLICAR] [/ELIMINAR_CAMPS] [/REG_TOT_IGUAL]  </li>
+<li>GestBD      3 FicheroDBF FicheroBD Tabla    </li>
+<li>GestBD      4 FicheroDBF NombreCampo [NombreCampoHasta]     </li>
+<li>GestBD      5 FicheroDBF NombreCampoDespuesDe DescCampo NombreCampo Tipo Tamaño NDecimales         </li>
+<li>GestBD      6 FicheroDBF NombreCampo RegIni RegFinal Valor [Incremento]        </li>
+<li>GestBD      7 FicheroDBF NombreCampoPrevio DescCampo NombreCampo Tipo Tamaño NDecimales         </li>
+<li>GestBD      8 FicheroDBF NombreCampo ValorBuscado ValorSubstituido     [/VALOR_COMPLET] [/INSENSIBLE_MAJ] [/TRACTAR_N_COM_C]  </li>
+<li>GestBD      9 FicheroDBFReceptor FitxerDBFDador   </li>
+<li>GestBD      10 FicheroDBF CampoResultado Campo     </li>
+<li>GestBD      11 FicheroDBF NombreCampo [NombreCampoHasta] [NombreCampoDespuesDe]      </li>
+<li>GestBD      12 FicheroDBF NombreCampo [NombreCampoHasta] [NombreCampoDespuesDe]      </li>
+<li>GestBD      13 FicheroDBF NombreCampo RegIni RegFinal      </li>
+<li>GestBD      14 FicheroDBFResultado FicheroDBFPrincipal FicheroDBFSecundario   [/T1_CLAU#] [/T2_CLAU#] [/T1_CAMP#] [/T2_CAMP#] [/RELACIO_1_N] [/NOMES_REG_ENLLAC]  </li>
+<li>GestBD      15 FicheroDBFResultado FicheroDBFOrigen  [/CAMP_#] [/ORDRE_#]  </li>
+<li>GestBD      16 FicheroDBF RegIni [RegFinal]     </li>
+<li>GestBD      17 FicheroDBFResultado FicheroDBFTablaPrincipal   </li>
+<li>GestBD      18 FicheroDBF NombreCampoClave NombreCampo [NombreCampoHasta] [NombreCampoDespuesDe]       </li>
+<li>GestBD      19 FicheroDBF RegIni [RegDespuesDe]     </li>
+<li>GestBD      20 FicheroBDResultado FicherBDOrigen TablaOrigen TablaResultado     </li>
+<li>GestBD      21 FicheroDBF </li>
+<li>GestBD      22 FicheroDBF NombreCampoPorCiento NombreCampoParcial NombreCampoTotal     [/SUMA_CENT]  </li>
+<li>GestBD      23 FicheroDBF FicheroDBFSecundario   [/T1_CLAU#] [/T2_CLAU#] [/T1_CAMP#] [/T2_CAMP#]  </li>
+<li>GestBD      24 FicheroDBF FicheroXML RegIni NombreCampo XPath [QueExtr]        </li>
+<li>GestBD      25 FicheroREL </li>
+<li>GestBD      26 FicheroDBF RegIni [Cuantos]     </li>
+<li>GestBD      27 FicheroDBFExtendida FicheroDBFClasico   </li>
+<li>GestBD      28 FicheroDBF NombreCampoRMS [NODATA] </li>
+<li>GestBD      29 FicheroTesauroDBF FicheroDBF NombreCampo   [/TRACTAR_N_COM_C]  </li>
+</ul>
+<h4>Opciones:</h4>
+<ul>
+<li>1: 
+								Test de consistencia del contenido de un DBF.</li>
+<li>2: 
+								Eliminación del registro múltiple por objeto gráfico de un DBF.</li>
+<li>3: 
+								Conversión de una tabla ODBC a una tabla DBF.</li>
+<li>4: 
+								Eliminación de un campo o un rango de campos de la tabla DBF.</li>
+<li>5: 
+								Creación de uno o varios campos de la tabla DBF.</li>
+<li>6: 
+								Rellenar los valores de un campo con un valor constante o un autoincremento.</li>
+<li>7: 
+								Modificación del descriptor, nombre, tipo, tamaño o número de decimales de uno o más campos de una tabla DBF.</li>
+<li>8: 
+								Búsqueda y sustitución dentro de un campo DBF.</li>
+<li>9: 
+								Fusión de n tablas de idéntica estructura en una sola tabla receptora.</li>
+<li>10: 
+								Fusión de n campos en un único campo receptor preexistente. Si se desea añadir, en cualquier posición de la concatenación, algún carácter o cadena constante para todos los registros se debe escribir const(atributo), donde atributo es un valor constante.</li>
+<li>11: 
+								Duplica uno o más campos consecutivos y los sitúa después de un determinado campo.</li>
+<li>12: 
+								Mueve uno o más campos consecutivos y los sitúa después de un determinado campo.</li>
+<li>13: 
+								Muestra el contenido de un campo en un rango de registros, indizados desde 1.</li>
+<li>14: 
+								Genera una nueva tabla resultado (FicheroDBFResultado) de un <i>join</i> entre las tablas FicheroDBFPrincipal y FicheroDBFSecundario a partir de uno o múltiples enlaces. Los enlaces se indican a partir de los campos claves /T1_CLAU#  (para la tabla 1) y /T2_CLAU# (para la tabla 2) y los campos presentes en la tabla resultado se indican a partir de sus orígenes con  /T1_CAMP# (para la tabla 1) y /T2_CAMP# (para la tabla 2). # es el número de campo, indizado  desde 1 <b><u>en cada</u></b> tabla.</li>
+<li>15: 
+								Genera una nueva tabla resultado (FicheroDBFResultado) de una ordenación definida por uno o más criterios con /CAMP_#. Para cada campo o criterio es posible definir una ordenación ascendente (por defecto) o descendente a partir de /ORDRE_#.</li>
+<li>16: 
+								Elimina uno o más registros consecutivos de una tabla DBF. Si se desea especificar un intervalo debe indicarse también RegFinal. El registro RegFinal también será eliminado.</li>
+<li>17: 
+								Genera la 'tabla plana' (no relacional) FicheroDBFResultado, a partir de los <i>joins</i> físicos entre la tabla principal y las tablas asociadas, indicadas en el fichero REL correspondiente a FicheroDBFTablaPrincipal.</li>
+<li>18: 
+								Se transforma de multiregistro a multicampo. Para definir el multiregistro se toma como a criterio las repeticiones del valor del campo NomCampClau (típicamente el campo identificador gráfico). Los campos entre NomCamp NomCampFinsA son replicados como campos múltiples con un nombre similar (con un índice incremental añadido) tantas veces como el máximo número de repeticiones de los valores del NomCampClau (son añadidos después del campo NomCampDespresDe; típicamente NomCampDespresDe y NomCampFinsA son el mismo).</li>
+<li>19: 
+								Duplica un registro en una nova posición.</li>
+<li>20: 
+								Permite la generación de una tabla de una base de datos a partir de otra tabla, vista o selección (a partir de una sentencia SQL) de otra base datos.</li>
+<li>21: 
+								Se eliminan físicamente del fichero los registros que hayan sido marcados como borrados.</li>
+<li>22: 
+								Se rellena un campo porcentualmente en función de los valores que contiene campo con un valor parcial y un campo que contiene un valor total.</li>
+<li>23: 
+								Completa la tabla resultado (FitxerDBF) con los valores que puedan faltar en revisar un <i>join</i> 1 a N entre las tablas FicheroDBF y FicheroDBFSecundario a partir de uno o múltiples enlaces.</li>
+<li>24: 
+								Rellena una celda de un DBF con los valores (si QueExtr = 'V') o los nombre (si QueExtr = 'N') de un elemento o atributo designado por un XPath de un documento XML. Si el XPath da como resultado más de un elemento, llena más de un registro consecutivo para ese campo. En caso de que (si QueExtr = 'C') llena la celda con el número de nodos que cumplen el XPath.</li>
+<li>25: 
+								Cambia expresión xpath() escrita en un campo por su resultado.</li>
+<li>26: 
+								Crea un registro vacío.</li>
+<li>27: 
+								Convierte una DBF extendida a clásica.</li>
+<li>28: 
+								Calcula el RMS de un campo de una DBF y lo muestra en pantalla.</li>
+<li>29: 
+								Genera un tesauro a partir de la proyección del campo indicado.</li>
+</ul>
+<h4>Parámetros:</h4>
+<ul style="list-style-type:none;">
+<li><b>FicheroDBF</b> 
+										(Fichero DBF -
+										Parámetro de entrada): Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+</ul>
+<ul style="list-style-type:none;">
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroBD</b> 
+										(Fichero Base de Datos -
+										Parámetro de entrada): Fichero DSN o una base de datos de tipo fichero (como un MDB) accesible vía ODBC.</li>
+<li><b>Tabla</b> 
+										(Tabla -
+										Parámetro de entrada): Tabla, en los casos donde se indica el origen puede ser una tabla, vista o una consulta SQL sobre la base de datos ODBC (si la sentencia requiere comitas, se debe usar diéresis en su lugar); en los casos donde Tabla sea el resultado, solo podrá ser una tabla.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>NombreCampo</b> 
+										(Nombre Campo -
+										Parámetro de entrada): Nombre del campo de la tabla DBF.</li>
+<li><b>NombreCampoHasta</b> 
+										(Nombre Campo Hasta -
+										Parámetro de entrada): Nombre del campo que cierra el intervalo, o '*' si se quiere hasta el último campo.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>NombreCampoDespuesDe</b> 
+										(Nombre Campo Después De -
+										Parámetro de entrada): Nombre del campo después del cual se realiza la operación indicada (crear, eliminar, etc) , o '*' si se realiza antes del primero o ']' si se realiza después del último.</li>
+<li><b>DescCampo</b> 
+										(Descriptor Campo -
+										Parámetro de entrada): Descriptor del campo.</li>
+<li><b>Tipo</b> 
+										(Tipo Campo -
+										Parámetro de entrada): Tipo de campo.</li>
+<li><b>Tamaño</b> 
+										(Tamaño Campo -
+										Parámetro de entrada): Tamaño del campo.</li>
+<li><b>NDecimales</b> 
+										(Número Decimales -
+										Parámetro de entrada): Número de decimales del campo, se debe indicar 0 si no es numérico.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>RegIni</b> 
+										(Registro Inicial -
+										Parámetro de entrada): Índice del registro empezando por 1 donde empezar a trabajar o '*' para empezar al final de la tabla.</li>
+<li><b>RegFinal</b> 
+										(Registro Final -
+										Parámetro de entrada): Índice del registro (empezando por 1) donde acabar de trabajar o '*' para llegar al final de la tabla.</li>
+<li><b>Valor</b> (Parámetro de entrada): Valor numérico o alfanumérico de inicio de los registros o valor numérico inicial de un autoincremento.</li>
+<li><b>Incremento</b> 
+										(Incremento -
+										Parámetro de entrada): Incremento, para aplicar un autoincremento debe indicarse dicho valor. Si no, se inician los registros a un valor constante.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>NombreCampoPrevio</b> 
+										(Nombre Campo Previo -
+										Parámetro de entrada): Nombre del campo de la tabla DBF a modificar. Se puede indicar un índice de campo (número de campo empezando por 1) precedido del símbolo # (p. ej.: #12).</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>ValorBuscado</b> 
+										(Valor Buscado -
+										Parámetro de entrada): Valor numérico o alfanumérico a buscar en un campo de un DBF.</li>
+<li><b>ValorSubstituido</b> 
+										(Valor Substituido -
+										Parámetro de entrada): Valor numérico o alfanumérico substituido en un campo de un DBF.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroDBFReceptor</b> 
+										(Fichero DBF Receptor -
+										Parámetro de salida): Fichero DBF receptor (resultado) en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+<li><b>FitxerDBFDador</b> 
+										(Fichero DBF Dador -
+										Parámetro de entrada): Fichero DBF dador en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>CampoResultado</b> 
+										(Campo Resultado -
+										Parámetro de entrada): Nombre del campo resultado de la fusión de diferentes campos.</li>
+<li><b>Campo</b> 
+										(Campo A Fusionar # -
+										Parámetro de entrada): Nombre de los campos que se fusionaran en uno de solo.</li>
+</ul>
+<ul style="list-style-type:none;">
+</ul>
+<ul style="list-style-type:none;">
+</ul>
+<ul style="list-style-type:none;">
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroDBFResultado</b> 
+										(Fichero DBF Resultado -
+										Parámetro de salida): Fichero DBF resultado en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+<li><b>FicheroDBFPrincipal</b> 
+										(Fichero DBF Principal -
+										Parámetro de entrada): Fichero DBF principal en la fusión de tablas  en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+<li><b>FicheroDBFSecundario</b> 
+										(Fichero DBF Secundario -
+										Parámetro de entrada): Fichero DBF secundario en la fusión de tablas en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroDBFOrigen</b> 
+										(Fichero DBF Origen -
+										Parámetro de entrada): Fichero DBF origen en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+</ul>
+<ul style="list-style-type:none;">
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroDBFTablaPrincipal</b> 
+										(Fitxer DBF Taula Principal -
+										Parámetro de entrada): Fichero tabla principal en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>NombreCampoClave</b> 
+										(Nombre Campo Clave -
+										Parámetro de entrada): Es el nombre del campo de la tabla DBF que hace de campo clave.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>RegDespuesDe</b> 
+										(Registro Después De -
+										Parámetro de entrada): Índice de registro empezando desde 1 donde se inserta el nuevo registro.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroBDResultado</b> 
+										(Fichero BD resultado -
+										Parámetro de salida): Base de datos resultado. Fichero DSN o una base de datos de tipo fichero (como un MDB) accesible vía ODBC.</li>
+<li><b>FicherBDOrigen</b> 
+										(Fichero BD Origen -
+										Parámetro de entrada): Base de datos origen. Fichero DSN o una base de datos de tipo fichero (como un MDB) accesible vía ODBC.</li>
+<li><b>TablaOrigen</b> 
+										(Tabla origen a convertir -
+										Parámetro de entrada): Puede ser una tabla, una vista o una consulta SQL sobre la base de datos ODBC (si la sentencia requiere comillas, debe usarse diéresis en el su lugar).</li>
+<li><b>TablaResultado</b> 
+										(Tabla Resultado -
+										Parámetro de entrada): Tabla resultado de la conversión.</li>
+</ul>
+<ul style="list-style-type:none;">
+</ul>
+<ul style="list-style-type:none;">
+<li><b>NombreCampoPorCiento</b> 
+										(Nombre Campo % -
+										Parámetro de entrada): Campo a llenar de acuerdo con la razón entre los valores de NombreCampoParcial y NombreCampoTotal.</li>
+<li><b>NombreCampoParcial</b> 
+										(Nombre Campo Parcial -
+										Parámetro de entrada): Nombre Campo Parcial</li>
+<li><b>NombreCampoTotal</b> 
+										(Nombre Campo Total -
+										Parámetro de entrada): Nombre Camp Total</li>
+</ul>
+<ul style="list-style-type:none;">
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroXML</b> 
+										(Fichero XML -
+										Parámetro de entrada): Fichero XML</li>
+<li><b>XPath</b> (Parámetro de entrada): Xpath del documento XML referente a la parte del documento que se quiere extraer información.</li>
+<li><b>QueExtr</b> 
+										(Qué extraer -
+										Parámetro de entrada): Si QueExtr='V' llena la celda con el valor del elemento o el atributo designado por un XPath, si QueExtr='N' llena la celda con el nombre del elemento o el atributo designado por un XPath y si QueExtr='C' llena la celda con el número de nodos que cumplen el XPath.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroREL</b> 
+										(Fichero REL -
+										Parámetro de entrada): Fichero REL que enlaza o describe un fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>Cuantos</b> 
+										(Cuantos -
+										Parámetro de entrada): Número de elementos o registros a crear.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroDBFExtendida</b> 
+										(Fichero DBF extendida -
+										Parámetro de entrada): Fichero DBF extendida de MiraMon.</li>
+<li><b>FicheroDBFClasico</b> 
+										(Fichero DBF Clásico -
+										Parámetro de salida): Fichero DBF en formato clásico (dBASE III, dBASE III+ o dBASE IV).</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>NombreCampoRMS</b> 
+										(Nombre Campo RMS -
+										Parámetro de entrada): Nombre del campo de la tabla DBF del que se desea calcular el RMS.</li>
+<li><b>NODATA</b> 
+										(Valor sindatos -
+										Parámetro de entrada): Valor sindatos del campo del que se desea calcular el RMS.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FicheroTesauroDBF</b> 
+										(Fichero Tesauro DBF -
+										Parámetro de salida): Fichero tesauro resultado de hacer la proyección del campo del fichero DBF indicado. Fichero en formato DBF clásico (dBASE III, dBASE III+ o dBASE IV) o en DBF extendido de MiraMon.</li>
+</ul>
+<h4>Modificadores:</h4>
+<ul style="list-style-type:none;">  <b>/</b><b>APLICAR</b>  (Aplica) Aplica las soluciones a los problemas detectados en el texto.  (Parámetro de entrada) <li></li> <b>/</b><b>ELIMINAR_CAMPS</b>  
+						(Eliminar campos)
+						 Elimina los campos que determinaban la presencia de registro múltiple.  (Parámetro de entrada) <li></li> <b>/</b><b>REG_TOT_IGUAL</b>  
+						(Registro totalmente igual)
+						 Elimina los registros totalmente iguales de la DBF y por lo tanto elimina la parte del registro múltiple enteramente redundante. Esto puede no ser siempre útil especialmente cuando hay campos numéricos que pueden referirse a cantidades que hace falta totalizar entre los multiregistros.  (Parámetro de entrada) <li></li> <b>/</b><b>VALOR_COMPLET</b>  
+						(Valor Completo)
+						 Indica que el valor buscado ha de coincidir con todo el valor del registro del campo.  (Parámetro de entrada) <li></li> <b>/</b><b>INSENSIBLE_MAJ</b>  
+						(Insensible Mayúsculas)
+						 La búsqueda se hace sin tener en cuenta las mayúsculas/minúsculas.  (Parámetro de entrada) <li></li> <b>/</b><b>RELACIO_1_N</b>  
+						(Relación 1 a muchos)
+						 Indica que es posible una relación de cardinalidad múltiple entre un registro de la tabla principal y N registros de la tabla asociada. Su ausencia no permite esta múltiple relación.  (Parámetro de entrada) <li></li> <b>/</b><b>NOMES_REG_ENLLAC</b>  
+						(Solo Registros Enlace)
+						 Este parámetro implica que únicamente se almacena en la tabla resultado aquellos registros de la tabla principal que tienen correspondencia en la tabla asociada.  (Parámetro de entrada) <li></li> <b>/</b><b>CAMP_#</b>= 
+						(CAMP_#)
+						 Nombres de los campos que formarán parte de la tabla resultado. # és un número de orden (correlativo y empezando desde 1).  (Parámetro de entrada) <li></li> <b>/</b><b>ORDRE_#</b>= 
+						(ORDRE_#)
+						 "D" o "d" indica una ordenación descendente y "A" o "a" una ordenación ascendente (por defecto).  (Parámetro de entrada) <li></li> <b>/</b><b>SUMA_CENT</b>  
+						(Suma Cien)
+						 Asegurar que los porcentajes calculados sumen 100.  (Parámetro de entrada) <li></li>  <b>/</b><b>T1_CLAU#</b>= (T1_CLAU#) Nombres de campo clave de la tabla principal T1, a partir de los cuales se establecerá la correspondencia entre las dos tablas para poder realitzar el <I>join</I>. # Indica el orden de los campos claves enlazados, indexados des de 1. Si se indica más de un campo se entiende que se desea que actúen como una clave combinada.  (Parámetro de entrada) <li></li>  <b>/</b><b>T2_CLAU#</b>= (T2_CLAU#) Nombres de campo clave de la tabla asociada T2, a partir de los cuales se establecerá la correspondencia entre las dos tablas para poder realitzar el <i>join<i/>. # indica el orden de los campos claves enlazados, indexados des de 1.Si se indica más de un campo se entiende que se desea que actúen como una clave combinada.  (Parámetro de entrada) <li></li>  <b>/</b><b>T1_CAMP#</b>= (T1_CAMP#) Nombres de los campos de la tabla T1 que formarán parte de la tabla resultado. # es un número de orden (correlativo y comenzando desde 1).  (Parámetro de entrada) <li></li>  <b>/</b><b>T2_CAMP#</b>= (T2_CAMP#) Nombres de los campos de la tabla T2 que formarán parte de la tabla resultado. # es un número de orden (correlativo y comenzando desde 1).  (Parámetro de entrada) <li></li><b>/</b><b>TRACTAR_N_COM_C</b>  (Tratar números como cadenas) Implica que los números son tratados como cadenas de carácteres.  (Parámetro de entrada) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+   <!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+GestBD ?
+-->
+  </exclusiva>
+</body>
+</html>

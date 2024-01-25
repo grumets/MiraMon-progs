@@ -1,0 +1,128 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>GPXMM: Importació i exportació entre el format GPX i el MiraMon</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">GPXMM: Importació i exportació entre el format GPX i el MiraMon</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+    <p>Aquest mòdul serveix per convertir un fitxer en format GPX (GPS
+    eXchange Format) al format vectorial estructurat del MiraMon (PNT, ARC/NOD) i
+    viceversa.</p>
+
+    <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>Importació</b>: 
+						Conversió d'un fitxer en format GPX (GPS eXchange Format) al format vectorial estructurat del MiraMon (PNT, ARC/NOD).</ul>
+<ul><b>Exportació de format PNT o ARC/NOD al format GPX</b>: 
+						Exportació del format PNT o del format ARC/NOD al format GPX.</ul>
+<ul>
+  <b>Exportació de format PNT i ARC/NOD al format GPX</b>: 
+						Exportació del format PNT i  ARC/NOD al format GPX.
+</ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+    <p>Un fitxer GPX és un format basat en un esquema XML que està pensat per a
+    la compartició de dades de receptors GNSS (popularment coneguts com a GPS) entre diferents aplicacions. Aquest fitxer
+    pot contenir 1 o més punts d'interès georreferenciats (<i>waypoints</i>), traces
+    (<i>tracks</i>) o rutes (<i>routes</i>). A aquesta <a href="http://www.topografix.com/gpx.asp" target="_blank">pàgina</a> es
+    pot trobar informació més detallada de l'estructura que ha de tenir un
+    fitxer GPX i de les definicions per a cadascun d’aquests tipus d’elements.</p>
+
+    <p>En la importació d'un fitxer GPX, els fitxers de sortida dependran
+    del tipus de dades existents en el fitxer origen. Si conté traces, es
+    crearà un fitxer vectorial estructurat d'arcs (.arc). Si el fitxer GPX
+    conté punts, es crearà un fitxer vectorial estructurat de punts (.pnt). Si
+    en el fitxer GPX hi han rutes (conjunts de punts que defineixen un itinerari que es pretén seguir), també es crearà un fitxer vectorial estructurat d'arcs que els uneix formant una possible traça entre ells. En qualsevol
+    dels casos, també es crearà un fitxer Mapa del MiraMon amb el qual es
+    podrà veure totes les dades importades. Pel que fa a les dades alfanumèriques, es
+    desen tots els atributs definits tant per als elements de tipus punt com per als elements de tipus arc que contingui el fitxer GPX. A més, en el
+    cas de les traces, també es desa el temps inicial i final de la traça
+    (<i>timestamp</i>) en Temps Universal Coordinat (UTC) i la mínima i màxima altitud
+    el·lipsoidal.</p>
+
+    <p>En l'exportació d'un fitxer en format PNT i/o ARC/NOD a un fitxer GPX, i degut a les limitacions del format GPX, el programa permet desar els atributs d'un sol camp de la taula associada al fitxer
+    PNT i/o ARC on es desarà  l'atribut &lt;name&gt; dels punts
+    georreferenciats i/o traces del fitxer destí. En el cas que no
+    s'assigni cap camp, per defecte, s'omplirà amb el nom del fitxer
+    seguit de l'identificador gràfic del punt o de l'arc
+    corresponent.</p>
+
+    <p>Segons les especificacions del format GPX, les coordenades de les dades
+    del fitxer s&oacute;n relatives al dàtum WGS84 i la unitat de mesura és el metre.
+    Tanmateix, aquesta aplicació permet la reprojecció de les dades del fitxer GPX a un
+    altre sistema de referència durant la importació. Per tenir més informació sobre sistemes de
+    referència, es pot consultar el document <a href="../mm32/ap6.htm">Sistemes de
+    referència horitzontal del MiraMon. Taules i fitxers de geodèsia</a> per a
+    més informació.</p>
+
+    <div align="center" class="MsoNormal" style="text-align:center">
+      <hr align="center" size="2" width="100%"/>
+    </div>
+
+    <p class="MsoNormal"/>
+
+    <exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h3>Sintaxi:</h3>
+<ul style="list-style-type:none;">
+<li>GPXMM        1 FitxerGPX FitxerMMM  [/SIST_DEST] [/ELIP]  </li>
+<li>GPXMM              2 FitxerPNToARC FitxerGPX  [/NAME_PNT] [/DESC_PNT] [/NAME_ARC] [/DESC_ARC] [/ELIP]  </li>
+<li>GPXMM               2 FitxerPNT FitxerARC FitxerGPX   [/NAME_PNT] [/DESC_PNT] [/NAME_ARC] [/DESC_ARC] [/ELIP]  </li>
+</ul>
+<h4>Opcions:</h4>
+<ul>
+<li>1: 
+								Importació del format GPX al format MMM.</li>
+<li>2: 
+								Exportació del format PNT i/o ARC/NOD al format GPX.</li>
+</ul>
+<h4>Paràmetres:</h4>
+<ul style="list-style-type:none;">
+<li><b>FitxerGPX</b> 
+										(Fitxer GPX -
+										Paràmetre d'entrada): És el fitxer GPX a importar o exportar</li>
+<li><b>FitxerMMM</b> 
+										(Fitxer MMM -
+										Paràmetre de sortida): Fitxer de sortida en format MMM</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FitxerPNToARC</b> 
+										(Fitxer PNT o fitxer ARC -
+										Paràmetre d'entrada): És el fitxer PNT o el fitxer ARC/NOD a exportar a GPX</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FitxerPNT</b> 
+										(Fitxer PNT -
+										Paràmetre d'entrada): És el fitxer PNT a exportar a GPX</li>
+<li><b>FitxerARC</b> 
+										(Fitxer ARC -
+										Paràmetre d'entrada): És el fitxer ARC/NOD a exportar a GPX</li>
+</ul>
+<h4>Modificadors:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>SIST_DEST</b>= 
+						(Sistema de referència de destí)
+						 Identificador del sistema de referència del fitxer destí en el cas de que s'opti per reprojectar la sortida. Si no s'indica, es mantindrà el sistema de referència indicat en el GPXMM.  (Paràmetre d'entrada) <li></li>  
+						 <b>/</b><b>NAME_PNT</b>= (Nom camp PNT per a etiqueta Name) Indica el nom del camp del PNT que farà d'etiqueta Name [nom del punt d’interès] (si el fitxer a exportar és un PNT).  (Paràmetre d'entrada) 
+						 <li></li>  <b>/</b><b>DESC_PNT</b>= (Nom camp PNT per a etiqueta Desc) Indica el nom del camp del PNT que farà d'etiqueta Desc [descripció del punt d'interès] (si el fitxer a exportar és un PNT).  (Paràmetre d'entrada) <li></li>  <b>/</b><b>NAME_ARC</b>= (Nom camp ARC per a etiqueta Name) Indica el nom del camp de l'ARC que farà d'etiqueta Name [nom de la traça] (si el fitxer a exportar és un ARC).  (Paràmetre d'entrada) <li></li>  
+						 <b>/</b><b>DESC_ARC</b>= (Nom camp ARC per a etiqueta Desc) Indica el nom del camp de l'ARC que farà d'etiqueta Desc [descripció de la traça] (si el fitxer a exportar és un ARC).  (Paràmetre d'entrada) 
+						 <li></li>  <b>/</b><b>ELIP</b>  (Altitud el·lipsoidal a altitud ortomètrica) Assignar l'altitud el·lipsoidal a l'altitud ortomètrica.  (Paràmetre d'entrada) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+
+<p><!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+GPXMM ?
+--></p>
+    </exclusiva>
+  </div>
+</body>
+</html>

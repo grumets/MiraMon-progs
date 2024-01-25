@@ -1,0 +1,127 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>TestTop: Test de ficheros topológicamente estructurados</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/> TestTop: Test de ficheros topológicamente estructurados</h1>
+
+  <p>Este programa hace algunos tests de consistencia sobre ficheros
+  topológicamente estructurados.<br/>
+  En este momento están disponibles los siguientes tests:</p>
+
+  <dl>
+    <dt>1 Test de vecindad de polígonos.</dt>
+
+    <dd>Controla que no haya dos polígonos con los mismos atributos temáticos
+    a lado y lado de un mismo arco. Se genera un fichero BADLINES.VEC (de
+    puntos) que marca con 3 puntos las líneas que presentan vecindad errónea,
+    y un fichero QUEIXESL.TXT que describe los errores. Tambien se controla la
+    existencia de registros en blanco al lado de registros con datos,
+    reportados en los ficheros BADLINIC.VEC i QUEIXLIC.TXT. Estas
+    verificaciones se efectuan para todos los campos temáticos a la vez.</dd>
+
+    <dt>2 Test de coherencia del fichero de polígonos.</dt>
+
+    <dd>Un fichero de polígonos contiene dos tablas con contenidos
+    parcialmente redundantes. Por un lado hay una tabla que indica para cada
+    arco qué polígono hay a la derecha y qué polígono a la izquierda; por otra
+    parte hay también una tabla que indica para cada polígono, cuál es la
+    secuencia de arcos que lo delimita. Este test explora la información
+    redundante y busca posibles incoherencias. En caso que se observen
+    diferencias, el programa propone una solución automática que consiste en
+    reescribir la primera tabla a partir de la información de la segunda. Si
+    se ha obtenido el fichero de polígonos a través de un programa como
+    Ciclar, este test no debería encontrar nunca ninguna inconsistencia.</dd>
+
+    <dt>4 Test de coherencia entre el fichero de arcos y el de nodos.</dt>
+
+    <dd>Un fichero de arcos contiene una tabla que indica para cada arco cuál
+    es el nodo inicio y cuál es el nodo final. Un fichero de nodos contiene
+    una tabla que indica para cada nodo de qué tipo de nodo se trata y qué
+    arcos convergen en él. Estas dos informaciones son en parte redundantes.
+    Este test explora la información redundante y busca posibles
+    incoherencias. En caso que se observen diferencias, el programa propone
+    una solución automática que consiste en rehacer totalmente el fichero de
+    nodos a partir de la información del fichero de arcos. Dado que no se
+    modifica simultáneamente el contenido de la base de datos de nodos se
+    perderà el vínculo entre los elementos gráficos y los atributos
+    alfanuméricos. Si el programa sólo encuentra incoherencias en el tipo de
+    nodo indicado en el fichero de nodos, el programa puede reconstruir el
+    fichero de nodos sin peligro de pérdida de información. Si los dos
+    ficheros de arcos y nodos se han obtenido con un programa como LinArc,
+    este test no debería encontrar nunca una inconsistencia.</dd>
+
+    <dd>
+      <a id="ellipsoide" name="ellipsoide">
+      <dl>
+        <dt>8 Test de necesidad de longitudes, perímetros y áreas
+        elipsoidales.</dt>
+
+        <dd>
+          Cuando la proyección cartográfica es conocida (vea listado de
+          proyecciones conocidas en la ayuda del programa <a href="CanviPrj.htm">CanviPrj</a>), es conveniente incluir en la base de
+          datos los campos LONG_ARCE, PERIMETREE y AREAE, que indican la
+          longitud, el perímetro y el área reales de cada objeto calculados
+          sobre el elipsoide terrestre con criterios geodésicos precisos.
+          Estos campos resultan especialmente indicados en proyecciones
+          cartográficas en las que el cálculo sobre el mapa da valores
+          claramente diferentes a los reales sobre la superficie terrestre
+          (por ejemplo, la proyección Mercator) o en proyecciones en mapas en
+          los que la diferencia es pequeña pero donde aparecen líneas largas
+          que pueden acumular errores importantes. En el caso en que el
+          programa determine que es posible hacer cálculos geodésicos, añade a
+          la base de datos los campos anteriormente indicados. Según la
+          proyección cartográfica utilizada, el programa declara visibles los
+          nuevos campos, según el más comunmente usado como medida de
+          longitud, perímetro y área para aquella proyección. Puede cambiar
+          estos criterios de visibilidad en el fichero REL.
+        </dd>
+      </dl>
+      <hr/>
+
+      <exclusiva>
+        <a id="sintaxi" name="sintaxi"></a> Sintaxis:<br/>
+        TestTop 1 Fichero.POL<br/>
+        TestTop 2 Fichero.POL<br/>
+        TestTop 4|8|16 Fichero(con extensión)
+
+        <ul>
+          <li>Opción:</li>
+
+          <li style="list-style: none; display: inline">
+            <ul>
+              <li>1 Test de vecindad de polígonos.</li>
+
+              <li>2 Test de coherencia del fichero de polígonos.</li>
+
+              <li>4 Test de coherencia entre el fichero de arcos y el de
+              nodos.</li>
+
+              <li>8 Test de necesidad de longitudes, perímetros y áreas
+              elipsoidales.</li>
+
+              <li>16 Test de coherencia entre los valores de los campos
+              geométrico-topológicos de la tabla principal y el fichero
+              binario (solamente para arcos).</li>
+            </ul>
+          </li>
+
+          <li>Fichero es el nombre del fichero vectorial estructurado (con
+          extensión) sobre el que se ejecuta el test. En la opción 4 la
+          extensión puede ser POL, ARC o NOD. Si se indica un fichero POL el
+          programa realiza el test del fichero de ARCOS vinculado.</li>
+          <!-- $$EXCLUSIVA
+
+<P>Para obtener la ayuda completa escriba:<BR>
+TestTop ?
+
+-->
+        </ul>
+      </exclusiva>
+
+      <p align="center"/><a href="AtriPol.htm"><img src="AtriPol.gif"/></a><a href="VecSelec.htm"><img src="VecSelec.gif"/></a></a>
+    </dd>
+  </dl>
+</body>
+</html>

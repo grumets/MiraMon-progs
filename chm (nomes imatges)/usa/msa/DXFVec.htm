@@ -1,0 +1,321 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>DXFVec: DXF files import</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/> DXFVec: DXF files import</h1>This program performs the conversion between DXF files (obtained
+  with DXFOUT of AutoCAD, export of CorelDraw, etc.) and vectorial files,
+  either topological structured (grouped in a MMM file) or not (VEC format).
+  The program has 7 options, that determine the type of entity to be
+  extracted:<br/>
+
+  <ul>
+    <li>CONTENTS INFORMATION:<br/>
+    Shows a DXF contents enumeration. It presents the number of polylines,
+    lines, arcs, circles, ellipses, solids, points, texts and blocks splitted
+    by layers. Inside block context, for each layer it appears the name and
+    the number of blocks with this name.</li>
+
+    <li>DXF LINES, POLYLINES, ARCS, CIRCLES, ELLIPSES AND SOLIDS WILL BE
+    TRANSFORMED TO VEC LINES OR POLYGONS.<br/>
+    If the program detects that all the polylines are closed, either in the
+    DXF file definition or by detecting that the extreme coordinates are
+    equal, it will document the objects as being of type &quot;polygon&quot;;
+    in the opposite case it will document them as of type
+    &quot;line&quot;.<br/>
+    Layer that contains the entity becomes attribut in VEC file.<br/>
+    The number of vertex in a polyline is almost unlimited.<br/>
+    The program takes parameter tolerance from command line to convert arcs,
+    circles and ellipses to polylines. Tolerance is the maxumum permited error
+    when translating DXF lines and circles to VEC polylines. (maximum distance
+    between arc and chord). The last versions of DXF format (AcadCAD 2000)
+    allows you to define curvatures between the vertices of a polyline object.
+    The tolerance also applies in these objets. If a 0 is indicated, the
+    number of vertex is limitted to one for degree. Tolerance is only used in
+    option 1.</li>
+
+    <li>DXF POINTS WILL BE TRANSFORMED TO VEC POINTS.<br/>
+    The name of the layer that contains the entity becomes point attribut in
+    VEC file.</li>
+
+    <li>DXF TEXTS WILL BE TRANSFORMED TO VEC POINTS.<br/>
+    Entity text becomes point attribut in VEC file.</li>
+
+    <li>DXF TEXTS WILL BE TRANSFORMED TO VEC POINTS.<br/>
+    Layer that contains the entity becomes point attribut in VEC file.</li>
+
+    <li>DXF BLOCKS WILL BE TRANSFORMED TO VEC POINTS.<br/>
+    Block name becomes point attribut in VEC file.</li>
+
+    <li>DXF LINES, POLYLINES, ARCS, CIRCLES, ELLIPSES AND SOLIDS WILL BE
+    TRANSFORMED TO ARC AND POL FILES; POINTS, TEXTS AND BLOCKS INSERTION
+    POINTS WILL BE TRANSFORMED TO PNT FILES.<br/>
+    A MiraMon Map file (MMM) will be created to group all new layers.</li>
+  </ul>
+
+  <p>For options 1 to 5, the program allows to restrict entities to convert to
+  those with numerical attribute, rejecting those with alphanumerical
+  attributes. In case of choosing only numerical attribute entities, the
+  rounding of non numerical attributes can be forced. These 5 options allows 8
+  entity filters:<br/></p>
+
+  <dl>
+    <dt>ALL LAYERS ENTITY FILTER (entity filter 1):</dt>
+
+    <dd>Converts all the entities of a determined typed (line, point, etc.)
+    being in all the layers that have a name compatible with the choosen type.
+    If output attribute type is restricted to numerical integer values, only
+    DXF file layers with integer attribute will be converted (except in the
+    case of text type entities with text as attribute and when is the text
+    that gives the attribute and not the layer, so that it must be integer).
+    The program will keep this value as attribute of the VEC file vectors and
+    will ignore entities situated in layers with non-integer names (an advise
+    will be shown by console when incompatible or rounded attributes
+    exist).</dd>
+
+    <dt>ONE LAYER ENTITY FILTER (entity filter 2):</dt>
+
+    <dd>Converts all the entities of a determined typed (line, point, etc.)
+    being in a certain layer that can have as a name an alphanumerical
+    attribute. The program allows to change the attribute of the converted
+    entities (except in text options with text as attribute and blocks, where
+    layer name is only used to filter, and the converted attribute is the own
+    text or the block name). The program converts layer name (or the text
+    string to search) to a numerical attribute or user defined
+    alphanumerical.</dd>
+
+    <dt>SEVERAL LAYERS ENTITY FILTER (entity filter 3):</dt>
+
+    <dd>Allows to choose layers and changes to be performed on the attributes
+    of entities converted to VEC. This selection is read from a file of
+    equivalences. The program will usually convert to capital letters text
+    strings that give name to layers, since DXF format keeps the names in
+    capital letters; however, some software (for ex. A/I) do not respect this
+    rule and may write names using small letters. Therefore DXFVec offers the
+    chance of NOT performing the conversion. Also you should take into account
+    that accentuated letters (capital or small) can not be translated nor
+    compared with the non-accentuated. This entity filter can also be used to
+    extract several layers from a DXF file without the need to iterate many
+    times with the one layer entity filter (entity filter 2); in this case
+    layer name must be equal to the equivalence name in the file of
+    equivalences. See the example below.</dd>
+
+    <dt>ONE TEXT ENTITY FILTER (entity filter 4):</dt>
+
+    <dd>This entity filter has sense only for texts and blocks. Permits
+    extracting only DXF texts or blocks with the specified text or block name.
+    In case of options 3 and 5 substitute text will be requested.</dd>
+
+    <dt>SEVERAL TEXTS ENTITY FILTER (entity filter 5):</dt>
+
+    <dd>This entity filter has sense only for texts and blocks. Permits
+    extracting only DXF texts or blocks with the text or block name specified
+    in a file of equivalences. As in the former case, if it is required the
+    text or block name will be replaced by another equivalent attribute.</dd>
+
+    <dt>ALTIMETRY ENTITY FILTER (entity filter 6):</dt>
+
+    <dd>Assigns the attribute of each entity from the Z coordinate of the
+    first vertex of each DXF file entity.<br/>
+    Only valid for entities of type polyline, line and point.<br/>
+    Entities from all layers are transformed.<br/></dd>
+
+    <dt>ALTIMETRY LAYER ENTITY FILTER (entity filter 7):</dt>
+
+    <dd>Equal to the former, but only elements specified in an equivalences
+    file will be extracted.</dd>
+
+    <dt>BLOCK DESCRIPCION ENTITY FILTER (entity filter 8):</dt>
+
+    <dd>The previous filters read the entities from the ENTITIES section in
+    the DXF file. On the other filters of the program, and when using blocks,
+    these are extracted with the option 5 as points. Nevertheless, every block
+    presents a geometric description in the BLOCKS section of the DXF file. In
+    some cases it may be interesting to extract every single block description
+    in a VEC file (usually in a 'plane' reference system). This
+    description can be used to generate an EMF that in MiraMon can be
+    associated to points obtained using option 5. Through this way, you get a
+    more faithful visualization. This description could be used to generate an
+    EMF file that, in MiraMon, could be linked as a symbol to the point in the
+    point file obtained with the option 5 and get a better view on
+    MiraMon.</dd>
+  </dl>Entity filters 3, 5 and 7 need an equivalence file. An equivalence file
+  is a text file containing couples of equivalences in one column with the
+  following format:
+  <pre>
+Text_or_bloc_layer_name_1
+Substitute_equivalent_name_1
+Text_or_bloc_layer_name_2
+Substitute_equivalent_name_2
+     .
+     .
+     .
+Text_or_bloc_layer_name_n
+Substitute_equivalent_name_n
+...
+</pre><br/>
+
+  <p>GENERAL NOTES ABOUT VEC FILES RESULTS:</p>
+
+  <ol>
+    <li>VEC files are ASCII and compatibles with <i>Idrisi software</i>.
+    However, Idrisi does not recognise (at least until v. 4.1) neither
+    attributes of type &quot;string&quot; nor attributes of type
+    &quot;integer&quot; that contain values of type &quot;long&quot; (greater
+    than 32767 or lower than -32768).</li>
+
+    <li>VEC files, when used in Idrisi, even with version 4.x, can give
+    problems if they a zero as attribute.</li>
+
+    <li>Vector-binary Idrisi files have 4 bytes of precision (6-7 significant
+    digits), so, keep in mind when using &quot;CONVERT V&quot; that you can
+    lose precision. We recommend working always with VEC files of type ASCII.
+    MiraMon only supports VEC ASCII files.</li>
+
+    <li>The VEC format can be structured by topology by using other Miramon
+    tools (<a href="VECPNT.htm">VECPNT</a>, <a href="LinArc.htm">LinArc</a>,
+    etc).
+    </li>
+  </ol>
+  <hr/>
+
+  <exclusiva>
+    <a id="sintaxi" name="sintaxi"></a> Syntax:
+    <pre>
+DXFVec 0 Fitx1 [FitxText]
+DXFVec 1|2|3|4|5 F_DXF F_VEC TypeofAttrib Filter [N_decimal [Tolerance]]
+DXFVec 6 F_DXF D_MMM [/PER_TIPUS_TOPO] [/NO_DIBUIXAR_BLOCS]
+</pre>
+
+    <dl>
+      <dt>Op:</dt>
+
+      <dd>0 Information on file contents<br/>
+      1 lines, polylines, arcs, circles, ellipses and solids -&gt; lines or
+      polygons, depending on whether they are opened or not<br/>
+      2 points -&gt; points<br/>
+      3 texts -&gt; points with text value as attribute<br/>
+      4 texts -&gt; points with text as attribute<br/>
+      5 blocks -&gt; points with block name as attribute<br/></dd>
+
+      <dt>Filter:</dt>
+
+      <dd>1 Objects from all the layers<br/>
+      2 Objects from one layer<br/>
+      3 Objects from several layers from a file with one column
+      equivalencies<br/>
+      4 One text in any layer (only valid in options 3, 4 and 5)<br/>
+      5 Several texts in all the layers from a file of equivalences. (only
+      valid in options 3, 4 and 5)<br/>
+      6 Altimetry: attribute will be deduced from the Z of the first
+      vertex.<br/>
+      7 Altimetry from a file that contains the desired layers.<br/>
+      8 Block descripcions</dd>
+
+      <dt>F_DXF: Name of the DXF file to convert</dt>
+
+      <dt>F_VEC: Name of the output VEC file</dt>
+
+      <dt>F_VEC: Usually it is the name of the output VEC file. It is the
+      extraccion directory when using the filter 8.</dt>
+
+      <dt>D_MMM: Disk directory where MMM map and its topologic files will be
+      created.</dt>
+
+      <dt>TypeofAttrib:</dt>
+
+      <dd>1 Integer numbres ignoring texts and rounding if necessary<br/>
+      2 Real numbers ignoring texts<br/>
+      3 Alphanumerical (texts and numbers) (not valid with altimetry entities
+      filters)</dd>
+
+      <dt>N_Decimal:</dt>
+
+      <dd>is the number of decimal figures written in the coordinates of the
+      output file; its default value is 6.</dd>
+
+      <dt>Tolerance:</dt>
+
+      <dd>Is the maximum tolerated error when converting arcs, circles
+      ellipses and curvatures between vertices DXF to VEC polylines. It can be
+      used only with option 1. By default is 0.</dd>
+
+      <dt>FitxText:</dt>
+
+      <dd>Is the name of a text file that will keep a copy of the information
+      shown in the screen. It can be used only with option 0.</dd>
+
+      <dt>/3D=1</dt>
+
+      <dd>Means that you want to import third dimension form the DXF
+      file.</dd>
+
+      <dt>/3D=</dt>
+
+      <dd>1 means you want to importar 3rt dimension from DXF file. 0 means
+      you don't want to importar. If the parametre isn't indicated,
+      the program determines if DXF file si 2D o 3D file and choose the
+      appropiated VEC format.</dd>
+
+      <dt>/FITX_EQUIV=</dt>
+
+      <dd>Is the name of the equivalences file when using entities filters 3,
+      5 and 7. If it isn't indicated, the name will be asked during
+      execution.</dd>
+
+      <dt>/CAPA=</dt>
+
+      <dd>Is the name of the layer to import using the filter 2. If it
+      isn't indicated, the name will be asked during execution.</dd>
+
+      <dt>/ATRIBUT=</dt>
+
+      <dd>Is the atributte that substitutes the name of the layer to import
+      using the filters 2 and 3. If it isn't indicated and you have
+      indicated /CAPA, it takes the same valor; on the contrari, it will be
+      asked during execution.</dd>
+
+      <dt>/TEXT=</dt>
+
+      <dd>Is the name of the text to import. If it isn't indicated, the
+      name will be asked during execution.</dd>
+
+      <dt>/PER_TIPUS_TOPO</dt>
+
+      <dd>All entities will be located in a unique point or arc/polygon file
+      despite the original layers distribution. If this option is not present,
+      every original layer will keep their entities in separated topological
+      files.</dd>
+
+      <dt>/NO_DIBUIXAR_BLOCS</dt>
+
+      <dd>With this option, the bloc entities will not be draw. However, a
+      points layer will always be created containing all the blocs insertion
+      points (by default, this layer is not visible but consultable).</dd>
+    </dl>Note:
+
+    <ul>
+      <li>Entity filters 2 and 4 need other parameters that are requested
+      interactively during execution time. They can be piped from a text file
+      (for ex. &quot;&lt; param.txt&quot;)<br/></li>
+    </ul>
+
+    <p><!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+DXFVec ?
+--></p>
+  </exclusiva>
+  <hr/>
+  Arc/Info, AutoCad, CorelDraw and Idrisi are trade marks of its respective
+  owners.<br/>
+  MiraMon is a trade mark of Xavier Pons.
+
+  <center>
+    Import/Export tools for vector files:<br/>
+    <a href="DXFVec.htm"><img src="DXFVec.gif"/></a> <a href="VecDXF.htm"><img src="VecDXF.gif"/></a> <a href="ArcInfMM.htm"><img src="ArcInfMM.gif"/></a> <a href="BDPNT.htm"><img src="BDPNT.gif"/></a> 
+    <!-- <a href="MMEMF.htm"><img src="MMEMF.gif"></a>  -->
+  </center>
+</body>
+</html>

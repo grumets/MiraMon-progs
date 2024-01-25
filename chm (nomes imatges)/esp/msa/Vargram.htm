@@ -1,0 +1,187 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>wVargram: Representación y modelización del variograma</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/>wVargram: Representación y modelización del variograma</h1>
+
+  <p><i>Disculpe, este documento está pendiente de traducción</i></p>
+
+  <p>wVargram és l'eina del MiraMon que representa i modelitza
+  l'anomenat semivariograma, patró espacial que descriu la correspondència
+  entre la semivariància i la distància. La semivariància, meitat de la
+  variancia, constitueix una mesura de la dispersió de la variable respecte el
+  seu valor esperat i es calcula com la suma dels quadrats de les desviacions
+  respecte la mitjana. El semivariograma (o variograma de forma més general i
+  conceptualment equivalents) permet analitzar el comportament espacial
+  d'una propietat o variable sobre la zona d'estudi i la seva
+  modelització constitueix un element clau dins procés d'interpolació
+  geostadística (<i>kriging</i>).</p>
+
+  <p>La funcionalitat essencial d'aquest mòdul és construir i analitzar el
+  variograma empíric i modelitzar-lo, mitjançant la generació del variograma
+  ajustat com a possible suma d'alguns dels variogrames elementals
+  implementats: <i>nugget</i>, esfèric, quadràtic, lineal, gaussià i
+  exponencial. La variable a modelitzar s'introdueix en la modelització
+  com un camp específic de la base de dades associada al fitxer estructurat de
+  punts (<b>PNT</b>) i el variograma modelitzat es pot desar com a fitxer
+  ASCII, en format <b>VAM.</b></p>
+
+  <p>La construcció del variograma consta de dues etapes organitzades com a
+  dues pestanyes en la interficie del <b>wVargram.</b></p>
+
+  <p align="justify">En la primera etapa es fixen les propietats de la mostra
+  de punts i es defineixen els paràmetres geomètrics i gràfics del Variograma
+  empíric:</p>
+
+  <p><img align="left" hspace="25" src="wVargrampestanya1.PNG"/></p>
+
+  <p>Cal, en primer lloc, definir el fitxer de punts corresponent a la mostra
+  de dades a analitzar. Si és necessari, és possible realitzar una selecció
+  sobre el conjunt de dades i en aquest cas només intervindran en el procés
+  els punts seleccionats. També cal escollir el camp de la base de dades que
+  conté la informació de la variable a representar i/o modelitzar.</p>
+
+  <p>Cal especificar un fitxer per a escriure l'informe de resultats,
+  fitxer de text amb informació sobre el fitxer origen, els paràmetres
+  geomètrics i gràfics i una llista d'intervals amb el nombre de parelles
+  de punts que pertanyen a cada interval i la mitjana i semivariància
+  assignades a l'interval.</p>
+
+  <p>Els paràmetres geomètrics i gràfics a definir són els següents (si es
+  necessita determinar la màxima distància entre punts es pot sol·licitar en
+  qualsevol moment amb el botó &quot;Calcula el m&amp;agr ave;xim&quot;):</p>
+
+  <ul>
+    <li><b>Distància llindar</b>: És la distància màxima d'anàlisi del
+    variograma en les unitats del sisterma de referència horitzontal (SRH),
+    típicament metres. Els punts separats a una distància major a
+    l'especificada queden, doncs, fora de la zona d'estudi del
+    variograma.</li>
+
+    <li><b>Nombre d'intervals</b> <i>(lags)</i>: Especifica el nombre
+    d'agrupacions en què queda dividit l'àmbit d'anàlisi.
+    Determinarà el nombre de punts en l'espai gràfic del variograma
+    empíric.</li>
+
+    <li><b>Ample dels intervals</b> <i>(lags)</i>: Especifica l'amplada de
+    cadascuna de les agrupacions anteriorment definides.</li>
+  </ul>En l'espai gràfic poden usar-se múltiples de les unitats del SRH,
+  per exemple <b>km</b>, si l'ample dels intervals és l'adequat.<br/>
+  La distància llindar, el nombre d'intervals l'amplada dels intervals
+  estan interelacionats de forma que la <b>distància llindar</b> correspon al
+  <b>nombre d'intervals</b> multiplicat per l'<b>amplada dels
+  intervals</b>.
+
+  <ul>
+    <li><b>% tall</b>: És el percentatge que representa la distància llindar
+    respecte a la màxima distància entre els punts.</li>
+
+    <li><b>Totes dir</b>: Indica que l'anàlisi es realitza en totes les
+    dirreccions. La seva absència implica que l'anàlisi es redueix a
+    l'entorn d'una única direcció.</li>
+
+    <li><b>Azimut i amplitud</b>: En l'anàlisi de la possible anisotropia
+    de la distribució, detalla la direcció central i l'amplitud de la
+    selecció sectorial al seu voltant, en graus.</li>
+  </ul>
+
+  <p>Per defecte el sistema realitza els càlculs amb 10 intervals i un 50% de
+  tall, valors per defecte que es poden recuperar en qualsevol moment en
+  prémer el botó corresponent.<br/>
+  També pot ser útil usar el botó d'actualització de paràmetres per a
+  conèixer com repercuteix en la resta de paràmetres el canvi en un
+  d'ells.</p>
+
+  <p>L'últim pas d'aquesta primera etapa (una vegada estabilitzats els
+  paràmetres ajustables) consisteix a <b>Generar el variograma empíric.</b>
+  Aquest representa un punt per a cada interval en una gràfica on
+  horitzontalment es mostren les distàncies i verticalment la semivariància de
+  les parelles de punts que s'han assignat a l'interval corresponent.
+  Consultant a la base de dades alfanumèrica dels punts, s'obtenen els
+  valors específics de la la mitjana i la semivariància, per tant amb una
+  precisió força superior a que es pugui observar gràficament. Aquesta gràfica
+  té 3 nivells de visualització:</p>
+
+  <ul>
+    <li>Vista preliminar en la pròpia interfície</li>
+
+    <li>Vista ampliada en una caixa específica a la quals s'accedeix fent
+    clic en qualsevol punt de la vista prèvia.</li>
+
+    <li>Mapa gràfic del MiraMon en una nova sessió a partir del botó <b>Obrir
+    gràfica al Miramon</b>:</li>
+  </ul>
+
+  <p align="center"><img src="wVargramgraficempiric.PNG"/></p>
+
+  <p> </p>
+
+  <p>En resum, aquesta primera parametrització dóna lloc, i és un dels seus
+  principals objectius, al variograma empíric.</p>
+
+  <p>La segona etapa té com a prinicpal objectiu generar el variograma
+  modelitzat i alhora determinar els corresponents paràmetres estrucuturals
+  del seu patró espacial. En un primer pas, es trien els variogrames
+  elementals amb els seus paràmetres adequats que conjuntament formaran el
+  variograma ajustat compost. El significat gràfic dels paràmetres que
+  defineixen aquest variogrames elementals poden identificar-se en la següent
+  figura:</p>
+
+  <p align="center"><img src="var_estruct.png"/></p>
+
+  <p>És aconsellable consultar algunes referències especialitzades en aquest
+  punt per a comprendre alguns detalls d'aquesta estructura: dues de
+  significatives a nivell introductori són:<br/>
+  <b>Oliver, M. A., Webster, R. (1990)</b>, &quot;Kriging: a method of
+  interpolation for geographical information systems&quot;. <i>International
+  Journal of Geographical Information Science, 4:3, 313 - 332</i><br/>
+  <b>Kitanidis P.K. (1997)</b> <i>Introduction to geostatistics: applications
+  to hydrogeology</i>. Cambridge University Press.</p>
+
+  <p>Aquesta segona modelització dóna lloc al variograma ajustat o modelitzat,
+  i, si es considera vàlid, serà l'usat en mòdul <a href="InterPNT.htm">InterPNT</a> per interpolació pel mètode
+  <i>Kriging</i>.</p><br clear="all" style="page-break-before:right;mso-break-type:section-break"/>
+
+  <table>
+    <tr>
+      <td width="588">
+        <p><img align="left" hspace="25" src="wVargrampestanya2.PNG"/></p>
+      </td>
+
+      <td width="350">
+        <p>La primera part de la pestanya de Modelització correspon a la
+        construcció del variograma ajustat com a suma d'alguns dels
+        variogrames elementals implementats: <i>nugget</i>, esfèric,
+        quadràtic, lineal, gaussià i exponencial.</p>
+
+        <p>El fitxer de paràmetres del variograma resultat és un fitxer VAM
+        que es pot carregar a partir d'un fitxer desat a disc o es pot
+        generar de nou i guardar-lo en qualsevol moment. El programa el desa
+        igualment en generar el variograma ajustat.</p>
+
+        <div align="center"><img src="fitxer_vam.png"/></div>
+
+        <p>El directori gràfic del variograma ajustat pot ser un directori
+        temporal, per al cas en que només es vulgui visualitzar la gràfica, o
+        bé un directori específic, per al cas en que es vulgui guardar a disc
+        per a futurs usos.</p>
+
+        <p>De forma anàloga a la pestanya de lectura de punts i paràmetres es
+        genera una vista prèvia de la gràfica que es pot ampliar fent clic a
+        sobre amb el ratolí i que es genera un gràfic al MiraMon que es pot
+        consultar amb el botó <b>Obrir grafica al Miramon:</b></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2">
+        <p align="center"><img src="wVargramgraficajustat.PNG"/></p>
+      </td>
+    </tr>
+  </table>
+  <hr/>
+  MiraMon® és programari © de Xavier Pons.
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--Traduït per la Míriam Romero-->
+  <title>SDOMM: Conversión de bases de datos espaciales de Oracle a los formatos de MiraMon</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+ <!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">SDOMM: Conversión de bases de datos espaciales de Oracle a los formatos de MiraMon</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+    <p>Spatial Oracle is an integrated set of functions and procedures that allows storing, accessing and analyzing spatial data in an Oracle database.</p>
+  
+    <p>SDOMM imports a layer stored in a Spatial Oracle database to the MiraMon structured format (PNT, ARC/NOD, POL); during the transformation, it is also possible to generate explicit topological structure.</p>
+  
+    <p>An SDO server is accessed from a DSN (Data Source Name) file. This DSN file can be created through the ODBC data source administrator (file DSN option), choosing the Oracle driver installed on the computer. Once created, if it is desired to avoid a constant password request, a "PWD=" key with the password can be added. </p>
+
+    <p>The program allows the user to import layers of points, arcs/nodes or polygons from the SDO server. If there is information about the Z of each vertex, it is also incorporated. The attributes of the objects in the layer are converted into attributes of the objects stored in the main table of MiraMon files. SDO can contain multipart or multiline objects when they share the same attributes. When importing to MiraMon, several point or line objects are generated, respectively, assigning the same thematic attributes to the main table.</p>  
+    <p> For a layer to appear in the available list of layers it is necessary to have the "column of geometric data" defined (field COLUMN_NAME in the table USER_SDO_GEOM_METADATA or ALL_SDO_GEOM_METADATA of the layer) and the extent  (extracted from SDO_DIMNAME, SDO_LB, SDO_UB of DIM_INFO of the USER_SDO_GEOM_METADATA or ALL_SDO_GEOM_METADATA table). If the table has no primary key, the ROWID will be used as such. If it does not have GType, it will try to deduce it from the first object of the layer. However, it is advisable to have it defined; Contact the server administrator if necessary. If the layer does not have entities, it will also appear on the list. The reference system is also not necessary for the layer to appear on the list, although it is recommended to have it defined.
+</p>   
+    
+  <p>If an error appears in the import, a message will be shown indicating explicitly which is the error.</p>
+  
+  <p>To favor the speed in the extraction of data from the SDO server, the import of the points, arcs/nodes or polygons files can be done in different ways:</p>
+  
+	<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>Option 0</b>: 
+		 Create a list of the tables containing the indicated SDO spatial database.</ul>
+<ul><b>Options 1 and 2</b>: 
+		Import to the MiraMon format of a layer stored in a Spatial Oracle database (with and without topological structuring, respectively).</ul>
+<ul><b>Option 3</b>: 
+		 Generation a layer REL.</ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+   
+  <hr/>
+
+  <exclusiva>
+ <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxis:</h3>
+<ul style="list-style-type:none;">
+<li>SDOMM 0   nameDSN fileInfo [/ORDENAR_LLISTA] [/MOSTRA_TIPUS_CAPA]  </li>
+<li>SDOMM   option nameDSN layerSDO layerMiraMon    [/ORDENAR_LLISTA] [/MOSTRA_TIPUS_CAPA] [/AREA_MIN] [/AREA_PERI_MIN] [/NEXE_CRITERIS] [/FONDRE] [/ATRIB_ELIM] [/ALGORISME] [/SIMPLIFICA_VERTEXS]  /NOM_REL_DE_CAPA /NOM_FITXER_LLISTA_CAPES </li>
+<li>SDOMM  3     nameDSN layerSDO relLayer     [/ORDENAR_LLISTA] [/MOSTRA_TIPUS_CAPA] /NOM_FITXER_LLISTA_CAPES  </li>
+</ul>
+<h4>Options:</h4>
+<ul>
+<li>0: 
+				List of the tables containing the indicated SDO spatial database.</li>
+<li>1: Import to the MiraMon format and topological structuring (recommended, although it is slower): imports an SDO layer in the same way that option 2 does, but it structures the imported file so that it has the topology verified. In the case of SDO layers of polygons, polygon topology is generated: the arch file has no duplicate borders (the arch file occupies practically the half) and the polygon file does not have overlays. It is also possible to eliminate the possible micro-polygons. As has been said, this option is the recommended one. For the case of SDO layers of lines, arc/node topology is generated: intersections and overlays are eliminated. In the case of SDO layers of points, all those objects located in almost the same place (within an infinitesimal tolerance) are fused in a single point. In all cases, if the records of the database of original objects that have been unified in the same geographical location for tolerance reasons are different, the main table created contains multiple records for each necessary graphic object, so that all associated alphanumeric information is preserved.</li>
+				<li>2: Import to the MiraMon format: it makes a simple import of the format without modifying the geometry or topology of the graphical entities: files that can present points in similar positions (infinitesimal tolerance) or identical, intersections between lines that do not specify a node at the intersection, polygon overlays or other unwanted situations in a conventional topological model are generated. If later it is desired to build the topology on the layer resulting from the import, it is necessary to make a combined use of the appropriate topological structuring tools depending on the case of structuring points (with <a href="VECPNT.htm">VECPNT</a>), arcs (with <a href="LinArc.htm">LinArc</a>) or polygons (doing a new cycling of polygons with <a href="Ciclar.htm">Ciclar</a> and transferring the attributes between polygons with <a href="AtriTop.htm">AtriTop</a>).				</li>
+                <li>3: 
+								Generation of a layer REL: does not make any import but generates a layer REL. This REL can be modified so that the user can enter the descriptions of the fields or any other metadata referring to the SDO layer.</li>
+</ul>
+<h4>Parameters:</h4>
+<ul style="list-style-type:none;">
+<li><b>nameDSN</b> 
+										(Name DSN -
+										Input parameter): Name of the DSN file that contains the information of the spatial database (geoadatabase). </li>
+<li><b>fileInfo</b> 
+										(Information file - Output parameter): Information file of server layers. Take the extension '.ini' and it will contain the list of available layers in this database.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>layerSDO</b> 
+										(SDO layer - Input parameter): Name of the layer that is desired to import from the SDO database.</li>
+<li><b>layerMiraMon</b> 
+										(MiraMon layer file - Output parameter): File name of points, arcs / nodes or output polygons.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>relLayer</b> 
+										(Rel layer - Output parameter): Name of the REL layer that is generated and links to the SDO layer.</li>
+</ul>
+<h4>Modificadores:</h4>
+<ul style="list-style-type:none;">
+<b>AREA_MIN</b>= 
+						(Minimum Area) Minimum allowed area for a polygon. Below this value, the polygon is not imported or, if it was created during structuring, it is deleted. (Input parameter)
+						  <li></li> <b>/AREA_PERI_MIN</b>= 
+						(Minimum perimeter area) Minimum allowed area / perimeter ratio for a polygon. Below this value, the polygon is not imported or, if it was created during structuring, it is deleted. (Input parameter)
+						 <li></li> <b>/NEXE_CRITERIS</b>= 
+						(Nexus criteria) In the case of indicating the two previous criteria, do not import or eliminate the polygons that meet the two conditions at the same time (AND), or those that meet at least one (OR). The default value is AND. (Input parameter)
+						  <li></li> <b>/FONDRE</b>= 
+						(Fuse micro-polygons) Indicates to which polygon is assigned the space occupied by the micro-polygon that disappears in the previously described cases of elimination. Indicate POL_GRAN if assigning the space to the contiguous polygon with the largest area is desired. The default value is FRONTERA_MES_LLARGA which implies that the longest arc of the disappearing micropolygon is eliminated. (Input parameter)
+						  <li></li> 
+						  <b>/ATRIB_ELIM</b>= 
+						(Eliminate by attribute) The polygon that absorbs the micropolygon inherits its thematic attributes (not the geometric-topological ones) if the value is 1, generating multiple records if they were different from those of the large polygon. The default value is 0, which implies that the attributes of the micropolygon are lost. (Input parameter)
+						 
+						  <li></li> <b>/ALGORISME</b>= 
+						(Algorithm) This parameter is used to determine the type of algorithm that the application will use to cut the vectors in the topological structuring.
+						 <ul><li>ESCOMBRATGE: (Sweep) based on the intersection of Bentley-Ottmann segments.
+						 </li><li>DIRECTE: (Direct) based on the exploration of all segments against all to determine the intersections between vectors.
+						 </li><li>AUTOMATIC: (Automatic) the program automatically decides which of the two algorithms it will use.</li></ul> (Input parameter)
+<li></li> <b>/SIMPLIFICA_VERTEXS</b>  
+						(Simplifies vertices) Simplifies the intermediate vertices of the arcs, as long as this does not imply a change in the topology. (Input parameter) <li></li> 
+						 <b>/NOM_REL_DE_CAPA</b>= 
+						(Rel of layer) Optionally, the name of the layer REL that is generated and links to the SDOlayer can be added. (Output parameter)
+						 <li></li>  <b>/ORDENAR_LLISTA</b> (Sort list) Allows it to sort the list of layers alphabetically. (Input parameter)
+						 <li></li>  <b>/MOSTRA_TIPUS_CAPA</b>  (Layer type) Optionally, the layer type of each of the layers can be displayed. If this is not requested, the process will be much faster. (Input parameter)
+						 <li></li>  <b>/NOM_FITXER_LLISTA_CAPES</b>= (Information file) Optionally, the name of the server's layer information file can be added. It takes the extension '.ini' and will contain the list of available layers in this database. (Output parameter) <li></li>
+</ul>
+
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+    <p><!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+SDOMM ?
+--></p>
+  </exclusiva>
+  <hr/>
+     <h4>How to know what type of algorithm to use in option 1? (optional modifier /ALGORISME=)</h4>
+More information is provided in <a href="general.htm#Algorisme">general syntax</a>.
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+</body>
+</html>

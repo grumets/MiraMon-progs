@@ -1,0 +1,170 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Rutes: Anàlisi de xarxes i determinació de la ruta òptima</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/>Rutes: Anàlisi de xarxes i determinació de la ruta òptima</h1>
+
+  <p>Aquest programa determina les rutes òptimes entre un conjunt de
+  localitzacions origen i un conjunt de possibles localitzacions destí. La
+  ruta òptima entre un parell de localitzacions origen-destí serà aquella que
+  minimitza el desplaçament per anar de l'origen al destí, ja sigui en
+  termes de distància, temps, o bé per un camp numèric definit per
+  l'usuari que representi qualsevol altra variable que ponderi el cost del
+  desplaçament.</p>
+
+  <p>Les localitzacions origen i les possibles localitzacions destí han
+  d'estar connectades a la xarxa que defineix el conjunt de les possibles
+  rutes. Això vol dir que corresponen a nodes de la topologia arc/node de
+  MiraMon. El tipus de localització ve determinat pels valors d'un camp de
+  la base de dades de nodes (*N.dbf) que l'usuari ha de crear i omplir (en
+  el cas que aquesta informació sigui dins una capa de punts, es pot
+  traspassar a la capa de nodes fent servir el mode PNT-&gt;NOD del mòdul
+  <a href="AtriTop.htm">AtriTop</a>). Els valors acceptats per aquest camp
+  són:</p>
+
+  <ul>
+    <li>&quot;O&quot;, pels nodes origen.</li>
+
+    <li>&quot;D&quot;, pels nodes destí</li>
+
+    <li style="list-style: none">.</li>
+
+    <li>&quot;A&quot;, en ambdós casos, o sigui, pels nodes origen i destí
+    alhora.</li>
+
+    <li>&quot;&quot;, en blanc pels nodes que no siguin origen ni destí.</li>
+  </ul>Per la seva banda, els arcs determinen les connexions directes entre
+  nodes, i a la seva base de dades (*A.dbf) han de existir camps que
+  defineixin els costos associats a cada connexió. Pel que fa a la distància,
+  sempre que l'usuari no especifiqui un camp alternatiu, es farà servir el
+  camp topològic de longitud el.lipsoidal si hi és present; en cas contrari,
+  es farà servir el camp topològic de longitud planimètrica (tots dos camps
+  haurien d'existir per defecte a la base d'arcs). Si, pel contrari,
+  l'usuari facilita un camp propi, es comprovarà que els valors del camp
+  siguin vàlids, o sigui numèrics i més grans que zero, en cas incorrecte el
+  programa aturarà l'execució.
+
+  <p>El fitxer resultat és una taula en format <b>DBF</b> que permet establir
+  una relació entre cada node origen i un node destí que optimitza el seu
+  recorregut (sempre que existeixi almenys una successió d'arcs que
+  connecti el node origen i el node destí, i el seu cost acumulat sigui
+  inferior al cost màxim que s'especifica per línia de comanda). Cal tenir
+  present que un mateix node destí pot ser el final de diversos camins òptims,
+  o bé no ser-ho de cap.</p>
+
+  <p>Els costos de cada ruta òptima trobada es presentaran per pantalla i es
+  guardaran a la taula DBF que l'usuari ha especificat en fer la crida al
+  programa. Els valors resultants s'expressaran en les mateixes unitats
+  que els camps implicats (per exemple quan s'usi un camp velocitat en
+  <i>km/h</i> les distàncies acumulades es donaran en <i>km</i> i els temps
+  acumulats en hores). Per tal que els resultats es calculin correctament, els
+  camps implicats en els càlculs hauran de tenir fixades a les metadades les
+  unitats en què s'expressen, i aquestes hauran de ser reconegudes per
+  MiraMon. Contacteu-nos si desitgeu usar unes unitats desconegudes per
+  MiraMon.</p>
+  <hr/>
+
+  <exclusiva>
+    <a id="sintaxi" name="sintaxi"></a> Sintaxi:<br/>
+    Rutes 1 FitxerArcs BDResultats CampTipusNode DistànciaMàxima
+    [<i>/CAMP_LONG</i>=CampLongAlternatiu]<br/>
+    Rutes 2 FitxerArcs BDResultats CampTipusNode TempsMàxim CampTemps<br/>
+    Rutes 3 FitxerArcs BDResultats CampTipusNode DistànciaMàxima CampVelocitat
+    [<i>/CAMP_LONG</i>=CampLongAlternatiu]
+    [<i>/MAX_TEMPS</i>=TempsMàxim]<br/>
+    Rutes 4 FitxerArcs BDResultats CampTipusNode CostMàxim CampCost<br/>
+
+    <ul>
+      <li>Criteri d'optimització
+
+        <ul>
+          <li>1: Per mínima distància acumulada .</li>
+
+          <li>2: Per mínim temps acumulat.</li>
+
+          <li>3: Per mínim temps acumulat, cada tram s'obté com a quocient
+          entre longitud i velocitat.</li>
+
+          <li>4: Per mínim cost acumulat, el cost queda definit per
+          l'usuari per un camp que el mesura l'esforç del
+          desplaçament.</li>
+        </ul>
+      </li>
+
+      <li>FitxerArcs és el nom del fitxer estructurat d'arcs que conté la
+      xarxa de camins</li>
+
+      <li>BDResultat és el nom del fitxer DBF que establirà les relacions
+      entre nodes origen i destí i recollirà els valors acumulats de distància
+      i/o temps.</li>
+
+      <li>CampTipusNode és el camp alfanumèric de la base de dades del fitxer
+      de nodes de FitxerArcs que indica si un node és origen (valor
+      &quot;O&quot;), destí (valor &quot;D&quot;), o ambdós casos alhora,
+      origen i destí, (valor &quot;A&quot;).</li>
+
+      <li>Per les opcions 1 i 3:
+
+        <ul>
+          <li>DistànciaMàxima: representa el llindar màxim (en metres) perquè
+          les rutes que superin aquesta longitud acumulada siguin
+          descartades.</li>
+
+          <li><i>/CAMP_LONG</i>=CampLongAlternatiu: si s'especifica,
+          indica el camp de la base de dades de FitxerArcs que contindrà les
+          longituds de cada arc, que es faran servir en comptes dels valors
+          topològics que figuren per defecte a la base de dades.</li>
+        </ul>
+      </li>
+
+      <li>Per l'opció 2:
+
+        <ul>
+          <li>TempsMàxim: obligatori en aquesta opció, representa el llindar
+          màxim (en les mateixes unitats temporals del CampTemps) perquè les
+          rutes que superin aquest temps de recorregut siguin
+          descartades,</li>
+
+          <li>CampTemps és el camp de la base de dades de FitxerArcs que conté
+          els temps de recorregut associats a cada arc. Els valors han
+          d'estar definits en segons, minuts o en hores.</li>
+        </ul>
+      </li>
+
+      <li>Per l'opció 3:
+
+        <ul>
+          <li>CampVelocitat és el camp de la base de dades de FitxerArcs que
+          conté les velocitats associades a cada arc, necessàries per poder
+          calcular el temps de recorregut de cada ruta. Les unitats associades
+          de temps han d'estar definides en segons, minuts o en
+          hores.</li>
+
+          <li><i>/MAX_TEMPS</i>=TempsMàxim: si s'especifica, representa el
+          llindar màxim (en les mateixes unitats temporals del CampVelocitat)
+          perquè les rutes que superin aquest temps de recorregut siguin
+          descartades.</li>
+        </ul>
+      </li>
+
+      <li>Per l'opció 4:
+
+        <ul>
+          <li>CostMàxim: representa el llindar màxim perquè les rutes que
+          superin aquest cost siguin descartades.</li>
+
+          <li>CampCost és el camp de la base de dades de FitxerArcs que es
+          farà servir per calcular el cost de cada ruta. No cal que el camp
+          tingui cap unitat de mesura associada.</li>
+        </ul>
+      </li>
+
+      <li><i>/NO_VINCULAR:</i> aquest paràmetre elimina el comportament per
+      defecte de vincular la taula <b>DBF</b> resultat a la base de dades
+      associada del fitxer de nodes origen.</li>
+    </ul><!-- $$EXCLUSIVA$$ -->
+  </exclusiva>
+</body>
+</html>
