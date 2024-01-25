@@ -1,0 +1,121 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>VECPNT: Transformación VEC <-> PNT (con y sin topología)</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/> VECPNT: Conversión entre ficheros VEC (puntos)
+  y PNT</h1>
+
+  <p>Esta aplicación hace la transformación de ficheros de puntos en formato VEC
+  (ASCII) a ficheros de puntos en formato PNT (binarios y estructurados), y
+  viceversa. También puede simplificar un fichero PNT, agrupando los puntos
+  que quedan dentro de una cierta distancia.</p>
+
+  <p>El formato VEC es parcialmente compatible con los ficheros VEC de Idrisi,
+  pero permite que los atributos &quot;integer&quot; sean de tipo
+  &quot;long&quot; (es decir, dentro del rango [-2147483648, 2147483647] en
+  lugar de dentro del rango [-32768, 32767]), expresa las coordenadas en doble
+  precisión y soporta atributos de tipo &quot;string&quot;. Todos los formatos
+  VEC ASCII de Idrisi son compatibles con VECPNT.</p>
+
+  <p>El formato PNT es un formato estructurado que permite relaciones topológicas explícitas entre los puntos (en este caso, control de la unicidad espacial), pero también puede ser utilizado sin relaciones topológicas explícitas para almacenar los archivos en un formato más eficiente (gestión mucho más rápida) y con propiedades mucho más sofisticadas (varios atributos por entidad, varios registros [registro múltiple] por entidad, metadatos completos, simbolización por defecto, etc). En efecto, un archivo PNT es un archivo binario que lleva asociado un archivo T.dbf con sus atributos y un archivo T.rel con metadatos completos (descriptores de los campos, relaciones con otras tablas, etc), simbolización por defecto y otras informaciones de interés.</p>
+
+  <p>En las opciones 1 y 3, dados 'n' puntos que estén muy cerca según
+  la tolerancia definida, se fusionan en uno solo y se generan tantos
+  registros como atributos diferentes haya [generando, pues, el denominado registro múltiple]. Cuando se convierte un
+  fichero VEC a formato PNT, el orden de los puntos en el fichero PNT no es el
+  original del VEC sino que están ordenados primero por la coordenada
+  'x' y después por la 'y'. Esta ordenación no es inherente al
+  formato sino una particularidad de la aplicación que los ordena para acelerar la estructuración topológica si se solicita.</p>
+  <hr/>
+
+  <exclusiva>
+    <a id="sintaxi" name="sintaxi"></a>Sintaxis:<br/>
+    VECPNT 1 FicheroVEC FicheroPNT Tolerancia [/AJUST_ENV] [DescriptorCampo
+    [NombreCampo]]<br/>
+    VECPNT 2 FicheroPNT FicheroVEC Precisión [/AJUST_ENV] [ParamOptativos]<br/>
+    VECPNT 3 FicheroPNT FicheroPNT Tolerancia [/AJUST_ENV] [/MULTIREG]
+
+    <ul>
+      <li>Opción</li>
+
+        <ul>
+          <li>1: Paso de ficheros VEC a ficheros PNT</li>
+
+          <li>2: Paso de ficheros PNT a ficheros VEC</li>
+
+          <li>3: Paso de ficheros PNT a ficheros PNT (simplificación)</li>
+        </ul>
+      </li>
+
+      <li>FicheroPNT es el nombre del fichero estructurado de puntos.</li>
+
+      <li>FicheroVEC es el nombre del fichero de puntos tipo VEC (los nombres del FicheroPNT 
+      y del FicheroVEC pueden ser iguales, puesto que la extensión los diferencia).</li>
+
+      <li>DescriptorCampo es una cadena de texto (debe ponerse comillas si
+      contiene espacios) que describe el campo Atributo (máximo 40
+      caracteres); por defecto permanece vacío.</li>
+
+      <li>NombreCampo es una cadena de texto (máximo 10 caracteres) que será
+      usada como nombre de campo en la base de datos a crear; por defecto se
+      toma ATR_VEC_? donde ? puede ser L, F o C según sean los atributos
+      números enteros, reales o cadenas de texto.</li>
+
+      <li>Precisión es el número de cifras decimales escritas en las
+      coordenadas del fichero de salida cuando este es un VEC.</li>
+
+      <li>/AJUST_ENV ajusta la envolvente documentada en los metadatos al
+      rectángulo mínimo.</li>
+
+      <li>/MULTIREG Todos los registros pertenecientes a los puntos fusionados
+      permanecen en la base de datos definitiva (si el parámetro no se especifica, 
+      solo los registros pertenecientes a los puntos del fichero resultante se conservan)</li>
+
+      <li>[ParamOptativos] Parámetros optativos (solo opción 2):
+
+        <ul>
+          <li>/TAULA= y /CAMP= indique el campo de la base de datos que se
+          exporta a formato VEC. Para saber más sobre los valores de estos
+          parámetros deben seguirse las consideraciones del documento de 
+          <a href="general.htm#TaulaCamp">sintaxis general</a>.
+          </li>
+
+          <li>/SI_EN_BLANC= Indica el comportamiento que tendrá la exportación
+          a VEC cuando no exista atributo en la base de datos (campo en
+          blanco). Puede valer &quot;CONSTANT&quot; para un valor constante,
+          &quot;ID_GRAFIC&quot; para identificador gráfico o
+          &quot;IGNORAR&quot; para ignorar los vectores sin atributo (valor
+          por defecto).</li>
+
+          <li>/ATRIBUT_CONSTANT= indique la constante que quiere exportar a
+          formato VEC como atributo de los objectos. Si se usa en combinación
+          con /TAULA=, /CAMP= y /SI_EN_BLANC=CONSTANT es el atributo que se
+          usará cuando no haya datos (campo en blanco).<br/>
+          Si no se indica /TAULA=, /CAMP= o /ATRIBUT_CONSTANT= la exportación
+          a formato VEC es hace partir del identificador gráfico como
+          atributo.</li>
+
+          <li>/ALCADA= Indica cuál de las posibles alturas se escribe en el
+          VEC. Para saber más sobre los valores de este parámetro siga las
+          consideraciones del documento de <a href="general.htm#Alcada">sintaxis general</a>.<br/>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><!-- $$EXCLUSIVA$$
+<P>Para obtener la ayuda completa escriba:
+VECPNT ? 
+--></p>
+  </exclusiva>
+
+  <p>Idrisi es un <i>software</i> © de J.Ronald Eastman y Clark University<br/>
+  Esta aplicación usa y genera ficheros versión 1.1<br/></p>
+
+  <center>
+    <a href="LinArc.htm"><img src="LinArc.gif"/></a>
+  </center>
+</body>
+</html>

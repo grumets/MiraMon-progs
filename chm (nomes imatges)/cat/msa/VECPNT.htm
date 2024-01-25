@@ -1,0 +1,121 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>VECPNT: Transformació VEC <-> PNT (amb i sense topologia)</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/> VECPNT: Conversió entre fitxers VEC (punts) i
+  PNT</h1>
+
+  <p>Aquesta aplicació fa la transformació de fitxers de punts en format VEC
+  (ASCII) a fitxers de punts en format PNT (binaris i estructurats), i
+  viceversa. També pot simplificar un fitxer PNT, agrupant els punts que
+  queden dins una certa distància.</p>
+
+  <p>El format VEC és parcialment compatible amb els fitxers VEC de l'Idrisi,
+  però permet que els atributs &quot;integer&quot; siguin de tipus
+  &quot;long&quot; (o sigui, dintre el rang [-2147483648, 2147483647] en lloc
+  de dintre el rang [-32768, 32767]), expressa les coordenades en doble
+  precisió i suporta atributs de tipus &quot;string&quot;. Tots els formats
+  VEC ASCII de l'Idrisi són compatibles amb el VECPNT.</p>
+
+<p>El format PNT és un format estructurat que permet relacions topològiques explícites entre els punts (en aquest cas, control de la unicitat espacial), però també pot ser utilitzat sense relacions topològiques explícites per a emmagatzemar els fitxers en un format més eficient (gestió molt més ràpida) i amb propietats molt més sofisticades (diversos atributs per entitat, diversos registres [registre múltiple] per entitat, metadades completes, simbolització per defecte, etc). En efecte, un fitxer PNT és un fitxer binari que porta associat un fitxer T.dbf amb els seus atributs i un fitxer T.rel amb metadades completes (descriptors dels camps, relacions amb altres taules, etc), simbolització per defecte  i altres informacions d'interès.</p>
+
+  <p>A les opcions 1 i 3, donats 'n' punts que estiguin molt a prop
+  segons la tolerància definida, es fonen en un de sol i es generen tants
+  registres com atributs diferents hi hagi [generant, doncs, el que anomenem registre múltiple]. Quan es converteix un fitxer VEC a
+  format PNT, l'ordre del punts del fitxer PNT no és l'originari del
+  VEC sinó que estan ordenats primer per la coordenada 'x' i després
+  per la 'y'. Aquesta ordenació no és inherent del format sinó una
+  particularitat de l'aplicació que els ordena per a accelerar l’estructuració topològica si es demana.</p>
+  <hr/>
+
+  <exclusiva>
+    <a id="sintaxi" name="sintaxi"></a> Sintaxi:<br/>
+    VECPNT 1 FitxerVEC FitxerPNT Tolerància [/AJUST_ENV] [DescriptorCamp
+    [NomCamp]]<br/>
+    VECPNT 2 FitxerPNT FitxerVEC Precisió [/AJUST_ENV] [ParamOptatius]<br/>
+    VECPNT 3 FitxerPNT FitxerPNT Tolerància [/AJUST_ENV] [/MULTIREG]
+
+    <ul>
+      <li>Opció
+
+        <ul>
+          <li>1: Pas de fitxers VEC a fitxers PNT</li>
+
+          <li>2: Pas de fitxers PNT a fitxers VEC</li>
+
+          <li>3: Pas de fitxers PNT a fitxers PNT (simplificació)</li>
+        </ul>
+      </li>
+
+      <li>FitxerPNT és el nom del fitxer estructurat de punts.</li>
+
+      <li>FitxerVEC és el nom del fitxer de punts tipus VEC (els noms del FitxerPNT i
+      del FitxerVEC poden ser iguals, ja que l'extensió els diferencia).</li>
+
+      <li>DescriptorCamp és una cadena de text (cal cometes si porta espais)
+      que descriu el camp Atribut (màxim 40 caràcters); per defecte resta
+      buit.<br/></li>
+
+      <li>NomCamp és una cadena de text (màxim 10 caràcters) que serà usada
+      com a nom de camp en la base de dades a crear; per defecte es pren
+      ATR_VEC_? on ? pot ser L, F o C segons que els atributs siguin nombres
+      enters, reals o cadenes de text.</li>
+
+      <li>Precisió és el nombre de xifres decimals escrites a les coordenades
+      del fitxer de sortida quan aquest és un VEC.</li>
+
+      <li>/AJUST_ENV ajusta l'envolupant documentada a les metadades al
+      rectangle mínim.</li>
+
+      <li>/MULTIREG Tots els registres pertanyents als punts fusionats resten
+      a la base de dades definitiva (si el paràmetre no s'especifica,
+      només els registres que pertanyen als punts finals es conserven)</li>
+
+      <li>[ParamOptatius] Paràmetres optatius (només opció 2):
+
+        <ul>
+          <li>/TAULA= i /CAMP= indiquen el camp de la base de dades que
+          s'exporta a format VEC. Per saber més sobre els valors
+          d'aquests paràmetres seguiu les consideracions del document de
+          <a href="general.htm#TaulaCamp">sintaxi general</a>.
+          </li>
+
+          <li>/SI_EN_BLANC= Indica el comportament que tindrà l'exportació
+          a VEC quan no hi hagi atribut a la base de dades (camp en blanc).
+          Pot valer &quot;CONSTANT&quot; per a un valor constant,
+          &quot;ID_GRAFIC&quot; per a l'identificador gràfic o
+          &quot;IGNORAR&quot; per a ignorar els vectors sense atribut (valor
+          per defecte).</li>
+
+          <li>/ATRIBUT_CONSTANT= indiquen la constant que voleu exportar a
+          format VEC com atribut dels objectes. Si s'usa en combinació amb
+          /TAULA=, /CAMP= i /SI_EN_BLANC=CONSTANT és l'atribut que es farà
+          servir quan no hi ha dades (camp en blanc).<br/>
+         Si no s'indica /TAULA=, /CAMP= o /ATRIBUT_CONSTANT=
+          l'exportació a format VEC es fa a partir de l'identificador
+          gràfic com atribut.</li>
+
+          <li>/ALCADA= Indica quina de les possibles alçades s'escriu en
+          el VEC. Per saber més sobre els valors d'aquest paràmetre seguiu
+          les consideracions del document de <a href="general.htm#Alcada">sintaxi general</a>.<br/>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+VECPNT ? 
+--></p>
+  </exclusiva>
+
+  <p>L'Idrisi es un programari © de J.Ronald Eastman and Clark University<br/>
+  Aquesta aplicació fa servir i genera fitxers versió 1.1<br/></p>
+
+  <center>
+    <a href="LinArc.htm"><img src="LinArc.gif"/></a>
+  </center>
+</body>
+</html>
