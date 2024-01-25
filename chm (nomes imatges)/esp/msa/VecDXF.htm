@@ -1,0 +1,177 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>VecDXF: Exportación de capes vectoriales MiraMon a ficheros DXF</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <h1><img src="vecras.gif"/> VecDXF: Exportación de capes vectoriales MiraMon a ficheros DXF</h1>Este programa realiza la conversión de ficheros
+  vectoriales estructurados de puntos, arcos, polígonos o nodos (formatos PNT,
+  ARC, POL o NOD) y de ficheros no estructurados de puntos, líneas o polígonos
+  (formato VEC) a formato DXF, importable por AutoCAD (consulte el comando
+  DXFIN en el manual de AutoCAD) y por otros programas, como por ejemplo
+  MicroStation, CorelDraw o MS-Word. También exporta la 3a dimensión si está
+  presente en los formatos de origen.
+
+  <p>Los polígonos se convierten en polilíneas cerradas; las líneas y arcos se
+  convierten en polilíneas abiertas; los puntos y nodos pueden convertirse en
+  puntos o en textos. El número máximo de vértices en cada línea o polígono es
+  de 4.2 millones.<br/>
+  El fichero DXF generado contiene una cabecera con los límites geográficos
+  del fichero y la definición de las capas.</p>
+
+  <p>En la opción de exportación a textos DXF, los atributos de los puntos
+  pueden contener acentos, pero hay que indicar correctamente cuál es el juego
+  de caracteres en función del programa que debe leer el DXF:</p>
+
+  <ul>
+    <li>Para AutoCAD 2000, FreeHand 8 y MicroStation 95 hay que escoger
+    ANSI-1252</li>
+
+    <li>Para MS-Word 2000 y CorelDraw 8 hay que escoger OEM-850</li>
+  </ul>Para el caso de MicroStation 95, una vez importado el DXF, los
+  caracteres acentuados se visualizan como asteriscos. Para corregir esto hay
+  que cambiar el tipo de fuente. Un posible procedimiento consiste en:
+
+  <ul>
+    <li>Hacer un zoom de vista general.</li>
+
+    <li>Usar la herramienta &quot;cercado&quot; para encuadrar todo el
+    texto.</li>
+
+    <li>Desde la ventana de herramientas de texto, pulsar el botón
+    &quot;Cambiar atributos de texto&quot;.</li>
+
+    <li>Seleccionar una fuente que soporte acentos Windows-ANSI, por ejemplo
+    105-INTL_ISO.</li>
+
+    <li>Seleccionar &quot;Usar cercado&quot;.</li>
+
+    <li>Hacer un &quot;clic&quot; sobre el área seleccionada con el
+    &quot;cercado&quot;.</li>
+  </ul>El programa permite introducir un escalado y un desplazamiento, lo que
+  posibilita que el fichero DXF tenga coordenadas terreno si no las tenía o
+  desplazar todo el dibujo hasta rangos de coordenadas menores (p. ej. algunos
+  programas pueden tener problemas al abrir ficheros DXF con coordenadas UTM
+  en m).
+
+  <p>Notas:</p>
+
+  <ul>
+    <li>Los atributos numéricos o alfanuméricos se convierten en nombres de
+    capas del fichero DXF. De acuerdo con el formato DXF, especificado por
+    AutoDesk, los nombres de capa se transforman en letras mayúsculas y se
+    truncan a 31 caracteres de longitud. Los caracteres no admitidos en el
+    formato DXF se transforman de forma conveniente (por ejemplo una
+    'À' se convierte en una 'A' y un caracter '$' se
+    convierte en '_').</li>
+
+    <li>En el caso de ficheros ligados a una base de datos solamente es
+    posible exportar un solo atributo. Recomendamos exportar el campo
+    ID_GRAFIC si se pretende devolver el fichero a MiraMon, para poder así
+    restituir todos los atributos con el comando &quot;Join físic&quot; de
+    MiraDades.</li>
+
+    <li>Los atributos numéricos y negativos mantienen el signo en el
+    nombre.</li>
+
+    <li>Rango de atributos numéricos enteros admitido: -2147483648 a
+    2147483647 (long).</li>
+
+    <li>Los atributos que son números reales soalmente pueden ser exportados
+    como textos, ya que los nombres de capa no pueden contener puntos
+    decimales. Si se fuerza la exportación como nombre de capa, el punto
+    decimal se convierte en un subrayado.</li>
+
+    <li>Es posible prescindir de los atributos y situar todos los elementos en
+    una sola capa. Para el caso de textos, los textos DXF se sitúan en una
+    sola capa y el atributo se convierte en el texto.</li>
+  </ul>
+  <hr/>
+
+  <exclusiva>
+    <a id="sintaxi" name="sintaxi"></a> Sintaxis:<br/>
+    VecDXF 1 NombreFichVec NombreFichDXF<br/>
+    VecDXF 2 NombreFichVec NombreFichDXF AlturaTexto<br/>
+
+    <ul>
+      <li>Opción
+
+        <ul>
+          <li>1 Transformación directa:<br/>
+
+            <ul>
+              <li>puntos y nodos -&gt; puntos<br/></li>
+
+              <li>líneas y arcos -&gt; polilíneas abiertas<br/></li>
+
+              <li>polígonos -&gt; polilíneas cerradas<br/></li>
+            </ul>
+          </li>
+
+          <li>2 Transforma puntos -&gt; textos.<br/></li>
+        </ul>
+      </li>
+
+      <li>NombreFichVec es el nombre del fichero vectorial
+      (PNT,ARC,NOD,POL,VEC) a convertir.</li>
+
+      <li>NombreFichDXF es el nombre del fichero DXF de salida.</li>
+
+      <li>AlturaTexto es el tamaño del texto DXF en unidades mapa.</li>
+
+      <li>/ESCALAT= es el escalado aplicado a las coordenadas x,y. Por defecto
+      vale 1.</li>
+
+      <li>/DESPLAC_X= es el desplazamiento aplicado a las coordenadas x. Por
+      defecto vale 0.</li>
+
+      <li>/DESPLAC_Y= es el desplazamiento aplicado a las coordenadas y. Por
+      defecto vale 0.</li>
+
+      <li>/N_DECIMALS= número de cifras decimales escritas en las coordenadas
+      del fichero DXF de salida; por defecto vale 6.</li>
+
+      <li>/UNICAPA= nombre de la capa DXF si desea todos los elementos en la
+      misma capa. Si no se indica, el atributo de cada elemento será su
+      capa.</li>
+
+      <li>/JOC_CARAC= juego de caracteres deseado para los textos; puede ser
+      <i>ANSI-1252</i> o <i>OEM-850</i>. Por defecto vale ANSI-1252.</li>
+
+      <li>/TAULA= y /CAMP= indique el campo de la base de datos que se exporta
+      como capa o texto a formato DXF. Para saber más sobre los valores de
+      estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.<br/>
+      </li>
+
+      <li>
+        <i>/REPE=</i> indica qué registro es escogido cuando hay más de un
+        registro para un identificador gráfico (registro múltiple). Para saber
+        más sobre los valores de este parámetro siga las consideraciones del
+        documento de <a href="general.htm#Repe">sintaxis general</a>.<br/>
+      </li>
+
+      <li>/ALCADA= Indica cual de las posibles alturas se escribe en el DXF.
+      Para saber más sobre los valores de este parámetro siga las
+      consideraciones del documento de <a href="general.htm#Alcada">sintaxis
+      general</a>.<br/>
+      </li>
+    </ul><!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+VecDXF ?
+-->
+  </exclusiva>
+  <hr/>
+  AutoCAD, CorelDraw, FreeHand, MicroStation, MS-Word son marcas registradas
+  de sus respectivos propietarios. MiraMon es una marca registrada de Xavier
+  Pons.
+  <hr/>
+
+  <center>
+    Herramientas de importación/exportación de ficheros vectoriales:<br/>
+    <a href="DXFVec.htm"><img src="DXFVec.gif"/></a> 
+    <!-- <a href="VecDXF.htm"><img src="VecDXF.gif"></a>  -->
+     <a href="ArcInfMM.htm"><img src="ArcInfMM.gif"/></a> <a href="BDPNT.htm"><img src="BDPNT.gif"/></a> <a href="MMEMF.htm"><img src="MMEMF.gif"/></a>
+  </center>
+</body>
+</html>
