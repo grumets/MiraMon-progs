@@ -1,0 +1,154 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Visio3D: Generació de perspectives 3D a partir d'un ràster i el seu MDE</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+  <div class="Section1">
+    <h1><img height="32" id="_x0000_i1025" src="vecras.gif" width="32"/>Visio3D: Generació de perspectives 3D a partir d'un ràster i el seu MDE</h1>
+
+    <p>Aquesta aplicació permet generar una perspectiva 3D a partir del model
+    digital d'elevacions de qualsevol imatge: temàtica, ortofotografia o
+    qualsevol model continu com el propi MDE. Existeixen dos modes
+    d'execució: Previsualització i Definitiva. El mode de previsualització
+    és més ràpid que el definitiu i es recomana per cercar els paràmetres
+    geomètrics més propers a la representació que es desitgi aconseguir. Amb
+    la elecció d'aquest mode, no és possible activar l'opció
+    d'ombrejat. El mode definitiu és més lent però genera una
+    representació tridimensional de major qualitat.</p>
+
+    <p>El fitxer del model digital d'elevacions (MDE) ha de ser un fitxer
+    en format .IMG i el tipus de dades pot ser byte, integer, long integer o
+    real. En canvi, el fitxer sobreposat pot ser un fitxer en format .IMG o
+    .JPG i el tipus de dades ha de ser byte. El fitxer de sortida també pot
+    ser .IMG o .JPG però si es vol aplicar ombrejat haurà de ser .JPG. En
+    qualsevol cas, el tipus de dades del fitxer de sortida serà byte. En el
+    cas en que el fitxer sobreposat sigui .IMG i el de sortida .JPG, es
+    necessitarà un fitxer de paleta de colors del fitxer sobreposat.</p>
+
+    <p>L'àmbit i la resolució del MDE i del fitxer sobreposat no cal que
+    coincideixin. Aquesta eina compara l'àmbit dels dos fitxers i cerca la
+    zona en comú i, si existeix, segueix amb el procés. Si els dos fitxers no
+    tenen la mateixa resolució, es remostreja el fitxer amb menor resolució
+    amb una interpolació bilineal per aconseguir la mateixa resolució que
+    l'altre fitxer.</p>
+
+    <p>En el procés de generació de la perspectiva, en el cas que es trobi un
+    valor sensedades en el MDE i, en canvi, hi hagi un valor concret en el
+    sobreposat en el mateix punt, no es mostrarà aquest valor ja que degut a
+    que no hi ha informació del MDE, no es podrà projectar el valor del fitxer
+    sobreposat. En canvi, en el cas que es trobi un valor sensedades en el
+    sobreposat i hi hagi un valor concret en el MDE en el punt corresponent,
+    es projectarà el punt i es mostrarà el valor amb el color corresponent al
+    valor sensedades de la paleta de colors (si el fitxer sobreposat està en
+    format .IMG) o al color de fons (si el fitxer sobreposat està en format
+    *.JPG).</p>
+
+    <p>Per a la generació de la perspectiva, a més del MDE, és necessari
+    introduir uns paràmetres sobre el punt de vista. Aquests paràmetres són
+    l'azimut i l'angle d'elevació. L'azimut pot tenir un valor
+    entre 0° i 360° on un azimut de 0° significa que el punt de vista està
+    situat al Nord de la zona comú. L'angle d'elevació pot valer entre
+    0° i 90° on un angle d'elevació de 0° significa que el punt de vista
+    està situat a la altura mínima del MDE corresponent. A més, també s'ha
+    d'afegir el factor de la exageració vertical. Aquest valor correspon
+    al factor d'escala de l'eix vertical i serveix per ressalta el
+    relleu i, d'aquesta manera, ajuda a l'usuari a tenir una major
+    impressió de la forma del terreny. En el cas de que aquest valor sigui 1,
+    no existirà exageració vertical en el resultat final.</p>
+
+    <p>L'opció de l'ombrejat addicional solament es pot activar en el
+    cas del mode definitiu. Aquest procés fa un ombrejat dels valors del
+    fitxer sobreposat en funció del relleu i de la posició del Sol. La
+    localització del Sol queda determinada pels angles (en graus)
+    d'elevació respecte a l'horitzó i d'azimut respecte al Nord en
+    sentit horari (amb 0° indicant el Nord). Per més informació sobre aquest
+    procés, consulteu l'ajuda de la eina <a href="Ombrejat.htm">Ombrejat</a>.</p>
+
+    <div align="center" class="MsoNormal" style="text-align:center">
+      <hr align="center" size="2" width="100%"/>
+    </div>
+
+    <p class="MsoNormal"/>
+
+    <exclusiva>
+      Sintaxi:<br/>
+      Visio3D Opcio FitxerMDE FitxerRaster FitxerSortida AzimPuntVista
+      ElevPuntVista ExagVert (AzimSolar ElevSolar IncremIllum MinimIllum
+      MaximIllum ) [Ombra Paleta]
+
+      <ul type="disc">
+        <li>Opció: 1 per fer una previsualització del resultat i 2 per a la
+        versió definitiva.</li>
+
+        <li>FitxerMDE: Fitxer que conté el Model Digital del Terreny en format
+        .IMG</li>
+
+        <li>FitxerRaster: Fitxer que conté la informació temàtica en format
+        ràster .IMG o .JPG</li>
+
+        <li>FitxerSortida: Fitxer que conté la perspectiva 3D de la informació
+        temàtica respecte el MDE d'entrada. Aquest fitxer pot ser un
+        format .IMG o .JPG</li>
+
+        <li>AzimPuntVista: Azimut del punt de vista en graus.</li>
+
+        <li>ElevPuntVista: Angle d'elevació del punt de vista en
+        graus.</li>
+
+        <li>Exageració vertical: És el factor d'escala de l'eix
+        vertical. Quan el valor és 1, no hi ha exageració vertical.</li>
+
+        <li>AzimSolar: Azimut de la posició solar en graus. Aquest valor és
+        necessari en el cas que és vulgui afegir ombrejat.</li>
+
+        <li>ElevSolar: Angle d'elevació de la posició solar en graus.
+        Aquest valor és necessari en el cas que és vulgui afegir
+        ombrejat.</li>
+
+        <li>IncremIllum: Correspon al nivell constant d'il·luminació amb
+        que s'incrementa tota la imatge per a contrarestar globalment la
+        disminució variable d'il·luminació deguda a l'aplicació del
+        model d'ombres i el model d'il·luminacions. Un valor genèric
+        recomanat és el 33%, però caldrà ajustar-lo segons el cas. Aquest
+        valor és necessari en el cas que és vulgui afegir ombrejat.</li>
+
+        <li>MinimIllum: Percentatge mínim que pot arribar a quedar enfosquit
+        un color en l'espai HSI. Els valors inferiors es saturaran. Si es
+        permet un percentatge excessivament baix, els colors enfosquits no es
+        diferenciaran. Un valor genèric recomanat és el 5%, però caldrà
+        ajustar-lo segons el cas. Aquest valor és necessari en el cas que és
+        vulgui afegir ombrejat.</li>
+
+        <li>MaximIllum: Percentatge màxim que pot arribar a quedar enfosquit
+        un color en l'espai HSI. Els valors superiors es saturaran. Si es
+        permet un percentatge excessivament alt, els colors molt clars no es
+        diferenciaran. Un valor genèric recomanat és el 95%, però caldrà
+        ajustar-lo segons el cas. Aquest valor és necessari en el cas que és
+        vulgui afegir ombrejat.</li>
+
+        <li>Ombra: Per afegir un ombrejat al resultat final.</li>
+
+        <li>Paleta: Fitxer que conté una paleta de colors. Aquest paràmetre és
+        obligatori en el cas d'introduir un fitxer ràster en format .IMG i
+        un fitxer de sortida en format .JPG</li>
+      </ul>
+
+      <p class="MsoNormal">Exemples:<br/>
+      Visio3D 1 c:\MDE.img c:\temàtic.img c:\sortida.img 135 30 3<br/>
+      Visio3D 2 c:\MDE.img c:\temàtic.img c:\sortida.jpg 45 30 3 135 30 33 5
+      95 /OMBRA /PALETA=c:\paleta.dbf<br/>
+      Visio3D 2 c:\MDE.img c:\temàtic.jpg c:\sortida.jpg 310 30 3 225 40 33 5
+      95 /OMBRA<br/>
+      Visio3D 2 c:\MDE.img c:\temàtic.img c:\sortida.jpg 310 30 3
+      /PALETA=c:\paleta.dbf</p>
+      <hr/>
+      <!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+INICI ?
+-->
+    </exclusiva>
+  </div>
+</body>
+</html>
