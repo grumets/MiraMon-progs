@@ -1,0 +1,125 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>VecSelec: Selecció d'un subconjunt d'entitats vectorials</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+ <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">VecSelec: Selecció d'un subconjunt d'objectes gràfics vectorials</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+  <p>Aquest programa selecciona un subconjunt d'objectes gràfics d'un
+  fitxer topològicament estructurats de punts, arcs, nodes, polígons o grups
+  de polígons i els desa sobre un fitxer de punts, arcs, punts, polígons o
+  grups de polígons respectivament. En la selecció sobre un fitxer de nodes
+  s'ha optat per guardar sobre un fitxer de punts en no ser possible
+  generar una capa de nodes sense el suport d'una capa d'arcs.</p>
+
+  <p>El programa permet que el fitxer de destí sobre el que s'incorporen
+  els nous elements ja existeixi. En aquest cas, cal que el fitxer preexistent
+  sigui fruit d'una selecció prèvia. Si la capa de destí preexistent no
+  presenta la mateixa estructura en la base de dades que la capa seleccionada,
+  el programa la rebutja. Si la capa és de polígons, la capa preexistent ha
+  d'estar basada en la mateixa capa d'arcs que el fitxer
+  seleccionat.</p>
+
+  <p>El programa presenta dos modes d'operació:</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>Mode Consulta</b>: 
+						En aquest mode es realitza una consulta a la base de dades i es seleccionen tots els objectes gràfics que compleixen la condició. La consulta pot estar formada per fins a 50 consultes elementals relacionades entre elles per nexes 'i' o 'o'. Cada consulta elemental es pot fer sobre qualsevol camp de la base de dades emprant d'operadors numèrics o alfanumèrics. Per obtenir més informació del conjunt de paràmetres que defineixen la selecció seguiu les consideracions del document de <a href="general.htm#SelecAtrib">sintaxi general</a>.</ul>
+<ul><b>Mode Llista</b>: 
+						Un fitxer de text indica quines són les entitats gràfiques i registres de la base de dades que cal desar en el fitxer de sortida. En aquesta ajuda ens referirem a aquest fitxer com a fitxer de seleccions. Es recomana l'extensió SEL, tot i que no és obligatòria.</ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->  
+ 
+  <h4>Format del fitxer de seleccions</h4>
+  <pre>
+SEL 1
+n NomFitxerOrigen
+idgrafic_l registre_p
+idgrafic_m registre_t
+.
+.
+.
+</pre>Contingut:
+
+  <ul>
+    <li>La primera línia indica que és un fitxer de seleccions de la versió
+    1.</li>
+
+    <li>n és el nombre de registres seleccionats.</li>
+
+    <li>NomfitxerOrigen és el nom del fitxer topològic sobre el qual efectuar
+    la selec ció.</li>
+
+    <li>idgrafic_i és l'índex de l'objecte gràfic seleccionat.</li>
+
+    <li>registre_i és l'índex del registre seleccionat (començant per
+    0).</li>
+  </ul>Cal que el llistat d'idgrafic_i (idgrafic_l, idgrafic_m,...) i de
+  registre_j (registre_p, registre_t,...) estigui ordenat de forma ascendent.
+  Noteu que aquest format permet independitzar identificadors gràfics i
+  registres de la base de dades per a una màxim flexibilitat en els casos més
+  complexos; tanmateix, per a les capes convencionals, amb un únic registre
+  per identificador gràfic i sense mancances de registres ni registres
+  addicionals, els dos índexs seran el mateix.
+  <hr/>
+  Aquest programa suporta format REL v.1 i v.4 i respecte el format original.
+  També suporta el format 3D per a punts, arcs i polígons. En els fitxers de
+  nodes la informació 3D és ignorada.
+
+  <exclusiva>
+    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxi:</h3>
+<ul style="list-style-type:none;">
+<li>VecSelec                     FitxerTOPOri FitxerTOP  /COND#_CAMP /COND#_OP /COND#_VALOR [/COND#_NEXE] [/COND#_PRIOR] [/NO_POLZERO] [/SOBRESCRIURE] [/AGRUPA_NO_SELEC] [/EMANCIPA]  </li>
+<li>VecSelec           FitxerSEL FitxerTOP  [/NO_POLZERO] [/SOBRESCRIURE] [/AGRUPA_NO_SELEC] [/EMANCIPA]  </li>
+</ul>
+<ul>
+</ul>
+<h4>Paràmetres:</h4>
+<ul style="list-style-type:none;">
+<li><b>FitxerTOPOri</b> 
+										(Fitxer TOP Ori -
+										Paràmetre d'entrada): És el nom del fitxer topològic d'entrada sobre el que es defineix una consulta amb les paràmetres optatius.</li>
+<li><b>FitxerTOP</b> 
+										(Fitxer Topològic -
+										Paràmetre de sortida): És el nom del fitxer topològic de sortida. El tipus de fitxer està condicionat pel d'entrada.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>FitxerSEL</b> 
+										(Fitxer Selector -
+										Paràmetre d'entrada): És el nom del fitxer de seleccions.</li>
+</ul>
+<h4>Modificadors:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>COND#_CAMP</b>= 
+						(Camp de la condició #)
+						 Nom del camp de la condició # de la selecció. Hi poden haver fins a 100 condicions i per tant, fins a 100 noms de camp (COND#_CAMP) començant per l'índex 1.   (Paràmetre d'entrada) <li></li> <b>/</b><b>COND#_OP</b>= 
+						(Operador de la condició #)
+						 Operador a usar en la # condició de la selecció. Hi poden haver fins a 100 condicions i per tant fins a 100 operadors (COND#_OP) començant per l'índex 1.  (Paràmetre d'entrada) <li></li> <b>/</b><b>COND#_VALOR</b>= 
+						(Valor de la condició #)
+						 Valor a usar en la # condició de la selecció. Hi poden haver fins a 100 condicions i per tant fins a 100 valors (COND#_VALOR) començant per l'índex 1.  (Paràmetre d'entrada) <li></li> <b>/</b><b>COND#_NEXE</b>= 
+						(Nexe de la condició #)
+						 Nexe a usar per enllaçar entre successives condicions de selecció. En aquest cas entre la condició # i la condició #+1. Hi poden haver fins a 100 condicions i per tant fins a 99 nexes (COND#_NEXE) començant per l'índex 1.  (Paràmetre d'entrada) <li></li> <b>/</b><b>COND#_PRIOR</b>= 
+						(Prioritat del nexe de la condició #)
+						 Prioritat del nexe a usar per enllaçar entre successives condicions de selecció. En aquest cas entre la condició # i la condició #+1. Hi poden haver fins a 100 condicions i per tant fins a 99 prioritats (COND#_PRIOR) començant per l'índex 1. És un paràmetre optatiu, on de no indicar-se, la prioritat és simplement l'ordre  (Paràmetre d'entrada) <li></li>  <b>/</b><b>NO_POLZERO</b>  (NO_POLZERO) El programa no genera la descripció del polígon 0 i el fitxer de polígons resultat es marca com a grups topològics.  (Paràmetre d'entrada) <li></li>  <b>/</b><b>SOBRESCRIURE</b>  (SOBRESCRIURE) Si el fitxer de sortida existeix sobrescriure'l. Per defecte el programa afegeix els objectes seleccionats als objectes preexistents del fitxer si tenen la mateixa estructura.  (Paràmetre d'entrada) <li></li>  <b>/</b><b>AGRUPA_NO_SELEC</b>  (AGRUPA_NO_SELEC) Agrupa els objectes interiors no seleccionats al polígon 0. Per defecte es creen objectes interiors sense atributs temàtics però aquests poden ser molestos per a fer anàlisi d'arees dels resultats.  (Paràmetre d'entrada) <li></li>  <b>/</b><b>EMANCIPA</b>  (EMANCIPA) Quan la selecció es fa sobre un fitxer de polígons, indica que cal obtenir un resultat emancipat dels arcs originals.  (Paràmetre d'entrada) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+	
+	<!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+VecSelec ?
+-->
+
+    <center>
+      <a href="TestTop.htm"><img src="TestTop.gif"/></a><a href="InfoTop.htm"><img src="InfoTop.gif"/></a>
+    </center>
+  </exclusiva>
+</body>
+</html>

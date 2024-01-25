@@ -1,0 +1,119 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>VecSelec: Selection of a subset of vector entities</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">VecSelec:Selects a subset of graphical vector objects</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<p>This program selects a subset of graphical objects, whether points, arcs, 
+nodes, polygons or groups of polygons, from one file and copies them to a second 
+file in the same format. In the case of nodes, the selected subset is stored in a 
+points file since it is not possible to generate a new node layer without their corresponding arcs.</p>
+
+  <p>The file in which the selected subset of objects is saved may already
+  exist in which case it should be the result of a previous selection. If such
+  an existing file does not have the same structure as the input file the
+  program gives an error message. If the selected objects are polygons then
+  they should be based on the same arc layer as the polygons already in the
+  output file.</p>
+
+  <p>The program operates in two modes:</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>Query Mode</b>: 
+		 In this mode a query is made of the database and all the graphical objects satisfying the condition are selected. The query may be made up of up to 100 simple queries linked by 'and' or 'or'. Each query may be based on any of the database fields using numerical or alphanumeric operators. To obtain more information on the values of parameters that define the selection follow the guidelines in the <a href="general.htm#SelecAtrib"><a href=general.htm>general syntax</a></a> document.</ul>
+<ul><b>List Mode</b>: 
+		 A text file indicates which are the graphic entities and the database records  to be saved in the output file. </ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <h4>Format of selection files</h4>
+  <pre>
+SEL 1
+n Name_of_input_file 
+idgraphic_l register_p
+idgraphic_m register_t
+.
+.
+.
+</pre>Content:
+
+  <ul>
+    <li>The first line indicates that it is a version 1 selection file.</li>
+
+    <li>n is the number of registers selected.</li>
+
+    <li>Name_of_input_file is the name of the topological file from which the
+    selection is to be made.</li>
+
+    <li>idgraphic_i is the index of the selected graphical object.</li>
+
+    <li>register_i is the index of the selected register (starting from
+    0).</li>
+  </ul>The idgraphic_i list (idgraphic_l, idgraphic_m, ...) and the register_j
+  list (register_p, register_t, ...) must be in ascending order. Note that
+  this format allows the graphical and database register identifiers to be
+  given independently to allow maximum flexibility in complex cases. However,
+  for conventional layers with a single register per graphical identifier and
+  in which there are no missing or additional registers, the two lists will be
+  the same.
+  <hr/>
+  This program supports REL v.1 and v.4 formats and maintains the original
+  formats. It also supports 3D points, arcs and polygon formats. In node files
+  the 3D information is ignored.
+  <hr/>
+  <exclusiva>
+     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h3>Syntax:</h3>
+<ul style="list-style-type:none;">
+<li>VecSelec                   InputTOPfile TOPFile  /COND#_FIELD /COND#_OP [/COND#_NEXE] /COND#_VALOR [/NO_POLZERO] [/SOBRESCRIURE] [/AGRUPA_NO_SELEC] [/EMANCIPA]  </li>
+<li>VecSelec           SELfile TOPFile  [/NO_POLZERO] [/SOBRESCRIURE] [/AGRUPA_NO_SELEC] [/EMANCIPA]  </li>
+</ul>
+<ul></ul>
+<h4>Parameters:</h4>
+<ul style="list-style-type:none;">
+<li><b>InputTOPfile</b> 
+										(Input TOP file -
+										Input parameter): Is the name of the topological file from which the selection is made based on a query with optional parameters.</li>
+<li><b>TOPFile</b> 
+										(TOP file -
+										Output parameter): Is the name of the topological file into which the selected objects are copied. The type of output file is dependent on the input file.
+				</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>SELfile</b> 
+										(SEL file -
+										Input parameter): Is the name of the selection file.</li>
+</ul>
+<h4>Modifiers:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>COND#_FIELD</b>= 
+						(Field of Condition #)
+						 Field name of # condition of selection. It may be made up to 100 simple queries and 100 field names (COND#_CAMP) starting at index 1.  (Input parameter) <li></li> <b>/</b><b>COND#_OP</b>= 
+						(Operation of condition #)
+						 Opertation of # condition of selection. It may be made up to 100 simple queries and 100 operations (COND#_OP) starting at index 1.  (Input parameter) <li></li> <b>/</b><b>COND#_NEXE</b>= 
+						(Nexus linking of condition #)
+						 Nexus use to linking for the successive selections. In this case to linking between condition # and condition #+1. It may be made up to 100 simple queries and 99 nexus (COND#_NEXE) starting at index 1.  (Input parameter) <li></li> <b>/</b><b>COND#_VALOR</b>= 
+						(Value of condition #)
+						 Value of # condition of selection. It may be made up to 100 simple queries and 100 values (COND#_VALOR) starting at index 1.  (Input parameter) <li></li>  <b>/</b><b>NO_POLZERO</b>  (NO_POLZERO) The program will not generate the description of the polygon 0 and the resulting polygon file will be marked as a topological group.  (Input parameter) <li></li>  <b>/</b><b>SOBRESCRIURE</b>  (SOBRESCRIURE) If output file exist overwrite it. By default the program adds selected objects to preexisting ones in output file if both hve the same structure.  (Input parameter) <li></li>  <b>/</b><b>AGRUPA_NO_SELEC</b>  (AGRUPA_NO_SELEC) Unselected inner objects are grouped to 0 polygon. By default inner objects are created thematic attributes but this polygons can be tricky when you analize de area of results.  (Input parameter) <li></li>  <b>/</b><b>Emancipa</b>  (Emancipa) In polygon selection, it means that output polygon file will be emancipated from intput arc source.  (Input parameter) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.--> 
+	
+	<!-- $$EXCLUSIVA$$
+For complete help enter:<BR>
+VecSelec ?
+-->
+
+    <center>
+      <a href="TestTop.htm"><img src="TestTop.gif"/></a><a href="InfoTop.htm"><img src="InfoTop.gif"/></a>
+    </center>
+  </exclusiva>
+</body>
+</html>
