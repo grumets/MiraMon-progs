@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Mostreig:1</ows:Identifier>
+		<ows:Title>Random point generation within a category of a raster</ows:Title>
+		<ows:Abstract>Generates an ASCII vector file containing all sampling points; the attribute of the points is the value to be sampled.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Random point generation within a category of a raster"/>
+		<ows:Metadata xlink:title="Abstract:Generates an ASCII vector file containing all sampling points; the attribute of the points is the value to be sampled."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RasterARemostrejar</ows:Identifier>
+				<ows:Title>Raster to sample</ows:Title>
+				<ows:Abstract>Input raster to sample. Without extension.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:RasterToSample"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Valor</ows:Identifier>
+				<ows:Title>Value</ows:Title>
+				<ows:Abstract>Category over which I want to sample.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Value"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Mode</ows:Identifier>
+				<ows:Title>Mode</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0: Number of samples we desire</li><li>1: Percentage of the area we wish to sample</li><li>2: What area we want to assign to each sample (in the units of the reference system).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Mode"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>2</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>P</ows:Identifier>
+				<ows:Title>P</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>If mode is 0: Number of samples we desire</li><li>If mode is 1: Percentage of the area we wish to sample</li><li>If mode is 2: What area we want to assign to each sample (in the units of the reference system).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:P"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ord</ows:Identifier>
+				<ows:Title>Ord</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0: Samples are NOT sorted before sampling</li><li>1: Samples are sorted before sampling</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Ord"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>1</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DistMin</ows:Identifier>
+				<ows:Title>Minimum distance</ows:Title>
+				<ows:Abstract>The minimum distance at which the samples are allowed to be. If by chance two samples are obtained closer than this distance, one of them is eliminated and a new random sample is generated at a distance greater than or equal to DistMin. The minimum distance must be provided in cells, not in map units, but you can introduce a value with decimals (for example, 1.5 will prevent a sample from being in any of the 8 neighboring cells of a sample). To convert from map units to cells, simply divide the desired distance in map units by the size of the raster cell in map units. It can only be used when Ord=1. This distance is calculated in Euclidean space within the raster.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:MinDist"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>R</ows:Identifier>
+				<ows:Title>R</ows:Title>
+				<ows:Abstract>It is the maximum number of retries to perform when searching for random sampling points that are within a distance less than the minimum distance.   It is an optional parameter.   If not specified, it is assumed to be 30. It can only be used when DistMin has been previously specified.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:R"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>30</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>VectorDePuntsResultants</ows:Identifier>
+				<ows:Title>Output points vector</ows:Title>
+				<ows:Abstract>Vector of points in VEC format resulting from sampling.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:VEC_points"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

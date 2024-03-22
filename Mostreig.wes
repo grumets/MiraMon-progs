@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Mostreig:1</ows:Identifier>
+		<ows:Title>Obtención de puntos al azar dentro de una categoría de un ráster</ows:Title>
+		<ows:Abstract>Genera un archivo vectorial ASCII con todos los puntos de muestreo; el atributo de los puntos es el valor a muestrear.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Obtención de puntos al azar dentro de una categoría de un ráster"/>
+		<ows:Metadata xlink:title="Abstract:Genera un archivo vectorial ASCII con todos los puntos de muestreo; el atributo de los puntos es el valor a muestrear."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RasterARemostrejar</ows:Identifier>
+				<ows:Title>Ráster a remostrear</ows:Title>
+				<ows:Abstract>Ràster de entrada a remostrear. Sin extensión.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:RasterARemostrear"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Valor</ows:Identifier>
+				<ows:Title>Valor</ows:Title>
+				<ows:Abstract>Categoría sobre la cual quiero muestrear.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Valor"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Mode</ows:Identifier>
+				<ows:Title>Mode</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0: Número de muestras que deseamos</li><li>1: Porcentaje de la superficie que deseamos muestrear</li><li>2: Qué superficie queremos asignar a cada muestra (en las unidades del sistema de referencia).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Mode"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>2</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>P</ows:Identifier>
+				<ows:Title>P</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>Si el modo es 0: Número de muestras que deseamos</li><li>Si el modo es 1: Porcentaje de la superficie que deseamos muestrear</li><li>Si el modo es 2: Qué superficie queremos asignar a cada muestra (en las unidades del sistema de referencia).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:P"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ord</ows:Identifier>
+				<ows:Title>Ord</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0: Las muestras NO se ordenan antes del muestreo</li><li>1: Las muestras se ordenan antes del muestreo</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Ord"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>1</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DistMin</ows:Identifier>
+				<ows:Title>Distancia mínima</ows:Title>
+				<ows:Abstract>La distancia mínima a la cual se admite que sean las muestras. Si por azar se obtienen dos muestras más cercanas a esta distancia, una de las dos se elimina y se genera una nueva muestra aleatoria a una distancia mayor o igual a DistMin. La distancia mínima se debe proporcionar en celdas, no en unidades de mapa, pero se puede introducir un valor con decimales (por ejemplo, 1.5 evitará que una muestra esté en ninguna de las 8 celdas vecinas de una muestra). Para pasar de unidades de mapa a celdas, simplemente divida la distancia deseada en unidades de mapa entre lo que mide el lado de la celda del raster en unidades de mapa. Solo se puede utilizar cuando Ord=1. Esta distancia se calcula de forma euclidiana en el espacio del ráster.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:DistMin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>R</ows:Identifier>
+				<ows:Title>R</ows:Title>
+				<ows:Abstract>Es el número máximo de intentos a realizar al buscar puntos de muestreo aleatorios que estén a una distancia inferior a la distancia mínima.   Es un parámetro opcional.   Si no se especifica, se asume 30. Solo se puede utilizar cuando se ha indicado previamente DistMin.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:R"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>30</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>VectorDePuntsResultants</ows:Identifier>
+				<ows:Title>Vector de puntos de salida</ows:Title>
+				<ows:Abstract>Vector de puntos en formato VEC resultante del muestreo.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:VEC_Puntos"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

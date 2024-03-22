@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Mostreig:1</ows:Identifier>
+		<ows:Title>Obtenció de punts a l'atzar dintre d'una categoria d'un ràster</ows:Title>
+		<ows:Abstract>Genera un fitxer vectorial ASCII amb tots els punts de mostreig; l'atribut dels punts és el valor a mostrejar.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Obtenció de punts a l&apos;atzar dintre d&apos;una categoria d&apos;un ràster"/>
+		<ows:Metadata xlink:title="Abstract:Genera un fitxer vectorial ASCII amb tots els punts de mostreig; l&apos;atribut dels punts és el valor a mostrejar."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>RasterARemostrejar</ows:Identifier>
+				<ows:Title>Ràster a remostrejar</ows:Title>
+				<ows:Abstract>Ràster d'entrada a remostrejar. Sense extensió.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:RasterARemostrejar"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Valor</ows:Identifier>
+				<ows:Title>Valor</ows:Title>
+				<ows:Abstract>Categoria sobre la qual vull mostrejar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:Valor"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Mode</ows:Identifier>
+				<ows:Title>Mode</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0: Nombre de mostres que volem</li><li>1: Percentatge de la superfície que desitgem mostrejar</li><li>2: Quina superfície volem assignar a cada mostra (en les unitats del sistema de referència).</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Mode"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>2</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>P</ows:Identifier>
+				<ows:Title>P</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>Si el mode és 0: Nombre de mostres que volem</li><li>Si el mode és 1: Percentatge de la superfície que desitgem mostrejar</li><li>Si el mode és 2: Quina superfície volem assignar a cada mostra (en les unitats del sistema de referència).</li></ul>[mod]]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:P"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ord</ows:Identifier>
+				<ows:Title>Ord</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0: Les mostres NO s'ordenen abans del mostreig</li><li>1: Les mostres s'ordenen abans del mostreig</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Ord"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>1</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DistMin</ows:Identifier>
+				<ows:Title>Distància mínima</ows:Title>
+				<ows:Abstract>La distància mínima a la qual s'admet que siguin les mostres. Si per atzar s'obtenen dues mostres més properes a aquesta distància una de les dues és eliminada i es genera una nova mostra aleatòria a una distància més gran o igual a DistMin. La distància mínima s'ha de proporcionar en cel·les, no en unitats mapa, però podeu introduir un valor amb decimals (per exemple, 1.5 evitarà que una mostra sigui en cap de les 8 cel·les veïnes d'una mostra). Per passar d'unitats mapa a cel·les simplement dividiu la distància desitjada en unitats mapa entre el que mesura el costat de la cel·la del ràster unitats mapa. Només es pot utilitzar quan Ord=1. Aquesta distància es calcula de forma euclidiana en l'espai del ràster.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:DistMin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>R</ows:Identifier>
+				<ows:Title>R</ows:Title>
+				<ows:Abstract>És el nombre màxim de reintents a efectuar buscant punts de mostreig aleatoris que siguin a una distància inferior a la distància mínima  És un paràmetre optatiu.   Si no s'indica s'assumeix 30. Només es pot utilitzar quan s'ha indicat prèviament DistMin.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:R"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>30</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>VectorDePuntsResultants</ows:Identifier>
+				<ows:Title>Vector de punts de sortida</ows:Title>
+				<ows:Abstract>Vector de punts en format VEC resultant del mostreig.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:VEC_Punts"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>
