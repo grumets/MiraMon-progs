@@ -1,7 +1,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 23-01-2024 */-->
+<!--/* Revisió AA 22-06-2024 */-->
 <head>
-  <title>InsolDia: Càlcul de la radiació solar d'un dia</title>
+  <title>InsolDia: Càlcul de la radiació solar d'un dia o d'un instant</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
@@ -12,23 +12,29 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>La radiació difusa s'estima a partir de la radiació directa i de la irradiància exoatmosfèrica de la radiació directa amb l'equació de Page (1986) i ajustada per Baldasano et al. amb dades de Catalunya el 1994. Cal proporcionar la irradiància espectral exoatmosfèrica solar per a l'interval desitjat de longituds d'ona, en W/(m<sup>2</sup>·µm) [o bé la irradiància exoatmosfèrica solar, en W/m<sup>2</sup>], la transmitància (constant d'extinció) tau i els fitxers d'ombres en intervals predefinits (<i>e.g.</i> una hora) (se suggereix crear un fitxer BAT o PS1 que els escrigui automàticament a partir de l'aplicació <a href="Ombra.htm">Ombra</a>).  Si es vol fer el càlcul per a tot l'espectre solar, se suggereix introduir com a irradiància exoatmosfèrica solar 1366 W/m<sup>2</sup> (ISO 21348:2007) i, com a tau, 0.288 (atmosfera clara forestal mitjana, Rothermel 1986).</p>
-
-  <p>La posició solar es calcula per al centre del MDE. El resultat de l'aplicació és un fitxer en 10 kJ/(m<sup>2</sup>·µm·dia) en el cas de proporcionar irradiàncies espectrals, o en 10 kJ/(m<sup>2</sup>·dia) en el cas de proporcionar irradiàncies. Per a indicar que les dades d'irradiància proporcionades són espectrals (valor per defecte) cal utilitzar el paràmetre optatiu /IRRAD_ESPEC=1; en cas contrari cal indicar /IRRAD_ESPEC=0. El fitxer s'emmagatzema per defecte en un ràster d'enters de 2 bytes/píxel; si es desitja que el fitxer sigui de reals de 4 bytes/píxel cal utilitzar el paràmetre optatiu /DadesRad=Real_10kJ. Durant el càlcul es carrega en memòria el MDE, la matriu d'il·luminació  i la matriu temporal de càlcul de radiacions.</p>
+   <p>La radiació difusa s'estima com un percentatge de la radiació directa de manera similar al que es proposava amb l'equació de Page (1986), ajustada per Baldasano <i>et al.</i> amb dades de Catalunya el 1994; el percentatge es pot indicar com un valor constant (a través del paràmetre percent_difus de la línia de comanda) o bé proporcionant un ràster que indicarà el percentatge a cada punt del territori (a través del modificador /PERC_DIF_VS_DIRECT=, i aleshores s’ignora percent_difus). La radiació directa respecte de la qual es calcula la radiació difusa correspon a la directa en un dia clar, la qual cosa evita que si la radiació directa és nul·la o molt petita per causa de núvols molt gruixuts, la radiació difusa acabi essent pràcticament inexistent, cosa que no seria realista; a tal efecte s’utilitza el paràmetre tau_0_dia_clar (més endavant se n’indiquen valors orientatius).</p>
   
-  <p>Nota 1: Típicament, quan la irradiància exoatmosfèrica proporcionada és la constant solar [que inclou tot l'espectre electromagnètic solar] convé demanar que es documenti en 10 kJ/(m²·dia) amb /IRRAD_ESPEC=0, mentre que quan es vol calcular la radiació en una regió espectral concreta, com ara el vermell, la irradiància exoatmosfèrica proporcionada sol ser espectral [per unitat de longitud d'ona] i convé demanar que es documenti en 10 kJ/(m²·µm·dia).</p>
-<p>Nota 2: Si a latituds properes als pols es demana el càlcul en una data en què el Sol no surt en cap moment del dia es generen valors de radiació zero, excepte en les zones en què hagués sensedades al MDE, en què també s'escriu un sensedades.</p>
-<p>Nota 3: Si les unitats del MDE no són les mateixes que les planimètriques, l'aplicació fa el càlcul correctament igualment o avisa si no sap efectuar la conversió.</p>
+  <p>Cal proporcionar la irradiància espectral exoatmosfèrica solar per a l'interval desitjat de longituds d'ona, en W/(m<sup>2</sup>·µm) [o bé la irradiància exoatmosfèrica solar, en W/m<sup>2</sup>], la transmitància (constant d'extinció) tau i els fitxers d'ombres en intervals predefinits (<i>e.g.</i>, una hora) (se suggereix crear un fitxer BAT o PS1 que els escrigui automàticament a partir de l'aplicació <a href="Ombra.htm">Ombra</a>).  Si es vol fer el càlcul per a tot l'espectre solar, se suggereix introduir com a irradiància exoatmosfèrica solar 1366 W/m<sup>2</sup> (ISO 21348:2007) i, com a tau, 0.288 (atmosfera clara forestal mitjana, Rothermel <i>et al.</i> 1986).</p>
 
- <p>Per a més informació es pot consultar les següents referències en què s'exposa i discuteix l'algorisme utilitzat:</p>
-<ul>
-<p><b>Pons X</b> (1996) <i>Estimación de la radiación solar a partir de modelos digitales de elevaciones. Propuesta metodológica</i> In Juaristi, J & I. Moro. Modelos y Sistemas de Información en Geografía (458 p) p. 87-97 ISBN: 84-605-5896-7. <a href="http://tig.age-geografia.es//vitoria96/1996_009.pdf">http://tig.age-geografia.es//vitoria96/1996_009.pdf</a>.</p>
+  <p>La posició solar es calcula per al centre del MDE. El resultat de l'aplicació és un fitxer en 10 kJ/(m<sup>2</sup>·dia·µm) en el cas de proporcionar irradiàncies espectrals, o en 10 kJ/(m<sup>2</sup>·dia) en el cas de proporcionar irradiàncies, tant per a càlculs al llarg de tot el dia, com en intervals temporals especificats per la persona usuària (en aquest cas les unitats queden documentades per "dia parcial"). En el cas de càlculs instantanis (en realitat es pren el segon de l'hora indicada), les unitats passen a ser J/(m<sup>2</sup>·s·µm) i J/(m<sup>2</sup>·s), respectivament per als casos espectral i no espectral. Per a explicitar que les dades d'irradiància proporcionades són espectrals es pot utilitzar el paràmetre optatiu /IRRAD_ESPEC=1, tot i que no és necessari en ser el criteri per defecte; en cas contrari cal indicar /IRRAD_ESPEC=0. El fitxer s'emmagatzema, per defecte, en un ràster d'enters de 2 bytes/cel·la; si es desitja que el fitxer sigui de reals de 4 bytes/cel·la cal utilitzar el paràmetre optatiu /DadesRad=Real_10kJ (que en realitat seran reals en joules en cas de càlcul instantani). Durant el càlcul es carrega en memòria el MDE, la matriu d'il·luminació  i la matriu temporal de càlcul de radiacions.</p>
+  
+  <p>Nota 1: Típicament, quan la irradiància exoatmosfèrica proporcionada és la constant solar [que inclou tot l'espectre electromagnètic solar] convé demanar que es documenti en 10 kJ/(m<sup>2</sup>·dia) [o en J/(m<sup>2</sup>·s) en càlculs instantanis]  utilitzant el modificador /IRRAD_ESPEC=0, mentre que quan es vol calcular la radiació en una regió espectral concreta, com ara el vermell, la irradiància exoatmosfèrica proporcionada sol ser espectral [per unitat de longitud d'ona] i convé que les unitats quedin documentades en 10 kJ/(m<sup>2</sup>·dia·µm). [o en J/(m<sup>2</sup>·s·µm) en càlculs instantanis], per a la qual cosa no cal indicar res d'especial, o es pot explicitar /IRRAD_ESPEC=1.</p>
+  
+  <p>Nota 2: Si a latituds properes als pols es demana el càlcul en una data en què el Sol no surt en cap moment del dia es generen valors de radiació zero, excepte en les zones en què hagués sensedades al MDE, en què també s'escriu un sensedades.</p>
+ 
+  <p>Nota 3: Si les unitats del MDE no són les mateixes que les planimètriques, l'aplicació fa el càlcul correctament igualment, o avisa si no sap efectuar la conversió.</p>
 
-<p><b>Pons X, Ninyerola M</b> (2008) <i>Mapping a topographic global solar radiation model implemented in a GIS and refined with ground data</i> a International Journal of Climatology (DOI: 10.1002/joc.1676). <a href="https://rmets.onlinelibrary.wiley.com/doi/abs/10.1002/joc.1676">https://rmets.onlinelibrary.wiley.com/doi/abs/10.1002/joc.1676</a>.</p>
+  <p>Per a més informació es pot consultar les següents referències en què s'exposa i discuteix l'algorisme utilitzat:</p>
+  <ul>
+  <p><b>Pons X</b> (1996) <i>Estimación de la radiación solar a partir de modelos digitales de elevaciones. Propuesta metodológica</i> In Juaristi, J & I. Moro. Modelos y Sistemas de Información en Geografía (458 p) p. 87-97 ISBN: 84-605-5896-7. <a href="http://tig.age-geografia.es//vitoria96/1996_009.pdf">http://tig.age-geografia.es//vitoria96/1996_009.pdf</a>.</p>
 
-<p><b>Rothermel R, Wilson RA, Morris GA, Sackett SS.</b> 1986. <i>Modelling moisture content of fine dead wildland fuels. Input to the BEHAVE fire prediction system</i>, USDA Forest Service, Intermountain Research Station, Research Paper INT-359, Ogden. <a href="https://www.fs.usda.gov/rm/pubs_int/int_rp359.pdf">https://www.fs.usda.gov/rm/pubs_int/int_rp359.pdf</a>
-</ul>
-  <hr/>
+  <p><b>Pons X, Ninyerola M</b> (2008) <i>Mapping a topographic global solar radiation model implemented in a GIS and refined with ground data</i> a International Journal of Climatology (DOI: 10.1002/joc.1676). <a href="https://rmets.onlinelibrary.wiley.com/doi/abs/10.1002/joc.1676">https://rmets.onlinelibrary.wiley.com/doi/abs/10.1002/joc.1676</a>.</p>
+ 
+  <p>Altres referències:</p>
+
+  <p><b>Rothermel R, Wilson RA, Morris GA, Sackett SS.</b> 1986. <i>Modelling moisture content of fine dead wildland fuels. Input to the BEHAVE fire prediction system</i>, USDA Forest Service, Intermountain Research Station, Research Paper INT-359, Ogden. <a href="https://www.fs.usda.gov/rm/pubs_int/int_rp359.pdf">https://www.fs.usda.gov/rm/pubs_int/int_rp359.pdf</a>
+ </ul>
+ <hr/>
 
   <exclusiva>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->

@@ -4,8 +4,8 @@
 		<ows:Identifier>MiraMon:InsolDia:1</ows:Identifier>
 		<ows:Title>InsolDia</ows:Title>
 		<ows:Abstract>Esta aplicación calcula la radiación solar incidente en cada punto a lo largo de un día determinado del año, dado un Modelo Digital de Elevaciones (MDE). Además de la irradiancia solar y la transmitancia atmosférica, la aplicación tiene en cuenta la posición del Sol en intervalos temporales definidos por el usuario (una hora, por ejemplo), los ángulos de incidencia, las sombras proyectadas y la distancia de la Tierra al Sol.</ows:Abstract>
-		<ows:Metadata xlink:title="Title:Cálculo de la radiación solar de un día"/>
-		<ows:Metadata xlink:title="Abstract:Esta aplicación calcula la radiación solar incidente en cada punto a lo largo de un día determinado del año, dado un Modelo Digital de Elevaciones (MDE). Además de la irradiancia solar y la transmitancia atmosférica, el programa tiene en cuenta la posición del Sol en intervalos temporales definidos por el usuario (una hora, por ejemplo), los ángulos de incidencia, las sombras proyectadas y la distancia de la Tierra al Sol."/>
+		<ows:Metadata xlink:title="Title:Cálculo de la radiación solar de un día o de un instante"/>
+		<ows:Metadata xlink:title="Abstract:Esta aplicación calcula la radiación solar incidente (en unidades de energía, no de potencia) en cada punto del terreno a lo largo de un determinado día del año. También permite realizar el cálculo en un intervalo de tiempo a lo largo del día (no todo el día) e instantáneo en un momento concreto del día. Para realizar estos cálculos utiliza un Modelo Digital de Elevaciones (MDE). Además de la irradiancia solar, la transmitancia atmosférica, los ángulos de incidencia, las sombras proyectadas, la distancia de la Tierra al Sol y otros parámetros que se especifican más adelante, la aplicación tiene en cuenta la posición del Sol en intervalos temporales definidos por el usuario (cada hora, por ejemplo, excepto en el caso instantáneo, en el que el intervalo no se utiliza)."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>MDE</ows:Identifier>
@@ -120,7 +120,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>irradiancia_exoatm</ows:Identifier>
 				<ows:Title>Irradiancia exoatmosférica</ows:Title>
-				<ows:Abstract>Valor estimado de irradiancia solar que llega al exterior de la atmosfera terrestre; se sugiere 1366</ows:Abstract>
+				<ows:Abstract><![CDATA[Valor estimado de irradiancia solar que llega al exterior de la atmosfera terrestre, en W/m<sup>2</sup>; se sugiere 1366]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param07"/>
 				<ows:Metadata xlink:title="Name:irradiancia_exoatm"/>
 				<LiteralData>
@@ -131,7 +131,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>tau</ows:Identifier>
 				<ows:Title>Constante de extinción</ows:Title>
-				<ows:Abstract>Es la constante de extinción; se sugiere 0.288</ows:Abstract>
+				<ows:Abstract><![CDATA[Es la constante de extinción; se sugiere 0.288. En caso de ejecutar el programa con el modificador <b>/TAU_0=</b>, tau se ignora ya que el cálculo se hace partir de los datos del ráster indicado con este modificador en cada punto del territorio; se sugiere, por pulcritud, indicar un valor -1 a tau en este caso.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param08"/>
 				<ows:Metadata xlink:title="Name:tau"/>
 				<LiteralData>
@@ -142,7 +142,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>increment_horari</ows:Identifier>
 				<ows:Title>Incremento horario</ows:Title>
-				<ows:Abstract>Incremento en unidades horarias que se aplica a la nueva posición solar desde la posición de partida y de forma sucesiva, para determinar un nuevo cálculo instantáneo de radiación potencial que represente en promedio el intervalo definido. Es positivo desde el mediodía hasta la puesta del sol, o negativo desde el mediodía a la salida del sol. Por defecto se sugiere 1</ows:Abstract>
+				<ows:Abstract><![CDATA[Incremento, en unidades horarias, que se aplica a la nueva posición solar desde la posición de partida y de forma sucesiva, para determinar un nuevo cálculo instantáneo de radiación potencial que represente en promedio el intervalo definido. Es positivo desde el mediodía hasta la puesta del sol, o negativo desde el mediodía a la salida del sol. Se sugiere 1, pero puede utilizarse, por ejemplo 0.5 para cálculos cada 30', o 2 para cálculos cada 2 h (menos precisos, pero más rápidos). En caso de ejecutar el programa con el modificador <b>/INSTANT=</b>, el incremento horario se ignora puesto que el cálculo sólo se hace en el momento solicitado; se sugiere, por pulcritud, indicar un valor -1 al increment_horari en este caso.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param09"/>
 				<ows:Metadata xlink:title="Name:incremento_horario"/>
 				<LiteralData>
@@ -164,7 +164,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>percent_difus</ows:Identifier>
 				<ows:Title>Porcentaje de la radiación difusa vs directa</ows:Title>
-				<ows:Abstract>Porcentaje de radiación difusa (calculada con tau_0_dia_clar) en relación a la radiación directa. Puede ser un valor constante para todo el ráster, o ser leído de un ráster indicado en el parámetro /PERC_DIF_VS_DIRECT=. Típicamente se puede indicar 20 para un 20%.</ows:Abstract>
+				<ows:Abstract><![CDATA[Porcentaje de radiación difusa (calculada con tau_0_dia_clar) en relación a la radiación directa. Típicamente se puede indicar 20 para un 20%. En caso de ejecutar el programa con el modificador <b>/PERC_DIF_VS_DIRECT=</b>, percent_difus se ignora ya que el cálculo se realiza a partir de los datos del ráster indicado con este modificador en cada punto del territorio; se sugiere, por pulcritud, indicar un valor -1 a percent_difus en este caso.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param11"/>
 				<ows:Metadata xlink:title="Name:percent_difusa"/>
 				<LiteralData>
@@ -175,7 +175,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>INSTANT</ows:Identifier>
 				<ows:Title>Cálculo instantáneo</ows:Title>
-				<ows:Abstract>Restringe el cálculo, que por defecto es acumulado diario, a únicamente un cálculo instantáneo. Debe indicarse el valor como hora solar local.</ows:Abstract>
+				<ows:Abstract>Restringe el cálculo, que por defecto es acumulado diario, a únicamente un cálculo instantáneo (durante 1"). Debe indicarse el valor como hora solar local.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#time">time</ows:DataType>
 					<ows:AnyValue/>
@@ -184,7 +184,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>INICI</ows:Identifier>
 				<ows:Title>Inicio</ows:Title>
-				<ows:Abstract>Permiten definir el inicio de un intervalo temporal (dentro del día especificado) para el cálculo acumulado de radiación solar. Los valores se indican como hora solar local.</ows:Abstract>
+				<ows:Abstract>Permiten definir el inicio de un intervalo temporal (dentro del día especificado) para el cálculo acumulado de radiación solar. Los valores se indican como hora solar local. En ese caso las unidades quedan documentadas por "día parcial".</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#time">time</ows:DataType>
 					<ows:AnyValue/>
@@ -193,7 +193,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FINAL</ows:Identifier>
 				<ows:Title>Final</ows:Title>
-				<ows:Abstract>Permiten definir el final de un intervalo temporal (dentro del día especificado) para el cálculo acumulado de radiación solar. Los valores se indican como hora solar local.</ows:Abstract>
+				<ows:Abstract>Permiten definir el final de un intervalo temporal (dentro del día especificado) para el cálculo acumulado de radiación solar. Los valores se indican como hora solar local. En ese caso las unidades quedan documentadas por "día parcial".</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#time">time</ows:DataType>
 					<ows:AnyValue/>
@@ -214,7 +214,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TAU_0</ows:Identifier>
 				<ows:Title>TAU_0</ows:Title>
-				<ows:Abstract><![CDATA[Se permite, a través del parámetro optativo /TAU_0=, que la TAU_0 pueda tener un valor específico para cada celda del MDE (por ejemplo a partir de datos de teledetección atmosférica). En este caso, /TAU_0= indicará dónde está el ráster que contiene los valores de TAU_0 en cada celda; por ejemplo /TAU_0=c:\RadSolar\TAU_0_10-mayo.img. Este ráster contiene valores reales de 4 bytes y tendrá el mismo SRH y dimensiones que el MDE; se puede utilizar <a href="CanviPrj.htm">CanviPrj</a> y/o <a href="AdapRas.htm">AdapRas</a> si es necesario. Cuando se indica el parámetro /TAU_0= la aplicación ignora el octavo parámetro de la línea de comando (que es un valor de TAU_0 general para todo el ráster); en este caso se sugiere indicar, por pulcritud, un valor -1 en el octavo parámetro.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Se permite, a través del parámetro optativo /TAU_0=, que la TAU_0 pueda tener un valor específico para cada celda del MDE (por ejemplo a partir de datos de teledetección atmosférica). En este caso, /TAU_0= indicará dónde está el ráster que contiene los valores de TAU_0 en cada celda; por ejemplo /TAU_0=c:\RadSolar\TAU_0_10-mayo.img. Este ráster contiene valores reales de 4 bytes y tendrá el mismo Sistema de Referencia Horizontal (SRH) y dimensiones que el MDE; se puede utilizar <a href="CanviPrj.htm">CanviPrj</a> y/o <a href="AdapRas.htm">AdapRas</a> si es necesario. Cuando se indica el parámetro /TAU_0= la aplicación ignora el octavo parámetro de la línea de comando (que es un valor de TAU_0 general para todo el ráster); en este caso se sugiere indicar, por pulcritud, un valor -1 en el octavo parámetro.]]></ows:Abstract>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -252,7 +252,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>IRRAD_ESPEC</ows:Identifier>
 				<ows:Title>IRRAD_ESPEC</ows:Title>
-				<ows:Abstract>Se permite indicar si las unidades a documentar son de irradiancia (se debe indicar 0), típicas cuando la irradiancia exoatmosférica proporcionada es la constante solar (en este caso se documentarán por ejemplo 10 kJ/(m²*día)), o de irradiancia espectral [por unidad de longitud de onda] (debe indicarse 1), típicas cuando se quiere calcular la radiación en una región espectral, como el rojo, y la irradiancia exoatmosférica proporcionada es espectral [por unidad de longitud de onda] ( en este caso se documentarán por ejemplo 10 kJ/(m²*µm*día)). El valor predeterminado es 1, que corresponde a las versiones de la aplicación anteriores a septiembre de 2023.</ows:Abstract>
+				<ows:Abstract><![CDATA[Se permite indicar si las unidades a documentar son de irradiancia (se debe indicar 0, para "falso"), típicas cuando la irradiancia exoatmosférica proporcionada es la constante solar (en este caso se documentarán por ejemplo 10 kJ/(m<sup>2</sup>·día)), o de irradiancia espectral [por unidad de longitud de onda] (debe indicarse 1, para "cierto"), típicas cuando se quiere calcular la radiación en una región espectral, como el rojo, y la irradiancia exoatmosférica proporcionada es espectral [por unidad de longitud de onda] (en este caso se documentarán por ejemplo 10 kJ/(m<sup>2</sup>·día·µm)); nótese que las unidades que se acaba de indicar son sólo ejemplos y pueden cambiar según si la aplicación trabaja en modo instantáneo, etc. El valor predeterminado es 1, que corresponde a las versiones de la aplicación anteriores a septiembre de 2023.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -264,7 +264,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>DadesRad</ows:Identifier>
 				<ows:Title>DadesRad</ows:Title>
-				<ows:Abstract>Se permite indicar (Int_10kJ) si el formato de salida deseado son números enteros de 2 bytes con signo redondeados de de "10 kJ/(m²*día*µm) (modo por defecto e igual a las versiones de la aplicación anteriores a septiembre de 2023) o en reales de 4 bytes (Real_10kJ).</ows:Abstract>
+				<ows:Abstract><![CDATA[Se permite indicar Int_10kJ si el formato de salida deseado son números enteros de 2 bytes con signo redondeados de "10 kJ/(m<sup>2</sup>·día·µm)" (léase "decenas de kilojulios...") o las unidades que apliquen según el modo de ejecución; Int_10kJ es el modo por defecto e igual a las versiones de la aplicación anteriores a septiembre de 2023. Si se desea disponer de los resultados en reales de 4 bytes es necesario indicar Real_10kJ.o en reales de 4 bytes (Real_10kJ).]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
