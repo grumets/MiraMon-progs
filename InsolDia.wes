@@ -3,7 +3,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:InsolDia:1</ows:Identifier>
 		<ows:Title>InsolDia</ows:Title>
-		<ows:Abstract>Esta aplicación calcula la radiación solar incidente en cada punto a lo largo de un día determinado del año, dado un Modelo Digital de Elevaciones (MDE). Además de la irradiancia solar y la transmitancia atmosférica, la aplicación tiene en cuenta la posición del Sol en intervalos temporales definidos por el usuario (una hora, por ejemplo), los ángulos de incidencia, las sombras proyectadas y la distancia de la Tierra al Sol.</ows:Abstract>
+		<ows:Abstract>Esta aplicación calcula la radiación solar incidente (en unidades de energía, no de potencia) en cada punto del terreno a lo largo de un determinado día del año. También permite realizar el cálculo en un intervalo de tiempo a lo largo del día (no todo el día) e instantáneo en un momento concreto del día. Para realizar estos cálculos utiliza un Modelo Digital de Elevaciones (MDE). Además de la irradiancia solar, la transmitancia atmosférica, los ángulos de incidencia, las sombras proyectadas, la distancia de la Tierra al Sol y otros parámetros que se especifican más adelante, la aplicación tiene en cuenta la posición del Sol en intervalos temporales definidos por el usuario (cada hora, por ejemplo, excepto en el caso instantáneo, en el que el intervalo no se utiliza).</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Cálculo de la radiación solar de un día o de un instante"/>
 		<ows:Metadata xlink:title="Abstract:Esta aplicación calcula la radiación solar incidente (en unidades de energía, no de potencia) en cada punto del terreno a lo largo de un determinado día del año. También permite realizar el cálculo en un intervalo de tiempo a lo largo del día (no todo el día) e instantáneo en un momento concreto del día. Para realizar estos cálculos utiliza un Modelo Digital de Elevaciones (MDE). Además de la irradiancia solar, la transmitancia atmosférica, los ángulos de incidencia, las sombras proyectadas, la distancia de la Tierra al Sol y otros parámetros que se especifican más adelante, la aplicación tiene en cuenta la posición del Sol en intervalos temporales definidos por el usuario (cada hora, por ejemplo, excepto en el caso instantáneo, en el que el intervalo no se utiliza)."/>
 		<DataInputs>
@@ -120,7 +120,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>irradiancia_exoatm</ows:Identifier>
 				<ows:Title>Irradiancia exoatmosférica</ows:Title>
-				<ows:Abstract><![CDATA[Valor estimado de irradiancia solar que llega al exterior de la atmosfera terrestre, en W/m<sup>2</sup>; se sugiere 1366]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Valor estimado de irradiancia solar que llega al exterior de la atmosfera terrestre, en W/m<sup>2</sup> (o en W/(m<sup>2</sup>·µm) en cálculos en regiones espectrales específicas); 1366 se sugiere en el caso no espectral]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param07"/>
 				<ows:Metadata xlink:title="Name:irradiancia_exoatm"/>
 				<LiteralData>
@@ -142,7 +142,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>increment_horari</ows:Identifier>
 				<ows:Title>Incremento horario</ows:Title>
-				<ows:Abstract><![CDATA[Incremento, en unidades horarias, que se aplica a la nueva posición solar desde la posición de partida y de forma sucesiva, para determinar un nuevo cálculo instantáneo de radiación potencial que represente en promedio el intervalo definido. Es positivo desde el mediodía hasta la puesta del sol, o negativo desde el mediodía a la salida del sol. Se sugiere 1, pero puede utilizarse, por ejemplo 0.5 para cálculos cada 30', o 2 para cálculos cada 2 h (menos precisos, pero más rápidos). En caso de ejecutar el programa con el modificador <b>/INSTANT=</b>, el incremento horario se ignora puesto que el cálculo sólo se hace en el momento solicitado; se sugiere, por pulcritud, indicar un valor -1 al increment_horari en este caso.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Incremento, en unidades horarias, que se aplica a la nueva posición solar desde la posición de partida y de forma sucesiva, para determinar un nuevo cálculo instantáneo de radiación potencial que represente en promedio el intervalo definido. Se sugiere 1, pero puede utilizarse, por ejemplo 0.5 para cálculos cada 30', o 2 para cálculos cada 2 h (menos precisos, pero más rápidos). En caso de ejecutar el programa con el modificador <b>/INSTANT=</b>, el incremento horario se ignora puesto que el cálculo sólo se hace en el momento solicitado; se sugiere, por pulcritud, indicar un valor -1 al increment_horari en este caso.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param09"/>
 				<ows:Metadata xlink:title="Name:incremento_horario"/>
 				<LiteralData>
@@ -264,7 +264,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>DadesRad</ows:Identifier>
 				<ows:Title>DadesRad</ows:Title>
-				<ows:Abstract><![CDATA[Se permite indicar Int_10kJ si el formato de salida deseado son números enteros de 2 bytes con signo redondeados de "10 kJ/(m<sup>2</sup>·día·µm)" (léase "decenas de kilojulios...") o las unidades que apliquen según el modo de ejecución; Int_10kJ es el modo por defecto e igual a las versiones de la aplicación anteriores a septiembre de 2023. Si se desea disponer de los resultados en reales de 4 bytes es necesario indicar Real_10kJ.o en reales de 4 bytes (Real_10kJ).]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Se permite indicar Int_10kJ si el formato de salida deseado son números enteros de 2 bytes con signo redondeados de "10 kJ/(m<sup>2</sup>·día·µm)" (léase "decenas de kilojulios...") o las unidades que apliquen según el modo de ejecución; Int_10kJ es el modo por defecto e igual a las versiones de la aplicación anteriores a septiembre de 2023. Si se desea disponer de los resultados en reales de 4 bytes es necesario indicar Real_10kJ.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>

@@ -3,7 +3,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:InsolDia:1</ows:Identifier>
 		<ows:Title>InsolDia</ows:Title>
-		<ows:Abstract>Aquesta aplicació calcula la radiació solar incident en cada punt al llarg d'un dia determinat de l'any, donat un Model Digital d'Elevacions (MDE). A més de la irradiància solar i la transmitància atmosfèrica, l'aplicació té en compte la posició del Sol en intervals temporals definits per l'usuari (una hora, per exemple), els angles d'incidència, les ombres projectades i la distància de la Terra al Sol.</ows:Abstract>
+		<ows:Abstract>Aquesta aplicació calcula la radiació solar incident (en unitats d'energia, no de potència) en cada punt del terreny al llarg d'un dia determinat de l'any. També permet fer el càlcul en un interval de temps al llarg del dia (no tot el dia) i instantani en un moment concret del dia. Per a fer aquests càlculs utilitza un Model Digital d'Elevacions (MDE). A més de la irradiància solar, la transmitància atmosfèrica, els angles d'incidència, les ombres projectades, la distància de la Terra al Sol i altres paràmetres que s'especifiquen més endavant, l'aplicació té en compte la posició del Sol en intervals temporals definits per l'usuari (cada hora, per exemple, excepte en el cas instantani, en què l'interval no s'utilitza).</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Càlcul de la radiació solar d&apos;un dia o d&apos;un instant"/>
 		<ows:Metadata xlink:title="Abstract:Aquesta aplicació calcula la radiació solar incident (en unitats d&apos;energia, no de potència) en cada punt del terreny al llarg d&apos;un dia determinat de l&apos;any. També permet fer el càlcul en un interval de temps al llarg del dia (no tot el dia) i instantani en un moment concret del dia. Per a fer aquests càlculs utilitza un Model Digital d&apos;Elevacions (MDE). A més de la irradiància solar, la transmitància atmosfèrica, els angles d&apos;incidència, les ombres projectades, la distància de la Terra al Sol i altres paràmetres que s&apos;especifiquen més endavant, l&apos;aplicació té en compte la posició del Sol en intervals temporals definits per l&apos;usuari (cada hora, per exemple, excepte en el cas instantani, en què l&apos;interval no s&apos;utilitza)."/>
 		<DataInputs>
@@ -120,7 +120,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>irradiancia_exoatm</ows:Identifier>
 				<ows:Title>Irradiància exoatmosfèrica</ows:Title>
-				<ows:Abstract><![CDATA[Correspon al valor estimat d'irradiància solar que arriba a l'exterior de l'atmosfera terrestre, en W/m<sup>2</sup>; se suggereix 1366]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Correspon al valor estimat d'irradiància solar que arriba a l'exterior de l'atmosfera terrestre, en W/m<sup>2</sup> (o en W/(m<sup>2</sup>·µm) en càlculs en regions espectrals específiques); 1366 se suggereix en el cas no espectral]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param07"/>
 				<ows:Metadata xlink:title="Name:irradiancia_exoatm"/>
 				<LiteralData>
@@ -142,7 +142,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>increment_horari</ows:Identifier>
 				<ows:Title>Increment horari</ows:Title>
-				<ows:Abstract><![CDATA[Increment, en unitats horàries, que s'aplica a la nova posició solar des de la posició de partida i de forma successiva, per a determinar un nou càlcul instantani de radiació potencial que representi en mitjana l'interval definit. És positiu des del migdia a la posta del sol, o negatiu des del migdia a la sortida del sol. Se suggereix 1, però es pot utilitzar, per exemple 0.5 per a càlculs cada 30', o 2 per a càlculs cada 2 h (menys precisos, però més ràpids). En cas d'executar el programa amb el modificador <b>/INSTANT=</b>, l'increment horari s'ignora ja que el càlcul només es fa en el moment demanat; se suggereix, per pulcritud, indicar un valor -1 a l'increment_horari en aquest cas.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Increment, en unitats horàries, que s'aplica a la nova posició solar des de la posició de partida i de forma successiva, per a determinar un nou càlcul instantani de radiació potencial que representi en mitjana l'interval definit. Se suggereix 1, però es pot utilitzar, per exemple 0.5 per a càlculs cada 30', o 2 per a càlculs cada 2 h (menys precisos, però més ràpids). En cas d'executar el programa amb el modificador <b>/INSTANT=</b>, l'increment horari s'ignora ja que el càlcul només es fa en el moment demanat; se suggereix, per pulcritud, indicar un valor -1 a l'increment_horari en aquest cas.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param09"/>
 				<ows:Metadata xlink:title="Name:increment_horari"/>
 				<LiteralData>
@@ -252,7 +252,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>IRRAD_ESPEC</ows:Identifier>
 				<ows:Title>IRRAD_ESPEC</ows:Title>
-				<ows:Abstract><![CDATA[Es permet indicar si les unitats a documentar són d'irradiància (cal indicar 0, per "fals"), típiques quan la irradiància exoatmosfèrica proporcionada és la constant solar (en aquest cas es documentaran per exemple 10 kJ/(m<sup>2</sup>·dia)), o d'irradiància espectral [per unitat de longitud d'ona] (cal indicar 1, per "cert"), típiques quan es vol calcular la radiació en una regió espectral, com ara el vermell, i la irradiància exoatmosfèrica proporcionada és espectral [per unitat de longitud d'ona] (en aquest cas es documentaran per exemple 10 kJ/(m<sup>2</sup>·dia·µm)); cal fer notar que les unitats que s'acaben d?indicar són només exemples i poden canviar segons si l'aplicació treballa en mode instantani, etc. El valor per defecte és 1, que correspon a les versions de l'aplicació anteriors al setembre de 2023.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Es permet indicar si les unitats a documentar són d'irradiància (cal indicar 0, per "fals"), típiques quan la irradiància exoatmosfèrica proporcionada és la constant solar (en aquest cas es documentaran per exemple 10 kJ/(m<sup>2</sup>·dia)), o d'irradiància espectral [per unitat de longitud d'ona] (cal indicar 1, per "cert"), típiques quan es vol calcular la radiació en una regió espectral, com ara el vermell, i la irradiància exoatmosfèrica proporcionada és espectral [per unitat de longitud d'ona] (en aquest cas es documentaran per exemple 10 kJ/(m<sup>2</sup>·dia·µm)); cal fer notar que les unitats que s'acaben d'indicar són només exemples i poden canviar segons si l'aplicació treballa en mode instantani, etc. El valor per defecte és 1, que correspon a les versions de l'aplicació anteriors al setembre de 2023.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -264,7 +264,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>DadesRad</ows:Identifier>
 				<ows:Title>DadesRad</ows:Title>
-				<ows:Abstract><![CDATA[Es permet indicar Int_10kJ si el format de sortida desitjat són nombres enters de 2 bytes amb signe arrodonits de "10 kJ/(m<sup>2</sup>·dia·µm)" (llegir "desenes de quilojoules...") o les unitats que apliquin segons el mode d?execució; Int_10kJ és el mode per defecte i igual a les versions de l'aplicació anteriors al setembre de 2023. Si es desitja disposar dels resultats en reals de 4 bytes cal indicar Real_10kJ.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Es permet indicar Int_10kJ si el format de sortida desitjat són nombres enters de 2 bytes amb signe arrodonits de "10 kJ/(m<sup>2</sup>·dia·µm)" (llegir "desenes de quilojoules...") o les unitats que apliquin segons el mode d'execució; Int_10kJ és el mode per defecte i igual a les versions de l'aplicació anteriors al setembre de 2023. Si es desitja disposar dels resultats en reals de 4 bytes cal indicar Real_10kJ.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
