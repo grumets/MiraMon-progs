@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:VecPnt:Param1:1</ows:Identifier>
+		<ows:Title>VEC a PNT</ows:Title>
+		<ows:Abstract>Pas de fitxers VEC a fitxers PNT.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Transformació entre VEC i PNT (amb i sense topologia)"/>
+		<ows:Metadata xlink:title="Abstract:Aquesta aplicació fa la transformació de fitxers de punts en format VEC (ASCII) a fitxers de punts en format PNT (binaris i estructurats), i viceversa. També pot simplificar un fitxer PNT, agrupant els punts que queden dins una certa distància."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Pas de fitxers VEC a fitxers PNT.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerVEC</ows:Identifier>
+				<ows:Title>Fitxer VEC</ows:Title>
+				<ows:Abstract>Nom del fitxer de punts tipus VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerVEC"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tolerancia</ows:Identifier>
+				<ows:Title>Tolerància</ows:Title>
+				<ows:Abstract>Tolerància que es defineix per fondre punts, és a dir, que donats 'n' punts a una distància menor a aquesta tolerància es fonguin en un sol punt.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Tolerància"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0.0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DescriptorCamp</ows:Identifier>
+				<ows:Title>Descriptor camp</ows:Title>
+				<ows:Abstract>Cadena de text (cal cometes si porta espais) que descriu el camp Atribut (màxim 40 caràcters); per defecte resta buit.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nom camp</ows:Title>
+				<ows:Abstract>Cadena de text (màxim 10 caràcters) que serà usada com a nom de camp en la base de dades a crear; per defecte es pren ATR_VEC_? on ? pot ser L, F o C segons que els atributs siguin nombres enters, reals o cadenes de text.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajust envolupant</ows:Title>
+				<ows:Abstract>Ajusta l'envolupant documentada a les metadades al rectangle mínim.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerSortPNT</ows:Identifier>
+				<ows:Title>Fitxer sortida PNT</ows:Title>
+				<ows:Abstract>Nom del fitxer estructurat de punts.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerSortPNT"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:VecPnt:Param1:2</ows:Identifier>
+		<ows:Title>PNT a VEC</ows:Title>
+		<ows:Abstract>Pas de fitxers PNT a fitxers VEC</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Pas de fitxers PNT a fitxers VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerEntPNT</ows:Identifier>
+				<ows:Title>Fitxer entrada PNT</ows:Title>
+				<ows:Abstract>Nom del fitxer d'entrada estructurat de punts.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerEntPNT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Precisio</ows:Identifier>
+				<ows:Title>Precisió</ows:Title>
+				<ows:Abstract>Nombre de xifres decimals escrites a les coordenades del fitxer VEC de sortida.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Precisió"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Camp de la base de dades</ows:Title>
+				<ows:Abstract>Junt amb TAULA indiquen el camp de la base de dades que s'exporta a format VEC. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de sintaxi general.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Taula de base de dades</ows:Title>
+				<ows:Abstract>Junt amb CAMP indiquen el camp de la base de dades que s'exporta a format VEC. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions del document de sintaxi general.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SI_EN_BLANC</ows:Identifier>
+				<ows:Title>Registre en blanc</ows:Title>
+				<ows:Abstract>Indica el comportament que tindrà l'exportació a VEC quan no hi hagi atribut a la base de dades (camp en blanc). Pot valer "CONSTANT" per a un valor constant, "ID_GRAFIC" per a l'identificador gràfic o "IGNORAR" per a ignorar els vectors sense atribut (valor per defecte).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajust envolupant</ows:Title>
+				<ows:Abstract>Ajusta l'envolupant documentada a les metadades al rectangle mínim.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATRIBUT_CONSTANT</ows:Identifier>
+				<ows:Title>Atribut constant</ows:Title>
+				<ows:Abstract>Constant que voleu exportar a format VEC com atribut dels objectes. Si s'usa en combinació amb /TAULA=, /CAMP= i /SI_EN_BLANC=CONSTANT és l'atribut que es farà servir quan no hi ha dades (camp en blanc).  Si no s'indica /TAULA=, /CAMP= o /ATRIBUT_CONSTANT= l'exportació a format VEC es fa a partir de l'identificador gràfic com atribut.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ALCADA</ows:Identifier>
+				<ows:Title>Alçada</ows:Title>
+				<ows:Abstract>Indica quina de les possibles alçades s'escriu en el VEC. Per saber més sobre els valors d'aquest paràmetre seguiu les consideracions del document de sintaxi general.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerVEC</ows:Identifier>
+				<ows:Title>Fitxer VEC</ows:Title>
+				<ows:Abstract>Nom del fitxer de punts tipus VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerVEC"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:VecPnt:Param1:3</ows:Identifier>
+		<ows:Title>PNT a PNT</ows:Title>
+		<ows:Abstract>Pas de fitxers PNT a fitxers PNT (simplificació)</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>Pas de fitxers PNT a fitxers PNT (simplificació).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerEntPNT</ows:Identifier>
+				<ows:Title>Fitxer entrada PNT</ows:Title>
+				<ows:Abstract>Nom del fitxer d'entrada estructurat de punts.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerEntPNT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tolerancia</ows:Identifier>
+				<ows:Title>Tolerància</ows:Title>
+				<ows:Abstract>Tolerància que es defineix per fondre punts, és a dir, que donats 'n' punts a una distància menor a aquesta tolerància es fonguin en un sol punt.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Tolerància"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0.0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIREG</ows:Identifier>
+				<ows:Title>Multiregistres</ows:Title>
+				<ows:Abstract>Tots els registres pertanyents als punts fusionats resten a la base de dades definitiva (si el paràmetre no s'especifica, només els registres que pertanyen als punts finals es conserven).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajust envolupant</ows:Title>
+				<ows:Abstract>Ajusta l'envolupant documentada a les metadades al rectangle mínim.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerSortPNT</ows:Identifier>
+				<ows:Title>Fitxer sortida PNT</ows:Title>
+				<ows:Abstract>Nom del fitxer estructurat de punts.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerSortPNT"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>

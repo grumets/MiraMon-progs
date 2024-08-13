@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:VecPnt:Param1:1</ows:Identifier>
+		<ows:Title>VEC a PNT</ows:Title>
+		<ows:Abstract>Paso de ficheros VEC a ficheros PNT.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Transformación entre VEC y PNT (con y sin topología)"/>
+		<ows:Metadata xlink:title="Abstract:Esta aplicación transforma ficheros de puntos en formato VEC (ASCII) a ficheros de puntos en formato PNT (binarios y estructurados), y viceversa. También puede simplificar un fichero PNT, agrupando los puntos que quedan dentro de una cierta distancia."/>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Paso de ficheros VEC a ficheros PNT.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerVEC</ows:Identifier>
+				<ows:Title>Fichero VEC</ows:Title>
+				<ows:Abstract>Nombre del fichero de puntos tipo VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroVEC"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tolerancia</ows:Identifier>
+				<ows:Title>Tolerancia</ows:Title>
+				<ows:Abstract>Tolerancia que se define por fundir puntos, es decir, que dados 'n' puntos a una distancia menor a esa tolerancia se fundan en un solo punto.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Tolerancia"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0.0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DescriptorCamp</ows:Identifier>
+				<ows:Title>Descriptor campo</ows:Title>
+				<ows:Abstract>Cadena de texto (entre comillas si lleva espacios) que describe el campo Atributo (máximo 40 caracteres); por defecto resta vacío.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NomCamp</ows:Identifier>
+				<ows:Title>Nombre campo</ows:Title>
+				<ows:Abstract>Cadena de texto (máximo 10 caracteres) que será usada como nombre de campo en la base de datos a crear; por defecto se toma ATR_VEC_? dónde ? puede ser L, F o C según los atributos sean números enteros, reales o cadenas de texto.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajuste envolvente</ows:Title>
+				<ows:Abstract>Ajusta la envolvente documentada a los metadatos en el rectángulo mínimo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerSortPNT</ows:Identifier>
+				<ows:Title>Fichero salida PNT</ows:Title>
+				<ows:Abstract>Nombre del fichero estructurado de puntos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroSalPNT"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:VecPnt:Param1:2</ows:Identifier>
+		<ows:Title>PNT a VEC</ows:Title>
+		<ows:Abstract>Paso de ficheros PNT a ficheros VEC</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Paso de ficheros PNT a ficheros VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerEntPNT</ows:Identifier>
+				<ows:Title>Fichero entrada PNT</ows:Title>
+				<ows:Abstract>Nombre del fichero de entrada estructurado de puntos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroEntPNT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Precisio</ows:Identifier>
+				<ows:Title>Precisión</ows:Title>
+				<ows:Abstract>Número de cifras decimales escritas en las coordenadas del fichero VEC de salida.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Precisión"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAMP</ows:Identifier>
+				<ows:Title>Campo de la base de datos</ows:Title>
+				<ows:Abstract>Junto a TABLA indican el campo de la base de datos que se exporta a formato VEC. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de sintaxis general.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TAULA</ows:Identifier>
+				<ows:Title>Tabla de base de datos</ows:Title>
+				<ows:Abstract>Junto a CAMP indican el campo de la base de datos que se exporta a formato VEC. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de sintaxis general.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SI_EN_BLANC</ows:Identifier>
+				<ows:Title>Registro en blanco</ows:Title>
+				<ows:Abstract>Indica el comportamiento que tendrá la exportación a VEC cuando no se haya atribuido a la base de datos (campo en blanco). Puede valer "CONSTANTE" para un valor constante, "ID_GRAFIC" para el identificador gráfico o "IGNORAR" para ignorar los vectores sin atributo (valor por defecto).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajuste envolvente</ows:Title>
+				<ows:Abstract>Ajusta la envolvente documentada a los metadatos en el rectángulo mínimo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ATRIBUT_CONSTANT</ows:Identifier>
+				<ows:Title>Atributo constante.</ows:Title>
+				<ows:Abstract>Constante que desea exportar a formato VEC como atributo de los objetos. Si se usa en combinación con /TABLA=, /CAMP= y /SI_EN_BLANC=CONSTANT es el atributo que se utilizará cuando no hay datos (campo en blanco). Si no se indica /TABLA=, /CAMP= o /ATRIBUT_CONSTANT= la exportación a formato VEC se realiza a partir del identificador gráfico como atributo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ALCADA</ows:Identifier>
+				<ows:Title>Altura</ows:Title>
+				<ows:Abstract>Indica cuál de las posibles alturas se escribe en el VEC. Para saber más sobre los valores de este parámetro siga las consideraciones del documento de sintaxis general.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerVEC</ows:Identifier>
+				<ows:Title>Fichero VEC</ows:Title>
+				<ows:Abstract>Nombre del fichero de puntos tipo VEC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroVEC"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-vec</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:VecPnt:Param1:3</ows:Identifier>
+		<ows:Title>PNT a PNT</ows:Title>
+		<ows:Abstract>Paso de ficheros PNT a ficheros PNT (simplificación)</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>Paso de ficheros PNT a ficheros PNT (simplificación).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerEntPNT</ows:Identifier>
+				<ows:Title>Fichero entrada PNT</ows:Title>
+				<ows:Abstract>Nombre del fichero de entrada estructurado de puntos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroEntPNT"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Tolerancia</ows:Identifier>
+				<ows:Title>Tolerancia</ows:Title>
+				<ows:Abstract>Tolerancia que se define por fundir puntos, es decir, que dados 'n' puntos a una distancia menor a esa tolerancia se fundan en un solo punto.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:Tolerancia"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>0.0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIREG</ows:Identifier>
+				<ows:Title>Multiregistros</ows:Title>
+				<ows:Abstract>Todos los registros pertenecientes a los puntos fusionados permanecen en la base de datos definitiva (si el parámetro no se especifica, sólo los registros que pertenecen a los puntos finales se conservan).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AJUST_ENV</ows:Identifier>
+				<ows:Title>Ajuste envolvente</ows:Title>
+				<ows:Abstract>Ajusta la envolvente documentada a los metadatos en el rectángulo mínimo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerSortPNT</ows:Identifier>
+				<ows:Title>Fichero salida PNT</ows:Title>
+				<ows:Abstract>Nombre del fichero estructurado de puntos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroSalPNT"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-pnt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+</wps:ProcessDescriptions>
