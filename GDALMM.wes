@@ -3,7 +3,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:GDALMM:0</ows:Identifier>
 		<ows:Title>Información</ows:Title>
-		<ows:Abstract>Proporciona información sobre el fichero en un formato importable mediante GDAL.</ows:Abstract>
+		<ows:Abstract>Proporciona información sobre el fichero en un formato importable mediante OGR/GDAL.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Importación de ficheros via GDAL"/>
 		<ows:Metadata xlink:title="Abstract:Importa archivos vectoriales o ráster en cualquier formato compatible con GDAL al formato MiraMon. El usuario tiene la opción de seleccionar si desea importar solo algunas capas específicas o todas las capas contenidas en el archivo. Se puede definir un directorio de salida o, en el caso de que el archivo contenga una única capa de un solo tipo, se puede especificar un nombre de archivo de salida con la extensión correspondiente: pnt, arc, pol o img."/>
 		<DataInputs>
@@ -22,8 +22,8 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerEntrada</ows:Identifier>
-				<ows:Title>Fichero en un formato que GDAL pueda importar.</ows:Title>
-				<ows:Abstract>Fichero en un formato que GDAL pueda importar.</ows:Abstract>
+				<ows:Title>Fichero OGR/GDAL a importar</ows:Title>
+				<ows:Abstract>Fichero a importar usando las librerías OGR/GDAL.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FicheroEntrada"/>
 			</Input>
@@ -33,8 +33,8 @@
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:GDALMM:1</ows:Identifier>
-		<ows:Title>Importación de un fichero compatible con GDAL</ows:Title>
-		<ows:Abstract>Importa un subconjunto de capas de un archivo compatible con GDAL.</ows:Abstract>
+		<ows:Title>Importación de un fichero usando librerias OGR/GDAL</ows:Title>
+		<ows:Abstract>Importa un subconjunto de capas de un archivo compatible con librerias OGR/GDAL.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -51,26 +51,42 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerEntrada</ows:Identifier>
-				<ows:Title>Fichero en un formato que GDAL pueda importar.</ows:Title>
-				<ows:Abstract>Fichero en un formato que GDAL pueda importar.</ows:Abstract>
+				<ows:Title>Fichero OGR/GDAL a importar</ows:Title>
+				<ows:Abstract>Fichero a importar usando las librerías OGR/GDAL.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FicheroEntrada"/>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>CapaEntrada#</ows:Identifier>
-				<ows:Title>Capa dentro del fichero especificado</ows:Title>
-				<ows:Abstract>Un archivo compatible con GDAL puede contener múltiples capas. Este parámetro permite seleccionar una capa específica para importar, identificándola por su nombre. Esto es útil cuando se trabaja con archivos que incluyen varias capas de datos geoespaciales y se quiere restringir la importación a una en concreto, evitando la carga de todo el conjunto.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
+				<ows:Identifier>FitxLListaCapes</ows:Identifier>
+				<ows:Title>Fichero de lista de capas</ows:Title>
+				<ows:Abstract>Fichero que contiene una lista de capas (en caso de un fichero vectorial) o de subdataset (en caso de un fichero ráster) que se quiere importar. En caso que no se indique este fichero, se importará todas las capas o subdatasets que se encuentren en el fichero origen.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FichListaCapas"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>DirectoriSortida</ows:Identifier>
-				<ows:Title>Directorio de salida</ows:Title>
-				<ows:Abstract>Directorio de salida</ows:Abstract>
+				<ows:Title>Directorio o fichero de salida</ows:Title>
+				<ows:Abstract>Fichero de salida (en caso de que se encuentre una capa) o directorio de salida (en caso de que se encuentre más de una capa o subdatasets) donde se guardarán los ficheros importados a formato MiraMon a partir del fichero origen usando las librerías OGR/GDAL.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:DirOFichSalida"/>
 				<LiteralOutput>

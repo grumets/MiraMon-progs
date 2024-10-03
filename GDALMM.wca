@@ -3,14 +3,14 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:GDALMM:0</ows:Identifier>
 		<ows:Title>Informació</ows:Title>
-		<ows:Abstract>Dóna informació sobre el fitxer en format importable via GDAL</ows:Abstract>
+		<ows:Abstract>Mostra informació sobre el fitxer en format importable via OGR/GDAL.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Importació de fitxers via GDAL"/>
 		<ows:Metadata xlink:title="Abstract:Importa fitxers vectorials o ràster en qualsevol format compatible amb GDAL al format MiraMon. L&apos;usuari té l&apos;opció de seleccionar si desitja importar només algunes capes específiques o totes les capes contingudes en el fitxer. Es pot definir un directori de sortida o, en el cas que el fitxer contingui una única capa d&apos;un sol tipus, es pot especificar un nom de fitxer de sortida amb l&apos;extensió corresponent: pnt, arc, pol o img."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>Dóna informació sobre un fitxer via GDAL</ows:Abstract>
+				<ows:Abstract>Mostra informació sobre un fitxer via GDAL</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -22,8 +22,8 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerEntrada</ows:Identifier>
-				<ows:Title>Fitxer en un format que el GDAL pugui importar.</ows:Title>
-				<ows:Abstract>Fitxer en un format que el GDAL pugui importar.</ows:Abstract>
+				<ows:Title>Fitxer OGR/GDAL a importar</ows:Title>
+				<ows:Abstract>Fitxer a importar usant les llibreries OGR/GDAL.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerEntrada"/>
 			</Input>
@@ -33,8 +33,8 @@
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:GDALMM:1</ows:Identifier>
-		<ows:Title>Importació d'un fitxer compatible amb GDAL</ows:Title>
-		<ows:Abstract>Importa un subconjunt de capes d'un fitxer compatible amb GDAL.</ows:Abstract>
+		<ows:Title>Importació d'un fitxer usant llibreries OGR/GDAL</ows:Title>
+		<ows:Abstract>Importa un subconjunt de capes d'un fitxer compatible amb les llibreries OGR/GDAL.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -51,26 +51,42 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerEntrada</ows:Identifier>
-				<ows:Title>Fitxer en un format que el GDAL pugui importar.</ows:Title>
-				<ows:Abstract>Fitxer en un format que el GDAL pugui importar.</ows:Abstract>
+				<ows:Title>Fitxer OGR/GDAL a importar</ows:Title>
+				<ows:Abstract>Fitxer a importar usant les llibreries OGR/GDAL.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerEntrada"/>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>CapaEntrada#</ows:Identifier>
-				<ows:Title>Capa dins de fitxer d'entrada especificat</ows:Title>
-				<ows:Abstract>Un fitxer compatible amb GDAL pot contenir múltiples capes. El paràmetre en qüestió permet seleccionar una capa específica per importar, identificant-la pel seu nom. Això és útil quan es treballa amb fitxers que inclouen diverses capes de dades geoespacials i es vol restringir la importació a una en concret, evitant la càrrega de tot el conjunt.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
+				<ows:Identifier>FitxLListaCapes</ows:Identifier>
+				<ows:Title>Fitxer de llista de capes</ows:Title>
+				<ows:Abstract>Fitxer que conté una llista de capes (en cas d'un fitxer vectorial) o de subdataset (en cas d'un fitxer ràster) que voleu importar. En cas que no s'indiqui aquest fitxer, s'importaran totes les capes o subdatasets que es trobin al fitxer origen.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FitxLListaCapes"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>DirectoriSortida</ows:Identifier>
 				<ows:Title>Directori o fitxer de sortida</ows:Title>
-				<ows:Abstract>Directori de sortida</ows:Abstract>
+				<ows:Abstract>Fitxer de sortida (en cas que es trobi una capa) o directori de sortida (en cas que es trobi més d'una capa o subdatasets) on es desaran els fitxers importats a format MiraMon a partir del fitxer origen usant les llibreries OGR/GDAL.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:DirOFitSortida"/>
 				<LiteralOutput>
