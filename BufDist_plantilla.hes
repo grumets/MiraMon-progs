@@ -1,187 +1,136 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 18-01-2024 */-->
+<!--/* Revisió AA 21-10-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>BufDist: Generación de áreas de influencia (<i>buffers</i>) y mapas de distancias</title>
+<title>BufDist: Generación de áreas de influencia (<i>buffers</i>) y mapas de distancias</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/BufDist.htm"><font size="+2">BufDist</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-	La aplicación permite tanto generar mapas de distancias continuas (resultado ráster)
-como áreas de influencia (<i>buffers</i>) a una cierta distancia de las
-entidades diana (resultado ráster o vectorial).
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+La aplicación permite tanto generar mapas de distancias continuas (resultado ráster) como áreas de influencia (<i>buffers</i>) a una cierta distancia de las entidades diana (resultado ráster o vectorial).
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-  <p>Las entidades diana pueden ser tanto de tipo ráster como vectorial. En el
-  caso ráster, cualquier celda de valor diferente a sindatos se considera una
-  celda diana. En el caso vectorial, cualquier entidad (punto, línea o
-  polígono) se considera una entidad diana (en el tratamiento ráster de estas áreas de influencia de vectores, también puede indicarse que solamente se consideren
-  diana las entidades vectoriales con cierto atributo); en el caso de rásters,
-  si solamente desea usar como diana ciertos elementos, realice una consulta
-  por atributos desde MiraMon y guarde el resultado en un nuevo fichero, o
-  bien utilice <a href="CalcImg.htm">CalcImg</a>; igualmente, si debe lanzar
-  un proceso masivo con muchos ficheros, puede automatizar el proceso de
-  selección de las entidades diana desde <a href="CalcImg.htm">CalcImg</a> o desde <a href="VecSelec.htm">VecSelec</a>.</p>
+<p>Las entidades diana pueden ser tanto de tipo ráster como vectorial. En el caso ráster, cualquier celda de valor diferente a sindatos se considera una celda diana. En el caso vectorial, cualquier entidad (punto, línea o polígono) se considera una entidad diana (en el tratamiento ráster de estas áreas de influencia de vectores, también puede indicarse que solamente se consideren diana las entidades vectoriales con cierto atributo); en el caso de rásters, si solamente desea usar como diana ciertos elementos, realice una consulta por atributos desde MiraMon y guarde el resultado en un nuevo fichero, o bien utilice <a href="CalcImg.htm">CalcImg</a>; igualmente, si debe lanzar un proceso masivo con muchos ficheros, puede automatizar el proceso de selección de las entidades diana desde <a href="CalcImg.htm">CalcImg</a> o desde <a href="VecSelec.htm">VecSelec</a>.</p>
 
-  <p>Las áreas de influencia resultantes
-  pueden ser ráster o vectoriales; en el caso vectorial se puede realizar un
-  tratamiento totalmente vectorial o un tratamiento ráster donde el resultado
-  es la vectorización del caso ráster, y por lo tanto, necesita de los
-  parámetros que definen el ámbito del ráster temporal.
-  Siempre que se solicite un área de influencia y el fichero origen sea un ráster,
-  la aplicación empieza generando igualmente el mapa de distancias y,
-  posteriormente, selecciona las zonas en el intervalo de distancias
-  solicitado. Siempre se puede posteriormente ejecutar <a href="GenVPol.htm">GenVPol</a> para suavizar los bordes de las áreas de influencia obtenidas.</p>
+<p>Las áreas de influencia resultantes pueden ser ráster o vectoriales; en el caso vectorial se puede realizar un tratamiento totalmente vectorial o un tratamiento ráster donde el resultado es la vectorización del caso ráster, y por lo tanto, necesita de los parámetros que definen el ámbito del ráster temporal. Siempre que se solicite un área de influencia y el fichero origen sea un ráster, la aplicación empieza generando igualmente el mapa de distancias y, posteriormente, selecciona las zonas en el intervalo de distancias solicitado. Siempre se puede posteriormente ejecutar <a href="GenVPol.htm">GenVPol</a> para suavizar los bordes de las áreas de influencia obtenidas.</p>
 
-  <p>El modelo ráster las distancias se calculan a través del <b>CAMINO MÁS
-  CORTO</b> desde el centro de cada celda al centro de la celda diana más
-  cercana, lo cual implica la utilización de cálculos de curvatura geodésica
-  en caso necesario.</p>
+<p>El modelo ráster las distancias se calculan a través del <b>CAMINO MÁS CORTO</b> desde el centro de cada celda al centro de la celda diana más cercana, lo cual implica la utilización de cálculos de curvatura geodésica en caso necesario.</p>
 
-  <p>Las distancias se expresan en las unidades del sistema de referencia
-  (véase, no obstante, la sección NOTAS IMPORTANTES, más abajo).</p>
+<p>Las distancias se expresan en las unidades del sistema de referencia (véase, no obstante, la sección NOTAS IMPORTANTES, más abajo).</p>
 
-  <p>A diferencia de otros programas SIG, que realizan este cálculo en
-  precisión simple y que pierden precisión con celdas pequeñas o valores de
-  coordenadas muy grandes, BufDist lo lleva a cabo en doble precisión y con un
-  tratamiento óptimo de los valores numéricos, con lo cual las distancias se
-  calculan con corrección incluso en ficheros muy grandes (con muchas filas y
-  columnas). Hemos podido detectar que en ficheros de 341 filas x 341 columnas
-  y un lado de celda de 50 m en proyección UTM, nuestros resultados diferían
-  de otros programas en hasta 10 celdas, en que los demás programas detectaban
-  como más cercanas celdas equivocadas y daban valores erróneos de distancia
-  de hasta 3.3 m.</p>
+<p>A diferencia de otros programas SIG, que realizan este cálculo en precisión simple y que pierden precisión con celdas pequeñas o valores de coordenadas muy grandes, BufDist lo lleva a cabo en doble precisión y con un tratamiento óptimo de los valores numéricos, con lo cual las distancias se calculan con corrección incluso en ficheros muy grandes (con muchas filas y columnas). Hemos podido detectar que en ficheros de 341 filas x 341 columnas y un lado de celda de 50 m en proyección UTM, nuestros resultados diferían de otros programas en hasta 10 celdas, en que los demás programas detectaban como más cercanas celdas equivocadas y daban valores erróneos de distancia de hasta 3.3 m.</p>
 
-  <p>Si se solicita obtener un mapa de distancias continuas:</p>
+<p>Si se solicita obtener un mapa de distancias continuas:</p>
 
-  <ul>
-    <li>El fichero resultante es de tipo ráster (IMG) y "real".</li>
+<ul>
+	<li>El fichero resultante es de tipo ráster (IMG) y "real".</li>
+	<li>El título del fichero resultante se convierte en "Distancias derivadas de FICHERO" (donde FICHERO es el nombre del fichero que contiene las entidades diana).</li>
+</ul>Si se solicita obtener un área de influencia:
 
-    <li>El título del fichero resultante se convierte en "Distancias
-    derivadas de FICHERO" (donde FICHERO es el nombre del fichero que
-    contiene las entidades diana).</li>
-  </ul>Si se solicita obtener un área de influencia:
+<ul>
+	<li>El fichero resultante es de tipo ráster "byte-RLE" o bien de tipo vector estructurado de polígonos.</li>
+	<li>El título del fichero resultante se convierte en "Zonas a distancias comprendidas entre [N,M] UNIDADES de les entidades de FICHERO" (donde N y M son las distancias mínima y máxima consideradas, respectivamente, UNIDADES son las unidades del sistema de referencia y FICHERO es el nombre del fichero que contiene las entidades diana). N y M definen un intervalo cerrado.</li>
+	<li>La leyenda de la capa resultante contiene los valores siguientes:</li>
+<ul>
+	<li>1: "Entidades diana originales"</li>
+	<li>2: "Zonas a distancias [M,N] UNIDADES"</li>
+	<li>3: "Zonas excluidas"</li>
+</ul>
+o, cuando M=0:
+<ul>
+	<li>1: "Entidades diana originales"</li>
+	<li>2: "Zonas a distancias &lt;= N UNIDADES"</li>
+	<li>3: "Zonas a distancias &gt; N UNIDADES"</li>
+</ul>
 
-  <ul>
-    <li>El fichero resultante es de tipo ráster "byte-RLE" o bien de
-    tipo vector estructurado de polígonos.</li>
+<li>El resultado de un tratamiento vectorial es un fichero de polígonos que heredan los atributos de los puntos o arcos diana originales. Si se ha solicitado un área de influencia de intervalo [M,N] (donde M es diferente de 0) se añade un atributo adicional en la tabla principal (campo BUFFER) que puede contener los siguientes valores:</li>
+	<ul>
+		<li>i: Zonas interiores al área de influencia, es decir, de distancia menor a M.</li>
+		<li>b: Zonas del área de influencia, es decir, a distancias entre M y N.</li>
+	</ul>
+	En este caso, las zonas a distancias &gt; N se agrupan al polígono 0 y no tienen atributos.
 
-    <li>El título del fichero resultante se convierte en "Zonas a
-    distancias comprendidas entre [N,M] UNIDADES de les entidades de
-    FICHERO" (donde N y M son las distancias mínima y máxima
-    consideradas, respectivamente, UNIDADES son las unidades del sistema de
-    referencia y FICHERO es el nombre del fichero que contiene las entidades
-    diana). N y M definen un intervalo cerrado.</li>
+</ul><b>NOTAS IMPORTANTES</b>: En proyecciones cartográficas como UTM, Gauss, Cónica de Lambert, o cualquier otra que sea razonablemente equidistante en todas direcciones, las distancias se expresan en las unidades del sistema de referencia, y esto no presenta normalmente ningún problema en la toma de decisiones sobre las distancias obtenidas en el cálculo.
 
-    <li>La leyenda de la capa resultante contiene los valores siguientes:
+<p>En cambio, en ciertas proyecciones cartográficas con fuerte asimetría en las distancias proyectadas -Mercator, Equirectangular "lat/long", etc-, los cálculos podrían tener errores importantes si las distancias se calcularan de forma cartesiana (rectangular), debido a las características de la propia proyección. Es por ello que BufDist, cuando detecta proyecciones "Mercator", "Equirectangular" (latitud/longitud en grados), etc, hace las correcciones pertinentes para que los resultados sean realistas.</p>
 
-      <ul>
-        <li>1: "Entidades diana originales"</li>
+<p>Si en el caso de proyecciones aproximadamente equidistantes (por ejemplo UTM) quiere cálculos de precisión centimétrica, puede forzar el cálculo de distancias de alta precisión indicando el parámetro /DIST_GEOD=1. Con este procedimiento se obtienen resultados prácticamente idénticos a, en el caso UTM, aplicar el factor de deformación lineal (K) a los cálculos de distancias (véase, por ejemplo, Estruch 1996, pág. 93, para un ejemplo numérico).<br/></p>
 
-        <li>2: "Zonas a distancias [M,N] UNIDADES"</li>
+<ul>
+	<li>Estruch, M. (1996) "Cartografía minera" Ediciones UPC. Barcelona. 238 p. ISBN: 84-89636-0208<br/></li>
+</ul>
 
-        <li>3: "Zonas excluidas"</li>
-      </ul>o, cuando M=0:
+Se debe tener en cuenta, no obstante, que el cálculo de distancias es MUCHO MÁS LENTO cuando se indica /DIST_GEOD=1.
 
-      <ul>
-        <li>1: "Entidades diana originales"</li>
+<p>Como se ha explicado previamente, en las proyecciones de tipo "Mercator" y "Equirectangular" siempre se realizan los cálculos como si se solicitara /DIST_GEOD=1 ya que en caso contrario los resultados son muy poco realistas. Si de todas formas desea forzar el cálculo de forma cartesiana y no geodésica, indique /DIST_GEOD=0.</p>
 
-        <li>2: "Zonas a distancias &lt;= N UNIDADES"</li>
+<p>A menos que se indique lo contrario, BufDist NO preverá circularidades en los cálculos (es decir, en mapas que representan el mundo entero, no prevé que las distancias extremas izquierda y derecha son más cercanas y realiza el cálculo sobre el plano cartográfico). Si se está calculando distancias sobre todo el mundo, se debe utilizar el parámetro /MAPAMUNDI para indicar a BufDist que debe considerar circularidades. Antes de utilizar /MAPAMUNDI, se debe tener presente que:</p>
 
-        <li>3: "Zonas a distancias &gt; N UNIDADES"</li>
-      </ul>
-    </li>
+<ul>
+<li>La ejecución será considerablemente MÁS LENTA, por lo que se pueden
+obtener rápidamente unos primeros resultados tentativos sin este
+parámetro.</li>
 
-    <li>El resultado de un tratamiento vectorial es un fichero de polígonos
-    que heredan los atributos de los puntos o arcos diana originales. Si se ha
-    solicitado un área de influencia de intervalo [M,N] (donde M es diferente de 0) se
-    añade un atributo adicional en la tabla principal (campo BUFFER) que puede
-    contener los siguientes valores:
+<li>El parámetro /MAPAMUNDI no tiene ningún efecto si /DIST_GEOD no está activo (/DIST_GEOD=0) (es decir, en distancias cartesianas no tiene función alguna).</li>
+</ul>
 
-      <ul>
-        <li>i: Zonas interiores al área de influencia, es decir, de distancia menor a
-        M.</li>
+<p>En resumen, y como aspectos a resaltar, se debe recordar que BufDist calcula distancias cartesianas sobre el sistema de referencia y realiza cálculos geodésicos rigurosos en el caso de proyecciones como "Mercator" o "Equirectangular" (en estos casos especiales, en pantalla se indicará que se están efectuando las correcciones adecuadas) o cuando se le solicita explícitamente a través de /DIST_GEOD=1.</p>
 
-        <li>b: Zonas del área de influencia, es decir, a distancias entre M y N.</li>
-      </ul>En este caso, las zonas a distancias &gt; N se agrupan al polígono
-      0 y no tienen atributos.
-    </li>
-  </ul><b>NOTAS IMPORTANTES</b>: En proyecciones cartográficas como UTM,
-  Gauss, Cónica de Lambert, o cualquier otra que sea razonablemente
-  equidistante en todas direcciones, las distancias se expresan en las
-  unidades del sistema de referencia, y esto no presenta normalmente ningún
-  problema en la toma de decisiones sobre las distancias obtenidas en
-  el cálculo.
+<p>Si se utiliza una proyección que no es ni UTM, ni Mercator ni Equirectangular, es necesario asegurarse de que la proyección utilizada permite distancias cartesianas sin errores importantes. En caso necesario, se puede consultar a <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>.</p>
 
-  <p>En cambio, en ciertas proyecciones cartográficas con fuerte asimetría en
-  las distancias proyectadas -Mercator, Equirectangular "lat/long",
-  etc-, los cálculos podrían tener errores importantes si las distancias se
-  calcularan de forma cartesiana (rectangular), debido a las características
-  de la propia proyección. Es por ello que BufDist, cuando detecta
-  proyecciones "Mercator", "Equirectangular"
-  (latitud/longitud en grados), etc, hace las correcciones pertinentes para
-  que los resultados sean realistas.</p>
+<p>Para más información se puede consultar lasiguiente referencia:</p>
 
-  <p>Si en el caso de proyecciones aproximadamente equidistantes (por ejemplo
-  UTM) quiere cálculos de precisión centimétrica, puede forzar el cálculo de
-  distancias de alta precisión indicando el parámetro /DIST_GEOD=1. Con este
-  procedimiento se obtienen resultados prácticamente idénticos a, en el caso
-  UTM, aplicar el factor de deformación lineal (K) a los cálculos de
-  distancias (véase, por ejemplo, Estruch 1996, pág. 93, para un ejemplo
-  numérico).<br/></p>
+<p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las herramientas SIG de análisis de distancias y superficies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
 
-  <ul>
-    <li>Estruch, M. (1996) "Cartografía minera" Ediciones UPC.
-    Barcelona. 238 p. ISBN: 84-89636-0208<br/></li>
-  </ul>Se debe tener en cuenta, no obstante, que el cálculo de distancias es MUCHO MÁS
-  LENTO cuando se indica /DIST_GEOD=1.
+<p>Por último, cabe indicar que en otros softwares populares el resultado vectorial puede ser erróneo en lo que se refiere a los atributos de los polígonos generados en el modo áreas de influencia. En efecto, cuando las áreas de influencia de dos o más entidades diana con atributos diferentes se solapan, estos softwares no permiten conocer de qué entidad diana proviene el área de influencia y llegan a generar resultados erróneos por cuanto se otorgan atributos equivocados a las áreas de influencia: aquellos atributos están más lejos de lo indicado como área de influencia.</p>
 
-  <p>Como se ha explicado previamente, en las proyecciones de tipo "Mercator" y
-  "Equirectangular" siempre se realizan los cálculos como si se
-  solicitara /DIST_GEOD=1 ya que en caso contrario los resultados son muy poco
-  realistas. Si de todas formas desea forzar el cálculo de forma cartesiana y
-  no geodésica, indique /DIST_GEOD=0.</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <p>A menos que se indique lo contrario, BufDist NO preverá circularidades en
-  los cálculos (es decir, en mapas que representan el mundo entero, no prevé
-  que las distancias extremas izquierda y derecha son más cercanas y realiza
-  el cálculo sobre el plano cartográfico). Si se está calculando distancias sobre
-  todo el mundo, se debe utilizar el parámetro /MAPAMUNDI para indicar a BufDist que
-  debe considerar circularidades. Antes de utilizar /MAPAMUNDI, se debe tener presente
-  que:</p>
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
 
-  <ul>
-    <li>La ejecución será considerablemente MÁS LENTA, por lo que se pueden
-    obtener rápidamente unos primeros resultados tentativos sin este
-    parámetro.</li>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="BufDist_finestra.png"><img src="BufDist_finestra2.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de BufDist </td>
+</tr>
+</table>
+</div>
 
-    <li>El parámetro /MAPAMUNDI no tiene ningún efecto si /DIST_GEOD no está
-    activo (/DIST_GEOD=0) (es decir, en distancias cartesianas no tiene función alguna).</li>
-  </ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <p>En resumen, y como aspectos a resaltar, se debe recordar que BufDist calcula
-  distancias cartesianas sobre el sistema de referencia y realiza cálculos
-  geodésicos rigurosos en el caso de proyecciones como "Mercator" o
-  "Equirectangular" (en estos casos especiales, en pantalla se
-  indicará que se están efectuando las correcciones adecuadas) o cuando se le
-  solicita explícitamente a través de /DIST_GEOD=1.</p>
-
-  <p>Si se utiliza una proyección que no es ni UTM, ni Mercator ni
-  Equirectangular, es necesario asegurarse de que la proyección utilizada permite distancias
-  cartesianas sin errores importantes. En caso necesario, se puede consultar a <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>.</p>
+<!--<h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
   
-  <p>Para más información se puede consultar la  siguiente referencia:</p>
-  
-  <p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las herramientas 
-  SIG de análisis de distancias y superficies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
-  
-  <p>Por último, cabe indicar que en otros softwares populares el resultado vectorial puede ser erróneo en lo que se refiere a los atributos de los polígonos generados en el modo áreas de influencia. En efecto, cuando las áreas de influencia de dos o más entidades diana con atributos diferentes se solapan, estos softwares no permiten conocer de qué entidad diana proviene el área de influencia y llegan a generar resultados erróneos por cuanto se otorgan atributos equivocados a las áreas de influencia: aquellos atributos están más lejos de lo indicado como área de influencia.</p>
-
-    <hr/>
-	  <exclusiva>
-    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 	<!-- $$EXCLUSIVA$$
@@ -189,10 +138,10 @@ entidades diana (resultado ráster o vectorial).
 Para obtener la ayuda completa escriba:
 BufDist ?
 -->
-  </exclusiva>
-   <hr/>
-     <h4>¿Cómo saber qué tipo de algoritmo utilizar en las opciones avanzadas? (modificador opcional /ALGORITMO=) </h4>
-     Consulte <a href=general.htm>sintaxis general</a> para más información.
-  <hr/>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
+<hr/>
+<p>¿Cómo saber qué tipo de algoritmo utilizar en las opciones avanzadas? (modificador opcional /ALGORITMO=)</p>
+<p> Se puede consultar <a href=general.htm>sintaxis general</a> para más información.</p>
 </body>
 </html>
