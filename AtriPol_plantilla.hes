@@ -1,149 +1,125 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 17-01-2024 */-->
+<!--/* Revisió AA 21-10-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>AtriPol: Etiquetaje de polígonos</title>
+<title>AtriPol: Etiquetaje de polígonos</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
- <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/AtriPol.htm"><font size="+2">AtriPol</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-  <p>Esta aplicación añade atributos (etiqueta) a los polígonos generados con la
-  aplicación <a href="Ciclar.htm">Ciclar</a>. Los atributos se añaden como
-  nuevos campos de la base de datos en el fichero P.DBF. La utilidad principal
-  de la aplicación es la inclusión de atributos que no son inherentes a la
-  geometría ni a la estructura topológica de los polígonos pero que dan
-  sentido temático a cada una de les regiones (por ejemplo qué tipo de
-  vegetación tiene un polígono concreto). Esta aplicación tiene dos opciones:</p>
-  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+<p>Esta aplicación añade atributos (etiqueta) a los polígonos generados con la aplicación <a href="Ciclar.htm">Ciclar</a>. Los atributos se añaden como nuevos campos de la base de datos en el fichero P.DBF. La utilidad principal de la aplicación es la inclusión de atributos que no son inherentes a la geometría ni a la estructura topológica de los polígonos pero que dan sentido temático a cada una de les regiones (por ejemplo qué tipo de vegetación tiene un polígono concreto). Esta aplicación tiene dos opciones:</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>Los atributos se asocian a los polígonos por transferencia de los
-  atributos de un punto situado en el interior del polígono. Este punto se
-  denomina, habitualmente, 'etiqueta'. El fichero de etiquetas puede
-  ser de tres tipos diferentes:</p>
+<p>Los atributos se asocian a los polígonos por transferencia de los atributos de un punto situado en el interior del polígono. Este punto se denomina, habitualmente, 'etiqueta'. El fichero de etiquetas puede  ser de tres tipos diferentes:</p>
 
-  <ul>
-    <li>Fichero PNT (formato recomendado): Los polígonos heredarán uno o más
-    de los campos de la base de datos de los puntos. El parámetro 'x'
-    controla qué campos se copian. Se puede generar con <a href="VECPNT.htm">VECPNT</a>.<br/>
-    Si la tabla principal tiene registros múltiples para algún identificador gráfico, se debe usar <a href="AtriTop.htm">AtriTop</a>.
-    </li>
-
-    <li>Fichero VEC de puntos: Se añade un nuevo campo al fichero P.DBF; este
-    campo contiene el atributo de cada etiqueta. El nombre del campo y su descriptor se
-    preguntan interactivamente.</li>
-
-    <li>Fichero DBF especial para AtriPol: este archivo tiene, además de los campos
-     a heredar, dos campos numéricos (N) adicionales, llamados MAPX y MAPY, donde
-     se expresan las coordenadas mapa de los puntos. El fichero de polígonos heredará alguno o todos los campos
-    del fichero DBF.</li>
+<ul>
+    <li>Fichero PNT (formato recomendado): Los polígonos heredarán uno o más de los campos de la base de datos de los puntos. El parámetro 'x' controla qué campos se copian. Se puede generar con <a href="VECPNT.htm">VECPNT</a><br/>
+    Si la tabla principal tiene registros múltiples para algún identificador gráfico, se debe usar <a href="AtriTop.htm">AtriTop</a>.</li>
+    <li>Fichero VEC de puntos: Se añade un nuevo campo al fichero P.DBF; este campo contiene el atributo de cada etiqueta. El nombre del campo y su descriptor se preguntan interactivamente.</li>
+    <li>Fichero DBF especial para AtriPol: este archivo tiene, además de los campos a heredar, dos campos numéricos (N) adicionales, llamados MAPX y MAPY, donde se expresan las coordenadas mapa de los puntos. El fichero de polígonos heredará alguno o todos los campos del fichero DBF.</li>
   </ul>
 
-  <p>Antes del proceso de etiquetado, el fichero POL de entrada debe tener un
-  solo registro para todos y cada uno de los elementos gráficos (la aplicación
-  <a href="Ciclar.htm">Ciclar</a> ya genera un POL con estas características).
-  Por lo tanto, todavía NO se tolera:</p>
+<p>Antes del proceso de etiquetado, el fichero POL de entrada debe tener un solo registro para todos y cada uno de los elementos gráficos (la aplicación <a href="Ciclar.htm">Ciclar</a> ya genera un POL con estas características). Por lo tanto, todavía NO se tolera:</p>
 
-  <ul>
-    <li>Que falten registros en la base de datos de polígonos, es decir, todos
-    los polígonos deben tener un registro asociado antes del etiquetaje.</li>
+<ul>
+    <li>Que falten registros en la base de datos de polígonos, es decir, todos los polígonos deben tener un registro asociado antes del etiquetaje.</li>
+    <li>Que haya polígonos que previamente presenten registro múltiple, aunque la aplicación está capacitada para generarlos.</li>
+</ul>
 
-    <li>Que haya polígonos que previamente presenten registro múltiple, aunque
-    la aplicación está capacitada para generarlos.</li>
-  </ul>y en estos casos debe usar <a href="AtriTop.htm">AtriTop</a>.
+<p>y en estos casos debe usar <a href="AtriTop.htm">AtriTop</a>.
 
-  <p>En caso que el fichero de etiquetas no presente ninguna etiqueta sobre un
-  polígono el campo se deja en blanco, a menos que el campo ya existiera; en
-  este último caso se conserva el atributo o atributos preexistentes.</p>
+<p>En caso que el fichero de etiquetas no presente ninguna etiqueta sobre un polígono el campo se deja en blanco, a menos que el campo ya existiera; en este último caso se conserva el atributo o atributos preexistentes.</p>
 
-  <p>En caso que el fichero de etiquetas tenga una sola etiqueta con un solo
-  registro sobre un polígono concreto, la acción de la aplicación dependerá de la
-  opción 'n' de la línea de comandos:</p>
+<p>En caso que el fichero de etiquetas tenga una sola etiqueta con un solo registro sobre un polígono concreto, la acción de la aplicación dependerá de la opción 'n' de la línea de comandos:</p>
 
-  <ul>
-    <li>n=0, se conservan los campos preexistentes que no estén en
-    blanco;</li>
+<ul>
+	<li>n=0, se conservan los campos preexistentes que no estén en blanco;</li>
+    <li>n=1, se sobrescriben los campos preexistentes con los nuevos valores;</li>
+    <li>n=2, se genera un nuevo registro en la base de datos a menos que los atributos preexistentes y los nuevos sean idénticos. En caso de tener que generar nuevos registros, se copia todo el último registro y se actualizan los campos en función de lo que aporte el fichero de etiquetas.</li>
+</ul>
 
-    <li>n=1, se sobrescriben los campos preexistentes con los nuevos
-    valores;</li>
+<p>En caso de que el fichero de etiquetas tenga más de una etiqueta o una etiqueta con más de un registro sobre un polígono concreto la lógica es la siguiente:</p>
 
-    <li>n=2, se genera un nuevo registro en la base de datos a menos que los
-    atributos preexistentes y los nuevos sean idénticos. En caso de tener que
-    generar nuevos registros, se copia todo el último registro y se actualizan
-    los campos en función de lo que aporte el fichero de etiquetas.</li>
-  </ul>
+<ul>
+    <li>n=0, se conservan todos los campos preexistentes que no estén en blanco y se modifican los campos en blanco y los campos nuevos con los valores del primer registro de la primera etiqueta hallada;</li>
+    <li>n=1, se sobrescriben los campos preexistentes con los nuevos valores del último registro de la última etiqueta hallada;</li>
+    <li>n=2, se generan tantos registros como registros de puntos haya. Se conserva también el registro viejo (en primera posición), pero si un nuevo registro es idéntico al antiguo no se escribe el nuevo (no se duplica).</li>
+</ul>
 
-  <p>En caso de que el fichero de etiquetas tenga más de una etiqueta o una
-  etiqueta con más de un registro sobre un polígono concreto la lógica es la
-  siguiente:</p>
+<p>AtriPol solo modifica los ficheros P.DBF y P.REL. Se puede recuperar una copia original de estos ficheros dado que se genera una copia P.BK1 y P.BK2 respectivamente.</p>
 
-  <ul>
-    <li>n=0, se conservan todos los campos preexistentes que no estén en
-    blanco y se modifican los campos en blanco y los campos nuevos con los
-    valores del primer registro de la primera etiqueta hallada;</li>
+<p>Adicionalmente, la aplicación genera tres ficheros:</p>
 
-    <li>n=1, se sobrescriben los campos preexistentes con los nuevos valores
-    del último registro de la última etiqueta hallada;</li>
-
-    <li>n=2, se generan tantos registros como registros de puntos haya. Se
-    conserva también el registro viejo (en primera posición), pero si un nuevo
-    registro es idéntico al antiguo no se escribe el nuevo (no se
-    duplica).</li>
-  </ul>
-
-  <p>AtriPol solo modifica los ficheros P.DBF y P.REL. Se puede recuperar una
-  copia original de estos ficheros dado que se genera una copia P.BK1 y P.BK2
-  respectivamente.</p>
-
-  <p>Adicionalmente, la aplicación genera tres ficheros:</p>
-
-  <ul>
-    <li>QUEIXES.TXT, editable con cualquier editor de texto, en el que hay
-    registrados:
-
-         <ul>
-        <li>Los polígonos no etiquetados.</li>
-
-        <li>Los polígonos reetiquetados de manera incoherente.</li>
-
-        <li>Los polígonos reetiquetados de manera coherente (con etiquetas de
-        valores iguales).</li>
-      </ul>
-</li>
-
+<ul>
+    <li>QUEIXES.TXT, editable con cualquier editor de texto, en el que hay registrados:</li>
+		<ul>
+			<li>Los polígonos no etiquetados.</li>
+			<li>Los polígonos reetiquetados de manera incoherente.</li>
+			<li>Los polígonos reetiquetados de manera coherente (con etiquetas de valores iguales).</li>
+		</ul>
     <li>BADPOINT.VEC con las etiquetas incoherentes.</li>
+    <li>BADPOL.VEC con rectángulos que contienen los polígonos sin etiqueta.</li>
+</ul>
 
-    <li>BADPOL.VEC con rectángulos que contienen los polígonos sin
-    etiqueta.</li>
-  </ul>
+<p>Estos ficheros también se crean cuando se usa la opción de la aplicación que permite heredar varias etiquetas sobre un solo polígono (opción 'n'=2). En este caso posiblemente solo será útil en relación a los polígonos no etiquetados.</p>
 
-  <p>Estos ficheros también se crean cuando se usa la opción de la aplicación que
-  permite heredar varias etiquetas sobre un solo polígono (opción
-  'n'=2). En este caso posiblemente solo será útil en relación a
-  los polígonos no etiquetados.</p>
+<p>En todos los casos se pueden crear campos llamados MAPX y MAPY en el fichero P.DBF. Estos campos contienen las coordenadas X,Y de las etiquetas utilizadas, lo cual puede tener valor documental. En el caso del fichero PNT se puede heredar incluso el identificador gráfico del punto siempre que no tenga el mismo nombre de campo que el identificador gráfico del polígono. En caso que la opción 'x' sea igual a 0 (copia de todos los campos) el campo ID_GRAFIC NO se transfiere al P.DBF. En la opción x=2 los campos se seleccionan a través de un fichero de campos que tiene el siguiente formato:</p>
 
-  <p>En todos los casos se pueden crear campos llamados MAPX y MAPY en el
-  fichero P.DBF. Estos campos contienen las coordenadas X,Y de las etiquetas
-  utilizadas, lo cual puede tener valor documental. En el caso del fichero PNT
-  se puede heredar incluso el identificador gráfico del punto siempre que no
-  tenga el mismo nombre de campo que el identificador gráfico del polígono. En
-  caso que la opción 'x' sea igual a 0 (copia de todos los campos) el
-  campo ID_GRAFIC NO se transfiere al P.DBF. En la opción x=2 los campos se
-  seleccionan a través de un fichero de campos que tiene el siguiente
-  formato:</p>
-  <pre>
+<pre>
 NombreCampoA &quot;Descriptor de campo A&quot;
 NombreCampoB &quot;Descriptor de campo B&quot;
 ...
 </pre>
 
-  <p>Observación: se debe escribir el descriptor entre comillas.</p>
-  <hr/>
+<p>Observación: se debe escribir el descriptor entre comillas.</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <exclusiva>
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="AtriPol_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de AtriPol </td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -151,11 +127,9 @@ NombreCampoB &quot;Descriptor de campo B&quot;
 <P>Para obtener la ayuda completa escriba:<BR>
 AtriPol ? 
 -->
-  </exclusiva>
-  <hr/>
-
-  <p>Esta aplicación usa y genera ficheros versión v. 1.1</p>
-
-  <center><a href="Ciclar.htm"><img src="Ciclar.gif"/></a><a href="TestTop.htm"><img src="TestTop.gif"/></a></center>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+<p>Esta aplicación usa y genera ficheros versión v. 1.1</p>
+</exclusiva>
 </body>
 </html>
