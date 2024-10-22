@@ -1,28 +1,45 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Revisió AA 22-10-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-<!--Traduït per la Míriam Romero-->
-  <title>CalcGeo: Geodetic calculator</title>
+<title>CalcGeo: Geodetic calculator</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/CalcGeo.htm"><font size="+2">CalcGeo</font></a></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
- 
-<p>A <b>reference system</b> is defined by a projection, a set of parameters for this projection (for example, a reference parallel), a datum and an ellipsoid and usually involves a considerable number of parameters. These parameters can be found in the geodesic tables or they can be directly specified in the REL file. The definition of a reference system is a complex process and must be done only once for each new system that is wanted to be used; in addition, MiraMon is distributed with a broad set of commonly used reference system definitions. The document <a href="../mm32/ap6.htm">Horizontal reference systems in MiraMon. Tables and files of geodesy</a> can be consulted for more information.
+ <p>A <b>reference system</b> is defined by a projection, a set of parameters for this projection (for example, a reference parallel), a datum and an ellipsoid and usually involves a considerable number of parameters. These parameters can be found in the geodesic tables or they can be directly specified in the REL file. The definition of a reference system is a complex process and must be done only once for each new system that is wanted to be used; in addition, MiraMon is distributed with a broad set of commonly used reference system definitions. The document <a href="../mm32/ap6.htm">Horizontal reference systems in MiraMon. Tables and files of geodesy</a> can be consulted for more information.
 
-<p>For systems in angular coordinates (latitude and longitude), such as the Equirectangular, these can be given in degrees or in degrees, minutes and seconds. Negative quantities must be used for longitudes west of Greenwich and latitudes south of the equator. If the angular quantities are negative, the sign will be associated with the largest non-zero magnitude, p. eg: -5° 25' 43.6", 0° -3' 45.5",
-  0° 0' -5.3".</p>
+<p>For systems in angular coordinates (latitude and longitude), such as the Equirectangular, these can be given in degrees or in degrees, minutes and seconds. Negative quantities must be used for longitudes west of Greenwich and latitudes south of the equator. If the angular quantities are negative, the sign will be associated with the largest non-zero magnitude, p. eg: -5° 25' 43.6", 0° -3' 45.5", 0° 0' -5.3".</p>
 
 <p>All calculations are made in double precision (with a minimum of 15 significant figures) and the results in meters and millimeter accuracy (3 decimals) are shown for projections in linear coordinates, and in degrees and precision of ten-thousandths of a second for projections in angular coordinates.</p>
 
 <p>If the projection system "UTM (automatic spindle and hemisphere)" is chosen, the program will automatically choose the spindle and hemisphere that correspond to the geographical point specified in the input coordinates.</p>
 
-<p>Advanced use: CalcGeo is a tool focused on transforming isolated points. If it is necessary to convert large amounts of data, a BAT file for mass execution (discussed below) can be generated or, alternatively a file of points or lines (PNT, ARC/NOD or VEC) can be generated and use the <a href="CanviPrj.htm">CanviPrj</a> application to transform the whole layer at the same time (remember that in order to convert polygon layers (POL) its corresponding arc layer has to be converted since in the structured model of MiraMon each polygon is formed by the reference to one or more arcs). As mentioned before, a BAT file can be built to convert a small sequence of points. This BAT file will specify each of the point-to-point executions; a perfectly tabulated results list will be obtained by redirecting  the output to a text file (with the character ">") and using the /BAN parameter to exclude the header. A small example with two points: file "transfor.bat":
+<p>Advanced use: CalcGeo is a tool focused on transforming isolated points. If it is necessary to convert large amounts of data, a BAT file for mass execution (discussed below) can be generated or, alternatively a file of points or lines (PNT, ARC/NOD or VEC) can be generated and use the <a href="CanviPrj.htm">CanviPrj</a> application to transform the whole layer at the same time (remember that in order to convert polygon layers (POL) its corresponding arc layer has to be converted since in the structured model of MiraMon each polygon is formed by the reference to one or more arcs). As mentioned before, a BAT file can be built to convert a small sequence of points. This BAT file will specify each of the point-to-point executions; a perfectly tabulated results list will be obtained by redirecting  the output to a text file (with the character ">") and using the /BAN parameter to exclude the header. A small example with two points: file "transfor.bat":</p>
   
 <blockquote>
 <pre>
@@ -32,6 +49,7 @@ CalcGeo lat/long 40 29 UTM-37N /BAN
 </pre>
 </blockquote>
 By executing the command line "transfor >result.txt", the file "result.txt" will be obtained:
+
 <blockquote>
 <pre>
 Equirectangular (Latitude/Longitude in degrees) --&gt; UTM-37N
@@ -44,8 +62,31 @@ Equirectangular (Latitude/Longitude in degrees) --&gt; UTM-37N
 
 <p>More information can be consulted at the following reference:</p>
 <p><b>Pesquer L, Pons X, Masó J</b> (2005) <i>Necesidad de cálculos geodésicos para las herramientas SIG de análisis de distancias y superfícies</i>. 6th Geomatic Week proceedings (ISSN 1699-3489). Barcelona.</p>
-  <hr/>
-  <exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="CalcGeo_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">CalcGeo dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -54,6 +95,7 @@ Equirectangular (Latitude/Longitude in degrees) --&gt; UTM-37N
 To obtain the complete help, please type:
 CalcGeo ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
