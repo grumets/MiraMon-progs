@@ -1,50 +1,93 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Rev AA 23-10-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>ClsMix: Classificació híbrida (o mixta) d'imatges</title>
+<title>ClsMix: Classificació híbrida (o mixta) d'imatges</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
- <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/ClsMix.htm"><font size="+2">ClsMix</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació <!--i opcions--></a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació <!--i opcions--></h2>
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>Així, partint d'una imatge on hi ha diverses àrees d'entrenament, i d'una imatge produïda mitjançant algun mètode de classificació no supervisada es crea una nova imatge classificada. Com a mètode de classificació no supervisada se suggereix l'aplicació <a href="ISoMM.htm">IsoMM</a> del MiraMon.</p>
+<p>Així, partint d'una imatge on hi ha diverses àrees d'entrenament, i d'una imatge produïda mitjançant algun mètode de classificació no supervisada es crea una nova imatge classificada. Com a mètode de classificació no supervisada se suggereix l'aplicació <a href="ISoMM.htm">IsoMM</a> del MiraMon.</p>
 
-  <p>La imatge amb les classes obtingudes per classificació no supervisada ha de ser de tipus <i>byte, integer</i> o <i>unsigned integer</i>, comprimida o no. Les classes no supervisades començaran amb un valor 1, quedant reservat el valor zero per si hi ha píxels de la imatge que no han estat classificats.</p>
-  
-  <p>La imatge amb les àrees d'entrenament ha de ser del mateix àmbit i
-  resolució que la imatge produïda mitjançant la classificació no supervisada, i ha de ser <i>byte, integer</i> o <i>unsigned integer</i>, comprimida o no. Les classes d'àrees d'entrenament hauran d'estar enumerades consecutivament des del número 1 (el valor zero serà per a tots els píxels de la imatge que no estiguin dins de cap àrea d'entrenament).</p>
-  
-  <p>L'aplicació crearà un fitxer de text on, per a cada classe temàtica o informacional (grup d'àrees d'entrenament que són mostres d'un mateix tipus de coberta), es donarà les proporcions de les diferents classes estadístiques o espectrals (classes obtingudes a partir de la classificació no supervisada) que la representen (es pot consultar, més endavant, el concepte de representativitat). Es donarà també, per a cada classe espectral, les proporcions de les diferents classes temàtiques a les quals podria contribuir. Si hi ha diverses possibles classes temàtiques, es triarà la que tingui la freqüència més gran.</p> 
-  
-  <p>Utilitzant uns llindars de freqüència donats per la persona usuària (fidelitat i representativitat), a cada classe espectral se li farà correspondre una classe temàtica concreta o es decidirà deixar-la com a no classificada. Amb aquests resultats es crearà la imatge producte d'aquesta classificació híbrida (o mixta). Als píxels no classificats se'ls donarà valor zero, quedant etiquetats com a sensedades.</p>
-  
-  <p>Conceptes clau del classificador:</p>
-  <ol>
-    <li>FIDELITAT de la classe espectral a la classe temàtica (o informacional): mínima proporció amb què una classe espectral és dintre la classe temàtica a la qual s'assignarà finalment. La proporció s'expressa respecte a la classe espectral. Per a comprendre aquest concepte, cal pensar que cada classe espectral s'acabarà assignant a la classe temàtica a la qual l'encreuament de les imatges reveli que la classe espectral es correspon més freqüentment; tanmateix, potser no interessa que aquesta assignació es produeixi si la classe temàtica amb màxima freqüència de correspondència només conté un 20 % dels píxels de la classe espectral. Normalment ha de ser un nombre entre 0.5 i 1, però amb 1 difícilment la classe espectral s'assignarà a cap classe temàtica, ja que l'exigència és massa forta. Un 0.5 implica que es pot assignar una classe espectral a una classe temàtica quan tan sols la meitat dels píxels de la primera coincideixen espacialment, en les àrees d'entrenament, amb aquella classe temàtica; es pot reduir aquest valor, però cal tenir en compte que valors progressivament menors a un 50 % impliquen una relació cada cop més feble. Amb valors més propers a 1 (per exemple 0.8) l'assignació (fidelitat) és més robusta, però quedaran més píxels sense classificar.</li><p>
+<p>La imatge amb les classes obtingudes per classificació no supervisada ha de ser de tipus <i>byte, integer</i> o <i>unsigned integer</i>, comprimida o no. Les classes no supervisades començaran amb un valor 1, quedant reservat el valor zero per si hi ha píxels de la imatge que no han estat classificats.</p>
+
+<p>La imatge amb les àrees d'entrenament ha de ser del mateix àmbit i
+resolució que la imatge produïda mitjançant la classificació no supervisada, i ha de ser <i>byte, integer</i> o <i>unsigned integer</i>, comprimida o no. Les classes d'àrees d'entrenament hauran d'estar enumerades consecutivament des del número 1 (el valor zero serà per a tots els píxels de la imatge que no estiguin dins de cap àrea d'entrenament).</p>
+
+<p>L'aplicació crearà un fitxer de text on, per a cada classe temàtica o informacional (grup d'àrees d'entrenament que són mostres d'un mateix tipus de coberta), es donarà les proporcions de les diferents classes estadístiques o espectrals (classes obtingudes a partir de la classificació no supervisada) que la representen (es pot consultar, més endavant, el concepte de representativitat). Es donarà també, per a cada classe espectral, les proporcions de les diferents classes temàtiques a les quals podria contribuir. Si hi ha diverses possibles classes temàtiques, es triarà la que tingui la freqüència més gran.</p> 
+
+<p>Utilitzant uns llindars de freqüència donats per la persona usuària (fidelitat i representativitat), a cada classe espectral se li farà correspondre una classe temàtica concreta o es decidirà deixar-la com a no classificada. Amb aquests resultats es crearà la imatge producte d'aquesta classificació híbrida (o mixta). Als píxels no classificats se'ls donarà valor zero, quedant etiquetats com a sensedades.</p>
+
+<p>Conceptes clau del classificador:</p>
+<ol>
+<li>FIDELITAT de la classe espectral a la classe temàtica (o informacional): mínima proporció amb què una classe espectral és dintre la classe temàtica a la qual s'assignarà finalment. La proporció s'expressa respecte a la classe espectral. Per a comprendre aquest concepte, cal pensar que cada classe espectral s'acabarà assignant a la classe temàtica a la qual l'encreuament de les imatges reveli que la classe espectral es correspon més freqüentment; tanmateix, potser no interessa que aquesta assignació es produeixi si la classe temàtica amb màxima freqüència de correspondència només conté un 20 % dels píxels de la classe espectral. Normalment ha de ser un nombre entre 0.5 i 1, però amb 1 difícilment la classe espectral s'assignarà a cap classe temàtica, ja que l'exigència és massa forta. Un 0.5 implica que es pot assignar una classe espectral a una classe temàtica quan tan sols la meitat dels píxels de la primera coincideixen espacialment, en les àrees d'entrenament, amb aquella classe temàtica; es pot reduir aquest valor, però cal tenir en compte que valors progressivament menors a un 50 % impliquen una relació cada cop més feble. Amb valors més propers a 1 (per exemple 0.8) l'assignació (fidelitat) és més robusta, però quedaran més píxels sense classificar.</li><p>
 	
-	<li>REPRESENTATIVITAT de la classe espectral en la classe temàtica: mínima proporció de la classe espectral dintre la classe temàtica. Per exemple podem indicar que pensarem que una classe espectral no mereix
-    pertànyer a cap classe temàtica si amb la classe amb la qual presenta més correspondència aquesta correspondència és de només 0.01 %: la classe espectral és tan poc representativa que no val la pena córrer el risc d'utilitzar-la. Normalment ha de ser un nombre molt petit, llevat que estiguem molt segurs de la correspondència biunívoca entre les classes temàtiques i espectrals.</li>
-	</ol>
-  
-  <p>En establir les correspondències es pot optar per ponderar de 3 formes diferents:</p>
-  <ul>
-  <li>Sense ponderació: les proporcions de pertinença entre classes espectrals i informacionals es calculen de manera "natural", sense cap modificació.</li>
-  <li>Amb ponderació: les proporcions de pertinença entre classes espectrals i informacionals es ponderen en funció de la superfície (típicament nombre de píxels) de cada àrea d'entrenament. Amb aquest mode, si una categoria informacional té molta superfície la seva proporció de pertinença s'augmentarà tant com la proporció d'aquella categoria en les àrees d'entrenament. Si totes les categories estan igualment representades a les àrees d'entrenament, aquest mode és igual al mode sense ponderació.</li>
-  <li>Ús de probabilitats condicionades: actua com el mode "amb ponderació", però la ponderació no s'obté de la superfície relativa de les diferents categories a les àrees d'entrenament, sinó que la persona usuària indica aquestes ponderacions, forçant-les. En altres paraules, la superfície de les diferents categories a les àrees d'entrenament no té importància, sinó que la indicació de quines categories considerem que haurien de ser més probables de trobar en el mapa final es fa a través d'una llista de freqüències aproximades esperades (en tant per u).</li>
-  </ul>
+<li>REPRESENTATIVITAT de la classe espectral en la classe temàtica: mínima proporció de la classe espectral dintre la classe temàtica. Per exemple podem indicar que pensarem que una classe espectral no mereix
+pertànyer a cap classe temàtica si amb la classe amb la qual presenta més correspondència aquesta correspondència és de només 0.01 %: la classe espectral és tan poc representativa que no val la pena córrer el risc d'utilitzar-la. Normalment ha de ser un nombre molt petit, llevat que estiguem molt segurs de la correspondència biunívoca entre les classes temàtiques i espectrals.</li>
+</ol>
 
-  <p>Per a més informació es pot consultar les següents referències:</p>
-  <p><b>Serra P, Moré G, Pons X</b> (2005) <i>Application of a hybrid classifier to discriminate Mediterranean crops and forests. Different problems and solutions</i>. XXII International Cartographic Conference (ed.) Mapping approaches into a changing world CD-ROM. (ISBN: 0-958-46093-0) La Coruña.
+<p>En establir les correspondències es pot optar per ponderar de 3 formes diferents:</p>
+<ul>
+<li>Sense ponderació: les proporcions de pertinença entre classes espectrals i informacionals es calculen de manera "natural", sense cap modificació.</li>
+<li>Amb ponderació: les proporcions de pertinença entre classes espectrals i informacionals es ponderen en funció de la superfície (típicament nombre de píxels) de cada àrea d'entrenament. Amb aquest mode, si una categoria informacional té molta superfície la seva proporció de pertinença s'augmentarà tant com la proporció d'aquella categoria en les àrees d'entrenament. Si totes les categories estan igualment representades a les àrees d'entrenament, aquest mode és igual al mode sense ponderació.</li>
+<li>Ús de probabilitats condicionades: actua com el mode "amb ponderació", però la ponderació no s'obté de la superfície relativa de les diferents categories a les àrees d'entrenament, sinó que la persona usuària indica aquestes ponderacions, forçant-les. En altres paraules, la superfície de les diferents categories a les àrees d'entrenament no té importància, sinó que la indicació de quines categories considerem que haurien de ser més probables de trobar en el mapa final es fa a través d'una llista de freqüències aproximades esperades (en tant per u).</li>
+</ul>
 
-  <p><b>Moré G, Pons X, Serra P</b> (2006) Improvements on Classification by Tolerating NoData Values - Application to a Hybrid Classifier to Discriminate Mediterranean Vegetation with a Detailed Legend Using Multitemporal Series of Images. IEEE Press Vol. I, 192-195. DOI 10.1109/IGARSS.2006.582. ISBN 0-7803-95-10-7 IGARSS06: <i>International Geoscience & Remote Sensing Symposium</i> - Remote Sensing: A Natural Global Partnership. Denver (Colorado).
-  
-  <hr/>
-  <exclusiva>
+<p>Per a més informació es pot consultar les següents referències:</p>
+<p><b>Serra P, Moré G, Pons X</b> (2005) <i>Application of a hybrid classifier to discriminate Mediterranean crops and forests. Different problems and solutions</i>. XXII International Cartographic Conference (ed.) Mapping approaches into a changing world CD-ROM. (ISBN: 0-958-46093-0) La Coruña.
+
+<p><b>Moré G, Pons X, Serra P</b> (2006) Improvements on Classification by Tolerating NoData Values - Application to a Hybrid Classifier to Discriminate Mediterranean Vegetation with a Detailed Legend Using Multitemporal Series of Images. IEEE Press Vol. I, 192-195. DOI 10.1109/IGARSS.2006.582. ISBN 0-7803-95-10-7 IGARSS06: <i>International Geoscience & Remote Sensing Symposium</i> - Remote Sensing: A Natural Global Partnership. Denver (Colorado).
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="ClsMix_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg del ClsMix</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+ <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -52,8 +95,8 @@
 
 Per a obtenir l'ajuda completa escriviu:
 ClsMix ?
---></p>
-  </exclusiva>
-
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
-</html>
+</html
