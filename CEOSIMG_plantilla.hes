@@ -1,96 +1,106 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 18-01-2024 */-->
+<!--/* Revisió AA 23-10-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>CEOSIMG: Transformación rásters (imágenes de satélite, etc) de formato CEOS al formato IMG de MiraMon</title>
+<title>CEOSIMG: Transformación rásters (imágenes de satélite, etc) de formato CEOS al formato IMG de MiraMon</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/CEOSIMG.htm"><font size="+2">CEOSIMG</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-<p>Esta aplicación lee datos de los sensores ETM+ y TM (Enhanced Thematic Mapper Plus y Thematic Mapper) del satélite Landsat 
-en el formato CEOS de la Agencia Europea del Espacio (ESA) según las especificaciones del documento: 
-LANDSAT ETM+/TM - CEOS/ESA PRODUCTS FORMAT DEFINITION. V2.6. 13-June-2001. Se ha probado también con éxito la lectura de datos
- TM de Landsat 5.</p>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+<p>Esta aplicación lee datos de los sensores ETM+ y TM (Enhanced Thematic Mapper Plus y Thematic Mapper) del satélite Landsat  en el formato CEOS de la Agencia Europea del Espacio (ESA) según las especificaciones del documento:  LANDSAT ETM+/TM - CEOS/ESA PRODUCTS FORMAT DEFINITION. V2.6. 13-June-2001. Se ha probado también con éxito la lectura de datos  TM de Landsat 5.</p>
 
  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>El formato CEOS puede presentar
-  variaciones especialmente cuando contiene datos de otros sensores diferentes
-  a ETM+/TM, por lo que se puede dar el caso que la aplicación no pueda leer estos
-  formatos. Por ejemplo, en el caso de imágenes ETM+ la aplicación asume que los
-  datos están en formato LPGS. Para cualquier consulta en relación a estos aspectos, se puede contactar con el equipo de MiraMon (<a href="mailto:contacte@miramon.uab.cat">contacte@miramon.uab.cat</a>).</p>
+<p>El formato CEOS puede presentar variaciones especialmente cuando contiene datos de otros sensores diferentes a ETM+/TM, por lo que se puede dar el caso que la aplicación no pueda leer estos formatos. Por ejemplo, en el caso de imágenes ETM+ la aplicación asume que los datos están en formato LPGS. Para cualquier consulta en relación a estos aspectos, se puede contactar con el equipo de MiraMon (<a href="mailto:contacte@miramon.uab.cat">contacte@miramon.uab.cat</a>).</p>
 
-  <p>Como se ha dicho, las imágenes se convierten al formato IMG de la v. 4 de
-  MiraMon, de manera que las diferentes bandas espectrales se almacenan en
-  tantos ficheros IMG como bandas espectrales contenga la imagen original.
-  Todos los ficheros IMG convertidos se ubican en un mismo directorio, por lo
-  cual se solicita al usuario que facilite un nombre de directorio y no un
-  nombre de salida para cada banda espectral. El usuario decide si desea las
-  imágenes en formato IMG byte no comprimido o en formato IMG byte-RLE
-  extracomprimido. El nombre de los ficheros IMG que contendrán las diferentes
-  bandas espectrales se asigna según el patrón siguiente:
-  <p>orbita&amp;imagen_fecha_Nbanda.img</p> <p>Un ejemplo podría ser: 197031_13062002_1
-  correspondiente a la órbita 197, imagen 031, tomada el 13 de junio de 2002
-  en la banda espectral 1 (azul). Más adelante se incluyen consideraciones en el
-  caso de imágenes flotantes.</p>
+<p>Como se ha dicho, las imágenes se convierten al formato IMG de la v. 4 de MiraMon, de manera que las diferentes bandas espectrales se almacenan en tantos ficheros IMG como bandas espectrales contenga la imagen original. Todos los ficheros IMG convertidos se ubican en un mismo directorio, por lo cual se solicita al usuario que facilite un nombre de directorio y no un nombre de salida para cada banda espectral. El usuario decide si desea las imágenes en formato IMG byte no comprimido o en formato IMG byte-RLE extracomprimido. El nombre de los ficheros IMG que contendrán las diferentes bandas espectrales se asigna según el patrón siguiente: 
 
-  <p>Los metadatos contenidos en los ficheros que típicamente contiene un
-  CD-ROM de distribución de datos ETM+/TM, como por ejemplo fecha y hora de
-  captación, detalles de preprocesamiento, etc, se almacenan en un fichero
-  I.rel ubicado en el mismo directorio donde el usuario ha decidido guardar las imágenes.
-  Este fichero de metadatos multibanda diferencia adecuadamente los datos
-  específicos de cada banda (como por ejemplo la región espectral que cubren),
-  de los comunes a todas las bandas (como por ejemplo la fecha de captación) y
-  de las que se hallan en una situación mixta (como por ejemplo el número de
-  columnas y filas, que es general para todas las bandas multiespectrales pero
-  que suele ser doble en la banda pancromática presente en imágenes ETM+).</p>
+<p>orbita&amp;imagen_fecha_Nbanda.img</p> 
 
-  <p>Las diferentes bandas se presentan en el fichero de metadatos según el siguiente orden:</p>
+<p>Un ejemplo podría ser: 197031_13062002_1 correspondiente a la órbita 197, imagen 031, tomada el 13 de junio de 2002 en la banda espectral 1 (azul). Más adelante se incluyen consideraciones en el caso de imágenes flotantes.</p>
 
-  <div style="margin-left: 2em">
-    - En primer lugar la PAN (banda 8), por ser la de mayor resolución espacial
-    y singular respecto al conjunto. Esta banda sólo está disponible en el
-    sensor ETM+, no en TM.
-  </div>
+<p>Los metadatos contenidos en los ficheros que típicamente contiene un CD-ROM de distribución de datos ETM+/TM, como por ejemplo fecha y hora de captación, detalles de preprocesamiento, etc, se almacenan en un fichero I.rel ubicado en el mismo directorio donde el usuario ha decidido guardar las imágenes. Este fichero de metadatos multibanda diferencia adecuadamente los datos específicos de cada banda (como por ejemplo la región espectral que cubren), de los comunes a todas las bandas (como por ejemplo la fecha de captación) y de las que se hallan en una situación mixta (como por ejemplo el número de columnas y filas, que es general para todas las bandas multiespectrales pero que suele ser doble en la banda pancromática presente en imágenes ETM+).</p>
 
-  <div style="margin-left: 2em">
-    - A continuación las bandas 1-2-3-4, que proporcionan la respuesta en las
-    regiones espectrales azul - verde - rojo - infrarrojo cercano.
-  </div>
+<p>Las diferentes bandas se presentan en el fichero de metadatos según el siguiente orden:</p>
 
-  <div style="margin-left: 2em">
-    - A continuación las bandas 5-7, que proporcionan la respuesta en la
-    región espectral infrarrojo de onda corta.
-  </div>
+<div style="margin-left: 2em">
+- En primer lugar la PAN (banda 8), por ser la de mayor resolución espacial y singular respecto al conjunto. Esta banda sólo está disponible en el sensor ETM+, no en TM.
+</div>
 
-  <div style="margin-left: 2em">
-    - Finalmente la banda 6, correspondiente al infrarrojo térmico, que
-    presenta una resolución de 60 m en ETM+ y de 120 m en TM, pero que se
-    distribuye remuestreada a 30 m. En el caso de imágenes ETM+, a veces se
-    sirve adicionalmente una banda 9, correspondiente a la misma banda térmica
-    pero con una calibración radiométrica de alta ganancia.
-  </div>
-<p>Se puede utilizar el Gestor Universal de Metadatos Geoespaciales (GeM+) para efectuar
-  los cambios y/o retoques que se consideren necesarios una vez importadas las
-  imágenes.
-<p>Para más información se puede consultar la  siguiente referencia:</p>
-  <p><b>Cristóbal J, Pons X, Serra P</b> (2004) <i>Sobre el uso operativo de Landsat-7 ETM+ en Europa. </i> Revista de Teledetección 21: 55-59. <a href="http://www.aet.org.es/revistas/revista21/AET21-11.pdf"> http://www.aet.org.es/revistas/revista21/AET21-11.pdf</a>.</p>
-  <hr/>
+<div style="margin-left: 2em">
+- A continuación las bandas 1-2-3-4, que proporcionan la respuesta en las regiones espectrales azul - verde - rojo - infrarrojo cercano.
+</div>
 
-  <exclusiva>
-   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<div style="margin-left: 2em">
+- A continuación las bandas 5-7, que proporcionan la respuesta en la región espectral infrarrojo de onda corta.
+</div>
+
+<div style="margin-left: 2em">
+- Finalmente la banda 6, correspondiente al infrarrojo térmico, que presenta una resolución de 60 m en ETM+ y de 120 m en TM, pero que se distribuye remuestreada a 30 m. En el caso de imágenes ETM+, a veces se sirve adicionalmente una banda 9, correspondiente a la misma banda térmica pero con una calibración radiométrica de alta ganancia.
+</div>
+<p>Se puede utilizar el Gestor Universal de Metadatos Geoespaciales (GeM+) para efectuar los cambios y/o retoques que se consideren necesarios una vez importadas las imágenes.</p>
+
+<p>Para más información se puede consultar lasiguiente referencia:</p>
+
+<p><b>Cristóbal J, Pons X, Serra P</b> (2004) <i>Sobre el uso operativo de Landsat-7 ETM+ en Europa. </i> Revista de Teledetección 21: 55-59. <a href="http://www.aet.org.es/revistas/revista21/AET21-11.pdf"> http://www.aet.org.es/revistas/revista21/AET21-11.pdf</a>.</p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="CEOSIMG_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de CEOSIMG</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+
+ <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><!-- $$EXCLUSIVA$$
 
 Para obtener la ayuda completa escriba:
 CEOSIMG ?
---></p>
-  </exclusiva>
-
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
