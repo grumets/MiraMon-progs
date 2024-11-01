@@ -1,46 +1,68 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 20-06-2023 */-->
+<!--/* Revisió AA 01-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>EvapoTr: Calculation of evapotranspiration</title>
+<title>EvapoTr: Calculation of evapotranspiration</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/EvapoTr.htm"><font size="+2">EvapoTr</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation <!--and options--></a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation <!--and options--></h2>
+
  
-	<p>This program calculates evapotranspiration. The only option available is the calculation 
-	of potential evapotranspiration with the formula of Thornthwaite 1948.</p>
+<p>This program calculates evapotranspiration. The only option available is the calculation  	of potential evapotranspiration with the formula of Thornthwaite 1948.</p>
 
-	<p>The input raster can be in any IMG format supported by MiraMon (more information in <a href="..\mm32\AP1.htm">MiraMon raster formats description</a>). 
-	Temperatures are expected at °C, but the main units of English systems, such as inches ("inch") or degrees Fahrenheit, are also 
-	supported. Practically all multiples and submultiples are supported, which are converted to degrees Celsius (for example, d°C for decigrams 
-	Celsius typically stored in short integers, of 2 bytes).</p>
+<p>The input raster can be in any IMG format supported by MiraMon (more information in <a href="..\mm32\AP1.htm">MiraMon raster formats description</a>).  	Temperatures are expected at °C, but the main units of English systems, such as inches ("inch") or degrees Fahrenheit, are also  	supported. Practically all multiples and submultiples are supported, which are converted to degrees Celsius (for example, d°C for decigrams  	Celsius typically stored in short integers, of 2 bytes).</p>
 
-	<p>The order in which the raster files are presented to the list files is used by the program to consider its sequence when forming the 
-	temporary series. In long lists it is advisable that the alphabetical ordering of the raster files provide this order in order to automate 
-	the creation of the ordered list and avoid errors, which would have obvious and fatal repercussions on the calculations. In this sense, it is 
-	suggested that the data of the raster file be part of the name and do it in format yearmonthday, or yearmonth (for example 20121231_temp for a file 
-	that contains the temperatures of December 31 of 2102, or 201212_temp if it contains the average temperatures of all December 2012). In this 
-	way, all the precipitation raster files from a directory can be sent to the list file correctly sorted by this command of the operating system, 
-	which sort by name (/on) and generates a simple list (/b):<br/>
-	&emsp;dir *_temp.img /b /on  > temp_list.txt<br/>
-	It should be notice that the files in the list that will appear in the temp_list.txt  do not have a path, but  the list and the files themselves are kept 
-in the same directory, because the relative addresses are consistent, everything will work correctly.</p>
+<p>The order in which the raster files are presented to the list files is used by the program to consider its sequence when forming the  	temporary series. In long lists it is advisable that the alphabetical ordering of the raster files provide this order in order to automate  	the creation of the ordered list and avoid errors, which would have obvious and fatal repercussions on the calculations. In this sense, it is  	suggested that the data of the raster file be part of the name and do it in format yearmonthday, or yearmonth (for example 20121231_temp for a file  	that contains the temperatures of December 31 of 2102, or 201212_temp if it contains the average temperatures of all December 2012). In this  	way, all the precipitation raster files from a directory can be sent to the list file correctly sorted by this command of the operating system,  	which sort by name (/on) and generates a simple list (/b):<br/> 	&emsp;dir *_temp.img /b /on  > temp_list.txt<br/> 	It should be notice that the files in the list that will appear in the temp_list.txt  do not have a path, but  the list and the files themselves are kept  in the same directory, because the relative addresses are consistent, everything will work correctly.</p>
 
-	<p>The program calculates the latitude geodetically for the start and end of each row of the raster and is interpolated linearly between 
-	these values. This procedure is considered to be sufficiently accurate in the majority of cartographic projections and work areas. However, 
-	if a calculation of latitude in each cell is need, it is possible to write to  <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>.</p>
-  	<p>For more information, consult the following reference:</p>
- <ul><a href="Thornthwaite_Geographical Review_v38_n1_p55-94_1948.pdf">An approach toward a rational classification of climate.</a> Geographical Review, 38:55-94, 1948.</ul>
+<p>The program calculates the latitude geodetically for the start and end of each row of the raster and is interpolated linearly between  	these values. This procedure is considered to be sufficiently accurate in the majority of cartographic projections and work areas. However,  	if a calculation of latitude in each cell is need, it is possible to write to  <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>.</p>   	<p>For more information, consult the following reference:</p>
+<ul><a href="Thornthwaite_Geographical Review_v38_n1_p55-94_1948.pdf">An approach toward a rational classification of climate.</a> Geographical Review, 38:55-94, 1948.</ul>
 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <br/>
-  
-  <hr/>
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
 
-  <exclusiva>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="EvapoTr_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">EvapoTr dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -48,7 +70,8 @@ in the same directory, because the relative addresses are consistent, everything
 <p><!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
 EvapoTr ?
---></p>
-  </exclusiva>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
