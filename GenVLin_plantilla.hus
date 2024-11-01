@@ -1,48 +1,101 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 13-03-2023 */-->
+<!--/* Revisió AA 01-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>GenVLin: Line generalization</title>
+<title>GenVLin: Line generalization</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/GenVLin.htm"><font size="+2">GenVLin</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+
 This application generalizes the lines of a line layer (ARC or VEC of lines). 
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-  <p>By default, the application guarantees that the generalization process of the arcs does not produce intersection among themselves, collapses of individual arcs forming an enclosed area (avoiding that a ring becomes a point) or other changes that alter the topological relationships among the arc objects.</p>
-  <p>The file containing the arc layer to generate needs to be different than the original file.</p>
-  <p>The program works with arc files in ARC and VEC format. If it needs to be applied on a file in other formats, it can be imported with the tools in the "File | Import" menu.</p>
-  <p>In its recommended functioning as a generalization tool, the program proceeds chaining two algorithms:</p>
-  <p>On the first of these algorithms for each arc, the program applies to every vertex a moving average filter over its position (on its XY coordinates); this filter takes into consideration two, four or six neighboring vertices in the same arc (one, two or three on each side of the vertex in question, in choice). The vertices of the arcs corners (nodes) do not modify their position in any case. On the other hand, when the number of vertices of the desired moving average is lower than the number of vertices of the analyzed polysegment, this polysegment is not modified (for example a five vertices arc (counting nodes) will result in no modified vertices if we apply six vertices moving average). Also, a vertex is never moved beyond the tolerance stated by the user (in the same planimetric units of the layer, typically in meters). Note that the moving average softens the line changing the vertices position, but it does not increase or reduce its number.</p>
-  <p>Then the second algorithm is applied, Douglas-Peucker algorithm (which also has a particular tolerance, named epsilon), which allows to reduce the number of vertices, but it does not modify the position of the remaining vertices. See 1973 reference for more details about its functioning.</p>
 
-  <p>Nevertheless, both algorithms can be applied separately because of investigation or educational interests, although, as it is been stated, best results are obtained with the consecutive combination of both algorithms.</p>
+<p>By default, the application guarantees that the generalization process of the arcs does not produce intersection among themselves, collapses of individual arcs forming an enclosed area (avoiding that a ring becomes a point) or other changes that alter the topological relationships among the arc objects.</p>   
 
-  <p>GenVLin also allows to indicate that, if a resulting object intersects with any of the pre-existing ones, the generalization will not be accepted and a second generalization try must be done, treating it in polysegments of eight vertices if possible; after this second try, if any of these polysegments intersects with any pre-existing object, the polysegment of the original line  is adopted.</p>
-  
-  <p>In the case of moving average filter, the user can choose the weights applied to each one of the previous and next vertices (i.e., the influence that the coordinates of the neighboring vertices will have along the same arc can be modulated). Possibilities are:
-  <ul>
-  <li>Same weights for all the vertices of the moving average.</li>
-  <li>Automatic weights, weighting the central vertices of the moving average, but not changing the weights according to the distance between vertices.</li>
-  <li>Automatic weights to each vertex based on the inverse of the planimetric distance to the central vertex of the moving average. This is the option by default if the desired option is not stated.</li>
-  <li>Weights of values and distribution stated by the user (and in this case the sum of the weights must be 1).</li>
-  </ul></p>
-    <p>If the generalization does not work, it could be because the arcs are made of segments (2 vertices each arc) joined by line nodes, since the Douglas-Peuker algorithm works on each arc, regardless possible other arcs connected to it. In this situation the user may consider removing the line nodes with option 4 of the <a href="LinArc.htm">LinArc</a> program before proceeding with the generalization.</p>
-    <p>More information can be consulted at the following reference:</p>
- <p><b>Douglas D, T Peucker</b> (1973)  <i>Algorithms for the reduction of the number of points 
-  required to represent a digitized line or its caricature</i>, The Canadian Cartographer, 10(2), 112­122. 
-  doi:10.3138/FM57-6770-U75U-7727.</p>
-  <hr/>
+<p>The file containing the arc layer to generate needs to be different than the original file.</p>   
 
-  <exclusiva>
-     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<p>The program works with arc files in ARC and VEC format. If it needs to be applied on a file in other formats, it can be imported with the tools in the "File | Import" menu.</p>   
+
+<p>In its recommended functioning as a generalization tool, the program proceeds chaining two algorithms:</p>   
+
+<p>On the first of these algorithms for each arc, the program applies to every vertex a moving average filter over its position (on its XY coordinates); this filter takes into consideration two, four or six neighboring vertices in the same arc (one, two or three on each side of the vertex in question, in choice). The vertices of the arcs corners (nodes) do not modify their position in any case. On the other hand, when the number of vertices of the desired moving average is lower than the number of vertices of the analyzed polysegment, this polysegment is not modified (for example a five vertices arc (counting nodes) will result in no modified vertices if we apply six vertices moving average). Also, a vertex is never moved beyond the tolerance stated by the user (in the same planimetric units of the layer, typically in meters). Note that the moving average softens the line changing the vertices position, but it does not increase or reduce its number.</p>   
+
+<p>Then the second algorithm is applied, Douglas-Peucker algorithm (which also has a particular tolerance, named epsilon), which allows to reduce the number of vertices, but it does not modify the position of the remaining vertices. See 1973 reference for more details about its functioning.</p>    
+
+<p>Nevertheless, both algorithms can be applied separately because of investigation or educational interests, although, as it is been stated, best results are obtained with the consecutive combination of both algorithms.</p>    
+
+<p>GenVLin also allows to indicate that, if a resulting object intersects with any of the pre-existing ones, the generalization will not be accepted and a second generalization try must be done, treating it in polysegments of eight vertices if possible; after this second try, if any of these polysegments intersects with any pre-existing object, the polysegment of the original line  is adopted.</p>      
+
+<p>In the case of moving average filter, the user can choose the weights applied to each one of the previous and next vertices (i.e., the influence that the coordinates of the neighboring vertices will have along the same arc can be modulated). Possibilities are:</p>
+
+<ul>
+	<li>Same weights for all the vertices of the moving average.</li>
+	<li>Automatic weights, weighting the central vertices of the moving average, but not changing the weights according to the distance between vertices.</li>
+	<li>Automatic weights to each vertex based on the inverse of the planimetric distance to the central vertex of the moving average. This is the option by default if the desired option is not stated.</li>
+	<li>Weights of values and distribution stated by the user (and in this case the sum of the weights must be 1).</li>
+</ul>
+
+<p>If the generalization does not work, it could be because the arcs are made of segments (2 vertices each arc) joined by line nodes, since the Douglas-Peuker algorithm works on each arc, regardless possible other arcs connected to it. In this situation the user may consider removing the line nodes with option 4 of the <a href="LinArc.htm">LinArc</a> program before proceeding with the generalization.</p>
+
+<p>More information can be consulted at the following reference:</p>
+
+<ul>
+<p><b>Douglas D, T Peucker</b> (1973)  <i>Algorithms for the reduction of the number of points required to represent a digitized line or its caricature</i>, The Canadian Cartographer, 10(2), 112­122. doi:10.3138/FM57-6770-U75U-7727.</p>
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="GenVLin_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">GenVLin dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
-    <p><!-- $$EXCLUSIVA$$
+<p><!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
 GenVLin ?
 --></p>

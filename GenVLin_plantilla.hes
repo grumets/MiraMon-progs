@@ -1,51 +1,101 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 13-03-2023 */-->
+<!--/* Revisió AA 01-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>GenVLin: Generalización de lineas</title>
+<title>GenVLin: Generalización de lineas</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/GenVLin.htm"><font size="+2">GenVLin</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+
 <p>Esta aplicación generaliza las líneas de una capa de líneas (ARC o VEC de líneas).</p>
-  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-  <p>Por defecto, la aplicación garantiza que el proceso de generalización de los arcos no produzca intersecciones entre
- ellos, colapsos de arcos individuales que forman un recinto cerrado (evitando que un anillo se convierta en
- un punto) u otros cambios que alteren las relaciones topológicas entre los objetos arco.</p>
-  <p>Es necesario que el archivo que contiene la capa de arcos a generar sea diferente del archivo original.</p>
-  <p>El programa trabaja con archivos en formato ARC y VEC de arcos. Si es necesario aplicarlo sobre un archivo en otros formatos, se puede importar con las herramientas del menú "Archivo | Importación".</p>
-  <p>En su funcionamiento recomendado como herramienta de generalización, el programa procede encadenando dos algoritmos:</p>
-  <p>En el primero de estos algoritmos para cada arco, el programa aplica a cada vértice un filtro de media móvil sobre su posición (sobre sus coordenadas XY); este filtro toma en consideración dos, cuatro o seis vértices vecinos en el mismo arco (uno, dos o tres a cada lado del vértice en cuestión, a elegir). Los vértices del extremo del arco (nodos) no modifican su posición en ningún caso. Por otra parte, cuando el número de vértices de la media móvil deseada es menor al número de vértices del polisegmento analizado, este polisegmento no resulta modificado (por ejemplo un arco de cinco vértices (contando los nodos) no resultará con ningún vértice modificado si aplicamos una media móvil de seis vértices). Además, nunca un vértice es movido más allá de la tolerancia indicada por el usuario (en las mismas unidades planimétricas de la capa, típicamente en metros). Nótese que la media móvil suaviza la línea cambiando la posición de los vértices pero no aumenta ni reduce su número.</p>
-  <p>A continuación se aplica el segundo algoritmo, que es el de Douglas-Peucker (que también tiene una tolerancia particular, llamada épsilon), el cual sí permite reducir el número de vértices, pero no modifica la posición de los vértices que hayan permanecido. Véase la referencia de 1973 para detalles sobre su funcionamiento.</p>
 
-  <p>Los dos algoritmos, sin embargo, pueden ser aplicados separadamente por intereses de investigación o de docencia, aunque, como se ha dicho, los mejores resultados se obtienen con la combinación consecutiva de ambos.</p>
+<p>Por defecto, la aplicación garantiza que el proceso de generalización de los arcos no produzca intersecciones entre  ellos, colapsos de arcos individuales que forman un recinto cerrado (evitando que un anillo se convierta en  un punto) u otros cambios que alteren las relaciones topológicas entre los objetos arco.</p>   
 
-  <p>GenVLin también permite indicar que, si un objeto resultado interseca con cualquiera de los preexistentes, la generalización no sea aceptada y se haga un segundo intento de generalización, tratándolo en polisegmentos de ocho vértices si es posible; después de este segundo intento, si alguno de estos polisegmentos interseca con algún objeto preexistente, se adopta el polisegmento de línea original.</p>
-  
-  <p>En el caso del filtro de media móvil, el usuario puede elegir los pesos que se aplican a cada uno los vértices anteriores y posteriores (es decir, se puede modular la influencia que tendrán las coordenadas
-de los vértices vecinos a lo largo del mismo arco). Las posibilidades son:
-  <ul>
-  <li>Pesos iguales para todos los vértices de la media móvil.</li>
-  <li>Pesos automáticos, favoreciendo la posición de los vértices centrales de la media móvil, pero no cambiando los pesos en función de las distancias entre vértices.</li>
-  <li>Pesos automáticos a cada vértice en función del inverso de la distancia planimétrica al vértice central de la media móvil. Esta es la opción por defecto si no se indica la opción deseada.</li>
-  <li>Pesos de valores y distribución indicados por el usuario (y en tal caso los pesos deben sumar 1).</li>
-  </ul></p>
-  <p>En caso de que la generalización no actúe, podría ser por culpa de que los arcos están formados por segmentos (2 vértices cada arco) unidos por nodos de línea, ya que el algoritmo de Douglas-Peuker funciona sobre cada arco, sin considerar posibles otros arcos conectados a él. En esta situación se puede valorar eliminar los nodos de línea con la opción 4 del programa <a href="LinArc.htm">LinArc</a> antes de proceder a la generalización.</p>
- <p>Para más información se puede consultar la siguiente referencia:</p>
- <p><b>Douglas D, T Peucker</b> (1973)  <i>Algorithms for the reduction of the number of points 
-  required to represent a digitized line or its caricature</i>, The Canadian Cartographer, 10(2), 112­122. 
-  doi:10.3138/FM57-6770-U75U-7727.</p> 
-  <hr/>
+<p>Es necesario que el archivo que contiene la capa de arcos a generar sea diferente del archivo original.</p>   
 
-  <exclusiva>
-     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<p>El programa trabaja con archivos en formato ARC y VEC de arcos. Si es necesario aplicarlo sobre un archivo en otros formatos, se puede importar con las herramientas del menú "Archivo | Importación".</p>   
+
+<p>En su funcionamiento recomendado como herramienta de generalización, el programa procede encadenando dos algoritmos:</p>   
+
+<p>En el primero de estos algoritmos para cada arco, el programa aplica a cada vértice un filtro de media móvil sobre su posición (sobre sus coordenadas XY); este filtro toma en consideración dos, cuatro o seis vértices vecinos en el mismo arco (uno, dos o tres a cada lado del vértice en cuestión, a elegir). Los vértices del extremo del arco (nodos) no modifican su posición en ningún caso. Por otra parte, cuando el número de vértices de la media móvil deseada es menor al número de vértices del polisegmento analizado, este polisegmento no resulta modificado (por ejemplo un arco de cinco vértices (contando los nodos) no resultará con ningún vértice modificado si aplicamos una media móvil de seis vértices). Además, nunca un vértice es movido más allá de la tolerancia indicada por el usuario (en las mismas unidades planimétricas de la capa, típicamente en metros). Nótese que la media móvil suaviza la línea cambiando la posición de los vértices pero no aumenta ni reduce su número.</p>   
+
+<p>A continuación se aplica el segundo algoritmo, que es el de Douglas-Peucker (que también tiene una tolerancia particular, llamada épsilon), el cual sí permite reducir el número de vértices, pero no modifica la posición de los vértices que hayan permanecido. Véase la referencia de 1973 para detalles sobre su funcionamiento.</p>    
+
+<p>Los dos algoritmos, sin embargo, pueden ser aplicados separadamente por intereses de investigación o de docencia, aunque, como se ha dicho, los mejores resultados se obtienen con la combinación consecutiva de ambos.</p>    
+
+<p>GenVLin también permite indicar que, si un objeto resultado interseca con cualquiera de los preexistentes, la generalización no sea aceptada y se haga un segundo intento de generalización, tratándolo en polisegmentos de ocho vértices si es posible; después de este segundo intento, si alguno de estos polisegmentos interseca con algún objeto preexistente, se adopta el polisegmento de línea original.</p>      
+
+<p>En el caso del filtro de media móvil, el usuario puede elegir los pesos que se aplican a cada uno los vértices anteriores y posteriores (es decir, se puede modular la influencia que tendrán las coordenadas de los vértices vecinos a lo largo del mismo arco). Las posibilidades son:</p>
+
+<ul>
+	<li>Pesos iguales para todos los vértices de la media móvil.</li>
+	<li>Pesos automáticos, favoreciendo la posición de los vértices centrales de la media móvil, pero no cambiando los pesos en función de las distancias entre vértices.</li>
+	<li>Pesos automáticos a cada vértice en función del inverso de la distancia planimétrica al vértice central de la media móvil. Esta es la opción por defecto si no se indica la opción deseada.</li>
+	<li>Pesos de valores y distribución indicados por el usuario (y en tal caso los pesos deben sumar 1).</li>
+</ul>
+
+<p>En caso de que la generalización no actúe, podría ser por culpa de que los arcos están formados por segmentos (2 vértices cada arco) unidos por nodos de línea, ya que el algoritmo de Douglas-Peuker funciona sobre cada arco, sin considerar posibles otros arcos conectados a él. En esta situación se puede valorar eliminar los nodos de línea con la opción 4 del programa <a href="LinArc.htm">LinArc</a> antes de proceder a la generalización.</p>
+
+<p>Para más información se puede consultar la siguiente referencia:</p>
+
+<ul>
+<p><b>Douglas D, T Peucker</b> (1973)  <i>Algorithms for the reduction of the number of points required to represent a digitized line or its caricature</i>, The Canadian Cartographer, 10(2), 112­122. doi:10.3138/FM57-6770-U75U-7727.</p> 
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="GenVLin_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de GenVLin</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
-    <p><!-- $$EXCLUSIVA$$
+<p><!-- $$EXCLUSIVA$$
 Para obtener la ayuda completa escriba:
 GenVLin ?
 --></p>
