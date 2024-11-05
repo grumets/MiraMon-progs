@@ -1,51 +1,101 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 27-11-2023 */-->
+<!--/* Revisió AA 05-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>Thiessen: Generación de Polígonos de Thiessen</title>
+<title>Thiessen: Generación de Polígonos de Thiessen</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/Thiessen.htm"><font size="+2">Thiessen</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
 
-	<p>Esta aplicación permite generar, a partir de una capa que contenga un conjunto de entidades vectoriales tipo punto, una capa de polígonos que contendrá los correspondientes polígonos de Thiessen.</p>
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+
+<p>Esta aplicación permite generar, a partir de una capa que contenga un conjunto de entidades vectoriales tipo punto, una capa de polígonos que contendrá los correspondientes polígonos de Thiessen.</p>
 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->	
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-	<p>Los polígonos de Thiessen resultan de generar una partición del espacio en áreas de proximidad en torno a los puntos proporcionados, de modo que cada polígono resultante define la zona más próxima a cada uno de dichos  puntos. De este modo, los polígonos de Thiessen son el método típicamente utilizado para interpolar datos categóricos recogidos en puntos de muestreo (para la interpolación de datos cuantitativos recogidos en puntos de muestreo, debe utilizarse la aplicación <a href="InterPNT.htm">InterPNT: Interpolador a partir de puntos</a>).
+<p>Los polígonos de Thiessen resultan de generar una partición del espacio en áreas de proximidad en torno a los puntos proporcionados, de modo que cada polígono resultante define la zona más próxima a cada uno de dichos  puntos. De este modo, los polígonos de Thiessen son el método típicamente utilizado para interpolar datos categóricos recogidos en puntos de muestreo (para la interpolación de datos cuantitativos recogidos en puntos de muestreo, debe utilizarse la aplicación <a href="InterPNT.htm">InterPNT: Interpolador a partir de puntos</a>).
 	
-	<p>En la aplicación Thiessen la proximidad a cada punto se determina por distancia euclídea. A tal efecto, en primer lugar el programa construye una triangulación de Delaunay uniendo los puntos de origen (como la que proporciona la aplicación <a href="CreaTIN.htm">CreaTIN: Generación de un TIN desde una nube de puntos</a>). A partir del punto medio de cada lado de cada triángulo se trazan líneas perpendiculares que, una vez intersecadas con las demás perpendiculares de los otros lados y descartando los segmentos más allá de las intersecciones, formarán los lados de los polígonos (las intersecciones serán los vértices de los polígonos).</p>
+<p>En la aplicación Thiessen la proximidad a cada punto se determina por distancia euclídea. A tal efecto, en primer lugar el programa construye una triangulación de Delaunay uniendo los puntos de origen (como la que proporciona la aplicación <a href="CreaTIN.htm">CreaTIN: Generación de un TIN desde una nube de puntos</a>). A partir del punto medio de cada lado de cada triángulo se trazan líneas perpendiculares que, una vez intersecadas con las demás perpendiculares de los otros lados y descartando los segmentos más allá de las intersecciones, formarán los lados de los polígonos (las intersecciones serán los vértices de los polígonos).</p>
 	
-	<p>Una vez teselado todo el ámbito, cada polígono hereda los atributos del único punto que ha quedado en su interior. Adicionalmente, los polígonos adyacentes que tengan atributos idénticos en el campo de la base de datos que la persona usuaria  indique son fusionados (por tanto, puede haber polígonos que contengan más de uno de los puntos originales cuando estos puntos tienen idéntico atributo).</p>
+<p>Una vez teselado todo el ámbito, cada polígono hereda los atributos del único punto que ha quedado en su interior. Adicionalmente, los polígonos adyacentes que tengan atributos idénticos en el campo de la base de datos que la persona usuaria  indique son fusionados (por tanto, puede haber polígonos que contengan más de uno de los puntos originales cuando estos puntos tienen idéntico atributo).</p>
 		
-	<p>La aplicación permite la creación de los polígonos de Thiessen a partir de todos los puntos de la capa origen o bien realizar una selección por atributos y obtener un subgrupo a partir del cual realizar la triangulación.</p>
+<p>La aplicación permite la creación de los polígonos de Thiessen a partir de todos los puntos de la capa origen o bien realizar una selección por atributos y obtener un subgrupo a partir del cual realizar la triangulación.</p>
 
-	<p>Por ejemplo, se puede crear una capa de polígonos a partir de los centros de atención médica de cierto ámbito. El resultado, mostrado en la imagen siguiente, será una capa de tipo polígono correspondiente al área de influencia de cada centro de atención médica seleccionado. </p>
-	<div  align="center"><img  src="Thiessen.png"></div>
+<p>Por ejemplo, se puede crear una capa de polígonos a partir de los centros de atención médica de cierto ámbito. El resultado, mostrado en la imagen siguiente, será una capa de tipo polígono correspondiente al área de influencia de cada centro de atención médica seleccionado. </p>
 
-	<p>El ámbito del fichero resultante puede establecerse bien a partir de la envolvente de los puntos, o bien especificando las coordenadas de un rectángulo (que pueden heredarse automáticamente de la envolvente de otra capa), o bien proporcionando una capa que actúe de máscara. En este último caso, la capa puede ser una capa de polígonos (en formato POL o VEC) o un ráster (en formato IMG, en el que el ámbito de las celdas con datos actúa de zona de interés). </p>
-	<p>El programa puede, optativamente, conservar la capa con la triangulación de Delaunay que se ha utilizado para construir los polígonos. Esto es útil sobre todo en entornos docentes para una mejor comprensión del origen de cada polígono. La siguiente imagen muestra la triangulación de Delaunay aplicada en el ejemplo anterior de creación de las áreas de influencia de los centros de atención médica de un ámbito.</p>
-	<div  align="center"><img  src="ThiessenTriangulacio.png"></div>
-	<ul>
-		<p><b><u>Nota 1</u></b>: Dado que la triangulación de Delaunay no proporciona una única solución en determinadas distribuciones de puntos, puede ocurrir que los polígonos de Thiessen resultantes con esta aplicación sean distintos a los obtenidos con otras aplicaciones informáticas.</p>
-		<p><b><u>Nota 2</u></b>: El nombre procede del meteorólogo Alfred H. Thiessen; los polígonos obtenidos son equivalentes a la teselación de Voronoi (del matemático Georgy Voronoy) y la teselación de Dirichlet (del matemático Johann Peter Gustav Lejeune Dirichlet).</p>
-	</ul>
-  <p>Para más información se puede consultar la siguiente referencia:</p>
-  <p><a href="https://en.wikipedia.org/wiki/Voronoi_diagram">https://en.wikipedia.org/wiki/Voronoi_diagram</a></p>
-  <hr/>   
+<div  align="center"><img  src="Thiessen.png"></div>
 
+<p>El ámbito del fichero resultante puede establecerse bien a partir de la envolvente de los puntos, o bien especificando las coordenadas de un rectángulo (que pueden heredarse automáticamente de la envolvente de otra capa), o bien proporcionando una capa que actúe de máscara. En este último caso, la capa puede ser una capa de polígonos (en formato POL o VEC) o un ráster (en formato IMG, en el que el ámbito de las celdas con datos actúa de zona de interés). </p>
 
-  <exclusiva>
-     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<p>El programa puede, optativamente, conservar la capa con la triangulación de Delaunay que se ha utilizado para construir los polígonos. Esto es útil sobre todo en entornos docentes para una mejor comprensión del origen de cada polígono. La siguiente imagen muestra la triangulación de Delaunay aplicada en el ejemplo anterior de creación de las áreas de influencia de los centros de atención médica de un ámbito.</p>
+
+<div  align="center"><img  src="ThiessenTriangulacio.png"></div>
+
+<ul>
+	<p><b><u>Nota 1</u></b>: Dado que la triangulación de Delaunay no proporciona una única solución en determinadas distribuciones de puntos, puede ocurrir que los polígonos de Thiessen resultantes con esta aplicación sean distintos a los obtenidos con otras aplicaciones informáticas.</p>
+	<p><b><u>Nota 2</u></b>: El nombre procede del meteorólogo Alfred H. Thiessen; los polígonos obtenidos son equivalentes a la teselación de Voronoi (del matemático Georgy Voronoy) y la teselación de Dirichlet (del matemático Johann Peter Gustav Lejeune Dirichlet).</p>
+</ul>
+
+<p>Para más información se puede consultar la siguiente referencia:</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Voronoi_diagram">https://en.wikipedia.org/wiki/Voronoi_diagram</a></p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="Thiessen_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de Thiessen </td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><!-- $$EXCLUSIVA$$
 Para obtener la ayuda completa escriba:
-Thiessen ?
---></p>
-  </exclusiva>
+Thiesse ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>

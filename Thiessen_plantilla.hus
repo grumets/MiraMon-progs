@@ -1,50 +1,101 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Revisió AA 05-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>Thiessen: Generation of Thiessen Polygons</title>
+<title>Thiessen: Generation of Thiessen Polygons</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/Thiessen.htm"><font size="+2">Thiessen</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-	<p>This application generates, from a layer that contains a set of point-type vector entities, a layer of polygons that will contain the corresponding Thiessen polygons.</p>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+
+<p>This application generates, from a layer that contains a set of point-type vector entities, a layer of polygons that will contain the corresponding Thiessen polygons.</p>
 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->	
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-	<p>Thiessen polygons result from generating a partition of space into areas of proximity around the provided points,  where each resulting polygon defines the closest area  to each point. Thus, Thiessen polygons are the method typically used to interpolate categorical data collected at sampling points (for interpolation of quantitative data collected with sampling points, use the <a href="InterPNT.htm">InterPNT: Interpolate between points</a> application).</p>
+<p>Thiessen polygons result from generating a partition of space into areas of proximity around the provided points,  where each resulting polygon defines the closest area  to each point. Thus, Thiessen polygons are the method typically used to interpolate categorical data collected at sampling points (for interpolation of quantitative data collected with sampling points, use the <a href="InterPNT.htm">InterPNT: Interpolate between points</a> application).</p>
 	
-	<p>In the Thiessen application the proximity to each point is determined by Euclidean distance. For this purpose, first the program constructs a Delaunay triangulation joining the origin points (as provided by the  <a href="CreaTIN.htm">CreaTIN: Generating a TIN from a point cloud</a> application). Starting from the midpoint of each side of each triangle, perpendicular lines are drawn that, once intersected with the other perpendiculars of the other sides and discarding the segments beyond the intersections, will form the sides of the polygons (the intersections will be the vertices of the polygons). </p>
+<p>In the Thiessen application the proximity to each point is determined by Euclidean distance. For this purpose, first the program constructs a Delaunay triangulation joining the origin points (as provided by the  <a href="CreaTIN.htm">CreaTIN: Generating a TIN from a point cloud</a> application). Starting from the midpoint of each side of each triangle, perpendicular lines are drawn that, once intersected with the other perpendiculars of the other sides and discarding the segments beyond the intersections, will form the sides of the polygons (the intersections will be the vertices of the polygons). </p>
 	
-	<p>Once the entire area has been tessellated, each polygon inherits the attributes of the single point left inside it. Additionally, adjacent polygons that have identical attributes in the given database field specified by the user are merged (so there may be polygons that contain more than one of the original points when those points have the same attribute).</p>
+<p>Once the entire area has been tessellated, each polygon inherits the attributes of the single point left inside it. Additionally, adjacent polygons that have identical attributes in the given database field specified by the user are merged (so there may be polygons that contain more than one of the original points when those points have the same attribute).</p>
 		
-	<p>The application allows the creation of Thiessen polygons from all the points of the origin layer or to perform a selection by attributes to obtain a subgroup from which to perform the triangulation.</p>
+<p>The application allows the creation of Thiessen polygons from all the points of the origin layer or to perform a selection by attributes to obtain a subgroup from which to perform the triangulation.</p>
 
-	<p>For example, a polygon layer can be created from health care facilities in a certain area. The result, shown in the image below, will be a polygon-type layer corresponding to the influence area of each selected healthcare facility. </p>
-	<div  align="center"><img  src="Thiessen.png"></div>
+<p>For example, a polygon layer can be created from health care facilities in a certain area. The result, shown in the image below, will be a polygon-type layer corresponding to the influence area of each selected healthcare facility. </p>
 
-	<p>The bounding box of the resulting file can be set either from the envelope of the points, or by specifying the coordinates of a rectangle (which can be automatically inherited from the bounding box of another layer), or by providing a layer to act as a mask. In the latter case, the layer can be a polygon layer (in POL or VEC format) or a raster (in IMG format, in which the bounding box of the cells with data acts as the region of interest).</p>
-	<p>The program can, optionally, keep the layer with the Delaunay triangulation that has been  used to build the polygons. This is especially useful in educational environments for a better understanding of the origin of each polygon. The following image shows the Delaunay triangulation applied in the previous example of creating the influence areas of healthcare facilities.</p>
-	<div  align="center"><img  src="ThiessenTriangulacio.png"></div>
-	<ul>
-		<p><b><u>Note 1</u></b>: Since Delaunay triangulation does not provide a single solution in certain point distributions, it may happen that the resulting Thiessen polygons with this application be different from those obtained with other computer applications.</p>
-		<p><b><u>Note 2</u></b>: The name comes from the meteorologist Alfred H. Thiessen; the polygons obtained are equivalent to the Voronoi tessellation (from the mathematician Georgy Voronoy) and to the Dirichlet tessellation (from the mathematician Johann Peter Gustav Lejeune Dirichlet).</p>
-	</ul>
-	<p>For more information, see the following reference:</p>
-	<p><a href="https://en.wikipedia.org/wiki/Voronoi_diagram">https://en.wikipedia.org/wiki/Voronoi_diagram</a></p>
-  <hr/> 
-  
+<div  align="center"><img  src="Thiessen.png"></div>
+
+<p>The bounding box of the resulting file can be set either from the envelope of the points, or by specifying the coordinates of a rectangle (which can be automatically inherited from the bounding box of another layer), or by providing a layer to act as a mask. In the latter case, the layer can be a polygon layer (in POL or VEC format) or a raster (in IMG format, in which the bounding box of the cells with data acts as the region of interest).</p>
+
+<p>The program can, optionally, keep the layer with the Delaunay triangulation that has been  used to build the polygons. This is especially useful in educational environments for a better understanding of the origin of each polygon. The following image shows the Delaunay triangulation applied in the previous example of creating the influence areas of healthcare facilities.</p>
+
+<div  align="center"><img  src="ThiessenTriangulacio.png"></div>
+<ul>
+	<p><b><u>Note 1</u></b>: Since Delaunay triangulation does not provide a single solution in certain point distributions, it may happen that the resulting Thiessen polygons with this application be different from those obtained with other computer applications.</p>
+	
+	<p><b><u>Note 2</u></b>: The name comes from the meteorologist Alfred H. Thiessen; the polygons obtained are equivalent to the Voronoi tessellation (from the mathematician Georgy Voronoy) and to the Dirichlet tessellation (from the mathematician Johann Peter Gustav Lejeune Dirichlet).</p>
+</ul>
+
+<p>For more information, see the following reference:</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Voronoi_diagram">https://en.wikipedia.org/wiki/Voronoi_diagram</a></p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="Thiessen_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Thiessen dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
 
 <exclusiva>
-    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
-Thiessen ?
---></p>
-  </exclusiva>
+Thiesse ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
