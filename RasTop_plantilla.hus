@@ -1,48 +1,90 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Revisió AA 05-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>RasTop: Vectorization of categorical rasters</title>
+<title>RasTop: Vectorization of categorical rasters</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/RasTop.htm"><font size="+2">RasTop</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation <!--and options--></a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation <!--and options--></h2>
 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>RasTop generates vector lines that pass between pixels with different values tracing their contours. The program automatically determines the topology of these lines and generates their corresponding arcs and nodes files. However, the resulting arcs database, nor the nodes database, will not contain any thematic attribute but only topological relationships. In contrast, the thematic attributes (categories) of the input raster will be the basis of the resulting polygons, in addition to its topological relationships. Once the existing polygons are determined, each one is associated as a thematic attribute with the value of that geographic position in the raster.
+<p>RasTop generates vector lines that pass between pixels with different values tracing their contours. The program automatically determines the topology of these lines and generates their corresponding arcs and nodes files. However, the resulting arcs database, nor the nodes database, will not contain any thematic attribute but only topological relationships. In contrast, the thematic attributes (categories) of the input raster will be the basis of the resulting polygons, in addition to its topological relationships. Once the existing polygons are determined, each one is associated as a thematic attribute with the value of that geographic position in the raster.
   
 <p>Indeed, the value of the raster (numerical) is indicated in the polygon main table in a name field equal to the name of the raster in the metadata. If the raster is linked to a thesaurus type table where the categories description exists for each numerical code, this link is also automatically stated in the main polygon table through a link to the thesaurus which is linked originally. This way, a description of the category contained in the raster will be obtained for each polygon.</p>  
 
-    <p>Note that the vectorization of a categorical raster allows to obtain very valuable information for a first analysis, for example, in Landscape Ecology. In fact, the result of RasTop brings data about how many different polygons are in the area stated by the input raster, which one has the biggest area, the smallest area, which median area has the zone spots, which perimeters and area/perimeter relationship have, how many islands (topological holes) exist, which is the maximum level of nesting (how many islands within islands), etc.</p>
+<p>Note that the vectorization of a categorical raster allows to obtain very valuable information for a first analysis, for example, in Landscape Ecology. In fact, the result of RasTop brings data about how many different polygons are in the area stated by the input raster, which one has the biggest area, the smallest area, which median area has the zone spots, which perimeters and area/perimeter relationship have, how many islands (topological holes) exist, which is the maximum level of nesting (how many islands within islands), etc.</p>
   
-    <p>If the raster contains NoData cells, its numerical value is also transferred as a numerical attribute to the field that collects the raster value in the polygons main table. However, when the raster is not linked to a thesaurus, the cell is left empty (a blank value in attribute tables is a concept equivalent to a background value in rasters) for those polygons with NoData value pixels.  The blank polygons can be made to appear transparent in MiraMon by using the button in the advanced options in the polygon visualization window, or making the NoData category appear in the legend to be able to edit the color and indicate that it corresponds to "transparent".</p>
+<p>If the raster contains NoData cells, its numerical value is also transferred as a numerical attribute to the field that collects the raster value in the polygons main table. However, when the raster is not linked to a thesaurus, the cell is left empty (a blank value in attribute tables is a concept equivalent to a background value in rasters) for those polygons with NoData value pixels.  The blank polygons can be made to appear transparent in MiraMon by using the button in the advanced options in the polygon visualization window, or making the NoData category appear in the legend to be able to edit the color and indicate that it corresponds to "transparent".</p>
 
-    <p>When the raster file has cells with NoData values, in being vectorized, they are associated to 0 polygon forming a group. Finally, in a raster consisting of one or more spots (sets of pixels) on a background of cells labeled with NoData, the program does not generate any frame that includes the entire raster, but polygon 0 directly delimits the set of spots of the raster (in other words, the raster polygons are "floating" inside polygon 0, with no rectangular frame corresponding to the original raster).</p>
+<p>When the raster file has cells with NoData values, in being vectorized, they are associated to 0 polygon forming a group. Finally, in a raster consisting of one or more spots (sets of pixels) on a background of cells labeled with NoData, the program does not generate any frame that includes the entire raster, but polygon 0 directly delimits the set of spots of the raster (in other words, the raster polygons are "floating" inside polygon 0, with no rectangular frame corresponding to the original raster).</p>
 
-  <p>It is possible to generate a vector layer based on n raster layers. The
-  resulting vector file will create a contour between different polygons if one or more of the rasters have different values in the pixels to either side. The polygon database will contain the values of each raster in independent fields. These fields will be associated with the corresponding thesaurus of each raster if the values of the raster were associated with the thesaurus. When there are several rasters they must have the same extent and resolution. The  <a href="AdapRas.htm">AdapRas</a>  application can be used to adjust the extent and resolution between different rasters.</p>
+<p>It is possible to generate a vector layer based on n raster layers. The resulting vector file will create a contour between different polygons if one or more of the rasters have different values in the pixels to either side. The polygon database will contain the values of each raster in independent fields. These fields will be associated with the corresponding thesaurus of each raster if the values of the raster were associated with the thesaurus. When there are several rasters they must have the same extent and resolution. The  <a href="AdapRas.htm">AdapRas</a>  application can be used to adjust the extent and resolution between different rasters.</p>
 
-  <p>The program calculates the arcs lengths in their projection and saves them in the LONG-ARC field in the arc main table. If the projection is known it also adds the lengths in the ellipsoid saving them to the LONG_ARCE field. Similarly, for each polygon it calculates the perimeter and the area, documenting these values in the PERIMETRE and AREA fields of the polygon main table. If the projection is known it also notes the perimeter and area over the ellipsoid in the PERIMETREE and AREAE fields.</p>
+<p>The program calculates the arcs lengths in their projection and saves them in the LONG-ARC field in the arc main table. If the projection is known it also adds the lengths in the ellipsoid saving them to the LONG_ARCE field. Similarly, for each polygon it calculates the perimeter and the area, documenting these values in the PERIMETRE and AREA fields of the polygon main table. If the projection is known it also notes the perimeter and area over the ellipsoid in the PERIMETREE and AREAE fields.</p>
   
 <p>Depending on the map projection used, the program makes visible the PERIMETRE or PERIMETREE and the AREA or AREAE leaving the other field hidden, following the most commonly used criterion upon which is more commonly used for measuring perimeters and areas in that projection. This visibility criterion can be changed in the REL file through the Universal Geospatial Metadata Manager (GeM+).</p>
 
-<p>A more detailed description of the types of lengths will be found in <a href="LinArc.htm#ellipsoide">LinArc</a> program; and on the types of perimeter and area in <a href="Ciclar.htm#ellipsoide">Ciclar</a> program.</p>
+<p>A more detailed description of the types of lengths will be found in <a href="LinArc.htm">LinArc</a> program; and on the types of perimeter and area in <a href="Ciclar.htm">Ciclar</a> program.</p>
 
-  <p>This program does not carry out any line smoothing. This implies the closest possible match to the original raster file and at the same time, an arcs vector file size as small as possible. If smoothing is required it is necessary to use the specific "generalize" option.</p>
+<p>This program does not carry out any line smoothing. This implies the closest possible match to the original raster file and at the same time, an arcs vector file size as small as possible. If smoothing is required it is necessary to use the specific "generalize" option.</p>
   
-  <p>Generalization is carried out by applying the moving average and Douglas-Peucker generalization algorithms of the <a href="GenVPol.htm">GenVPol</a> application in the "Automatic, weights based on the inverse of the distance to the central vertex of the moving average" with "equal tolerance to the side of the original raster", "size of the moving average of 3" and "epsilon equal to the tenth part of the side pixel of the original raster", which usually provide good results; however, if  the result is not satisfactory enough, RasTop can be used to generate the result without generalizing and then generalize the result with GenVPol with the parameters that are most convenient.</p>
+<p>Generalization is carried out by applying the moving average and Douglas-Peucker generalization algorithms of the <a href="GenVPol.htm">GenVPol</a> application in the "Automatic, weights based on the inverse of the distance to the central vertex of the moving average" with "equal tolerance to the side of the original raster", "size of the moving average of 3" and "epsilon equal to the tenth part of the side pixel of the original raster", which usually provide good results; however, if  the result is not satisfactory enough, RasTop can be used to generate the result without generalizing and then generalize the result with GenVPol with the parameters that are most convenient.</p>
   
-  <p>RasTop allows, optionally, that polygons with the same attribute that are in contact by a node to be grouped (equivalent to recycling for nodes of the <a href="Ciclar.htm">Ciclar</a> application), which is convenient in certain landscape analysis and/or cartographic generalization (for example after digital classification of images, in order to eliminate small groups of pixels  of the same category and in contact by side or by vertex). In this case the final number of polygons obtained is, obviously, lower (the program informs when finished).</p>
+<p>RasTop allows, optionally, that polygons with the same attribute that are in contact by a node to be grouped (equivalent to recycling for nodes of the <a href="Ciclar.htm">Ciclar</a> application), which is convenient in certain landscape analysis and/or cartographic generalization (for example after digital classification of images, in order to eliminate small groups of pixels  of the same category and in contact by side or by vertex). In this case the final number of polygons obtained is, obviously, lower (the program informs when finished).</p>
   
-  <p>RasTop also allows vectorization without generating polygons (simply tracing the contours between them like arcs).</p>
+<p>RasTop also allows vectorization without generating polygons (simply tracing the contours between them like arcs).</p>
   
-  <hr/>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <exclusiva>
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="RasTop_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">RasTop dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -51,7 +93,8 @@
 
 To obtain the complete help, please type:
 RasTop ?
---></p>
-  </exclusiva>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
