@@ -1,85 +1,74 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 23-01-2024 */-->
+<!--/* Revisió AA 05-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>NDFIMG: Import NetCDF raster format</title>
+<title>NDFIMG: Import NetCDF raster format</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/NDFIMG.htm"><font size="+2">NDFIMG</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-  <p>
-  "NATIONAL LAND ARCHIVE PRODUCTION SYSTEM (NLAPS). SYSTEMATIC FORMAT
-  DESCRIPTION DOCUMENT". United States Geological Survey Format
-  Specifications for Geometrically Corrected Landsat Level 1 Digital Data
-  Products (July 2000)<br/>
-  <br/>
-  "Level 1 Product Output Files. Data Format Control Book". Volume
-  5, Book 2. Revision 5. April 2001<br/></p>
+<p>"NATIONAL LAND ARCHIVE PRODUCTION SYSTEM (NLAPS). SYSTEMATIC FORMAT DESCRIPTION DOCUMENT". United States Geological Survey Format Specifications for Geometrically Corrected Landsat Level 1 Digital Data Products (July 2000)<br/>
+<br/>
+"Level 1 Product Output Files. Data Format Control Book". Volume 5, Book 2. Revision 5. April 2001<br/></p>
   
-  <p>The images are converted to MiraMon IMG format, so the different
-  spectral bands are stored in as many IMG files as spectral bands
-  are present in the source file. All the converted IMG files are stored in the same
-  directory, so the user is asked to enter a directory name rather than a
-  target file name for each spectral band. The program also compresses the images
-  into a RLE extracompressed and indexed format.</p>
+<p>The images are converted to MiraMon IMG format, so the different  spectral bands are stored in as many IMG files as spectral bands  are present in the source file. All the converted IMG files are stored in the same  directory, so the user is asked to enter a directory name rather than a  target file name for each spectral band. The program also compresses the images  into a RLE extracompressed and indexed format.</p>
 
-  <p>The names of the IMG files that will contain the different spectral bands are assigned according to the following pattern:
-  orbit&amp;image_date_Nband.img. An example could be: 197031_13062002_1
-  corresponding to the orbit 197, image 031, taken 13 June 2002 in spectral
-  band 1 (blue).</p>
+<p>The names of the IMG files that will contain the different spectral bands are assigned according to the following pattern:  orbit&amp;image_date_Nband.img. An example could be: 197031_13062002_1  corresponding to the orbit 197, image 031, taken 13 June 2002 in spectral  band 1 (blue).</p>
 
-  <p>In case of floating (along path) images, the NDF heading files indicate the scene of
-  beginning and end with a decimal figure. This information is used to obtain
-  the scene number identifying of the scene, from the average rounded to
-  integer of the initial and final scene number.</p>
+<p>In case of floating (along path) images, the NDF heading files indicate the scene of  beginning and end with a decimal figure. This information is used to obtain  the scene number identifying of the scene, from the average rounded to  integer of the initial and final scene number.</p>
 
-  <p>For instance, if the Report file (*.WO) says:</p>
+<p>For instance, if the Report file (*.WO) says:</p>
   <pre>
    Path/Strip no.:     197                        Start Row no.:      030.9
                                                   End Row no.:        031.9
 </pre>the names of the different bands will follow the pattern:
 197031_13062002_31.
 
-  <p>The metadata contained in the files that are usually found on a distribution CD-ROM, like, for example, the date and hour of acquisition,
-  preprocessing details, etc, are stored in the I.rel file in the same
-  directory where the images are stored. This multiband metadata file
-  distinguishes between the data specific to each band (such as the spectral
-  range covered), the data common to all bands (like the acquisition
-  date) and those data which relate to both (like for instance the number of
-  columns and rows, which is the same for all the multispectral bands but that is
-  usually double for the panchromatic band of ETM+ images, and is recorded in the I.rel metadata file).</p>
+<p>The metadata contained in the files that are usually found on a distribution CD-ROM, like, for example, the date and hour of acquisition,  preprocessing details, etc, are stored in the I.rel file in the same  directory where the images are stored. This multiband metadata file  distinguishes between the data specific to each band (such as the spectral  range covered), the data common to all bands (like the acquisition  date) and those data which relate to both (like for instance the number of  columns and rows, which is the same for all the multispectral bands but that is  usually double for the panchromatic band of ETM+ images, and is recorded in the I.rel metadata file).</p>
 
-  <p>The different bands are found in the metadata file in in spectral order, from short to long wavelengths. Examples:</p>
+<p>The different bands are found in the metadata file in in spectral order, from short to long wavelengths. Examples:</p>
 
   <div style="margin-left: 2em">
     * <u>ETM+ and TM</u>
 
     <div style="margin-left: 2em">
-      <p>- First the PAN image (band 8), as it has the highest spatial
-      resolution and is unique in the set. This band is only available in ETM+ imagery.</p>
+      <p>- First the PAN image (band 8), as it has the highest spatial resolution and is unique in the set. This band is only available in ETM+ imagery.</p>
 	</div>
 	
 	<div style="margin-left: 2em">
-      <p>-Then the bands 1-2-3-4 that provide the spectral response in the
-      ranges blue - green - red - near infrared.</p>
+      <p>-Then the bands 1-2-3-4 that provide the spectral response in the ranges blue - green - red - near infrared.</p>
 	  </div>
 
 	<div style="margin-left: 2em">
-      <p>-Then the bands 5-7, that provide the response in the short wave  infrared
-      spectral region.</p>
+      <p>-Then the bands 5-7, that provide the response in the short wave  infrared spectral region.</p>
 	  </div>
 
 	<div style="margin-left: 2em">
-      <p>- Finally, band 6, corresponding to the thermal infrared that has a
-      resolution of 60 m in ETM+ and 120 m in TM, but that is distributed resampled
-      to 30 m. In the case of ETM+ images, sometimes these are distributed
-      with an additional band 9, corresponding to the thermal channel but with
-      a high gain radiometric calibration.</p>
+      <p>- Finally, band 6, corresponding to the thermal infrared that has a      resolution of 60 m in ETM+ and 120 m in TM, but that is distributed resampled      to 30 m. In the case of ETM+ images, sometimes these are distributed      with an additional band 9, corresponding to the thermal channel but with      a high gain radiometric calibration.</p>
     </div>
   </div>
 
@@ -87,23 +76,45 @@
     * <u>MSS</u>
 
     <div style="margin-left: 2em">
-      - The bands 1-2-3-4-5 that provide the spectral response in the ranges
-      green - red - near infrared 1- near infrared 2 - thermal. Band 5 is
-      only available with the mission Landsat-3 of the MSS sensor.
+      - The bands 1-2-3-4-5 that provide the spectral response in the ranges      green - red - near infrared 1- near infrared 2 - thermal. Band 5 is      only available with the mission Landsat-3 of the MSS sensor.
     </div>
-  </div>The Universal MiraMon Metadata Manager (GeM+) may be used to make any changes or
-  minor modifications as needed after importing the images.
-  <hr/>
+  </div>The Universal MiraMon Metadata Manager (GeM+) may be used to make any changes or minor modifications as needed after importing the images.
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="NDFIMG_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">NDFIMG dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
 
 <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
 NDFIMG ?
---></p>
-
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
 </exclusiva>
 </body>
 </html>
