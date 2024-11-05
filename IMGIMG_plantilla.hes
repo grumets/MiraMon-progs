@@ -1,13 +1,33 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 15-01-2024 */-->
+<!--/* Revisió AA 05-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>IMGIMG: Conversión y compresión/descompresión de ficheros IMG</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/IMGIMG.htm"><font size="+2">IMGIMG</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
@@ -325,62 +345,51 @@
             </table>
           </div>
 
-  <p>Excepto para el formato bit, existen los equivalentes en modo comprimido
-  RLE, que usan el algoritmo &quot;<i>Run length encoding</i>&quot; mejorado. Se da
-  cierto soporte al formato <i>bit-vell</i>, que es un formato de datos
-  <i>bit</i> continuo por filas, pero solamente se permiten cambios de
-  <i>bit-vell</i> a <i>byte-rle</i> y de <i>byte</i> a <i>bit-vell</i>.<br/>
-  MiraMon soporta dos modos de formato RLE, semicomprimido o extracomprimido.
-  El semicomprimido, estándar en la literatura, se usa muy poco en MiraMon
-  porque el extracomprimido es mucho mejor, y si se deseara habría que
-  indicarlo con un parámetro adicional <i>/NO_EXTRA</i>. También hay que tener
-  presente que para los formatos comprimidos es muy útil usar el modo
-  <i>/RLE_INDEX</i> que genera al final del fichero un listado de posiciones
-  de inicio de línea. Esta característica incrementa un poco (muy poco) el tamaño del
-  fichero pero permite un acceso más rápido.</p>
+<p>Excepto para el formato bit, existen los equivalentes en modo comprimido RLE, que usan el algoritmo &quot;<i>Run length encoding</i>&quot; mejorado. Se da cierto soporte al formato <i>bit-vell</i>, que es un formato de datos <i>bit</i> continuo por filas, pero solamente se permiten cambios de <i>bit-vell</i> a <i>byte-rle</i> y de <i>byte</i> a <i>bit-vell</i>.<br/>
+MiraMon soporta dos modos de formato RLE, semicomprimido o extracomprimido. El semicomprimido, estándar en la literatura, se usa muy poco en MiraMon porque el extracomprimido es mucho mejor, y si se deseara habría que indicarlo con un parámetro adicional <i>/NO_EXTRA</i>. También hay que tener presente que para los formatos comprimidos es muy útil usar el modo <i>/RLE_INDEX</i> que genera al final del fichero un listado de posiciones de inicio de línea. Esta característica incrementa un poco (muy poco) el tamaño del fichero pero permite un acceso más rápido.</p>
+  
+<p>En la compresión o descompresión se mantiene el formato de los datos, y en caso de cambiar de formato hay que tener presente que al pasar a un formato de rango inferior (por ejemplo de <i>integer</i> a <i>byte</i>) los valores que sobresalen de este rango de destino se saturarán. En otras palabras, si se pasa de un formato <i>integer</i> sin sindatos a <i>byte</i>, todos los valores &gt;255 pasan a ser 255 y los valores &lt;0 pasan a ser 0. Este hecho puede afectar también al valor sindatos, del cual siempre que sea posible, si está dentro del rango de valores de salida, se mantendrá su valor; si el sindatos queda fuera del rango de salida se saturará reduciendo este valor del rango de valores válidos. En el ejemplo de conversión de <i>integer</i> a <i>byte</i>, un valor sindatos de -9999 pasará a 0 y el rango de valores válidos será [1,255].<br/>
+Es importante considerar que en las conversiones de reales a enteros se redondean los valores con decimales; si desea un truncamiento puede usar la aplicación <a href="CalcImg.htm">CalcImg</a>. En cualquiera de las opciones, compresión, descompresión o cambio de formato, el resultado puede ser un nuevo ráster o se puede aplicar sobre el ráster original.</p>
+  
+<p>El programa puede trabajar con rásters multibanda y, en este caso, se pueden realizar posibles conversiones sobre todas las bandas simultáneamente, o sobre una sola de las bandas. Cuando se aplica sobre todas las bandas a la vez, el resultado puede ser un nuevo ráster multibanda o se pueden efectuar las conversiones sobre las bandas originales.<br/>
+El resultado de convertir solamente una sola banda puede ser un nuevo ráster monobanda, pero también puede ser una nueva banda a añadir al ráster multibanda original o puede ser la sobreescritura de la banda escogida sobre el ráster original.<br/> 
+También hay que tener en cuenta que alguna de las bandas de un ráster multibanda puede ser un ráster JPG; en este caso no se realizará ninguna conversión de formato de esta banda JPG, pero el resultado con las otras bandas IMG transformadas también incluirá esta banda no transformada.</p>
 
-  <p>En la compresión o descompresión se mantiene el formato de los datos, y
-  en caso de cambiar de formato hay que tener presente que al pasar a un
-  formato de rango inferior (por ejemplo de <i>integer</i> a <i>byte</i>) los
-  valores que sobresalen de este rango de destino se saturarán. En otras
-  palabras, si se pasa de un formato <i>integer</i> sin sindatos a <i>byte</i>,
-  todos los valores &gt;255 pasan a ser 255 y los valores &lt;0 pasan a ser 0.
-  Este hecho puede afectar también al valor sindatos, del cual siempre que sea
-  posible, si está dentro del rango de valores de salida, se mantendrá su
-  valor; si el sindatos queda fuera del rango de salida se saturará reduciendo
-  este valor del rango de valores válidos. En el ejemplo de conversión de
-  <i>integer</i> a <i>byte</i>, un valor sindatos de -9999 pasará a 0 y el rango
-  de valores válidos será [1,255].<br/>
-  Es importante considerar que en las conversiones de reales a enteros se
-  redondean los valores con decimales; si desea un truncamiento puede usar la
-  aplicación <a href="CalcImg.htm">CalcImg</a>. En cualquiera de las opciones,
-  compresión, descompresión o cambio de formato, el resultado puede ser un
-  nuevo ráster o se puede aplicar sobre el ráster original.</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <p>El programa puede trabajar con rásters multibanda y, en este caso, se
-  pueden realizar posibles conversiones sobre todas las bandas
-  simultáneamente, o sobre una sola de las bandas. Cuando se aplica sobre
-  todas las bandas a la vez, el resultado puede ser un nuevo ráster multibanda
-  o se pueden efectuar las conversiones sobre las bandas originales.<br/>
-  El resultado de convertir solamente una sola banda puede ser un nuevo ráster
-  monobanda, pero también puede ser una nueva banda a añadir al ráster
-  multibanda original o puede ser la sobreescritura de la banda escogida sobre
-  el ráster original.<br/>
-  También hay que tener en cuenta que alguna de las bandas de un ráster
-  multibanda puede ser un ráster JPG; en este caso no se realizará ninguna
-  conversión de formato de esta banda JPG, pero el resultado con las otras
-  bandas IMG transformadas también incluirá esta banda no transformada.</p>
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
 
-  <hr/>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="IMGIMG_finestra.png"><img src="IMGIMG_finestra2.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de IMGIMG</td>
+</tr>
+</table>
+</div>
 
-  <exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><!-- $$EXCLUSIVA$$
 Para obtener la ayuda completa escriba:
 IMGIMG ?
---></p>
-  </exclusiva>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>

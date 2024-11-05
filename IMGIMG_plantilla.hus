@@ -1,13 +1,33 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 15-01-2024 */-->
+<!--/* Revisió AA 05-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>IMGIMG: IMG files conversion and compression/decompression</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/IMGIMG.htm"><font size="+2">IMGIMG</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
@@ -124,9 +144,7 @@
 
                 <td width="43%">
                   <div align="center">
-                    Thematic cartography up to 256 categories, aerial or satellite imagery
-              (black and white or color) up to 256 grey levels or 256
-              colors</div>
+                    Thematic cartography up to 256 categories, aerial or satellite imagery (black and white or color) up to 256 grey levels or 256 colors</div>
                 </td>
               </tr>
 
@@ -319,62 +337,51 @@
 
 
 
-  <p>Except for the bit format, there also exist equivalent compressed RLE
-  formats that use the improved &quot;Run length encoding&quot; algorithm.
-  Some support is provided for <i>bit-vell</i> format (old-bit), which is the
-  continuous <i>bit</i> data format, but only changes from <i>bit-vell</i> to
-  <i>byte-rle</i> and from <i>byte</i> to <i>bit-vell</i> are permitted.<br/>
-  MiraMon supports two RLE formats, semicompressed and extracompressed. The
-  semicompressed format, the standard in the literature, it is not usually used
-  in MiraMon since extracompression is much better. If semicompression is
-  desired it must be indicated using the additional parameter
-  <i>/NO_EXTRA</i>. It is also necessary to bear in mind that for the
-  compressed formats it is very helpful to use the <i>/RLE_INDEX</i> mode that
-  generates a list of the initial line positions which is stored at the end of
-  the file. This feature increases slightly the file size but allows faster
-  access.</p>
-
-  <p>In compression and decompression the data format is maintained but in the
-  cases of format changes it must be remembered that when passing to a format
-  with a smaller range (for example from <i>integer</i> to <i>byte</i>) the
-  values that fall outside the output range will be saturated. In other words,
-  if passing from <i>integer</i> format without NoData to <i>byte</i>, then
-  all values &gt;255 will become 255 and the values &lt;0 will be set to 0.
-  This could also affect the NoData value. If this is within the output range
-  then it will keep its value, but if it is outside the output range it will
-  be saturated, and will reduce the range of valid values. In the example of
-  conversion from <i>integer</i> to <i>byte</i>, a NoData value of -9999 will
-  become 0 and the range of valid values will be [1,255].<br/>
-  It is also important to consider that in conversions from real to integer
-  values the numbers with decimals will be rounded. If the user wishes to
-  truncate the values, the <a href="CalcImg.htm">CalcImg</a>
-  application can be used. In all cases, compression, decompression or change of format, the
-  result may be a new raster file or overwritten on the original raster
-  file.</p>
-
-  <p>The program is able to work with multiband raster files and, in this
-  case, conversions can be performed on all bands simultaneously or on just
-  one of the bands. When applied to all bands simultaneously the result can be
-  a new raster or overwritten on the original.<br/>
-  The result of converting only a single band of a multiband image can be a
-  new single band raster or alternatively it can be a new band added to the
-  original multiband raster or it can be overwritten on the selected band of
-  the original raster file.<br/>
-  It is also possible that one or other of the bands of a multiband raster
-  file could be in the JPG raster format in which case no format conversion
-  will be performed on this JPG band, but the results of the conversions on
-  the other IMG bands will also include this unconverted band.</p>
+<p>Except for the bit format, there also exist equivalent compressed RLE  formats that use the improved &quot;Run length encoding&quot; algorithm. Some support is provided for <i>bit-vell</i> format (old-bit), which is the  continuous <i>bit</i> data format, but only changes from <i>bit-vell</i> to  <i>byte-rle</i> and from <i>byte</i> to <i>bit-vell</i> are permitted.<br/>
+MiraMon supports two RLE formats, semicompressed and extracompressed. The semicompressed format, the standard in the literature, it is not usually used in MiraMon since extracompression is much better. If semicompression is desired it must be indicated using the additional parameter <i>/NO_EXTRA</i>. It is also necessary to bear in mind that for the compressed formats it is very helpful to use the <i>/RLE_INDEX</i> mode that generates a list of the initial line positions which is stored at the end of the file. This feature increases slightly the file size but allows faster access.</p>  
+  
+<p>In compression and decompression the data format is maintained but in the cases of format changes it must be remembered that when passing to a format with a smaller range (for example from <i>integer</i> to <i>byte</i>) the values that fall outside the output range will be saturated. In other words, if passing from <i>integer</i> format without NoData to <i>byte</i>, then all values &gt;255 will become 255 and the values &lt;0 will be set to 0. This could also affect the NoData value. If this is within the output range then it will keep its value, but if it is outside the output range it will be saturated, and will reduce the range of valid values. In the example of conversion from <i>integer</i> to <i>byte</i>, a NoData value of -9999 will become 0 and the range of valid values will be [1,255].<br/> 
+It is also important to consider that in conversions from real to integer values the numbers with decimals will be rounded. If the user wishes to truncate the values, the <a href="CalcImg.htm">CalcImg</a> application can be used. In all cases, compression, decompression or change of format, the result may be a new raster file or overwritten on the original raster file.</p>  
+  
+<p>The program is able to work with multiband raster files and, in this case, conversions can be performed on all bands simultaneously or on just one of the bands. When applied to all bands simultaneously the result can be a new raster or overwritten on the original.<br/> 
+The result of converting only a single band of a multiband image can be a new single band raster or alternatively it can be a new band added to the original multiband raster or it can be overwritten on the selected band of the original raster file.<br/> 
+It is also possible that one or other of the bands of a multiband raster file could be in the JPG raster format in which case no format conversion will be performed on this JPG band, but the results of the conversions on the other IMG bands will also include this unconverted band.</p>
  
- <hr/>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <exclusiva>
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="IMGIMG_finestra.png"><img src="IMGIMG_finestra2.png"></div></td>
+</tr>
+<tr>
+<td align="center">IMGIMG dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
 IMGIMG ?
---></p>
-  </exclusiva>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
