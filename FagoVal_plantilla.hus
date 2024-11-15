@@ -1,71 +1,83 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 18-01-2024 */-->
+<!--/* Revisió AA 15-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>FagoVal: Selective filtering of raster values</title>
+<title>FagoVal: Selective filtering of raster values</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/FagoVal.htm"><font size="+2">FagoVal</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
   <p>Conceptually, this process can have a number of uses:</p>
 
-  <ul>
-    <li>In image processing, as a <b>selective filter</b> that eliminates
-    certain values.</li>
+<ul>
+    <li>In image processing, as a <b>selective filter</b> that eliminates certain values.</li>
 
-    <li>After classifying a remote sensing image, for substituting the
-    unclassified pixels (typically zeros) with the most frequent value in each
-    neighborhood.</li>
+    <li>After classifying a remote sensing image, for substituting the unclassified pixels (typically zeros) with the most frequent value in each neighborhood.</li>
 
-    <li>In cartographic and GIS generalization, and also after image
-    classification, to assign certain values (typically the result of
-    selecting a small group of cells) to the most frequent values (categories)
-    in the neighborhood. This process is geographically much better than the
-    traditional mode filters, which are too indiscriminate and change the
-    shapes of polygons excessively.</li>
-  </ul>
+    <li>In cartographic and GIS generalization, and also after image classification, to assign certain values (typically the result of selecting a small group of cells) to the most frequent values (categories) in the neighborhood. This process is geographically much better than the traditional mode filters, which are too indiscriminate and change the shapes of polygons excessively.</li>
+</ul>
 
-  <p>The name of the application, FagoVal, is due to the similarity between the
-  process carried out and the process of biological phagocytosis by which a
-  larger cell (in this case the convolution matrix) eliminates other elements
-  (in this case the selected values) by surrounding them and ingesting them
-  into itself.</p>
+<p>The name of the application, FagoVal, is due to the similarity between the  process carried out and the process of biological phagocytosis by which a  larger cell (in this case the convolution matrix) eliminates other elements  (in this case the selected values) by surrounding them and ingesting them  into itself.</p>
 
-  <p>When the area of the values to be
-  substituted is bigger than the convolution window, some interior values will
-  remain after the first pass of the process and in this case the application asks
-  the users if they wish to perform another iteration of the substitution
-  process. In order to avoid interrupting the application and continue the
-  iteration until there are no more values to process or until there are only
-  isolated values, there is the optional parameter <i>/ITERAR_AUTO</i>. 
+<p>When the area of the values to be substituted is bigger than the convolution window, some interior values will remain after the first pass of the process and in this case the application asks the users if they wish to perform another iteration of the substitution process. In order to avoid interrupting the application and continue the iteration until there are no more values to process or until there are only isolated values, there is the optional parameter <i>/ITERAR_AUTO</i>. 
   
-It may also be the case that a value is not phagocytosed because the result of the substitution is itself according to the convolution calculation (for example, in a substitution by average or also in a case by median with tiebreaker by average of two central values).</p>
+<p>It may also be the case that a value is not phagocytosed because the result of the substitution is itself according to the convolution calculation (for example, in a substitution by average or also in a case by median with tiebreaker by average of two central values).</p>
   
-  <p>To
-  avoid final isolated values, that appear when a value to be processed is
-  surrounded by NoData values, and to assign them the value NoData, there is the optional parameter <i>/AILLAT_NODATA</i>. 
-   Prudence is required when
-  choosing the size of the convolution window; whilst a bigger window will
-  reduce the number of iterations, it may also degrade the image by applying a
-  substitute value from excessively distant cells. </p>
-  <p>When replacing the values
-    to be processed by the mean or modal value of the convolution window, NoData
-    values are never considered, which can result in the calculation being made
-    on a very limited sample. In this case, if the number of valid pixels within
-    the convolution window is inferior to half the number of cells in the window,
-    it is possible to mark the pixel that is being processed with a NoData value if
-    the <i>/NODATA_MAJORITARI</i> parameter is used. Alternatively, accept the
-    calculation made with the available sample.
-    </p>
-  </p>
-  <hr/>
+<p>To avoid final isolated values, that appear when a value to be processed is surrounded by NoData values, and to assign them the value NoData, there is the optional parameter <i>/AILLAT_NODATA</i>. Prudence is required when choosing the size of the convolution window; whilst a bigger window will reduce the number of iterations, it may also degrade the image by applying a  substitute value from excessively distant cells. </p>
+
+<p>When replacing the values to be processed by the mean or modal value of the convolution window, NoData values are never considered, which can result in the calculation being made on a very limited sample. In this case, if the number of valid pixels within    the convolution window is inferior to half the number of cells in the window, it is possible to mark the pixel that is being processed with a NoData value if the <i>/NODATA_MAJORITARI</i> parameter is used. Alternatively, accept the calculation made with the available sample.</p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="FagoVal_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">FagoVal dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
 
 <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -73,6 +85,7 @@ It may also be the case that a value is not phagocytosed because the result of t
 To obtain the complete help, please type:
 FagoVal ?
 -->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
 </exclusiva>
 </body>
 </html>

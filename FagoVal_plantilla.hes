@@ -1,66 +1,77 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 18-01-2024 */-->
+<!--/* Revisió AA 15-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
   <title>FagoVal: Filtrado selectivo de valores de rásters</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/FagoVal.htm"><font size="+2">FagoVal</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
 
  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-  <p>Este proceso puede servir, conceptualmente, para diferentes propósitos:</p>
+<p>Este proceso puede servir, conceptualmente, para diferentes propósitos:</p>
 
-  <ul>
-    <li>En procesamiento de imágenes, como <b>filtro selectivo</b>, que
-    elimina ciertos valores.</li>
+<ul>
+    <li>En procesamiento de imágenes, como <b>filtro selectivo</b>, que elimina ciertos valores.</li>
 
-    <li>Después de una clasificación en teledetección, para substituir los
-    píxeles no clasificados (típicamente con valor cero) por el valor más
-    frecuente en su entorno obteniendo así un fichero totalmente
-    clasificado.</li>
+    <li>Después de una clasificación en teledetección, para substituir los píxeles no clasificados (típicamente con valor cero) por el valor más frecuente en su entorno obteniendo así un fichero totalmente clasificado.</li>
 
-    <li>En generalización cartográfica y SIG, y también después de una
-    clasificación de teledetección, para asignar ciertos valores (típicamente
-    resultantes de seleccionar grupos de celdas con poca área total) a los
-    valores (categorías) más frecuentes a su alrededor. Este proceso es
-    geográficamente mucho mejor que los tradicionalmente utilizados filtros de
-    moda, que resultan demasiado indiscriminados y modifican excesivamente la
-    morfología de los polígonos.</li>
-  </ul>
+    <li>En generalización cartográfica y SIG, y también después de una clasificación de teledetección, para asignar ciertos valores (típicamente resultantes de seleccionar grupos de celdas con poca área total) a los valores (categorías) más frecuentes a su alrededor. Este proceso es geográficamente mucho mejor que los tradicionalmente utilizados filtros de moda, que resultan demasiado indiscriminados y modifican excesivamente la morfología de los polígonos.</li>
+</ul>
 
-  <p>El nombre de la aplicación, FagoVal, se debe a la similitud entre el proceso
-  que se lleva a cabo y el proceso de fagocitosis biológica: una célula más
-  grande (en este caso la matriz de convolución) elimina otros elementos (en
-  este caso valores seleccionados) rodeándolos e integrándolos en su seno.</p>
+<p>El nombre de la aplicación, FagoVal, se debe a la similitud entre el proceso  que se lleva a cabo y el proceso de fagocitosis biológica: una célula más  grande (en este caso la matriz de convolución) elimina otros elementos (en  este caso valores seleccionados) rodeándolos e integrándolos en su seno.</p>
 
-  <p>Cuando existe un área de valores a fagocitar más extensa que la ventana
-  de convolución, quedará algún valor interior que no ha sido fagocitado en un
-  primer proceso, y en este caso se le preguntará al usuario si desea hacer
-  una nueva iteración del proceso de substitución. Existe el parámetro
-  opcional <i>/ITERAR_AUTO</i> para evitar interrumpir la aplicación al hacerle
-  esta consulta al usuario y proseguir iterando hasta que ya no quede ningún
-  valor a fagocitar o solamente queden valores aislados. También puede darse el caso de que un valor no sea fagocitado porque el resultado de la sustitución es él mismo de acuerdo con el cálculo de convolución (por ejemplo, en una sustitución por media o también en una sustituci&oacute;n por mediana con desempate por medio de los dos valores centrales).</p>
-  <p>Se puede evitar que queden valores aislados, que se presenten cuando un valor
-  a fagocitar está rodeado de sindatos, y asignarle el valor sindatos, activando
-  el parámetro optativo <i>/AILLAT_NODATA</i>. Hay que ser prudente al definir
-  las dimensiones de la ventana de convolución; si bien una ventana grande
-  reducirá el número de iteraciones, puede estropear la imagen al aplicar,
-  sobre un valor a fagocitar, valores de celdas excesivamente lejanas.</p>
-   <p>En la substitución del valor a fagocitar por la media o moda de los píxeles
-  dentro de la ventana de convolución, los valores sindatos nunca participan,
-  cosa que puede provocar que el cálculo se realice sobre una muestra muy
-  reducida; por lo tanto, en caso de que dentro de la ventana el número de
-  píxeles válidos sea inferior a la mitad de la muestra, se puede  marcar este
-  píxel a fagocitar como sindatos si se activa el parámetro
-  <i>/NODATA_MAJORITARI</i>, o realizar el cálculo con la muestra
-disponible.</p>
-   <hr/>
+<p>Cuando existe un área de valores a fagocitar más extensa que la ventana"  de convolución, quedará algún valor interior que no ha sido fagocitado en un"  primer proceso, y en este caso se le preguntará al usuario si desea hacer"  una nueva iteración del proceso de substitución. Existe el parámetro"  opcional <i>/ITERAR_AUTO</i> para evitar interrumpir la aplicación al hacerle"  esta consulta al usuario y proseguir iterando hasta que ya no quede ningún"  valor a fagocitar o solamente queden valores aislados. También puede darse el caso de que un valor no sea fagocitado porque el resultado de la sustitución es él mismo de acuerdo con el cálculo de convolución (por ejemplo, en una sustitución por media o también en una sustituci&oacute;n por mediana con desempate por medio de los dos valores centrales).</p>"  <p>Se puede evitar que queden valores aislados, que se presenten cuando un valor"  a fagocitar está rodeado de sindatos, y asignarle el valor sindatos, activando"  el parámetro optativo <i>/AILLAT_NODATA</i>. Hay que ser prudente al definir"  las dimensiones de la ventana de convolución; si bien una ventana grande"  reducirá el número de iteraciones, puede estropear la imagen al aplicar,"  sobre un valor a fagocitar, valores de celdas excesivamente lejanas.</p>"   <p>En la substitución del valor a fagocitar por la media o moda de los píxeles"  dentro de la ventana de convolución, los valores sindatos nunca participan,"  cosa que puede provocar que el cálculo se realice sobre una muestra muy"  reducida; por lo tanto, en caso de que dentro de la ventana el número de"  píxeles válidos sea inferior a la mitad de la muestra, se puede  marcar este"  píxel a fagocitar como sindatos si se activa el parámetro"  <i>/NODATA_MAJORITARI</i>, o realizar el cálculo con la muestra"disponible.</p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="FagoVal_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de FagoVal</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
 
 <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -68,6 +79,7 @@ disponible.</p>
 Para obtener la ayuda completa escriba:
 FagoVal ?
 -->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
 </exclusiva>
 </body>
 </html>

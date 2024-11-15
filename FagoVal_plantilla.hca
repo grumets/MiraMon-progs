@@ -1,66 +1,81 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 18-01-2024 */-->
+<!--/* Revisió AA 15-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>FagoVal: Filtratge selectiu de valors de ràsters</title>
+<title>FagoVal: Filtratge selectiu de valors de ràsters</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/FagoVal.htm"><font size="+2">FagoVal</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
- <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-  <p>Aquest procés pot servir, conceptualment, per diferents propòsits:</p>
+<p>Aquest procés pot servir, conceptualment, per diferents propòsits:</p>
 
-  <ul>
-    <li>En processament d'imatges, com un <b>filtre selectiu</b>, que
-    elimina certs valors.</li>
+<ul>
+	<li>En processament d'imatges, com un <b>filtre selectiu</b>, que elimina certs valors.</li>
 
-    <li>Després d'una classificació de teledetecció, per a substituir els
-    píxels no classificats (típicament amb valor zero) pel valor més freqüent
-    al seu entorn i, així, obtenir un fitxer totalment classificat.</li>
+    <li>Després d'una classificació de teledetecció, per a substituir els    píxels no classificats (típicament amb valor zero) pel valor més freqüent    al seu entorn i, així, obtenir un fitxer totalment classificat.</li>
 
-    <li>En generalització cartogràfica i SIG, i també després d'una
-    classificació de teledetecció, per a assignar uns certs valors (típicament
-    resultants de seleccionar grups de cel·les de poca àrea total) als valors
-    (categories) més freqüents al seu voltant. Aquest procés és geogràficament
-    molt millor als tradicionalment usats filtres de moda, que resulten massa
-    indiscriminats i modifiquen excessivament la morfologia dels
-    polígons.</li>
-  </ul>
+    <li>En generalització cartogràfica i SIG, i també després d'una    classificació de teledetecció, per a assignar uns certs valors (típicament    resultants de seleccionar grups de cel·les de poca àrea total) als valors    (categories) més freqüents al seu voltant. Aquest procés és geogràficament    molt millor als tradicionalment usats filtres de moda, que resulten massa    indiscriminats i modifiquen excessivament la morfologia dels    polígons.</li>
+</ul>
 
-  <p>El nom de l'aplicació, FagoVal, es deu a la similitud entre el procés que
-  es duu a terme i el procés de fagocitosi biològica: una cèl·lula més gran
-  (en aquest cas la matriu de convolució) elimina altres elements (en aquest
-  cas valors seleccionats) envoltant-los i integrant-los al seu si.</p>
+<p>El nom de l'aplicació, FagoVal, es deu a la similitud entre el procés que  es duu a terme i el procés de fagocitosi biològica: una cèl·lula més gran  (en aquest cas la matriu de convolució) elimina altres elements (en aquest  cas valors seleccionats) envoltant-los i integrant-los al seu si.</p>
 
-  <p>Quan existeix una àrea de valors a fagocitar més extensa que la finestra
-  de convolució, romandrà algun valor interior que no ha estat fagocitat en un
-  primer procés, i en aquest cas es demana a l'usuari si desitja fer una
-  nova iteració del procés de substitució. Existeix el paràmetre opcional
-  <i>/ITERAR_AUTO</i> per a evitar interrompre l'aplicació per a realitzar
-  aquesta consulta a l'usuari i prosseguir iterant fins que ja no quedi
-  cap valor a fagocitar o només restin valors aïllats.
-També es pot donar el cas que un valor no sigui fagocitat perquè el resultat de la substitució és ell mateix d'acord amb el càlcul de convolució (per exemple, en una substitució per mitjana o també en una substituci&oacute; per mediana amb desempat per mitjana dels dos valors centrals).</p>
+<p>Quan existeix una àrea de valors a fagocitar més extensa que la finestra  de convolució, romandrà algun valor interior que no ha estat fagocitat en un  primer procés, i en aquest cas es demana a l'usuari si desitja fer una  nova iteració del procés de substitució. Existeix el paràmetre opcional  <i>/ITERAR_AUTO</i> per a evitar interrompre l'aplicació per a realitzar  aquesta consulta a l'usuari i prosseguir iterant fins que ja no quedi  cap valor a fagocitar o només restin valors aïllats.També es pot donar el cas que un valor no sigui fagocitat perquè el resultat de la substitució és ell mateix d'acord amb el càlcul de convolució (per exemple, en una substitució per mitjana o també en una substituci&oacute; per mediana amb desempat per mitjana dels dos valors centrals).</p>
   
-  <p>Es pot evitar que quedin valors aïllats, que es presenten quan un valor a
-  fagocitar està rodejat de sensedades, i assignar-li el valor sensedades, activant el
-  paràmetre optatiu <i>/AILLAT_NODATA</i>. Cal ser prudent en definir les
-  dimensions de la finestra de convolució; si bé una finestra gran reduirà el
-  nombre de iteracions, pot espatllar la imatge en aplicar, sobre un valor a
-  fagocitar, valors de cel·les excessivament llunyanes.</p>
-  <p>En la substitució del valor a fagocitar per la mitjana o moda dels píxels
-  dins la finestra de convolució, mai no participen els valors sensedades, cosa
-  que pot provocar que el càlcul es realitzi sobre una mostra molt reduïda;
-  per tant, en el cas que dins la finestra el nombre de píxels vàlids sigui
-  inferior a la meitat de la mostra, es pot marcar aquest píxel a fagocitar com
-  a sensedades si s'activa el paràmetre <i>/NODATA_MAJORITARI</i>, o realitzar el
-  càlcul amb la mostra disponible.</p>
-  <hr/>
+<p>Es pot evitar que quedin valors aïllats, que es presenten quan un valor a  fagocitar està rodejat de sensedades, i assignar-li el valor sensedades, activant el  paràmetre optatiu <i>/AILLAT_NODATA</i>. Cal ser prudent en definir les  dimensions de la finestra de convolució; si bé una finestra gran reduirà el  nombre de iteracions, pot espatllar la imatge en aplicar, sobre un valor a  fagocitar, valors de cel·les excessivament llunyanes.</p>
+  
+<p>En la substitució del valor a fagocitar per la mitjana o moda dels píxels  dins la finestra de convolució, mai no participen els valors sensedades, cosa  que pot provocar que el càlcul es realitzi sobre una mostra molt reduïda;  per tant, en el cas que dins la finestra el nombre de píxels vàlids sigui  inferior a la meitat de la mostra, es pot marcar aquest píxel a fagocitar com  a sensedades si s'activa el paràmetre <i>/NODATA_MAJORITARI</i>, o realitzar el  càlcul amb la mostra disponible.</p>
 
-  <exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="FagoVal_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg del FagoVal</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+ <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+
  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -68,6 +83,7 @@ També es pot donar el cas que un valor no sigui fagocitat perquè el resultat de 
 Per a obtenir l'ajuda completa escriviu:
 FagoVal ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
