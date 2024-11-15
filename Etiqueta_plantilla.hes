@@ -1,54 +1,78 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 12-07-2024 */-->
+<!--/* Revisió AA 15-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>Etiqueta: Generación de etiquetas en el interior de polígonos</title>
+<title>Etiqueta: Generación de etiquetas en el interior de polígonos</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<h1><span id="wpstitol"/>
-<ul><p>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/Etiqueta.htm">Etiqueta</a></p></ul></h1>
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/Etiqueta.htm"><font size="+2">Etiqueta</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-  <p>Un polígono es una figura geométrica bidimensional que describe un área
-  cerrada. En MiraMon, además, puede ser una entidad topológica descrita por una
-  sucesión de arcos que definen sus bordes. Los polígonos pueden tener
-   atributos geométrico-topológicos (como el área) y temáticos (como el tipo de vegetación presente en ese polígono) asociados. Una posible forma de transferir o asociar los atributos temáticos a los polígonos (los geométrico topológicos son generados automáticamente por MiraMon) es con un punto en el interior de cada polígono; cada punto llevará asociados los atributos que se desea transferir al correspondiente polígono. En el caso del formato POL se pueden transferir tantos atributos como se desee y, además, se pueden transferir varios registros con la misma estructura de atributos (campos de una tabla): por ejemplo varios propietarios de una parcela en sendos registros (multiregistro), cada uno de ellos con tantos campos como atributos (nombre del propietario, apellido, etc) como sea necesario. En el caso del formato VEC sólo se admite un atributo y registro). Estos puntos se denominan etiquetas, y el proceso de transferencia de los atributos desde los puntos en los polígonos, etiquetaje (<a href="AtriPol.htm">AtriPol</a>, <a href="AtriTop.htm">AtriTop</a>). A veces, sin embargo, interesa realizar el proceso inverso; es decir, a partir de una capa de polígonos obtener las etiquetas que servirían para etiquetarlos. Este interés puede venir por cuestiones de estética cartográfica (la posición del etiquetado automático generada por las funciones de simbolización del programa no resultan suficientemente satisfactorias) o por cuestiones de geoprocesamiento (se ha reconstruido la topología desde cero y se desea volver a aplicar las etiquetas que ya se tenían, quizás eliminando o añadiendo alguna, añadiendo o eliminando registros en caso de registro múltiple, cambiando los atributos, etc). A efectos de geoprocesamiento no siempre es necesario trabajar con etiquetas, y a partir de la versión 9 de MiraMon la digitalización de capas vectoriales con estructuración topológica interactiva permite resolver la mayoría de cuestiones de forma visual.</p>
-  
-  <p>Este programa permite la generación de puntos que son etiquetas de
-  polígonos a partir de un fichero POL (estructurado topológicamente o no), o de un fichero VEC (que siempre es un fichero de polígonos explícitos). Las nuevas etiquetas pueden heredar, o no, los atributos
-  preexistentes de los polígonos y se escriben en el mismo orden que los polígonos
-  originales. El programa permite poner, o no, una etiqueta sobre el polígono cero
-  (el polígono exterior, o universal, que envuelve a todos los demás).</p>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
 
-  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+
+<p>Un polígono es una figura geométrica bidimensional que describe un área  cerrada. En MiraMon, además, puede ser una entidad topológica descrita por una  sucesión de arcos que definen sus bordes. Los polígonos pueden tener   atributos geométrico-topológicos (como el área) y temáticos (como el tipo de vegetación presente en ese polígono) asociados. Una posible forma de transferir o asociar los atributos temáticos a los polígonos (los geométrico topológicos son generados automáticamente por MiraMon) es con un punto en el interior de cada polígono; cada punto llevará asociados los atributos que se desea transferir al correspondiente polígono. En el caso del formato POL se pueden transferir tantos atributos como se desee y, además, se pueden transferir varios registros con la misma estructura de atributos (campos de una tabla): por ejemplo varios propietarios de una parcela en sendos registros (multiregistro), cada uno de ellos con tantos campos como atributos (nombre del propietario, apellido, etc) como sea necesario. En el caso del formato VEC sólo se admite un atributo y registro). Estos puntos se denominan etiquetas, y el proceso de transferencia de los atributos desde los puntos en los polígonos, etiquetaje (<a href="AtriPol.htm">AtriPol</a>, <a href="AtriTop.htm">AtriTop</a>). A veces, sin embargo, interesa realizar el proceso inverso; es decir, a partir de una capa de polígonos obtener las etiquetas que servirían para etiquetarlos. Este interés puede venir por cuestiones de estética cartográfica (la posición del etiquetado automático generada por las funciones de simbolización del programa no resultan suficientemente satisfactorias) o por cuestiones de geoprocesamiento (se ha reconstruido la topología desde cero y se desea volver a aplicar las etiquetas que ya se tenían, quizás eliminando o añadiendo alguna, añadiendo o eliminando registros en caso de registro múltiple, cambiando los atributos, etc). A efectos de geoprocesamiento no siempre es necesario trabajar con etiquetas, y a partir de la versión 9 de MiraMon la digitalización de capas vectoriales con estructuración topológica interactiva permite resolver la mayoría de cuestiones de forma visual.</p>
+  
+<p>Este programa permite la generación de puntos que son etiquetas de  polígonos a partir de un fichero POL (estructurado topológicamente o no), o de un fichero VEC (que siempre es un fichero de polígonos explícitos). Las nuevas etiquetas pueden heredar, o no, los atributos  preexistentes de los polígonos y se escriben en el mismo orden que los polígonos  originales. El programa permite poner, o no, una etiqueta sobre el polígono cero  (el polígono exterior, o universal, que envuelve a todos los demás).</p>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/><br/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>Las etiquetas sólo pueden ser generadas de manera totalmente automática y correcta a
-  partir de un fichero con topología (POL) o, en el caso de un fichero VEC, siempre que no existan polígonos superpuestos. Además, en el caso del formato VEC, ningún polígono puede contener islas interiores (polígonos ubicados dentro de polígonos); es por
-  ello que en el caso de un fichero VEC hay una opción para verificar si hay errores en la generación de las etiquetas.</p>
+<p>Las etiquetas sólo pueden ser generadas de manera totalmente automática y correcta a  partir de un fichero con topología (POL) o, en el caso de un fichero VEC, siempre que no existan polígonos superpuestos. Además, en el caso del formato VEC, ningún polígono puede contener islas interiores (polígonos ubicados dentro de polígonos); es por  ello que en el caso de un fichero VEC hay una opción para verificar si hay errores en la generación de las etiquetas.</p>
   
-  <p>En el caso de archivos POL que contengan grupos, como un archipiélago de islas, se genera una etiqueta para cada polígono elemental.</p>
+<p>En el caso de archivos POL que contengan grupos, como un archipiélago de islas, se genera una etiqueta para cada polígono elemental.</p>
 
-  <p>La posición del punto en la dimensión Y se acerca a la media aritmética
-  de sus coordenadas. La posición del punto en la dimensión X puede
-  establecerse o bien a una distancia igual a la tolerancia (indicada
-  en línea de comandos) del borde derecho o izquierdo del polígono, o bien tan
-  al centro como lo permita la geometría de cada polígono.</p>
+<p>La posición del punto en la dimensión Y se acerca a la media aritmética  de sus coordenadas. La posición del punto en la dimensión X puede  establecerse o bien a una distancia igual a la tolerancia (indicada  en línea de comandos) del borde derecho o izquierdo del polígono, o bien tan  al centro como lo permita la geometría de cada polígono.</p>
 
-  <p>Para el caso de un fichero VEC, en general se
-  obtienen mejores resultados si la tolerancia es pequeña y los puntos quedan
-  muy cerca del límite de los polígonos. En cambio, en el caso de ficheros
-  POL, se puede optar directamente por etiquetar de forma centrada, ya que
-  estéticamente suele ser mejor.</p>
+<p>Para el caso de un fichero VEC, en general se  obtienen mejores resultados si la tolerancia es pequeña y los puntos quedan  muy cerca del límite de los polígonos. En cambio, en el caso de ficheros  POL, se puede optar directamente por etiquetar de forma centrada, ya que  estéticamente suele ser mejor.</p>
 
-  <p>Cuando el fichero origen es un VEC el fichero
-  resultado es un fichero VEC de puntos; en el caso de un fichero POL, el
-  fichero de salida es un fichero PNT.</p>
-  <hr/>
+<p>Cuando el fichero origen es un VEC el fichero  resultado es un fichero VEC de puntos; en el caso de un fichero POL, el  fichero de salida es un fichero PNT.</p>
 
-  <exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="Etiqueta_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de Etiqueta</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+
   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -56,6 +80,7 @@
 Para obtener la ayuda completa escriba:
 Etiqueta ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
