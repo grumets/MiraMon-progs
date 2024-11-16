@@ -1,188 +1,132 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 12-07-2024 */-->
+<!--/* Revisió AA 16-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>RegMult: Multivariate regression and residual interpolation</title>
+<title>RegMult: Multivariate regression and residual interpolation</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<h1><span id="wpstitol"/>
-<ul><p>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/RegMult.htm">RegMult</a></p></ul></h1>
+<h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/RegMult.htm"><font size="+2">RegMult</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>The model applies multiple linear regression
-  in such a way that the <i>Y</i> dependent variable is obtained from the
-  <i>x<sub>n</sub></i> independent variables, using an expression of the
-  following type:</p>
+<p>The model applies multiple linear regression in such a way that the <i>Y</i> dependent variable is obtained from the <i>x<sub>n</sub></i> independent variables, using an expression of the following type:</p>
 
-  <p align="center"><img height="24" src="RegMult_f_multilinial.gif" width="216"/></p>
+<p align="center"><img height="24" src="RegMult_f_multilinial.gif" width="216"/></p>
 
-  <p>The a<sub>0</sub>, a<sub>1</sub>,... a<sub>n</sub> coefficients are fitted
-  for least squares. The application offers the possibility of adding a spatial
-  interpolation of the resulting residuals, in such a way that the predictive
-  power is in many cases improved so that the interpolation can account for
-  most of the variance that is not explained by the multiple regression.</p>
+<p>The a<sub>0</sub>, a<sub>1</sub>,... a<sub>n</sub> coefficients are fitted for least squares. The application offers the possibility of adding a spatial interpolation of the resulting residuals, in such a way that the predictive power is in many cases improved so that the interpolation can account for most of the variance that is not explained by the multiple regression.</p>
 
-  <p>In order to determine the regression coefficients it is necessary to
-  provide a set of samples in which the dependent variable is known in
-  specific (precise) locations and all the possible independent variables.
-  These samples are provided either in a structured <b>PNT</b> point file, or
-  in a <b>DBF</b> format table, or in a table in any of the formats that are
-  accessible with an <b><a href="../mm32/ap9.htm">ODBC</a></b> driver (Open Database Connectivity). The
-  independent variables should be provided as raster in <b>IMG</b> format of
-  the same geographical area and pixel size. The predictive result will also
-  be a raster in <b>IMG</b> format.</p>
+<p>In order to determine the regression coefficients it is necessary to provide a set of samples in which the dependent variable is known in specific (precise) locations and all the possible independent variables. These samples are provided either in a structured <b>PNT</b> point file, or in a <b>DBF</b> format table, or in a table in any of the formats that are accessible with an <b><a href="../mm32/ap9.htm">ODBC</a></b> driver (Open Database Connectivity). The independent variables should be provided as raster in <b>IMG</b> format of the same geographical area and pixel size. The predictive result will also be a raster in <b>IMG</b> format.</p>
 
-  <p>The process to create the resulting raster has two phases (or a single
-  phase in the simplified version of the algorithm): regression and
-  interpolation.<br/>
-  The regression procedure is, in fact, an iterative adjustment
-  process of all the possible regressions: from the regression with all the
-  independent variables initially entered to regressions with a single
-  independent variable. Analyzing the statistical parameters of each regression and, depending on the criterion chosen (best R<sup>2</sup> adjusted coefficient or <i>C<sub>p</sub> Mallows</i>), the best of all the regressions possible is obtained (provided that the lowest acceptable significance threshold is exceeded).</p>
+<p>The process to create the resulting raster has two phases (or a single phase in the simplified version of the algorithm): regression and interpolation.<br/>
+The regression procedure is, in fact, an iterative adjustment process of all the possible regressions: from the regression with all the independent variables initially entered to regressions with a single independent variable. Analyzing the statistical parameters of each regression and, depending on the criterion chosen (best R<sup>2</sup> adjusted coefficient or <i>C<sub>p</sub> Mallows</i>), the best of all the regressions possible is obtained (provided that the lowest acceptable significance threshold is exceeded).</p> 
+<table border="1" bordercolor="#FFFFFF" width="75%">
+<tr>
+	<td bordercolor="#FFFFFF" width="48%">
+    <p align="center"><img height="58" src="RegMult_r2_adjusted.gif" width="182"/></p>
 
-  <table border="1" bordercolor="#FFFFFF" width="75%">
-    <tr>
-      <td bordercolor="#FFFFFF" width="48%">
-        <p align="center"><img height="58" src="RegMult_r2_adjusted.gif" width="182"/></p>
+    <p align="center">n: number of adjustment points</p>
 
-        <p align="center">n: number of adjustment points</p>
+    <p align="center">k: number of independent variables</p>
 
-        <p align="center">k: number of independent variables</p>
+    <p align="center">R<sup>2</sup>: coefficient of determination</p>
+  </td>
 
-        <p align="center">R<sup>2</sup>: coefficient of determination</p>
-      </td>
+  <td bordercolor="#FFFFFF" width="52%">
+    <p align="center"><img height="58" src="RegMult_CpMallows.gif" width="258"/></p>
 
-      <td bordercolor="#FFFFFF" width="52%">
-        <p align="center"><img height="58" src="RegMult_CpMallows.gif" width="258"/></p>
+    <p align="center">p: number of independent variables selected</p>
 
-        <p align="center">p: number of independent variables selected</p>
+    <p align="center">T: maximum number of independent variables</p>
 
-        <p align="center">T: maximum number of independent variables</p>
-
-        <p align="center">n: number of adjustment points</p>
-      </td>
-    </tr>
+    <p align="center">n: number of adjustment points</p>
+  </td>
+  </tr>
   </table>
 
-  <p>During the selection procedure for the optimum regression, the application
-  provides information about the statistical parameters of the regression with
-  all the independent variables entered and about the statistical parameters
-  of the regression selected (only if both solutions are different) and in this way it
-  is able to evaluate how the selected regression improves by eliminating any
-  variable which has been detected as having low significance.<br/> 
-  If the user has selected only the multivariate regression option, the resulting model will
-  be generated by calculating the solution of the selected regression
-  throughout the area of the study using the adjusted coefficients applied to
-  the independent variables necessarily defined throughout the area of the
-  study.</p>
+<p>During the selection procedure for the optimum regression, the application provides information about the statistical parameters of the regression with all the independent variables entered and about the statistical parameters of the regression selected (only if both solutions are different) and in this way it is able to evaluate how the selected regression improves by eliminating any variable which has been detected as having low significance.<br/> 
+If the user has selected only the multivariate regression option, the resulting model will be generated by calculating the solution of the selected regression throughout the area of the study using the adjusted coefficients applied to the independent variables necessarily defined throughout the area of the study.</p>
 
-  <p>If the user has chosen to obtain the model with the complete algorithm
-  (regression and residual interpolation), there will be a second phase
-  consisting on the calculation of the residuals of the sample of adjustment
-  points. The residuals are obtained by calculating the differences between
-  the model predicted by the multivariate regression and the known value of
-  the dependent variable. These residuals, known only in the locations of the
-  adjustment points, will spread throughout the area of the study through
-  interpolation. The user will be able to choose between two interpolation
-  methods: Inverse distance weighted (IDW) or regularized spline function. The parameters and the features of the two methodologies can be consulted in <a href="InterPNT.htm">InterPNT.htm</a>.</p>
+<p>If the user has chosen to obtain the model with the complete algorithm (regression and residual interpolation), there will be a second phase consisting on the calculation of the residuals of the sample of adjustment points. The residuals are obtained by calculating the differences between the model predicted by the multivariate regression and the known value of the dependent variable. These residuals, known only in the locations of the adjustment points, will spread throughout the area of the study through interpolation. The user will be able to choose between two interpolation methods: Inverse distance weighted (IDW) or regularized spline function. The parameters and the features of the two methodologies can be consulted in <a href="InterPNT.htm">InterPNT.htm</a>.</p>
 
-  <p>The search for the set of parameters which will produce the optimum
-  interpolation of the residuals is an important step. The results of the
-  interpolation, and of the method as a whole, may vary significantly
-  depending on which set of parameters is applied. Consequently, it is highly
-  advisable to reserve an independent sample of the data points in order to
-  carry out the verification test. This test will mainly consist in
-  calculating the total RMS (root mean square) of the test points, checking
-  that there is no single point with an excessively high error. This (RMS)
-  indicator provides a good base for accepting a given set of parameters.
-  Other complementary criteria could be the assessment of the presence of
-  artifacts in the interpolation, the detection of a systematic error,
-  etc.</p>
+<p>The search for the set of parameters which will produce the optimum interpolation of the residuals is an important step. The results of the interpolation, and of the method as a whole, may vary significantly depending on which set of parameters is applied. Consequently, it is highly advisable to reserve an independent sample of the data points in order to carry out the verification test. This test will mainly consist in calculating the total RMS (root mean square) of the test points, checking that there is no single point with an excessively high error. This (RMS) indicator provides a good base for accepting a given set of parameters. Other complementary criteria could be the assessment of the presence of artifacts in the interpolation, the detection of a systematic error, etc.</p>
 
-  <p>In order to facilitate the analysis, which should provide the best
-  possible model, the application offers the option of generating two resulting
-  layers. The first is a vectorial point layer which contains the valid points
-  with data which, either participate in the adjustment and are later used to
-  interpolate the known residuals, or serve as a test to validate the
-  interpolated solution. For the test points, the user is informed in the database of the residual obtained as the difference between the known value and the predicted value (regression+interpolation), and for the adjustment points, the residual obtained is reported as the difference between the known value and the predicted value (regression only). The following illustration shows these details.</p>
+<p>In order to facilitate the analysis, which should provide the best possible model, the application offers the option of generating two resulting layers. The first is a vectorial point layer which contains the valid points with data which, either participate in the adjustment and are later used to interpolate the known residuals, or serve as a test to validate the interpolated solution. For the test points, the user is informed in the database of the residual obtained as the difference between the known value and the predicted value (regression+interpolation), and for the adjustment points, the residual obtained is reported as the difference between the known value and the predicted value (regression only). The following illustration shows these details.</p>
 
-  <p align="center"><img height="149" src="RegMult_BD_rms.png" width="524"/></p>
+<div align="center"><img height="149" src="RegMult_BD_rms.png" width="524"/></div>
 
-  <p>The other resulting layer, which is optional and informative, is the
-  raster resulting from the interpolation of the residuals. An inspection of
-  this layer allows one to carry out an in-depth analysis of the interpolation
-  phase which is separate from the regression. It can be used to analyze if
-  the interpolation has generated unwanted artifacts, too many out of range
-  values, areas with too much variability, etc. It can also be a useful source
-  for getting to know and investigating the areas that display variability
-  which is inadequately registered by the independent variables.</p>
+<p>The other resulting layer, which is optional and informative, is the raster resulting from the interpolation of the residuals. An inspection of this layer allows one to carry out an in-depth analysis of the interpolation phase which is separate from the regression. It can be used to analyze if the interpolation has generated unwanted artifacts, too many out of range values, areas with too much variability, etc. It can also be a useful source for getting to know and investigating the areas that display variability which is inadequately registered by the independent variables.</p>
 
-  <p>In principle, all the points which have valid data within the area of the
-  study of the <b>PNT</b> file with the samples will be used either as
-  adjustment points or as test points. In addition, the application allows to filter out
-  those data which are not considered appropriate by applying restrictions to
-  the database. If the sample does not have an explicit graphic layer, in
-  which case the fields must necessarily be defined with the coordinates, the
-  restrictions will be applied using an <b>SQL</b> (Structured Query
-  Sentence). Once the whole of the sample to be used has been selected, how it is to be subdivided into adjustment points and test points must be decide.</p>
+<p>In principle, all the points which have valid data within the area of the study of the <b>PNT</b> file with the samples will be used either as adjustment points or as test points. In addition, the application allows to filter out those data which are not considered appropriate by applying restrictions to the database. If the sample does not have an explicit graphic layer, in which case the fields must necessarily be defined with the coordinates, the restrictions will be applied using an <b>SQL</b> (Structured Query Sentence). Once the whole of the sample to be used has been selected, how it is to be subdivided into adjustment points and test points must be decide.</p>
 
-  <p>The choice regarding which points of the sample will be adjustment points
-  and which will be test points can be left as a random option indicating only
-  which proportion (%) will correspond to adjustment points and which
-  proportion to test points. This random choice may originate from a fixed
-  seed (generating reproducible sub-samples, or using a variable seed
-  (obtaining different sub-samples in every new execution). It is also
-  possible to decide by means of a field of a database by assigning the value
-  <b>A</b> to the adjustment points and the value <b>T</b> to the test points.
-  It is also possible do a cross validation. In this case the output raster is obtained using all points as adjustment points and, to do the tests, an iteration process is done, in number equal to the total number of points, where in each one of them the adjustment is made again leaving out one point to carry out the test.  The final RMS is calculated as the square root of the average error of
-  each iteration previously squared. This type of validation is specially interesting when the dependent
-  variable has little samples, all samples are essential and it can not dispense with any point in using them as test. Using the cross
-  validation all samples are adjustment and test both.</p>
+<p>The choice regarding which points of the sample will be adjustment points and which will be test points can be left as a random option indicating only which proportion (%) will correspond to adjustment points and which proportion to test points. This random choice may originate from a fixed seed (generating reproducible sub-samples, or using a variable seed (obtaining different sub-samples in every new execution). It is also possible to decide by means of a field of a database by assigning the value <b>A</b> to the adjustment points and the value <b>T</b> to the test points. It is also possible do a cross validation. In this case the output raster is obtained using all points as adjustment points and, to do the tests, an iteration process is done, in number equal to the total number of points, where in each one of them the adjustment is made again leaving out one point to carry out the test.The final RMS is calculated as the square root of the average error of each iteration previously squared. This type of validation is specially interesting when the dependent variable has little samples, all samples are essential and it can not dispense with any point in using them as test. Using the cross validation all samples are adjustment and test both.</p>
 
-  <p>The two obligatory resulting files are a text plain, which contains
-  information about how the whole process has been carried out, and the raster
-  with the predictive model.<br/>
-  The text file gives information about which
-  options the user has chosen, what the adjusted coefficients of the
-  regression are, both those which are used to reproduce the multivariate
-  model and the normalized coefficients (reduced to comparable ranges of mean
-  0 and deviation 1) in order to be able to analyze the influence of each
-  independent variable on the model, which independent variables have been
-  discarded and what are the main statistics of the selected regression and of
-  the whole. Finally, information is given regarding the quality of the model
-  by means of the <b>RMS</b> of the test points, which is also recorded in the
-  metadata of the resulting layer.</p>
+<p>The two obligatory resulting files are a text plain, which contains information about how the whole process has been carried out, and the raster with the predictive model.<br/> The text file gives information about which options the user has chosen, what the adjusted coefficients of the regression are, both those which are used to reproduce the multivariate model and the normalized coefficients (reduced to comparable ranges of mean 0 and deviation 1) in order to be able to analyze the influence of each independent variable on the model, which independent variables have been discarded and what are the main statistics of the selected regression and of the whole. Finally, information is given regarding the quality of the model by means of the <b>RMS</b> of the test points, which is also recorded in the metadata of the resulting layer.</p>
 
-  <p>The <b>IMG</b> raster resulting from the predictive model will have the
-  same geographical area and pixel size as the rasters of the independent
-  variables; it is possible to delimit, by means of an exclusion
-  mask, the areas in which it is not necessary to calculate the resulting
-  value (by giving it a NoData tag). By opting not to calculate the solution
-  of the model for these areas, it is possible to considerably accelerate the
-  execution speed. It is also possible to define extreme visualization
-  values (minimum and maximum) which make it possible to produce
-  visually-comparable maps by maintaining the assignation between the range of
-  values and the colors of the assigned palette constant.</p>
+<p>The <b>IMG</b> raster resulting from the predictive model will have the same geographical area and pixel size as the rasters of the independent variables; it is possible to delimit, by means of an exclusion mask, the areas in which it is not necessary to calculate the resulting value (by giving it a NoData tag). By opting not to calculate the solution of the model for these areas, it is possible to considerably accelerate the execution speed. It is also possible to define extreme visualization values (minimum and maximum) which make it possible to produce visually-comparable maps by maintaining the assignation between the range of values and the colors of the assigned palette constant.</p>
 
 <p>More information can be consulted at the following reference:</p>
 
 <p><b>Ninyerola M, Pons X, Roure JM</b> (2000)<i> A methodological approach of climatological modelling of air temperature and precipitation through GIS techniques</i>. International Journal of Climatology 20: 1823-1841. DOI: 10.1002/1097-0088(20001130)20:14<1823::AID-JOC566>3.0.CO;2-B. <a href="https://rmets.onlinelibrary.wiley.com/doi/epdf/10.1002/1097-0088(20001130)20:14<1823::AID-JOC566>3.0.CO;2-B">https://rmets.onlinelibrary.wiley.com/doi/epdf/10.1002/1097-0088(20001130)20:14<1823::AID-JOC566>3.0.CO;2-B</a>.
 
-  <hr/>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <exclusiva>
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="RegMult_finestra.png"><img src="RegMult_finestra2.png"><img src="RegMult_finestra3.png">
+<br><img src="RegMult_finestra4.png"></div></td>
+</tr>
+<tr>
+<td align="center">RegMutlt dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
 RegMult ?
---></p>
-
-  </exclusiva>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
