@@ -1,186 +1,97 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 19-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>IsoMDE: Generació de Models Digitals de Terreny a partir
-  d'isolínies</title>
+<title>IsoMDE: Generació de Models Digitals de Terreny a partir d'isolínies</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
  <!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/IsoMDE.htm"><font size="+2">IsoMDE</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
+
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>El mètode que utilitza el programa per a obtenir el ràster a partir de
-  les isolínies no és únic algorisme, sinó que és un conjunt de procediments i
-  regles seleccionats heurísticament d'entre diversos dels plantejats a la
-  bibliografia especialitzada. El procediment mare és el traçat de perfils
-  entre les corbes de nivell. Donada l'especial disposició de les dades a
-  les corbes de nivell, amb moltes dades d'igual valor molt properes però
-  alineades i grans zones sense cap dada entre elles, aquest mètode sol ser
-  millor que l'aplicació d'interpoladors entre punts quan les dades de
-  què es disposa són corbes de nivell.</p>
+<p>El mètode que utilitza el programa per a obtenir el ràster a partir de les isolínies no és únic algorisme, sinó que és un conjunt de procediments i regles seleccionats heurísticament d'entre diversos dels plantejats a la bibliografia especialitzada. El procediment mare és el traçat de perfils entre les corbes de nivell. Donada l'especial disposició de les dades a les corbes de nivell, amb moltes dades d'igual valor molt properes però alineades i grans zones sense cap dada entre elles, aquest mètode sol ser millor que l'aplicació d'interpoladors entre punts quan les dades de què es disposa són corbes de nivell.</p>
 
-  <p>El traçat d'aquests perfils s'efectua utilitzant diferents tipus
-  de funcions (valors constants, funcions lineals, funcions cúbiques, etc)
-  segons l'entorn de cada punt del territori; d'aquesta manera
-  s'eviten els problemes d'excessiva simplicitat derivats
-  d'aplicar només funcions lineals (els cims i valls queden sempre com a
-  plans horitzontals), però també s'eviten els artefactes i lentitud de
-  càlcul que poden aparèixer si s'apliquen funcions cúbiques o splines en
-  tot moment. En qualsevol cas, IsoMDE permet indicar quina és
-  l'equidistància entre les corbes de nivell per tal que es pugui evitar
-  que una funció no lineal arribi a donar valors exageradament alts o baixos
-  en zones de cim o de vall.</p>
+<p>El traçat d'aquests perfils s'efectua utilitzant diferents tipusde funcions (valors constants, funcions lineals, funcions cúbiques, etc)segons l'entorn de cada punt del territori; d'aquesta maneras'eviten els problemes d'excessiva simplicitat derivatsd'aplicar només funcions lineals (els cims i valls queden sempre com aplans horitzontals), però també s'eviten els artefactes i lentitud decàlcul que poden aparèixer si s'apliquen funcions cúbiques o splines entot moment. En qualsevol cas, IsoMDE permet indicar quina ésl'equidistància entre les corbes de nivell per tal que es pugui evitarque una funció no lineal arribi a donar valors exageradament alts o baixosen zones de cim o de vall.</p>
 
-  <p>Una altra característica de IsoMDE és que calcula els traçats sobre les
-  corbes originals en format vectorial, sense passar per una rasterització
-  prèvia. Això comporta una molt més precisa determinació dels valors
-  interpolats al llarg dels traçats (els mètodes que prèviament rasteritzen
-  acaben realitzant els càlculs a partir de posicions originals desplaçades
-  cap als centres de cel·la del ràster que es vol obtenir). Un avantatge
-  addicional del càlcul vectorial del traçat és que no cal preocupar-se per
-  l'escala original de les dades i el costat de cel·la del ràster
-  resultant. En efecte, si s'opta per una rasterització prèvia, quan dues
-  o més corbes de nivell passen per la mateixa cel·la del ràster només una
-  d'elles acaba tenint-se en compte en el càlcul final, i resulta
-  determinant en el resultat quina serà la triada, fet sobre el qual no se sol
-  tenir un control adequat (la majoria de programes de rasterització de línies
-  simplement assignen a la cel·la el valor de la darrera o de la primera línia
-  que afecta la cel·la).</p>
+<p>Una altra característica de IsoMDE és que calcula els traçats sobre lescorbes originals en format vectorial, sense passar per una rasteritzacióprèvia. Això comporta una molt més precisa determinació dels valorsinterpolats al llarg dels traçats (els mètodes que prèviament rasteritzenacaben realitzant els càlculs a partir de posicions originals desplaçadescap als centres de cel·la del ràster que es vol obtenir). Un avantatgeaddicional del càlcul vectorial del traçat és que no cal preocupar-se perl'escala original de les dades i el costat de cel·la del ràsterresultant. En efecte, si s'opta per una rasterització prèvia, quan dueso més corbes de nivell passen per la mateixa cel·la del ràster només unad'elles acaba tenint-se en compte en el càlcul final, i resultadeterminant en el resultat quina serà la triada, fet sobre el qual no se soltenir un control adequat (la majoria de programes de rasterització de líniessimplement assignen a la cel·la el valor de la darrera o de la primera líniaque afecta la cel·la).</p>
 
-  <p>Un segon avantatge de la realització de càlcul vectorial és que permet
-  fàcilment incorporar en la interpolació corbes situades fora del ràster a
-  obtenir i tenir-les en compte sense necessitat d'haver de realitzar el
-  procés sobre un ràster de més extensió territorial, el qual hauria de ser
-  retallat posteriorment.<br/>
-  Un tercer avantatge de la realització de càlcul vectorial és que evita que
-  quan una corba passa inclinada 45 graus es rasteritza en píxels en diagonal
-  i els perfils traçats en la diagonal contrària no veuen la corba i la
-  ignoren.</p>
+<p>Un segon avantatge de la realització de càlcul vectorial és que permetfàcilment incorporar en la interpolació corbes situades fora del ràster aobtenir i tenir-les en compte sense necessitat d'haver de realitzar elprocés sobre un ràster de més extensió territorial, el qual hauria de serretallat posteriorment.<br/>
+Un tercer avantatge de la realització de càlcul vectorial és que evita quequan una corba passa inclinada 45 graus es rasteritza en píxels en diagonali els perfils traçats en la diagonal contrària no veuen la corba i laignoren.</p>
 
-  <p>El càlcul vectorial pot ser titllat de lent, però cal tenir en compte que
-  durant el procés de rasterització de les isolínies també s'efectua
-  l'anàlisi de les interseccions un cop, i que el que aquí es proposa
-  simplement multiplica aproximadament per 4 el temps d'aquest procés. A
-  canvi, però, evitem escriure un ràster al disc i proporcionem una base de
-  càlcul molt més precisa per a la determinació dels valors interpolats. En
-  qualsevol cas, aquest increment de temps mai no és crític per al procés
-  conjunt que passa de les corbes de nivell al MDE final.</p>
+<p>El càlcul vectorial pot ser titllat de lent, però cal tenir en compte quedurant el procés de rasterització de les isolínies també s'efectual'anàlisi de les interseccions un cop, i que el que aquí es proposasimplement multiplica aproximadament per 4 el temps d'aquest procés. Acanvi, però, evitem escriure un ràster al disc i proporcionem una base decàlcul molt més precisa per a la determinació dels valors interpolats. Enqualsevol cas, aquest increment de temps mai no és crític per al procésconjunt que passa de les corbes de nivell al MDE final.</p>
 
-  <p>Malgrat el seu nom, IsoMDE no està limitat a les isolínies com a
-  informació de base per al procés d'interpolació. En efecte, i malgrat
-  que les corbes de nivell consitueixen la seva font principal de dades, el
-  programa també pot utilitzar la valuosa informació addicional que es troba
-  en el traçat de línies de carena i de tàlveg, tal i com les experiències de
-  Peuker van posar de relleu. En particular, noteu que la informació relativa
-  a la posició dels tàlvegs està sovint disponible fins i tot de forma
-  explícita ja que els mapes topogràfics solen recollir les línies de rius i
-  torrents.</p>
+<p>Malgrat el seu nom, IsoMDE no està limitat a les isolínies com ainformació de base per al procés d'interpolació. En efecte, i malgratque les corbes de nivell consitueixen la seva font principal de dades, elprograma també pot utilitzar la valuosa informació addicional que es trobaen el traçat de línies de carena i de tàlveg, tal i com les experiències dePeuker van posar de relleu. En particular, noteu que la informació relativaa la posició dels tàlvegs està sovint disponible fins i tot de formaexplícita ja que els mapes topogràfics solen recollir les línies de rius itorrents.</p>
 
-  <p>IsoMDE permet tenir en compte l'existència de línies de carena i
-  tàlveg simplement indicant els fitxers d'arcs corresponents. Quan
-  l'anàlisi dels perfils intersecta amb una d'aquests línies, IsoMDE
-  determina que en aquell punt cal ubicar un màxim o un mínim, respectivament
-  si les línies no són 3D, o a partir de la versió 4 de MiraMon, amb la
-  possibilitat de disposar d'informació altimètrica per a cada vèrtex, si
-  la línia de carena o tàlveg conté valors Z, aquests són interpolats
-  convenientment quan un perfil intersecta amb una línia de carena o de
-  tàlveg. Si la línia no disposa de valors Z a cada vèrtex, igualment serà
-  útil a IsoMDE ja que podrà determinar molt millor la morfologia del relleu.
-  Les millores en el resultat són especialment espectaculars en les zones
-  planes, amb poques corbes de nivell i on el coneixement de la línia de mínim
-  (riu) ajuda de forma notable a evitar els artefactes produïts per la falta
-  d'informació. Insistim en la conveniència d'incorporar elements de
-  tàlveg en el procés, i recordem que malgrat que aquest tipus
-  d'informació és rarament disponible en cartografia digital antiga o en
-  l'obtinguda per digitalització de mapes topogràfics en paper, actualment
-  la majoria de processos de restitució fotogramètrica ja proporcionen la cota
-  dels vèrtexs dels elements restituïts, amb la qual cosa les línies de tàlveg
-  (i de carena si hi són) són línies 3D amb informació altimètrica que serà
-  usada per IsoMDE.</p>
+<p>IsoMDE permet tenir en compte l'existència de línies de carena itàlveg simplement indicant els fitxers d'arcs corresponents. Quanl'anàlisi dels perfils intersecta amb una d'aquests línies, IsoMDEdetermina que en aquell punt cal ubicar un màxim o un mínim, respectivamentsi les línies no són 3D, o a partir de la versió 4 de MiraMon, amb lapossibilitat de disposar d'informació altimètrica per a cada vèrtex, sila línia de carena o tàlveg conté valors Z, aquests són interpolatsconvenientment quan un perfil intersecta amb una línia de carena o detàlveg. Si la línia no disposa de valors Z a cada vèrtex, igualment seràútil a IsoMDE ja que podrà determinar molt millor la morfologia del relleu.Les millores en el resultat són especialment espectaculars en les zonesplanes, amb poques corbes de nivell i on el coneixement de la línia de mínim(riu) ajuda de forma notable a evitar els artefactes produïts per la faltad'informació. Insistim en la conveniència d'incorporar elements detàlveg en el procés, i recordem que malgrat que aquest tipusd'informació és rarament disponible en cartografia digital antiga o enl'obtinguda per digitalització de mapes topogràfics en paper, actualmentla majoria de processos de restitució fotogramètrica ja proporcionen la cotadels vèrtexs dels elements restituïts, amb la qual cosa les línies de tàlveg(i de carena si hi són) són línies 3D amb informació altimètrica que seràusada per IsoMDE.</p>
 
-  <p>El programa traça 4 perfils des de cada cel·la (horitzontal, vertical, i
-  diagonals a 45º i 135º) per tal de trobar informació al seu voltant (corbes
-  de nivell, tàlvegs, etc), de forma similar a com operen altres algorismes
-  prèviament proposats, essencialment basats en el de Douglas. També es pot
-  demanar que el programa faci perfils addicionals a 22.5º, 67.5º, etc;
-  recomanem vivament traçar també aquests perfils addicionals. Tanmateix, a
-  IsoMDE el valor final d'una cel·la del ràster no es determina a partir
-  del valor obtingut amb un sol dels perfils (típicament el de més pendent)
-  sinó que tots els perfils s'utilitzen per a determinar el valor final.
-  Això permet un resultat molt menys facetat que amb els mètodes d'elecció
-  simple i evita haver de suavitzar el MDE final amb l'aplicació de
-  filtres de mitjana. Cal recordar que l'aplicació d'aquests filtres
-  fa que es desvirtuïn fins i tot els valors de les cel·les on realment es
-  disposava d'informació original pel fet que hi passava una corba de
-  nivell, fet que s'agreuja quan l'aplicació del filtre de mitjana es
-  produeix més d'un cop per intentar llimar els artefactes en estrella que
-  es veuen en l'aspecte final quan només es tria un sol perfil per cada
-  cel·la i es produeixen canvis sobtats en el relleu pel simple fet de fer un
-  canvi de criteri sobre quina és la línia que dóna la informació final.</p>
+<p>El programa traça 4 perfils des de cada cel·la (horitzontal, vertical, idiagonals a 45º i 135º) per tal de trobar informació al seu voltant (corbesde nivell, tàlvegs, etc), de forma similar a com operen altres algorismesprèviament proposats, essencialment basats en el de Douglas. També es potdemanar que el programa faci perfils addicionals a 22.5º, 67.5º, etc;recomanem vivament traçar també aquests perfils addicionals. Tanmateix, aIsoMDE el valor final d'una cel·la del ràster no es determina a partirdel valor obtingut amb un sol dels perfils (típicament el de més pendent)sinó que tots els perfils s'utilitzen per a determinar el valor final.Això permet un resultat molt menys facetat que amb els mètodes d'elecciósimple i evita haver de suavitzar el MDE final amb l'aplicació defiltres de mitjana. Cal recordar que l'aplicació d'aquests filtresfa que es desvirtuïn fins i tot els valors de les cel·les on realment esdisposava d'informació original pel fet que hi passava una corba denivell, fet que s'agreuja quan l'aplicació del filtre de mitjana esprodueix més d'un cop per intentar llimar els artefactes en estrella quees veuen en l'aspecte final quan només es tria un sol perfil per cadacel·la i es produeixen canvis sobtats en el relleu pel simple fet de fer uncanvi de criteri sobre quina és la línia que dóna la informació final.</p>
 
-  <p>La manera com cada perfil intervé en el valor final de cada cel·la pot
-  ser triada entre la simple mitjana entre els valors o una ponderació que
-  afavoreix les corbes més properes a cada punt (mètode per defecte i
-  recomanat). Aquest darrer procés pot ser dut a terme perquè durant el traçat
-  dels perfils, IsoMDE també obté informació sobre la seva posició relativa a
-  l'espai. Gràcies a això, IsoMDE resulta en un interpolador exacte, i
-  obtenim els valors originals a tots els centres de cel·la que siguin situats
-  al mateix punt que una dada original.</p>
+<p>La manera com cada perfil intervé en el valor final de cada cel·la potser triada entre la simple mitjana entre els valors o una ponderació queafavoreix les corbes més properes a cada punt (mètode per defecte irecomanat). Aquest darrer procés pot ser dut a terme perquè durant el traçatdels perfils, IsoMDE també obté informació sobre la seva posició relativa al'espai. Gràcies a això, IsoMDE resulta en un interpolador exacte, iobtenim els valors originals a tots els centres de cel·la que siguin situatsal mateix punt que una dada original.</p>
 
-  <p>Malgrat la relativa complexitat del mètode, s'ha tingut especial cura
-  en la implementació, de forma que IsoMDE resulta tant o més ràpid que altres
-  programes similars.</p>
+<p>Malgrat la relativa complexitat del mètode, s'ha tingut especial curaen la implementació, de forma que IsoMDE resulta tant o més ràpid que altresprogrames similars.</p>
 
-  <p>Per a millors resultats, useu una mida de píxel entre 1 i 0.2
-  mil·límetres a escala del mapa original. Per exemple, si la font de les
-  isolínies és un mapa topogràfic 1:50000, useu un píxel entre 50 i 10 m. La
-  nostra experiència és que per evitar artefactes resultants de la manca
-  d'informació en zones planes en relació a la equidistància entre corbes
-  als mapes topogràfics típics, sol ser millor optar per obtenir el MDE amb un
-  costat de cel·la de dimensions equivalents a 1 mm a l'escala del mapa
-  (per exemple si la font és un mapa 1:50000, obtingueu un MDE de píxel de 50
-  m) i, si necessiteu un MDE amb la cel·la menor densifiqueu el ràster a la
-  mida desitjada amb DensRas (menú &quot;Eines | Organització espacial |
-  Densificació de ràsters&quot;.<br/>
-  En mapes amb relleus abruptes (alta densitat de corbes) obtindreu resultats
-  raonablement bons interpolant directament a dimensions equivalents a 0.5 mm
-  (25 m en isolínies provinents d'un 1:50000). Desaconsellem intentar
-  calcular MDE amb dimensions més detallades, ja que és dubtós que molts mapes
-  topogràfics tinguin informació prou bona per sota del mig mil·límetre i, en
-  canvi, apareixen més artefactes resultants de la poca informació disponible
-  a tant de detall. En qualsevol cas, mai no intenteu generar el MDE amb un
-  píxel de menys de 0.2 mm ja que cap mapa topogràfic no dóna aquesta precisió
-  i simplement aconseguireu que el procés trigui més i augmentin dramàticament
-  els artefactes; si necessiteu un píxel final menor, utilitzeu sempre DensRas
-  a partir de les dimensions de píxel abans recomanades.</p>
+<p>Per a millors resultats, useu una mida de píxel entre 1 i 0.2mil·límetres a escala del mapa original. Per exemple, si la font de lesisolínies és un mapa topogràfic 1:50000, useu un píxel entre 50 i 10 m. Lanostra experiència és que per evitar artefactes resultants de la mancad'informació en zones planes en relació a la equidistància entre corbesals mapes topogràfics típics, sol ser millor optar per obtenir el MDE amb uncostat de cel·la de dimensions equivalents a 1 mm a l'escala del mapa(per exemple si la font és un mapa 1:50000, obtingueu un MDE de píxel de 50m) i, si necessiteu un MDE amb la cel·la menor densifiqueu el ràster a lamida desitjada amb DensRas (menú "Eines | Organització espacial |Densificació de ràsters".<br/>
+En mapes amb relleus abruptes (alta densitat de corbes) obtindreu resultatsraonablement bons interpolant directament a dimensions equivalents a 0.5 mm(25 m en isolínies provinents d'un 1:50000). Desaconsellem intentarcalcular MDE amb dimensions més detallades, ja que és dubtós que molts mapestopogràfics tinguin informació prou bona per sota del mig mil·límetre i, encanvi, apareixen més artefactes resultants de la poca informació disponiblea tant de detall. En qualsevol cas, mai no intenteu generar el MDE amb unpíxel de menys de 0.2 mm ja que cap mapa topogràfic no dóna aquesta precisiói simplement aconseguireu que el procés trigui més i augmentin dramàticamentels artefactes; si necessiteu un píxel final menor, utilitzeu sempre DensRasa partir de les dimensions de píxel abans recomanades.</p>
 
-  <p>Si obteniu en alguna zona línies que &quot;trenquen&quot; indegudament el
-  relleu (aspecte facetat, angularitats), digitalitzeu isolínies intermèdies
-  o, si els artefactes apareixen prop de les vores, treballeu amb una zona més
-  àmplia per tal d'ajudar l'interpolador amb un bon coneixement de la
-  zona circumdant. Com a recurs addicional, podeu passar un filtre de mitjana
-  sobre el resultat, tot i que no hauria de ser necessari si forniu un bon
-  material de base i seguiu les indicacions abans donades. Penseu que filtrar
-  la imatge suavitza el relleu, i això pot arribar a ser molt poc realista. En
-  les proves fetes en desenvolupar IsoMDE es va veure que amb bon material i
-  generant el model a 1 mm a l'escala del mapa original mai no hauria de
-  ser necessari passar un filtre de mitjana o, com a molt, en una sola
-  iteració.</p>
+<p>Si obteniu en alguna zona línies que "trenquen" indegudament elrelleu (aspecte facetat, angularitats), digitalitzeu isolínies intermèdieso, si els artefactes apareixen prop de les vores, treballeu amb una zona mésàmplia per tal d'ajudar l'interpolador amb un bon coneixement de lazona circumdant. Com a recurs addicional, podeu passar un filtre de mitjanasobre el resultat, tot i que no hauria de ser necessari si forniu un bonmaterial de base i seguiu les indicacions abans donades. Penseu que filtrarla imatge suavitza el relleu, i això pot arribar a ser molt poc realista. Enles proves fetes en desenvolupar IsoMDE es va veure que amb bon material igenerant el model a 1 mm a l'escala del mapa original mai no hauria deser necessari passar un filtre de mitjana o, com a molt, en una solaiteració.</p>
 
-  <p>El programa assumeix que les unitats en què està expressada l'altitud
-  en el camp de la base de dades són les mateixes que les del sistema de
-  referència. Si no fos així, cal que prèviament feu l'operació adequada
-  de conversió. Per altres mètodes d'interpolació vegeu també <a href="InterPNT.htm">InterPNT</a> i <a href="densras.htm">DensRas</a> . 
-  <!--- No continuo desenvolupant en aquesta direcció, però NO ESBORRAR
-                PER SI MAI ES RESUSSCITA SABER L'ORDRE DELS PARÀMETRES si es
-            parteix d'un ràster de corbes rasteritzades
-        "Sintaxi ràster:\n  FitxerOrigen RasterResultat Equid Z_NW Z_NE Z_SW Z_SE CodiTalveg  =--></p>
-  <hr/>
+<p>El programa assumeix que les unitats en què està expressada l'altituden el camp de la base de dades són les mateixes que les del sistema dereferència. Si no fos així, cal que prèviament feu l'operació adequadade conversió. Per altres mètodes d'interpolació vegeu també <a href="InterPNT.htm">InterPNT</a> i <a href="densras.htm">DensRas</a>.
 
-  <exclusiva>
+<!--- No continuo desenvolupant en aquesta direcció, però NO ESBORRAR
+PER SI MAI ES RESUSSCITA SABER L'ORDRE DELS PARÀMETRES si es
+parteix d'un ràster de corbes rasteritzades
+"Sintaxi ràster:\nFitxerOrigen RasterResultat Equid Z_NW Z_NE Z_SW Z_SE CodiTalveg=--></p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="IsoMDE_finestra.png"><img src="IsoMDE_finestra3.png"><br><img src="IsoMDE_finestra2.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg de l'IsoMDE</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+ <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+
  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -189,6 +100,7 @@
 Per a obtenir l'ajuda completa escriviu:
 IsoMDE ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
