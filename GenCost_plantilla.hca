@@ -1,82 +1,85 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Revisió AA 19-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>GenCost: Anàlisi de costos mínims de desplaçament sobre un model de
-  fricció.</title>
+<title>GenCost: Anàlisi de costos mínims de desplaçament sobre un model de fricció.</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/GenCost.htm"><font size="+2">GenCost</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-  <p><!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
+
+<p><!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-  <br/>
-  L'algorisme de cerca de mínim cost acumulat és una
-  versió pròpia del MiraMon de l'<b>Algorisme de Dijkstra</b> (Dijkstra,
-  1959). El model de friccions és, en aquest cas, un ràster en què el valor de
-  cada cel·la indica la seva dificultat de pas (fricció). Així, cel·les amb
-  valors de fricció elevats ofereixen més resistència de pas que d'altres
-  amb valors inferiors. El ràster de dianes especifica les cel·les a partir de
-  les quals es calculen els costos mínims. En altres paraules, cada cel·la
-  no-diana contindrà, en el resultat, el mínim cost per arribar a una cel·la
-  diana. Aquestes cel·les diana tenen assignat qualsevol valor diferent del
-  sensedades. En una anàlisi de costos en què es modelitza la continentalitat, les
-  entitats diana correspondran a la rasterització de tot l'àmbit del mar.
-  El cost es defineix a partir del producte entre el valor de fricció (que en
-  aquesta aplicació no pot ser negatiu) i la distància recorreguda amb aquest
-  valor. Així, un model de friccions constant de valor igual a 1 a totes les
-  cel·les, donaria un ràster resultat amb la distància de cada cel·la a la
-  diana més propera. En aquest cas, l'aplicació GenCost és similar l'aplicació
-   <a href="bufdist.htm">BufDist</a>.</p>
 
-  <p>Cada cel·la resultat pot tenir associat un valor diferent de cost segons
-  la cel·la diana respecte a la qual es calcula. El valor final assignat a
-  cada cel·la del fitxer sortida serà respecte a la diana que minimitzi el
-  cost, és a dir, respecte la diana més accessible. L'aplicació permet
-  calcular la distància, de la qual se'n deriva el cost, entre dos píxels
-  adjacents mitjançant dos models d'anàlisi diferents: considerant el
-  ràster com un node o com una cel·la. En el primer model, la distància entre
-  dues cel·les es calcula des del centre d'una cel·la al centre de la
-  cel·la adjacent, i és el model més proper al de l'article de referència
-  (Dijkstra, 1959). El segon model calcula la distància des de l'extrem
-  oposat a la cel·la adjacent fins a l'extrem més proper. La diferència
-  entre ambdues opcions radica en què en el primer model (node), el càlcul del
-  cost entre dues cel·les adjacents té en compte el valor de fricció
-  d'ambdós, ja que la distància recorreguda en el càlcul inclou posicions
-  dels dos píxels. En canvi, en el segon cas (cel·la), no es té en compte el
-  valor de fricció de la cel·la adjacent.</p>
+<p>L'algorisme de cerca de mínim cost acumulat és una versió pròpia del MiraMon de l'<b>Algorisme de Dijkstra</b> (Dijkstra, 1959). El model de friccions és, en aquest cas, un ràster en què el valor de cada cel·la indica la seva dificultat de pas (fricció). Així, cel·les amb valors de fricció elevats ofereixen més resistència de pas que d'altres amb valors inferiors. El ràster de dianes especifica les cel·les a partir de les quals es calculen els costos mínims. En altres paraules, cada cel·la no-diana contindrà, en el resultat, el mínim cost per arribar a una cel·la diana. Aquestes cel·les diana tenen assignat qualsevol valor diferent del sensedades. En una anàlisi de costos en què es modelitza la continentalitat, les entitats diana correspondran a la rasterització de tot l'àmbit del mar. El cost es defineix a partir del producte entre el valor de fricció (que en aquesta aplicació no pot ser negatiu) i la distància recorreguda amb aquest valor. Així, un model de friccions constant de valor igual a 1 a totes les cel·les, donaria un ràster resultat amb la distància de cada cel·la a la diana més propera. En aquest cas, l'aplicació GenCost és similar l'aplicació  <a href="bufdist.htm">BufDist</a>.</p>
 
-  <p align="center"><img src="GenCost_node.gif"/> <img src="GenCost_cella.gif"/></p>
+<p>Cada cel·la resultat pot tenir associat un valor diferent de cost segons la cel·la diana respecte a la qual es calcula. El valor final assignat a cada cel·la del fitxer sortida serà respecte a la diana que minimitzi el cost, és a dir, respecte la diana més accessible. L'aplicació permet calcular la distància, de la qual se'n deriva el cost, entre dos píxels adjacents mitjançant dos models d'anàlisi diferents: considerant el ràster com un node o com una cel·la. En el primer model, la distància entre dues cel·les es calcula des del centre d'una cel·la al centre de la cel·la adjacent, i és el model més proper al de l'article de referència (Dijkstra, 1959). El segon model calcula la distància des de l'extrem oposat a la cel·la adjacent fins a l'extrem més proper. La diferència entre ambdues opcions radica en què en el primer model (node), el càlcul del cost entre dues cel·les adjacents té en compte el valor de fricció d'ambdós, ja que la distància recorreguda en el càlcul inclou posicions dels dos píxels. En canvi, en el segon cas (cel·la), no es té en compte el valor de fricció de la cel·la adjacent.</p>
 
-  <p align="center">En ambdós models les zones blaves són de baixa fricció i
+<div align="center"><img src="GenCost_node.gif"/> <img src="GenCost_cella.gif"/></div>
+
+<p align="center">En ambdós models les zones blaves són de baixa fricció i
   les zones grises d'elevada fricció.</p>
 
-  <p>L'aplicació també permet escollir que el càlcul del cost es realitzi
-  des de la cel·la considerada fins al centre de la diana o fins a un dels
-  seus extrems (Opcio_diana), independentment del model d'anàlisi
-  escollit. El primer cas és indicat quan es considera que la posició de la
-  diana dins del píxel és aproximadament central (p. ex. una estació
-  meteorològica); en canvi, el segon cas és l'adient quan es considera que
-  la diana és representada per qualsevol punt a l'interior de la cel·la
-  (p. ex. un bosc) i el que interessa és arribar a la vora del bosc.</p>
+<p>L'aplicació també permet escollir que el càlcul del cost es realitzi des de la cel·la considerada fins al centre de la diana o fins a un dels seus extrems (Opcio_diana), independentment del model d'anàlisi escollit. El primer cas és indicat quan es considera que la posició de la diana dins del píxel és aproximadament central (p. ex. una estació meteorològica); en canvi, el segon cas és l'adient quan es considera que la diana és representada per qualsevol punt a l'interior de la cel·la (p. ex. un bosc) i el que interessa és arribar a la vora del bosc.</p>
 
-  <p>Per a més informació consulteu, Dijkstra, E. W., 1959. A note on two
-  problems in connexion with graphs, <i>Numerische Mathematik</i>, 1, S.
-  269-271.</p>
-  <hr/>
-  <exclusiva>
-    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<p>Per a més informació consulteu, Dijkstra, E. W., 1959. A note on two problems in connexion with graphs, <i>Numerische Mathematik</i>, 1, S. 269-271.</p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="GenCost_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg del GenCost</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+ <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+
+  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p><!-- $$EXCLUSIVA$$
 Per a obtenir l'ajuda completa escriviu:
 GenCost ?
---></p>
-  </exclusiva>
-  <hr/>
-  MiraMon és un programa registrat per Xavier Pons<br/>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
