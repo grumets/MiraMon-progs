@@ -1,77 +1,78 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 16-01-2024 */-->
+<!--/* Revisió AA 21-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-
-  <title>Mosaic: Mosaic and join layers</title>
+<title>Mosaic: Mosaic and join layers</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/Mosaic.htm"><font size="+2">Mosaic</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-  <p>Given a set of layers that cover a determined region, for example a set
-  of sheets of a certain cartographic cut, the program generates a resulting
-  layer by combining the original layers. The layers can be rasters in IMG
-  format (of any type and either RLE compressed or not) or JPG format,
-  non-structured  VEC or structured files PNT, ARC, POL and NOD. 
-Mosaic node files are meaningless without corresponding arc files. However, it is possible to select from the MiraMon display interface the nodes of a layer (or some of them) and generate a VEC file of points, with the GRAPHIC_ID as an attribute in case you want to retrieve it (via physical join with MiraDades or with GestBD) or link (via GeM+) the alphanumeric attributes of the nodes in a PNT file (converting the VEC to PNT with <a href="VECPNT.htm">VECPNT</a>). From this way it is therefore possible to mosaic the points corresponding to the nodes of various layers. To make a mosaic of vector layers of  VEC type, the use of the application <a href="UnirVec.htm">UnirVEC</a> is recommended.  </p>
-   
-   <p>All input files must be of the same format and type. The output file format is the same as the input file except for a VEC file mosaic, which gives an ARC file (use <a href="LinArc.htm">LinArc</a> 1 to convert it to VEC) and the NOD file mosaic, which results in a PNT file. For easer  use, the list of files to be mosaicked can be given set out as a sequence of file names in a command line (last parameter)  or as a plain text file with each file name in a line. The list file can have any extension other than a layer, although .txt or .lst is preferable. <i> <b> Important note for raster mosaics</b></i>: In case of cell spatial matching, the last file in the list file is the one that will give the value in the final raster, already that the mosaic is made by adding to the result the values of the input files, consecutively from the first, unless the value is a NoData, in which case the value is ignored; in other words, if this last raster file has a NoData value, it will be the next file starting at the end (penultimate) that will give the value, and so on. For historical reasons, and of symmetry with other software, this criterion is the opposite of what applies to the [CVR (,)] transparent function of the <a href="CalcImg.htm"> CalcImg </a> application, where the  first of the two arguments imposes its values, unless in that position it contains a NoData. In the Mosaic it is the last to arrive who imposes, unless it contains a NoData.</p>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
 
-   <p>The program can automatically determine the geographical extent of the
-  set of layers. It is also possible to specify a clip region (coordinates X 
-  minimum, X maximum, y minimum and Y maximum) or an irregular
-  mask file (only for vectors). In this case the program examines each file to
-  be mosaicked and uses the useful part for the specified region. When a file
-  is completely outside the region it is not considered. A typical application
-  is to create a new overlaying layer with four sheets of a cartographic
-  series. When using very large cartographic series cut into sheets, you can
-  have a single list listing all the sheets and select the region that you
-  want to explore each time in order to extract the zone of interest
-  quicker. The program have several options:</p>
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+
+<p>Given a set of layers that cover a determined region, for example a set  of sheets of a certain cartographic cut, the program generates a resulting  layer by combining the original layers. The layers can be rasters in IMG  format (of any type and either RLE compressed or not) or JPG format,  non-structured  VEC or structured files PNT, ARC, POL and NOD. Mosaic node files are meaningless without corresponding arc files. However, it is possible to select from the MiraMon display interface the nodes of a layer (or some of them) and generate a VEC file of points, with the GRAPHIC_ID as an attribute in case you want to retrieve it (via physical join with MiraDades or with GestBD) or link (via GeM+) the alphanumeric attributes of the nodes in a PNT file (converting the VEC to PNT with <a href="VECPNT.htm">VECPNT</a>). From this way it is therefore possible to mosaic the points corresponding to the nodes of various layers. To make a mosaic of vector layers of  VEC type, the use of the application <a href="UnirVec.htm">UnirVEC</a> is recommended.  </p>
+   
+<p>All input files must be of the same format and type. The output file format is the same as the input file except for a VEC file mosaic, which gives an ARC file (use <a href="LinArc.htm">LinArc</a> 1 to convert it to VEC) and the NOD file mosaic, which results in a PNT file. For easer  use, the list of files to be mosaicked can be given set out as a sequence of file names in a command line (last parameter)  or as a plain text file with each file name in a line. The list file can have any extension other than a layer, although .txt or .lst is preferable. <i> <b> Important note for raster mosaics</b></i>: In case of cell spatial matching, the last file in the list file is the one that will give the value in the final raster, already that the mosaic is made by adding to the result the values of the input files, consecutively from the first, unless the value is a NoData, in which case the value is ignored; in other words, if this last raster file has a NoData value, it will be the next file starting at the end (penultimate) that will give the value, and so on. For historical reasons, and of symmetry with other software, this criterion is the opposite of what applies to the [CVR (,)] transparent function of the <a href="CalcImg.htm"> CalcImg </a> application, where the  first of the two arguments imposes its values, unless in that position it contains a NoData. In the Mosaic it is the last to arrive who imposes, unless it contains a NoData.</p>
+
+<p>The program can automatically determine the geographical extent of the  set of layers. It is also possible to specify a clip region (coordinates X   minimum, X maximum, y minimum and Y maximum) or an irregular  mask file (only for vectors). In this case the program examines each file to  be mosaicked and uses the useful part for the specified region. When a file  is completely outside the region it is not considered. A typical application  is to create a new overlaying layer with four sheets of a cartographic  series. When using very large cartographic series cut into sheets, you can  have a single list listing all the sheets and select the region that you  want to explore each time in order to extract the zone of interest  quicker. The program have several options:</p>
   
-  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>In the case of superposition, the program acts differently for rasters
-  and vectors. In the case of rasters, if the metadata of the preexisting
-  files indicate that they contain a NoData, this value is not written in the
-  destination file. This allows images that contain areas outside the region
-  to be overlaid correctly. In the same way, when overlaying consists of
-  values that are not background, the program DOES NOT make sure that they are
-  equal: the values of the last file that affects the region will be the ones
-  used. It is possible to specify the value of the NoData of the output
-  image. If it is not specified this will be the value of the NoData of the
-  first image. In the case of vectors, superposing is more delicate because
-  one sheet does not dominate over another. In the case of superposed objects
-  where the sheets do not coincide exactly, the result could be a duplication,
-  discontinuity in the lines, or double borders in the case of polygons.</p>
+<p>In the case of superposition, the program acts differently for rasters  and vectors. In the case of rasters, if the metadata of the preexisting  files indicate that they contain a NoData, this value is not written in the  destination file. This allows images that contain areas outside the region  to be overlaid correctly. In the same way, when overlaying consists of  values that are not background, the program DOES NOT make sure that they are  equal: the values of the last file that affects the region will be the ones  used. It is possible to specify the value of the NoData of the output  image. If it is not specified this will be the value of the NoData of the  first image. In the case of vectors, superposing is more delicate because  one sheet does not dominate over another. In the case of superposed objects  where the sheets do not coincide exactly, the result could be a duplication,  discontinuity in the lines, or double borders in the case of polygons.</p>
 
-  <p>Given that the program does not interpolate any values, the cell sides of
-  all source files have to be equal; the destination file will have the same
-  cell side. At the same time, all source files have to be coregistered, that
-  is, they must have x minimum coordinates that are an exact multiple of the
-  cell side apart. The same applies for the y minima. If the output
-  coordinates requested by the user do not fulfill this requirement they are
-  adapted to it, the coordinates that are finally used include those
-  requested, so that no fragment of the territory requested is lost. This
-  capacity to adapt is regulated by a tolerance parameter. This parameter only
-  applies for rasters. To make vectorial objects fit between sheets it is
-  necessary to use <a href="LinArc.htm">LinArc</a> with advanced tolerances.</p>
+<p>Given that the program does not interpolate any values, the cell sides of  all source files have to be equal; the destination file will have the same  cell side. At the same time, all source files have to be coregistered, that  is, they must have x minimum coordinates that are an exact multiple of the  cell side apart. The same applies for the y minima. If the output  coordinates requested by the user do not fulfill this requirement they are  adapted to it, the coordinates that are finally used include those  requested, so that no fragment of the territory requested is lost. This  capacity to adapt is regulated by a tolerance parameter. This parameter only  applies for rasters. To make vectorial objects fit between sheets it is  necessary to use <a href="LinArc.htm">LinArc</a> with advanced tolerances.</p>
 
-  <p>In general, the metadata is based heavily on the metadata from the first
-  layer. As an example, for categorical raster images, the description of the
-  legend categories is also taken from the first file read.</p>
+<p>In general, the metadata is based heavily on the metadata from the first  layer. As an example, for categorical raster images, the description of the  legend categories is also taken from the first file read.</p>
 
-  <p>When mosaicking raster files with the palette indicated in the REL, the palette is inherited
-  for the output file. This also works with multiband files in which each band
-  has its own palette.
-  <hr/>
+<p>When mosaicking raster files with the palette indicated in the REL, the palette is inherited  for the output file. This also works with multiband files in which each band  has its own palette.
 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <exclusiva>
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="Mosaic_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Mosaic dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -79,12 +80,8 @@ Mosaic node files are meaningless without corresponding arc files. However, it i
 <p><!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
 Mosaic ?
---></p>
-  </exclusiva>
-  <hr/>
-
-  <center>
-    <a href="Retalla.htm"><img src="Retalla.gif"/></a><a href="UnirVec.htm"><img src="UnirVec.gif"/></a>
-  </center>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>

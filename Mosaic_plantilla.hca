@@ -1,86 +1,79 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 16-01-2024 */-->
+<!--/* Revisió AA 21-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-
-  <title>Mosaic: Mosaic i unió de capes</title>
+<title>Mosaic: Mosaic i unió de capes</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/Mosaic.htm"><font size="+2">Mosaic</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-  <p>Donat un conjunt de capes que cobreixen un àmbit determinat, com per exemple un conjunt de fulls
-  d'un determinat tall cartogràfic, el programa genera una capa resultant
-  de la unió de les capes originals. Les capes poden ser ràsters en format IMG
-  (de qualsevol tipus i comprimides amb RLE o no) o JPG, vectors no
-  estructurats VEC o fitxers estructurats PNT, ARC, POL i NOD. El mosaic de fitxers de nodes no té sentit sense els fitxers d'arcs corresponents. Tanmateix, és possible seleccionar des de la interfície de visualització del MiraMon els nodes d'una capa (o alguns d'ells) i generar-ne un fitxer VEC de punts, amb l'ID_GRAFIC com a atribut per si es vol recuperar (via <i>join</i> físic amb el MiraDades o amb el GestBD) o vincular (via GeM+) els atributs alfanumèrics dels nodes en un fitxer PNT (convertint el VEC a PNT amb <a href="VECPNT.htm">VECPNT</a>). A partir d'aquesta via és possible, doncs, fer el mosaic dels punts corresponents als nodes de diverses capes. Si heu de fer un mosaic de capes vectorials de tipus VEC considereu la utilització de l'aplicació <a href="UnirVec.htm">UnirVEC</a>.</p> 
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
+
+<p>Donat un conjunt de capes que cobreixen un àmbit determinat, com per exemple un conjunt de fulls  d'un determinat tall cartogràfic, el programa genera una capa resultant  de la unió de les capes originals. Les capes poden ser ràsters en format IMG  (de qualsevol tipus i comprimides amb RLE o no) o JPG, vectors no  estructurats VEC o fitxers estructurats PNT, ARC, POL i NOD. El mosaic de fitxers de nodes no té sentit sense els fitxers d'arcs corresponents. Tanmateix, és possible seleccionar des de la interfície de visualització del MiraMon els nodes d'una capa (o alguns d'ells) i generar-ne un fitxer VEC de punts, amb l'ID_GRAFIC com a atribut per si es vol recuperar (via <i>join</i> físic amb el MiraDades o amb el GestBD) o vincular (via GeM+) els atributs alfanumèrics dels nodes en un fitxer PNT (convertint el VEC a PNT amb <a href="VECPNT.htm">VECPNT</a>). A partir d'aquesta via és possible, doncs, fer el mosaic dels punts corresponents als nodes de diverses capes. Si heu de fer un mosaic de capes vectorials de tipus VEC considereu la utilització de l'aplicació <a href="UnirVec.htm">UnirVEC</a>.</p> 
   
-  <p>Tots els fitxers d'entrada han de ser del mateix format i tipus. El format del fitxer de sortida és el mateix que els d'entrada excepte en el cas d'un mosaic de  fitxers VEC, que dóna un fitxer ARC (useu <a href="LinArc.htm">LinArc</a>  1 per convertir-lo a VEC) i el mosaic de fitxers NOD, que dóna com a resultat un fitxer PNT. Per facilitar-ne l'ús, la llista de fitxers a mosaicar es pot donar com una seqüència de noms de fitxers en línia de comanda (darrer paràmetre) o com un fitxer de text pla amb cada nom de fitxer en una línia. El fitxer llista pot tenir qualsevol extensió que no sigui la d'una capa, encara que resulta preferible .txt o .lst. <i><b>Nota important per a mosaics de ràsters</b></i>: En cas de coincidència espacial de cel·les, el darrer fitxer del fitxer llista és el que donarà el valor en el ràster final, ja que el mosaic es realitza afegint al resultat els valors dels fitxers d'entrada, consecutivament des del primer, excepte si el valor és un sensedades, cas en què el valor s'ignora; en altres paraules, si aquest darrer fitxer ràster té un valor sensedades, serà el següent fitxer començant pel final (penúltim) el que donarà el valor, i així successivament. Per motius històrics, i de simetria amb altres programaris, aquest criteri és el contrari al que aplica a la funció de transparentar [CVR(,)] de l'aplicació <a href="CalcImg.htm">CalcImg</a>, on el primer dels dos arguments imposa els seus valors, excepte si en aquella posició conté un sensedades. En el Mosaic és el darrer a arribar qui imposa, excepte si conté un sensedades. </p>
+<p>Tots els fitxers d'entrada han de ser del mateix format i tipus. El format del fitxer de sortida és el mateix que els d'entrada excepte en el cas d'un mosaic de  fitxers VEC, que dóna un fitxer ARC (useu <a href="LinArc.htm">LinArc</a>  1 per convertir-lo a VEC) i el mosaic de fitxers NOD, que dóna com a resultat un fitxer PNT. Per facilitar-ne l'ús, la llista de fitxers a mosaicar es pot donar com una seqüència de noms de fitxers en línia de comanda (darrer paràmetre) o com un fitxer de text pla amb cada nom de fitxer en una línia. El fitxer llista pot tenir qualsevol extensió que no sigui la d'una capa, encara que resulta preferible .txt o .lst. <i><b>Nota important per a mosaics de ràsters</b></i>: En cas de coincidència espacial de cel·les, el darrer fitxer del fitxer llista és el que donarà el valor en el ràster final, ja que el mosaic es realitza afegint al resultat els valors dels fitxers d'entrada, consecutivament des del primer, excepte si el valor és un sensedades, cas en què el valor s'ignora; en altres paraules, si aquest darrer fitxer ràster té un valor sensedades, serà el següent fitxer començant pel final (penúltim) el que donarà el valor, i així successivament. Per motius històrics, i de simetria amb altres programaris, aquest criteri és el contrari al que aplica a la funció de transparentar [CVR(,)] de l'aplicació <a href="CalcImg.htm">CalcImg</a>, on el primer dels dos arguments imposa els seus valors, excepte si en aquella posició conté un sensedades. En el Mosaic és el darrer a arribar qui imposa, excepte si conté un sensedades. </p>
    
 
-  <p>El programa pot determinar automàticament l'àmbit del conjunt de
-  capes. També es pot especificar un àmbit de retall o un fitxer màscara
-  irregular (només per a vectors). En aquest cas, el programa examina cadascun
-  dels fitxers a mosaicar i n'utilitza la part útil per a l'àmbit
-  especificat. Quan un fitxer queda enterament fora de l'àmbit, aquest no és
-  consultat. Una típica aplicació és la creació d'una nova capa a cavall
-  de quatre fulls d'una sèrie cartogràfica. En el cas de sèries
-  cartogràfiques tallades en fulls que siguin molt voluminoses, podeu tenir
-  una única llista amb tots el fulls i seleccionar l'àmbit que vulgueu
-  explorar cada vegada per tal d'extreure'n amb rapidesa la zona
-  d'interès. Així doncs, el programa té diverses opcions:</p>
+<p>El programa pot determinar automàticament l'àmbit del conjunt de  capes. També es pot especificar un àmbit de retall o un fitxer màscara  irregular (només per a vectors). En aquest cas, el programa examina cadascun  dels fitxers a mosaicar i n'utilitza la part útil per a l'àmbit  especificat. Quan un fitxer queda enterament fora de l'àmbit, aquest no és  consultat. Una típica aplicació és la creació d'una nova capa a cavall  de quatre fulls d'una sèrie cartogràfica. En el cas de sèries  cartogràfiques tallades en fulls que siguin molt voluminoses, podeu tenir  una única llista amb tots el fulls i seleccionar l'àmbit que vulgueu  explorar cada vegada per tal d'extreure'n amb rapidesa la zona  d'interès. Així doncs, el programa té diverses opcions:</p>
   
-  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>En cas de superposició d'informació, el programa es comporta de
-  manera diferent per a ràsters i per a vectors. En el cas de ràsters, i com s'ha comentat anteriorment a la "Nota important per a mosaics de ràsters", quan el
-  solapament es produeix en valors que no són de fons, el programa NO controla
-  si són iguals (entre una capa i la següent) i els valors de cada nova capa
-  de la llista substitueixen els de les anteriors, de manera que el darrer
-  fitxer que afecta la zona serà el que imposarà els seus valors. Pel que fa
-  als valors de fons, si les metadades dels fitxers a mosaicar indiquen la
-  presència de valors sensedades (per a qualsevol de les capes i no necessàriament
-  el mateix valor), aquests no es transcriuen al fitxer destí. Per tant, el
-  valor de cada capa anterior queda sense modificar si el valor de la capa
-  següent és un sensedades i només es consideren sensedades les zones amb valor de
-  fons de la primera imatge. Això permet solapar correctament imatges que
-  contenen zones exteriors, però alhora obliga a determinar l'ordre de les
-  capes de manera que no es perdi informació d'alguna de les capes
-  intermèdies. El valor sensedades final es pot indicar com a paràmetre del
-  programa i, si no s'especifica, es pren el valor sensedades del primer
-  fitxer. En el cas de vectors, les superposicions són més delicades perquè
-  els objectes gràfics no prevalen uns per sobre dels altres. En cas
-  d'objectes superposats, però no exactament coincidents, el resultat pot
-  ser una duplicació de l'objecte, una discontinuïtat en les línies, la
-  presència de dobles vores o de micropolígons i altres artefactes.</p>
+<p>En cas de superposició d'informació, el programa es comporta de manera diferent per a ràsters i per a vectors. En el cas de ràsters, i com s'ha comentat anteriorment a la "Nota important per a mosaics de ràsters", quan el  solapament es produeix en valors que no són de fons, el programa NO controla  si són iguals (entre una capa i la següent) i els valors de cada nova capa  de la llista substitueixen els de les anteriors, de manera que el darrer  fitxer que afecta la zona serà el que imposarà els seus valors. Pel que fa  als valors de fons, si les metadades dels fitxers a mosaicar indiquen la  presència de valors sensedades (per a qualsevol de les capes i no necessàriament  el mateix valor), aquests no es transcriuen al fitxer destí. Per tant, el  valor de cada capa anterior queda sense modificar si el valor de la capa  següent és un sensedades i només es consideren sensedades les zones amb valor de  fons de la primera imatge. Això permet solapar correctament imatges que  contenen zones exteriors, però alhora obliga a determinar l'ordre de les  capes de manera que no es perdi informació d'alguna de les capes  intermèdies. El valor sensedades final es pot indicar com a paràmetre del  programa i, si no s'especifica, es pren el valor sensedades del primer  fitxer. En el cas de vectors, les superposicions són més delicades perquè  els objectes gràfics no prevalen uns per sobre dels altres. En cas  d'objectes superposats, però no exactament coincidents, el resultat pot  ser una duplicació de l'objecte, una discontinuïtat en les línies, la  presència de dobles vores o de micropolígons i altres artefactes.</p>
 
-  <p>Atès que el programa no fa cap interpolació de valors, el costat de
-  cel·la de tots els fitxers origen ha de ser el mateix; el fitxer destí
-  tindrà aquest mateix costat de cel·la. Alhora, tots els fitxers origen han
-  d'estar coregistrats, és a dir, han de presentar unes coordenades x
-  mínima que distin un múltiple exacte del costat de cel.la. El mateix
-  s'aplica per a les y mínima. Si les coordenades de sortida demanades per
-  l'usuari no compleixen aquesta regla, s'hi adaptaran, i les
-  coordenades finalment usades seran envolupants de les demanades, de manera
-  que no es perdi cap fragment del territori demanat. Aquesta capacitat
-  d'adaptació ve regulada per un paràmetre de tolerància. Aquest paràmetre
-  només s'aplica per a ràsters. Per fer encaixar objectes vectorials entre
-  fulls caldria emprar <a href="LinArc.htm">LinArc</a> amb toleràncies avançades.</p>
+<p>Atès que el programa no fa cap interpolació de valors, el costat de  cel·la de tots els fitxers origen ha de ser el mateix; el fitxer destí  tindrà aquest mateix costat de cel·la. Alhora, tots els fitxers origen han  d'estar coregistrats, és a dir, han de presentar unes coordenades x  mínima que distin un múltiple exacte del costat de cel.la. El mateix  s'aplica per a les y mínima. Si les coordenades de sortida demanades per  l'usuari no compleixen aquesta regla, s'hi adaptaran, i les  coordenades finalment usades seran envolupants de les demanades, de manera  que no es perdi cap fragment del territori demanat. Aquesta capacitat  d'adaptació ve regulada per un paràmetre de tolerància. Aquest paràmetre  només s'aplica per a ràsters. Per fer encaixar objectes vectorials entre  fulls caldria emprar <a href="LinArc.htm">LinArc</a> amb toleràncies avançades.</p>
 
-  <p>En general, les metadades s'inspiren fortament en les metadades de la
-  primera capa. Com a exemple, per a imatges ràster categòriques, la
-  descripció de les categories de la llegenda s'extreuen del primer fitxer
-  llegit. Això constitueix una altra raó per la qual convé determinar amb cura
-  l'ordre de les capes a mosaicar.</p>
+<p>En general, les metadades s'inspiren fortament en les metadades de la  primera capa. Com a exemple, per a imatges ràster categòriques, la  descripció de les categories de la llegenda s'extreuen del primer fitxer  llegit. Això constitueix una altra raó per la qual convé determinar amb cura  l'ordre de les capes a mosaicar.</p>
 
-  <p>Quan es mosaiquen 'n' fitxers ràster que tenen paleta indicada al REL, la
-  paleta es heretada pel fitxer de sortida. Això funciona també amb fitxers
-  multibanda on cada banda tingui la seva paleta pròpia.</p>
-  <hr/>
+<p>Quan es mosaiquen 'n' fitxers ràster que tenen paleta indicada al REL, la  paleta es heretada pel fitxer de sortida. Això funciona també amb fitxers  multibanda on cada banda tingui la seva paleta pròpia.</p>
 
-  <exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="Mosaic_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg del Mosaic</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+ <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -88,12 +81,8 @@
     <p><!-- $$EXCLUSIVA$$
 Per a obtenir l'ajuda completa escriviu:
 Mosaic ?
---></p>
-  </exclusiva>
-  <hr/>
-
-  <center>
-    <a href="Retalla.htm"><img src="Retalla.gif"/></a><a href="UnirVec.htm"><img src="UnirVec.gif"/></a>
-  </center>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
