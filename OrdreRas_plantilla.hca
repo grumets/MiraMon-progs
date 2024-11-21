@@ -1,61 +1,85 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 15-01-2024 */-->
+<!--/* Revisió AA 21-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>OrdreRas: Ordenació dels valors de les cel·les d'un ràster</title>
+<title>OrdreRas: Ordenació dels valors de les cel·les d'un ràster</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-    <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/OrdreRas.htm"><font size="+2">OrdreRas</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
-<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->   
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>L'ús més habitual d'aquesta aplicació és en la modelització multicriteri. Per exemple, es vol determinar les millors ubicacions per a la instal·lació d'una granja solar en un territori. Típicament es fa una operació amb la calculadora/reclassificadora <a href="CalcImg.htm">CalcImg</a> a partir de diverses capes (d'insolació, de cobertes del sòl, de distància a vies de comunicació, de zones protegides, etc), la qual assignarà a cada cel·la d'una malla ràster la puntuació obtinguda en aquella ubicació segons la regla de decisió (la fórmula que combina les capes aplicant uns pesos segons la seva idoneïtat per a la instal·lació). Quan es té el resultat d'aquesta execució del CalcImg, si es calcula un histograma de les puntuacions obtingudes en les diferents cel·les del ràster resultant s'observarà que no solen presentar una distribució contínua. Si, per exemple,  l'histograma revela que les cel·les tenen les següents puntuacions: 0 (cel·les gens adequades), 12.5, 22.7, 23.5, 45.4 i 45.5, es podria fer una reclassificació en què a les zones amb 0 s'hi assigni un valor 1, a les zones amb 12.5 un valor 2, i així successivament fins a un valor 6 per a les cel·les amb valor 45.5, de manera que el ràster resultant, de natura ordinal, diria quines cel·les tenen una puntuació òptima (les que tenen un valor 6), sub-òptima (les que tenen un valor 5), etc, i aquest mapa presentaria les dades de l'avaluació multicriteri de manera fàcilment comprensible, en una escala contínua de valors enters. L'aplicació OrdreRas facilita l'obtenció ràpida d'aquest mapa resum en un sol pas, sense que la persona usuària hagi de calcular i analitzar l'histograma, ni fer una reclassificació posterior, ja que l'OrdreRas directament ordena els valors presents en el ràster resultant de la regla de decisió i genera automàticament per a cada valor índexs enters consecutius. Tot i l'interès d'aquesta eina com a mètode ràpid d'avaluació, és important ser conscient que amb aquesta manera de procedir es perd la idea quantitativa de la diferència entre les puntuacions: en l'exemple anterior les cel·les amb valors 45.4 i 45.5 tenen un nivell d'adequació molt similar, i segurament seria convenient que formessin part d'una mateixa categoria de cel·les amb puntuació òptima. És per això que, en molts casos, després d'una primera impressió proporcionada per OrdreRas per a l'avaluació de diverses regles de decisió, pot ser convenient fer una reclassificació manual per tal de refinar les classes finalment presentades per a la decisió final.</p>
+<p>L'ús més habitual d'aquesta aplicació és en la modelització multicriteri. Per exemple, es vol determinar les millors ubicacions per a la instal·lació d'una granja solar en un territori. Típicament es fa una operació amb la calculadora/reclassificadora <a href="CalcImg.htm">CalcImg</a> a partir de diverses capes (d'insolació, de cobertes del sòl, de distància a vies de comunicació, de zones protegides, etc), la qual assignarà a cada cel·la d'una malla ràster la puntuació obtinguda en aquella ubicació segons la regla de decisió (la fórmula que combina les capes aplicant uns pesos segons la seva idoneïtat per a la instal·lació). Quan es té el resultat d'aquesta execució del CalcImg, si es calcula un histograma de les puntuacions obtingudes en les diferents cel·les del ràster resultant s'observarà que no solen presentar una distribució contínua. Si, per exemple,  l'histograma revela que les cel·les tenen les següents puntuacions: 0 (cel·les gens adequades), 12.5, 22.7, 23.5, 45.4 i 45.5, es podria fer una reclassificació en què a les zones amb 0 s'hi assigni un valor 1, a les zones amb 12.5 un valor 2, i així successivament fins a un valor 6 per a les cel·les amb valor 45.5, de manera que el ràster resultant, de natura ordinal, diria quines cel·les tenen una puntuació òptima (les que tenen un valor 6), sub-òptima (les que tenen un valor 5), etc, i aquest mapa presentaria les dades de l'avaluació multicriteri de manera fàcilment comprensible, en una escala contínua de valors enters. L'aplicació OrdreRas facilita l'obtenció ràpida d'aquest mapa resum en un sol pas, sense que la persona usuària hagi de calcular i analitzar l'histograma, ni fer una reclassificació posterior, ja que l'OrdreRas directament ordena els valors presents en el ràster resultant de la regla de decisió i genera automàticament per a cada valor índexs enters consecutius. Tot i l'interès d'aquesta eina com a mètode ràpid d'avaluació, és important ser conscient que amb aquesta manera de procedir es perd la idea quantitativa de la diferència entre les puntuacions: en l'exemple anterior les cel·les amb valors 45.4 i 45.5 tenen un nivell d'adequació molt similar, i segurament seria convenient que formessin part d'una mateixa categoria de cel·les amb puntuació òptima. És per això que, en molts casos, després d'una primera impressió proporcionada per OrdreRas per a l'avaluació de diverses regles de decisió, pot ser convenient fer una reclassificació manual per tal de refinar les classes finalment presentades per a la decisió final.</p>
   
-  <p>El ràster d'entrada ha de ser un fitxer en format .img i el tipus de
-  dades pot ser qualsevol dels suportats pel MiraMon (per a més informació es pot consultar <a href="../mm32/AP1.htm">Descripció dels formats ràster del MiraMon</a>).
-  El ràster de sortida serà un fitxer en format .img de valors enters, de tipus
-  <i>byte RLE</i>, <i>unsigned integer RLE</i> o <i>long RLE</i>, depenent del nombre
-  de nivells d'ordenació assolit. El fitxer de sortida sempre és de tipus
-  RLE extracomprimit. S'assignarà el valor 0 com a valor sensedades del ràster
-  de sortida.</p>
+<p>El ràster d'entrada ha de ser un fitxer en format .img i el tipus de  dades pot ser qualsevol dels suportats pel MiraMon (per a més informació es pot consultar <a href="../mm32/AP1.htm">Descripció dels formats ràster del MiraMon</a>).  El ràster de sortida serà un fitxer en format .img de valors enters, de tipus  <i>byte RLE</i>, <i>unsigned integer RLE</i> o <i>long RLE</i>, depenent del nombre  de nivells d'ordenació assolit. El fitxer de sortida sempre és de tipus  RLE extracomprimit. S'assignarà el valor 0 com a valor sensedades del ràster  de sortida.</p>
 
-  <p>L'ordenació es pot fer per un criteri ascendent o descendent però, en
-  qualsevol supòsit, el valor 1 en el fitxer de sortida representarà el primer nivell. En el supòsit que dues cel·les tinguin el mateix valor es
-  classificaran al mateix nivell, excepte si es vol forçar el desempat en funció de la posició geogràfica, opció incorporada exclusivament per permetre un comportament igual al de l'aplicació Rank de l'Idrisi. Si es desitja, es pot limitar el nombre màxim de nivells a ordenar.</p>
+<p>L'ordenació es pot fer per un criteri ascendent o descendent però, en  qualsevol supòsit, el valor 1 en el fitxer de sortida representarà el primer nivell. En el supòsit que dues cel·les tinguin el mateix valor es  classificaran al mateix nivell, excepte si es vol forçar el desempat en funció de la posició geogràfica, opció incorporada exclusivament per permetre un comportament igual al de l'aplicació Rank de l'Idrisi. Si es desitja, es pot limitar el nombre màxim de nivells a ordenar.</p>
 
-  <p>També és possible indicar un valor límit que defineixi el llindar màxim o
-  mínim a considerar. Depenent de si el límit és superior o inferior,
-  s'ordenarà fins o des del valor límit, sempre incloent el propi límit en
-  l'ordenació. Les cel·les que tinguin un valor que sobrepassi aquest
-  llindar, es classificaran com a valors sensedades. Si el ràster original
-  contenia valors sensedades i es vol diferenciar-los dels valors sensedades generats
-  per aquesta aplicació, cal reclassificar amb <a href="CalcImg.htm">CalcImg</a> els
-  sensedades resultants a un valor adequat i multiplicar el resultat de la
-  reclassificació per una màscara obtinguda del ràster original on la zona amb
-  dades tingui valor 1 i la resta el valor sensedades.</p>
-<br/>
-  <hr align="center" size="2" width="100%"/>
+<p>També és possible indicar un valor límit que defineixi el llindar màxim o  mínim a considerar. Depenent de si el límit és superior o inferior,  s'ordenarà fins o des del valor límit, sempre incloent el propi límit en  l'ordenació. Les cel·les que tinguin un valor que sobrepassi aquest  llindar, es classificaran com a valors sensedades. Si el ràster original  contenia valors sensedades i es vol diferenciar-los dels valors sensedades generats  per aquesta aplicació, cal reclassificar amb <a href="CalcImg.htm">CalcImg</a> els  sensedades resultants a un valor adequat i multiplicar el resultat de la  reclassificació per una màscara obtinguda del ràster original on la zona amb  dades tingui valor 1 i la resta el valor sensedades.</p>
 
-  <exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="OrdreRas_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg de l'OrdreRas</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Exemples" name="Exemples"></a>Exemples</h2>
+
+<p>OrdreRas A C:\FitxerRas.img C:\FitxerOrdenat.img<br/>
+OrdreRas D C:\FitxerRas.img C:\FitxerOrdenat.img /LIM_SUP=500<br/>
+OrdreRas D C:\FitxerRas.img C:\FitxerOrdenat.img /LIM_INF=-30.05 /LIM_PIX=5</p>
+	
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+ <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+
    
    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->   
-<p><br/>
-    Exemples:</p>
-
-    <p>OrdreRas A C:\FitxerRas.img C:\FitxerOrdenat.img<br/>
-    OrdreRas D C:\FitxerRas.img C:\FitxerOrdenat.img /LIM_SUP=500<br/>
-    OrdreRas D C:\FitxerRas.img C:\FitxerOrdenat.img /LIM_INF=-30.05 /LIM_PIX=5</p>
-<hr/>
     <p><!-- $$EXCLUSIVA$$
 Per a obtenir l'ajuda completa escriviu:
 OrdreRas ?
---></p>
-  </exclusiva>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
