@@ -1,32 +1,75 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Revisió AA 27-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>SentIMG: Import Sentinel-2 images.</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/SentIMG.htm"><font size="+2">SentIMG</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-<p align="justify">This application imports data from the Sentinel-2 mission of the Sentinel satellite series, managed by the ESA to MiraMon format. This application has two options:</p> 
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+
+<p>This application imports data from the Sentinel-2 mission of the Sentinel satellite series, managed by the ESA to MiraMon format. This application has two options:</p> 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-<p align="justify">A Sentinel product is a set of data (radiometric and auxiliary images, etc) and metadata describing the elements that compose the product. Each product is divided into a set of tiles that cover respective geographical areas. In each original tile there are the different multispectral bands and their metadata in XML format and the different quality masks in GML format. SentIMG allows to import orthorectified products with TOA and BOA reflectances  (Level 1C, 2Ap and 2A or L1C, L2Ap and L2A) where these tiles correspond to areas of 100 km x 100 km in the UTM grid in UTM map projection and WGS84 datum.</p>
+<p>A Sentinel product is a set of data (radiometric and auxiliary images, etc) and metadata describing the elements that compose the product. Each product is divided into a set of tiles that cover respective geographical areas. In each original tile there are the different multispectral bands and their metadata in XML format and the different quality masks in GML format. SentIMG allows to import orthorectified products with TOA and BOA reflectances  (Level 1C, 2Ap and 2A or L1C, L2Ap and L2A) where these tiles correspond to areas of 100 km x 100 km in the UTM grid in UTM map projection and WGS84 datum.</p>
 
-<p align="justify">
+<p>This application allows two options to import images Sentinel:</p>
+<ul>
+	<li>Import all the product based on the <i>User Product</i> XML file. In this option, the input parameter is the <i>User Product</i> metadata XML file and the distribution of the folders must be the same as the downloaded ZIP file provided by the ESA. In the output folder, a S2A_Lxx_aaaammdd named folder will be created where xx is the correction level of the image (for example, L1C in case of level 1C) and aaaa, mm and dd correspond to the year, month and day of the date of the acquisition. Inside the folder, many folders as tiles will be created following the nomenclature aabcc, where aa, b and cc are the fuse, the strip of 8 degrees of latitude and the two letters of the UTM zone of 100 km x 100 km that corresponds the tile. For each tile, it will import the different multispectral bands and the raster layers that provide the illumination angle and the vision angle, in both cases expressed, in turn, through the azimuthal and zenithal angle. SentIMG also gives the possibility to import quality masks to IMG format or directly to copy them to the output folder in its original format.</li>
 
+	<li>Import one o more bands in JP2 format corresponding to the same tile. In this option, the input parameter is a file or a file list in JP2 format corresponding to the same tile.  It is recommended to include the XML file of the <i>User Product</i> and the XML file of the tile metadata, because the metadata will be added to the output file or files.</li>
+</ul>
 
+<p>For proper performance of the application, it is necessary to have the lti_dsdk_cdll.dll and lti_dsdk_dll.dll libraries in the MiraMon installation folder.</p>
 
-This application allows two options to import images Sentinel:
-<ul><li>Import all the product based on the <i>User Product</i> XML file. In this option, the input parameter is the <i>User Product</i> metadata XML file and the distribution of the folders must be the same as the downloaded ZIP file provided by the ESA. In the output folder, a S2A_Lxx_aaaammdd named folder will be created where xx is the correction level of the image (for example, L1C in case of level 1C) and aaaa, mm and dd correspond to the year, month and day of the date of the acquisition. Inside the folder, many folders as tiles will be created following the nomenclature aabcc, where aa, b and cc are the fuse, the strip of 8 degrees of latitude and the two letters of the UTM zone of 100 km x 100 km that corresponds the tile. For each tile, it will import the different multispectral bands and the raster layers that provide the illumination angle and the vision angle, in both cases expressed, in turn, through the azimuthal and zenithal angle. SentIMG also gives the possibility to import quality masks to IMG format or directly to copy them to the output folder in its original format.</li>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-<li>Import one o more bands in JP2 format corresponding to the same tile. In this option, the input parameter is a file or a file list in JP2 format corresponding to the same tile.  It is recommended to include the XML file of the <i>User Product</i> and the XML file of the tile metadata, because the metadata will be added to the output file or files.
-</li></ul></p>
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
 
-<p align="justify">For proper performance of the application, it is necessary to have the lti_dsdk_cdll.dll and lti_dsdk_dll.dll libraries in the MiraMon installation folder.</p>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="SentIMG_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">SentIMG dialog box</td>
+</tr>
+</table>
+</div>
 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <exclusiva>
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->

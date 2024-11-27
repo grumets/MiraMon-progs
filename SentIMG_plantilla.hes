@@ -1,34 +1,81 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 27-11-2023 */-->
+<!--/* Revisió AA 27-11-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>SentIMG: Importación de imágenes Sentinel-2</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/SentIMG.htm"><font size="+2">SentIMG</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-<p align="justify">Esta aplicación importa datos de la misión Sentinel-2 de la serie de satélites Sentinel, gestionada por la ESA a formato MiraMon. La aplicación tiene dos opciones:</p> 
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+
+<p>Esta aplicación importa datos de la misión Sentinel-2 de la serie de satélites Sentinel, gestionada por la ESA a formato MiraMon. La aplicación tiene dos opciones:</p> 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-<p align="justify">Un producto de Sentinel es un conjunto de datos (imágenes radiométricas y auxiliares, etc) y metadatos que describen los elementos que componen el producto. Cada producto está dividido en un conjunto de teselas que cubren  zonas geográficas. En cada tesela original se pueden encontrar las diferentes bandas multiespectrales y sus metadatos en formato XML y las diferentes máscaras de calidad en formato GML. SentIMG permite importar productos con reflectancias TOA o BOA ortorectificados (nivel 1C, 2Ap y 2A o L1C, L2Ap y L2A) donde estas teselas se corresponden con zonas de 100 km x 100 km de la malla UTM en la proyección cartográfica UTM en el datum WGS84.</p>
+<p>Un producto de Sentinel es un conjunto de datos (imágenes radiométricas y auxiliares, etc) y metadatos que describen los elementos que componen el producto. Cada producto está dividido en un conjunto de teselas que cubren  zonas geográficas. En cada tesela original se pueden encontrar las diferentes bandas multiespectrales y sus metadatos en formato XML y las diferentes máscaras de calidad en formato GML. SentIMG permite importar productos con reflectancias TOA o BOA ortorectificados (nivel 1C, 2Ap y 2A o L1C, L2Ap y L2A) donde estas teselas se corresponden con zonas de 100 km x 100 km de la malla UTM en la proyección cartográfica UTM en el datum WGS84.</p>
 
-<p align="justify">Para importar imágenes Sentinel, esta aplicación permite dos opciones:
-<ul><li>Importar todo el producto en base al fichero XML del <i>User Product</i>. En esta opción, el parámetro de entrada es el fichero XML de metadatos del <i>User Product</i> y la distribución de las carpetas tiene que ser la misma que en el fichero ZIP descargado que proporciona la ESA. En el directorio de salida se creará una carpeta con el nombre S2A_Lxx_aaaammdd donde xx es el nivel de corrección de la imagen (por ejemplo, L1C en el caso del nivel 1C) y aaaa, mm y dd corresponden al año, mes y día de la fecha de captación. Dentro de esta carpeta, se crearán tantas carpetas como teselas siguiendo la nomenclatura aabcc, donde aa, b y cc son el huso, la faja de 8 grados de latitud y las dos letras de la zona UTM de 100 km x 100 km a que corresponde la tesela. Para cada tesela, se importará las diferentes bandas multiespectrales y las capas ráster que proporcionan el ángulo de iluminación y el ángulo de visión, en ambos casos expresados, a su vez, a través del ángulo a azimutal y cenital. SentIMG también da la posibilidad de importar las máscaras de calidad en formato IMG o directamente copiarlas al directorio de salida en su formato original.</li>
+<p>Para importar imágenes Sentinel, esta aplicación permite dos opciones:</p>
+<ul>
+	<li>Importar todo el producto en base al fichero XML del <i>User Product</i>. En esta opción, el parámetro de entrada es el fichero XML de metadatos del <i>User Product</i> y la distribución de las carpetas tiene que ser la misma que en el fichero ZIP descargado que proporciona la ESA. En el directorio de salida se creará una carpeta con el nombre S2A_Lxx_aaaammdd donde xx es el nivel de corrección de la imagen (por ejemplo, L1C en el caso del nivel 1C) y aaaa, mm y dd corresponden al año, mes y día de la fecha de captación. Dentro de esta carpeta, se crearán tantas carpetas como teselas siguiendo la nomenclatura aabcc, donde aa, b y cc son el huso, la faja de 8 grados de latitud y las dos letras de la zona UTM de 100 km x 100 km a que corresponde la tesela. Para cada tesela, se importará las diferentes bandas multiespectrales y las capas ráster que proporcionan el ángulo de iluminación y el ángulo de visión, en ambos casos expresados, a su vez, a través del ángulo a azimutal y cenital. SentIMG también da la posibilidad de importar las máscaras de calidad en formato IMG o directamente copiarlas al directorio de salida en su formato original.</li>
 
-<li>Importar una o diversas bandas en formato JP2 correspondientes a una misma tesela. En esta opción, el parámetro de entrada es un fichero o una lista de ficheros en formato JP2 correspondientes a una misma tesela. Se recomienda incluir el fichero XML del <i>User Product</i> y el fichero XML de metadatos de la tesela ya que se añadirán, al fichero o fichero de salida, los metadatos que contienen estos ficheros.
-</li></ul></p>
+	<li>Importar una o diversas bandas en formato JP2 correspondientes a una misma tesela. En esta opción, el parámetro de entrada es un fichero o una lista de ficheros en formato JP2 correspondientes a una misma tesela. Se recomienda incluir el fichero XML del <i>User Product</i> y el fichero XML de metadatos de la tesela ya que se añadirán, al fichero o fichero de salida, los metadatos que contienen estos ficheros.</li>
+</ul>
 
-<p align="justify">Para el correcto funcionamiento de la aplicación, es necesario tener las librerías lti_dsdk_cdll.dll y lti_dsdk_dll.dll en el directorio de instalación de MiraMon.</p> 
+<p>Para el correcto funcionamiento de la aplicación, es necesario tener las librerías lti_dsdk_cdll.dll y lti_dsdk_dll.dll en el directorio de instalación de MiraMon.</p> 
 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <exclusiva>
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="SentIMG_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de SentIMG</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
    <!-- $$EXCLUSIVA$$
 Para obtener la ayuda completa escriba:
-SENTIMG ?
+SentIMG ?
 -->
   </exclusiva>
 </body>
