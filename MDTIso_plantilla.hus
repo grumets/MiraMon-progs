@@ -1,92 +1,123 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 24-11-2023 */-->
+<!--/* Revisió AA 5-12-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>MDTIso: Generation of contour lines from DTM</title>
+<title>MDTIso: Generation of contour lines from DTM</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <div class="Section1">
-   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/MDTIso.htm"><font size="+2">MDTIso</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation <!--and options--></a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation <!--and options--></h2>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-   <p>The algorithm works, internally, in two stages:</p>
+<p>The algorithm works, internally, in two stages:</p>
 
-    <ul>
-      <li>Generation of points that will become vertices of future contour lines.</li>
-
-      <li>Generation of contour lines.</li>
-    </ul>
-
-    <p>In the contour lines vertices generation stage, the DTM is swept starting by the cell placed on the top left area. For each cell, the Z value is reviewed and compared with the ones on the cells placed at left and under it and, in the case that one of the contour line levels has to be between those cells, an interpolation is made to find the point where the corresponding vertex has to be placed. Once all the vertices are generated, the contour line generation is made. From the lowest value level, and for each contour line level, each contour line is being generated from the interpolated vertices of the DTM.</p>
-
-    <p>The basic data required for the generation of contour lines are the DTM raster, the desired contour interval  and the output vectorial file. The raster of the digital terrain model (DTM) must be a file in IMG format and the data type can be any of those supported by MiraMon (see <a href="..\mm32\AP1.htm">MiraMon raster formats description</a>). The output file will be a  structured vector in ARC format.</p>
-
-    <p>From the contour interval value and the minimum and maximum values recorded in DTM metadata, the different contour line levels will be calculated by looking at multiples from the original value that, in case the user has not assigned it, it will be 0 by default. In case the minimum value of the DTM does not correspond to a contour line Z value, the Z value of the first contour line beyond the minimum  DTM value will be chosen; for example, if the minimum of the DTM is 230 m and the contour line interval is 100 m, a minimum value of 300 m will be chosen. In case the maximum value of the DTM does not correspond to a Z value of a contour line, the Z value of the first contour line under the maximum  DTM value will be chosen; for example, if the maximum of the DTM is 679 m and the contour interval is  200 m, a maximum value of 600 m will be chosen. The possibility for users to choose between which Z values they want to generate contour lines is available by the optional parameters of minimum and maximum Z value of the contour lines.</p>
-
-    <div align="center">
-      <p><img id="_x0000_i1025" src="MDTIso_isolinies.gif" width="800"/></p>
-
-      <p><i>Example of contour lines generation.</i></p>
-    </div>
-
-    <p>In case of generating the contour lines of two or more adjacent DTM, the algorithm allows to limit the search of contour line vertices up to a distance of half a pixel from the DTM borders. In this case, it is necessary to have a common overlap of one pixel between both DTM in order to achieve a perfect match between the contour line generation processes in both files for all their contact points. For proper overlapping, the same densification index and Z value tolerance must be assigned, in case the value of the DTM cell corresponds with the Z value of one of the contour lines, for each adjacent DTM.</p>
-
-   <p>The algorithm allows generating some contour lines obtained from a DTM densified at a higher resolution. This option densifies dynamically every 2 rows to generate the contour line vertices. In order to successfully develop this process, the densification index must necessarily be an integer and odd number between 1 and 9. A 1 index actually corresponds to not densifying, and a 9 index generate curves with far more vertices, which implies also a higher calculation time.</p>
-
-    <div align="center">
-      <p><img id="_x0000_i1025" src="MDTIso_densificacio.gif" width="800"/></p>
-
-     <p><i>Example of contour lines generation without densification (left) and with densification (right).</i></p>
-    </div>
-
-   <p>In order to avoid conflicts in the contour lines (an contour line of one or two vertices, contour lines that cannot be closed,... especially in plain areas), it is necessary to apply a Z value tolerance; this tolerance corresponds to the value-added or value-subtracted to a cell that has the same Z value of some of the contour lines levels. The value of the tolerance corresponds to parts per thousand regarding  the contour interval value and can be between 0.1 and 100, or between -0.1 and -100 if an infinitesimal lowering of the heights wants to be made. The default tolerance is -1, <i>i.e.</i>, 1 mm is reduced if the equidistance is 1 m.</p>
-
-    <p>Once the contour lines are generated, a generalization based on the Douglas-Peucker algorithm (1973) can be applied, which implies a simplification of the contour lines that substantially reduces the number of vertices, thus, making the file smaller, without meaning in general a noticeable decrease of the quality. Note that this is not a smoothing operation of the curves; if an important smoothing is desired, apply application <a href="GenVLin.htm">GenVLin</a> to the result, but control that the smoothing does not arrive to generate contour line intersections (that can be made by verifying that typical nodes do not appear and only final and ring nodes appear).</p>
-
-    <p>In case there are conflictive contour lines, this application can generate, if required, a vector structured file of points containing the ends of these contour lines. In case there are no conflictive points and all contour lines have been generated successfully, this file will not be created.</p>
-	
-	<p>A few final tricks, in case they are needed:</p>
 <ul>
-<li>Eliminate isolines irrelevant in terms of their length (very short) automatically. For this purpose, selections of sufficiently long arcs can be made with <a href="VecSelec.htm">VecSelec</a>.</li>
-<li>If the previous step was not enough, to remove artifacts such as non-closed isolines in the middle of the map [without contact with the bounding box] can be done as follows:<ul>
-<li>With manual control: Opening the original MDT and the problem point layer generated with the /PROBL= parameter, then opening the generated arcs layer in digitizing mode (F2) and examining each problem point case (usually they will be end nodes) and decide whether to delete the line, whether to close it on itself, etc.</li>
-<li>Automatically: Selecting the lines that have a length greater than a certain threshold that is considered relevant [which will have to be estimated beforehand visually] and which, at the same time, do NOT contain end nodes [it will be convenient to make a join between the table of arcs and that of nodes to obtain, for each arc, which have end nodes (node type = 3)].</li>
-</ul>	
+      <li>Generation of points that will become vertices of future contour lines.</li>
+      <li>Generation of contour lines.</li>
 </ul>
-	<p>For more information, consult the following reference:</p>
-    <p><b>Douglas D, Peucker T</b> (1973) <i>Algorithms for the reduction of the number of points required to represent a digitized line or its caricature</i>. The Canadian Cartographer 10(2), 112?122 doi:10.3138/FM57-6770-U75U-7727 </p>
 
-    <div align="center" class="MsoNormal" style="text-align:center">
-      <hr align="center" size="2" width="100%"/>
-    </div>
+<p>In the contour lines vertices generation stage, the DTM is swept starting by the cell placed on the top left area. For each cell, the Z value is reviewed and compared with the ones on the cells placed at left and under it and, in the case that one of the contour line levels has to be between those cells, an interpolation is made to find the point where the corresponding vertex has to be placed. Once all the vertices are generated, the contour line generation is made. From the lowest value level, and for each contour line level, each contour line is being generated from the interpolated vertices of the DTM.</p>
 
-    <p class="MsoNormal"/>
+<p>The basic data required for the generation of contour lines are the DTM raster, the desired contour interval  and the output vectorial file. The raster of the digital terrain model (DTM) must be a file in IMG format and the data type can be any of those supported by MiraMon (see <a href="..\mm32\AP1.htm">MiraMon raster formats description</a>). The output file will be a  structured vector in ARC format.</p>
 
-    <exclusiva>
+<p>From the contour interval value and the minimum and maximum values recorded in DTM metadata, the different contour line levels will be calculated by looking at multiples from the original value that, in case the user has not assigned it, it will be 0 by default. In case the minimum value of the DTM does not correspond to a contour line Z value, the Z value of the first contour line beyond the minimum  DTM value will be chosen; for example, if the minimum of the DTM is 230 m and the contour line interval is 100 m, a minimum value of 300 m will be chosen. In case the maximum value of the DTM does not correspond to a Z value of a contour line, the Z value of the first contour line under the maximum  DTM value will be chosen; for example, if the maximum of the DTM is 679 m and the contour interval is  200 m, a maximum value of 600 m will be chosen. The possibility for users to choose between which Z values they want to generate contour lines is available by the optional parameters of minimum and maximum Z value of the contour lines.</p>
+
+<p>In case of generating the contour lines of two or more adjacent DTM, the algorithm allows to limit the search of contour line vertices up to a distance of half a pixel from the DTM borders. In this case, it is necessary to have a common overlap of one pixel between both DTM in order to achieve a perfect match between the contour line generation processes in both files for all their contact points. For proper overlapping, the same densification index and Z value tolerance must be assigned, in case the value of the DTM cell corresponds with the Z value of one of the contour lines, for each adjacent DTM.</p>
+
+<p>The algorithm allows generating some contour lines obtained from a DTM densified at a higher resolution. This option densifies dynamically every 2 rows to generate the contour line vertices. In order to successfully develop this process, the densification index must necessarily be an integer and odd number between 1 and 9. A 1 index actually corresponds to not densifying, and a 9 index generate curves with far more vertices, which implies also a higher calculation time.</p>
+
+<p>In order to avoid conflicts in the contour lines (an contour line of one or two vertices, contour lines that cannot be closed,... especially in plain areas), it is necessary to apply a Z value tolerance; this tolerance corresponds to the value-added or value-subtracted to a cell that has the same Z value of some of the contour lines levels. The value of the tolerance corresponds to parts per thousand regarding  the contour interval value and can be between 0.1 and 100, or between -0.1 and -100 if an infinitesimal lowering of the heights wants to be made. The default tolerance is -1, <i>i.e.</i>, 1 mm is reduced if the equidistance is 1 m.</p>
+
+<p>Once the contour lines are generated, a generalization based on the Douglas-Peucker algorithm (1973) can be applied, which implies a simplification of the contour lines that substantially reduces the number of vertices, thus, making the file smaller, without meaning in general a noticeable decrease of the quality. Note that this is not a smoothing operation of the curves; if an important smoothing is desired, apply application <a href="GenVLin.htm">GenVLin</a> to the result, but control that the smoothing does not arrive to generate contour line intersections (that can be made by verifying that typical nodes do not appear and only final and ring nodes appear).</p>
+
+<p>In case there are conflictive contour lines, this application can generate, if required, a vector structured file of points containing the ends of these contour lines. In case there are no conflictive points and all contour lines have been generated successfully, this file will not be created.</p>
+	
+<p>A few final tricks, in case they are needed:</p>
+
+<ul>
+	<li>Eliminate isolines irrelevant in terms of their length (very short) automatically. For this purpose, selections of sufficiently long arcs can be made with <a href="VecSelec.htm">VecSelec</a>.</li>
+	<li>If the previous step was not enough, to remove artifacts such as non-closed isolines in the middle of the map [without contact with the bounding box] can be done as follows:<ul>
+	<li>With manual control: Opening the original MDT and the problem point layer generated with the /PROBL= parameter, then opening the generated arcs layer in digitizing mode (F2) and examining each problem point case (usually they will be end nodes) and decide whether to delete the line, whether to close it on itself, etc.</li>
+	<li>Automatically: Selecting the lines that have a length greater than a certain threshold that is considered relevant [which will have to be estimated beforehand visually] and which, at the same time, do NOT contain end nodes [it will be convenient to make a join between the table of arcs and that of nodes to obtain, for each arc, which have end nodes (node type = 3)].</li>
+	</ul>	
+</ul>
+<p>For more information, consult the following reference:</p>
+<ul>
+<p><b>Douglas D, Peucker T</b> (1973) <i>Algorithms for the reduction of the number of points required to represent a digitized line or its caricature</i>. The Canadian Cartographer 10(2), 112?122 doi:10.3138/FM57-6770-U75U-7727 </p>
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="MDTIso_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">MDTIso dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<div align="center"><img id="_x0000_i1025" src="MDTIso_isolinies.gif" width="800"/></br>
+Example of contour lines generation.
+</div> 
+ 
+<div align="center"><img id="_x0000_i1025" src="MDTIso_densificacio.gif" width="800"/></br>
+Example of contour lines generation without densification (left) and with densification (right).
+</div>
+
+<p>Examples of syntax:</p>
+
+<pre>MDTISO C:\DTMFile.img C:\CountourLinesFile.arc 20 /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3 /MIGPIXEL /GENERALITZACIO /PROBL=C:\ProblsFile.pnt</br>
+MDTISO C:\DTMFile.img C:\CountourLinesFile.arc 20 /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3 /GENERALITZACIO /ZINCREM=10 /PROBL=C:\ProblsFile.pnt</pre>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
-      <p class="MsoNormal"><br/>
-      Examples:</p>
-
-      <p class="MsoNormal">MDTISO C:\DTMFile.img C:\CountourLinesFile.arc 20
-      /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3
-      /MIGPIXEL /GENERALITZACIO /PROBL=C:\ProblsFile.pnt</p>
-
-      <p class="MsoNormal">MDTISO C:\DTMFile.img C:\CountourLinesFile.arc 20
-      /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3
-      /GENERALITZACIO /ZINCREM=10 /PROBL=C:\ProblsFile.pnt</p>
-      <hr/>
 <p><!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
 MDTISO ?
---></p>
-    </exclusiva>
-  </div>
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>

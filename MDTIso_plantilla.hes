@@ -1,147 +1,126 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 27-11-2023 */-->
+<!--/* Revisió AA 5-12-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>MDTIso: Generación de isolíneas a partir de MDT</title>
+<title>MDTIso: Generación de isolíneas a partir de MDT</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <div class="Section1">
-   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/MDTIso.htm"><font size="+2">MDTIso</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación <!--y opciones--></a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación <!--y opciones--></h2>
+
   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-    <p>El algoritmo trabaja, internamente, en dos fases:</p>
+<p>El algoritmo trabaja, internamente, en dos fases:</p>
 
-    <ul>
-      <li>Generación de los puntos que serán los vértices de las futuras
-       isolíneas.</li>
-
-      <li>Generación de las isolíneas.</li>
-    </ul>
-
-    <p>En la fase de la generación de los vértices de isolíneas se recorre el
-     ráster del MDT empezando desde la celda situada en la parte superior
-     izquierda. Para cada celda, se mira su valor Z y se compara con el de
-     la celda situada a la derecha y la situada debajo y, en caso  que uno de los
-     niveles de isolínea tenga que pasar entre estas celdas, se hace una
-     interpolación para encontrar el punto donde debe situarse el vértice
-     correspondiente. Una vez se han generado todos los vértices, se procede a la generación
-     de las isolíneas. Desde el nivel de valor más bajo, y para cada nivel
-     de isolínea, se va generando cada isolínea a partir de los vértices
-     interpolados del MDT.</p>
-
-     <p>Los datos básicos necesarios para la generación de isolíneas son
-     el ráster del MDT, la equidistancia deseada y el archivo
-     vectorial de salida. El ráster del MDT debe
-     ser un archivo en formato IMG y el tipo de datos puede ser cualquiera de los
-     soportados por MiraMon  (se puede consultar <a href="..\mm32\AP1.htm">Descripción de los formatos ráster de MiraMon</a>). El archivo de salida será un vector
-     estructurado en formato ARC.</p>
-
-    <p>A partir del valor de la equidistancia y de los valores mínimo y máximo
-    documentados en los metadatos del MDT, se calcularán los diferentes
-    niveles de isolíneas buscando múltiplos desde el valor origen que, en el
-    en caso  que el usuario no lo asigne, por defecto, será 0. En caso  que
-    el mínimo valor del MDT no corresponda a un valor Z de una
-    isolínea, se escogerá el valor Z de la primera isolínea que esté
-    por encima del mínimo del MDT; por ejemplo, si el mínimo del MDT es
-    230 m y la equidistancia es 100 m, se escogerá el valor mínimo de 300 m.
-    En caso que el máximo valor del MDT no corresponda a un valor Z
-    de una isolínea, se escogerá el valor Z de la primera isolínea que
-    esté por debajo del máximo del MDT; por ejemplo, si el máximo de
-    el MDT es 679 m y la equidistancia es 200 m, se escogerá el valor
-    máximo de 600 m. Existe la posibilidad  que el usuario pueda escoger
-    entre qué valores Z quiere generar isolíneas mediante los parámetros
-    opcionales de mínimo y máximo valor Z de las isolíneas.</p>
-
-    <div align="center">
-      <p><img id="_x0000_i1025" src="MDTIso_isolinies.gif" width="800"/></p>
-
-      <p><i>Ejemplo de la generación de isolíneas.</i></p>
-    </div>
-
-    <p>En caso  que se desee generar isolíneas de dos o más MDT colindantes,
-     el algoritmo permite limitar la búsqueda de vértices de isolíneas hasta
-     una distancia de medio píxel de los bordes del MDT. En este caso, es
-     necesario que haya un recubrimiento común de un píxel entre los MDT a
-     fin de conseguir una perfecta coincidencia en los procesos de generación
-     de isolíneas en ambos archivos en los puntos de contacto entre ellos. Para un recubrimiento correcto, es necesario
-     asignar el mismo índice de densificación y la misma tolerancia del valor
-     Z, en caso  que el valor de la celda del MDT coincida con el
-     valor Z de una de las isolíneas, para cada MDT colindante.</p>
-
-    <p>El algoritmo permite generar  isolíneas obtenidas desde un
-     MDT densificado a mayor resolución. Esta opción densifica dinámicamente
-     cada 2 filas para generar los vértices de las isolíneas. Para que este
-     proceso se realice satisfactoriamente, el índice de densificación debe
-     ser necesariamente un número entero e impar entre 1 y 9. Un índice 1 en realidad equivale a no densificar, y un índice 9 genera curvas con muchos más vértices, lo que implica un tiempo de cálculo también mayor.</p>
-
-    <div align="center">
-      <p><img id="_x0000_i1025" src="MDTIso_densificacio.gif" width="800"/></p>
-
-      <p><i>Ejemplo de la generación de isolíneas sin densificación (izquierda)
-       y con densificación (derecha).</i></p>
-    </div>
-
-    <p>Para evitar conflictos en las isolíneas (isolínea de uno o dos
-     vértices, isolíneas que no pueden cerrar,... especialmente en zonas llanas), es
-     necesario aplicar una tolerancia del valor Z; ésta corresponde al valor
-     que se añade o se resta al valor de una celda que tenga el
-     mismo valor Z que uno de los niveles de isolíneas. El valor de la
-     tolerancia corresponde a partes por mil en relación al valor de
-     la equidistancia y puede valer entre 0.1 y 100, o entre -0.1 y -100 si
-     deseamos bajar infinitesimalmente la cota. La tolerancia por defecto es
-     -1, es decir, se reduce 1 mm si la equidistancia es de 1 m.</p>
-
-    <p>Una vez generadas las isolíneas, se puede aplicar una generalización
-     basada en el algoritmo de Douglas-Peucker (1973), lo que implica una
-     simplificación de las isolíneas que reduce sustancialmente su número
-     de vértices y hace, pues, que el archivo sea de menor tamaño, sin que
-     esto signifique por lo general un decremento sensible de la calidad. Nótese que no es una operación de suavizado de las curvas; si desea un suavizado importante se debe aplicar la aplicación  <a href="GenVLin.htm">GenVLin</a> al resultado, pero controlando que el suavizado no llegue a generar intersecciones de curvas (lo que se puede hacer verificando que no aparezcan nodos típicos y que sólo haya nodos finales y nodos de anillo).</p>
-
-   <p>En caso  que existan isolíneas conflictivas, esta aplicación puede generar, si
-     se pide, un archivo vectorial estructurado de puntos con los extremos
-     de estas isolíneas. En caso  que no haya ningún punto problemático y
-     todas las isolíneas se hayan generado satisfactoriamente, no se creará
-     este archivo.</p>
-<p>Algunos trucos finales, en caso de que sean necesarios:</p>
 <ul>
-<li>Eliminar isolíneas irrelevantes en cuanto a su longitud (muy cortas) de forma automática. A tal efecto, se pueden realizar selecciones de los arcos bastante largos con <a href="VecSelec.htm">VecSelec</a>.</li>
-<li>Si el paso anterior no fuera suficiente, para eliminar artefactos como isolíneas no cerradas en medio del mapa [sin contacto con la envolvente] se puede hacer de la siguiente manera:<ul>
-<li>Con control manual: abriendo el MDT original y la capa de puntos problema generada con el parámetro /PROBL= y, a continuación, abrir la capa de arcos generada en modo digitalización (F2) y examinar cada caso de punto problemático (normalmente serán nodos finales) y decidir si eliminar la línea, si cerrarla sobre sí misma, etc.</li>
-<li>Automáticamente: seleccionando las líneas que tienen una longitud mayor a cierto umbral que se considere relevante [que deberá ser estimado previamente de forma visual] y que, al mismo tiempo, NO contienen nodos finales [convendrá hacer un <i>join</i> entre la tabla de arcos y la de nodos para obtener, para cada arco, cuáles tienen nodos finales (tipo de nodo = 3)].</li>	 
+	<li>Generación de los puntos que serán los vértices de las futuras isolíneas.</li>
+	<li>Generación de las isolíneas.</li>
 </ul>
+
+<p>En la fase de la generación de los vértices de isolíneas se recorre el ráster del MDT empezando desde la celda situada en la parte superior izquierda. Para cada celda, se mira su valor Z y se compara con el de la celda situada a la derecha y la situada debajo y, en caso  que uno de los niveles de isolínea tenga que pasar entre estas celdas, se hace una interpolación para encontrar el punto donde debe situarse el vértice correspondiente. Una vez se han generado todos los vértices, se procede a la generación de las isolíneas. Desde el nivel de valor más bajo, y para cada nivel de isolínea, se va generando cada isolínea a partir de los vértices interpolados del MDT.</p>
+
+<p>Los datos básicos necesarios para la generación de isolíneas son el ráster del MDT, la equidistancia deseada y el archivo vectorial de salida. El ráster del MDT debe ser un archivo en formato IMG y el tipo de datos puede ser cualquiera de los soportados por MiraMon (se puede consultar <a href="..\mm32\AP1.htm">Descripción de los formatos ráster de MiraMon</a>). El archivo de salida será un vector estructurado en formato ARC.</p>
+
+<p>A partir del valor de la equidistancia y de los valores mínimo y máximo documentados en los metadatos del MDT, se calcularán los diferentes niveles de isolíneas buscando múltiplos desde el valor origen que, en el en caso que el usuario no lo asigne, por defecto, será 0. En caso que el mínimo valor del MDT no corresponda a un valor Z de una isolínea, se escogerá el valor Z de la primera isolínea que esté por encima del mínimo del MDT; por ejemplo, si el mínimo del MDT es 230 m y la equidistancia es 100 m, se escogerá el valor mínimo de 300 m. En caso que el máximo valor del MDT no corresponda a un valor Z de una isolínea, se escogerá el valor Z de la primera isolínea que esté por debajo del máximo del MDT; por ejemplo, si el máximo de el MDT es 679 m y la equidistancia es 200 m, se escogerá el valor máximo de 600 m. Existe la posibilidad que el usuario pueda escoger entre qué valores Z quiere generar isolíneas mediante los parámetros opcionales de mínimo y máximo valor Z de las isolíneas.</p>
+
+<p>En caso que se desee generar isolíneas de dos o más MDT colindantes, el algoritmo permite limitar la búsqueda de vértices de isolíneas hasta una distancia de medio píxel de los bordes del MDT. En este caso, es necesario que haya un recubrimiento común de un píxel entre los MDT a fin de conseguir una perfecta coincidencia en los procesos de generación de isolíneas en ambos archivos en los puntos de contacto entre ellos. Para un recubrimiento correcto, es necesario asignar el mismo índice de densificación y la misma tolerancia del valor Z, en caso que el valor de la celda del MDT coincida con el valor Z de una de las isolíneas, para cada MDT colindante.</p>
+
+<p>El algoritmo permite generar isolíneas obtenidas desde un MDT densificado a mayor resolución. Esta opción densifica dinámicamente cada 2 filas para generar los vértices de las isolíneas. Para que este proceso se realice satisfactoriamente, el índice de densificación debe ser necesariamente un número entero e impar entre 1 y 9. Un índice 1 en realidad equivale a no densificar, y un índice 9 genera curvas con muchos más vértices, lo que implica un tiempo de cálculo también mayor.</p>
+
+<p>Para evitar conflictos en las isolíneas (isolínea de uno o dos vértices, isolíneas que no pueden cerrar,... especialmente en zonas llanas), es necesario aplicar una tolerancia del valor Z; ésta corresponde al valor que se añade o se resta al valor de una celda que tenga el mismo valor Z que uno de los niveles de isolíneas. El valor de la tolerancia corresponde a partes por mil en relación al valor de la equidistancia y puede valer entre 0.1 y 100, o entre -0.1 y -100 si deseamos bajar infinitesimalmente la cota. La tolerancia por defecto es -1, es decir, se reduce 1 mm si la equidistancia es de 1 m.</p>
+
+<p>Una vez generadas las isolíneas, se puede aplicar una generalización basada en el algoritmo de Douglas-Peucker (1973), lo que implica una simplificación de las isolíneas que reduce sustancialmente su número de vértices y hace, pues, que el archivo sea de menor tamaño, sin que esto signifique por lo general un decremento sensible de la calidad. Nótese que no es una operación de suavizado de las curvas; si desea un suavizado importante se debe aplicar la aplicación <a href="GenVLin.htm">GenVLin</a> al resultado, pero controlando que el suavizado no llegue a generar intersecciones de curvas (lo que se puede hacer verificando que no aparezcan nodos típicos y que sólo haya nodos finales y nodos de anillo).</p>
+
+<p>En caso que existan isolíneas conflictivas, esta aplicación puede generar, si se pide, un archivo vectorial estructurado de puntos con los extremos de estas isolíneas. En caso que no haya ningún punto problemático y todas las isolíneas se hayan generado satisfactoriamente, no se creará este archivo.</p>
+
+<p>Algunos trucos finales, en caso de que sean necesarios:</p>
+
+<ul>
+	<li>Eliminar isolíneas irrelevantes en cuanto a su longitud (muy cortas) de forma automática. A tal efecto, se pueden realizar selecciones de los arcos bastante largos con <a href="VecSelec.htm">VecSelec</a>.</li>
+	<li>Si el paso anterior no fuera suficiente, para eliminar artefactos como isolíneas no cerradas en medio del mapa [sin contacto con la envolvente] se puede hacer de la siguiente manera:
+	<ul>
+		<li>Con control manual: abriendo el MDT original y la capa de puntos problema generada con el parámetro /PROBL= y, a continuación, abrir la capa de arcos generada en modo digitalización (F2) y examinar cada caso de punto problemático (normalmente serán nodos finales) y decidir si eliminar la línea, si cerrarla sobre sí misma, etc.</li>
+		<li>Automáticamente: seleccionando las líneas que tienen una longitud mayor a cierto umbral que se considere relevante [que deberá ser estimado previamente de forma visual] y que, al mismo tiempo, NO contienen nodos finales [convendrá hacer un <i>join</i> entre la tabla de arcos y la de nodos para obtener, para cada arco, cuáles tienen nodos finales (tipo de nodo = 3)].</li>	 
+	</ul>
 </ul>
-   <p>Para más información se puede consultar la siguiente referencia:</p>
-    <p><b>Douglas D, Peucker T</b> (1973) <i>Algorithms for the reduction of the number of points required to represent a digitized line or its caricature</i>. The Canadian Cartographer 10(2), 112?122 doi:10.3138/FM57-6770-U75U-7727 </p>
-    <div align="center" class="MsoNormal" style="text-align:center">
-      <hr align="center" size="2" width="100%"/>
-    </div>
+ 
+<p>Para más información se puede consultar la siguiente referencia:</p>
+<ul>
+	<p><b>Douglas D, Peucker T</b> (1973) <i>Algorithms for the reduction of the number of points required to represent a digitized line or its caricature</i>. The Canadian Cartographer 10(2), 112?122 doi:10.3138/FM57-6770-U75U-7727 </p>
+</ul>
 
-    <p class="MsoNormal"/>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-    <exclusiva>
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="MDTIso_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de MDTIso</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<div align="center"><img id="_x0000_i1025" src="MDTIso_isolinies.gif" width="800"/></br>
+Ejemplo de la generación de isolíneas.
+</div>
+
+<div align="center"><img id="_x0000_i1025" src="MDTIso_densificacio.gif" width="800"/></br>
+Ejemplo de la generación de isolíneas sin densificación (izquierda)  y con densificación (derecha).
+</div>
+
+<p>Ejemplos de sintaxis:</p>
+
+<pre>MDTISO C:\FicheroMDT.img C:\FicheroIsolinias.arc 20 /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3 /MIGPIXEL /GENERALITZACIO /PROBL=C:\FicheroProbls.pnt</br>
+MDTISO C:\FicheroMDT.img C:\FicheroIsolinias.arc 20 /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3 /GENERALITZACIO /ZINCREM=10 /PROBL=C:\FicheroProbls.pnt
+</pre>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
-      <p class="MsoNormal"><br/>
-      Ejemplos:</p>
-
-      <p class="MsoNormal">MDTISO C:\FicheroMDT.img C:\FicheroIsolinias.arc 20
-      /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3
-      /MIGPIXEL /GENERALITZACIO /PROBL=C:\FicheroProbls.pnt</p>
-
-      <p class="MsoNormal">MDTISO C:\FicheroMDT.img C:\FicheroIsolinias.arc 20
-      /EQUID_MESTRA=100 /ZMIN=128 /ZMAX=763 /ZBASE=100 /DENSIFICACIO=3
-      /GENERALITZACIO /ZINCREM=10 /PROBL=C:\FicheroProbls.pnt</p>
-      <hr/>
 <p><!-- $$EXCLUSIVA$$
 Para obtener la ayuda completa escriba:
-MDTISO ?
---></p>
-  </div>
+MDTIso ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
