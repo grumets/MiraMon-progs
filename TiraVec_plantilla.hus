@@ -1,156 +1,113 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 5-12-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>TiraVec: Rasterize vector files</title>
+<title>TiraVec: Rasterize vector files</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/TiraVec.htm"><font size="+2">TiraVec</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-  <p>This program takes a vector point file, a line/arc file, a polygon or
-  node file (whether structured or not) and rasterizes it using an existing or
-  new raster.</p>
-  
-  <p>Although the program supports all MiraMon vector formats it is
-  recommended that structured formats are used in the case of polygon files
-  since these allow holes within polygons and are free of overlapping polygons
-  (except for any non topological groups that they may contain). Moreover the
-  structured vector formats allow linking to a database, which in turn allows
-  a greater degree of control over the raster attributes and the automatic
-  generation of categories. If an unstructured polygon files is rasterized
-  then where superpositions occur the value of the last polygon prevails.</p>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation <!--and options--></a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
 
-  <p>Based on MiraMon structured vector files, the program supports the
-  rasterization of many types of field attributes: Numeric ('N'),
-  Logical ('L'), Character ('C') or Date ('D'). For
-  numeric ('N') fields the numeric value is rasterized directly,
-  whilst for logical ('L') fields the raster contains 1 for true and 0
-  for false. In this case TiraVec allows the user to indicate another field
-  (numeric, alphanumeric, date, ...) for defining the raster category.
-  Similarly, if the field for rasterizing is Character ('C') or Date
-  ('D') type then the program automatically generates a numerical
-  index which is rasterized as the raster value and these raster categories
-  are documented with their equivalent alphanumeric attributes.<br/>
-  Based on unstructured vectors the program supports &quot;integer&quot;
-  (long), &quot;real&quot; or &quot;string&quot; vector attributes. For
-  &quot;integer&quot; and &quot;real&quot; type attributes only those
-  attributes that are, or can be, transformed into numbers are rasterized. For
-  &quot;string&quot; type attributes the program can also automatically
-  generate a numerical index which corresponds to a description of the raster
-  categories, as described above for structured vectors.</p>
+<h2><a id="Presentació" name="Presentació"></a>Presentation <!--and options--></h2>
 
-  <p>Apart from the different mentioned vector formats, this program also allows 
-  the rasterization of a TIN model (Triangulated Irregular Network). In this case, 
-  the input file should be a structured polygons file where each polygon must be 
-  triangular and every vertex of the polygons must have a Z value. To rasterize this 
-  layer, an interpolated Z value will be assigned to every cell from the three vertices 
-  of the polygon where the cell is contained.</p>
+<p>This program takes a vector point file, a line/arc file, a polygon ornode file (whether structured or not) and rasterizes it using an existing ornew raster.</p>
 
-  <p>TiraVec can raster over MiraMon raster files, that is &quot;bit&quot;,
-  &quot;byte&quot;, &quot;integer&quot;, &quot;long&quot; and &quot;real&quot;
-  formats, as well as over the compressed formats &quot;byte-RLE&quot;,
-  &quot;integer-RLE&quot;, &quot;long-RLE&quot; and
-  &quot;real-RLE&quot;.<br/>
-  Should the numerical value fall outside the range of allowed values for the
-  raster image then it is possible to choose between saturating the maximum or
-  minimum value, or eliminating the value as out of range. The following are
-  the allowed values for each type of raster, whether RLE type or
-  decompressed:</p>
+<p>Although the program supports all MiraMon vector formats it isrecommended that structured formats are used in the case of polygon filessince these allow holes within polygons and are free of overlapping polygons(except for any non topological groups that they may contain). Moreover thestructured vector formats allow linking to a database, which in turn allowsa greater degree of control over the raster attributes and the automaticgeneration of categories. If an unstructured polygon files is rasterizedthen where superpositions occur the value of the last polygon prevails.</p>
 
-  <ul>
-    <li>bit: rasterizes as 1 unless the attribute is 0.</li>
+<p>Based on MiraMon structured vector files, the program supports therasterization of many types of field attributes: Numeric ('N'),Logical ('L'), Character ('C') or Date ('D'). Fornumeric ('N') fields the numeric value is rasterized directly,whilst for logical ('L') fields the raster contains 1 for true and 0for false. In this case TiraVec allows the user to indicate another field(numeric, alphanumeric, date, ...) for defining the raster category.Similarly, if the field for rasterizing is Character ('C') or Date('D') type then the program automatically generates a numericalindex which is rasterized as the raster value and these raster categoriesare documented with their equivalent alphanumeric attributes.<br/>
+Based on unstructured vectors the program supports &quot;integer&quot;(long), &quot;real&quot; or &quot;string&quot; vector attributes. For&quot;integer&quot; and &quot;real&quot; type attributes only thoseattributes that are, or can be, transformed into numbers are rasterized. For&quot;string&quot; type attributes the program can also automaticallygenerate a numerical index which corresponds to a description of the rastercategories, as described above for structured vectors.</p>
 
-    <li>byte: rounds off and rasterizes if 0 &lt;= attribute &lt;= 255.</li>
+<p>Apart from the different mentioned vector formats, this program also allows the rasterization of a TIN model (Triangulated Irregular Network). In this case, the input file should be a structured polygons file where each polygon must be triangular and every vertex of the polygons must have a Z value. To rasterize this layer, an interpolated Z value will be assigned to every cell from the three vertices of the polygon where the cell is contained.</p>
 
-    <li>integer: rounds off and rasterizes if -32768 &lt;= attribute &lt;=
-    32767.</li>
+<p>TiraVec can raster over MiraMon raster files, that is &quot;bit&quot;,&quot;byte&quot;, &quot;integer&quot;, &quot;long&quot; and &quot;real&quot;formats, as well as over the compressed formats &quot;byte-RLE&quot;,&quot;integer-RLE&quot;, &quot;long-RLE&quot; and&quot;real-RLE&quot;.<br/>
+Should the numerical value fall outside the range of allowed values for theraster image then it is possible to choose between saturating the maximum orminimum value, or eliminating the value as out of range. The following arethe allowed values for each type of raster, whether RLE type ordecompressed:</p>
 
-    <li>long: rounds off and rasterizes if -2147483648 &lt;= attribute &lt;=
-    2147483647</li>
+<ul>
+<li>bit: rasterizes as 1 unless the attribute is 0.</li>
+<li>byte: rounds off and rasterizes if 0 &lt;= attribute &lt;= 255.</li>
+<li>integer: rounds off and rasterizes if -32768 &lt;= attribute &lt;= 32767.</li>
+<li>long: rounds off and rasterizes if -2147483648 &lt;= attribute &lt;= 2147483647</li>
+<li>real: rasterizes the value.</li>
+</ul>
 
-    <li>real: rasterizes the value.</li>
-  </ul>
+<p>In the case of structured polygons the zero polygon (or the universalpolygon that encloses all the rest) is not rasterized.</p>
 
-  <p>In the case of structured polygons the zero polygon (or the universal
-  polygon that encloses all the rest) is not rasterized.</p>
+<p>If the category definition field is set and there already existedpredefined categories then the category definition in the DOC file will be:<i>'Nueva' / 'Vieja' (New/Old)</i>. It should be rememberedthat &quot;real&quot; type raster files do no support categories.</p>
 
-  <p>If the category definition field is set and there already existed
-  predefined categories then the category definition in the DOC file will be:
-  <i>'Nueva' / 'Vieja' (New/Old)</i>. It should be remembered
-  that &quot;real&quot; type raster files do no support categories.</p>
+<p>In cases where the REL vector file describes the units (REL v4 or above),this is appropriately documented in the documentation of the resultingraster file. If this is not the case, the name of the field used fordefining categories is placed as 'value units' in the DOC file ofthe raster or, if this is not available, the name of the rasterizedfield.</p>
 
-  <p>In cases where the REL vector file describes the units (REL v4 or above),
-  this is appropriately documented in the documentation of the resulting
-  raster file. If this is not the case, the name of the field used for
-  defining categories is placed as 'value units' in the DOC file of
-  the raster or, if this is not available, the name of the rasterized
-  field.</p>
+<p>For the case of <b>polygon</b> files there are two basic criteria forrasterization: based on area, based on the central point; and acombination.<br/>
+The first assigns to the cell the value to the category that occupies mostof its area; this is approximated by examining a horizontal line crossingthe cell. The second criterion simply assigns the value to the cell of thecategory that is found at its centre, without considering the fraction ofthe area of the cell that this category represents.<br/>
+In the case of a TIN, the criterion of the center point will be used by default.<br/>
+Sometimes, when we rasterize isolated polygons thinner than a pixel on aNODATA background, any criteria explained before is good enough in the normalmode. In this case, it is useful to combine them with the polygons as apolygons with border mode.</p>
 
-  <p>For the case of <b>polygon</b> files there are two basic criteria for
-  rasterization: based on area, based on the central point; and a
-  combination.<br/>
-  The first assigns to the cell the value to the category that occupies most
-  of its area; this is approximated by examining a horizontal line crossing
-  the cell. The second criterion simply assigns the value to the cell of the
-  category that is found at its centre, without considering the fraction of
-  the area of the cell that this category represents.<br/>
-  In the case of a TIN, the criterion of the center point will be used by default.<br/>
-  Sometimes, when we rasterize isolated polygons thinner than a pixel on a
-  NODATA background, any criteria explained before is good enough in the normal
-  mode. In this case, it is useful to combine them with the polygons as a
-  polygons with border mode.</p>
+<ul>
+<li>The central point criterion (2) is less precise but completelyguarantees the spatial contiguity. It is also faster.</li>
+<li>The area criterion (1), although more precise, does not completelyguarantee contiguity between adjacent polygons at the nodes where 3 ormore polygons converge.</li>
+</ul>
 
-  <ul>
-    <li>The central point criterion (2) is less precise but completely
-    guarantees the spatial contiguity. It is also faster.</li>
+<p>For this latter reason there exists a criterion that combines 1 and 2 inwhich 1 is used as the basic criterion, and 2 is used solely to fill inthose cells that have been left with the background value and to fix anypossible discontinuities. This is the <b>recommended</b> option if theraster is newly created or if a background value has been defined.</p>
 
-    <li>The area criterion (1), although more precise, does not completely
-    guarantee contiguity between adjacent polygons at the nodes where 3 or
-    more polygons converge.</li>
-  </ul>
+<p>Nevertheless, the central point criterion with background value('2' and background parameter) is recommended for filling continuitygaps that are left when generating files using the area criterion, but itmay also have other applications.</p>
 
-  <p>For this latter reason there exists a criterion that combines 1 and 2 in
-  which 1 is used as the basic criterion, and 2 is used solely to fill in
-  those cells that have been left with the background value and to fix any
-  possible discontinuities. This is the <b>recommended</b> option if the
-  raster is newly created or if a background value has been defined.</p>
+<p>For <b>line</b> files, there are three criteria (1, 2 and 4):</p>
 
-  <p>Nevertheless, the central point criterion with background value
-  ('2' and background parameter) is recommended for filling continuity
-  gaps that are left when generating files using the area criterion, but it
-  may also have other applications.</p>
+<ul>
+	<li>Method 1 rasterizes with more precision in the areas around vertices,so it is the preferred option for short lines and for large celledrasters. It is the <b>recommended</b> method if the user wants thin linesof one cell width. It processes the coordinates as real numbers.</li>
+	<li>The second method rasterizes accurately the sections between verticesbut can lead to significant geographic errors close to the vertices (cellsmay be affected although the line does not cross them and vice versa). Itis the process that is usually used in image processing applications. Ituses cell centre coordinates directly. This option is not recommended asit is less accurate than the previous option.</li>
+	<li>Method 4 is essentially different to the previous two given that itdoes not minimize the number of cells affected but rather it rasterizes,using real coordinates, all the cells that are crossed by the geometrictrace of the vector. It is the method that should be chosen if the userwishes to rasterize all the cells affected by a line even those that areonly cut at the corners.</li>
+</ul>
 
-  <p>For <b>line</b> files, there are three criteria (1, 2 and 4):</p>
+<p>For <b>point</b> files the raster cell for each point is simply that cell in which the point falls.
 
-  <ul>
-    <li>Method 1 rasterizes with more precision in the areas around vertices,
-    so it is the preferred option for short lines and for large celled
-    rasters. It is the <b>recommended</b> method if the user wants thin lines
-    of one cell width. It processes the coordinates as real numbers.</li>
+<p>This program includes and augments the functions of the programs TiraLinand TiraPol that are no longer included in MiraMon version 4.</p>
 
-    <li>The second method rasterizes accurately the sections between vertices
-    but can lead to significant geographic errors close to the vertices (cells
-    may be affected although the line does not cross them and vice versa). It
-    is the process that is usually used in image processing applications. It
-    uses cell centre coordinates directly. This option is not recommended as
-    it is less accurate than the previous option.</li>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-    <li>Method 4 is essentially different to the previous two given that it
-    does not minimize the number of cells affected but rather it rasterizes,
-    using real coordinates, all the cells that are crossed by the geometric
-    trace of the vector. It is the method that should be chosen if the user
-    wishes to rasterize all the cells affected by a line even those that are
-    only cut at the corners.</li>
-  </ul>For <b>point</b> files the raster cell for each point is simply that
-  cell in which the point falls.
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
 
-  <p>This program includes and augments the functions of the programs TiraLin
-  and TiraPol that are no longer included in MiraMon version 4.</p>
-  <hr/>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="TiraVec_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">TiraVec dialog box</td>
+</tr>
+</table>
+</div>
 
-  <exclusiva>
-    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 	<!-- $$EXCLUSIVA$$
@@ -158,6 +115,7 @@
 For more information enter:
 TiraVec ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>

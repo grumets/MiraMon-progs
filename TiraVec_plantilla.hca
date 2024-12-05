@@ -1,153 +1,109 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 5-12-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>TiraVec: Rasterització de fitxers vectorials</title>
+<title>TiraVec: Rasterització de fitxers vectorials</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
- <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/TiraVec.htm"><font size="+2">TiraVec</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-  <p>Aquest programa pren un fitxer vectorial de punts, línies/arcs, polígons o nodes (estructurat topològicament o no) i el rasteritza sobre un ràster preexistent o sobre un de nou.</p>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació <!--i opcions--></a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
 
-  <p>Encara que per facilitar l'ús del programa se suporten tots els
-  formats vectorials de MiraMon, pel cas de polígons, es recomana l'ús
-  dels formats estructurats, ja que aquests suporten forats interiors i no
-  presenten superposicions de polígons (llevat dels grups no topològics, que
-  en poden presentar). A més, els formats vectorials estructurats permeten la
-  vinculació amb una base de dades, el que permet un control millor sobre els
-  atributs a rasteritzar i la generació automàtica de les categories. Si
-  rasteritzeu un fitxer no estructurat de polígons quan hi ha superposicions,
-  el valor de l'últim polígon preval sobre els anteriors.</p>
+<h2><a id="Presentació" name="Presentació"></a>Presentació <!--i opcions--></h2>
 
-  <p>A partir de vectors estructurats de MiraMon, el programa suporta la
-  rasterització d'atributs de camps de tipus Numèric ('N'), Lògic
-  ('L'), Caràcter ('C') o Data ('D'). Per camps de
-  tipus Numèric ('N') es rasteritza directament el valor numèric i per
-  camps de tipus Lògic ('L') es rateritza 1 per veritat i 0 per fals.
-  En aquest cas TiraVec permet indicar un altre camp (numèric, alfanumèric,
-  data, ...) per definir les categories ràster. Tanmateix, si el camp a
-  rasteritzat és de tipus Caràcter ('C') o Data ('D') el
-  programa genera automàticament un índex numèric que es rasteritza com a
-  valors del ràster i es documenten les categories del ràster amb les
-  equivalències entre l'índex numèric i els atributs alfanumèrics.<br/>
-  A partir de vectors no estructurats se suporten atributs vectorials
-  &quot;integer&quot; (long), &quot;real&quot; o &quot;string&quot;. Per
-  atributs tipus &quot;integer&quot; i &quot;real&quot;, només es
-  rasteritzaran els atributs que siguin o puguin ser transformats a numèrics.
-  Per atributs de tipus &quot;string&quot;, el programa també genera
-  automàticament un índex numèric que es completa amb la descripció de les
-  categories del ràster, tal com s'ha explicat per als vectors
-  estructurats.</p>
+<p>Aquest programa pren un fitxer vectorial de punts, línies/arcs, polígons o nodes (estructurat topològicament o no) i el rasteritza sobre un ràster preexistent o sobre un de nou.</p>
 
-  <p>A part dels diferents formats vectorials comentats, també permet la 
-  rasterització d'un model TIN (xarxa irregular de triangles). En aquest cas, 
-  el fitxer d'entrada ha de ser un fitxer de polígons estructurats on cada 
-  polígon ha de ser triangular i amb cota a cada un dels vèrtex. Al rasteritzar 
-  aquesta capa, per a cada cel·la de la capa resultat se li assignarà la cota 
-  interpolada a partir dels tres vèrtexs del polígon on està contingut.</p>
+<p>Encara que per facilitar l'ús del programa se suporten tots els   formats vectorials de MiraMon, pel cas de polígons, es recomana l'ús   dels formats estructurats, ja que aquests suporten forats interiors i no   presenten superposicions de polígons (llevat dels grups no topològics, que   en poden presentar). A més, els formats vectorials estructurats permeten la   vinculació amb una base de dades, el que permet un control millor sobre els   atributs a rasteritzar i la generació automàtica de les categories. Si   rasteritzeu un fitxer no estructurat de polígons quan hi ha superposicions,   el valor de l'últim polígon preval sobre els anteriors.</p>
 
-  <p>TiraVec pot rasteritzar sobre tots els fitxers ràster de MiraMon, és a
-  dir de tipus &quot;bit&quot;, &quot;byte&quot;, &quot;integer&quot;,
-  &quot;long&quot; i &quot;real&quot;, i també sobre els formats comprimits
-  &quot;byte-RLE&quot;, &quot;integer-RLE&quot;, &quot;long-RLE&quot; i
-  &quot;real-RLE&quot;.<br/>
-  En cas que el valor numèric estigui fora del rang de valors admesos per la
-  imatge ràster es podrà optar per saturar al valor màxim o mínim, o per
-  descartar el valor fora de rang. Aquests són els valors admesos per cada
-  tipus de ràster, ja sigui RLE o descomprimit:</p>
+<p>A partir de vectors estructurats de MiraMon, el programa suporta la   rasterització d'atributs de camps de tipus Numèric ('N'), Lògic   ('L'), Caràcter ('C') o Data ('D'). Per camps de   tipus Numèric ('N') es rasteritza directament el valor numèric i per   camps de tipus Lògic ('L') es rateritza 1 per veritat i 0 per fals.   En aquest cas TiraVec permet indicar un altre camp (numèric, alfanumèric,   data, ...) per definir les categories ràster. Tanmateix, si el camp a   rasteritzat és de tipus Caràcter ('C') o Data ('D') el   programa genera automàticament un índex numèric que es rasteritza com a   valors del ràster i es documenten les categories del ràster amb les   equivalències entre l'índex numèric i els atributs alfanumèrics.<br/>   A partir de vectors no estructurats se suporten atributs vectorials   &quot;integer&quot; (long), &quot;real&quot; o &quot;string&quot;. Per   atributs tipus &quot;integer&quot; i &quot;real&quot;, només es   rasteritzaran els atributs que siguin o puguin ser transformats a numèrics.   Per atributs de tipus &quot;string&quot;, el programa també genera   automàticament un índex numèric que es completa amb la descripció de les   categories del ràster, tal com s'ha explicat per als vectors   estructurats.</p>
 
-  <ul>
-    <li>bit: rasteritza a 1 excepte si l'atribut és 0.</li>
+<p>A part dels diferents formats vectorials comentats, també permet la    rasterització d'un model TIN (xarxa irregular de triangles). En aquest cas,    el fitxer d'entrada ha de ser un fitxer de polígons estructurats on cada    polígon ha de ser triangular i amb cota a cada un dels vèrtex. Al rasteritzar    aquesta capa, per a cada cel·la de la capa resultat se li assignarà la cota    interpolada a partir dels tres vèrtexs del polígon on està contingut.</p>
 
-    <li>byte: s'arrodoneix i es rasteritza si 0 &lt;= atribut &lt;=
-    255.</li>
+<p>TiraVec pot rasteritzar sobre tots els fitxers ràster de MiraMon, és a   dir de tipus &quot;bit&quot;, &quot;byte&quot;, &quot;integer&quot;,   &quot;long&quot; i &quot;real&quot;, i també sobre els formats comprimits   &quot;byte-RLE&quot;, &quot;integer-RLE&quot;, &quot;long-RLE&quot; i   &quot;real-RLE&quot;.<br/>
+En cas que el valor numèric estigui fora del rang de valors admesos per la   imatge ràster es podrà optar per saturar al valor màxim o mínim, o per   descartar el valor fora de rang. Aquests són els valors admesos per cada   tipus de ràster, ja sigui RLE o descomprimit:</p>
 
-    <li>integer: s'arrodoneix i es rasteritza si -32768 &lt;= atribut
-    &lt;= 32767.</li>
+<ul>
+	<li>bit: rasteritza a 1 excepte si l'atribut és 0.</li>
+	<li>byte: s'arrodoneix i es rasteritza si 0 &lt;= atribut &lt;= 255.</li>
+	<li>integer: s'arrodoneix i es rasteritza si -32768 &lt;= atribut &lt;= 32767.</li>
+	<li>long: s'arrodoneix i es rasteritza si -2147483648 &lt;= atribut &lt;= 2147483647</li>
+	<li>real: es rasteritza tal qual.</li>
+</ul>
 
-    <li>long: s'arrodoneix i es rasteritza si -2147483648 &lt;= atribut
-    &lt;= 2147483647</li>
+<p>Pel cas de polígons estructurats no es rasteritza el polígon 0 (el  polígon universal, extern a tots els altres).</p>
 
-    <li>real: es rasteritza tal qual.</li>
-  </ul>
+<p>Si s'indica un camp per definir les categories, i ja hi havia  categories predefinides, la definició de la categoria en el fitxer DOC serà:  'Nova' / 'Vella'. Cal recordar que els fitxers ràster de  tipus &quot;real&quot; no suporten categories.</p>
 
-  <p>Pel cas de polígons estructurats no es rasteritza el polígon 0 (el
-  polígon universal, extern a tots els altres).</p>
+<p>En cas que el REL del fitxer vectorial descrigui les unitats (REL v4 o  superior), es documenta convenientment en el fitxer de documentació del  ràster resultant. En cas contrari, el nom del camp usat per definir les  categories es col·loca com a 'value units' en el fitxer DOC del  ràster o, en el seu defecte, el nom del camp numèric rasteritzat.</p>
 
-  <p>Si s'indica un camp per definir les categories, i ja hi havia
-  categories predefinides, la definició de la categoria en el fitxer DOC serà:
-  'Nova' / 'Vella'. Cal recordar que els fitxers ràster de
-  tipus &quot;real&quot; no suporten categories.</p>
+<p>Pel cas de fitxers de <b>polígons</b> hi ha dos criteris bàsics de rasterització: el d'àrea i el de punt central; i un de combinat.<br/>
+ El primer assigna el valor de la cel·la a la categoria que ocupa més àrea  d'aquest; això s'aproxima examinant una línia horitzontal que  travessa la cel·la. El segon criteri simplement assigna el valor de la  cel·la a la categoria que ocupa el seu centre, sense considerar la porció  d'àrea de cel·la que representa aquesta categoria.<br/>
+ En el cas d'un TIN, s'usarà per defecte el criteri del punt central.<br/>
+ De vegades, quan es rasteritzen polígon aïllat molt més prims que un sol  píxel sobre fons sensedades, cap dels criteris explicats anteriorment resulta  satisfactori en el mode normal. En aquest cas, resulta útil combinar aquest  criteri amb el mode polígons com a polígons amb vora.</p>
 
-  <p>En cas que el REL del fitxer vectorial descrigui les unitats (REL v4 o
-  superior), es documenta convenientment en el fitxer de documentació del
-  ràster resultant. En cas contrari, el nom del camp usat per definir les
-  categories es col·loca com a 'value units' en el fitxer DOC del
-  ràster o, en el seu defecte, el nom del camp numèric rasteritzat.</p>
+<ul>
+	<li>El criteri de punt central (2) és menys precís, però garanteix totalment la continuïtat espacial i és més ràpid.</li>
+	<li>El criteri d'àrea (1), malgrat ésser més precís, NO garanteix totalment la contigüitat entre polígons adjacents en els nodes on convergeixen 3 o més polígons.</li>
+</ul>
 
-  <p>Pel cas de fitxers de <b>polígons</b> hi ha dos criteris bàsics de
-  rasterització: el d'àrea i el de punt central; i un de combinat.<br/>
-  El primer assigna el valor de la cel·la a la categoria que ocupa més àrea
-  d'aquest; això s'aproxima examinant una línia horitzontal que
-  travessa la cel·la. El segon criteri simplement assigna el valor de la
-  cel·la a la categoria que ocupa el seu centre, sense considerar la porció
-  d'àrea de cel·la que representa aquesta categoria.<br/>
-  En el cas d'un TIN, s'usarà per defecte el criteri del punt central.<br/>
-  De vegades, quan es rasteritzen polígon aïllat molt més prims que un sol
-  píxel sobre fons sensedades, cap dels criteris explicats anteriorment resulta
-  satisfactori en el mode normal. En aquest cas, resulta útil combinar aquest
-  criteri amb el mode polígons com a polígons amb vora.</p>
+<p>Per aquest darrer motiu, existeix un criteri combinat del 1 i del 2 on  s'utilitza el criteri 1 com a bàsic, i el 2 només per omplir els  eventuals cel·les que hagin quedat a valor de fons i arreglar possibles  discontinuïtats. Aquest mètode és el <b>recomanat</b> si el ràster és de  nova creació o bé hi ha definit un valor de fons.</p>
 
-  <ul>
-    <li>El criteri de punt central (2) és menys precís, però garanteix
-    totalment la continuïtat espacial i és més ràpid.</li>
+<p>D'altra banda, el criteri de punt central amb valor de fons  ('2' i paràmetre fons) està recomanat per omplir buits de  continuïtat que queden en fitxers generats pel criteri d'àrea, però pot  tenir altres aplicacions.</p>
 
-    <li>El criteri d'àrea (1), malgrat ésser més precís, NO garanteix
-    totalment la contigüitat entre polígons adjacents en els nodes on
-    convergeixen 3 o més polígons.</li>
-  </ul>
+<p>Pel cas de fitxers de <b>línies</b>, hi ha tres criteris (1, 2 i 4):</p>
 
-  <p>Per aquest darrer motiu, existeix un criteri combinat del 1 i del 2 on
-  s'utilitza el criteri 1 com a bàsic, i el 2 només per omplir els
-  eventuals cel·les que hagin quedat a valor de fons i arreglar possibles
-  discontinuïtats. Aquest mètode és el <b>recomanat</b> si el ràster és de
-  nova creació o bé hi ha definit un valor de fons.</p>
+<ul>
+	<li>El mètode 1 rasteritza més perfecta a les inmediacions dels vèrtexs,   pel que és preferible en línies curtes o ràsters molt grollers. És el   mètode <b>recomanat</b> si es volen línies fines d'una sola cel·la de   gruix. Tracta les coordenades com a nombres reals.</li>
+	<li>El mètode 2 rasteritza bé les zones intermèdies entre vèrtexs però pot   provocar errors geogràfics greus prop dels vèrtexs (cel·les afectats sobre   els quals no passa la línia i a l'inrevés). És el procés típic del món   del processament d'imatges. Es treballa directament en coordenades   centre de cel·la. No es recomana el seu ús en ser menys precís que   l'anterior.</li>
+	<li>El mètode 4 és essencialment diferent dels dos anteriors donat que no   minimitza el nombre de cel·les afectades sinó que rasteritza, emprant   coordenades reals, tota cel·la que sigui tocada pel traçat geomètric del   vector. És el mètode aconsellat si es vol rasteritzar totes les cel·les   afectades per una línia, encara que les toqui només lleugerament.</li>  </ul>Pel cas de fitxers de <b>punts</b>, la cel·la rasteritzada del ràster  és aquella on geomètricament està situat el punt.
 
-  <p>D'altra banda, el criteri de punt central amb valor de fons
-  ('2' i paràmetre fons) està recomanat per omplir buits de
-  continuïtat que queden en fitxers generats pel criteri d'àrea, però pot
-  tenir altres aplicacions.</p>
+<p>Aquest programa inclou i amplia les funcionalitats dels programes TiraLin  i TiraPol que han desaparegut en la versió 4 de MiraMon.</p>
 
-  <p>Pel cas de fitxers de <b>línies</b>, hi ha tres criteris (1, 2 i 4):</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <ul>
-    <li>El mètode 1 rasteritza més perfecta a les inmediacions dels vèrtexs,
-    pel que és preferible en línies curtes o ràsters molt grollers. És el
-    mètode <b>recomanat</b> si es volen línies fines d'una sola cel·la de
-    gruix. Tracta les coordenades com a nombres reals.</li>
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
 
-    <li>El mètode 2 rasteritza bé les zones intermèdies entre vèrtexs però pot
-    provocar errors geogràfics greus prop dels vèrtexs (cel·les afectats sobre
-    els quals no passa la línia i a l'inrevés). És el procés típic del món
-    del processament d'imatges. Es treballa directament en coordenades
-    centre de cel·la. No es recomana el seu ús en ser menys precís que
-    l'anterior.</li>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="TiraVec_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg del TiraVec</td>
+</tr>
+</table>
+</div>
 
-    <li>El mètode 4 és essencialment diferent dels dos anteriors donat que no
-    minimitza el nombre de cel·les afectades sinó que rasteritza, emprant
-    coordenades reals, tota cel·la que sigui tocada pel traçat geomètric del
-    vector. És el mètode aconsellat si es vol rasteritzar totes les cel·les
-    afectades per una línia, encara que les toqui només lleugerament.</li>
-  </ul>Pel cas de fitxers de <b>punts</b>, la cel·la rasteritzada del ràster
-  és aquella on geomètricament està situat el punt.
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <p>Aquest programa inclou i amplia les funcionalitats dels programes TiraLin
-  i TiraPol que han desaparegut en la versió 4 de MiraMon.</p>
-  <hr/>
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
 
-  <exclusiva>
-    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+ <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+
+  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <!-- $$EXCLUSIVA$$
@@ -155,6 +111,7 @@
 Per a obtenir l'ajuda completa escriviu:
 TiraVec ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
