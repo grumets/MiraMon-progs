@@ -1,270 +1,149 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 18-01-2024 */-->
+<!--/* Revisió AA 6-12-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>DGN_MM: Importación de ficheros en formato DGN de Microstation a formatos MiraMon</title>
+<title>DGN_MM: Importación de ficheros en formato DGN de Microstation a formatos MiraMon</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/DGN_MM.htm"><font size="+2">DGN_MM</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+
  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-  <p>El modelo de datos geográficos implementado en los ficheros DGN, aún sin
-  ser un modelo de datos propio de un Sistema de Información Geográfica, puede
-  transformarse al formato de MiraMon, aunque en algunas ocasiones sólo de
-  forma parcial.</p>
 
-  <p>El formato DGN puede contener información geográfica en base a muchos
-  elementos gráficos (polilíneas, arcos de círculo o elipse, elipses,
-  superficies de revolución y otros). La mayoría de estos elementos se
-  transforman en objetos elementales de MiraMon (puntos, arcos y polígonos),
-  con vínculos a bases de datos si procede; por otra parte, algunos elementos
-  gráficos muy específicos de arquitectura e ingeniería, como por ejemplo las
-  superficies o los objetos de revolución en tres dimensiones, no se
-  convierten debido a su poca aplicación en los SIG. La aplicación nos ofrece
-  algunas herramientas de selección previa de objetos y de generalización para
-  aplicar en estos casos particulares.</p>
+<p>El modelo de datos geográficos implementado en los ficheros DGN, aún sinser un modelo de datos propio de un Sistema de Información Geográfica, puedetransformarse al formato de MiraMon, aunque en algunas ocasiones sólo deforma parcial.</p>
 
-  <p>A continuación se especifican las diversas opciones de transformación de
-  los elementos presentes en DGN a MiraMon:</p>
+<p>El formato DGN puede contener información geográfica en base a muchoselementos gráficos (polilíneas, arcos de círculo o elipse, elipses,superficies de revolución y otros). La mayoría de estos elementos setransforman en objetos elementales de MiraMon (puntos, arcos y polígonos),con vínculos a bases de datos si procede; por otra parte, algunos elementosgráficos muy específicos de arquitectura e ingeniería, como por ejemplo lassuperficies o los objetos de revolución en tres dimensiones, no seconvierten debido a su poca aplicación en los SIG. La aplicación nos ofrecealgunas herramientas de selección previa de objetos y de generalización paraaplicar en estos casos particulares.</p>
 
-  <h3>Generación de informes:</h3>
+<p>A continuación se especifican las diversas opciones de transformación delos elementos presentes en DGN a MiraMon:</p>
 
-  <p>El informe generado acerca del contenido del fichero DGN consta de 3
-  partes:</p>
+<h3>Generación de informes:</h3>
 
-  <ul>
-    <li>la descripción de las características generales del fichero</li>
+<p>El informe generado acerca del contenido del fichero DGN consta de 3partes:</p>
 
-    <li>el contenido detallado de cada capa</li>
+<ul>
+<li>la descripción de las características generales del fichero</li>
+<li>el contenido detallado de cada capa</li>
+<li>un resumen de los elementos presentes en el dibujo</li>
+</ul>
 
-    <li>un resumen de los elementos presentes en el dibujo</li>
-  </ul>
+<p>En el resumen de la cabecera del fichero se da información sobre si elfichero es 2D o 3D (los elementos tienen solamente coordenadas XY o biencoordenadas XYZ), cuáles son las unidades principales y auxiliares (vea másadelante las opciones de transformación de proyecciones y coordenadas) y elnúmero total de elementos presentes en el fichero. En este punto seconsideran elementos tanto los objetos gráficos como algunos no gráficos,como por ejemplo paletas de colores internas, bases de datos, informacionessobre ficheros adjuntos, etc.</p>
 
-  <p>En el resumen de la cabecera del fichero se da información sobre si el
-  fichero es 2D o 3D (los elementos tienen solamente coordenadas XY o bien
-  coordenadas XYZ), cuáles son las unidades principales y auxiliares (vea más
-  adelante las opciones de transformación de proyecciones y coordenadas) y el
-  número total de elementos presentes en el fichero. En este punto se
-  consideran elementos tanto los objetos gráficos como algunos no gráficos,
-  como por ejemplo paletas de colores internas, bases de datos, informaciones
-  sobre ficheros adjuntos, etc.</p>
+<p>La segunda parte del informe desglosa el tipo de elementos y el númeropresente en cada capa del fichero. Se informa también del tipo de elemento(con la terminología original de Microstation) y, entre paréntesis, delcódigo técnico del elemento. Consultando la documentación técnica deMicrostation puede obtenerse más información de estos elementos.</p>
 
-  <p>La segunda parte del informe desglosa el tipo de elementos y el número
-  presente en cada capa del fichero. Se informa también del tipo de elemento
-  (con la terminología original de Microstation) y, entre paréntesis, del
-  código técnico del elemento. Consultando la documentación técnica de
-  Microstation puede obtenerse más información de estos elementos.</p>
+<p>Finalmente, se muestra un resumen del número de elementos agrupados portipo.</p>
 
-  <p>Finalmente, se muestra un resumen del número de elementos agrupados por
-  tipo.</p>
+<h3>Comprimir el fichero DGN:</h3>
 
-  <h3>Comprimir el fichero DGN:</h3>
+<p>A menudo el fichero DGN contiene elementos marcados para eliminar oelementos más allá del final del fichero. Estos elementos fantasma puedenocasionar problemas durante su importación. Se puede solicitar a laaplicación que, antes de empezar la lectura del fichero, se haga limpieza detodos los elementos marcados para eliminar. Esta funcionalidad tiene losmismos efectos que la opción Comprimir diseño de Microstation. El ficheroDGN original se guarda con extensión DG$ y el fichero comprimidosobrescribe al original. En algunas ocasiones, durante la lectura de loselementos del fichero, si se acumulan demasiados errores, se detiene deforma automática la lectura de los elementos y se pone en marcha un procesode compresión.</p>
 
-  <p>A menudo el fichero DGN contiene elementos marcados para eliminar o
-  elementos más allá del final del fichero. Estos elementos fantasma pueden
-  ocasionar problemas durante su importación. Se puede solicitar a la
-  aplicación que, antes de empezar la lectura del fichero, se haga limpieza de
-  todos los elementos marcados para eliminar. Esta funcionalidad tiene los
-  mismos efectos que la opción Comprimir diseño de Microstation. El fichero
-  DGN original se guarda con extensión DG$ y el fichero comprimido
-  sobrescribe al original. En algunas ocasiones, durante la lectura de los
-  elementos del fichero, si se acumulan demasiados errores, se detiene de
-  forma automática la lectura de los elementos y se pone en marcha un proceso
-  de compresión.</p>
+<h3>Opciones sobre coordenadas y proyecciones:</h3>
 
-  <h3>Opciones sobre coordenadas y proyecciones:</h3>
+<p>El fichero DGN contiene información sobre las unidades de las coordenadasde los elementos (metros, pulgadas, millas, etc.) pero no de su proyeccióncartográfica. El usuario debe indicar si los datos se encuentran en unsistema local de coordenadas o en una proyección cartográfica conocida porMiraMon. En el primer caso también es necesario indicar si las coordenadasde los elementos deben transformarse según las unidades principales o lassecundarias del DGN (por ejemplo kilómetros las principales y metros lassecundarias). Debemos recordar que las unidades principales y secundarias semuestran en el informe del fichero. En el caso de que el usuario indique unsistema de proyección cartográfica conocido, se calcula de forma automáticael factor de conversión entre las unidades de la proyección y las unidadesprincipales del DGN. Por ejemplo, si la proyección seleccionada por elusuario es UTM (y por tanto las unidades de las coordenadas son metros) ylas unidades principales del fichero DGN son kilómetros, el factor deconversión calculado automáticamente es 0.001. Si este cálculo automático notiene éxito se solicita al usuario que indique el factor de conversión. Hayque remarcar que toda esta información sirve para documentar correctamentelos metadatos de los ficheros y que solamente implica, como mucho, unescalado de las coordenadas. En los casos en que sea necesario, el usuariotambién puede indicar un factor de escalado y un factor de desplazamiento enX e Y.</p>
 
-  <p>El fichero DGN contiene información sobre las unidades de las coordenadas
-  de los elementos (metros, pulgadas, millas, etc.) pero no de su proyección
-  cartográfica. El usuario debe indicar si los datos se encuentran en un
-  sistema local de coordenadas o en una proyección cartográfica conocida por
-  MiraMon. En el primer caso también es necesario indicar si las coordenadas
-  de los elementos deben transformarse según las unidades principales o las
-  secundarias del DGN (por ejemplo kilómetros las principales y metros las
-  secundarias). Debemos recordar que las unidades principales y secundarias se
-  muestran en el informe del fichero. En el caso de que el usuario indique un
-  sistema de proyección cartográfica conocido, se calcula de forma automática
-  el factor de conversión entre las unidades de la proyección y las unidades
-  principales del DGN. Por ejemplo, si la proyección seleccionada por el
-  usuario es UTM (y por tanto las unidades de las coordenadas son metros) y
-  las unidades principales del fichero DGN son kilómetros, el factor de
-  conversión calculado automáticamente es 0.001. Si este cálculo automático no
-  tiene éxito se solicita al usuario que indique el factor de conversión. Hay
-  que remarcar que toda esta información sirve para documentar correctamente
-  los metadatos de los ficheros y que solamente implica, como mucho, un
-  escalado de las coordenadas. En los casos en que sea necesario, el usuario
-  también puede indicar un factor de escalado y un factor de desplazamiento en
-  X e Y.</p>
+<h3>Opciones de selección:</h3>
 
-  <h3>Opciones de selección:</h3>
+<p>Por defecto, la aplicación transforma todos los elementos conocidos detodas las capas. Para evitar transformar elementos no deseados puedenindicarse algunas selecciones de elementos que se aplican antes de latransformación. Pueden indicarse selecciones por:</p>
 
-  <p>Por defecto, la aplicación transforma todos los elementos conocidos de
-  todas las capas. Para evitar transformar elementos no deseados pueden
-  indicarse algunas selecciones de elementos que se aplican antes de la
-  transformación. Pueden indicarse selecciones por:</p>
+<ul>
+<li>capa</li>
+<li>tipo de elemento</li>
+<li>color</li>
+<li>grosor</li>
+<li>estilo</li>
+<li>tipo de célula</li>
+</ul>
 
-  <ul>
-    <li>capa</li>
+<p>Por ejemplo, el usuario puede indicar que quiere todos los elementos delas capas 4 y 15, que sean polilíneas, de color azul o verde, de estilocontinuo y con grosor 2. El operador que se aplica entre las diferentesopciones indicadas es siempre AND y el operador dentro de cada opción es OR.Si se necesitan otros tipos de selecciones, pueden efectuarse sobre elfichero resultado con Vecselec. La selección de elementos de tipo célulasólo puede combinarse con la selección del nivel donde se encuentra; en estecaso las selecciones de tipo, grosor, estilo y color se ignoran.</p>
 
-    <li>tipo de elemento</li>
+<p>Todas estas opciones de selección de elementos del DGN permiten alusuario realizar transformaciones parciales del fichero y organizar elresultado en diferentes capas de MiraMon.</p>
 
-    <li>color</li>
+<h3>Opciones de transformación:</h3>
 
-    <li>grosor</li>
+<p>Debido al hecho de que los datos en formato DGN no tienen una estructuratípica de los SIG, esta aplicación ofrece algunas posibilidades detransformación, para adecuar así su formato.</p>
 
-    <li>estilo</li>
+<p>Puede solicitarse que, automáticamente, la aplicación separe cada nivel delDGN en diferentes capas de MiraMon. Así conseguiremos tener, por ejemplo,todos los elementos presentes en la capa 6 del DGN en un solo ficheroestructurado de líneas de MiraMon. Los nombres de los ficheros generados,uno para cada nivel con elementos, se crean automáticamente a partir delnombre indicado por el usuario pero con un sufijo numérico (por ejemploFICHERO_MM01.ARC, FICHERO_MM02.ARC, etc). Por defecto, si no se indica esteparámetro, se transforman todos los elementos de todas las capas en un solofichero estructurado de MiraMon, de líneas y/o puntos según el caso.</p>
 
-    <li>tipo de célula</li>
-  </ul>
+<p>Por defecto, en la base de datos asociada a los elementos transformados aMiraMon, se guarda la información de éstos:</p>
 
-  <p>Por ejemplo, el usuario puede indicar que quiere todos los elementos de
-  las capas 4 y 15, que sean polilíneas, de color azul o verde, de estilo
-  continuo y con grosor 2. El operador que se aplica entre las diferentes
-  opciones indicadas es siempre AND y el operador dentro de cada opción es OR.
-  Si se necesitan otros tipos de selecciones, pueden efectuarse sobre el
-  fichero resultado con Vecselec. La selección de elementos de tipo célula
-  sólo puede combinarse con la selección del nivel donde se encuentra; en este
-  caso las selecciones de tipo, grosor, estilo y color se ignoran.</p>
+<ul>
+<li>nivel</li>
+<li>tipo de elemento</li>
+<li>color</li>
+<li>grosor</li>
+<li>estilo</li>
+<li>tipo de letra y el tamaño (solo en el caso de los elementos puntuales y de texto)</li>
+</ul>
 
-  <p>Todas estas opciones de selección de elementos del DGN permiten al
-  usuario realizar transformaciones parciales del fichero y organizar el
-  resultado en diferentes capas de MiraMon.</p>
+<p>Puede solicitarse, sin embargo, que también se guarde otra informacióncomplementaria para cada objeto, como por ejemplo si es un objetoconectable, si ha sido modificado, si está bloqueado, si es sólido, etc.</p>
 
-  <h3>Opciones de transformación:</h3>
+<p>En el entorno de dibujo de Microstation pueden crearse y utilizarsecélulas. Las células son agrupaciones de objetos simples que se utilizancomo una unidad y que se usan a menudo como símbolos. Por ejemplo, pararepresentar un vértice geodésico, podemos utilizar una célula formada portres líneas simples formando un triángulo con un círculo sólido de colornegro en medio. Esta agrupación de objetos simples puede tener un nombre,por ejemplo VERTICE, y podemos utilizarla tantas veces como sea necesario enel dibujo. Esta aplicación permite tratar el caso de las células de unaforma adecuada, según sea el caso. En algunos casos puede interesarnostransformar las células a sus elementos primitivos, pero la mayoría de vecesinteresa mucho más transformarla en un punto y asociarle la información másrelevante en la base de datos.</p>
 
-  <p>Debido al hecho de que los datos en formato DGN no tienen una estructura
-  típica de los SIG, esta aplicación ofrece algunas posibilidades de
-  transformación, para adecuar así su formato.</p>
+<p>Si se solicita transformar las células a puntos con simbología, se generade forma automática un fichero de puntos estructurados de MiraMon (PNT). Enla base de datos asociada a estos puntos se guarda información referente alnivel, tipo, color, estilo y grosor, el vínculo con el diccionario de basesde datos (en caso de que estos elementos tengan información en bases dedatos externas), la altura del símbolo y su posición en el espacio(orientación en los ejes XYZ), la posición del punto de anclaje encoordenadas terreno y el nombre del símbolo. Ésta es la opción por defecto.Si se quiere transformar todas las células en sus objetos simples, éstas setransforman con las características de visualización individuales, no conlas comunes de la célula.</p>
 
-  <p>Puede solicitarse que, automáticamente, la aplicación separe cada nivel del
-  DGN en diferentes capas de MiraMon. Así conseguiremos tener, por ejemplo,
-  todos los elementos presentes en la capa 6 del DGN en un solo fichero
-  estructurado de líneas de MiraMon. Los nombres de los ficheros generados,
-  uno para cada nivel con elementos, se crean automáticamente a partir del
-  nombre indicado por el usuario pero con un sufijo numérico (por ejemplo
-  FICHERO_MM01.ARC, FICHERO_MM02.ARC, etc). Por defecto, si no se indica este
-  parámetro, se transforman todos los elementos de todas las capas en un solo
-  fichero estructurado de MiraMon, de líneas y/o puntos según el caso.</p>
+<h3>Parámetros de paletas de Color:</h3>
 
-  <p>Por defecto, en la base de datos asociada a los elementos transformados a
-  MiraMon, se guarda la información de éstos:</p>
+<p>El fichero DGN puede contener diversas paletas de colores internas, obien se le puede asociar una paleta de colores externa (con extensión TBL).La aplicación nos permite escoger entre transformar una paleta interna obien una externa (en este caso hay que indicar el nombre del fichero). Siexiste más de una paleta interna en el DGN solamente se transforma la queestá marcada como activa. Cuando se transforma una paleta de colores, seguarda directamente en formato MiraMon (fichero DBF) y se asociaautomáticamente al fichero de arcos o polígonos, de manera que cuando sevisualiza con MiraMon se muestran los mismos colores que con Microstation.En el caso de polígonos, si el creador del DGN así lo ha indicado, seguardan en la base de datos y se tienen en cuenta los colores de los bordesy del interior.</p>
 
-  <ul>
-    <li>nivel</li>
+<h3>Simbolización de textos:</h3>
 
-    <li>tipo de elemento</li>
+<p>Los textos que figuran en los ficheros DGN son puntos con un textoasociado, para los que hay definidas diversas opciones de simbolización; lamayoria de ellas se importan automáticamente hacia la capa resultante deMiraMon, peró los tipos de letra (o 'fuentes') son a menudoespecíficas para MicroStation y DGN_MM no es capaz de determinar el tipo másparecido para Windows.<br/>
+Los identificadores de los tipos de letra encontrados durante la ejecuciónse guardan en una tabla de simbolización de textos. Esta tabla también es untesauro, así que cada identificador aparece sólo una vez. Cuando un nuevotipo de letra es encontrado, DGN_MM le asocia una simbolización por defecto.A continuación, el usuario deberia ajustar esta visualización por defecto, através de las opciones de textos en la ventana de simbolización de capas depuntos, o bién modificando el tesauro manualmente (el formato de la tabla seexplica en el documento &quot;Descripción de las tablas de simbolización enMiraMon&quot;, y los valores que acepta se enumeran en el documento&quot;Simbolización de fuentes para textos en MiraMon&quot;). Si tenemosdiversos DGN con un mismo esquema de simbolización (p.e., ficheros de unamisma serie cartográfica), podemos aplicar el tesauro de la primeratransformación al resto de ficheros de la serie, disponiendo así de unatabla de simbolización de textos común para todos ellos. Consulten la opción/TAULA_SIMB_TEXT pera más detalles.</p>
 
-    <li>color</li>
+<h3>Notas:</h3>
 
-    <li>grosor</li>
+<p>Con Microstation es posible asociar los elementos a bases de datosexternas. En estos casos se recoge toda la información necesaria paramantener el vínculo con MiraMon. En la base de datos principal de loselementos, arcos o puntos, se guarda un valor numérico en un campo llamadoIDUSUARI. Este campo se vincula con un tesauro que se crea automáticamente yen el que se guarda, para cada IDUSUARI, el tipo de base de datos con el queestá vinculado, la tabla correspondiente dentro de esta base de datos y elcampo clave que se vincula con ésta (campo MSLINK). El usuario debe sabercuál es la base de datos y cuál es la tabla que contiene la información quequiere asociar. Esta información debe proporcionarla el constructor de lacapa. También se crea un campo de forma automática, el campo CODIDGNMM, conla combinación de los campos clave anteriores, para facilitar la conexión deeste tesauro con la base de datos adecuada. Hay que remarcar que un elementopuede tener más de un vínculo a bases de datos externas, y que éstas puedenser de diferentes tipos, por ejemplo una tabla DBF y una base de datosORACLE vía ODBC. Toda esta información se guarda en el tesauro decódigos.</p>
 
-    <li>estilo</li>
+<p>Algunos elementos de Microstation forman, por definición, superficiescerradas. La aplicación detecta automáticamente estos casos y genera unfichero de polígonos explícitos. Si es necesario, también se guardainformación sobre el color de los bordes y del interior de éstos polígonos yla información de bases de datos asociadas. En caso de tener islas dentro delos polígonos, éstas se tratan correctamente, tanto por lo que se refiere acolores como a cálculo de superficies.</p>
 
-    <li>tipo de letra y el tamaño (solo en el caso de los elementos puntuales
-    y de texto)</li>
-  </ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <p>Puede solicitarse, sin embargo, que también se guarde otra información
-  complementaria para cada objeto, como por ejemplo si es un objeto
-  conectable, si ha sido modificado, si está bloqueado, si es sólido, etc.</p>
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
 
-  <p>En el entorno de dibujo de Microstation pueden crearse y utilizarse
-  células. Las células son agrupaciones de objetos simples que se utilizan
-  como una unidad y que se usan a menudo como símbolos. Por ejemplo, para
-  representar un vértice geodésico, podemos utilizar una célula formada por
-  tres líneas simples formando un triángulo con un círculo sólido de color
-  negro en medio. Esta agrupación de objetos simples puede tener un nombre,
-  por ejemplo VERTICE, y podemos utilizarla tantas veces como sea necesario en
-  el dibujo. Esta aplicación permite tratar el caso de las células de una
-  forma adecuada, según sea el caso. En algunos casos puede interesarnos
-  transformar las células a sus elementos primitivos, pero la mayoría de veces
-  interesa mucho más transformarla en un punto y asociarle la información más
-  relevante en la base de datos.</p>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="DGN_MM_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de DGN_MM </td>
+</tr>
+</table>
+</div>
 
-  <p>Si se solicita transformar las células a puntos con simbología, se genera
-  de forma automática un fichero de puntos estructurados de MiraMon (PNT). En
-  la base de datos asociada a estos puntos se guarda información referente al
-  nivel, tipo, color, estilo y grosor, el vínculo con el diccionario de bases
-  de datos (en caso de que estos elementos tengan información en bases de
-  datos externas), la altura del símbolo y su posición en el espacio
-  (orientación en los ejes XYZ), la posición del punto de anclaje en
-  coordenadas terreno y el nombre del símbolo. Ésta es la opción por defecto.
-  Si se quiere transformar todas las células en sus objetos simples, éstas se
-  transforman con las características de visualización individuales, no con
-  las comunes de la célula.</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <h3>Parámetros de paletas de Color:</h3>
+<!-- <h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
 
-  <p>El fichero DGN puede contener diversas paletas de colores internas, o
-  bien se le puede asociar una paleta de colores externa (con extensión TBL).
-  La aplicación nos permite escoger entre transformar una paleta interna o
-  bien una externa (en este caso hay que indicar el nombre del fichero). Si
-  existe más de una paleta interna en el DGN solamente se transforma la que
-  está marcada como activa. Cuando se transforma una paleta de colores, se
-  guarda directamente en formato MiraMon (fichero DBF) y se asocia
-  automáticamente al fichero de arcos o polígonos, de manera que cuando se
-  visualiza con MiraMon se muestran los mismos colores que con Microstation.
-  En el caso de polígonos, si el creador del DGN así lo ha indicado, se
-  guardan en la base de datos y se tienen en cuenta los colores de los bordes
-  y del interior.</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
 
-  <h3>Simbolización de textos:</h3>
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
 
-  <p>Los textos que figuran en los ficheros DGN son puntos con un texto
-  asociado, para los que hay definidas diversas opciones de simbolización; la
-  mayoria de ellas se importan automáticamente hacia la capa resultante de
-  MiraMon, peró los tipos de letra (o 'fuentes') son a menudo
-  específicas para MicroStation y DGN_MM no es capaz de determinar el tipo más
-  parecido para Windows.<br/>
-  Los identificadores de los tipos de letra encontrados durante la ejecución
-  se guardan en una tabla de simbolización de textos. Esta tabla también es un
-  tesauro, así que cada identificador aparece sólo una vez. Cuando un nuevo
-  tipo de letra es encontrado, DGN_MM le asocia una simbolización por defecto.
-  A continuación, el usuario deberia ajustar esta visualización por defecto, a
-  través de las opciones de textos en la ventana de simbolización de capas de
-  puntos, o bién modificando el tesauro manualmente (el formato de la tabla se
-  explica en el documento &quot;Descripción de las tablas de simbolización en
-  MiraMon&quot;, y los valores que acepta se enumeran en el documento
-  &quot;Simbolización de fuentes para textos en MiraMon&quot;). Si tenemos
-  diversos DGN con un mismo esquema de simbolización (p.e., ficheros de una
-  misma serie cartográfica), podemos aplicar el tesauro de la primera
-  transformación al resto de ficheros de la serie, disponiendo así de una
-  tabla de simbolización de textos común para todos ellos. Consulten la opción
-  /TAULA_SIMB_TEXT pera más detalles.</p>
-
-  <h3>Notas:</h3>
-
-  <p>Con Microstation es posible asociar los elementos a bases de datos
-  externas. En estos casos se recoge toda la información necesaria para
-  mantener el vínculo con MiraMon. En la base de datos principal de los
-  elementos, arcos o puntos, se guarda un valor numérico en un campo llamado
-  IDUSUARI. Este campo se vincula con un tesauro que se crea automáticamente y
-  en el que se guarda, para cada IDUSUARI, el tipo de base de datos con el que
-  está vinculado, la tabla correspondiente dentro de esta base de datos y el
-  campo clave que se vincula con ésta (campo MSLINK). El usuario debe saber
-  cuál es la base de datos y cuál es la tabla que contiene la información que
-  quiere asociar. Esta información debe proporcionarla el constructor de la
-  capa. También se crea un campo de forma automática, el campo CODIDGNMM, con
-  la combinación de los campos clave anteriores, para facilitar la conexión de
-  este tesauro con la base de datos adecuada. Hay que remarcar que un elemento
-  puede tener más de un vínculo a bases de datos externas, y que éstas pueden
-  ser de diferentes tipos, por ejemplo una tabla DBF y una base de datos
-  ORACLE vía ODBC. Toda esta información se guarda en el tesauro de
-  códigos.</p>
-
-  <p>Algunos elementos de Microstation forman, por definición, superficies
-  cerradas. La aplicación detecta automáticamente estos casos y genera un
-  fichero de polígonos explícitos. Si es necesario, también se guarda
-  información sobre el color de los bordes y del interior de éstos polígonos y
-  la información de bases de datos asociadas. En caso de tener islas dentro de
-  los polígonos, éstas se tratan correctamente, tanto por lo que se refiere a
-  colores como a cálculo de superficies.</p>
-
-  <exclusiva>
-    <hr/>
  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -273,6 +152,7 @@
 Para obtener la ayuda completa escriba:
 DGN_MM ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>

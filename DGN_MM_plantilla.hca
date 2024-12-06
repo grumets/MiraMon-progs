@@ -1,271 +1,156 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 18-01-2024 */-->
+<!--/* Revisió AA 6-12-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>DGN_MM: Importació de fitxers en format DGN de Microstation a formats MiraMon</title>
+<title>DGN_MM: Importació de fitxers en format DGN de Microstation a formats MiraMon</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/DGN_MM.htm"><font size="+2">DGN_MM</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
+
  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-  <p>El model de dades geogràfiques implementat en el fitxers DGN, tot i no
-  ser un model de dades propi d'un Sistema d'Informació Geogràfica, es pot
-  transformar al format de MiraMon, encara que en algunes ocasions només de
-  forma parcial.</p>
 
-  <p>El format DGN pot contenir informació geogràfica en base a molts elements
-  gràfics (polilínies, arcs de cercle o d'el·lipse, el·lipses, superfícies de
-  revolució i d'altres). La majoria d'aquests elements es transformen a
-  objectes elementals de MiraMon (punts, arcs i polígons), amb lligams a bases
-  de dades si és el cas; tanmateix alguns elements gràfics molt específics de
-  l'arquitectura i enginyeria, com per exemple les superfícies o els objectes
-  de revolució en tres dimensions, no es converteixen degut a la seva poca
-  aplicació en els SIG. L'aplicació ens ofereix algunes eines de selecció prèvia
-  d'objectes i de generalització per a aplicar en aquests casos
-  particulars.</p>
+<p>El model de dades geogràfiques implementat en el fitxers DGN, tot i no  ser un model de dades propi d'un Sistema d'Informació Geogràfica, es pot  transformar al format de MiraMon, encara que en algunes ocasions només de  forma parcial.</p>
 
-  <p>A continuació s'especifiquen les diverses opcions de transformació dels
-  elements presents al DGN a MiraMon:</p>
+<p>El format DGN pot contenir informació geogràfica en base a molts elements  gràfics (polilínies, arcs de cercle o d'el·lipse, el·lipses, superfícies de  revolució i d'altres). La majoria d'aquests elements es transformen a  objectes elementals de MiraMon (punts, arcs i polígons), amb lligams a bases  de dades si és el cas; tanmateix alguns elements gràfics molt específics de  l'arquitectura i enginyeria, com per exemple les superfícies o els objectes  de revolució en tres dimensions, no es converteixen degut a la seva poca  aplicació en els SIG. L'aplicació ens ofereix algunes eines de selecció prèvia  d'objectes i de generalització per a aplicar en aquests casos  particulars.</p>
 
-  <h3>Generació d'informes:</h3>
+<p>A continuació s'especifiquen les diverses opcions de transformació dels  elements presents al DGN a MiraMon:</p>
 
-  <p>L'informe generat del contingut del fitxer DGN consta de 3 parts:</p>
+<h3>Generació d'informes:</h3>
 
-  <ul>
-    <li>la descripció de les característiques generals del fitxer</li>
+<p>L'informe generat del contingut del fitxer DGN consta de 3 parts:</p>
 
-    <li>el contingut detallat de cada capa</li>
+<ul>
+<li>la descripció de les característiques generals del fitxer</li>
+<li>el contingut detallat de cada capa</li>
+<li>i un resum dels elements presents en el dibuix.</li>
+</ul>
 
-    <li>i un resum dels elements presents en el dibuix.</li>
-  </ul>
+<p>Al resum de la capçalera del fitxer es dóna informació sobre si el fitxerés 2D o 3D (els elements tenen només coordenades XY o bé coordenades XYZ),quines són les unitats principals i auxiliars (vegeu més endavant lesopcions de transformació de projeccions i coordenades) i el nombre totald'elements presents en el fitxer. En aquest punt es consideren elements tantels objectes gràfics com d'altres no gràfics, com per exemple paletes decolors internes, bases de dades, informacions sobre fitxers adjunts,etc.</p>
 
-  <p>Al resum de la capçalera del fitxer es dóna informació sobre si el fitxer
-  és 2D o 3D (els elements tenen només coordenades XY o bé coordenades XYZ),
-  quines són les unitats principals i auxiliars (vegeu més endavant les
-  opcions de transformació de projeccions i coordenades) i el nombre total
-  d'elements presents en el fitxer. En aquest punt es consideren elements tant
-  els objectes gràfics com d'altres no gràfics, com per exemple paletes de
-  colors internes, bases de dades, informacions sobre fitxers adjunts,
-  etc.</p>
+<p>La segona part de l'informe desglossa el tipus d'elements i el nombred'ells present a cada capa del fitxer. S'informa també del tipus d'element(amb la terminologia original de Microstation) i, entre parèntesis, del coditècnic de l'element. Consultant la documentació tècnica de Microstation espot obtenir més informació d'aquests elements.</p>
 
-  <p>La segona part de l'informe desglossa el tipus d'elements i el nombre
-  d'ells present a cada capa del fitxer. S'informa també del tipus d'element
-  (amb la terminologia original de Microstation) i, entre parèntesis, del codi
-  tècnic de l'element. Consultant la documentació tècnica de Microstation es
-  pot obtenir més informació d'aquests elements.</p>
+<p>Finalment, es mostra un resum del nombre d'elements agrupats pertipus.</p>
 
-  <p>Finalment, es mostra un resum del nombre d'elements agrupats per
-  tipus.</p>
+<h3>Comprimir el fitxer DGN:</h3>
 
-  <h3>Comprimir el fitxer DGN:</h3>
+<p>Sovint el fitxer DGN conté elements marcats per eliminar o elements mésenllà del final del fitxer. Aquests elements fantasma poden portar problemesen la seva importació. Es pot demanar a l'aplicació que, abans de començarla lectura del fitxer, es faci neteja de tots els elements marcats per aeliminar. Aquesta funcionalitat té els mateixos efectes que l'opcióComprimir disseny del Microstation. El fitxer DGN original es desa ambextensió DG$ i, el fitxer comprimit sobreescriu l'original. En algunesocasions, durant la lectura dels elements del fitxer, si s'acumulen massaerrors, s'atura de forma automàtica la lectura dels elements i s’engega unprocés de compressió.</p>
 
-  <p>Sovint el fitxer DGN conté elements marcats per eliminar o elements més
-  enllà del final del fitxer. Aquests elements fantasma poden portar problemes
-  en la seva importació. Es pot demanar a l'aplicació que, abans de començar
-  la lectura del fitxer, es faci neteja de tots els elements marcats per a
-  eliminar. Aquesta funcionalitat té els mateixos efectes que l'opció
-  Comprimir disseny del Microstation. El fitxer DGN original es desa amb
-  extensió DG$ i, el fitxer comprimit sobreescriu l'original. En algunes
-  ocasions, durant la lectura dels elements del fitxer, si s'acumulen massa
-  errors, s'atura de forma automàtica la lectura dels elements i s’engega un
-  procés de compressió.</p>
+<h3>Opcions sobre coordenades i projeccions:</h3>
 
-  <h3>Opcions sobre coordenades i projeccions:</h3>
+<p>El fitxer DGN conté informació sobre les unitats de les coordenades delselements (metres, polzades, milles, etc.) però no de la seva projecciócartogràfica. L'usuari ha d'indicar si les dades es troben en un sistemalocal de coordenades o en una projecció cartogràfica coneguda per MiraMon.En el primer cas cal indicar també si les coordenades dels elements s'han detransformar segons les unitats principals o les secundàries del DGN (perexemple quilòmetres les principals i metres les secundàries). Cal recordarque les unitats principals i secundàries es mostren a l'informe del fitxer.En el cas que l'usuari indiqui un sistema de projecció cartogràficaconegut, es calcula de forma automàtica el factor de conversió entre lesunitats principals del DGN i les unitats de la projecció. Per exemple, si laprojecció seleccionada per l'usuari és UTM (i per tant les unitats deles coordenades són metres) (B) i les unitats principals del fitxer DGN sónquilòmetres (A), el factor de conversió calculat automàticament és 1000(A.k=B). Si aquest càlcul automàtic no té èxit es demana a l'usuari queindiqui el factor de conversió. Cal fer notar que tota aquesta informació ésper a documentar correctament les metadades dels fitxers i que nomésimplica, com a molt, un escalat de les coordenades. En els casos que siguinecessari, l'usuari també pot indicar un factor d'escalat i un factor dedesplaçament en X i en Y.</p>
 
-  <p>El fitxer DGN conté informació sobre les unitats de les coordenades dels
-  elements (metres, polzades, milles, etc.) però no de la seva projecció
-  cartogràfica. L'usuari ha d'indicar si les dades es troben en un sistema
-  local de coordenades o en una projecció cartogràfica coneguda per MiraMon.
-  En el primer cas cal indicar també si les coordenades dels elements s'han de
-  transformar segons les unitats principals o les secundàries del DGN (per
-  exemple quilòmetres les principals i metres les secundàries). Cal recordar
-  que les unitats principals i secundàries es mostren a l'informe del fitxer.
-  En el cas que l'usuari indiqui un sistema de projecció cartogràfica
-  conegut, es calcula de forma automàtica el factor de conversió entre les
-  unitats principals del DGN i les unitats de la projecció. Per exemple, si la
-  projecció seleccionada per l'usuari és UTM (i per tant les unitats de
-  les coordenades són metres) (B) i les unitats principals del fitxer DGN són
-  quilòmetres (A), el factor de conversió calculat automàticament és 1000
-  (A.k=B). Si aquest càlcul automàtic no té èxit es demana a l'usuari que
-  indiqui el factor de conversió. Cal fer notar que tota aquesta informació és
-  per a documentar correctament les metadades dels fitxers i que només
-  implica, com a molt, un escalat de les coordenades. En els casos que sigui
-  necessari, l'usuari també pot indicar un factor d'escalat i un factor de
-  desplaçament en X i en Y.</p>
+<h3>Opcions de selecció:</h3>
 
-  <h3>Opcions de selecció:</h3>
+<p>Per defecte, l'aplicació transforma tots els elements coneguts de totesles capes. Per tal d'evitar transformar elements no desitjats es podenindicar algunes seleccions d'elements que s'apliquen abans de latransformació. Es poden indicar seleccions per:</p>
 
-  <p>Per defecte, l'aplicació transforma tots els elements coneguts de totes
-  les capes. Per tal d'evitar transformar elements no desitjats es poden
-  indicar algunes seleccions d'elements que s'apliquen abans de la
-  transformació. Es poden indicar seleccions per:</p>
+<ul>
+<li>capa</li>
+<li>tipus d'element</li>
+<li>color</li>
+<li>gruix</li>
+<li>estil</li>
+<li>tipus de cèl·lula</li>
+</ul>
 
-  <ul>
-    <li>capa</li>
+<p>Per exemple, l'usuari pot indicar que vol tots els elements de les capes4 i 15, que siguin polilínies, de color blau o verd, d'estil continu i ambgruix 2. L'operador que s'aplica entre les diferents opcions indicades éssempre AND i l'operador a dins de cada opció és OR. Si es necessiten altrestipus de seleccions, es poden efectuar sobre el fitxer resultat ambVecselec. La selecció d'elements de tipus cèl·lula només es pot combinar ambla selecció del nivell on es troba; en aquest cas les seleccions de tipus,gruix, estil i color s'ignoren.</p>
 
-    <li>tipus d'element</li>
+<p>Totes aquestes opcions de selecció d'elements del DGN permeten a l'usuarifer transformacions parcials del fitxer i organitzar el resultat endiferents capes de MiraMon.</p>
 
-    <li>color</li>
+<h3>Opcions de transformació:</h3>
 
-    <li>gruix</li>
+<p>Degut al fet que les dades en format DGN no tenen una estructura típicadels SIG, aquesta aplicació ofereix algunes possibilitats de transformació,per tal d'adequar el seu format. Es pot demanar que, automàticament, l'aplicació separi cada nivell del DGN en diferents capes de MiraMon. Aixídoncs aconseguim tenir, per exemple, tots els elements presents a la capa 6del DGN en un sol fitxer estructurat de línies de MiraMon. Els noms delsfitxers generats, un per cada nivell amb elements, es creen automàticament apartir del nom indicat per l'usuari però amb un sufix numèric (per exempleFITXER_MM01.ARC, FITXER_MM02.ARC etc.). Per defecte, si no s'indica aquestparàmetre, es transformen tots els elements de totes les capes en un solfitxer estructurat de MiraMon, de línies i/o de punts segons el cas.</p>
 
-    <li>estil</li>
+<p>Per defecte, a la base de dades associada als elements transformats aMiraMon, es desa la informació d'aquests:</p>
 
-    <li>tipus de cèl·lula</li>
-  </ul>
+<ul>
+<li>nivell</li>
+<li>tipus d'element</li>
+<li>color</li>
+<li>gruix</li>
+<li>estil</li>
+<li>tipus de lletra i la mida (només en el cas dels elements puntuals i detext)</li>
+</ul>
 
-  <p>Per exemple, l'usuari pot indicar que vol tots els elements de les capes
-  4 i 15, que siguin polilínies, de color blau o verd, d'estil continu i amb
-  gruix 2. L'operador que s'aplica entre les diferents opcions indicades és
-  sempre AND i l'operador a dins de cada opció és OR. Si es necessiten altres
-  tipus de seleccions, es poden efectuar sobre el fitxer resultat amb
-  Vecselec. La selecció d'elements de tipus cèl·lula només es pot combinar amb
-  la selecció del nivell on es troba; en aquest cas les seleccions de tipus,
-  gruix, estil i color s'ignoren.</p>
+<p>Es pot demanar, però, que també es desi altra informació complementariaper a cada objecte, com ara si és un objecte connectable, si ha estatmodificat, si està blocat, si és sòlid, etc.</p>
 
-  <p>Totes aquestes opcions de selecció d'elements del DGN permeten a l'usuari
-  fer transformacions parcials del fitxer i organitzar el resultat en
-  diferents capes de MiraMon.</p>
+<p>En l'entorn de dibuix de Microstation es poden crear i utilitzarcèl·lules. Les cèl·lules són agrupacions d'objectes simples que s'utilitzencom una unitat i que sovint s'utilitzen com a símbols. Per exemple, perrepresentar un vèrtex geodèsic, podem utilitzar una cèl·lula formada pertres línies simples format un triangle amb un cercle sòlid de color negre almig. Aquesta agrupació d'objectes simples pot tenir un nom, per exempleVERTEX, i la podem utilitzar tantes vegades com sigui necessari en eldibuix. Aquesta aplicació permet tractar el cas de les cèl·lules d'una formaadequada, segons el cas. En alguns casos ens pot interessar transformar lescèl·lules als seus elements primitius, però la majoria de vegades interessamolt més transformar-la a un punt i associar-hi la informació més rellevanta la base de dades.</p>
 
-  <h3>Opcions de transformació:</h3>
+<p>Si es demana transformar les cèl·lules a punts amb simbologia, es generaun fitxer de punts estructurats de MiraMon (PNT) de forma automàtica. A labase de dades associada a aquests punts es desa informació referent alnivell, tipus, color, estil i gruix, el lligam amb el diccionari de bases dedades (en el cas que aquests elements tinguin informació en bases de dadesexternes), l'alçada del símbol i la seva posició a l'espai (orientació enels eixos XYZ), la posició del punt d'ancoratge en coordenades terreny i elnom del símbol. Aquesta és l'opció per defecte. Si es vol transformar totesles cèl·lules en els seus objectes simples, aquests es transformen amb lescaracterístiques de visualització individuals, no amb les comunes de lacèl·lula.</p>
 
-  <p>Degut al fet que les dades en format DGN no tenen una estructura típica
-  dels SIG, aquesta aplicació ofereix algunes possibilitats de transformació,
-  per tal d'adequar el seu format. Es pot demanar que, automàticament, l'aplicació
-   separi cada nivell del DGN en diferents capes de MiraMon. Així
-  doncs aconseguim tenir, per exemple, tots els elements presents a la capa 6
-  del DGN en un sol fitxer estructurat de línies de MiraMon. Els noms dels
-  fitxers generats, un per cada nivell amb elements, es creen automàticament a
-  partir del nom indicat per l'usuari però amb un sufix numèric (per exemple
-  FITXER_MM01.ARC, FITXER_MM02.ARC etc.). Per defecte, si no s'indica aquest
-  paràmetre, es transformen tots els elements de totes les capes en un sol
-  fitxer estructurat de MiraMon, de línies i/o de punts segons el cas.</p>
+<h3>Paràmetres de paletes de Color</h3>
 
-  <p>Per defecte, a la base de dades associada als elements transformats a
-  MiraMon, es desa la informació d'aquests:</p>
+<p>El fitxer DGN pot contenir diverses paletes de colors internes, o bé espot associar una paleta de colors externa (amb extensió TBL). L'aplicacióens permet escollir entre transformar una paleta interna o bé una d'externa(en aquest cas cal indicar el nom del fitxer). Si existeixen més d'unapaleta interna en el DGN només es transforma la que està marcada com aactiva. Quan es transforma una paleta de colors, es desa directament aformat MiraMon (fitxer DBF) i s'associa automàticament al fitxer d'arcs opolígons, de manera que quan es visualitza amb MiraMon es mostren elsmateixos colors que amb Microstation. En el cas dels polígons, si el creadordel DGN ho ha indicat, es desen a la base de dades i es tenen en compte elscolors de les vores i dels interiors.</p>
 
-  <ul>
-    <li>nivell</li>
+<h3>Simbolització de textos:</h3>
 
-    <li>tipus d'element</li>
+<p>Els textos que figuren als fitxers DGN són punts amb un text associat,pels quals hi han definides diverses opcions de simbolització; la majoriad'aquestes opcions s'importen automàticament a la capa resultat deMiraMon, però els tipus de lletra (o 'fonts') són sovint específicsper MicroStation i el DGN_MM no és capaç de determinar el tipus més semblantper Windows.<br/>
+Els identificadors dels tipus de lletra trobats durant l'execució esguarden a una taula de simbolització de textos. Aquesta taula també és untesaure, així que cada identificador apareix només una vegada. Quan un noutipus de lletra és trobat, el DGN_MM li associa una simbolització perdefecte. A continuació, l'usuari hauria d'ajustar aquestavisualització per defecte, a través de les opcions de textos dins lafinestra de simbolització de capes de punts, o bé modificant el tesauremanualment (el format de la taula s'explica al document &quot;Descripcióde les taules de simbolització a MiraMon&quot;, i els valors que acceptas'enumeren al document &quot;Simbolització de fonts per a textos alMiraMon&quot;). Si tenim diversos DGN amb un mateix esquema de simbolització(p.e., fitxers d'una mateixa sèrie cartogràfica), podem aplicar eltesaure de la primera transformació a la resta de fitxers de la sèrie,disposant així d'una taula de simbolització de textos comuna per a totsells. Consulteu l'opció /TAULA_SIMB_TEXT per a més detalls.</p>
 
-    <li>color</li>
+<h3>Notes:</h3>
 
-    <li>gruix</li>
+<p>Amb Microstation és possible associar els elements a bases de dadesexternes. En aquests casos es recull tota la informació necessària permantenir el lligam amb MiraMon. A la base de dades principal dels elements,arcs o punts, es desa un valor numèric en un camp anomenat IDUSUARI. Aquestcamp lliga amb un tesaurus que es crea automàticament i on es desa, per acada IDUSUARI, el tipus de base de dades amb què lliga, la taulacorresponent a dins d'aquesta base de dades i el camp clau que lliga ambaquesta (camp MSLINK). L'usuari ha de saber quina és la base de dades iquina és la taula que conté la informació que vol associar. Aquestainformació l'ha de proporcionar el constructor de la capa. També es crea uncamp de forma automàtica, el camp CODIDGNMM, amb la combinació dels campsclau anteriors, per tal de facilitar la connexió d'aquest tesaurus amb labase de dades adequada. Cal fer notar que un element pot tenir més d'unlligam a bases de dades externes, i que aquestes poden ser de diferentstipus, per exemple una taula DBF i una base de dades ORACLE via ODBC. Totaaquesta informació es desa al tesaurus de codis.</p>
 
-    <li>estil</li>
+<p>Alguns elements de Microstation formen, per definició, superfíciestancades. L'aplicació detecta automàticament aquests casos i genera unfitxer de polígons explícits. Si és el cas, també es desa informació sobreel color de les vores i de l'interior d'aquests polígons i la informació debases de dades associades. En el cas de tenir illes a dins dels polígons,aquestes es tracten correctament, tant pel que es refereix a colors com acàlcul de superfícies.</p>
 
-    <li>tipus de lletra i la mida (només en el cas dels elements puntuals i de
-    text)</li>
-  </ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <p>Es pot demanar, però, que també es desi altra informació complementaria
-  per a cada objecte, com ara si és un objecte connectable, si ha estat
-  modificat, si està blocat, si és sòlid, etc.</p>
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
 
-  <p>En l'entorn de dibuix de Microstation es poden crear i utilitzar
-  cèl·lules. Les cèl·lules són agrupacions d'objectes simples que s'utilitzen
-  com una unitat i que sovint s'utilitzen com a símbols. Per exemple, per
-  representar un vèrtex geodèsic, podem utilitzar una cèl·lula formada per
-  tres línies simples format un triangle amb un cercle sòlid de color negre al
-  mig. Aquesta agrupació d'objectes simples pot tenir un nom, per exemple
-  VERTEX, i la podem utilitzar tantes vegades com sigui necessari en el
-  dibuix. Aquesta aplicació permet tractar el cas de les cèl·lules d'una forma
-  adequada, segons el cas. En alguns casos ens pot interessar transformar les
-  cèl·lules als seus elements primitius, però la majoria de vegades interessa
-  molt més transformar-la a un punt i associar-hi la informació més rellevant
-  a la base de dades.</p>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="DGN_MM_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg del DGN_MM</td>
+</tr>
+</table>
+</div>
 
-  <p>Si es demana transformar les cèl·lules a punts amb simbologia, es genera
-  un fitxer de punts estructurats de MiraMon (PNT) de forma automàtica. A la
-  base de dades associada a aquests punts es desa informació referent al
-  nivell, tipus, color, estil i gruix, el lligam amb el diccionari de bases de
-  dades (en el cas que aquests elements tinguin informació en bases de dades
-  externes), l'alçada del símbol i la seva posició a l'espai (orientació en
-  els eixos XYZ), la posició del punt d'ancoratge en coordenades terreny i el
-  nom del símbol. Aquesta és l'opció per defecte. Si es vol transformar totes
-  les cèl·lules en els seus objectes simples, aquests es transformen amb les
-  característiques de visualització individuals, no amb les comunes de la
-  cèl·lula.</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <h3>Paràmetres de paletes de Color</h3>
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
 
-  <p>El fitxer DGN pot contenir diverses paletes de colors internes, o bé es
-  pot associar una paleta de colors externa (amb extensió TBL). L'aplicació
-  ens permet escollir entre transformar una paleta interna o bé una d'externa
-  (en aquest cas cal indicar el nom del fitxer). Si existeixen més d'una
-  paleta interna en el DGN només es transforma la que està marcada com a
-  activa. Quan es transforma una paleta de colors, es desa directament a
-  format MiraMon (fitxer DBF) i s'associa automàticament al fitxer d'arcs o
-  polígons, de manera que quan es visualitza amb MiraMon es mostren els
-  mateixos colors que amb Microstation. En el cas dels polígons, si el creador
-  del DGN ho ha indicat, es desen a la base de dades i es tenen en compte els
-  colors de les vores i dels interiors.</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
 
-  <h3>Simbolització de textos:</h3>
+ <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
 
-  <p>Els textos que figuren als fitxers DGN són punts amb un text associat,
-  pels quals hi han definides diverses opcions de simbolització; la majoria
-  d'aquestes opcions s'importen automàticament a la capa resultat de
-  MiraMon, però els tipus de lletra (o 'fonts') són sovint específics
-  per MicroStation i el DGN_MM no és capaç de determinar el tipus més semblant
-  per Windows.<br/>
-  Els identificadors dels tipus de lletra trobats durant l'execució es
-  guarden a una taula de simbolització de textos. Aquesta taula també és un
-  tesaure, així que cada identificador apareix només una vegada. Quan un nou
-  tipus de lletra és trobat, el DGN_MM li associa una simbolització per
-  defecte. A continuació, l'usuari hauria d'ajustar aquesta
-  visualització per defecte, a través de les opcions de textos dins la
-  finestra de simbolització de capes de punts, o bé modificant el tesaure
-  manualment (el format de la taula s'explica al document &quot;Descripció
-  de les taules de simbolització a MiraMon&quot;, i els valors que accepta
-  s'enumeren al document &quot;Simbolització de fonts per a textos al
-  MiraMon&quot;). Si tenim diversos DGN amb un mateix esquema de simbolització
-  (p.e., fitxers d'una mateixa sèrie cartogràfica), podem aplicar el
-  tesaure de la primera transformació a la resta de fitxers de la sèrie,
-  disposant així d'una taula de simbolització de textos comuna per a tots
-  ells. Consulteu l'opció /TAULA_SIMB_TEXT per a més detalls.</p>
-
-  <h3>Notes:</h3>
-
-  <p>Amb Microstation és possible associar els elements a bases de dades
-  externes. En aquests casos es recull tota la informació necessària per
-  mantenir el lligam amb MiraMon. A la base de dades principal dels elements,
-  arcs o punts, es desa un valor numèric en un camp anomenat IDUSUARI. Aquest
-  camp lliga amb un tesaurus que es crea automàticament i on es desa, per a
-  cada IDUSUARI, el tipus de base de dades amb què lliga, la taula
-  corresponent a dins d'aquesta base de dades i el camp clau que lliga amb
-  aquesta (camp MSLINK). L'usuari ha de saber quina és la base de dades i
-  quina és la taula que conté la informació que vol associar. Aquesta
-  informació l'ha de proporcionar el constructor de la capa. També es crea un
-  camp de forma automàtica, el camp CODIDGNMM, amb la combinació dels camps
-  clau anteriors, per tal de facilitar la connexió d'aquest tesaurus amb la
-  base de dades adequada. Cal fer notar que un element pot tenir més d'un
-  lligam a bases de dades externes, i que aquestes poden ser de diferents
-  tipus, per exemple una taula DBF i una base de dades ORACLE via ODBC. Tota
-  aquesta informació es desa al tesaurus de codis.</p>
-
-  <p>Alguns elements de Microstation formen, per definició, superfícies
-  tancades. L'aplicació detecta automàticament aquests casos i genera un
-  fitxer de polígons explícits. Si és el cas, també es desa informació sobre
-  el color de les vores i de l'interior d'aquests polígons i la informació de
-  bases de dades associades. En el cas de tenir illes a dins dels polígons,
-  aquestes es tracten correctament, tant pel que es refereix a colors com a
-  càlcul de superfícies.</p>
-
-  <exclusiva>
-    <hr/>
-   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+ <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
-    <!-- $$EXCLUSIVA$$
+<!-- $$EXCLUSIVA$$
 
 Per a obtenir l'ajuda completa escriviu:
 DGN_MM ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
