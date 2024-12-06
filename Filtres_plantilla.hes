@@ -1,97 +1,95 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 6-12-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>Filtres: Filtrado indiscriminado de valores de rásters</title><!-- Traduït per Teresa Mata  -->
-<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/>
-</head>
+<title>Filtres: Filtrado indiscriminado de valores de rásters</title><!-- Traduït per Teresa Mata  -->
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
+<a id="MENU" name="MENU"></a>
   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso a este texto de ayuda como página web: <a href="https://www.miramon.cat/help/spa/msa/Filtres.htm"><font size="+2">Filtres</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
 
    <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/><br/>
-<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-  <p>Normalmente, en el cálculo no participan los píxeles asignados con valor
-  sindatos. Si consideramos que la muestra no es suficiente (el número de valores
-  válidos dentro de la ventana de convolución es inferior al número de valores
-  sindatos) podemos asignar sindatos el cálculo resultante o mantener el cálculo con
-  la muestra reducida. A partir de un parámetro es posible invertir este comportamiento y forzar a
-  la aplicación a trabajar sólo sobre los valores sindatos para eliminarlos
-  selectivamente aplicando el filtro.</p>
-  <P>El ráster resultado será del mismo tipo que el ráster origen. 
-  Consecuentemente, si su raster origen es de tipo byte y desea los resultados 
-  en números reales, convierta previamente el ráster origen a real con IMGIMG.</P>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+ 
+<p>Normalmente, en el cálculo no participan los píxeles asignados con valor sindatos. Si consideramos que la muestra no es suficiente (el número de valores válidos dentro de la ventana de convolución es inferior al número de valores sindatos) podemos asignar sindatos el cálculo resultante o mantener el cálculo con la muestra reducida. A partir de un parámetro es posible invertir este comportamiento y forzar ala aplicación a trabajar sólo sobre los valores sindatos para eliminarlos selectivamente aplicando el filtro.</p>
 
+<P>El ráster resultado será del mismo tipo que el ráster origen. Consecuentemente, si su ráster origen es de tipo byte y desea los resultados en números reales, convierta previamente el ráster origen a real con IMGIMG.</P>
 
-  <p>En la versión actual están definidos los siguientes filtros, que irán
-  ampliándose en futuras versiones:</p>
+<p>En la versión actual están definidos los siguientes filtros, que irán ampliándose en futuras versiones:</p>
 
-  <ul>
-    <li>Moda: Filtro de suavizado o generalización indiscriminada para rásters
-    categóricos. La aplicación <a href="FagoVal.htm">FagoVal</a> suele dar mejores
-    resultados al aplicar generalizaciones selectivas.
-    </li>
+<ul>
+	<li>Moda: Filtro de suavizado o generalización indiscriminada para rásters categóricos. La aplicación <a href="FagoVal.htm">FagoVal</a> suele dar mejores resultados al aplicar generalizaciones selectivas.</li>
+	<li>Media: Filtro de suavizado para rásters continuos.</li>
+	<li>Mediana: Filtro de suavizado apto para cualquier tipo de tratamiento. Debe tenerse en cuenta que cada vez que se hallen 2 valores centrales diferentes se escogerá alternativamente el valor de uno de ellos (en cambio en la aplicación <a href="CombiCap.htm">CombiCap</a> se elige la media de los 2 valores centrales si los datos son cuantitativos). En este caso se ha preferido que el procedimiento de filtrado por mediana no genere en el resultado posibles valores inexistentes en la imagen origen.</li>
+	<li>Desviación estándar: Determina el grado de dispersión de los valores en el entorno de cada píxel. Como mayor es el valor, más &quot;rugosa&quot; es la textura en el entorno de un píxel. No es adecuado para rásters categóricos.</li>
+	<li>Variabilidad: Mide el porcentaje de píxeles de valor diferente de la moda. Adecuado para rásters categóricos, puede ser un indicador indirecto de autocorrelación y un filtro detector de contornos.</li>
+	<li>Mínimo: Determina el mínimo local en la ventana.</li>
+	<li>Máximo: Determina el máximo local en la ventana.</li>
+	<li>Laplaciano: En el caso de la ventana de 3x3, puede aplicarse este filtro laplaciano rectangular donde todos los elementos diferentes del central tienen un peso de -1 y el central, un peso de 9, sin necesidad de aplicar una ventana de pesos variables. Si se desea usar esta última se puede escoger la opción correspondiente en las matrices predefinidas.</li>
+	<li>Matriz predefinida: Permite escoger alguno de los filtros predefinidos correspondientes a matrices de pesos variables. La colección de filtros está alojada en el directorio de MiraMon en un conjunto de ficheros de extensión <b>mft</b>. Esta colección incorpora básicamente diferentes modalidades de filtros de suavizado y de detección y realce de contornos. Nuevas versiones de la aplicación irán añadiendo progresivamente nuevos elementos a la colección actual.</li>
+	<li>Matriz de usuario: Permite al usuario definir explícitamente los diferentes pesos de la matriz a aplicar. Una vez definido el filtro, éste puede guardarse en cualquier directorio (a poder ser, diferente del directorio de MiraMon) para usarlo en posteriores ejecuciones y así completar la colección de filtros predefinidos.</li>
+</ul>
 
-    <li>Media: Filtro de suavizado para rásters continuos.</li>
+<p>El fichero de pesos es un archivo de texto en formato <b>INI</b>, que incluye todos los parámetros necesarios para aplicar correctamente el filtro. En el ejemplo se puede observar su formato y las diferentes claves y secciones, así como su correspondencia con la interfaz gráfica.</p>
 
-    <li>Mediana: Filtro de suavizado apto para cualquier tipo de tratamiento.
-    Debe tenerse en cuenta que cada vez que se hallen 2 valores centrales
-    diferentes se escogerá alternativamente el valor de uno de ellos (en
-    cambio en la aplicación <a href="CombiCap.htm">CombiCap</a> se elige la media
-    de los 2 valores centrales si los datos son cuantitativos). En este caso
-    se ha preferido que el procedimiento de filtrado por mediana no genere en
-    el resultado posibles valores inexistentes en la imagen origen.
-    </li>
+<div align="center"><img height="249" src="f_mft.gif" width="414"/><img height="214" src="w_mft.gif" width="251"/></div>
 
-    <li>Desviación estándar: Determina el grado de dispersión de los valores
-    en el entorno de cada píxel. Como mayor es el valor, más
-    &quot;rugosa&quot; es la textura en el entorno de un píxel. No es adecuado
-    para rasters categóricos.</li>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-    <li>Variabilidad: Mide el porcentaje de píxeles de valor diferente de la
-    moda. Adecuado para rásters categóricos, puede ser un indicador indirecto
-    de autocorrelación y un filtro detector de contornos.</li>
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
 
-    <li>Mínimo: Determina el mínimo local en la ventana.</li>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="Filtres_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de Filtres </td>
+</tr>
+</table>
+</div>
 
-    <li>Máximo: Determina el máximo local en la ventana.</li>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-    <li>Laplaciano: En el caso de la ventana de 3x3, puede aplicarse este
-    filtro laplaciano rectangular donde todos los elementos diferentes del
-    central tienen un peso de -1 y el central, un peso de 9, sin necesidad de
-    aplicar una ventana de pesos variables. Si se desea usar esta última se
-    puede escoger la opción correspondiente en las matrices predefinidas.</li>
+<!-- <h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
 
-    <li>Matriz predefinida: Permite escoger alguno de los filtros predefinidos
-    correspondientes a matrices de pesos variables. La colección de filtros
-    está alojada en el directorio de MiraMon en un conjunto de ficheros de
-    extensión <b>mft</b>. Esta colección incorpora básicamente diferentes
-    modalidades de filtros de suavizado y de detección y realce de contornos.
-    Nuevas versiones de la aplicación irán añadiendo progresivamente nuevos
-    elementos a la colección actual.</li>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
 
-    <li>Matriz de usuario: Permite al usuario definir explícitamente los
-    diferentes pesos de la matriz a aplicar. Una vez definido el filtro, éste
-    puede guardarse en cualquier directorio (a poder ser, diferente del
-    directorio de MiraMon) para usarlo en posteriores ejecuciones y así
-    completar la colección de filtros predefinidos.</li>
-  </ul>
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
 
-  <p>El fichero de pesos es un archivo de texto en formato <b>INI</b>, que
-  incluye todos los parámetros necesarios para aplicar correctamente el
-  filtro. En el ejemplo se puede observar su formato y las diferentes claves y
-  secciones, así como su correspondencia con la interficie gráfica.</p>
-
-  <p align="center"><img height="249" src="f_mft.gif" width="414"/><img height="214" src="w_mft.gif" width="251"/></p>
-
-  <exclusiva>
-     <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+ <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
-   <!-- $$EXCLUSIVA$$
+ <!-- $$EXCLUSIVA$$
 Para obtener la ayuda completa escriba:
 Filtres ?
 -->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
 </exclusiva>
 </body>
 </html>

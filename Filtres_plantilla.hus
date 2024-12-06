@@ -1,56 +1,94 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 6-12-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>Filtres: Indiscriminate filtering of raster values</title>
+<title>Filtres: Indiscriminate filtering of raster values</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/Filtres.htm"><font size="+2">Filtres</font></a></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<span id="wpsopcions"/><br/>
+<span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-  <p>Usually, pixels containing NoData values are not used in the calculation. In
-  the case where the number of valid values within the window is less than the
-  number of NoData values, then the user may choose either to set NoData in
-  those pixels or to perform the calculation with the reduced number of
-  pixels.Using an optional parameter it is possible to invert this behaviour and
-  force the application to work only with NoData pixels in order to
-  selectively eliminate them.</p>
-  <P>The output raster will be of the same type as the input. Consequently, if
- the input raster is byte and you want the result in real numbers, you should convert the input raster into real with IMGIMG.</P>
-  
 
-  <p>In the current version of MiraMon the following filters are defined.
-  These will be added to in future versions:</p>
+<p>Usually, pixels containing NoData values are not used in the calculation. In the case where the number of valid values within the window is less than the number of NoData values, then the user may choose either to set NoData in those pixels or to perform the calculation with the reduced number of pixels. Using an optional parameter it is possible to invert this behavior and force the application to work only with NoData pixels in order to selectively eliminate them.</p>
 
-  <ul>
-    <li>Mode: Smoothing or indiscriminate generalisation filter for classified
-    rasters. The <a href="FagoVal.htm">FagoVal</a> application usually produces
-    better results by applying selective generalisations.
-    </li>
+<P>The output raster will be of the same type as the input. Consequently, if the input raster is byte and you want the result in real numbers, you should convert the input raster into real with IMGIMG.</P>
 
-    <li>Average: Smoothing filter for continuous rasters.</li>
+<p>In the current MiraMon version  the following filters are defined. These will be added to in future versions:</p>
 
-    <li>Standard deviation: Determines the spread of the values in the
-    neighbourhood of a pixel. The higher the value the &quot;rougher&quot; the
-    texture around a pixel. Not suitable for use with classified rasters.</li>
+<ul>
+	<li>Mode: Smoothing or indiscriminate generalization filter for classified rasters. The <a href="FagoVal.htm">FagoVal</a> application usually produces better results by applying selective generalizations.</li>
+	<li>Average: Smoothing filter for continuous rasters.</li>	
+	<li>Median: Smoothing filter suitable for any type of treatment. It should be noted that each time 2 different central values are found, the value of one of them will be chosen alternatively (in contrast, in the <a href="CombiCap.htm">CombiCap</a> application, the average of the 2 central values is chosen if the data is quantitative). In this case, it is preferred that the median filtering procedure does not generate possible values in the result that do not exist in the origin image.</li></li>
+	<li>Standard deviation: Determines the spread of the values in the neighborhood of a pixel. The higher the value the &quot;rougher&quot; the texture around a pixel. Not suitable for use with classified rasters.</li>
+	<li>Variability: Gives a measure of the number of pixels that are different to the modal value. Adequate for categoric rasters. May be an indirect autocorrelation indicator and a filter for detecting an object's perimeter.</li>
+	<li>Minimum: Determines the local minimum within the window.</li>
+	<li>Maximum: Determines the local maximum within the window.</li>
+	<li>Laplacian: In the case of the 3x3 window, this rectangular Laplacian filter can be applied where all elements other than the central one have a weight of -1 and the central one a weight of 9, without the need to use the procedure of applying a variable weight window. In order to use this last procedure it is possible to choose the corresponding option within predefined matrices.</li>
+	<li>Pre-defined matrix: Allows to choose one of the predefined filters corresponding to matrices of variable weights. The filter collection is hosted in the MiraMon directory within a set of filter files with the <b>mft</b> extension. This collection basically incorporates different types of smoothing and edge detection and reinforcement filters. New versions of the application will progressively add new elements to the current collection.</li>
+	<li>User matrix: Allows to explicitly define the different weights of the matrix to be applied. Once defined, it can be saved in any address (highly recommended other than the MiraMon directory) to use in subsequent executions and thus complete the collection of predefined filters.</li>
+</ul>
 
-    <li>Variability: Gives a measure of the number of pixels that are
-    different to the modal value. Adequate for categoric rasters. May be an
-    indirect autocorrelation indicator and a filter for detecting an
-    object's perimeter.</li>
-  </ul>
-  <hr/>
+<p>The weights file is a text file in <b>INI</b> format, which includes all the parameters necessary to correctly apply the filter. In the example its format with the different keys and sections and their correspondence in the graphical interface can be seen.</p>
+<div align="center"><img height="249" src="f_mft.gif" width="414"/><img height="214" src="w_mft.gif" width="251"/></div>
 
-  <exclusiva>
-    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="Filtres_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Filtres dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+ 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
 Filtres ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</exclusiva>
 </body>
 </html>
