@@ -3,14 +3,14 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:GDALMM:0</ows:Identifier>
 		<ows:Title>Information</ows:Title>
-		<ows:Abstract>Provides information about the file in a format importable via OGR/GDAL.</ows:Abstract>
+		<ows:Abstract>Provides information about the file in a format importable via GDAL/OGR.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:File importing using GDAL"/>
-		<ows:Metadata xlink:title="Abstract:Imports vector or raster files in any format compatible with GDAL into the MiraMon format. The user has the option to choose whether to import only specific layers or all layers contained in the file. An output directory can be specified, or, if the file contains a single layer of a single type, an output filename can be provided with the corresponding extension: pnt, arc, pol, or img."/>
+		<ows:Metadata xlink:title="Abstract:Imports vector or raster files in any format compatible with GDAL/OGR into the MiraMon format. The user has the option to choose whether to import only specific layers or all layers contained in the file. An output directory can be specified, or, if the file contains a single layer of a single type, an output filename can be provided with the corresponding extension: pnt, arc, pol, or img."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Option</ows:Title>
-				<ows:Abstract>Provides information about a file via GDAL.</ows:Abstract>
+				<ows:Abstract>Provides information about a file via GDAL/OGR..</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -22,10 +22,14 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerEntrada</ows:Identifier>
-				<ows:Title>OGR/GDAL file to import</ows:Title>
-				<ows:Abstract>File to import using OGR/GDAL libraries.</ows:Abstract>
+				<ows:Title>GDAL/OGR file to import</ows:Title>
+				<ows:Abstract>File to import using GDAL/OGR libraries.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:InputFile"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
 			</Input>
 		</DataInputs>
 		<ProcessOutputs>
@@ -33,13 +37,13 @@
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:GDALMM:1</ows:Identifier>
-		<ows:Title>Importing a file using OGR/GDAL libraries.</ows:Title>
-		<ows:Abstract>Imports a subset of layers from a OGR/GDAL-compatible file.</ows:Abstract>
+		<ows:Title>Importing a file using GDAL/OGR libraries.</ows:Title>
+		<ows:Abstract>Imports a subset of layers from a GDAL/OGR compatible file.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Option</ows:Title>
-				<ows:Abstract>Imports a file into MiraMon via GDAL.</ows:Abstract>
+				<ows:Abstract>Imports a file into MiraMon via GDAL/OGR.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -51,15 +55,19 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerEntrada</ows:Identifier>
-				<ows:Title>OGR/GDAL file to import</ows:Title>
-				<ows:Abstract>File to import using OGR/GDAL libraries.</ows:Abstract>
+				<ows:Title>GDAL/OGR file to import</ows:Title>
+				<ows:Abstract>File to import using GDAL/OGR libraries.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:InputFile"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FitxLListaCapes</ows:Identifier>
 				<ows:Title>Layer list file</ows:Title>
-				<ows:Abstract>File containing a list of layers (in the case of a vector file) or subdatasets (in the case of a raster file) to be imported. If this file is not specified, all layers or subdatasets found in the source file will be imported.</ows:Abstract>
+				<ows:Abstract>File containing a list of layers, bands, raster subdatasets and/or tables to import. If this file is not specified, all information found in the source file will be imported.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:LayerListFile"/>
 				<ComplexData>
@@ -81,12 +89,25 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TIPUS_SORTIDA</ows:Identifier>
+				<ows:Title>Output type</ows:Title>
+				<ows:Abstract>Allows you to determine whether the output is a directory (D) or a file (F). By default, it will always be a directory. Use the file option only when you want to import a single vector layer or raster dataset, and the result of this import is a single layer in MiraMon format. See the examples.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>F</ows:Value>
+						<ows:Value>D</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>D</DefaultValue>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>DirectoriSortida</ows:Identifier>
 				<ows:Title>Output folder</ows:Title>
-				<ows:Abstract>Output file (in case one layer is found) or output directory (in case more than one layer or subsets are found) where the files imported in MiraMon format from the source file using the OGR/GDAL libraries will be saved.</ows:Abstract>
+				<ows:Abstract>Output directory or file (as specified) where the files imported to MiraMon format from the source file will be saved using the GDAL/OGR libraries.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:OutputFoldOrFile"/>
 				<LiteralOutput>

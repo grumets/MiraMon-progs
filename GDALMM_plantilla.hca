@@ -16,23 +16,167 @@
 <hr>
 <table width="98%">
 <tr align="center" valign="middle">
-	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
-	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></td>
 </tr>
 <tr align="center" valign="middle">
-	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>
-	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></td>
 </tr>
 </table>
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
-<p>[Omplir amb la introducció (català)]</p>
+<!--**** -->
+<p>Aquesta aplicació permet importar formats ràsters,
+vectorials i tabulars als formats del MiraMon a través de les llibreries
+GDAL/OGR. Per a exportacions es preveu que l'aplicació pugui en un futur
+donar-hi suport, però mentre això no s'esdevingui podeu instal·lar les
+llibreries GDAL <a
+href="https://trac.osgeo.org/osgeo4w/#QuickStartforOSGeo4WUsers">https://trac.osgeo.org/osgeo4w/#QuickStartforOSGeo4WUsers</a> 
+per a executar instruccions com ara ogr2ogr.</p>
+
+<p>Les opcions possibles són:</p>
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-<p>[Omplir amb l'explicació de l'apartat Presentació i opcions(català)]</p>
+
+<p>Des dels seus orígens el 1994 el MiraMon va anar
+desenvolupant una part important de codi propi per a poder accedir a altres
+formats habituals en SIG i Teledetecció, majoritàriament per via de la
+importació, tot i que en algun cas per la via del suport directe (com el que es
+dóna a formats com el JPEG per a la visualització i per a la rectificació
+geomètrica d'imatges). D'altra banda, la maduresa dels codis de l'excel·lent iniciativa
+GDAL/OGR, iniciada els anys 2000, va fer que el 2024 el MiraMon abordés no
+només l'inici de la publicació de codi per a fer accessibles els formats
+MiraMon en l'entorn GDAL/OGR, sinó també la lectura directa de molts altres
+formats al mòdul principal del MiraMon (MM64). Aquesta iniciativa també va
+beneficiar, paulatinament, altres aplicacions (RasSelec, VecSelec...) i va
+estimular la creació de l'aplicació GDALMM, la qual permet unificar en un sol
+entorn la importació individual o massiva (amb crides via BAT, PS1, etc) de
+fitxers de la gran varietat de formats que el GDAL/OGR permeten llegir. </p>
+
+<p>Malgrat la incorporació dels codis GDAL/OGR al MiraMon el 2024,
+el MiraMon no ha abandonat el seus codis de lectura i/o d'importació de certs
+formats perquè això permet els usuaris del programa accedir a formats als quals
+les llibreries GDAL/OGR no proporcionen [a la data d'escriure aquest text, és
+clar] l'accés (com poden ser els formats CEOS de l'Agència Europea de l'Espai
+per a dades Landsat, el format VEC/DVC, etc), o no permeten recuperar certes
+característiques d'interès (com aspectes de simbolització en DXF, aspectes de
+jocs de caràcters OEM-ANSI-UTF8 en taules i fitxers de text, tractament òptim
+de valors sensedades, etc).</p>
+
+<p><b>Limitacions:</b> </p>
+
+<p>
+<ul>
+	<li>Des del 2019 GDAL/OGR no dóna suport a versions	
+		de 32 bits dels seus codis, per la qual cosa l'aplicació GDALMM no és
+		accessible en ordinadors en què el sistema operatiu és de 32 bits.</p>
+	</li>
+	<li>Cal ser conscients que hi ha característiques
+     del model de dades del MiraMon, i molt en particular del model vectorial
+     que el model de dades del GDAL/OGR o els formats que escriuen les
+     seves llibreries no suporten, o no són suportats plenament, i viceversa.
+     Caldrà consultar la documentació respectiva en cas de dubtes o escriure a 
+	 <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>. 
+	 En particular, en passar
+     de formats MiraMon a GDAL/OGR<b> <u>es poden perdre característiques</u></b>. Al web 
+	 del "<b><i>MiraMonVector driver</i></b>" explica com gestionar algunes d'aquestes
+     possibles pèrdues <a
+     href="https://gdal.org/en/latest/drivers/vector/miramon.html">https://gdal.org/en/latest/drivers/vector/miramon.html</a>.
+	 Entre les principals pèrdues que es poden produir tenim:</li>
+	 <ul>
+	  <li>Les <b>relacions topològiques</b> (sempre).</li>
+	  <li>La <b>cardinalitat 1 a molts entre els
+		  elements gràfics i la taula principal d'atributs alfanumèrics</b> (sempre). Al 
+		  web del "<b><i>MiraMonVector driver</i></b>" explica com es
+		  pot pal·liar aquesta pèrdua.</li>
+	  <li>El <b>model relacional de taules</b> que
+		  poden ser vinculades a aquesta taula principal (sempre). Si la capa a
+		  exportar té relacions amb diverses taules, recordeu que podeu <b>crear
+		  una taula única des del MiraMon </b>(opció 17 de l'aplicació
+		  GestBD), amb la qual cosa perdreu, en el format de sortida, el model
+		  relacional, però disposareu de tota la informació.</li>
+	  <li>Les <b>Z múltiples per a una mateixa
+		  coordenada XY </b>(sempre). Al web del "<b><i>MiraMonVector
+		  driver</i></b>" explica com es pot pal·liar aquesta pèrdua, tot especificant
+		  quina Z de les disponibles es vol exportar.</li>
+	  <li>El <b>complet de model de metadades</b> (sempre
+		  ara com ara, tot i que algunes característiques es poden conservar; al
+		  web del "<b><i>MiraMonVector driver</i></b>" explica com es pot
+		  pal·liar aquesta pèrdua, explicitant l'idioma de documentació de
+		  metadades). Entre els molts aspectes interessants que es perden podem
+		  citar:</li>
+		  <ul>
+		   <li><b>Unitats dels camps numèrics</b> que en tinguin.</li>
+		   <li><b>Paràmetres de qualitat</b></li>
+		   <li><b>Especificacions de propietats radiomètriques de les imatges captades amb sensors de
+	teledetecció.</b></li>
+			<li><b>Valors mínims i màxims veritables de conjunts ràster.</b></li>
+		   </ul>
+	   <li>Els <b>noms llargs en camps de taules</b> (segons
+		  els formats).</li>
+	  <li>Taules de <b>més de 254 camps</b> (segons
+		  els formats).</li>
+	  <li><b>Camps de text (C) de més de 254
+		  caràcters </b> (segons els formats).</li>
+	  <li>Enorme <b>estalvi d'espai en entitats vectorials
+		  amb una Z constant</b>, com corbes de nivell, o terrats d'edificis en
+		  models simples (sempre).</li>
+	  <li>Etc.</li>
+	</ul>
+
+	<p><b><u>Nota important</u></b>: La pèrdua
+	total o parcial d'aquestes capacitats no és cap defecte de la implementació,
+	sinó del disseny de "l'esperanto" del model del GDAL/OGR, o de
+	les característiques d'altres formats i models de dades, on no tot hi cap. Això
+	no ens impedeix manifestar que GDAL/OGR és una gran iniciativa per a una alta
+	(no pas completa) interoperabilitat de formats.</p>
+	
+	<li>Com s'ha avançat en el punt anterior, hi ha
+	característiques geomètriques complexes que no estan recollides en el model de
+	dades del MiraMon (afortunadament molt poc utilitzades). També cal indicar que,
+	durant el 2024 la transformació de la simbolització en ràsters (taules de
+	simbolització de color) ha estat implementada, però que la simbolització en el
+	formats vectorials no s'ha abordat encara, tot i que s'espera que durant el
+	2025 aquesta situació canviï.</li>
+</ul>
+
+<p><b>Particularitats de les transformacions efectuades pel GDALMM:</b> </p>
+
+<ul>
+	<li>Un fitxer GDAL pot contenir en el seu interior un o diversos conjunts d'informació dels descrits a continuació:</li>
+	<ul>
+		<li>Capa <u>vectorial</u> de tipus <u>punt</u> o <u>multipunt</u>: es converteix a un fitxer de punts <i>.pnt</i></li>
+		<li>Capa <u>vectorial</u> de tipus <u>línia</u> o <u>multilínia</u>: es converteix a un fitxer d'arcs <i>.arc</i></li>
+		<li>Capa <u>vectorial</u> de tipus <u>polígon</u> o <u>multipolígons</u>: es converteix a un fitxer de polígons <i>.pol</i></li>
+		<li>Capa <u>vectorial</u> de tipus <u>indefinit</u>: es converteix a un o diversos fitxers de punts, arcs, polígons o taula DBF, segons el seu contingut (potser només conté elements no geomètrics i el resultat és un sol fitxer DBF).</li>
+		<li>Capa <u>ràster</u> amb una <u>banda</u>: es converteix a un fitxer ràster monobanda <i>.img</i></li>
+		<li>Capa <u>ràster</u> amb <u>diverses bandes</u>: es converteix a un fitxer ràster multibanda <i>.img</i></li>
+		<li>Capa <u>ràster</u> amb o <u>diversos un subconjunts d'informació (subdatasets)</u>: es converteix a diversos fitxers <i>.img</i> monobanda o multibanda segons el contingut</li>
+	</ul>
+</ul>
+
+<p>Notes generals:</p>
+<ul>
+	<li>Els fitxers vectorials resultants no tenen la topologia verificada.</li>
+	<li>Els fitxers vectorials multipunts i multilínies es converteixen a fitxers <i>.pnt</i> i 
+	<i>.arc</i> respectivament i un objecte punt es converteix en diversos punts i un objecte arc en diversos arcs.
+	Això no passa en polígons ja que el model de dades del MiraMon si que conté multipolígons.</li>
+	<li>Els fitxers obribles amb GDAL en general són de tipus vectorial o ràster i ambós tipus poden portar taules d'atributs associades. Aquestes taules s'importen generant un fitxer DBF, en format estès si cal.</li>
+</ul>
+	
+<p> $$ Aquí, Abel i Xavi, heu d'explicar
+detalladament com funciona el tema en cas de fitxers amb capa única, de fitxers
+amb diferents capes, la possibilitat d'indicar la importació només de certs
+ítems (bandes d'imatges de conjunts multibanda), taules d'atributs, etc. És
+especialment important que poseu exemples del que hem après en formats com
+l'HDF que de vegades ofereixen bandes soltes però no agrupades en un subconjunt
+(<i>subdataset</i>) barrejades amb bandes “empaquetades”, o l'existència de
+bandes “empaquetades” en certs formats.</p>
+
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
