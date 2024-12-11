@@ -27,7 +27,6 @@
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
-<!--**** -->
 <p>Aquesta aplicació permet importar formats ràsters,
 vectorials i tabulars als formats del MiraMon a través de les llibreries
 GDAL/OGR. Per a exportacions es preveu que l'aplicació pugui en un futur
@@ -71,12 +70,12 @@ de valors sensedades, etc).</p>
 
 <p>
 <ul>
-	<li>Des del 2019 GDAL/OGR no dóna suport a versions	
+	<li>Des del 2019 les llibreries GDAL/OGR no donen suport a versions	
 		de 32 bits dels seus codis, per la qual cosa l'aplicació GDALMM no és
 		accessible en ordinadors en què el sistema operatiu és de 32 bits.</p>
 	</li>
 	<li>Cal ser conscients que hi ha característiques
-     del model de dades del MiraMon, i molt en particular del model vectorial
+     del model de dades del MiraMon, i molt en particular del model vectorial,
      que el model de dades del GDAL/OGR o els formats que escriuen les
      seves llibreries no suporten, o no són suportats plenament, i viceversa.
      Caldrà consultar la documentació respectiva en cas de dubtes o escriure a 
@@ -111,7 +110,7 @@ de valors sensedades, etc).</p>
 		  citar:</li>
 		  <ul>
 		   <li><b>Unitats dels camps numèrics</b> que en tinguin.</li>
-		   <li><b>Paràmetres de qualitat</b></li>
+		   <li><b>Paràmetres de qualitat.</b></li>
 		   <li><b>Especificacions de propietats radiomètriques de les imatges captades amb sensors de
 	teledetecció.</b></li>
 			<li><b>Valors mínims i màxims veritables de conjunts ràster.</b></li>
@@ -149,34 +148,24 @@ de valors sensedades, etc).</p>
 <ul>
 	<li>Un fitxer GDAL pot contenir en el seu interior un o diversos conjunts d'informació dels descrits a continuació:</li>
 	<ul>
-		<li>Capa <u>vectorial</u> de tipus <u>punt</u> o <u>multipunt</u>: es converteix a un fitxer de punts <i>.pnt</i></li>
-		<li>Capa <u>vectorial</u> de tipus <u>línia</u> o <u>multilínia</u>: es converteix a un fitxer d'arcs <i>.arc</i></li>
-		<li>Capa <u>vectorial</u> de tipus <u>polígon</u> o <u>multipolígons</u>: es converteix a un fitxer de polígons <i>.pol</i></li>
-		<li>Capa <u>vectorial</u> de tipus <u>indefinit</u>: es converteix a un o diversos fitxers de punts, arcs, polígons o taula DBF, segons el seu contingut (potser només conté elements no geomètrics i el resultat és un sol fitxer DBF).</li>
-		<li>Capa <u>ràster</u> amb una <u>banda</u>: es converteix a un fitxer ràster monobanda <i>.img</i></li>
-		<li>Capa <u>ràster</u> amb <u>diverses bandes</u>: es converteix a un fitxer ràster multibanda <i>.img</i></li>
-		<li>Capa <u>ràster</u> amb o <u>diversos un subconjunts d'informació (subdatasets)</u>: es converteix a diversos fitxers <i>.img</i> monobanda o multibanda segons el contingut</li>
+		<li>Capa <u>vectorial</u> de tipus <u>punt</u> o <u>multipunt</u>: es converteix a una capa de punts <i>.pnt</i></li>
+		<li>Capa <u>vectorial</u> de tipus <u>línia</u> o <u>multilínia</u>: es converteix a una capa d'arcs <i>.arc</i></li>
+		<li>Capa <u>vectorial</u> de tipus <u>polígon</u> o <u>multipolígon</u>: es converteix a una capa de polígons <i>.pol</i></li>
+		<li>Capa <u>vectorial</u> de tipus <u>indefinit</u>: es converteix a una o diverses capes de punts, arcs, polígons o taules DBF (o 
+		<a href="https://www.miramon.cat/help/cat/mm32/AP9.htm#DBFestesa">DBF estesa</a> si cal), segons el seu contingut (pot passar que el fitxer només contingui elements no geomètrics i aleshores el resultat és un sol fitxer DBF).</li>
+		<li>Capa <u>ràster</u> amb <u>una banda</u>: es converteix a una capa ràster monobanda <i>.img</i></li>
+		<li>Capa <u>ràster</u> amb <u>diverses bandes</u>: es converteix a una capa ràster multibanda <i>.img</i> (diversos fitxers <i>.img</i> vinculats a través del seu fitxer <i>I.rel</i>).</li>
+		<li>Capa <u>ràster</u> amb un o <u>diversos subconjunts d'informació (subdatasets)</u>: es converteix a diverses capes <i>.img</i> monobanda o multibanda segons el contingut original.</li>
 	</ul>
 </ul>
 
 <p>Notes generals:</p>
 <ul>
 	<li>Els fitxers vectorials resultants no tenen la topologia verificada.</li>
-	<li>Els fitxers vectorials multipunts i multilínies es converteixen a fitxers <i>.pnt</i> i 
-	<i>.arc</i> respectivament i un objecte punt es converteix en diversos punts i un objecte arc en diversos arcs.
-	Això no passa en polígons ja que el model de dades del MiraMon si que conté multipolígons.</li>
-	<li>Els fitxers obribles amb GDAL en general són de tipus vectorial o ràster i ambós tipus poden portar taules d'atributs associades. Aquestes taules s'importen generant un fitxer DBF, en format estès si cal.</li>
+	<li>Els fitxers vectorials que contenen multipunts i multilínies es converteixen a capes <i>.pnt</i> i 
+	<i>.arc</i>, respectivament. En aquesta conversió, cada objecte multipunt es converteix en diversos punts i cada objecte multilínia en diversos arcs. Això no passa en polígons ja que el model de dades del MiraMon si que admet multipolígons.</li>
+	<li>Els fitxers obribles amb GDAL són, en general, de tipus vectorial o ràster i ambdós tipus poden portar taules d'atributs associades. Aquestes taules s'importen generant un fitxer DBF, en format DBF estesa si cal.</li>
 </ul>
-	
-<p> $$ Aquí, Abel i Xavi, heu d'explicar
-detalladament com funciona el tema en cas de fitxers amb capa única, de fitxers
-amb diferents capes, la possibilitat d'indicar la importació només de certs
-ítems (bandes d'imatges de conjunts multibanda), taules d'atributs, etc. És
-especialment important que poseu exemples del que hem après en formats com
-l'HDF que de vegades ofereixen bandes soltes però no agrupades en un subconjunt
-(<i>subdataset</i>) barrejades amb bandes “empaquetades”, o l'existència de
-bandes “empaquetades” en certs formats.</p>
-
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
