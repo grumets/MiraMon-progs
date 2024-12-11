@@ -165,6 +165,7 @@ de valors sensedades, etc).</p>
 	<li>Els fitxers vectorials que contenen multipunts i multilínies es converteixen a capes <i>.pnt</i> i 
 	<i>.arc</i>, respectivament. En aquesta conversió, cada objecte multipunt es converteix en diversos punts i cada objecte multilínia en diversos arcs. Això no passa en polígons ja que el model de dades del MiraMon si que admet multipolígons.</li>
 	<li>Els fitxers obribles amb GDAL són, en general, de tipus vectorial o ràster i ambdós tipus poden portar taules d'atributs associades. Aquestes taules s'importen generant un fitxer DBF, en format DBF estesa si cal.</li>
+	<li>A vegades les capes vectorials dels fitxers poden contenir més d'un tipus d'element (per exemple, punts i polígons). Sempre s'importaran tots els tipus, donant lloc a diverses capes en format MiraMon amb el mateix nom però amb les extensions corresponents.</li>
 </ul>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
@@ -186,9 +187,57 @@ de valors sensedades, etc).</p>
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+<h2><a id="Exemples" name="Exemples"></a>Exemples</h2>
 
-<p>[Omplir amb l'explicació de l'apartat d'exemples (català)]</p>
+<p><b>Per a importar tots els elements d'un fitxer a un directori. Després de la importació aquest directori contindrà tots els elements del fitxer origen en format MiraMon.</b>
+<ul>
+	<li>Fitxer origen: d:\capes\topografia-territorial.gpkg</li>
+	<li>Directori de sortida: d:\capes_sortida\TopografiaTerritorial</li>
+	<li>El directori de sortida es crearà si no existeix (sense preguntar)</li>
+	<li>El paràmetre opcional /TIPUS_SORTIDA no cal posar-lo si es vol un directori de sortida ja que és el comportament per defecte de l'aplicació.</li>
+</ul>
+</p>
+<pre>
+GDALMM 1 d:\capes\topografia-territorial.gpkg  d:\capes_sortida\TopografiaTerritorial /TIPUS_SORTIDA=D
+GDALMM 1 d:\capes\topografia-territorial.gpkg  d:\capes_sortida\TopografiaTerritorial
+</pre>
+<p><b>Per a importar un únic element a una capa en format MiraMon de nom especificat (en aquest cas  i el nom original de l'element es perd). Aquesta opció és útil quan volem com a sortida un únic fitxer i, a més, volem escollir-ne el nom:</b>
+<ul>
+	<li>Fitxer origen: ArbresMonumentals.gpkg que només conté una sola capa.</li>
+	<li>Fitxer de sortida: d:\capes_sortida\ArbresMonumentals.pnt</li>
+	<li>El directori de sortida "d:\capes_sortida" ha d'existir.</li>
+	<li>El fitxer de sortida adopta el nom especificat: ArbresMonumentals.pnt.</li>
+	<li>El paràmetre opcional /TIPUS_SORTIDA CAL posar-lo. Si no es posés en aquest cas es crearia un directori anomenat "d:\capes_sortida\ArbresMonumentals.pnt" i a dins s'hi importarien tots els elements del fitxer "ArbresMonumentals.gpkg"</li>
+</ul>
+</p>
+</p>
+<pre>
+GDALMM 1 d:\capes\ArbresMonumentals.gpkg  d:\capes_sortida\ArbresMonumentals.pnt /TIPUS_SORTIDA=F
+</pre>
+
+<p><b>Per a seleccionar un subconjunt d'elements:</b>
+<ul>
+	<li>Fitxer origen: d:\capes\topografia-territorial.gpkg</li>
+	<li>Directori de sortida: d:\capes_sortida\TopografiaTerritorial</li>
+	<li>El directori de sortida es crearà si no existeix (sense preguntar)</li>
+	<li>El paràmetre opcional /TIPUS_SORTIDA no cal posar-lo si es vol un directori de sortida ja que és el comportament per defecte de l'aplicació.</li>
+	<li>Cal tenir una llista dels elements a importar en un fitxer de tipus llista (d:\capes\seleccio.lst). Com és habitual cal que estigui en el mateix directori que el fitxer origen (o en un altre directori amb els noms dels fitxers en format absolut o relatiu al nom del directori que conté el fitxer a importar):</li>
+</ul>
+</p>
+<pre>
+GDALMM 1 d:\capes\topografia-territorial.gpkg  d:\capes_sortida\TopografiaTerritorial d:\capes\seleccio.lst
+</pre>
+
+<ul>
+	<li>Si el fitxer de selecció conté només un element es poden aplicar les consideracions del cas /TIPUS_SORTIDA=F</li>
+	<li>En aquest cas, si la capa seleccionada conté més d'un tipus d'element s'importaran tots els tipus.</li>
+</ul>
+
+<pre>
+GDALMM 1 d:\capes\topografia-territorial.gpkg  d:\capes_sortida\TopografiaTerritorial\45_capa_escollida.pol d:\capes\seleccio_un_elem.lst /TIPUS_SORTIDA=F
+</pre>
+<p>Nota: el fitxer de selecció es pot construir des de la finestra de l'aplicació.</p>
+
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
   <hr/>
