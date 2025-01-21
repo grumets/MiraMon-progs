@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió XX 00-00-0000 */-->
+<!--/* Revisió AA 17-01-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>GDALMM: Importación de ficheros via GDAL</title>
@@ -27,12 +27,73 @@
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
-<p>[Omplir amb la introducció (castellà)]</p>
+
+<p>Esta aplicación permite importar formatos ráster, vectoriales y tabulares a los formatos de MiraMon mediante las librerías GDAL/OGR. Se prevé que, en un futuro, la aplicación permita también exportar dichos formatos; mientras esto no ocurra se pueden instalar las librerías GDAL <a href="https://trac.osgeo.org/osgeo4w/#QuickStartforOSGeo4WUsers">https://trac.osgeo.org/osgeo4w/#QuickStartforOSGeo4WUsers</a> para ejecutar instrucciones como ogr2ogr.</p>
+
+<p>Las opciones posibles son:</p>
+
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-<p>[Omplir amb l'explicació de l'apartat Presentació i opcions(castellà)]</p>
+<p>Desde sus orígenes, en 1994, MiraMon ha ido desarrollando una parte importante de código propio para poder acceder a otros formatos habituales en el ámbito de los Sistemas de Información Geográfica y la Teledetección, mayoritariamente mediante su importación, aunque en algún caso se ha permitido la apertura directa de otros formatos (como es el caso del formato JPEG para la visualización y para la rectificación geométrica de imágenes). Por otra parte, la madurez de los códigos de la excelente iniciativa GDAL/OGR, iniciada en los años 2000, hizo que en 2024 MiraMon abordara no sólo el inicio de la publicación del código para hacer accesibles los formatos MiraMon en el entorno GDAL/OGR, sino también la lectura directa de otros muchos formatos en el módulo principal de MiraMon (MM64). Esta iniciativa también ha beneficiado, paulatinamente, otras aplicaciones (RasSelec, VecSelec, etc) y ha estimulado la creación de la aplicación GDALMM, que permite unificar en un solo entorno la importación individual o masiva (vía BAT, PS1, etc) de ficheros de la gran variedad de formatos que GDAL/OGR permite leer. </p>
+
+<p>A pesar de la incorporación de los códigos GDAL/OGR a MiraMon en 2024, MiraMon no ha abandonado sus códigos de lectura y/o de importación de ciertos formatos con el objetivo que las personas usuarias del programa puedan seguir accediendo a los formatos para los cuales las librerías GDAL/OGR todavía no proporcionan acceso (como pueden ser los formatos CEOS de la Agencia Europea del Espacio para datos Landsat, el formato VEC/DVC, etc), o no permiten recuperar ciertas características de interés (como aspectos de simbolización en DXF, aspectos de juegos de caracteres OEM-ANSI-UTF8 en tablas y ficheros de texto, tratamiento óptimo de valores sindatos, etc).</p>
+
+<p><b>Limitaciones:</b> </p>
+
+<p>
+<ul>
+	<li>Desde 2019 las librerías GDAL/OGR no dan soporte a versiones de 32 bits de sus códigos y, por lo tanto, la aplicación GDALMM no es accesible en ordenadores en los que el sistema operativo es de 32 bits.</li>
+	<li>El modelo de datos de GDAL/OGR (o los formatos que escriben sus librerías) no dan soporte, o no lo hacen plenamente, a algunas características del modelo de datos de MiraMon, y viceversa, como por ejemplo es el caso del modelo vectorial, pudiéndose <u>perder ciertas características</u></b>. Para conocer cómo gestionar algunas de estas pérdidas se puede consultar el apartado <a href="https://gdal.org/en/latest/drivers/vector/miramon.html"><b><i>MiraMonVector driver</i></b></a> de la documentación de GDAL. En caso de duda, se puede consultar a <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>. A continuación se indica las principales pérdidas que se pueden producir:</li>
+	 <ul>
+	  <li>Las <b>relaciones topológicas</b> (siempre).</li>
+	  <li>La <b>cardinalidad 1 a muchos entre los elementos gráficos y la tabla principal de atributos alfanuméricos</b> (siempre). En <a href="https://gdal.org/en/latest/drivers/vector/miramon.html"><i>MiraMonVector driver</i></a> se explica cómo paliar esta pérdida.</li>
+	  <li>El <b>modelo relacional de tablas</b> que pueden ser vinculadas a una tabla principal (siempre). Si la capa a exportar tiene relaciones con varias tablas, debe recordarse que se puede crear una <b>tabla única</b> desde MiraMon (opción 17 de la aplicación <a href="GestBD.htm">GestBD</a>) y, si bien se perderá en el formato de salida el modelo relacional, se dispondrá de toda la información.</li>
+	  <li>Las <b>Z múltiples para una misma coordenada XY</b> (siempre). En <a href="https://gdal.org/en/latest/drivers/vector/miramon.html"><i>MiraMonVector driver</i></a> se explica cómo paliar esta pérdida, especificando qué Z de las disponibles se desea exportar.</li>
+	  <li>Los <b>nombres largos en campos de tablas</b> (según los formatos).</li>
+	  <li>Los <b>campos</b> en tablas de <b>más de 254 campos</b> (según los formatos).</li>
+	  <li>Los <b>campos de texto (C) de más de 254 caracteres </b> (según los formatos).</li>
+	  <li>El <b>ahorro de espacio</b> en entidades vectoriales con una Z constante, como curvas de nivel o azoteas de edificios en modelos simples (siempre).</li>
+	  <li>La <b>simbolización en los formatos vectoriales</b> (siempre), aunque se prevé implementar su interoperabilidad próximamente.
+	  <li>Algunas <b>características geométricas complejas</b> que no están recogidas en el modelo de datos de MiraMon (muy poco utilizadas).</li>
+	  <li>El modelo completo de <b>metadatos</b> (siempre), aunque algunas características se pueden conservar. En <a href="https://gdal.org/en/latest/drivers/vector/miramon.html"><i>MiraMonVector driver</i></a> se explica cómo paliar esta pérdida, explicitando el idioma de documentación de metadatos). A continuación se citan varios aspectos que se pierden:</li>
+		  <ul>
+		   <li>Unidades de aquellos campos numéricos que tienen.</li>
+		   <li>Parámetros de calidad.</li>
+		   <li>Especificaciones de las propiedades radiométricas de las imágenes captadas con sensores de teledetección.</li>
+		   <li>Valores mínimos y máximos verdaderos de conjuntos ráster.</li>
+		  </ul>
+	</ul>
+</ul>
+<p><u>Nota</u>: La pérdida total o parcial de estas capacidades no es ningún defecto de esta implementación (GDALMM) sino del diseño del propio modelo de GDAL/OGR y del diseño de los otros formatos y modelos datos, con limitaciones que hacen inviable la completa interoperabilidad de formatos. Sin embargo, es necesario reconocer y valorar muy positivamente la alta capacidad de interoperabilidad que permite GDAL/OGR.</p>
+
+<p><b>Particularidades de las transformaciones efectuadas por GDALMM:</b> </p>
+
+<p>Un fichero GDAL puede contener en su interior uno o varios conjuntos de información de los descritos a continuación:</li>
+<ul>
+	<li>Capas <u><b>vectoriales</b></u></li>
+		<ul>
+		   <li>de tipo <b>punto</b> o <b>multipunto</b>: se convierte en una capa de <b>puntos <i>.pnt</i></b></li>
+			<li>de tipo <b>línea</b> o <b>multilínea</b>: se convierte en una capa de <b>arcos <i>.arc</i></b></li >
+			<li>de tipo <b>polígono</b> o <b>multipolígono</b>: se convierte en una capa de <b>polígonos <i>.pol</i></b></li>
+			<li>de tipo <b>indefinido</b>: se convierte en una o varias capas de <b>puntos</b>, <b>arcos</b>, <b>polígonos</b> o <b>tablas DBF</b> (o <a href="https://www.miramon.cat/help/spa/mm32/AP9.htm#DBFestesa"><b>DBF extendida</b></a> si fuera necesario), según su contenido. Por ejemplo, si el fichero sólo contiene elementos no geométricos el resultado será un solo fichero DBF.</li>
+		</ul>
+	<li>Capas <u><b>ráster</b></u></li>
+		<ul>
+		   <li>con <b>una banda</b>: se convierte en una capa ráster <b>monobanda <i>.img</i></b></li>
+		   <li>con <b>varias bandas</b>: se convierte en una capa ráster <b>multibanda <i>.img</i></b> (varios ficheros <i>.img</i> vinculados a través de su fichero <i>I.rel</i>).</li>
+		   <li>con <b>uno</b> o <b>diversos subconjuntos de información (<i>subdatasets</i>)</b>: se convierte en varias <b>capas <i>.img</i> monobanda o multibanda</b> según el contenido original.</li>
+		</ul>
+</ul>
+
+<p>Hay que tener en cuenta que:</p>
+<ul>
+	<li>Los ficheros vectoriales resultantes no tienen la topología verificada.</li>
+	<li>Los ficheros vectoriales que contienen multipuntos y multilíneas se convierten en capas <i>.pnt</i> y <i>.arc</i>, respectivamente. En esta conversión, cada objeto multipunto se convierte en varios puntos y cada objeto multilínea en varios arcos. Esto no ocurre en polígonos ya que el modelo de datos de MiraMon sí que admite multipolígonos.</li>
+	<li>Los ficheros abribles con GDAL son, en general, de tipo vectorial o ráster y ambos tipos pueden llevar tablas de atributos asociadas. Estas tablas se importan generando un fichero DBF, en formato DBF extendida si es necesario.</li>
+	<li>Las capas vectoriales de los ficheros pueden contener, en algún caso, más de un tipo de elemento (por ejemplo, puntos y polígonos). Siempre se importarán todos los tipos, dando lugar a varias capas en formato de MiraMon con el mismo nombre pero con las extensiones correspondientes.</li>
+</ul>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
@@ -42,10 +103,10 @@
 <div align="center">
 <table>
 <tr>
-<td><div align="center"><img src="GDALMM_finestra.png"></div></td>
+<td><div align="center"><img src="GDALMM_finestra.png"><br><img src="GDALMM_finestra2.png"></div></td>
 </tr>
 <tr>
-<td align="center">Caja de diálogo de... </td>
+<td align="center">Caja de diálogo de GDALMM.</td>
 </tr>
 </table>
 </div>
@@ -53,14 +114,70 @@
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+<h2><a id="Exemples" name="Exemples"></a>Ejemplos</h2>
 
-<p>[Omplir amb l'explicació de l'apartat d'exemples (castellà)]</p>
+<p><b>Importación de todos los elementos de un fichero en un directorio</b></p>
+
+<pre>
+GDALMM 1 d:\capas\topografia-territorial.gpkg d:\capas_salida\TopografiaTerritorial /TIPUS_SORTIDA=D
+GDALMM 1 d:\capas\topografia-territorial.gpkg d:\capas_salida\TopografiaTerritorial
+</pre>
+<p>donde: 
+<ul>
+	<i>topografia-territorial.gpkg</i> corresponde al fichero origen ubicado en el directorio <i>d:\capas</i><br> 
+	<i>TopografiaTerritorial</i> corresponde al directorio de salida, que se creará automáticamente si no existe previamente, ubicado dentro del directorio <i>d:\capas_salida</i><br>
+	<i>/TIPUS_SORTIDA</i> es el parámetro opcional que indica que el resultado de la importación se desea guardar en un directorio (D) de salida, aunque no sería necesario indicarlo en este caso, por ser ésta la opción por defecto de la aplicación
+</ul>
+
+<p>Después de la importación este directorio contendrá todos los elementos del fichero origen en formato de MiraMon.</p>
+
+<p><b>Importación de un subconjunto de elementos de un fichero en un directorio</b>
+
+<pre>
+GDALMM 1 d:\capas\topografia-territorial.gpkg  d:\capas_salida\TopografiaTerritorial d:\capas\seleccion.lst
+</pre>
+<p>donde:
+<ul>
+	<i>topografia-territorial.gpkg</i> corresponde al fichero origen ubicado en el directorio <i>d:\capas</i><br> 
+	<i>TopografiaTerritorial</i> corresponde al directorio de salida, que se creará automáticamente si no existe previamente, ubicado dentro del directorio <i>d:\capas_salida</i><br>
+	<i>seleccion.lst</i> corresponde al fichero tipo lista (.lst) que contiene los elementos a importar, el cual debe estar en el mismo directorio que el fichero origen (como en este caso <i>d:\capas</i>) o en otro directorio con los nombres de los ficheros en formato absoluto o relativo al nombre del directorio que contiene el fichero a importar. Este fichero de selección se puede construir desde la ventana de la aplicación
+</ul>
+<p>Después de la importación este directorio contendrá el subconjunto de elementos seleccionados en la lista <i>seleccion.lst</i> en formato MiraMon. En este caso no se ha indicado el parámetro opcional <i>/TIPUS_SORTIDA</i> por los motivos expuestos en el ejemplo anterior.</p>
+
+<p><b>Importación de todos los elementos de un fichero en una o varias capas en formato de MiraMon renombrando las capas destino</b></p>
+
+<pre>
+GDALMM 1 d:\capas\ArbolesMonumentales.gpkg  d:\capas_salida\ArbolesCatalogadosMonumentales.pnt /TIPUS_SORTIDA=F
+</pre>
+<p>donde:
+<ul>
+	<i>ArbolesMonumentales.gpkg</i> corresponde al fichero origen, que sólo contiene únicamente una capa, ubicado en el directorio <i>d:\capes</i><br> 
+	<i>ArbolesCatalogadosMonumentales.pnt</i> corresponde al fichero de salida con el nombre deseado, ubicado dentro del directorio <i>d:\capas_salida</i> debe existir previamente<br> 
+	<i>/TIPUS_SORTIDA</i> corresponde al parámetro opcional que indica que el resultado de la importación es un fichero (F). En este caso es necesario indicarlo dado que, de lo contrario, se crearía un directorio llamado <i>d:\capas_salida\ArbolesMonumentals.pnt</i> y dentro se importarían todos los elementos del fichero <i>ArbolesMonumentales.gpkg</i><br> 
+</ul>
+</p>
+
+<p>Después de la importación se dispondrá de todos los elementos del fichero origen en uno o varios ficheros, de acuerdo con el tipo de objeto de la capa origen (punto, arco o polígono) renombrados y en el formato de MiraMon. Por ejemplo, árboles monumentales que sean elementos de tipo punto se importarán como .pnt, arboledas monumentales que sean elementos poligonales se importarán como .pol, etc.</p>
+
+<p><b>Importación de un único elemento de un fichero que contiene varios elementos a un fichero en formato de MiraMon</b>
+<pre>
+GDALMM 1 d:\capas\topografia-territorial.gpkg  d:\capas_salida\TopografiaTerritorial\45_capa_elegida.pol d:\capas\seleccion_un_elem.lst /TIPUS_SORTIDA=F
+</pre>
+<p>donde:
+<ul>
+	<i>topografia-territorial.gpkg</i> corresponde al fichero origen ubicado en el directorio <i>d:\capas</i><br> 
+	<i>45_capa_elegida.pol</i> corresponde al fichero de salida con el nombre deseado, ubicado dentro del directorio <i>d:\capas_salida\TopografiaTerritorial</i> que debe existir previamente<br> 
+	<i>seleccion_un_elem.lst</i> corresponde al fichero tipo lista (lst) que contiene el elemento a importar, el cual debe estar en el mismo directorio que el fichero origen o en otro directorio con los nombres de los ficheros en formato absoluto o relativo al nombre del directorio que contiene el fichero a importar. Este fichero de selección se puede construir desde la ventana de la aplicación<br>
+	<i>/TIPUS_SORTIDA</i> es el parámetro opcional que indica que el resultado de la importación se desea guardar en un fichero (F) de salida. En este caso es necesario indicarlo dado que, de lo contrario, se crearía un directorio llamado <i>45_capa_elegida.pol</i> y dentro se importaría el elemento seleccionado del fichero <i>topografia-territorial.gpkg</i><br> 
+</ul>
+
+<p>Después de la importación se dispondrá del elemento del fichero origen que sea seleccionado por la lista en uno o varios ficheros, de acuerdo con el tipo de objeto de capa origen seleccionada (punto, arco o polígono), en el formato MiraMon. Tal y como se ha explicado previamente, también es posible, en la misma importación, renombrar los ficheros.</p>
+</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
   <hr/>
 
-<exclusiva>
+ <exclusiva>
 <h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
 
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->

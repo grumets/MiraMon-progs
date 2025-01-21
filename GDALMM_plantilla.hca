@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió XX 00-00-0000 */-->
+<!--/* Revisió AA 17-01-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>GDALMM: Importació de fitxers via GDAL</title>
@@ -16,156 +16,83 @@
 <hr>
 <table width="98%">
 <tr align="center" valign="middle">
-	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></td>
-	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></td>
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
 </tr>
 <tr align="center" valign="middle">
-	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples</a></td>
-	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
 </tr>
 </table>
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
-<p>Aquesta aplicació permet importar formats ràsters,
-vectorials i tabulars als formats del MiraMon a través de les llibreries
-GDAL/OGR. Per a exportacions es preveu que l'aplicació pugui en un futur
-donar-hi suport, però mentre això no s'esdevingui podeu instal·lar les
-llibreries GDAL <a
-href="https://trac.osgeo.org/osgeo4w/#QuickStartforOSGeo4WUsers">https://trac.osgeo.org/osgeo4w/#QuickStartforOSGeo4WUsers</a> 
-per a executar instruccions com ara ogr2ogr.</p>
+
+<p>Aquesta aplicació permet importar formats ràster, vectorials i tabulars als formats del MiraMon mitjançant les llibreries GDAL/OGR. Es preveu que, en un futur, l'aplicació permeti també exportar els formats esmentats; mentrestant es poden instal·lar les llibreries GDAL <a href="https://trac.osgeo.org/osgeo4w/#QuickStartforOSGeo4WUsers">https://trac.osgeo.org/osgeo4w/#QuickStartforOSGeo4WUsers</a>  per a executar instruccions com ara ogr2ogr.</p>
 
 <p>Les opcions possibles són:</p>
+
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
+<p>Des dels seus orígens, el 1994, el MiraMon ha anat desenvolupant una part important de codi propi per a poder accedir a altres formats habituals en l'àmbit dels Sistemes d'Informació Geogràfica i la Teledetecció, majoritàriament mitjançant la seva importació, tot i que en algun cas s'ha permès l'obertura directa d'altres formats (com el que es dóna a formats com el JPEG per a la visualització i per a la rectificació geomètrica d'imatges). D'altra banda, la maduresa dels codis de l'excel·lent iniciativa GDAL/OGR, iniciada els anys 2000, va fer que el 2024 el MiraMon abordés no només l'inici de la publicació del codi per a fer accessibles els formats MiraMon en l'entorn GDAL/OGR, sinó també la lectura directa de molts altres formats al mòdul principal del MiraMon (MM64). Aquesta iniciativa també va beneficiar, paulatinament, altres aplicacions (RasSelec, VecSelec, etc) i va estimular la creació de l'aplicació GDALMM, la qual permet unificar en un sol entorn la importació individual o massiva (amb crides via BAT, PS1, etc) de fitxers de la gran varietat de formats que el GDAL/OGR permet llegir. </p>
 
-<p>Des dels seus orígens el 1994 el MiraMon va anar
-desenvolupant una part important de codi propi per a poder accedir a altres
-formats habituals en SIG i Teledetecció, majoritàriament per via de la
-importació, tot i que en algun cas per la via del suport directe (com el que es
-dóna a formats com el JPEG per a la visualització i per a la rectificació
-geomètrica d'imatges). D'altra banda, la maduresa dels codis de l'excel·lent iniciativa
-GDAL/OGR, iniciada els anys 2000, va fer que el 2024 el MiraMon abordés no
-només l'inici de la publicació de codi per a fer accessibles els formats
-MiraMon en l'entorn GDAL/OGR, sinó també la lectura directa de molts altres
-formats al mòdul principal del MiraMon (MM64). Aquesta iniciativa també va
-beneficiar, paulatinament, altres aplicacions (RasSelec, VecSelec...) i va
-estimular la creació de l'aplicació GDALMM, la qual permet unificar en un sol
-entorn la importació individual o massiva (amb crides via BAT, PS1, etc) de
-fitxers de la gran varietat de formats que el GDAL/OGR permeten llegir. </p>
+<p>Malgrat la incorporació dels codis GDAL/OGR al MiraMon l'any 2024, el MiraMon no ha abandonat el seus codis de lectura i/o d'importació de certs formats per tal que les persones usuàries del programa puguin seguir accedint als formats pels quals les llibreries GDAL/OGR encara no proporcionen accés (com poden ser els formats CEOS de l'Agència Europea de l'Espai per a dades Landsat, el format VEC/DVC, etc), o no permeten recuperar certes característiques d'interès (com aspectes de simbolització en DXF, aspectes de jocs de caràcters OEM-ANSI-UTF8 en taules i fitxers de text, tractament òptim de valors sensedades, etc).</p>
 
-<p>Malgrat la incorporació dels codis GDAL/OGR al MiraMon el 2024,
-el MiraMon no ha abandonat el seus codis de lectura i/o d'importació de certs
-formats perquè això permet els usuaris del programa accedir a formats als quals
-les llibreries GDAL/OGR no proporcionen [a la data d'escriure aquest text, és
-clar] l'accés (com poden ser els formats CEOS de l'Agència Europea de l'Espai
-per a dades Landsat, el format VEC/DVC, etc), o no permeten recuperar certes
-característiques d'interès (com aspectes de simbolització en DXF, aspectes de
-jocs de caràcters OEM-ANSI-UTF8 en taules i fitxers de text, tractament òptim
-de valors sensedades, etc).</p>
-
-<p><b>Limitacions:</b> </p>
+<a id="Limitacions" name="Limitacions"></a><p><b>Limitacions:</b> </p>
 
 <p>
 <ul>
-	<li>Des del 2019 les llibreries GDAL/OGR no donen suport a versions	
-		de 32 bits dels seus codis, per la qual cosa l'aplicació GDALMM no és
-		accessible en ordinadors en què el sistema operatiu és de 32 bits.</p>
-	</li>
-	<li>Cal ser conscients que hi ha característiques
-     del model de dades del MiraMon, i molt en particular del model vectorial,
-     que el model de dades del GDAL/OGR o els formats que escriuen les
-     seves llibreries no suporten, o no són suportats plenament, i viceversa.
-     Caldrà consultar la documentació respectiva en cas de dubtes o escriure a 
-	 <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>. 
-	 En particular, en passar
-     de formats MiraMon a GDAL/OGR<b> <u>es poden perdre característiques</u></b>. Al web 
-	 del "<b><i>MiraMonVector driver</i></b>" explica com gestionar algunes d'aquestes
-     possibles pèrdues <a
-     href="https://gdal.org/en/latest/drivers/vector/miramon.html">https://gdal.org/en/latest/drivers/vector/miramon.html</a>.
-	 Entre les principals pèrdues que es poden produir tenim:</li>
+	<li>Des del 2019 les llibreries GDAL/OGR no donen suport a versions de 32 bits dels seus codis i, per tant, l'aplicació GDALMM no és accessible en ordinadors en què el sistema operatiu és de 32 bits.</li>
+	<li>El model de dades del GDAL/OGR (o els formats que escriuen les seves llibreries) no donen suport, o no ho fan plenament, a algunes característiques del model de dades del MiraMon, i viceversa, com per exemple és el cas del model vectorial, podent-se <u>perdre certes característiques</u></b>. Per a conèixer com gestionar algunes d'aquestes pèrdues es pot consultar l'apartat <a href="https://gdal.org/en/latest/drivers/vector/miramon.html"><b><i>MiraMonVector driver</i></b></a> de la documentació del GDAL. En cas de dubte, adreceu la vostra consulta a <a href="mailto:suport@miramon.uab.cat">suport@miramon.uab.cat</a>. A continuació s'indica les principals pèrdues que es poden produir:</li>
 	 <ul>
 	  <li>Les <b>relacions topològiques</b> (sempre).</li>
-	  <li>La <b>cardinalitat 1 a molts entre els
-		  elements gràfics i la taula principal d'atributs alfanumèrics</b> (sempre). Al 
-		  web del "<b><i>MiraMonVector driver</i></b>" explica com es
-		  pot pal·liar aquesta pèrdua.</li>
-	  <li>El <b>model relacional de taules</b> que
-		  poden ser vinculades a aquesta taula principal (sempre). Si la capa a
-		  exportar té relacions amb diverses taules, recordeu que podeu <b>crear
-		  una taula única des del MiraMon </b>(opció 17 de l'aplicació
-		  GestBD), amb la qual cosa perdreu, en el format de sortida, el model
-		  relacional, però disposareu de tota la informació.</li>
-	  <li>Les <b>Z múltiples per a una mateixa
-		  coordenada XY </b>(sempre). Al web del "<b><i>MiraMonVector
-		  driver</i></b>" explica com es pot pal·liar aquesta pèrdua, tot especificant
-		  quina Z de les disponibles es vol exportar.</li>
-	  <li>El <b>complet de model de metadades</b> (sempre
-		  ara com ara, tot i que algunes característiques es poden conservar; al
-		  web del "<b><i>MiraMonVector driver</i></b>" explica com es pot
-		  pal·liar aquesta pèrdua, explicitant l'idioma de documentació de
-		  metadades). Entre els molts aspectes interessants que es perden podem
-		  citar:</li>
+	  <li>La <b>cardinalitat 1 a molts entre els elements gràfics i la taula principal d'atributs alfanumèrics</b> (sempre). A  <a href="https://gdal.org/en/latest/drivers/vector/miramon.html"><i>MiraMonVector driver</i></a> s'explica com es pot pal·liar aquesta pèrdua.</li>
+	  <li>El <b>model relacional de taules</b> que poden ser vinculades a una taula principal (sempre). Si la capa a exportar té relacions amb diverses taules, cal recordar que es pot crear una <b>taula única</b> des del MiraMon (opció 17 de l'aplicació <a href="GestBD.htm">GestBD</a>) i, si bé es perdrà en el format de sortida el model relacional, es disposarà de tota la informació.</li>
+	  <li>Les <b>Z múltiples per a una mateixa coordenada XY</b> (sempre). A <a href="https://gdal.org/en/latest/drivers/vector/miramon.html"><i>MiraMonVector driver</i></a> s'explica com es pot pal·liar aquesta pèrdua, tot especificant quina Z de les disponibles es vol exportar.</li>
+	  <li>Els <b>noms llargs en camps de taules</b> (segons els formats).</li>
+	  <li>Els <b>camps</b> en taules de <b>més de 254 camps</b> (segons els formats).</li>
+	  <li>Els <b>camps de text (C) de més de 254 caràcters </b> (segons els formats).</li>
+	  <li>L'<b>estalvi d'espai</b> en entitats vectorials amb una Z constant, com corbes de nivell o terrats d'edificis en models simples (sempre).</li>
+	  <li>La <b>simbolització en el formats vectorials</b> (sempre), tot i que es preveu implementar la seva interoperabilitat properament.
+	  <li>Algunes <b>característiques geomètriques complexes</b> que no estan recollides en el model de dades del MiraMon (molt poc utilitzades).</li>
+	  <li>El model complet de <b>metadades</b> (sempre), tot i que algunes característiques es poden conservar. A <a href="https://gdal.org/en/latest/drivers/vector/miramon.html"><i>MiraMonVector driver</i></a> s'explica com es pot pal·liar aquesta pèrdua, explicitant l'idioma de documentació de metadades). A continuació se citen diversos aspectes que es perden:</li>
 		  <ul>
-		   <li><b>Unitats dels camps numèrics</b> que en tinguin.</li>
-		   <li><b>Paràmetres de qualitat.</b></li>
-		   <li><b>Especificacions de propietats radiomètriques de les imatges captades amb sensors de
-	teledetecció.</b></li>
-			<li><b>Valors mínims i màxims veritables de conjunts ràster.</b></li>
-		   </ul>
-	   <li>Els <b>noms llargs en camps de taules</b> (segons
-		  els formats).</li>
-	  <li>Taules de <b>més de 254 camps</b> (segons
-		  els formats).</li>
-	  <li><b>Camps de text (C) de més de 254
-		  caràcters </b> (segons els formats).</li>
-	  <li>Enorme <b>estalvi d'espai en entitats vectorials
-		  amb una Z constant</b>, com corbes de nivell, o terrats d'edificis en
-		  models simples (sempre).</li>
-	  <li>Etc.</li>
+		   <li>Unitats d'aquells camps numèrics que en tenen.</li>
+		   <li>Paràmetres de qualitat.</li>
+		   <li>Especificacions de les propietats radiomètriques de les imatges captades amb sensors de teledetecció.</li>
+		   <li>Valors mínims i màxims veritables de conjunts ràster.</li>
+		  </ul>
 	</ul>
-
-	<p><b><u>Nota important</u></b>: La pèrdua
-	total o parcial d'aquestes capacitats no és cap defecte de la implementació,
-	sinó del disseny de "l'esperanto" del model del GDAL/OGR, o de
-	les característiques d'altres formats i models de dades, on no tot hi cap. Això
-	no ens impedeix manifestar que GDAL/OGR és una gran iniciativa per a una alta
-	(no pas completa) interoperabilitat de formats.</p>
-	
-	<li>Com s'ha avançat en el punt anterior, hi ha
-	característiques geomètriques complexes que no estan recollides en el model de
-	dades del MiraMon (afortunadament molt poc utilitzades). També cal indicar que,
-	durant el 2024 la transformació de la simbolització en ràsters (taules de
-	simbolització de color) ha estat implementada, però que la simbolització en el
-	formats vectorials no s'ha abordat encara, tot i que s'espera que durant el
-	2025 aquesta situació canviï.</li>
 </ul>
+<p><u>Nota</u>: La pèrdua total o parcial d'aquestes capacitats no és cap defecte d'aquesta implementació (GDALMM) sinó del disseny del propi model del GDAL/OGR i del disseny dels altres formats i models de dades, amb  limitacions que fan inviable la completa interoperabilitat de formats. No obstant això, cal reconéixer i valorar molt positivament l'alta capacitat d'interoperabilitat que permet el GDAL/OGR.</p>
 
 <p><b>Particularitats de les transformacions efectuades pel GDALMM:</b> </p>
 
+<p>Un fitxer GDAL pot contenir en el seu interior un o diversos conjunts d'informació dels descrits a continuació:</li>
 <ul>
-	<li>Un fitxer GDAL pot contenir en el seu interior un o diversos conjunts d'informació dels descrits a continuació:</li>
-	<ul>
-		<li>Capa <u>vectorial</u> de tipus <u>punt</u> o <u>multipunt</u>: es converteix a una capa de punts <i>.pnt</i></li>
-		<li>Capa <u>vectorial</u> de tipus <u>línia</u> o <u>multilínia</u>: es converteix a una capa d'arcs <i>.arc</i></li>
-		<li>Capa <u>vectorial</u> de tipus <u>polígon</u> o <u>multipolígon</u>: es converteix a una capa de polígons <i>.pol</i></li>
-		<li>Capa <u>vectorial</u> de tipus <u>indefinit</u>: es converteix a una o diverses capes de punts, arcs, polígons o taules DBF (o 
-		<a href="https://www.miramon.cat/help/cat/mm32/AP9.htm#DBFestesa">DBF estesa</a> si cal), segons el seu contingut (pot passar que el fitxer només contingui elements no geomètrics i aleshores el resultat és un sol fitxer DBF).</li>
-		<li>Capa <u>ràster</u> amb <u>una banda</u>: es converteix a una capa ràster monobanda <i>.img</i></li>
-		<li>Capa <u>ràster</u> amb <u>diverses bandes</u>: es converteix a una capa ràster multibanda <i>.img</i> (diversos fitxers <i>.img</i> vinculats a través del seu fitxer <i>I.rel</i>).</li>
-		<li>Capa <u>ràster</u> amb un o <u>diversos subconjunts d'informació (subdatasets)</u>: es converteix a diverses capes <i>.img</i> monobanda o multibanda segons el contingut original.</li>
-	</ul>
+	<li>Capes <u><b>vectorials</b></u></li>
+		<ul>
+			<li>de tipus <b>punt</b> o <b>multipunt</b>: es converteix en una capa de <b>punts <i>.pnt</i></b></li>
+			<li>de tipus <b>línia</b> o <b>multilínia</b>: es converteix en una capa d'<b>arcs <i>.arc</i></b></li>
+			<li>de tipus <b>polígon</b> o <b>multipolígon</b>: es converteix en una capa de <b>polígons <i>.pol</i></b></li>
+			<li>de tipus <b>indefinit</b>: es converteix en una o diverses capes de <b>punts</b>, <b>arcs</b>, <b>polígons</b> o <b>taules DBF</b> (o <a href="https://www.miramon.cat/help/cat/mm32/AP9.htm#DBFestesa"><b>DBF estesa</b></a> si fos necessari), segons el seu contingut. Per exemple, si el fitxer només conté elements no geomètrics el resultat serà un sol fitxer DBF.</li>
+		</ul>
+	<li>Capes <u><b>ràster</b></u></li>
+		<ul>
+			<li>amb <b>una banda</b>: es converteix en una capa ràster <b>monobanda <i>.img</i></b></li>
+			<li>amb <b>diverses bandes</b>: es converteix en una capa ràster <b>multibanda <i>.img</i></b> (diversos fitxers <i>.img</i> vinculats a través del seu fitxer <i>I.rel</i>).</li>
+			<li>amb <b>un</b> o <b>diversos subconjunts d'informació (<i>subdatasets</i>)</b>: es converteix en diverses <b>capes <i>.img</i> monobanda o multibanda</b> segons el contingut original.</li>
+		</ul>
 </ul>
 
-<p>Notes generals:</p>
+<p>Cal tenir en compte que:</p>
 <ul>
 	<li>Els fitxers vectorials resultants no tenen la topologia verificada.</li>
-	<li>Els fitxers vectorials que contenen multipunts i multilínies es converteixen a capes <i>.pnt</i> i 
-	<i>.arc</i>, respectivament. En aquesta conversió, cada objecte multipunt es converteix en diversos punts i cada objecte multilínia en diversos arcs. Això no passa en polígons ja que el model de dades del MiraMon si que admet multipolígons.</li>
+	<li>Els fitxers vectorials que contenen multipunts i multilínies es converteixen a capes <i>.pnt</i> i <i>.arc</i>, respectivament. En aquesta conversió, cada objecte multipunt es converteix en diversos punts i cada objecte multilínia en diversos arcs. Això no passa en polígons ja que el model de dades del MiraMon si que admet multipolígons.</li>
 	<li>Els fitxers obribles amb GDAL són, en general, de tipus vectorial o ràster i ambdós tipus poden portar taules d'atributs associades. Aquestes taules s'importen generant un fitxer DBF, en format DBF estesa si cal.</li>
-	<li>A vegades les capes vectorials dels fitxers poden contenir més d'un tipus d'element (per exemple, punts i polígons). Sempre s'importaran tots els tipus, donant lloc a diverses capes en format MiraMon amb el mateix nom però amb les extensions corresponents.</li>
+	<li>Les capes vectorials dels fitxers poden contenir, en algun cas, més d'un tipus d'element (per exemple, punts i polígons). Sempre s'importaran tots els tipus, donant lloc a diverses capes en format del MiraMon amb el mateix nom però amb les extensions corresponents.</li>
 </ul>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
@@ -176,10 +103,10 @@ de valors sensedades, etc).</p>
 <div align="center">
 <table>
 <tr>
-<td><div align="center"><img src="GDALMM_finestra.png"></div></td>
+<td><div align="center"><img src="GDALMM_finestra.png"><br><img src="GDALMM_finestra2.png"></div></td>
 </tr>
 <tr>
-<td align="center">Caixa de diàleg de ...</td>
+<td align="center">Caixa de diàleg del GDALMM.</td>
 </tr>
 </table>
 </div>
@@ -189,55 +116,63 @@ de valors sensedades, etc).</p>
 
 <h2><a id="Exemples" name="Exemples"></a>Exemples</h2>
 
-<p><b>Per a importar tots els elements d'un fitxer a un directori. Després de la importació aquest directori contindrà tots els elements del fitxer origen en format MiraMon.</b>
-<ul>
-	<li>Fitxer origen: d:\capes\topografia-territorial.gpkg</li>
-	<li>Directori de sortida: d:\capes_sortida\TopografiaTerritorial</li>
-	<li>El directori de sortida es crearà si no existeix (sense preguntar)</li>
-	<li>El paràmetre opcional /TIPUS_SORTIDA no cal posar-lo si es vol un directori de sortida ja que és el comportament per defecte de l'aplicació.</li>
-</ul>
-</p>
+<p><b>Importació de tots els elements d'un fitxer a un directori</b></p>
+
 <pre>
 GDALMM 1 d:\capes\topografia-territorial.gpkg  d:\capes_sortida\TopografiaTerritorial /TIPUS_SORTIDA=D
 GDALMM 1 d:\capes\topografia-territorial.gpkg  d:\capes_sortida\TopografiaTerritorial
 </pre>
-<p><b>Per a importar un únic element a una capa en format MiraMon de nom especificat (en aquest cas  i el nom original de l'element es perd). Aquesta opció és útil quan volem com a sortida un únic fitxer i, a més, volem escollir-ne el nom:</b>
+<p>on: 
 <ul>
-	<li>Fitxer origen: ArbresMonumentals.gpkg que només conté una sola capa.</li>
-	<li>Fitxer de sortida: d:\capes_sortida\ArbresMonumentals.pnt</li>
-	<li>El directori de sortida "d:\capes_sortida" ha d'existir.</li>
-	<li>El fitxer de sortida adopta el nom especificat: ArbresMonumentals.pnt.</li>
-	<li>El paràmetre opcional /TIPUS_SORTIDA CAL posar-lo. Si no es posés en aquest cas es crearia un directori anomenat "d:\capes_sortida\ArbresMonumentals.pnt" i a dins s'hi importarien tots els elements del fitxer "ArbresMonumentals.gpkg"</li>
+	<i>topografia-territorial.gpkg</i> correspon al fitxer origen ubicat al directori <i>d:\capes</i><br> 
+	<i>TopografiaTerritorial</i> correspon al directori de sortida,  el qual es crearà automàticament si no existeix prèviament, ubicat dins el directori <i>d:\capes_sortida</i><br>
+	<i>/TIPUS_SORTIDA</i> és el paràmetre opcional que indica que el resultat de la importació es vol desar en un directori (D) de sortida, tot i que no seria necessari indicar-lo en aquest cas, per ser aquesta l'opció per defecte de l'aplicació
 </ul>
-</p>
-</p>
-<pre>
-GDALMM 1 d:\capes\ArbresMonumentals.gpkg  d:\capes_sortida\ArbresMonumentals.pnt /TIPUS_SORTIDA=F
-</pre>
 
-<p><b>Per a seleccionar un subconjunt d'elements:</b>
-<ul>
-	<li>Fitxer origen: d:\capes\topografia-territorial.gpkg</li>
-	<li>Directori de sortida: d:\capes_sortida\TopografiaTerritorial</li>
-	<li>El directori de sortida es crearà si no existeix (sense preguntar)</li>
-	<li>El paràmetre opcional /TIPUS_SORTIDA no cal posar-lo si es vol un directori de sortida ja que és el comportament per defecte de l'aplicació.</li>
-	<li>Cal tenir una llista dels elements a importar en un fitxer de tipus llista (d:\capes\seleccio.lst). Com és habitual cal que estigui en el mateix directori que el fitxer origen (o en un altre directori amb els noms dels fitxers en format absolut o relatiu al nom del directori que conté el fitxer a importar):</li>
-</ul>
-</p>
+<p>Després de la importació aquest directori contindrà tots els elements del fitxer origen en format del MiraMon.</p>
+
+<p><b>Importació d'un subconjunt d'elements d'un fitxer a un directori</b>
+
 <pre>
 GDALMM 1 d:\capes\topografia-territorial.gpkg  d:\capes_sortida\TopografiaTerritorial d:\capes\seleccio.lst
 </pre>
-
+<p>on:
 <ul>
-	<li>Si el fitxer de selecció conté només un element es poden aplicar les consideracions del cas /TIPUS_SORTIDA=F</li>
-	<li>En aquest cas, si la capa seleccionada conté més d'un tipus d'element s'importaran tots els tipus.</li>
+	<i>topografia-territorial.gpkg</i> correspon al fitxer origen ubicat al directori <i>d:\capes</i><br> 
+	<i>TopografiaTerritorial</i> correspon al directori de sortida,  el qual es crearà automàticament si no existeix prèviament, ubicat dins el directori <i>d:\capes_sortida</i><br>
+	<i>seleccio.lst</i> correspon al fitxer de tipus llista (.lst) que conté els elements a importar, el qual ha d'estar en el mateix directori que el fitxer origen (com és aquest cas <i>d:\capes</i>) o en un altre directori amb els noms dels fitxers en format absolut o relatiu al nom del directori que conté el fitxer a importar. Aquest fitxer de selecció es pot construir des de la finestra de l'aplicació
 </ul>
+<p>Després de la importació aquest directori contindrà el subconjunt d'elements seleccionats a la llista <i>seleccio.lst</i> en format del MiraMon. En aquest cas no s'ha indicat el paràmetre opcional <i>/TIPUS_SORTIDA</i> pels motius exposats a l'exemple anterior.</p>
 
+<p><b>Importació de tots els elements d'un fitxer a una capa o diverses capes en format del MiraMon reanomenant les capes destí</b></p>
+
+<pre>
+GDALMM 1 d:\capes\ArbresMonumentals.gpkg  d:\capes_sortida\ArbresCatalogatsMonumentals.pnt /TIPUS_SORTIDA=F
+</pre>
+<p>on:
+<ul>
+	<i>ArbresMonumentals.gpkg</i> correspon al fitxer origen, el qual només conté únicament una capa, ubicat al directori <i>d:\capes</i><br> 
+	<i>ArbresCatalogatsMonumentals.pnt</i> correspon al fitxer de sortida amb el nom desitjat, ubicat dins el directori <i>d:\capes_sortida</i> que ha d'existir prèviament<br> 
+	<i>/TIPUS_SORTIDA</i> correspon al paràmetre opcional que indica que el resultat de la importació és un fitxer (F). En aquest cas és necessari indicar-lo atès que, en cas contrari, es crearia un directori anomenat <i>d:\capes_sortida\ArbresMonumentals.pnt</i> i a dins s'hi importarien tots els elements del fitxer <i>ArbresMonumentals.gpkg</i><br> 
+</ul>
+</p>
+
+<p>Després de la importació es disposarà de tots els elements del fitxer origen en un o diversos fitxers, d'acord amb el tipus d'objecte de la capa origen (punt, arc o polígon) reanomenats i en el format del MiraMon. Per exemple, arbres monumentals que siguin elements de tipus punt s'importaran com a .pnt, arbredes monumentals que siguin elements poligonals s'importaran com a .pol, etc.</p>
+
+<p><b>Importació d'un únic element d'un fitxer que conté diversos elements a un fitxer en format del MiraMon</b>
 <pre>
 GDALMM 1 d:\capes\topografia-territorial.gpkg  d:\capes_sortida\TopografiaTerritorial\45_capa_escollida.pol d:\capes\seleccio_un_elem.lst /TIPUS_SORTIDA=F
 </pre>
-<p>Nota: el fitxer de selecció es pot construir des de la finestra de l'aplicació.</p>
+<p>on:
+<ul>
+	<i>topografia-territorial.gpkg</i> correspon al fitxer origen ubicat al directori <i>d:\capes</i><br> 
+	<i>45_capa_escollida.pol</i> correspon al fitxer de sortida amb el nom desitjat, ubicat dins el directori <i>d:\capes_sortida\TopografiaTerritorial</i> que ha d'existir prèviament<br> 
+	<i>seleccio_un_elem.lst</i> correspon al fitxer de tipus llista (lst) que conté l'element a importar, el qual ha d'estar en el mateix directori que el fitxer origen o en un altre directori amb els noms dels fitxers en format absolut o relatiu al nom del directori que conté el fitxer a importar. Aquest fitxer de selecció es pot construir des de la finestra de l'aplicació<br>
+	<i>/TIPUS_SORTIDA</i> és el paràmetre opcional que indica que el resultat de la importació es vol desar en un fitxer (F) de sortida. En aquest cas és necessari indicar-lo atès que, en cas contrari, es crearia un directori anomenat <i>45_capa_escollida.pol</i> i a dins s'hi importaria l'element seleccionat del fitxer <i>topografia-territorial.gpkg</i><br> 
+</ul>
 
+<p>Després de la importació es disposarà de l'element del fitxer origen que sigui seleccionat per la llista en un o diversos fitxers, d'acord amb el tipus d'objecte de capa origen seleccionada (punt, arc o polígon), en el format del MiraMon. Tal i com s'ha explicat prèviament, també és possible, en la mateixa importació, reanomenar els fitxers.</p>
+</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
   <hr/>
