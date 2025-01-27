@@ -12,7 +12,7 @@
 			<ul style="list-style-type:none;">
 				<li>
 					<h1>
-						<a href="https://www.miramon.cat/help/eng/" target="_blank">
+						<a href="https://www.miramon.cat/Index_eng.htm" target="_blank">
 							<img>
 								<xsl:attribute name="src">vecras.gif</xsl:attribute>
 							</img>
