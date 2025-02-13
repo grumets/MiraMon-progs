@@ -93,18 +93,18 @@
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:Xmin"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Xmaxima</ows:Identifier>
-				<ows:Title>X maximum </ows:Title>
+				<ows:Title>X maximum</ows:Title>
 				<ows:Abstract>It is the X maximum coordinate of the output envelop. If these coordinates do not fit with the pixel grid defined by the first input image, they are adapted by excess.</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:Xmax"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -115,7 +115,7 @@
 				<ows:Metadata xlink:title="Param6"/>
 				<ows:Metadata xlink:title="Name:Ymin"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -126,14 +126,14 @@
 				<ows:Metadata xlink:title="Param7"/>
 				<ows:Metadata xlink:title="Name:Ymax"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MULTIBANDA</ows:Identifier>
 				<ows:Title>Multiband raster</ows:Title>
-				<ows:Abstract>In the case that the raster file raster is a part of a multiband raster all the bands are clipped. </ows:Abstract>
+				<ows:Abstract>In the case that the raster file raster is a part of a multiband raster all the bands are clipped. Does not apply in the case of WMS/WMTS clipping or vector layers.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -145,7 +145,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PREFIX</ows:Identifier>
 				<ows:Title>Prèfix bandes ràster</ows:Title>
-				<ows:Abstract>En el cas que el fitxer ràster formi part d'un ràster multibanda, cal indicar un prefix per cada una de les bandes que es generaran al directori de sortida. No aplica en el cas de retall de WMS/WMTS.</ows:Abstract>
+				<ows:Abstract>In the case that the raster file is part of a multiband raster, a prefix must be indicated for each of the bands that will be generated in the output directory. This does not apply in the case of WMS/WMTS clipping.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -154,7 +154,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TESSELLA_COMPLETA</ows:Identifier>
 				<ows:Title>TESSELLA_COMPLETA</ows:Title>
-				<ows:Abstract>Aquest paràmetre és específic de capes WMS. En el cas de retall de capes locals (REL 5) només aplica per màscara irregular. En el cas de capes de servidors externs aplica en tots dos tipus de retalla, tant per àmbit com per màscara irregular; en el cas de retall per àmbit, serveix per obtenir totes les tessel·les de la mateixa mida, fent un retall en excés si cal. En el cas de WMTS sempre s'obtenen tessel·les completes i de la mateixa mida, les tessel·les que queden fora del àmbit o de la màscara irregular són emmascarades a valor NODATA. Per tant, en aquest cas del WMTS no hi ha possibilitat de triar i per tant aquest paràmetre no aplica.</ows:Abstract>
+				<ows:Abstract>This parameter is specific to WMS layers. In the case of clipping local layers (REL 5) it only applies to irregular masks. In the case of external server layers it applies to both types of clipping, both by area and by irregular mask; in the case of clipping by area, it is used to obtain all the tiles of the same size, making an excess clipping if necessary. In the case of WMTS, complete tiles of the same size are always obtained, the tiles that are outside the area or the irregular mask are masked to the NODATA value. Therefore, in this case of WMTS there is no possibility of choosing and therefore this parameter does not apply.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -166,7 +166,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PIRAMIDE_ZOOMS</ows:Identifier>
 				<ows:Title>PIRAMIDE ZOOMS</ows:Title>
-				<ows:Abstract>Llista de nivells de zoom, separats per coma, en els quals es vol obtenir la capa WMS d'un servidor extern; o bé, llista de identificadors de "tileMatrix", separats per coma, en els quals es vol obtenir la capa WMTS. Es tracta de construir una estructura piramidal de tessel·les o fragments de la imatge, on cada nivell de la piràmide conté la capa en un nivell de zoom (o costat de píxel) determinat. En el cas de WMS, aquest nivell de zoom s'ha d'indicar en les unitats del sistema de referència en el qual s'està sol·licitant la capa. La llista hauria de contenir els nivells de zooms més habituals considerant l'àmbit de la capa i la seva resolució. En el cas del WMTS cada tileMatrix té associat un nivell de zoom. Aquest paràmetre és obligatori per a servidors WMS/WMTS externs i no s'ha d'indicar en la resta de casos.</ows:Abstract>
+				<ows:Abstract>List of zoom levels, separated by commas, at which the WMS layer from an external server is to be obtained; or, list of "tileMatrix" identifiers, separated by commas, at which the WMTS layer is to be obtained. This involves building a pyramidal structure of tiles or fragments of the image, where each level of the pyramid contains the layer at a given zoom level (or pixel side). In the case of WMS, this zoom level must be indicated in the units of the reference system in which the layer is being requested. The list should contain the most common zoom levels considering the scope of the layer and its resolution. In the case of WMTS, each tileMatrix has an associated zoom level. This parameter is mandatory for external WMS/WMTS servers and should not be indicated in other cases.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -178,7 +178,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>NCOL_TESSELLA</ows:Identifier>
 				<ows:Title>NCOL TESSELLA</ows:Title>
-				<ows:Abstract>Nombre de columnes que ha de tenir cada una de les tessel·les que se sol·licitin a un servidor WMS per fer un retall d'una de les seves capes. Aquest paràmetre és obligatori per a servidors WMS externs i no s'ha d'indicar en la resta de casos. En WMTS aquest paràmetre no aplica ja que l'ample de la tessel·la ve determinat pel "TileMatrix".</ows:Abstract>
+				<ows:Abstract>Number of columns that each of the tiles that are requested from a WMS server must have to make a cut of one of its layers. This parameter is mandatory for external WMS servers and should not be indicated in other cases. In WMTS this parameter does not apply since the width of the tile is determined by the "TileMatrix".</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
@@ -187,7 +187,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>NFIL_TESSELLA</ows:Identifier>
 				<ows:Title>NFIL TESSELLA</ows:Title>
-				<ows:Abstract>Nombre de files que ha de tenir cada una de les tessel·les que se sol·licitin a un servidor WMS per fer un retall d'una de les seves capes. Aquest paràmetre és obligatori per a servidors WMS externs i no s'ha d'indicar en la resta de casos. En WMTS aquest paràmetre no aplica ja que l'alçada de la tessel·la ve determinada pel "TileMatrix".</ows:Abstract>
+				<ows:Abstract>Number of rows that each of the tiles that are requested from a WMS server must have to make a cut of one of its layers. This parameter is mandatory for external WMS servers and should not be indicated in other cases. In WMTS this parameter does not apply since the height of the tile is determined by the "TileMatrix".</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
@@ -196,7 +196,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TIPUS_CAPA</ows:Identifier>
 				<ows:Title>TIPUS CAPA</ows:Title>
-				<ows:Abstract>Tipus de capa WMS/WMTS que es vol retallar. Indicarem 'I' si és una imatge, 'P' si és una capa de polígons,'L' si és una capa de línies o 'S' si és una capa de símbols. Aquest paràmetre només es pot indicar per a retalls de servidors WMS/WMTS externs. Totes les capes són una representació pictòrica (per tant, en format ràster) però els objectes que representen poden ser de diferent tipus. Aquest paràmetre només és escrit en el fitxer REL5 de sortida, sense afectar a l'execució de l'aplicació. Aquest paràmetre serveix perquè la capa es visualitzi millor quan s'ha de fer interpolacions entre nivells de zooms prepreparats.</ows:Abstract>
+				<ows:Abstract>Type of WMS/WMTS layer to be clipped. We will indicate 'I' if it is an image, 'P' if it is a polygon layer, 'L' if it is a line layer or 'S' if it is a symbol layer. This parameter can only be indicated for clippings from external WMS/WMTS servers. All layers are a pictorial representation (therefore, in raster format) but the objects they represent can be of different types. This parameter is only written in the output REL5 file, without affecting the execution of the application. This parameter is used so that the layer is better visualized when interpolations between pre-prepared zoom levels must be made.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -205,7 +205,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SERVICE_MD_URL</ows:Identifier>
 				<ows:Title>SERVICE MD URL</ows:Title>
-				<ows:Abstract>Adreça URL de les metadades del servei. Només aplica en el retall de capes WMTS en RESTful, en aquest cas és obligatori ja que en aquestes dades hi ha la descripció del patró de tall en el que s'ha de sol·licitar la capa. (Per ex. : /SERVICE_MD_URL=http://www.miramon.uab.cat/ogc/wmts/OSM/1.0.0/WMTSCapabilities.xml).</ows:Abstract>
+				<ows:Abstract>URL of the service metadata. Only applies to WMTS layer clipping in RESTful, in this case it is mandatory since this data contains the description of the clipping pattern in which the layer must be requested. (For example: /SERVICE_MD_URL=http://www.miramon.uab.cat/ogc/wmts/OSM/1.0.0/WMTSCapabilities.xml).</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -214,7 +214,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>ID_CAPA_DEMANAR</ows:Identifier>
 				<ows:Title>ID CAPA DEMANAR</ows:Title>
-				<ows:Abstract>Identificador de la capa WMTS a demanar. Només aplica en el retall de capes WMTS en RESTful, en aquest cas és obligatori.</ows:Abstract>
+				<ows:Abstract>Identifier of the WMTS layer to request. Only applies to RESTful WMTS layer clipping, in which case it is mandatory.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -223,7 +223,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TILE_MATRIX_SET</ows:Identifier>
 				<ows:Title>TILE_MATRIX_SET</ows:Title>
-				<ows:Abstract>Identificador del tileMatrixSet (o patró de talls) de la capa WMTS a demanar. Només aplica en el retall de capes WMTS en RESTful, en aquest cas és obligatori.</ows:Abstract>
+				<ows:Abstract>Identifier of the tileMatrixSet (or slice pattern) of the WMTS layer to request. Only applies to RESTful WMTS layer slicing, in which case it is mandatory.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -232,7 +232,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>ALGORISME</ows:Identifier>
 				<ows:Title>Algorisme</ows:Title>
-				<ows:Abstract>This parameter is used to determine the type of algorithm that the application will use to cut the vectors in the topological structure.<![CDATA[<ul><li> ESCOMBRATGE Based on the intersection of segments Bentley-Ottmann. </li><li>DIRECTE: Based on the exploration of all segments against all segments to determine the intersections between Victor by the topological structure.</li><li>AUTOMATIC: MiraMon automatically decides which of the two algorithms used.</li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[This parameter is used to determine the type of algorithm that the application will use to cut the vectors in the topological structure.<ul><li> ESCOMBRATGE Based on the intersection of segments Bentley-Ottmann. </li><li>DIRECTE: Based on the exploration of all segments against all segments to determine the intersections between Victor by the topological structure.</li><li>AUTOMATIC: MiraMon automatically decides which of the two algorithms used.</li></ul>]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -260,7 +260,7 @@
 			<Output>
 				<ows:Identifier>FitxerDesti</ows:Identifier>
 				<ows:Title>Output File</ows:Title>
-				<ows:Abstract>Is the name of the resulting clipped file. This is a directory in case of a multiband clipping. This is the name of a REL 5 file in case of WMS layers. (local and external servers). </ows:Abstract>
+				<ows:Abstract>Is the name of the resulting clipped file. This is a directory in case of a multiband clipping. This is the name of a REL 5 file in case of WMS layers (local and external servers).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:OutputFile"/>
 				<ComplexOutput>
@@ -403,7 +403,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerMascara</ows:Identifier>
 				<ows:Title>Mask file</ows:Title>
-				<ows:Abstract>Is the name of the file that defines an irregular polygon (only for WMS and vectorial layers). In this case, it is possible to indicate optionally a set of parameters that define the selection (for instance: /COND1_CAMP=). To know more about the values of these parameters continue the considerations of the <![CDATA[<a href="general.htm#SelecAtrib">general syntax</a>]]> document .</ows:Abstract>
+				<ows:Abstract><![CDATA[Is the name of the file that defines an irregular polygon (only for WMS and vectorial layers). In this case, it is possible to indicate optionally a set of parameters that define the selection (for instance: /COND1_CAMP=). To know more about the values of these parameters continue the considerations of the <a href="general.htm#SelecAtrib">general syntax</a> document .]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:MaskFile"/>
 				<ComplexData>
@@ -430,7 +430,7 @@
 				</ComplexData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="100">
-				<ows:Identifier>COND#_FIELD</ows:Identifier>
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
 				<ows:Title>Field of Condition #</ows:Title>
 				<ows:Abstract>Field name of # condition of selection. It may be made up to 100 simple queries and 100 field names (COND#_CAMP) starting at index 1.</ows:Abstract>
 				<LiteralData>
@@ -486,15 +486,15 @@
 						<ows:Range>
 							<ows:MinimumValue>1</ows:MinimumValue>
 							<ows:MaximumValue>99</ows:MaximumValue>
+							<ows:Spacing></ows:Spacing>
 						</ows:Range>
-						<ows:Value/>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MULTIBANDA</ows:Identifier>
 				<ows:Title>Multiband raster</ows:Title>
-				<ows:Abstract>In the case that the raster file raster is a part of a multiband raster all the bands are clipped. </ows:Abstract>
+				<ows:Abstract>In the case that the raster file raster is a part of a multiband raster all the bands are clipped. Does not apply in the case of WMS/WMTS clipping or vector layers.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -506,7 +506,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PREFIX</ows:Identifier>
 				<ows:Title>Prèfix bandes ràster</ows:Title>
-				<ows:Abstract>En el cas que el fitxer ràster formi part d'un ràster multibanda, cal indicar un prefix per cada una de les bandes que es generaran al directori de sortida. No aplica en el cas de retall de WMS/WMTS.</ows:Abstract>
+				<ows:Abstract>In the case that the raster file is part of a multiband raster, a prefix must be indicated for each of the bands that will be generated in the output directory. This does not apply in the case of WMS/WMTS clipping.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -515,7 +515,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TESSELLA_COMPLETA</ows:Identifier>
 				<ows:Title>TESSELLA_COMPLETA</ows:Title>
-				<ows:Abstract>Aquest paràmetre és específic de capes WMS. En el cas de retall de capes locals (REL 5) només aplica per màscara irregular. En el cas de capes de servidors externs aplica en tots dos tipus de retalla, tant per àmbit com per màscara irregular; en el cas de retall per àmbit, serveix per obtenir totes les tessel·les de la mateixa mida, fent un retall en excés si cal. En el cas de WMTS sempre s'obtenen tessel·les completes i de la mateixa mida, les tessel·les que queden fora del àmbit o de la màscara irregular són emmascarades a valor NODATA. Per tant, en aquest cas del WMTS no hi ha possibilitat de triar i per tant aquest paràmetre no aplica.</ows:Abstract>
+				<ows:Abstract>This parameter is specific to WMS layers. In the case of clipping local layers (REL 5) it only applies to irregular masks. In the case of external server layers it applies to both types of clipping, both by area and by irregular mask; in the case of clipping by area, it is used to obtain all the tiles of the same size, making an excess clipping if necessary. In the case of WMTS, complete tiles of the same size are always obtained, the tiles that are outside the area or the irregular mask are masked to the NODATA value. Therefore, in this case of WMTS there is no possibility of choosing and therefore this parameter does not apply.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -527,7 +527,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PIRAMIDE_ZOOMS</ows:Identifier>
 				<ows:Title>PIRAMIDE ZOOMS</ows:Title>
-				<ows:Abstract>Llista de nivells de zoom, separats per coma, en els quals es vol obtenir la capa WMS d'un servidor extern; o bé, llista de identificadors de "tileMatrix", separats per coma, en els quals es vol obtenir la capa WMTS. Es tracta de construir una estructura piramidal de tessel·les o fragments de la imatge, on cada nivell de la piràmide conté la capa en un nivell de zoom (o costat de píxel) determinat. En el cas de WMS, aquest nivell de zoom s'ha d'indicar en les unitats del sistema de referència en el qual s'està sol·licitant la capa. La llista hauria de contenir els nivells de zooms més habituals considerant l'àmbit de la capa i la seva resolució. En el cas del WMTS cada tileMatrix té associat un nivell de zoom. Aquest paràmetre és obligatori per a servidors WMS/WMTS externs i no s'ha d'indicar en la resta de casos.</ows:Abstract>
+				<ows:Abstract>List of zoom levels, separated by commas, at which the WMS layer from an external server is to be obtained; or, list of "tileMatrix" identifiers, separated by commas, at which the WMTS layer is to be obtained. This involves building a pyramidal structure of tiles or fragments of the image, where each level of the pyramid contains the layer at a given zoom level (or pixel side). In the case of WMS, this zoom level must be indicated in the units of the reference system in which the layer is being requested. The list should contain the most common zoom levels considering the scope of the layer and its resolution. In the case of WMTS, each tileMatrix has an associated zoom level. This parameter is mandatory for external WMS/WMTS servers and should not be indicated in other cases.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -539,7 +539,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>NCOL_TESSELLA</ows:Identifier>
 				<ows:Title>NCOL TESSELLA</ows:Title>
-				<ows:Abstract>Nombre de columnes que ha de tenir cada una de les tessel·les que se sol·licitin a un servidor WMS per fer un retall d'una de les seves capes. Aquest paràmetre és obligatori per a servidors WMS externs i no s'ha d'indicar en la resta de casos. En WMTS aquest paràmetre no aplica ja que l'ample de la tessel·la ve determinat pel "TileMatrix".</ows:Abstract>
+				<ows:Abstract>Number of columns that each of the tiles that are requested from a WMS server must have to make a cut of one of its layers. This parameter is mandatory for external WMS servers and should not be indicated in other cases. In WMTS this parameter does not apply since the width of the tile is determined by the "TileMatrix".</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
@@ -548,7 +548,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>NFIL_TESSELLA</ows:Identifier>
 				<ows:Title>NFIL TESSELLA</ows:Title>
-				<ows:Abstract>Nombre de files que ha de tenir cada una de les tessel·les que se sol·licitin a un servidor WMS per fer un retall d'una de les seves capes. Aquest paràmetre és obligatori per a servidors WMS externs i no s'ha d'indicar en la resta de casos. En WMTS aquest paràmetre no aplica ja que l'alçada de la tessel·la ve determinada pel "TileMatrix".</ows:Abstract>
+				<ows:Abstract>Number of rows that each of the tiles that are requested from a WMS server must have to make a cut of one of its layers. This parameter is mandatory for external WMS servers and should not be indicated in other cases. In WMTS this parameter does not apply since the height of the tile is determined by the "TileMatrix".</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
@@ -557,7 +557,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TIPUS_CAPA</ows:Identifier>
 				<ows:Title>TIPUS CAPA</ows:Title>
-				<ows:Abstract>Tipus de capa WMS/WMTS que es vol retallar. Indicarem 'I' si és una imatge, 'P' si és una capa de polígons,'L' si és una capa de línies o 'S' si és una capa de símbols. Aquest paràmetre només es pot indicar per a retalls de servidors WMS/WMTS externs. Totes les capes són una representació pictòrica (per tant, en format ràster) però els objectes que representen poden ser de diferent tipus. Aquest paràmetre només és escrit en el fitxer REL5 de sortida, sense afectar a l'execució de l'aplicació. Aquest paràmetre serveix perquè la capa es visualitzi millor quan s'ha de fer interpolacions entre nivells de zooms prepreparats.</ows:Abstract>
+				<ows:Abstract>Type of WMS/WMTS layer to be clipped. We will indicate 'I' if it is an image, 'P' if it is a polygon layer, 'L' if it is a line layer or 'S' if it is a symbol layer. This parameter can only be indicated for clippings from external WMS/WMTS servers. All layers are a pictorial representation (therefore, in raster format) but the objects they represent can be of different types. This parameter is only written in the output REL5 file, without affecting the execution of the application. This parameter is used so that the layer is better visualized when interpolations between pre-prepared zoom levels must be made.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -566,7 +566,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SERVICE_MD_URL</ows:Identifier>
 				<ows:Title>SERVICE MD URL</ows:Title>
-				<ows:Abstract>Adreça URL de les metadades del servei. Només aplica en el retall de capes WMTS en RESTful, en aquest cas és obligatori ja que en aquestes dades hi ha la descripció del patró de tall en el que s'ha de sol·licitar la capa. (Per ex. : /SERVICE_MD_URL=http://www.miramon.uab.cat/ogc/wmts/OSM/1.0.0/WMTSCapabilities.xml).</ows:Abstract>
+				<ows:Abstract>URL of the service metadata. Only applies to WMTS layer clipping in RESTful, in this case it is mandatory since this data contains the description of the clipping pattern in which the layer must be requested. (For example: /SERVICE_MD_URL=http://www.miramon.uab.cat/ogc/wmts/OSM/1.0.0/WMTSCapabilities.xml).</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -575,7 +575,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>ID_CAPA_DEMANAR</ows:Identifier>
 				<ows:Title>ID CAPA DEMANAR</ows:Title>
-				<ows:Abstract>Identificador de la capa WMTS a demanar. Només aplica en el retall de capes WMTS en RESTful, en aquest cas és obligatori.</ows:Abstract>
+				<ows:Abstract>Identifier of the WMTS layer to request. Only applies to RESTful WMTS layer clipping, in which case it is mandatory.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -584,7 +584,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TILE_MATRIX_SET</ows:Identifier>
 				<ows:Title>TILE_MATRIX_SET</ows:Title>
-				<ows:Abstract>Identificador del tileMatrixSet (o patró de talls) de la capa WMTS a demanar. Només aplica en el retall de capes WMTS en RESTful, en aquest cas és obligatori.</ows:Abstract>
+				<ows:Abstract>Identifier of the tileMatrixSet (or slice pattern) of the WMTS layer to request. Only applies to RESTful WMTS layer slicing, in which case it is mandatory.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -593,7 +593,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>ALGORISME</ows:Identifier>
 				<ows:Title>Algorisme</ows:Title>
-				<ows:Abstract>Aquest paràmetre serveix per a determinar el tipus d'algorisme que l'aplicació emprarà per a tallar els vectors en l'estructuració topològica. <![CDATA[<ul><li>ESCOMBRATGE: basat en la intersecció de segments de Bentley-Ottmann. </li><li>DIRECTE: basat en l'exploració de tots els segments contra tots per a determinar les interseccions entre vectors en l'estructuració topològica.</li><li> AUTOMATIC: el programa decideix automàticament quin dels dos algorismes s'utilitzarà.</li></ul>]]> Només aplica en fitxers vectorials.</ows:Abstract>
+				<ows:Abstract><![CDATA[This parameter is used to determine the type of algorithm that the application will use to cut the vectors in the topological structure.<ul><li> ESCOMBRATGE Based on the intersection of segments Bentley-Ottmann. </li><li>DIRECTE: Based on the exploration of all segments against all segments to determine the intersections between Victor by the topological structure.</li><li>AUTOMATIC: MiraMon automatically decides which of the two algorithms used.</li></ul>]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -606,8 +606,8 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
-				<ows:Title>Simplifica vèrtexs</ows:Title>
-				<ows:Abstract>Simplifica els vèrtexs intermitjos dels arcs, sempre i quan això no signifiqui un canvi en la topologia.</ows:Abstract>
+				<ows:Title>Simplify vertices</ows:Title>
+				<ows:Abstract>Simplify intermediate line vertices if it doesn't mean a change on the topology.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -621,7 +621,7 @@
 			<Output>
 				<ows:Identifier>FitxerDesti</ows:Identifier>
 				<ows:Title>Output File</ows:Title>
-				<ows:Abstract>Is the name of the resulting clipped file. This is a directory in case of a multiband clipping. This is the name of a REL 5 file in case of WMS layers. (local and external servers). </ows:Abstract>
+				<ows:Abstract>Is the name of the resulting clipped file. This is a directory in case of a multiband clipping. This is the name of a REL 5 file in case of WMS layers (local and external servers).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:OutputFile"/>
 				<ComplexOutput>
