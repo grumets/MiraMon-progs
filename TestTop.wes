@@ -2,332 +2,251 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:TestTop:param1:1</ows:Identifier>
-		<ows:Title>Test de ficheros topológicamente estructurados</ows:Title>
+		<ows:Title>Test de vecindad de polígonos.</ows:Title>
 		<ows:Abstract>Controla que no haya dos polígonos con los mismos atributos temáticos a lado y lado de un mismo arco. Se genera un fichero BADLINES.VEC (de puntos) que marca con 3 puntos las líneas que presentan vecindad errónea, y un fichero QUEIXESL.TXT que describe los errores. Tambien se controla la existencia de registros en blanco al lado de registros con datos, reportados en los ficheros BADLINIC.VEC i QUEIXLIC.TXT. Estas verificaciones se efectuan para todos los campos temáticos a la vez.</ows:Abstract>
-<ows:Metadata xlink:title="Title:Test de ficheros topológicamente estructurados"/>
-<ows:Metadata xlink:title="Abstract:Este programa hace algunos tests de consistencia sobre ficheros topológicamente estructurados."/>
+		<ows:Metadata xlink:title="Title:Test de ficheros topológicamente estructurados"/>
+		<ows:Metadata xlink:title="Abstract:Este programa hace algunos tests de consistencia sobre ficheros topológicamente estructurados."/>
 		<DataInputs>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcion</ows:Identifier>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract>1. Test de vecindad de polígonos
-</ows:Abstract>
-				<ows:Metadata xlink:title="Param1" />
-			<LiteralData>
-				<ows:AllowedValues>
+				<ows:Abstract>Test de vecindad de polígonos</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:Value>1</ows:Value>
-				</ows:AllowedValues>
-			</LiteralData>				
-		</Input>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Fichero.POL</ows:Identifier>
-				<ows:Title>Fichero.POL</ows:Title>
-				<ows:Abstract>Es el nombre del fichero vectorial estructurado (con extensión) sobre el que se ejecuta el test. En la opción 4 la extensión puede ser POL, ARC o NOD. Si se indica un fichero POL el programa realiza el test del fichero de ARCOS vinculado.</ows:Abstract>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fitxer.pol</ows:Identifier>
+				<ows:Title>Fichero de polígonos</ows:Title>
+				<ows:Abstract>Es el nombre del fichero vectorial estructurado (con extensión) sobre el que se ejecuta el test.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
-			<ComplexData>
-				<Default>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Default>
-				<Supported>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Supported>
-			</ComplexData>	
-		</Input>
-		</DataInputs>
-			<ProcessOutputs>	
-	      	<Output>
-				<ows:Identifier>stdout</ows:Identifier>
-				<ows:Title>Estandard de salida</ows:Title>
-				<ows:Abstract>Información sobre el test de salida</ows:Abstract>
-				<ComplexOutput>
+				<ows:Metadata xlink:title="Name:Fichero.pol"/>
+				<ComplexData>
 					<Default>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Default>
 					<Supported>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>	
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:TestTop:param1:2</ows:Identifier>
 		<ows:Title>Test de coherencia del fichero de polígonos.</ows:Title>
-		<ows:Abstract>Un fichero de polígonos contiene dos tablas con contenidos parcialmente redundantes. Por un lado hay una tabla que indica para cada arco qué polígono hay a la derecha y qué polígono a la izquierda; por otra parte hay también una tabla que indica para cada polígono, cuál es la secuencia de arcos que lo delimita. Este test explora la información redundante y busca posibles incoherencias. En caso que se observen diferencias, el programa propone una solución automática que consiste en reescribir la primera tabla a partir de la información de la segunda. Si se ha obtenido el fichero de polígonos a través de un programa como CICLAR, este test no debería encontrar nunca ninguna inconsistencia.</ows:Abstract>
+		<ows:Abstract>Un fichero de polígonos contiene dos tablas con contenidos parcialmente redundantes. Por un lado hay una tabla que indica para cada arco qué polígono hay a la derecha y qué polígono a la izquierda; por otra parte hay también una tabla que indica para cada polígono, cuál es la secuencia de arcos que lo delimita. Este test explora la información redundante y busca posibles incoherencias. En caso que se observen diferencias, el programa propone una solución automática que consiste en reescribir la primera tabla a partir de la información de la segunda. Si se ha obtenido el fichero de polígonos a través de un programa como Ciclar, este test no debería encontrar nunca ninguna inconsistencia.</ows:Abstract>
 		<DataInputs>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcion</ows:Identifier>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract>2. Test de coherencia del fichero de polígonos.
-</ows:Abstract>
-				<ows:Metadata xlink:title="Param1" />
-			<LiteralData>
-				<ows:AllowedValues>
+				<ows:Abstract>Test de coherencia del fichero de polígonos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:Value>2</ows:Value>
-				</ows:AllowedValues>
-			</LiteralData>				
-		</Input>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Fichero.POL</ows:Identifier>
-				<ows:Title>Fichero Poligonos</ows:Title>
-				<ows:Abstract>Es el nombre del fichero vectorial estructurado (con extensión) sobre el que se ejecuta el test. En la opción 4 la extensión puede ser POL, ARC o NOD. Si se indica un fichero POL el programa realiza el test del fichero de ARCOS vinculado.</ows:Abstract>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fitxer.pol</ows:Identifier>
+				<ows:Title>Fichero de polígonos</ows:Title>
+				<ows:Abstract>Es el nombre del fichero vectorial estructurado (con extensión) sobre el que se ejecuta el test.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
-			<ComplexData>
-				<Default>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Default>
-				<Supported>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Supported>
-			</ComplexData>	
-		</Input>
-		</DataInputs>
-			<ProcessOutputs>	
-	      	<Output>
-				<ows:Identifier>stdout</ows:Identifier>
-				<ows:Title>Estandard de sortida</ows:Title>
-				<ows:Abstract>Información sobre el test de salida</ows:Abstract>
-				<ComplexOutput>
+				<ows:Metadata xlink:title="Name:Fichero.pol"/>
+				<ComplexData>
 					<Default>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Default>
 					<Supported>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>	
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:TestTop:param1:4</ows:Identifier>
 		<ows:Title>Test de coherencia entre el fichero de arcos y el de nodos.</ows:Title>
 		<ows:Abstract>Un fichero de arcos contiene una tabla que indica para cada arco cuál es el nodo inicio y cuál es el nodo final. Un fichero de nodos contiene una tabla que indica para cada nodo de qué tipo de nodo se trata y qué arcos convergen en él. Estas dos informaciones son en parte redundantes. Este test explora la información redundante y busca posibles incoherencias. En caso que se observen diferencias, el programa propone una solución automática que consiste en rehacer totalmente el fichero de nodos a partir de la información del fichero de arcos. Dado que no se modifica simultáneamente el contenido de la base de datos de nodos se perderà el vínculo entre los elementos gráficos y los atributos alfanuméricos. Si el programa sólo encuentra incoherencias en el tipo de nodo indicado en el fichero de nodos, el programa puede reconstruir el fichero de nodos sin peligro de pérdida de información. Si los dos ficheros de arcos y nodos se han obtenido con un programa como LINARC, este test no debería encontrar nunca una inconsistencia.</ows:Abstract>
 		<DataInputs>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcion</ows:Identifier>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract>4. Test de coherencia entre el fichero de arcos y el de nodos.
-</ows:Abstract>
-				<ows:Metadata xlink:title="Param1" />
-			<LiteralData>
-				<ows:AllowedValues>
+				<ows:Abstract>Test de coherencia entre el fichero de arcos y el de nodos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:Value>4</ows:Value>
-				</ows:AllowedValues>
-			</LiteralData>				
-		</Input>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Fichero</ows:Identifier>
-				<ows:Title>Fichero Poligonos</ows:Title>
-				<ows:Abstract>Es el nombre del fichero vectorial estructurado (con extensión) sobre el que se ejecuta el test. En la opción 4 la extensión puede ser POL, ARC o NOD. Si se indica un fichero POL el programa realiza el test del fichero de ARCOS vinculado.</ows:Abstract>
+					<ows:AllowedValues>
+						<ows:Value>4</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input>
+				<ows:Identifier>Fitxer</ows:Identifier>
+				<ows:Title>Fichero de polígonos, arcos o nodos</ows:Title>
+				<ows:Abstract>Puede ser POL, ARC o NOD. Si se indica un fichero POL el programa realiza el test del fichero de ARCOS vinculado.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
-			<ComplexData>
-				<Default>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Default>
-				<Supported>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-								<Format>
-								<MimeType>application/x-ARC</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-								<Format>
-								<MimeType>application/x-NOD</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Supported>
-			</ComplexData>	
-		</Input>
-		</DataInputs>
-			<ProcessOutputs>	
-	      	<Output>
-				<ows:Identifier>stdout</ows:Identifier>
-				<ows:Title>Estandard de salida</ows:Title>
-				<ows:Abstract>Información sobre el test de salida</ows:Abstract>
-				<ComplexOutput>
+				<ows:Metadata xlink:title="Name:FicheroG"/>
+				<ComplexData>
 					<Default>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Default>
 					<Supported>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-nod</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>	
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:TestTop:param1:8</ows:Identifier>
 		<ows:Title>Test de necesidad de longitudes, perímetros y áreas elipsoidales.</ows:Title>
-		<ows:Abstract>Cuando la proyección cartográfica es conocida (vea listado de proyecciones conocidas en la ayuda del programa CANVIPRJ), es conveniente incluir en la base de datos los campos LONG_ARCE, PERIMETREE y AREAE, que indican la longitud, el perímetro y el área reales de cada objeto calculados sobre el elipsoide terrestre con criterios geodésicos precisos. Estos campos resultan especialmente indicados en proyecciones cartográficas en las que el cálculo sobre el mapa da valores claramente diferentes a los reales sobre la superficie terrestre (por ejemplo, la proyección Mercator) o en proyecciones en mapas en los que la diferencia es pequeña pero donde aparecen líneas largas que pueden acumular errores importantes. En el caso en que el programa determine que es posible hacer cálculos geodésicos, añade a la base de datos los campos anteriormente indicados. Según la proyección cartográfica utilizada, el programa declara visibles los nuevos campos, según el más comunmente usado como medida de longitud, perímetro y área para aquella proyección. Puede cambiar estos criterios de visibilidad en el fichero REL. </ows:Abstract>
+		<ows:Abstract>Cuando la proyección cartográfica es conocida (vea listado de proyecciones conocidas en la ayuda del programa CanviPrj), es conveniente incluir en la base de datos los campos LONG_ARCE, PERIMETREE y AREAE, que indican la longitud, el perímetro y el área reales de cada objeto calculados sobre el elipsoide terrestre con criterios geodésicos precisos. Estos campos resultan especialmente indicados en proyecciones cartográficas en las que el cálculo sobre el mapa da valores claramente diferentes a los reales sobre la superficie terrestre (por ejemplo, la proyección Mercator) o en proyecciones en mapas en los que la diferencia es pequeña pero donde aparecen líneas largas que pueden acumular errores importantes. En el caso en que el programa determine que es posible hacer cálculos geodésicos, añade a la base de datos los campos anteriormente indicados. Según la proyección cartográfica utilizada, el programa declara visibles los nuevos campos, según el más comunmente usado como medida de longitud, perímetro y área para aquella proyección. Puede cambiar estos criterios de visibilidad en el fichero REL.</ows:Abstract>
 		<DataInputs>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcion</ows:Identifier>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract>8. Test de necesidad de longitudes, perímetros y áreas elipsoidales.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1" />
-			<LiteralData>
-				<ows:AllowedValues>
+				<ows:Abstract>Test de necesidad de longitudes, perímetros y áreas elipsoidales</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:Value>8</ows:Value>
-				</ows:AllowedValues>
-			</LiteralData>				
-		</Input>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Fitxer</ows:Identifier>
-				<ows:Title>Fichero Poligonos</ows:Title>
-				<ows:Abstract>Es el nombre del fichero vectorial estructurado (con extensión) sobre el que se ejecuta el test. En la opción 4 la extensión puede ser POL, ARC o NOD. Si se indica un fichero POL el programa realiza el test del fichero de ARCOS vinculado.</ows:Abstract>
+					<ows:AllowedValues>
+						<ows:Value>8</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPA</ows:Identifier>
+				<ows:Title>Fichero de polígonos o arcos</ows:Title>
+				<ows:Abstract>La extensión puede ser POL o ARC.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
-			<ComplexData>
-				<Default>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Default>
-				<Supported>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-								<Format>
-								<MimeType>application/x-ARC</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-								<Format>
-								<MimeType>application/x-NOD</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Supported>
-			</ComplexData>	
-		</Input>
-		</DataInputs>
-			<ProcessOutputs>	
-	      	<Output>
-				<ows:Identifier>stdout</ows:Identifier>
-				<ows:Title>Estandard de salida</ows:Title>
-				<ows:Abstract>Información sobre el test de salida</ows:Abstract>
-				<ComplexOutput>
+				<ows:Metadata xlink:title="Name:FicheroPA"/>
+				<ComplexData>
 					<Default>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Default>
 					<Supported>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerPA</ows:Identifier>
+				<ows:Title>Fichero de polígonos o arcos</ows:Title>
+				<ows:Abstract>La extensión puede ser POL o ARC.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroPA"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-arc</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Supported>
 				</ComplexOutput>
 			</Output>
-		</ProcessOutputs>	
+		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:TestTop:param1:16</ows:Identifier>
 		<ows:Title>Test de coherencia entre els valores dels campos</ows:Title>
 		<ows:Abstract>Test de coherencia entre els valores dels campos geométrico-topológicos de la tabla principal y el fichero binario (solo para arcos).</ows:Abstract>
 		<DataInputs>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcion</ows:Identifier>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract>16. Test de necessidad de longitudes, perímetros i areas elipsoidales.
-</ows:Abstract>
-				<ows:Metadata xlink:title="Param1" />
-			<LiteralData>
-				<ows:AllowedValues>
+				<ows:Abstract>Test de coherencia entre els valores dels campos</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:Value>16</ows:Value>
-				</ows:AllowedValues>
-			</LiteralData>				
-		</Input>
-		<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Fichero.POL</ows:Identifier>
-				<ows:Title>Fichero.POL</ows:Title>
-				<ows:Abstract>Es el nombre del fichero vectorial estructurado (con extensión) sobre el que se ejecuta el test. En la opción 4 la extensión puede ser POL, ARC o NOD. Si se indica un fichero POL el programa realiza el test del fichero de ARCOS vinculado.</ows:Abstract>
+					<ows:AllowedValues>
+						<ows:Value>16</ows:Value>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fitxer.pol</ows:Identifier>
+				<ows:Title>Fichero de polígonos</ows:Title>
+				<ows:Abstract>Es el nombre del fichero vectorial estructurado (con extensión) sobre el que se ejecuta el test.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
-			<ComplexData>
-				<Default>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Default>
-				<Supported>
-					<Format>
-								<MimeType>application/x-POL</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-								<Format>
-								<MimeType>application/x-ARC</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-								<Format>
-								<MimeType>application/x-NOD</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-				</Supported>
-			</ComplexData>	
-		</Input>
-		</DataInputs>
-			<ProcessOutputs>	
-	      	<Output>
-				<ows:Identifier>stdout</ows:Identifier>
-				<ows:Title>Estandard de salida</ows:Title>
-				<ows:Abstract>Información sobre el test de salida</ows:Abstract>
-				<ComplexOutput>
+				<ows:Metadata xlink:title="Name:Fichero.pol"/>
+				<ComplexData>
 					<Default>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Default>
 					<Supported>
 						<Format>
-						<MimeType>application/x-display</MimeType>
-						<Encoding>text</Encoding>
-					</Format>
+							<MimeType>application/x-POL</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>	
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+		</ProcessOutputs>
 	</ProcessDescription>
 </wps:ProcessDescriptions>
