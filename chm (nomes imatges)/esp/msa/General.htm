@@ -1,0 +1,143 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 05-03-2025 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>Aspectos generales de sintaxis en los Módulos de Soporte a MiraMon (MSA)</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<a id="MENU" name="MENU"></a>
+<h1><img src="vecras.gif">Aspectos generales de sintaxis en los Módulos de Soporte a MiraMon (MSA)</h1>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Intro">Introducción</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#TaulaCamp">Selección de un campo de la base de datos asociada</a></span></td>
+
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Repe">Selección de un registro cuando hay registro múltiple para un objeto gráfico</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#SelecAtrib">Selección de objectos gráficos a partir de los atributos de la base de datos</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Alcada">Selección de una coordenada Z para cada vértice en un fichero vectorial 3D con múltiples alturas para cada vértice</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#DataHora">Formato interno de la fecha y la hora</a></span></td>
+
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Algorisme">¿Cómo saber qué tipo de algoritmo de estructuración utilizar en algunas MSA? (modificador opcional /ALGORITMO=) </a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Quantils">Desempate para los cuantiles (modificador opcional /MEDIANA_EMPAT=)</a></span></td>
+</tr>
+</table>
+<hr>
+
+<a name="Intro"></a><h2>Introducción</h2>
+<p>En este apartado se recogen aspectos de sintaxis que afectan a algunos Módulos de Soporte a MiraMon.</p> 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="TaulaCamp"></a><h2>Selección de un campo de la base de datos asociada</h2>
+<ul>
+	<li>REL v.1:
+	<ul>
+		<li>/TAULA= es el índice, numerado desde 0, que indica cuál es la tabla de la base de datos que contiene el campo atributivo de interés: indique -1 si es la tabla principal o bien el índice del campo de la tabla principal sobre el que está vinculada la tabla asociada (normalmente un tesaurus). 
+		<li>/CAMP= es el índice del campo dentro de la tabla escogida (también numerado desde 0). Estos criterios de indexación pueden conocerse con InfoTop o utilizando la propia interfaz Windows del programa wCombiCa y pulsando el botón ">>BAT...". 
+	</ul>
+	<li>REL v.4:
+	<ul>
+		<li>/CAMP= és un texto alfanumérico que describe el nombre del campo y las relaciones entre tablas comenzando por la tabla principal. Se forma indicando consecutivamente nombres de campo y nombres de tablas asociadas, separando cada elemento con un acento abierto, por exemplo: 
+		<PRE>COMARCA`TESAURUS.COMARCA`NOM_COMARCA</PRE>
+	<li>Desaparece /TAULA=
+	</ul>
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="Repe"></a><h2>Selección de un registro cuando hay registro múltiple para un objeto gráfico</h2>
+<ul>
+	<li><I>/REPE=</I> indica qué ficha se toma en caso de que existan múltiples registros sobre el mismo identificador gráfico (1 para la 1a, 2 para la 2a...). Si se indica con signo menos se empieza a contar por la última; si indica, por ejemplo, 2a ocurrencia y esta NO existe, el objeto gráfico es totalmente ignorado. El valor por defecto es 1.<BR>
+</ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="SelecAtrib"></a><h2>Selección de objectos gráficos a partir de los atributos de la base de datos</h2>
+<ul>  
+	<li>/COND#_TAULA= y /COND#_CAMP= tabla y campo escogidos para la condición #. # es un índice que empieza desde 1. Para saber más sobre el valor de estos parámetros siga las consideraciones del apartado <a href="#TaulaCamp">Selección de un campo de la base de datos asociada</a> de este mismo documento. 
+	<li>/COND#_OP= es el operador lógico de la condición #. # es un índice que empieza desde 1. Puede ser: 
+	<ul>
+		<li>"EQ" igual (=) 
+		<li>"NO_EQ" diferente (=/=)
+		<li>"LT" más pequeño que... (<)
+		<li>"GT" más grande que... (>)
+		<li>"LT_EQ" más pequeño o igual que... (<=)
+		<li>"GT_EQ" más grande o igual que... (>=) 
+		<li>"INTERVAL" intervalo cerrado, incluye los extremos ([a,b])
+		<li>"EQ_SUBCADENA" cadena con... (con)
+		<li>"NO_EQ_SUBCADENA" cadena sin... (sin)
+	</ul>
+	<li>/COND#_VALOR= es el valor del campo. Hacen falta comillas si lleva espacios. 
+	<li>/COND#_NEXE= nexo entre las condiciones # y #+1. Puede ser AND (y) o OR (o). 
+	<li>/COND#_PRIOR= prioridad del nexo #, indexada desde 1. Es un parámetro optativo. Si no se indica la prioridad es, simplemente, el orden. Las cajas de diálogo muestran una traducción de las prioridades de cada condición expresada en notación de paréntesis. 
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="Alcada"></a><h2>Selección de una coordenada Z para cada vértice en un fichero vectorial 3D con múltiples alturas para cada vértice</h2>
+<ul>
+	<li>/ALCADA= Determina cual de las posibles alturas se escoge: para la primera encontrada,1 para la superior y 2 para la inferior.
+</ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="DataHora"></a><h2>Formato interno de la fecha y la hora</h2>
+<ul>
+	<li>FECHA: La fecha se guarda con el formato AAAAMMDD, es decir 20030103 para el 1 de marzo de 2003. Este formato tiene la ventaja de que es directamente ordenable. 
+	<li> HORA: La hora puede almacenarse hasta centésimas de segundo siguiendo el formato HHmmsscc, es decir 23595999 para las 23:59:59.99 horas (en hora local oficial). Note que se usa un formato de 24h y no se soporta la notación en 12h y am/pm. Según el tipo de hora puede añadirse a continuación de esta cadena alguna otra codificación: 
+	<ul>
+		<li>Hora UTC: Se añade una Z al final de la hora, por ejemplo: 23595999Z   para las 23:59:59.99 hora UTC. 
+		<li>Hora local oficial con corrector: Se añade el corrector horario   al final de la hora. Este está compuesto por un signo (+ o -), dos   dígitos indicando el número de horas y dos dígitos   indicando el número de minutos (sin separadores). Por ejemplo: 23595999+0130   para las 23:59:59.99 hora local oficial con un corrector de paso de UTC   a local de hora y media. 
+		<li>Hora solar: Se añade una S al final de la hora, por ejemplo: 23595999S   para las 23:59:59.99 hora solar local. 
+	</ul>
+	<li>FECHA y HORA ÚNICA: La fecha y la hora se escriben seguidas y separadas por un espacio, por ejemplo "20030103 2359599" para el 1 de marzo de 2003 a las 23:59:59.99 hora local oficial (sin corrector). 
+	<li>INTERVALO DE FECHA y HORA: La fecha y hora finales del intervalo se escriben detrás de la fecha y hora iniciales del intervalo y separadas por una coma (sin espacios). Por ejemplo "20030103 2359599,20040103 2359599" para el período entre el 1 de marzo de 2003 a las 23:59:59.99 y el 1 de marzo de 2004 a las 23:59:59.99 con horas locales oficiales (sin corrector). Las dos horas de un intervalo deben ser del mismo tipo. No es posible mezclar, por ejemplo, una hora local oficial con corrector con una hora local oficial sin corrector, aunque sí es posible almacenar un corrector horario diferente para la fecha inicial y final. 
+	<li>FECHA Y HORA INCOMPLETA: En el caso de querer documentar una hora de forma incompleta utilice el 9 como marca de desconocido. Si toda la hora es desconocida no es necesario escribirla. Por ejemplo "20030103 23999999,20040103" correspondería al período entre el 1 de marzo de 2003 a las 23 horas (minutos, segundos y centésimas desconocidos) y el 1 de marzo de 2004 (hora desconocida). 
+</ul>
+
+<p>Para más información consulte las <a href="../GeMPlus/datahora.htm">consideraciones generales</a> sobre la fecha y la hora. 
+  
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+  
+<a name="Algorisme"></a><h2>¿Cómo saber qué tipo de algoritmo de estructuración utilizar en algunas MSA? (modificador opcional /ALGORITMO=) </h2>
+<p>Se puede elegir entre dos algoritmos para el cálculo de las intersecciones entre los diferentes elementos vectoriales: "algoritmo directo" y "algoritmo de barrido".</p> 
+<ul>
+	<li><b>/ALGORISME=DIRECTE</b>: El algoritmo hace un repaso por todos los elementos comparándolos con el resto, de forma que se encuentran las intersecciones por comparación dos a dos.</li>
+	<li><b>/ALGORISME=ESCOMBRATGE</b>: El algoritmo ordena los elementos vectoriales de una determinada manera en el plano y hace un barrido de izquierda a derecha que calculando las intersecciones entre elementos cercanos. Con ello se evita comparar elementos que se sabe que nunca se cortarán, evitando así mucho tiempo de cálculo.</li>
+	<li><b>/ALGORISME=AUTOMATIC</b>: Se deja en el programa la elección entre los métodos descritos anteriormente.</li>
+</ul>
+
+<p>Entonces, </p>
+<ul>
+	<li><b>/ALGORISME=DIRECTE</b> es más rápido para capas donde ya se haya realizado una estructuración previa, o bien se sepa que no hay intersecciones más allá de los vértices ya existentes (la estructuración topológica es implícita).</li>
+	<li><b>/ALGORISME=ESCOMBRATGE</b> es más rápido justamente en el caso contrario: capas donde los elementos cortan otros elementos provocando intersecciones en puntos que no eran previamente vértices finales y que, por tanto, son nuevos nodos de la capa de salida.</li>
+</ul>
+
+<p>Si en el momento de estructurar una capa se sabe que la estructuración generará nuevos puntos (es decir, se detectarán intersecciones) es mejor elegir "barrido". En caso contrario, se puede escoger "directo". </p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="Quantils"></a><h2>Desempate para los cuantiles (modificador opcional /MEDIANA_EMPAT=)</h2>
+<p>Si una aplicación efectúa el cálculo de algún cuantil (como la mediana, un cuartil o un percentil), puede indicarse el tipo de desempate a usar para su cálculo cuando la posición del cuantil sea entre dos valores de la serie. El criterio también se aplicará para calcular la media de las desviaciones absolutas respecto a la mediana (ya que requiere calcular la mediana). Las opciones de cálculo son:
+<ul>
+	<li><b>/MEDIANA_EMPAT=</b>1 para elegir valor alternado.</li>
+	<li><b>/MEDIANA_EMPAT=</b>2 para elegir valor inferior.</li>
+	<li><b>/MEDIANA_EMPAT=</b>3 para elegir valor superior.</li>
+	<li><b>/MEDIANA_EMPAT=</b>4 para elegir promedio de los dos valores entre los que los encuentra.</li>
+</ul> La opción por defecto es la 1.
+</p>  
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+
+</body>
+</html>

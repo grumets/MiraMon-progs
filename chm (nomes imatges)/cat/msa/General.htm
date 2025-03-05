@@ -1,0 +1,136 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 05-03-2025 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>Aspectes generals de sintaxi als Mòduls de Suport a MiraMon (MSA)</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<a id="MENU" name="MENU"></a>
+<h1><img src="vecras.gif"> Aspectes generals de sintaxi als Mòduls de Suport a MiraMon (MSA)</h1>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Intro">Introducció</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#TaulaCamp">Selecció d'un camp de la base de dades associada</a></span></td>
+
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Repe">Selecció d'un registre quan hi ha registre múltiple per a un objecte gràfic</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#SelecAtrib">Selecció d'objectes gràfics per atributs de la base de dades</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Alcada">Selecció d'una coordenada Z per cada vèrtex en fitxer vectorial 3D amb múltiples alcades per vèrtex</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#DataHora">Format intern de la data i l'hora</a></span></td>
+
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Algorisme">Com saber quin tipus d'algorisme d'estucturació utilitzar en algunes MSA? (modificador opcional /ALGORISME=)</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Quantils">Desempat per als quantils (modificador opcional /MEDIANA_EMPAT=)</a></span></td>
+</tr>
+</table>
+<hr>
+
+<a name="Intro"></a><h2>Introducció</h2>
+<p>En aquest document es recullen aspectes de sintaxi que afecten a alguns Mòduls de Suport a MiraMon.<p> 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="TaulaCamp"></a><h2>Selecció d'un camp de la base de dades associada</h2>
+<ul>
+	<li>REL v.1:
+	<ul>
+		<li>/TAULA= és l'índex, numerat des de 0, que indica quina és la taula de la base de dades que conté el camp atributiu d'interès: indiqueu -1 si és la taula principal o bé l'índex del camp de la taula principal sobre el qual és vinculada la taula associada (normalment un tesaurus). 
+		<li>/CAMP= és l'índex del camp dins la taula escollida (també numerat des de 0). Aquests criteris d'indexació es poden conèixer amb InfoTop o utilitzant la pròpia interfície Windows del programa wCombiCa i prement el botó ">>BAT...".
+	</ul>
+	<li>REL v.4:
+	<ul>
+		<li>/CAMP= és un text alfanumèric que descriu el nom del camp i les relacions entre taules començant per la taula principal. Es forma indicant consecutivament noms de camp i noms de taules associades, separant cada element amb un accent obert, per exemple <PRE>COMARCA`TESAURUS.COMARCA`NOM_COMARCA</PRE>
+		<li>Desapareix /TAULA= 
+	</ul>
+</ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="Repe"></a><h2>Selecció d'un registre quan hi ha registre múltiple per a un objecte gràfic</h2>
+<ul>
+	<li><I>/REPE=</I> indica quin registre es pren en cas que existeixin múltiples registres sobre el mateix identificador gràfic (1 per la 1a, 2 per la 2a...). Si s'indica amb signe menys es comença a comptar per l'última; si indiqueu, per exemple, 2a ocurrència i aquesta NO existeix, l'objecte gràfic és totalment ignorat. El valor per defecte és 1.
+</ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="SelecAtrib"></a><h2>Selecció d'objectes gràfics per atributs de la base de dades</h2>
+<ul>
+	<li>/COND#_TAULA= i /COND#_CAMP= taula i camp escollits per a la condició #. #   és un índex que comença des de 1. Per saber més sobre els valors d'aquests paràmetres seguiu les consideracions de l'apartat <a href="#TaulaCamp">Selecció d'un camp de la base de dades associada</a> en aquest mateix document.<br>
+	<li>/COND#_OP= és l'operador lògic de la condició #. # és un índex que comença des de 1. Pot ser: 
+	<ul>
+		<li>"EQ" igual (=) 
+		<li>"NO_EQ" diferent (=/=) 
+		<li>"LT" més petit que... (<) 
+		<li>"GT" més gran que... (>) 
+		<li>"LT_EQ" més petit o igual que... (<=) 
+		<li>"GT_EQ" més gran o igual que... (>=) 
+		<li>"INTERVAL" interval tancat, que inclou els extrems ([a,b]) 
+		<li>"EQ_SUBCADENA" cadena amb... (amb) 
+		<li>"NO_EQ_SUBCADENA" cadena sense... (sense) 
+	</ul>
+	<li>/COND#_VALOR= és el valor del camp. Calen cometes si porta espais. 
+	<li>/COND#_NEXE= nexe entre les condicions # i #+1. Pot ser AND (i) o OR (o). 
+	<li>/COND#_PRIOR= prioritat del nexe #, indexada des de 1. És un paràmetre optatiu, on de no indicar-se, la prioritat és simplement l'ordre. Les caixes de diàleg mostren una traducció de les prioritats de cada condició expressada en notació de parèntesis. 
+</ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="Alcada"></a><h2>Selecció d'una coordenada Z per cada vèrtex en fitxer vectorial 3D amb múltiples alcades per vèrtex</h2>
+<ul>
+	<li>/ALCADA= Determina quina de les possibles alçades es escollida: 0 per la primera que es trobi, 1 per la superior i 2 per la inferior. 
+</ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="DataHora"></a><h2>Format intern de la data i l'hora</h2>
+<ul>
+	<li>DATA: La data es desa en el format AAAAMMDD és a dir 20030103 per a 1 de març de 2003. Aquest format té l'avantatge que és directament ordenable. 
+	<li> HORA: L'hora es pot emmagatzemar fins a centèsimes de segon seguint el format HHmmsscc és a dir 23595999 per a les 23:59:59.99 hores (en hora local oficial). Noteu que s'usa un format de 24h i no se suporta la notació en 12h i am/pm. Segons el tipus d'hora es pot afegir a darrera d'aquesta cadena alguna altra codificació: 
+	<ul>
+		<li>Hora UTC: S'afegeix una Z al final de l'hora, per exemple: 23595999Z per a les 23:59:59.99 hora UTC. 
+		<li>Hora local oficial amb corrector: S'afegeix el corrector horari al final de l'hora. Aquest està format per un signe (+ o -), dos dígits indicant el nombre d'hores i dos dígits indicant el nombre de minuts (sense separadors). Per exemple: 23595999+0130 per a les 23:59:59.99 hora local oficial amb un corrector de pas de UTC a local d'una hora i mitja. 
+		<li>Hora solar: S'afegeix una S al final de l'hora, per exemple: 23595999S per a les 23:59:59.99 hora solar local. 
+	</ul>
+	<li>DATA i HORA ÚNICA: La data i l'hora s'escriuen seguides i separades per un espai, per exemple "20030103 2359599" per a 1 de març de 2003 a les 23:59:59.99 hora local oficial (sense corrector). 
+	<li>INTERVAL DE DATA i HORA: La data i hora final de l'interval s'escriuen darrera la data i hora inicial de l'interval i separades per una coma (sense espais). Per exemple "20030103 2359599,20040103 2359599" per al període entre l'1 de març de 2003 a les 23:59:59.99 i l'1 de març de 2004 a les 23:59:59.99 amb hores locals oficials (sense corrector). Les dues hores d'un interval han de ser del mateix tipus. No és possible barrejar, per exemple, una hora local oficial amb corrector amb una hora local oficial sense corrector, encara que sí que és possible emmagatzemar un corrector horari diferent per la data inicial i final.
+	<li>DATA I HORA INCOMPLETA: En cas de voler documentar una hora de forma incompleta utilitzeu el 9 com a marca de desconegut. Si tota l'hora és desconeguda no cal escriure-la. Per exemple "20030103 23999999,20040103" correspondria al període entre l'1 de març de 2003 a les 23 hores (minuts, segons i centèsims desconeguts) i l'1 de març de 2004 (hora desconeguda). 
+</ul>
+
+<p>Per a més informació consulteu les <a href="../GeMPlus/datahora.htm">consideracions generals</a> sobre la data i l'hora.</p> 
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+  
+<a name="Algorisme"></a><h2>Com saber quin tipus d'algorisme d'estructuració utilitzar en algunes MSA? (modificador opcional /ALGORISME=)</h2>
+<p>Es pot escollir entre dos algorismes per al càlcul de les interseccions entre els diferents elements vectorials:"algorisme directe" i "algorisme d'escombratge".</p> 
+<ul>
+ <li><b>/ALGORISME=DIRECTE</b>: L'algorisme fa un repàs per tots els elements comparant-los amb la resta, de forma que es troben les interseccions per comparació dos a dos.</li>
+ <li><b>/ALGORISME=ESCOMBRATGE</b>: L'algorisme ordena els elements vectorials d'una determinada manera en el pla i fa un escombratge d'esquerra a dreta que va calculant les interseccions  entre elements propers. Amb això s'evita comparar elements que se sap que mai no es tallaran, evitant així molt de temps de càlcul.</li>
+ <li><b>/ALGORISME=AUTOMATIC</b>: Es deixa al programa l'elecció entre els mètodes descrits anteriorment.</li>
+</ul>
+<p>Llavors,</p> 
+<ul>
+ <li><b>/ALGORISME=DIRECTE</b> és més ràpid per a capes on ja s'hagi realitzat una estructuració prèvia, o bé se sàpiga que no hi ha interseccions més enllà dels vèrtexs ja existents (l'estructuració topològica és implícita).</li>
+ <li><b>/ALGORISME=ESCOMBRATGE</b> és més ràpid justament en el cas contrari: capes on els elements tallen altres elements provocant interseccions en punts que no eren prèviament vèrtexs finals i que, per tant, són nous nodes de la capa de sortida.</li>
+</ul>
+<p>Si en el moment d'estructurar una capa se sap que l'estructuració generarà nous punts (és a dir, es detectaran interseccions) és millor escollir "escombratge". En cas contrari, es pot escollir "directe". </p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="Quantils"></a><h2>Desempat per als quantils (modificador opcional /MEDIANA_EMPAT=)</h2>
+<p>Si una aplicació efectua el càlcul d'algun quantil (com ara la mediana, un quartil o un percentil), es pot indicar el tipus de desempat a usar per al seu càlcul quan la posició del quantil sigui entre dos valors de la sèrie. El criteri també s'aplicarà quan s'ha de calcular la mitjana de les desviacions absolutes respecte de la mediana (ja que requereix calcular la mediana). Les opcions de càlcul són:
+<ul>
+	<li><b>/MEDIANA_EMPAT=</b>1 per a escollir valor alternat.</li>
+	<li><b>/MEDIANA_EMPAT=</b>2 per a escollir valor inferior.</li>
+	<li><b>/MEDIANA_EMPAT=</b>3 per a escollir valor superior.</li>
+	<li><b>/MEDIANA_EMPAT=</b>4 per a escollir mitjana dels dos valors entre els quals els troba.</li>
+</ul> L'opció per defecte és la 1.
+</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+
+</body>
+</html>

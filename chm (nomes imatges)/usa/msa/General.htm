@@ -1,0 +1,147 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 05-03-2025 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>General syntax aspects in the MiraMon Support Modules (MSA)</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<a id="MENU" name="MENU"></a>
+<h1><img src="vecras.gif">General syntax aspects in the MiraMon Support Modules (MSA)</h1>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Intro">Introduction</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#TaulaCamp">Related database field selection</a></span></td>
+
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Repe">Record selection when there are multiple records for a graphical object</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#SelecAtrib">Selection of graphic objects according to database attributes</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Alcada">Selection of one vertex Z coordinate in a 3D vectorial file with multiple height for each vertex</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#DataHora">Internal date and hour format</a></span></td>
+
+</tr>
+<tr align="center" valign="middle">
+	<td><span class="subtitol_h1_negreta"><a href="#Algorisme">How to know what type of structuration algorithm use in some MSA? (optional modifier /ALGORITME=)</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Quantils">Decision for quantiles (optional modifier /MEDIANA_EMPAT=)</a></span></td>
+</tr>
+</table>
+<hr>
+
+<a name="Intro"></a><h2>Introduction</h2>
+<p>Syntax aspects that affect some MiraMon Support Modules are explained here in a generic way. </p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="TaulaCamp"></a><h2>Related database field selection</h2>
+
+<ul>
+	<li>REL v.1:
+	<ul>
+		<li>/TAULA1= the index, numbered from 0, indicating which table in the database contains the relevant attribute field: -1 if it is the principal table or the index of the field of the principal table to which the associated table is linked (normally a thesaurus).
+		<li>/CAMP1= is the index of the field within the selected table (also numbered from 0).  These indexing criteria may be found using InfoTop or using the Windows interface of the program wCombiCa and pressing the button ">>BAT...". 
+	</ul>
+	<li>REL v.4:
+	<ul>
+		<li>/CAMP= is an alphanumeric text that describes the field name and the relations between tables starting from the main table. It is formed indicating consecutively field names and associated table names, separating each element with an open accent, for example: 
+        <PRE>COMARCA`TESAURUS.COMARCA`NOM_COMARCA</PRE>
+	<li>/TAULA= is not used.
+	</ul>
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="Repe"></a><h2>Record selection when there are multiple records for a graphical object</h2>
+
+<ul>
+	<li><I>/REPE=</I>indicates which record to use should there exist multiple records for the same graphical identifier (1 for the first, 2 for the second, ...).  If entered with a minus sign the count starts from the last.  If 2 is entered, for example, and it does NOT exist, then the graphical object is totally ignored. The default value is 1.
+</ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="SelecAtrib"></a><h2>Selection of graphic objects according to database attributes</h2>
+
+<ul>  
+	<li>/COND#_TAULA= and /COND#_CAMP= table and field selected for the condition #. # is an index that starts from 1. To learn more about these parameters follow the instructions about <a href="#TaulaCamp">Related database field selection</a> in this document.
+	<li>/COND#_OP= logical condition operator. # is an index that starts from 1. It can be:
+	<ul>
+		<li>"EQ" equal to (=)</li>
+		<li>"NO_EQ" not equal to (=/=)</li>
+		<li>"LT" less than... (<)</li>
+		<li>"GT" greater than... (>)</li>
+		<li>"LT_EQ" less than or equal to... (<=)</li>
+		<li>"GT_EQ" greater than or equal to... (>=)</li>
+		<li>"INTERVAL" closed interval ([a,b])</li>
+		<li>"EQ_SUBCADENA" string with... (with)</li>
+		<li>"NO_EQ_SUBCADENA" string without... (without)</li>
+</ul>
+	<li>/COND#_VALOR= the field value. Inverted comas are needed if it contains spaces.  
+	<li>/COND#_NEXE= logical link between conditions # and #+1. It can be AND or OR. 
+	<li>/COND#_PRIOR= priority of the condition #, indexed from 1. This is an optional parameter. If it is not indicated the priority is just the order. Dialog boxes show a traduction of condition priorities expressed in bracket notation. 
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="Alcada"></a><h2>Selection of one vertex Z coordinate in a 3D vectorial file with multiple height for each vertex</h2>
+<ul>
+	<li>/ALCADA= Sets which of the possible heights is chosen: 0 select the first chosen one, 1 to select the highest one and 2 to select the lowest one.
+</ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+
+<a name="DataHora"></a><h2>Internal date and hour format</h2>
+<ul>
+	<li>DATE: Date is saved with the YYYYMMDD format, that is 20030103 for March 1st, 2003. This format has the advantage that it can be ordered as is.
+	<li>HOUR: Hour can be stored down to one-hundredth of a second with the HHmmsscc format, that is 23595999 means 23:59:59.99 hours (in the official local hour). Please note that this format uses the 24h format; 12h am/pm format is not supported. Depending on the hour type some other codification can be added to this string:
+	<ul>
+		<li>UTC Hour: A Z is added as a suffix, for instance 23595999Z for 23:59:59.99 UTC hour. 
+		<li>Local Official Hour with corrector: The hour corrector is added at the end. This corrector is composed of a + or - sign, two digits which indicate the number of hours and two digits which indicate the number of minutes (without separators). For instance: 23595999+0130 for the 23:59:59.99 official local hour with an UTC corrector of one hour and a half. 
+		<li>Solar hour: An S is added at the end of the hour, for instance 23595999S, for the 23:59:59.99 local solar hour.
+	</ul>
+	<li>UNIQUE DATE and HOUR: Date and hour are written followed and separated by a blank space, for instance "20030103 2359599" for March 1st, 2003 at 23:59:59.99 local official hour (without corrector).
+	<li>DATE and HOUR INTERVAL: Date and hour for the end of the interval are written after the initial date and hour of the interval, separated by a colon (without blank spaces). For instance, "20030103 2359599,20040103 2359599" for the interval between March 1st, 2003 at 23:59:59.99 and March 1st, 2004 at 23:59:59.99 both at local official hours (without corrector). In a given interval or time period both hours must be of the same type. For instance, it is not possible to mix local official hours with corrector with local official hour without corrector, despite the fact that it is possible to store a different hour corrector for the initial and final hours.
+	<li>INCOMPLETE DATE and HOUR: In the need to document an incomplete hour the 9 digit is used as a marker. If the whole hour is unknown it is not necessary to write it down. For instance, "20030103 23999999,20040103" would correspond to the period between March 1st, 2003 at 23 hours (minutes, seconds and hundredths of a second are known) and March 1st, 2004 (unknown hour).
+</ul>
+<p>For further information on dates and hours please refer to <a href="../GeMPlus/datahora.htm">general considerations</a>.
+</ul>
+  
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+ 
+<a name="Algorisme"></a><h2>How to know what type of structuration algorithm use in some MSA? (optional modifier /ALGORITME=)</h2>
+<p>It is possible to choose between two algorithms for calculating the intersections between different vectorial elements: "direct algorithm" and "sweep algorithm".</p> 
+<ul>
+	<li><b>/ALGORISME=DIRECTE</b>: The algorithm reviews all elements comparing every one with the rest of them, so that the intersections are found comparing pairwise.</li>
+	<li><b>/ALGORISME=ESCOMBRATGE</b>: The algorithm sorts the vectorial elements in a certain way in the plane and made a sweeping left to right calculating intersections between neighboring elements. This avoids comparing elements that are known to never cut, avoiding long computation time.</li>
+	<li><b>/ALGORISME=AUTOMATIC</b>: Leave program choice between the methods described above.</li>
+</ul>
+
+<p>Then,</p>
+<ul>
+	<li><b>/ALGORISME=DIRECTE</b> it is faster for a layers where structuration has been done before, or it is known that there are no intersections beyond the existing vertices (the topological structuration is implicit).</li>
+	<li><b>/ALGORISME=ESCOMBRATGE</b> it is faster in precisely the opposite case: layers where the elements intersect other elements causing intersections points that were not previously vertices end and, therefore, are new nodes in the output layer.</li>
+</ul>
+
+<p>If at the time of structuring a layer it is know that structuration will generate new points (ie, intersections are detected) is better to choose "escombratge". Otherwise, you can choose to "directe".</p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<a name="Quantils"></a><h2>Decision for quantiles (optional modifier /MEDIANA_EMPAT=)</h2>
+<p>If an application performs the calculation of some quantile (such as the median, a quartile or a percentile), indicates the type of tiebreaker to be used for its calculation when the quantile position is between two values in the series. The criterion will also be applied when the mean of the absolute deviation around the median must be calculated (since it requires the median to be calculated). The calculation options are:
+<ul>
+	<li><b>/MEDIANA_EMPAT=</b>1 to choose an alternate value.</li>
+	<li><b>/MEDIANA_EMPAT=</b>2 to choose the lower value.</li>
+	<li><b>/MEDIANA_EMPAT=</b>3 to choose the higher value.</li>
+	<li><b>/MEDIANA_EMPAT=</b>4 to choose the average of the two values between which it is.</li>
+</ul> The default option is 1.
+</p>  
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+
+</body>
+</html>
