@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 09-02-2025 */-->
+<!--/* Rev AA 05-03-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>InterPNT: Interpolació a partir de punts, lidar</title>
@@ -33,18 +33,15 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-<p>Aquesta aplicació genera un ràster en el qual el valor de cada cel·la s'obté a partir de la interpolació dels valors d'un número de camp de la base de dades d'un fitxer de punts o del valor de la tercera coordenada de cada punt (en cas de fitxers 3D).  El ràster generat correspon a una superfície contínua, no té sentit utilitzar aquest mètode pretentant obtenir un ràster de valors categòrics. Aquest fitxer de punts ha de ser estructurat (format PNT). Es poden excloure punts del conjunt total per diversos criteris, tant a nivell global com localment. També es pot comptar que un punt té més d'un registre associat a la base de dades (per exemple, mesures d'aigua realitzades en diverses dates sobre una mateixa font).</p>
-
 <p>Com en el cas d'altres procediments de càlcul, la interpolació a  partir de punts pot donar resultats sensiblement diferents segons les  opcions de l'aplicació triades. El mètode triat, la distància llindar, la  ponderació a aplicar, la utilització de màscares d'exclusió, etc, poden  ajudar enormement a obtenir millors resultats. El coneixement de les dades  amb què es treballa i la realització de proves temptatives variant els  diferents paràmetres són sovint de gran ajut per a prendre decisions sobre  com usar aquests paràmetres. A més a més, per poc que es pugui, convé  reservar un conjunt de punts independents aleatòriament distribuïts per tal  de poder fer una avaluació quantitativa dels resultats (test).</p>
+
+<p>En els càlculs de quantils, com la mediana, es pot indicar, amb el modificador /MEDIANA_EMPAT=, el tipus de desempat a usar per al seu càlcul quan la posició del quantil sigui entre dos valors de la sèrie. Per a més informació es pot consultar <a href="general.htm#Quantils">sintaxi general</a>.</p>
 
 <p>En l'actual versió hi ha cinc possibles mètodes d'interpolació: invers de la distància, funció <i>'spline'</i>, superfícies de tendència, kriging i estadístiques de veïnatge.  Pel mètode de l'invers de la distància, la interpolació del punt problema es realitza assignant pesos al valors dels punts de mostreig en funció inversa de la distància que separa el centre de píxel del punt problema. Aquesta distància pot calcular-se de manera euclidiana, o utilitzant un càlcul simplificat (distància Eixample). Pel mètode <i>'spline'</i> es tracta de determinar una funció regular, contínua i derivable, o el conjunt de funcions si dividim l'àmbit global en diferents regions, que s'adapti millor al punts de mostreig sense perdre la seves propietats de continuïtat. Per a conèixer més detalls de l'expressió analítica d'aquesta funció podeu consultar: Helena Mitasova i Lubos Mitas (1993) &quot;Interpolation by Regularized Spline with Tension&quot; Mathematical Geology. vol. 25 nº 6 p. 641-655.<br/>
   <br/></p>
   <CENTER><img alt="Fórmula invers distància" src="inversd.gif"></CENTER>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
   <small>B potència d'invers de la distància.
   <font size=7>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
   </font>
   Manhattan=distància Eixample
   </small><CENTER><small>
@@ -52,7 +49,6 @@
   </CENTER><P><CENTER>
   <BR><BR><img alt="Expressions per les funcions 'spline'" src="spline.gif">
   </center>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
   <small>T(x,y) és desviació i fi tensió
   </small><CENTER><small>
   <BR>Expressions per les funcions <I>'spline'</I></small><P>
@@ -98,7 +94,7 @@ El principal paràmetre d'aquesta opció és el grau que determina l'ordre del poli
   
 <p><b><u>Opcions per les estadístiques de veïnatge:</u></b><br/>
 <br/>
-Cal definir dos paràmetres: la funció estadística a utilitzar i la distància màxima a la qual un punt es considera que ha de formar part del conjunt de punts que proporcionen  els valors per al càlcul de l'estadístic que es transferirà a la cel·la del ràster de sortida.<br/> Les funcions estadístiques disponibles són la mitjana, la mediana, el màxim,el mínim,  el rang, la desviació estàndard, la mitjana de les desviacions absolutes respecte de  la mediana i el nombre d'ocurrències.<br/> Per a la distància màxima hi ha dues opcions possibles: distància màxima com a radi maxim d'un cercle i distància màxima com a meitat del costat d'un quadrat.<br/> </p>  
+Cal definir dos paràmetres: la funció estadística a utilitzar i la distància màxima a la qual un punt es considera que ha de formar part del conjunt de punts que proporcionen  els valors per al càlcul de l'estadístic que es transferirà a la cel·la del ràster de sortida.<br/> Les funcions estadístiques disponibles són la mitjana, la mediana, el màxim, el mínim,  el rang, la desviació estàndard, la mitjana de les desviacions absolutes respecte de  la mediana i el nombre d'ocurrències.<br/> Per a la distància màxima hi ha dues opcions possibles: distància màxima com a radi màxim d'un cercle i distància màxima com a meitat del costat d'un quadrat.<br/> </p>  
 
 <p><b><u>Opcions avançades:</u></b><br/>
 <br/>
@@ -117,11 +113,22 @@ Una possibilitat afegida és la tria de punts de manera que s'ignoren aquells pun
 <div align="center">
 <table>
 <tr>
-<td><div align="center"><img src="InterPNT_finestra.png">
-<br><img src="InterPNT_finestra2.png"><img src="InterPNT_finestra3.png"></div></td>
+<td  colspan="4" align="center"><img src="InterPNT_finestra.png"></td>
 </tr>
 <tr>
-<td align="center">Caixa de diàleg de l'InterPNT</td>
+<td align="center"><img src="InterPNT_finestra2.png"></td>
+<td align="center"><img src="InterPNT_finestra2b.png"></td>
+<td align="center"><img src="InterPNT_finestra2c.png"></td>
+<td align="center"><img src="InterPNT_finestra2d.png"></td>
+</tr>
+<tr>
+<td colspan="4" align="center"><img src="InterPNT_finestra2e.png"></td>
+</tr>
+<tr>
+<td colspan="4" align="center"><img src="InterPNT_finestra3.png"></td>
+</tr>
+<tr>
+<td colspan="4" align="center">Caixa de diàleg de l'InterPNT</td>
 </tr>
 </table>
 </div>

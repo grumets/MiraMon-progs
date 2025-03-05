@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 09-02-2025 */-->
+<!--/* Rev AA 05-03-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>InterPNT: Interpolation from point data, lidar</title>
@@ -33,9 +33,9 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-<p>This application generates a raster in which the value of each cell is obtained from the interpolation of the values of a numeric field in the database of a point file or from the or the value of the third coordinate of each point (in the case of 3d files). The generated raster corresponds to a continuous surface, it does not make sense to use this method pretending to obtain a raster of categorical values. This point file has to be structured (PNT format). You can exclude points from the total set for different criteria, both globally and locally. It is also supported that a point has more than one record associated with the database (eg water measurements performed on different dates on the same source).</p>
-
 <p>As for most of the calculation procedures, interpolation between points can give widely different results according to the choice of options in the application. The chosen method, the threshold distance, the weighting applied, the use of exclusion masks, etc., can help to improve results enormously. Knowledge of the data to be processed and the use of trial runs with varying parameters can be a great help in order to select how best to use these parameters. Furthermore, if possible, it is useful to keep back a set of randomly distributed and independent points in order to carry out a quantitative evaluation (test) of the results.</p>
+
+<p>In quantile calculations, such as the median, it is possible to indicate, with the modifier /MEDIANA_EMPAT=, the type of tiebreaker to use for its calculation when the position of the quantile is between two values of the series. For more information, see <a href="general.htm#Quantils">general syntax</a>.</p>
 
 <p>In the current version there are five possible interpolation methods: the inverse distance and the <i>'spline'</i> function, tendency surfaces, kriging and neighborhood statistics. For the inverse distance method, the interpolation of each point (pixel) is carried out by assigning weights to the values of the sample points in inverse proportion to the distance that separates each sample point from the centre of the pixel. This distance can be calculated as a Euclidean distance or using the simplified (Manhattan/Taxi Cab) distance. For the <i>'spline'</i> method a regular, continuous and derivable function, or set of functions if the area is divided into different regions, is determined which best adapts to the sample points without loosing its property of continuity. For more information on the analytical expression of this function consult: Helena Mitasova and Lubos Mitas (1993) &quot;Interpolation by Regularized Spline with Tension&quot; Mathematical Geology. vol. 25 nº 6 p. 641-655.<br/>
   <br/></p>
@@ -79,11 +79,11 @@ It is necessary to define the extent and cell size for the output raster by eith
 
 <p><b><u>Inverse distance options:</u></b><br/>
 <br/>
-It is necessary to define, firstly, how to calculate distances; whether as a Euclidean distance, or as a 'Manhattan' distance (see previous section for the definitions of both distances). The value assigned to each cell is a weighted average of the values of the points under consideration. The weight given to each point is proportional to the inverse of an exponential power of the distance between the point and the centre of the pixel. The default value of this exponential power is 2, but this parameter can be changed in the way that the user considers most appropriate. The bigger the value, the more weight given to the points nearest to the pixel and the less weight given to more distant points.</p>
+It is necessary to define, firstly, how to calculate distances; whether as a Euclidean distance, or as a 'Manhattan' distance (see previous section for the definitions of both distances). The value assigned to each cell is a weighted average of the values of the points under consideration. The weight given to each point is proportional to the inverse of an exponential power of the distance between the point and the center of the pixel. The default value of this exponential power is 2, but this parameter can be changed in the way that the user considers most appropriate. The bigger the value, the more weight given to the points nearest to the pixel and the less weight given to more distant points.</p>
 
-<p>The maximum distance is a commonly used parameter. It establishes the region of influence of each point as a circle centred on the point and with a radius equal to the maximum distance. Thus, for each cell we have a distance beyond which the original points play no part in the interpolation process. It is advisable to always use this parameter since, apart from intuitively making sense in the interpolation process, it also allows the execution time to be reduced considerably.</p> 
+<p>The maximum distance is a commonly used parameter. It establishes the region of influence of each point as a circle centered on the point and with a radius equal to the maximum distance. Thus, for each cell we have a distance beyond which the original points play no part in the interpolation process. It is advisable to always use this parameter since, apart from intuitively making sense in the interpolation process, it also allows the execution time to be reduced considerably.</p> 
 
-<p>Another interesting criterion is to define a maximum number of points to use in the interpolation. Evidently these will always be the 'n' points nearest to the centre of the pixel. The repeated ranking process needed to apply this criterion slows down the calculation considerably, but the use of this criterion assures that only the 'n' nearest points are taken into account. To make sure that the calculation is done with a sufficient sample it is also possible to define a minimum number of points for the interpolation at each cell. If this minimum is not reached the cell's value will be NoData.</p>
+<p>Another interesting criterion is to define a maximum number of points to use in the interpolation. Evidently these will always be the 'n' points nearest to the center of the pixel. The repeated ranking process needed to apply this criterion slows down the calculation considerably, but the use of this criterion assures that only the 'n' nearest points are taken into account. To make sure that the calculation is done with a sufficient sample it is also possible to define a minimum number of points for the interpolation at each cell. If this minimum is not reached the cell's value will be NoData.</p>
 
 <p><b><u><i>'Spline'</i> options:</u></b><br/>
 <br/>
@@ -95,7 +95,7 @@ The main parameter of this option is the degree that determines the order of the
   
 <p><b><u>Options for neighborhood statistics:</u></b><br/>
 <br/>
-Two parameters must be defined: the statistical function to be used and the maximum distance at which a point is considered to be part of the set of points that provide the values for the calculation of the statistics to be transferred to the cell of the raster output.<br/> The statistical functions available are the average, the median, the maximum, the minimum, the rank, the standard deviation, the average of the absolute deviations from the median and the number of occurrences.<br/> For the maximum distance there are two possible options: maximum distance as maximum radius of a circle and maximum distance as half of the side of a square.<br/> </p> 
+Two parameters must be defined: the statistical function to be used and the maximum distance at which a point is considered to be part of the set of points that provide the values for the calculation of the statistics to be transferred to the cell of the raster output.<br/> The statistical functions available are the average, the median, the maximum, the minimum, the rank, the standard deviation, the mean absolute deviation around the median and the number of occurrences.<br/> For the maximum distance there are two possible options: maximum distance as maximum radius of a circle and maximum distance as half of the side of a square.<br/> </p> 
 
 <p><b><u>Advanced Options:</u></b><br/>
 <br/>
@@ -116,11 +116,22 @@ Another possibility is to select points so that those that fall outside the area
 <div align="center">
 <table>
 <tr>
-<td><div align="center"><img src="InterPNT_finestra.png">
-<br><img src="InterPNT_finestra2.png"><img src="InterPNT_finestra3.png"></div></td>
+<td  colspan="4" align="center"><img src="InterPNT_finestra.png"></td>
 </tr>
 <tr>
-<td align="center">InterPNT dialog box</td>
+<td align="center"><img src="InterPNT_finestra2.png"></td>
+<td align="center"><img src="InterPNT_finestra2b.png"></td>
+<td align="center"><img src="InterPNT_finestra2c.png"></td>
+<td align="center"><img src="InterPNT_finestra2d.png"></td>
+</tr>
+<tr>
+<td colspan="4" align="center"><img src="InterPNT_finestra2e.png"></td>
+</tr>
+<tr>
+<td colspan="4" align="center"><img src="InterPNT_finestra3.png"></td>
+</tr>
+<tr>
+<td colspan="4" align="center">InterPNT dialog box</td>
 </tr>
 </table>
 </div>

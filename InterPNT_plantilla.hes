@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 09-02-2025 */-->
+<!--/* Rev AA 05-03-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>InterPNT: Interpolación a partir de puntos, lidar</title>
@@ -33,11 +33,11 @@
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-<p>Esta aplicación genera un ráster en el que el valor de cada celda se obtiene a partir de la interpolación de los valores de un campo numérico de la base de datos de un fichero de puntos o del valor de la tercera coordenada de cada punto(en el caso de ficheros 3d).  El ráster generado corresponde a una superficie contínua, no tiene sentido utilizar este método pretendiendo obtener un ráster de valores categóricos. Este fichero de puntos tiene que estar estructurado (formato PNT). Pueden excluirse puntos del conjunto total para diversos criterios, tanto a nivel global, como localmente. También se soporta que un punto tenga más de un registro asociado a la base de datos (p. ej. mediciones de agua realizadas en diversas fechas sobre una misma fuente).</p>
-
 <p>Como en el caso de otros procedimientos de cálculo, la interpolación a partir de puntos puede dar resultados notablemente diferentes según las opciones de la aplicación escogidas. El método escogido, la distancia umbral, la ponderación a aplicar, la utilización de máscaras de exclusión, etc, pueden ayudar enormemente a mejorar los resultados. El conocimiento de los datos con que se trabaja y la realización de pruebas tentativas variando diferentes parámetros son a menudo de gran ayuda para tomar decisiones sobre cómo usar estos parámetros. Además, si se puede, conviene reservar un conjunto de puntos independientes aleatoriamente distribuidos para poder realizar una evaluación cuantitativa de los resultados (test).</p>
 
-<p>En la actual versión existen cinco posibles métodos de interpolación: inverso de la distancia, función <i>'spline'</i>, superficies de tendencia,  kriging y estadísticas de vecindad. Por el método del inverso de la distancia, la interpolación del punto problema se realiza asignando pesos a los valores de los puntos de muestreo en función inversa de la distancia que separa el centro de píxel del punto problema. Esta distancia puede calcularse de manera euclidiana, o utilizando un cálculo simplificado (distancia de Manhattan). Por el método <i>'spline'</i> se determina la función regular, contínua y derivable, o el conjunto de funciones si dividimos el ámbito global en diferentes regiones, que se adapte mejor a los puntos de muestreo sin perder sus propiedades de continuidad. Para conocer más detalles de la expresión analítica de esta función puede consultar: Helena Mitasova y Lubos Mitas (1993) &quot;Interpolation by Regularized Spline with Tension&quot; Mathematical Geology. vol. 25 nº 6 p. 641-655.<br/>
+<p>En los cálculos de cuantiles, como la mediana, puede indicarse, con el modificador /MEDIANA_EMPAT=, el tipo de desempate a usar para su cálculo cuando la posición del cuantil sea entre dos valores de la serie. Para más información se puede consultar <a href="general.htm#Quantils">sintaxis general</a>.</p>
+
+<p>En la actual versión existen cinco posibles métodos de interpolación: inverso de la distancia, función <i>'spline'</i>, superficies de tendencia,  kriging y estadísticas de vecindad. Por el método del inverso de la distancia, la interpolación del punto problema se realiza asignando pesos a los valores de los puntos de muestreo en función inversa de la distancia que separa el centro de píxel del punto problema. Esta distancia puede calcularse de manera euclidiana, o utilizando un cálculo simplificado (distancia de Manhattan). Por el método <i>'spline'</i> se determina la función regular, continua y derivable, o el conjunto de funciones si dividimos el ámbito global en diferentes regiones, que se adapte mejor a los puntos de muestreo sin perder sus propiedades de continuidad. Para conocer más detalles de la expresión analítica de esta función puede consultar: Helena Mitasova y Lubos Mitas (1993) &quot;Interpolation by Regularized Spline with Tension&quot; Mathematical Geology. vol. 25 nº 6 p. 641-655.<br/>
 <br/></p>
 
   <CENTER>
@@ -66,7 +66,7 @@
 <small>Expresiones para las funciones polinómicas lineal (grado 1), cuadrática (grado 2) y cúbica (grado 3).</small>
 </center>
   
-<p>Con el método de estadísticas de vecindad, se asigna a cada celda el estadístico designado  (media, mediana, máximo, mínimo, rango, desviación estándar, media de las desviaciones absolutas  respecto de la mediana o número de ocurrencias) , calculado considerando todos los puntos que se  encuentran dentro de un círculo definido por un radio, o dentro de un cuadrado definido por un lado,  ubicados en el centro de cada celda que se quiere interpolar. A diferencia de otros métodos de InterPNT,  y en particular del método que hace la interpolación por ponderación del inverso de la distancia elevada  a un exponente determinado por el usuario pero que también limita este cálculo a un cierto radio de distancia  (distancia máxima), en el nuevo modo de estadísticas de vecindad una vez se seleccionan todos los puntos  presentes dentro del ámbito (circular o cuadrado) indicado, no se efectúa ninguna ponderación sino que  directamente se hace el cálculo pedido, que puede ser una medida de centralidad de los diferentes  valores (media o mediana), de dispersión de estos valores (máximo, mínimo, rango, desviación estándar,  media de las desviaciones absolutas respecto de la mediana) o, simplemente, un recuento del número de  valores disponibles (número de ocurrencias).</p>
+<p>Con el método de estadísticas de vecindad, se asigna a cada celda el estadístico designado  (media, mediana, máximo, mínimo, rango, desviación estándar, media de las desviaciones absolutas  respecto de la mediana o número de ocurrencias), calculado considerando todos los puntos que se  encuentran dentro de un círculo definido por un radio, o dentro de un cuadrado definido por un lado,  ubicados en el centro de cada celda que se quiere interpolar. A diferencia de otros métodos de InterPNT,  y en particular del método que hace la interpolación por ponderación del inverso de la distancia elevada  a un exponente determinado por el usuario pero que también limita este cálculo a un cierto radio de distancia  (distancia máxima), en el nuevo modo de estadísticas de vecindad una vez se seleccionan todos los puntos  presentes dentro del ámbito (circular o cuadrado) indicado, no se efectúa ninguna ponderación sino que  directamente se hace el cálculo pedido, que puede ser una medida de centralidad de los diferentes  valores (media o mediana), de dispersión de estos valores (máximo, mínimo, rango, desviación estándar,  media de las desviaciones absolutas respecto de la mediana) o, simplemente, un recuento del número de  valores disponibles (número de ocurrencias).</p>
 
 <p><b><u>Operación</u></b><br/>
 <br/> 
@@ -76,7 +76,7 @@ En primer lugar hay que escoger si se quiere usar el valor de la tercera coorden
 
 <p>El fichero de salida será un ráster no comprimido de valores reales (excepto cuando se definan máscaras de exclusión, entonces será comprimido y también de valores reales). Éste ráster tendrá definido el valor de fondo o sindatos en aquellas celdas en las que no haya quedado definido ningún valor posible porque aquella coordenada no verifica los criterios de las <b>'Opciones avanzadas'</b>, porque está dentro de una máscara de exclusión o porque no tiene un mínimo de puntos suficientes dentro de la distancia máxima de influencia.<br/>
 <br/>
-Hay que definir el envolvente y lado de píxel de este ráster de salida, explicitando las coordenadas o ajustando el envolvente en el ámbito del fichero de puntos. Hay que hacer notar que la velocidad del proceso es muy sensible a éstos valores. Un lado pequeño en una región a interpolar muy amplia sin máscara definida, dará unos valores muy precisos (suavemente variables en función de la distancia), pero el número de cálculos será muy grande y el tiempo de ejecución, largo.</p>
+Hay que definir el envolvente y lado de píxel de este ráster de salida, explicitando las coordenadas o ajustando el envolvente en el ámbito del fichero de puntos. Hay que hacer notar que la velocidad del proceso es muy sensible a estos valores. Un lado pequeño en una región a interpolar muy amplia sin máscara definida, dará unos valores muy precisos (suavemente variables en función de la distancia), pero el número de cálculos será muy grande y el tiempo de ejecución, largo.</p>
 
 <p><b><u>Opciones para Inverso de la distancia:</u></b><br/>
 <br/>
@@ -96,7 +96,7 @@ El principal parámetro de esta opción es el grado que determina el orden  del po
   
 <p><b><u>Opciones para las estadísticas de vecindad:</u></b><br/>
 <br/>
-Hay que definir dos parámetros: la función estadística a utilizar y la distancia máxima a la  que un punto se considera que debe formar parte del conjunto de puntos que proporcionan los  valores para el cálculo del estadístico que se transferirá a la celda del raster de salida.<br/> Las funciones estadísticas disponibles son la media, la mediana, el máximo, el mínimo, el rango,  la desviación estándar, la media de las desviaciones absolutas respecto de la mediana y el número  de ocurrencias.<br/>
+Hay que definir dos parámetros: la función estadística a utilizar y la distancia máxima a la  que un punto se considera que debe formar parte del conjunto de puntos que proporcionan los  valores para el cálculo del estadístico que se transferirá a la celda del ráster de salida.<br/> Las funciones estadísticas disponibles son la media, la mediana, el máximo, el mínimo, el rango,  la desviación estándar, la media de las desviaciones absolutas respecto de la mediana y el número  de ocurrencias.<br/>
 Para la distancia máxima, hay dos opciones posibles: distancia máxima como radio máximo de un  círculo y distancia máxima como mitad del lado de un cuadrado.<br/>
 </p> 
  
@@ -104,8 +104,8 @@ Para la distancia máxima, hay dos opciones posibles: distancia máxima como radio
 <br/>
 Las opciones avanzadas nos permiten parametrizar de la forma más ajustada posible algunos procedimientos globales de la interpolación.<br/>
 <br/>
-En el caso en que tengamos asociado más de un registro seleccionado a un punto (p.ej. diversas mediciones en instantes diferentes de una misma fuente), podemos escoger cómo será el valor a interpolar en este punto. a) ignorar este punto con registro múltiple (por tanto, será como si no formara parte de la selección); b) escoger el valor del primer registro que verifique las condiciones de selección; c) hacer una media entre estos registros; d)hacer una suma.<br/>
-Una posibilidad añadida es la elección de puntos de manera que se ignoren aquellos puntos exteriores al envolvente definido por el ráster. Esta opción no se recomienda si los valores cercanos a los bordes del ráster de salida son importantes.</p>
+En el caso en que tengamos asociado más de un registro seleccionado a un punto (p.ej. diversas mediciones en instantes diferentes de una misma fuente), podemos escoger cómo será el valor a interpolar en este punto. a) ignorar este punto con registro múltiple (por tanto, será como si no formara parte de la selección); b) escoger el valor del primer registro que verifique las condiciones de selección; c) hacer una media entre estos registros; d) hacer una suma.<br/>
+Una posibilidad añadida es la elección de puntos de manera que se ignoren aquellos puntos exteriores a la envolvente definida por el ráster. Esta opción no se recomienda si los valores cercanos a los bordes del ráster de salida son importantes.</p>
 
 <p>Finalmente, también podemos determinar sobre qué regiones dentro del ámbito definido, no necesitamos o no deseamos conocer el resultado de la interpolación. Utilizando un fichero que actúe como <b>máscara de exclusión</b> y determine cuáles zonas son útiles y cuáles no, aceleraremos considerablemente el proceso de cálculo y obtendremos resultados más coherentes por la exclusión de zonas sin puntos; por ejemplo, si estamos interpolando elevaciones terrestres a partir de cotas, podemos excluir de la interpolación todas las zonas marítimas. Esta máscara puede ser un ráster en el que las regiones a excluir serán aquellas en que el valor de la celda es sindatos. También puede ser un vector, estructurado o no estructurado, pero siempre de tipo polígono. En este caso la zona a excluir será por defecto el polígono universal, o bien la máscara incluirá aquellos polígonos con atributo igual o diferente a un valor determinado si se define expresamente. Para vectores estructurados hay, además, que concretar qué campo definirá la máscara.</p>
 
@@ -119,11 +119,22 @@ Una posibilidad añadida es la elección de puntos de manera que se ignoren aquell
 <div align="center">
 <table>
 <tr>
-<td><div align="center"><img src="InterPNT_finestra.png">
-<br><img src="InterPNT_finestra2.png"><img src="InterPNT_finestra3.png"></div></td>
+<td  colspan="4" align="center"><img src="InterPNT_finestra.png"></td>
 </tr>
 <tr>
-<td align="center">Caja de diálogo de InterPNT </td>
+<td align="center"><img src="InterPNT_finestra2.png"></td>
+<td align="center"><img src="InterPNT_finestra2b.png"></td>
+<td align="center"><img src="InterPNT_finestra2c.png"></td>
+<td align="center"><img src="InterPNT_finestra2d.png"></td>
+</tr>
+<tr>
+<td colspan="4" align="center"><img src="InterPNT_finestra2e.png"></td>
+</tr>
+<tr>
+<td colspan="4" align="center"><img src="InterPNT_finestra3.png"></td>
+</tr>
+<tr>
+<td colspan="4" align="center">Caja de diálogo de InterPNT </td>
 </tr>
 </table>
 </div>
