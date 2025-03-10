@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 05-03-2025 */-->
+<!--/* Rev AA 10-03-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>InterPNT: Interpolación a partir de puntos, lidar</title>
@@ -18,10 +18,10 @@
 <table width="98%">
 <tr align="center" valign="middle">
 	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
-	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Cajas de diálogo de la aplicación</a></span></td>
 </tr>
 <tr align="center" valign="middle">
-	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>
 	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
 </tr>
 </table>
@@ -37,84 +37,88 @@
 
 <p>En los cálculos de cuantiles, como la mediana, puede indicarse, con el modificador /MEDIANA_EMPAT=, el tipo de desempate a usar para su cálculo cuando la posición del cuantil sea entre dos valores de la serie. Para más información se puede consultar <a href="general.htm#Quantils">sintaxis general</a>.</p>
 
-<p>En la actual versión existen cinco posibles métodos de interpolación: inverso de la distancia, función <i>'spline'</i>, superficies de tendencia,  kriging y estadísticas de vecindad. Por el método del inverso de la distancia, la interpolación del punto problema se realiza asignando pesos a los valores de los puntos de muestreo en función inversa de la distancia que separa el centro de píxel del punto problema. Esta distancia puede calcularse de manera euclidiana, o utilizando un cálculo simplificado (distancia de Manhattan). Por el método <i>'spline'</i> se determina la función regular, continua y derivable, o el conjunto de funciones si dividimos el ámbito global en diferentes regiones, que se adapte mejor a los puntos de muestreo sin perder sus propiedades de continuidad. Para conocer más detalles de la expresión analítica de esta función puede consultar: Helena Mitasova y Lubos Mitas (1993) &quot;Interpolation by Regularized Spline with Tension&quot; Mathematical Geology. vol. 25 nº 6 p. 641-655.<br/>
-<br/></p>
+<p>En la actual versión existen cinco posibles métodos de interpolación: <b>inverso de la distancia</b>, función <b><i>spline</i></b>, <b>superficies de tendencia</b>,  <b><i>kriging</i></b> y <b>estadísticas de vecindad</b>.</p> 
 
-  <CENTER>
-  <img alt="Fórmula inverso distancia" src="inversd.gif">
-  </CENTER>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-  <small>B potencia de inverso de la distancia.
-  </small><CENTER><small>
-  <BR>Cálculo del valor interpolado mediante método inverso distancia</small>
-  </CENTER><P><CENTER>
-  <BR><BR><img alt="Expresiones para las funciones 'spline'" src="spline.gif">
-  </center>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-  <small>T(x,y) es desviación y fi tensión
-  </small><CENTER><small>
-  <BR>Expresiones para las funciones <I>'spline'</I></small><P>
-  </CENTER>
+<p>Por el método del <b>inverso de la distancia</b>, la interpolación del punto problema (celda) se realiza asignando pesos a los valores de los puntos de muestreo en función inversa de la distancia que separa el centro de píxel del punto problema. Esta distancia puede calcularse de manera euclidiana, o utilizando un cálculo simplificado (distancia de Manhattan). Se puede consultar más detalles en <a href="https://en.wikipedia.org/wiki/Inverse_distance_weighting">https://en.wikipedia.org/wiki/Inverse_distance_weighting</a>.</p>
 
-<p>Por el método de generación de superficies de tendencia, se trata de  ajustar una función polinómica respecto de las coordenadas X, Y de grado  1, 2 o 3 que dará lugar a una superficie suave, continua y derivable  resultado del ajuste. Este ajuste se realiza por mínimos cuadrados y  permitirá determinar los coeficientes de cada término del polinomio.</p>
+<div align="center"><img alt="Fórmula inverso distancia" src="inversd.gif"><br>
+<font size="-1">ß es la potencia del inverso de la distancia<br>
+Cálculo del valor interpolado mediante el método del inverso de la distancia</font></div>
 
-<div align="center"><br/>
-<br/>
-<img alt="Expresiones para las funciones polinómicas " src="trend.gif"/></div>
+<p>Por el método <i>spline</i> se determina la función regular, continua y derivable, o el conjunto de funciones si dividimos el ámbito global en diferentes regiones, que se adapte mejor a los puntos de muestreo sin perder sus propiedades de continuidad. Para conocer más detalles de la expresión analítica de esta función puede consultar: </p>
+<ul>
+	<b>Mitásová, H., Mitás, L.</b> (1993) <i>Interpolation by regularized spline with tension: I. Theory and implementation</i>. Mathematical Geology, 25:641-655. <a href="https://doi.org/10.1007/BF00893171">https://doi.org/10.1007/BF00893171</a>
+</ul>
 
-<center>
-<small>Expresiones para las funciones polinómicas lineal (grado 1), cuadrática (grado 2) y cúbica (grado 3).</small>
-</center>
-  
-<p>Con el método de estadísticas de vecindad, se asigna a cada celda el estadístico designado  (media, mediana, máximo, mínimo, rango, desviación estándar, media de las desviaciones absolutas  respecto de la mediana o número de ocurrencias), calculado considerando todos los puntos que se  encuentran dentro de un círculo definido por un radio, o dentro de un cuadrado definido por un lado,  ubicados en el centro de cada celda que se quiere interpolar. A diferencia de otros métodos de InterPNT,  y en particular del método que hace la interpolación por ponderación del inverso de la distancia elevada  a un exponente determinado por el usuario pero que también limita este cálculo a un cierto radio de distancia  (distancia máxima), en el nuevo modo de estadísticas de vecindad una vez se seleccionan todos los puntos  presentes dentro del ámbito (circular o cuadrado) indicado, no se efectúa ninguna ponderación sino que  directamente se hace el cálculo pedido, que puede ser una medida de centralidad de los diferentes  valores (media o mediana), de dispersión de estos valores (máximo, mínimo, rango, desviación estándar,  media de las desviaciones absolutas respecto de la mediana) o, simplemente, un recuento del número de  valores disponibles (número de ocurrencias).</p>
+<div align="center"><img alt="Expresiones para las funciones spline" src="spline.gif"><br>
+<font size="-1">T(x,y) es la desviación y &phi; es la tensión<br>
+Expresiones para las funciones <i>spline</i></font></div>
 
-<p><b><u>Operación</u></b><br/>
+<p>Por el método de generación de <b>superficies de tendencia</b>, se trata de  ajustar una función polinómica respecto de las coordenadas X, Y de grado  1, 2 o 3 que dará lugar a una superficie suave, continua y derivable  resultado del ajuste. Este ajuste se realiza por mínimos cuadrados y  permitirá determinar los coeficientes de cada término del polinomio.</p>
+
+<div align="center"><img alt="Expresiones para las funciones polinómicas" src="trend.gif"/><br>
+<font size="-1">Expresiones para las funciones polinómicas lineal (grado 1), cuadrática (grado 2) y cúbica (grado 3)</font></div>
+
+<p>Con el método de <b>estadísticas de vecindad</b>, se asigna a cada celda el estadístico designado  (media, mediana, máximo, mínimo, rango, desviación estándar, media de las desviaciones absolutas  respecto de la mediana o número de ocurrencias, percentil), calculado considerando todos los puntos que se  encuentran dentro de un círculo definido por un radio, o dentro de un cuadrado definido por un lado,  ubicados en el centro de cada celda que se quiere interpolar. A diferencia de otros métodos de InterPNT,  y en particular del método que hace la interpolación por ponderación del inverso de la distancia elevada  a un exponente determinado por el usuario pero que también limita este cálculo a un cierto radio de distancia  (distancia máxima), en el modo de estadísticas de vecindad una vez se seleccionan todos los puntos  presentes dentro del ámbito (circular o cuadrado) indicado, no se efectúa ninguna ponderación sino que  directamente se hace el cálculo pedido, que puede ser una medida de centralidad de los diferentes  valores (media o mediana), de dispersión de estos valores (máximo, mínimo, rango, desviación estándar,  media de las desviaciones absolutas respecto de la mediana) o, simplemente, un recuento del número de  valores disponibles (número de ocurrencias).</p>
+
+<p>Este es un método típico para el procesamiento de datos lidar, y particularmente para la producción de Modelos Digitales de Superficies (MDS) o de Modelos Digitales de Alturas (MDA). En estas dos aplicaciones se suele tomar la cota más alta obtenida por el lidar en el ámbito de la celda del ráster a obtener. Este ámbito puede ser el área de la celda si la densidad de puntos es lo suficientemente alta en relación al tamaño de la celda, o algo mayor (por ejemplo un radio 1.5 veces el lado de la celda); se pueden consultar las opciones específicas, más abajo, para más detalles.</p>
+
+<p>Si la densidad de puntos es muy alta se puede pedir, en vez del máximo, un percentil 90, etc, con lo que se reduce la probabilidad de adoptar como superficie real algún artefacto del sensor como la detección de pájaros volando en ese momento. Con otras estadísticas, como las de dispersión, se pueden obtener interesantes datos de la estructura vertical de las masas de vegetación. Finalmente, con la elección de estadísticas de mínimo, combinadas con la selección de puntos que correspondan a retornos únicos (información disponible en uno de los campos de la tabla de atributos) y de intensidades de retorno elevadas (dato también disponible en otro campo), y con radios de exploración muy grandes (varias veces el lado de celda a obtener), se puede obtener un Modelo Digital de Elevaciones. Si ya se dispone de un MDE, o éste se ha calculado con los datos lidar como se acaba de describir, se puede obtener un MDA (los datos altimétricos de la vegetación o de las construcciones humanas se miden desde el suelo y no desde el nivel del mar); en este caso lo más práctico es, antes de ejecutar InterPNT, ejecutar la aplicación <a href="CombiCap.htm">CombiCap</a> en la forma MDE+PNT-->PNT y con el modo de transferencia de campos estadísticos utilizando la interpolación bilineal, donde el segundo PNT obtendrá las elevaciones a cada punto; a continuación se genera un campo vacío de tipo numérico y típicamente con 2 o 3 decimales para que, con el uso de <a href="CalcImg.htm">CalcImg</a>, sea llenado con la altura del punto (calculada haciendo el resto entre la altitud obtenida por el lidar y la elevación resultante de CombiCap). Esta altura es la que se somete a InterPNT para obtener el MDA.</P>
+
+<p><b><u>Operación general</u></b><br/>
 <br/> 
-En primer lugar hay que escoger si se quiere usar el valor de la tercera coordenada  (en el caso de archivos 3D) o seleccionar un campo a interpolar de la base de datos  asociada al fichero de puntos. En el caso de escoger un campo de la base de datos,  hay que seleccionar un campo numérico. Aunque los valores de este campo sean enteros,  el interpolador tratará estos datos como reales de doble precisión en todos los cálculos  internos y generará un ráster resultado de reales con precisión simple.</p>
+En primer lugar, hay que escoger si se quiere usar el valor de la tercera coordenada  (en el caso de archivos 3D) o seleccionar un campo a interpolar de la base de datos  asociada al fichero de puntos. En el caso de escoger un campo de la base de datos,  hay que seleccionar un campo numérico. Aunque los valores de este campo puedan ser enteros,  el interpolador tratará estos datos como reales de doble precisión en todos los cálculos  internos y generará un ráster resultado de reales con precisión simple.</p>
   
-<p>La selección de registros es el primer filtro que escoge aquellos registros de la base de datos del fichero de puntos que participarán en la interpolación. La opción por defecto es <b>'Todos los registros'</b>, pero en muchos casos mejoraremos la calidad y la velocidad de la interpolación si excluimos aquellos registros que no deseamos que influyan en el resultado. La selección de registros se hace al construir una sentencia lógica sobre cualquier combinación de campos de la base de datos asociada al fichero de puntos. Observe que los campos implicados en la selección pueden no involucrar al campo a interpolar. Por ejemplo, si en un fichero de emisiones atmosféricas, un campo indica la comarca donde se halla cada industria y queremos interpolar cierto contaminante, podemos indicar que se interpole sólo con los valores de cierta comarca. Recomendamos utilizar la ventana que se abre a partir de la opción <b>'Aplicar selección'</b> para construir esta sentencia lógica, a base de ir seleccionando los campos, operadores, valores, nexos y orden de prioridad con los botones y desplegables correspondientes. En la sección explicativa de la 'Sintaxis' de la línea de comandos detallamos los elementos de esta sentencia, que funciona de manera similar a la consulta por atributos de MiraMon.</p>
+<p>La selección de registros es el primer filtro que escoge aquellos registros, de la base de datos del fichero de puntos, que participarán en la interpolación. La opción por defecto es <b>'Todos los registros'</b>, pero en muchos casos mejoraremos la calidad y la velocidad de la interpolación si excluimos aquellos registros que no deseamos que influyan en el resultado. La selección de registros se hace al construir una sentencia lógica sobre cualquier combinación de campos de la base de datos asociada al fichero de puntos. Observe que los campos implicados en la selección pueden no involucrar al campo a interpolar. Por ejemplo, si en un fichero de emisiones atmosféricas, un campo indica la comarca donde se halla cada industria y queremos interpolar cierto contaminante, podemos indicar que se interpole sólo con los valores de cierta comarca. Recomendamos utilizar la ventana que se abre a partir de la opción <b>'Aplicar selección'</b> para construir esta sentencia lógica, a base de ir seleccionando los campos, operadores, valores, nexos y orden de prioridad con los botones y desplegables correspondientes. En la sección explicativa de la 'Sintaxis' de la línea de comandos detallamos los elementos de esta sentencia, que funciona de manera similar a la consulta por atributos de MiraMon.</p>
 
-<p>El fichero de salida será un ráster no comprimido de valores reales (excepto cuando se definan máscaras de exclusión, entonces será comprimido y también de valores reales). Éste ráster tendrá definido el valor de fondo o sindatos en aquellas celdas en las que no haya quedado definido ningún valor posible porque aquella coordenada no verifica los criterios de las <b>'Opciones avanzadas'</b>, porque está dentro de una máscara de exclusión o porque no tiene un mínimo de puntos suficientes dentro de la distancia máxima de influencia.<br/>
-<br/>
-Hay que definir el envolvente y lado de píxel de este ráster de salida, explicitando las coordenadas o ajustando el envolvente en el ámbito del fichero de puntos. Hay que hacer notar que la velocidad del proceso es muy sensible a estos valores. Un lado pequeño en una región a interpolar muy amplia sin máscara definida, dará unos valores muy precisos (suavemente variables en función de la distancia), pero el número de cálculos será muy grande y el tiempo de ejecución, largo.</p>
+<p>El fichero de salida será un ráster no comprimido de valores reales (excepto cuando se definan máscaras de exclusión, entonces será comprimido y también de valores reales). Éste ráster tendrá definido el valor de fondo o sindatos en aquellas celdas en las que no haya quedado definido ningún valor posible porque aquella coordenada no verifica los criterios de las <b>'Opciones avanzadas'</b>, porque está dentro de una máscara de exclusión o porque no tiene un mínimo de puntos suficientes dentro de la distancia máxima de influencia.</p>
 
-<p><b><u>Opciones para Inverso de la distancia:</u></b><br/>
-<br/>
-Hay que definir, en primer lugar, cómo se realizará el cálculo de la distancia; de forma euclidiana o al estilo 'Manhattan' (vea en el apartado anterior, ambas definiciones de distancia). El cálculo del valor que se asignará a cada celda es una media ponderada de los valores que toman los puntos a considerar. El peso que toma cada punto tiene una dependencia potencial respecto al inverso de la distancia entre el punto y el centro del píxel. El valor por defecto es 2, pero puede parametrizarse en la manera que el usuario juzgue más adecuada. Cuanto mayor el valor, más peso tiene el punto en su entorno inmediato, y menos peso la media de los valores circundantes.</p>
+<p>Hay que definir la envolvente y lado de píxel de este ráster de salida, explicitando las coordenadas o ajustando la envolvente en el ámbito del fichero de puntos. Hay que hacer notar que la velocidad del proceso es muy sensible a estos valores. Un lado pequeño en una región a interpolar muy amplia sin máscara definida, dará unos valores muy precisos (suavemente variables en función de la distancia), pero el número de cálculos será muy grande y el tiempo de ejecución, largo.</p>
+
+<p><b><u>Opciones para Inverso de la distancia:</u></b></p>
+
+<p>Hay que definir, en primer lugar, cómo se realizará el cálculo de la distancia; de forma euclidiana o al estilo 'Manhattan' (vea en el apartado anterior, ambas definiciones de distancia). El cálculo del valor que se asignará a cada celda es una media ponderada de los valores que toman los puntos a considerar. El peso que toma cada punto tiene una dependencia potencial respecto al inverso de la distancia entre el punto y el centro del píxel. El valor por defecto es 2, pero puede parametrizarse en la manera que el usuario juzgue más adecuada. Cuanto mayor el valor, más peso tiene el punto en su entorno inmediato, y menos peso la media de los valores circundantes.</p>
 
 <p>La distancia máxima es un parámetro muy habitual que marca una región de influencia de los puntos localizados en el interior de una circunferencia, centrada en el píxel, y de radio igual a la distancia máxima indicada. Por tanto, para cada celda tendremos una distancia a partir de la cual los puntos originales no juegan ningún papel en el proceso de interpolación. Hay que tener presente que es muy razonable usar siempre este parámetro, ya que además de tener pleno sentido en la interpolación, permite reducir extraordinariamente el tiempo de ejecución.</p>
 
 <p>Otro criterio interesante es definir el número máximo de puntos de los cuales dependerá el cálculo. Evidentemente siempre serán los 'n' más cercanos al centro del píxel. El reiterado proceso de ordenación que requiere la aplicación de este criterio alarga considerablemente el proceso de cálculo, pero con ello aseguramos la intervención de solamente 'n' de los más próximos. Para asegurar que el cálculo se hace con un muestreo suficiente, también podemos definir un número mínimo de puntos a participar en el cálculo de cada celda. Si no se llega a este mínimo, el valor de la celda será sindatos.</p>
 
-<p><b><u>Opciones para <i>'spline'</i>:</u></b><br/>
-<br/>
-La interpolación por <i>splines</i> puede ser según la configuración de los puntos de muestra, bastante sensible a los parámetros de configuración. El parámetro <b>tensión</b> modula la suavización de la función; su valor por defecto es 40 y tensiones excesivamente bajas o elevadas pueden dar lugar a artefactos inesperados. El parámetro <b>desviación</b> ajusta el ruido de la muestra, el valor por defecto cero implica que la función pasa exactamente por los puntos de muestreo (interpolador exacto). El parámetro <b>lado de bloque de análisis</b> localiza el ajuste al dividir el ámbito en bloques de análisis en los que se restringe la solución de la función <i>spline</i> a esta región. Este parámetro acelera bastante los cálculos, es muy recomendable cuando disponemos de muchos puntos, pero puede llegar a producir discontinuidades no deseadas si su valor es demasiado pequeño (ventana demasiado local).<br/> El método <i>spline</i> se comporta de manera óptima con muestras sin excesivas perturbaciones. Ahora bien, si localmente tenemos puntos cercanos con variaciones bruscas de la variable a interpolar, el método puede dar lugar a valores bastante alejados del rango esperado. En este caso es bastante recomendable incrementar la tensión y como opción complementaria forzar los valores de salida dentro de un máximo o un mínimo. En este caso hay que definir los parámetros <i>/MIN_VAL</i> y <i>/MAX_VAL</i>.</p>
+<p><b><u>Opciones para <i>spline</i>:</u></b></p>
 
-<p><b><u>Opciones para las superficies de tendencia:</u></b><br/>
-<br/>
-El principal parámetro de esta opción es el grado que determina el orden  del polinomio a ajustar. En la actual versión es posible generar superficies  de primer grado o lineales, de segundo grado o cuadráticas y de tercer grado o  cúbicas.<br/> Del mismo modo que para <i>spline</i> es posible generar diferentes soluciones,  no estrictamente continuas, en dividir el ámbito global en subregiones más locales.  Estas subregiones quedan definidas por el parámetro <b>lado de bloque de análisis</b>.</p>
-  
-<p><b><u>Opciones para las estadísticas de vecindad:</u></b><br/>
-<br/>
-Hay que definir dos parámetros: la función estadística a utilizar y la distancia máxima a la  que un punto se considera que debe formar parte del conjunto de puntos que proporcionan los  valores para el cálculo del estadístico que se transferirá a la celda del ráster de salida.<br/> Las funciones estadísticas disponibles son la media, la mediana, el máximo, el mínimo, el rango,  la desviación estándar, la media de las desviaciones absolutas respecto de la mediana y el número  de ocurrencias.<br/>
-Para la distancia máxima, hay dos opciones posibles: distancia máxima como radio máximo de un  círculo y distancia máxima como mitad del lado de un cuadrado.<br/>
-</p> 
- 
-<p><b><u>Opciones avanzadas:</u></b><br/>
-<br/>
-Las opciones avanzadas nos permiten parametrizar de la forma más ajustada posible algunos procedimientos globales de la interpolación.<br/>
-<br/>
-En el caso en que tengamos asociado más de un registro seleccionado a un punto (p.ej. diversas mediciones en instantes diferentes de una misma fuente), podemos escoger cómo será el valor a interpolar en este punto. a) ignorar este punto con registro múltiple (por tanto, será como si no formara parte de la selección); b) escoger el valor del primer registro que verifique las condiciones de selección; c) hacer una media entre estos registros; d) hacer una suma.<br/>
-Una posibilidad añadida es la elección de puntos de manera que se ignoren aquellos puntos exteriores a la envolvente definida por el ráster. Esta opción no se recomienda si los valores cercanos a los bordes del ráster de salida son importantes.</p>
+<p>La interpolación por <i>splines</i> puede ser según la configuración de los puntos de muestra, bastante sensible a los parámetros de configuración. El parámetro <b>tensión</b> modula la suavización de la función; su valor por defecto es 40 y tensiones excesivamente bajas o elevadas pueden dar lugar a artefactos inesperados. El parámetro <b>desviación</b> ajusta el ruido de la muestra, el valor por defecto cero implica que la función pasa exactamente por los puntos de muestreo (interpolador exacto). El parámetro <b>lado de bloque de análisis</b> localiza el ajuste al dividir el ámbito en bloques de análisis en los que se restringe la solución de la función <i>spline</i> a esta región. Este parámetro acelera bastante los cálculos, es muy recomendable cuando disponemos de muchos puntos, pero puede llegar a producir discontinuidades no deseadas si su valor es demasiado pequeño (ventana demasiado local).</p>
 
-<p>Finalmente, también podemos determinar sobre qué regiones dentro del ámbito definido, no necesitamos o no deseamos conocer el resultado de la interpolación. Utilizando un fichero que actúe como <b>máscara de exclusión</b> y determine cuáles zonas son útiles y cuáles no, aceleraremos considerablemente el proceso de cálculo y obtendremos resultados más coherentes por la exclusión de zonas sin puntos; por ejemplo, si estamos interpolando elevaciones terrestres a partir de cotas, podemos excluir de la interpolación todas las zonas marítimas. Esta máscara puede ser un ráster en el que las regiones a excluir serán aquellas en que el valor de la celda es sindatos. También puede ser un vector, estructurado o no estructurado, pero siempre de tipo polígono. En este caso la zona a excluir será por defecto el polígono universal, o bien la máscara incluirá aquellos polígonos con atributo igual o diferente a un valor determinado si se define expresamente. Para vectores estructurados hay, además, que concretar qué campo definirá la máscara.</p>
+<p>El método <i>spline</i> se comporta de manera óptima con muestras sin excesivas perturbaciones. Ahora bien, si localmente se tienen puntos cercanos con variaciones bruscas de la variable a interpolar, el método puede dar lugar a valores bastante alejados del rango esperado. En este caso es bastante recomendable incrementar la tensión y como opción complementaria forzar los valores de salida dentro de un máximo o un mínimo. En este caso hay que definir los modificadores <i>/MIN_VAL</i> y <i>/MAX_VAL</i>.</p>
 
 <p>Si no se define el lado de análisis, la solución es única para todo el ámbito (ventana igual al ámbito), si el lado de análisis es pequeño, el ámbito se dividirá en muchas regiones independientes.</p>
+
+<p><b><u>Opciones para las superficies de tendencia:</u></b></p>
+
+<p>El principal parámetro de esta opción es el grado que determina el orden  del polinomio a ajustar. En la actual versión es posible generar superficies  de primer grado o lineales, de segundo grado o cuadráticas y de tercer grado o  cúbicas.</p>
+
+<p>Del mismo modo que para <i>spline</i>, es posible generar diferentes soluciones,  no estrictamente continuas, en dividir el ámbito global en subregiones más locales.  Estas subregiones quedan definidas por el parámetro <b>lado de bloque de análisis</b>.</p>
+  
+<p><b><u>Opciones para las estadísticas de vecindad:</u></b></p>
+
+<p>Hay que definir dos parámetros: la función estadística a utilizar, y la distancia máxima a la  que un punto se considera que debe formar parte del conjunto de puntos que proporcionan los  valores para el cálculo del estadístico que se transferirá a la celda del ráster de salida.</p>
+
+<p>Las funciones estadísticas disponibles son la media, la mediana, el máximo, el mínimo, el rango,  la desviación estándar, la media de las desviaciones absolutas respecto de la mediana y el número  de ocurrencias.</p>
+
+<p>Para la distancia máxima, hay dos opciones posibles: distancia máxima como radio máximo de un  círculo, y distancia máxima como mitad del lado de un cuadrado. Esta última opción es típicamente utilizada cuando se desea que los puntos lidar con los que se calculará el valor del estadístico que se escribirá en la celda están ubicados estrictamente en su interior; cabe notar que, dado que el dato es la mitad del cuadrado, si se ha indicado que se quiere obtener un ráster de 2 m de lado, la distancia a indicar para la distancia máxima será 1 m. Cuando el valor del estadístico calculado proviene de un solo punto, como en el caso del mínimo y el máximo, es posible obtener capas adicionales (de nombre igual a la capa de salida y con un sufijo apropiado): Por un lado, si los datos lidar proporcionan, en respectivos campos, el día, mes y año de captura de cada punto es posible generar 3 rásters adicionales que contendrán el día, mes y año del punto que proporciona el valor en cada píxel. Por otro lado, y para propósitos didácticos y de investigación, es posible generar capas adicionales que contengan sólo los puntos donadores, o que unan con líneas los puntos donadores con el centro de la celda receptora del valor.</p>
+ 
+<p><b><u>Opciones avanzadas:</u></b></p>
+
+<p>Las opciones avanzadas nos permiten parametrizar de la forma más ajustada posible algunos procedimientos globales de la interpolación.</p>
+
+<p>En el caso en que tengamos asociado más de un registro seleccionado a un punto (p.ej. diversas mediciones en instantes diferentes de una misma fuente), podemos escoger cómo será el valor a interpolar en este punto. a) ignorar este punto con registro múltiple (por tanto, será como si no formara parte de la selección); b) escoger el valor del primer registro que verifique las condiciones de selección; c) hacer una media entre estos registros; d) hacer una suma.</p>
+
+<p>Una posibilidad añadida es la elección de puntos de manera que se ignoren aquellos puntos exteriores a la envolvente definida por el ráster. Esta opción no se recomienda si los valores cercanos a los bordes del ráster de salida son importantes.</p>
+
+<p>Finalmente, también podemos determinar sobre qué regiones dentro del ámbito definido, no necesitamos o no deseamos conocer el resultado de la interpolación. Utilizando un fichero que actúe como <b>máscara de exclusión</b> y determine cuáles zonas son útiles y cuáles no, aceleraremos considerablemente el proceso de cálculo, y obtendremos resultados más coherentes por la exclusión de zonas sin puntos; por ejemplo, si estamos interpolando elevaciones terrestres a partir de cotas, podemos excluir de la interpolación todas las zonas marítimas. Esta máscara puede ser un ráster en el que las regiones a excluir serán aquellas en que el valor de la celda es sindatos. También puede ser un vector, estructurado o no estructurado, pero siempre de tipo polígono. En este caso la zona a excluir será por defecto el polígono universal, o bien la máscara incluirá aquellos polígonos con atributo igual o diferente a un valor determinado si se define expresamente. Para vectores estructurados hay, además, que concretar qué campo de la tabla de atributos definirá la máscara.</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+<h2><a id="Caixa" name="Caixa"></a>Cajas de diálogo de la aplicación</h2>
 
 <div align="center">
 <table>
@@ -134,7 +138,7 @@ Una posibilidad añadida es la elección de puntos de manera que se ignoren aquell
 <td colspan="4" align="center"><img src="InterPNT_finestra3.png"></td>
 </tr>
 <tr>
-<td colspan="4" align="center">Caja de diálogo de InterPNT </td>
+<td colspan="4" align="center">Cajas de diálogo de InterPNT </td>
 </tr>
 </table>
 </div>
@@ -142,10 +146,35 @@ Una posibilidad añadida es la elección de puntos de manera que se ignoren aquell
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<!-- <h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+<h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<div align="center"><img src="InterPNT_Invers_distancia.png"><img src="InterPNT_Llegenda.jpg"><br>
+<font size="-1">Ejemplo de MDE generado con el método inverso de la distancia<br><br> 
+<img src="InterPNT_Spline.png"><img src="InterPNT_Llegenda.jpg"><br>
+<font size="-1">Ejemplo de MDE generado con el método <i>spline</i><br><br> 
+<img src="InterPNT_Kriging.png"><img src="InterPNT_Llegenda.jpg"><br>
+<font size="-1">Ejemplo de MDE generado con el método <i>kriging</i><br><br>
+<img src="InterPNT_SuperfTendencia.png"><img src="InterPNT_Llegenda.jpg"><br>
+<font size="-1">Ejemplo de MDE generado con el método superfície de tendencia<br><br>
+Las 4 imágenes anteriores se han generado aplicando los métodos de interpolación indicados a partir del mismo conjunto de cotas. Fuente: Lluís Pesquer.<br><br>
+<img src="InterPNT_EV_1.png"><br>
+<font size="-1">Ejemplo de resultado con puntos lidar aplicando el método de estadísticas de vecindad (en este caso el estadístico seleccionado ha sido el promedio) para generar un ráster de lado de celda 2 m (se muestra la red de los lados de las celdas generadas).<br> La distancia máxima de búsqueda en este caso ha sido un círculo de radio 2 m. Para la celda marcada con una anotación roja, el programa seleccionó 5 puntos, a partir de los cuales se efectuará la media de sus valores<br><br>
+<img src="InterPNT_EV_2.png"><br>
+Ejemplo de resultado de la obtención de un MDS de 2 m de lado de celda a partir de datos lidar tomando el máximo como criterio estadístico de las estadísticas de vecindad.<br>
+El globo muestra, además de la altitud ortométrica (m sobre el nivel del mar) máxima de la superficie en la celda, el año, mes y día de la captura lidar del punto que proporciona la altitud.<br>
+El MDS resultante se visualiza con una transparencia del 40% sobre una ortofoto del Instituto Cartográfico y Geológico de Cataluña.<br>
+Se puede consultar la siguiente figura para la obtención de la altura de los edificios, árboles, etc, sobre el nivel del suelo<br><br>
+<img src="InterPNT_EV_3.png"><br>
+Ejemplo de resultado de la obtención de un MDA de 2 m de lado de celda a partir de datos lidar tomando el máximo como criterio estadístico de las estadísticas de vecindad.<br>
+Los datos considerados han sido estaturas calculadas, previamente a la ejecución del InterPNT, en un campo de los atributos de los puntos.<br>
+Este cálculo se ha efectuado restante (CalcImg), en cada registro de los puntos lidar, la altitud ortométrica de la superficie obtenida por el sensor menos la elevación obtenida del MDE (CombiCap en modo interpolación bilineal).<br>
+El globo muestra la altura máxima de los árboles sobre el nivel del suelo en la celda consultada.<br>
+El MDA resultante se visualiza con una transparencia del 40% sobre una ortofoto del Instituto Cartográfico y Geológico de Cataluña.<br><br>
+Fuente de las 3 imágenes anteriores: Pons, X.  
+</font></div>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
-  <hr/>-->
+  <hr/>
 
 <exclusiva>
 <h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>

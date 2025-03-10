@@ -3,14 +3,14 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:InterPNT:1</ows:Identifier>
 		<ows:Title>InterPNT</ows:Title>
-		<ows:Abstract>Esta aplicación genera un ráster en el que el valor de cada celda se obtiene a partir de la interpolación de los valores de un campo numérico de la base de datos de un fichero de puntos. El ráster generado corresponde a una superficie contínua, no tiene sentido utilizar este método pretendiendo obtener un ráster de valores categóricos. Este fichero de puntos tiene que estar estructurado (formato PNT). Pueden excluirse puntos del conjunto total para diversos criterios, tanto a nivel global, como localmente. También se soporta que un punto tenga más de un registro asociado a la base de datos (p. ej. mediciones de agua realizadas en diversas fechas sobre una misma fuente) y en este caso la aplicación funcionará según las opciones explicadas posteriormente en "Opciones avanzadas".</ows:Abstract>
+		<ows:Abstract><![CDATA[Esta aplicación genera un ráster donde el valor de cada celda se obtiene a partir de la interpolación de los valores de un campo numérico de la base de datos de un fichero de puntos, o de la tercera coordenada en el caso de ficheros 3D (donde la Z puede ser topográfica, pero también puede ser otra variable, como temperatura, concentración de un contaminante, etc). El ráster generado corresponde a una superficie continua y, por tanto, no tiene sentido utilizar este método para pretender obtener un ráster de valores categóricos (en este caso debe utilizarse, por ejemplo, la <a href="Thiessen.htm">generación de polígonos de Thiessen</a> a través de la aplicación con este nombre, en el menú "Herramientas | Interpolación y análisis del terreno"). Este fichero de puntos debe ser estructurado (formato PNT). Pueden excluirse puntos del conjunto total mediante varios criterios, tanto a nivel global (a través de selecciones por atributo, explicadas más abajo), como localmente. También se soporta que un punto tenga más de un registro asociado a la base de datos (por ejemplo análisis de agua realizadas en varias fechas sobre una misma fuente) y en este caso la aplicación funcionará según las opciones explicadas en "Opciones avanzadas", más abajo.]]></ows:Abstract>
 		<ows:Metadata xlink:title="Title:Interpolación a partir de puntos, lidar"/>
 		<ows:Metadata xlink:title="Abstract:Esta aplicación genera un ráster en el que el valor de cada celda se obtiene a partir de la interpolación de los valores de un campo numérico de la base de datos de un fichero de puntos. El ráster generado corresponde a una superficie contínua, no tiene sentido utilizar este método pretendiendo obtener un ráster de valores categóricos. Este fichero de puntos tiene que estar estructurado (formato PNT). Pueden excluirse puntos del conjunto total para diversos criterios, tanto a nivel global, como localmente. También se soporta que un punto tenga más de un registro asociado a la base de datos (p. ej. mediciones de agua realizadas en diversas fechas sobre una misma fuente)."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Fitxer_PNT</ows:Identifier>
 				<ows:Title>Fichero PNT</ows:Title>
-				<ows:Abstract><![CDATA[Fichero estructurado de puntos que contiene los valores a interpolar. En este caso, se puede indicar optativamente un conjunto de parámetros que definen la selección (p.ej: /COND1_CAMP=). Para saber más sobre los valores de estos parámetros sigan las consideraciones del documento de <a href="general.htm#SelecAtrib">sintaxi general</a>.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Fichero estructurado de puntos que contiene los valores a interpolar. En este caso, se puede indicar, optativamente, un conjunto de parámetros que definen la selección (p.ej: /COND1_CAMP=). Para saber más sobre los valores de estos parámetros, se puede consultar el documento de <a href="general.htm#SelecAtrib">sintaxis general</a>.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Fichero_PNT"/>
 				<ComplexData>
@@ -31,7 +31,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Camp</ows:Identifier>
 				<ows:Title>Campo a interpolar</ows:Title>
-				<ows:Abstract>Nombre del campo en formato Cadena a Acceso a CampoBD4. En el caso de elegir la opción Usar el valor de la tercera coordenada, de debe escribir "x".</ows:Abstract>
+				<ows:Abstract>Nombre del campo que contiene los datos en formato "cadena de acceso al campo BD4". En el caso de elegir la opción "Usar el valor de la tercera coordenada", debe escribirse "x".</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Campo"/>
 				<LiteralData>
@@ -117,7 +117,7 @@
 			<Input minOccurs="0" maxOccurs="100">
 				<ows:Identifier>COND#_CAMP</ows:Identifier>
 				<ows:Title>Campo de la condición #</ows:Title>
-				<ows:Abstract>Nombre del campo de la # condición de la selección. Puede haber hasta 100 condiciones y por tanto, hasta 100 nombres de campo (COND#_CAMP) empezando por el índice 1.</ows:Abstract>
+				<ows:Abstract><![CDATA[Nombre del campo de la # condición de la selección. Puede haber hasta 100 condiciones y por tanto, hasta 100 nombres de campo (COND#_CAMP) empezando por el índice 1. Para saber más sobre los valores de este modificador, se puede consultar el documento de <a href="general.htm#SelecAtrib">sintaxis general</a>.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -201,7 +201,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAX_DIST</ows:Identifier>
 				<ows:Title>Máxima distancia</ows:Title>
-				<ows:Abstract>En el caso de inverso de la distancia, es la distancia máxima de influencia de los puntos respecto al centro del píxel, si no se indica, intervienen todos. En el caso de spline o superficies de tendencia determina cómo se hará la división por regiones de todo el ámbito a interpolar.</ows:Abstract>
+				<ows:Abstract><![CDATA[En el caso de inverso de la distancia, es la distancia máxima de influencia de los puntos respecto al centro del píxel, si no se indica, intervienen todos. En el caso de <i>spline</i> o superficies de tendencia determina cómo se hará la división por regiones de todo el ámbito a interpolar.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
@@ -245,7 +245,7 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MIN_VAL</ows:Identifier>
-				<ows:Title>Mínimo Valor</ows:Title>
+				<ows:Title>Mínimo valor</ows:Title>
 				<ows:Abstract>Valor inferior de saturación para evitar valores extremos fuera de rango.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
@@ -254,7 +254,7 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAX_VAL</ows:Identifier>
-				<ows:Title>Máximo Valor</ows:Title>
+				<ows:Title>Máximo valor</ows:Title>
 				<ows:Abstract>Valor superior de saturación para evitar valores extremos fuera de rango</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
@@ -300,7 +300,7 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MASCARA</ows:Identifier>
-				<ows:Title>Mascara</ows:Title>
+				<ows:Title>Máscara</ows:Title>
 				<ows:Abstract>Nombre del fichero que limita sobre qué regiones del ráster resultado es necesario interpolar. Si no hay máscara se hará sobre todo el ámbito definido.</ows:Abstract>
 				<ComplexData>
 					<Default>
@@ -339,7 +339,7 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TAULA_MASC</ows:Identifier>
-				<ows:Title>Taula mascara</ows:Title>
+				<ows:Title>Taula máscara</ows:Title>
 				<ows:Abstract><![CDATA[Cuando la máscara es un fichero vectorial estructurado, indique el campo de la base de datos elegida. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
@@ -348,7 +348,7 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAMP_MASC</ows:Identifier>
-				<ows:Title>Camp mascara</ows:Title>
+				<ows:Title>Campo máscara</ows:Title>
 				<ows:Abstract><![CDATA[Cuando la máscara es un fichero vectorial estructurado, indique el campo de la base de datos elegida. Para saber más sobre los valores de estos parámetros siga las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
@@ -403,7 +403,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COTA3D</ows:Identifier>
 				<ows:Title>Usar cota 3D de los puntos origen</ows:Title>
-				<ows:Abstract>En el caso de que el fichero de puntos sea 3D, se utiliza la cota 3D de los puntos origen en vez de utilizar un campo de la base de datos origen.</ows:Abstract>
+				<ows:Abstract>Cuando el fichero de puntos sea 3D, se utiliza la cota 3D de los puntos origen en vez de utilizar un campo de la base de datos origen.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -415,7 +415,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAMP_DATA</ows:Identifier>
 				<ows:Title>Campo de la tabla principal de puntos que contiene la fecha del punto</ows:Title>
-				<ows:Abstract>Este parámetro permite indicar el campo de la tabla principal de puntos que contiene la fecha del punto. Esta opción aplica a los modos mínimo y máximo de los estadísticos de vecindad, y resulta de utilidad para saber, por ejemplo, en qué año, o en qué mes del año se ha obtenido el dato de la altura de la vegetación de un fichero lidar.</ows:Abstract>
+				<ows:Abstract>Este parámetro permite indicar el campo de la tabla principal de puntos que contiene la fecha del punto. Esta opción aplica a los modos mínimo, máximo y percentil de los estadísticos de vecindad, y resulta de utilidad para saber, por ejemplo, el año, o el mes del año en qué se ha obtenido el dato de la altura de la vegetación de un fichero lidar.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -426,13 +426,11 @@
 				<ows:Title>Desempate para los cuantiles</ows:Title>
 				<ows:Abstract><![CDATA[Si se ha solicitado el cálculo de algún cuantil (como mediana, cuartil o percentil), indica el criterio de desempate a usar para su cálculo. Para saber más sobre los valores de este parámetro se pueden seguir las consideraciones del documento de <a href="general.htm#Quantils">sintaxis general</a>.]]></ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>1</ows:Value>
-						<ows:Value>2</ows:Value>
-						<ows:Value>3</ows:Value>
-						<ows:Value>4</ows:Value>
+						<ows:Value>##blank##</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 		</DataInputs>
