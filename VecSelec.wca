@@ -3,14 +3,14 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:Vecselec:COND1_CAMP</ows:Identifier>
 		<ows:Title>Mode Consulta</ows:Title>
-		<ows:Abstract>En aquest mode es realitza una consulta a la base de dades i es seleccionen tots els objectes gràfics que compleixen la condició. La consulta pot estar formada per fins a 50 consultes elementals relacionades entre elles per nexes 'i' o 'o'. Cada consulta elemental es pot fer sobre qualsevol camp de la base de dades emprant d'operadors numèrics o alfanumèrics. Per obtenir més informació del conjunt de paràmetres que defineixen la selecció seguiu les consideracions del document de <![CDATA[<a href="general.htm#SelecAtrib">sintaxi general</a>]]>.</ows:Abstract>
-		<ows:Metadata xlink:title="Title:Selecció d'un subconjunt d'entitats vectorials"/>
-		<ows:Metadata xlink:title="Abstract:Aquesta aplicació selecciona un subconjunt d'objectes gràfics d'un fitxer topològicament estructurats de punts, arcs, nodes, polígons o grups de polígons i els desa sobre un fitxer de punts, arcs, punts, polígons o grups de polígons respectivament. En la selecció sobre un fitxer de nodes s'ha optat per guardar sobre un fitxer de punts en no ser possible generar una capa de nodes sense el suport d'una capa d'arcs."/>
+		<ows:Abstract><![CDATA[En aquest mode es realitza una consulta a la base de dades i es seleccionen tots els objectes gràfics que compleixen la condició. La consulta pot estar formada per fins a 50 consultes elementals relacionades entre elles per nexes 'i' o 'o'. Cada consulta elemental es pot fer sobre qualsevol camp de la base de dades emprant d'operadors numèrics o alfanumèrics. Per obtenir més informació del conjunt de paràmetres que defineixen la selecció seguiu les consideracions del document de <a href="general.htm#SelecAtrib">sintaxi general</a>.]]></ows:Abstract>
+		<ows:Metadata xlink:title="Title:Selecció d&apos;un subconjunt d&apos;entitats vectorials"/>
+		<ows:Metadata xlink:title="Abstract:Aquesta aplicació selecciona un subconjunt d&apos;objectes gràfics d&apos;un fitxer topològicament estructurats de punts, arcs, nodes, polígons o grups de polígons i els desa sobre un fitxer de punts, arcs, punts, polígons o grups de polígons respectivament. En la selecció sobre un fitxer de nodes s&apos;ha optat per guardar sobre un fitxer de punts en no ser possible generar una capa de nodes sense el suport d&apos;una capa d&apos;arcs."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerTOPOri</ows:Identifier>
 				<ows:Title>Fitxer TOP Ori</ows:Title>
-				<ows:Abstract>És el nom del fitxer topològic d'entrada sobre el que es defineix una consulta amb les paràmetres optatius.</ows:Abstract>
+				<ows:Abstract>És el nom del fitxer topològic d'entrada sobre el que es defineix una consulta amb les paràmetres optatius. Des del 2025 s'accepten tot tipus de fitxers vectorials que puguin ser oberts via les llibreries GDAL/OGR.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:FitxerTOPOri"/>
 				<ComplexData>
@@ -51,7 +51,7 @@
 			<Input minOccurs="1" maxOccurs="100">
 				<ows:Identifier>COND#_CAMP</ows:Identifier>
 				<ows:Title>Camp de la condició #</ows:Title>
-				<ows:Abstract>Nom del camp de la condició # de la selecció. Hi poden haver fins a 100 condicions i per tant, fins a 100 noms de camp (COND#_CAMP) començant per l'índex 1. </ows:Abstract>
+				<ows:Abstract>Nom del camp de la condició # de la selecció. Hi poden haver fins a 100 condicions i per tant, fins a 100 noms de camp (COND#_CAMP) començant per l'índex 1.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -105,8 +105,8 @@
 						<ows:Range>
 							<ows:MinimumValue>1</ows:MinimumValue>
 							<ows:MaximumValue>99</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
 						</ows:Range>
-						<ows:Value/>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
@@ -150,6 +150,66 @@
 				<ows:Identifier>EMANCIPA</ows:Identifier>
 				<ows:Title>EMANCIPA</ows:Title>
 				<ows:Abstract>Quan la selecció es fa sobre un fitxer de polígons, indica que cal obtenir un resultat emancipat dels arcs originals.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAPA_GDAL</ows:Identifier>
+				<ows:Title>Nom de la capa</ows:Title>
+				<ows:Abstract>Nom de la capa que es vol processar en cas que el fitxer es vulgui obrir usant les llibreries GDAL/OGR (només per a 64 bits).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PUNTS</ows:Identifier>
+				<ows:Title>Punts</ows:Title>
+				<ows:Abstract>Per a les capes amb tipus d'objectes no definits (capes que poden contenir, barrejats, punts, arcs, polígons o registres sense geometria), és possible especificar quin o quins dels quatre tipus es desitja. En aquest cas, se seleccionaran les entitats de tipus punt. Aquest modificador és compatible amb la resta de modificadors del mateix tipus.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ARCS</ows:Identifier>
+				<ows:Title>Arcs</ows:Title>
+				<ows:Abstract>Per a les capes amb tipus d'objectes no definits (capes que poden contenir, barrejats, punts, arcs, polígons o registres sense geometria), és possible especificar quin o quins dels quatre tipus es desitja. En aquest cas, se seleccionaran les entitats de tipus línia. Aquest modificador és compatible amb la resta de modificadors del mateix tipus.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLS</ows:Identifier>
+				<ows:Title>Polígons</ows:Title>
+				<ows:Abstract>Per a les capes amb tipus d'objectes no definits (capes que poden contenir, barrejats, punts, arcs, polígons o registres sense geometria), és possible especificar quin o quins dels quatre tipus es desitja. En aquest cas, se seleccionaran les entitats de tipus polígon. Aquest modificador és compatible amb la resta de modificadors del mateix tipus.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_GEO</ows:Identifier>
+				<ows:Title>Registres</ows:Title>
+				<ows:Abstract>Per a les capes amb tipus d'objectes no definits (capes que poden contenir, barrejats, punts, arcs, polígons o registres sense geometria), punts, arcs, polígons o registres sense geometria, és possible especificar quin o quins dels quatre tipus es desitja. En aquest cas, se seleccionaran les entitats de tipus registre sense geometria. Aquest modificador és compatible amb la resta de modificadors del mateix tipus.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>

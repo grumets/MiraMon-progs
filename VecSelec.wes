@@ -3,14 +3,14 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:Vecselec:COND1_CAMP</ows:Identifier>
 		<ows:Title>Modo Consulta</ows:Title>
-		<ows:Abstract>En este modo se realiza una consulta a la base de datos y se seleccionan todos los objetos gráficos que cumplen la condición. La consulta puede estar formada por hasta 100 consultas elementales relacionadas entre sí por nexos 'y' o 'o'. Cada consulta elemental puede hacerse sobre cualquier campo de la base de datos empleando operadores numéricos o alfanuméricos. Para obtener más información del conjunto de parámetros que definen la selección sigan las consideraciones del documento de <![CDATA[<a href="general.htm#SelecAtrib">sintaxis general</a>]]>.</ows:Abstract>
+		<ows:Abstract><![CDATA[En este modo se realiza una consulta a la base de datos y se seleccionan todos los objetos gráficos que cumplen la condición. La consulta puede estar formada por hasta 100 consultas elementales relacionadas entre sí por nexos 'y' o 'o'. Cada consulta elemental puede hacerse sobre cualquier campo de la base de datos empleando operadores numéricos o alfanuméricos. Para obtener más información del conjunto de parámetros que definen la selección sigan las consideraciones del documento de <a href="general.htm#SelecAtrib">sintaxis general</a>.]]></ows:Abstract>
 		<ows:Metadata xlink:title="Title:Selección de un subconjunto de entidades vectoriales"/>
 		<ows:Metadata xlink:title="Abstract:Esta aplicación selecciona un subconjunto de objetos gráficos de un fichero de puntos, arcos, nodos, polígonos o grups de polígonos y los guarda sobre un fichero de puntos, arcos, puntos, polígonos o grups de polígonos respectivamente. En la selección sobre un fichero de nodos se ha optado por guardar sobre un fichero de puntos al no ser posible generar una capa de nodos sin el soporte de una capa de arcos."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerTOPOri</ows:Identifier>
 				<ows:Title>Fichero TOP Ori</ows:Title>
-				<ows:Abstract>Es el nombre del fichero topológico de entrada sobre el que se define una consulta con los parámetros optativos.</ows:Abstract>
+				<ows:Abstract>Es el nombre del fichero topológico de entrada sobre el que se define una consulta con los parámetros optativos. Desde 2025 se aceptan todo tipo de ficheros vectoriales que puedan ser abiertos mediante las librerías GDAL/OGR.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:FicheroTOPOri"/>
 				<ComplexData>
@@ -105,11 +105,11 @@
 						<ows:Range>
 							<ows:MinimumValue>1</ows:MinimumValue>
 							<ows:MaximumValue>99</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
 						</ows:Range>
-						<ows:Value/>
 					</ows:AllowedValues>
 				</LiteralData>
-			</Input>			
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>NO_POLZERO</ows:Identifier>
 				<ows:Title>NO_POLZERO</ows:Title>
@@ -150,6 +150,66 @@
 				<ows:Identifier>EMANCIPA</ows:Identifier>
 				<ows:Title>EMANCIPA</ows:Title>
 				<ows:Abstract>Cuando la selección se realiza sobre un fichero de polígonos, indica que debe obtenerse un resultado emancipado de los arcos originales.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAPA_GDAL</ows:Identifier>
+				<ows:Title>Nombre de la capa</ows:Title>
+				<ows:Abstract>Nombre de la capa que se desea procesar en caso de que el fichero se quiera abrir usando las librerías GDAL/OGR (solo para 64 bits).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PUNTS</ows:Identifier>
+				<ows:Title>Puntos</ows:Title>
+				<ows:Abstract>Para las capas con tipos de objetos no definidos (capas que pueden contener, mezclados, puntos, arcos, polígonos o registros sin geometría), es posible especificar cuál o cuáles de los cuatro tipos se desea. En este caso, se seleccionarán las entidades de tipo punto. Este modificador es compatible con el resto de modificadores del mismo tipo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ARCS</ows:Identifier>
+				<ows:Title>Arcos</ows:Title>
+				<ows:Abstract>Para las capas con tipos de objetos no definidos (capas que pueden contener, mezclados, puntos, arcos, polígonos o registros sin geometría), es posible especificar cuál o cuáles de los cuatro tipos se desea. En este caso, se seleccionarán las entidades de tipo línea. Este modificador es compatible con el resto de modificadores del mismo tipo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLS</ows:Identifier>
+				<ows:Title>Polígonos</ows:Title>
+				<ows:Abstract>Para las capas con tipos de objetos no definidos (capas que pueden contener, mezclados, puntos, arcos, polígonos o registros sin geometría), es posible especificar cuál o cuáles de los cuatro tipos se desea. En este caso, se seleccionarán las entidades de tipo polígono. Este modificador es compatible con el resto de modificadores del mismo tipo.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_GEO</ows:Identifier>
+				<ows:Title>Registros</ows:Title>
+				<ows:Abstract>Para las capas con tipos de objetos no definidos (capas que pueden contener, mezclados, puntos, arcos, polígonos o registros sin geometría), es posible especificar cuál o cuáles de los cuatro tipos se desea. En este caso, se seleccionarán las entidades de tipo registro sin geometría. Este modificador es compatible con el resto de modificadores del mismo tipo.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>

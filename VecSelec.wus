@@ -3,14 +3,14 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:Vecselec:COND1_CAMP</ows:Identifier>
 		<ows:Title>Query Mode</ows:Title>
-		<ows:Abstract>In this mode a query is made of the database and all the graphical objects satisfying the condition are selected. The query may be made up of up to 100 simple queries linked by 'and' or 'or'. Each query may be based on any of the database fields using numerical or alphanumeric operators. To obtain more information on the values of parameters that define the selection follow the guidelines in the <![CDATA[<a href="general.htm#SelecAtrib">general syntax</a>]]> document.</ows:Abstract>
+		<ows:Abstract><![CDATA[In this mode a query is made of the database and all the graphical objects satisfying the condition are selected. The query may be made up of up to 100 simple queries linked by 'and' or 'or'. Each query may be based on any of the database fields using numerical or alphanumeric operators. To obtain more information on the values of parameters that define the selection follow the guidelines in the <a href="general.htm#SelecAtrib">general syntax</a> document.]]></ows:Abstract>
 		<ows:Metadata xlink:title="Title:Selection of a subset of vector entities"/>
 		<ows:Metadata xlink:title="Abstract:This application selects a subset of graphical objects, whether points, arcs, nodes, polygons or groups of polygons, from one file and copies them to a second file in the same format. In the case of nodes, the selected subset is stored in a points file since it is not possible to generate a new node layer without their corresponding arcs."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerTOPOri</ows:Identifier>
 				<ows:Title>Input TOP file</ows:Title>
-				<ows:Abstract>Is the name of the topological file from which the selection is made based on a query with optional parameters.</ows:Abstract>
+				<ows:Abstract>Is the name of the topological file from which the selection is made based on a query with optional parameters. Since 2025, all types of vector files that can be opened via the GDAL/OGR libraries are accepted.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:InputTOPfile"/>
 				<ComplexData>
@@ -49,7 +49,7 @@
 				</ComplexData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="100">
-				<ows:Identifier>COND#_FIELD</ows:Identifier>
+				<ows:Identifier>COND#_CAMP</ows:Identifier>
 				<ows:Title>Field of Condition #</ows:Title>
 				<ows:Abstract>Field name of # condition of selection. It may be made up to 100 simple queries and 100 field names (COND#_CAMP) starting at index 1.</ows:Abstract>
 				<LiteralData>
@@ -74,6 +74,15 @@
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
+			<Input minOccurs="1" maxOccurs="100">
+				<ows:Identifier>COND#_VALOR</ows:Identifier>
+				<ows:Title>Value of condition #</ows:Title>
+				<ows:Abstract>Value of # condition of selection. It may be made up to 100 simple queries and 100 values (COND#_VALOR) starting at index 1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 			<Input minOccurs="0" maxOccurs="99">
 				<ows:Identifier>COND#_NEXE</ows:Identifier>
 				<ows:Title>Nexus linking of condition #</ows:Title>
@@ -86,13 +95,19 @@
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="100">
-				<ows:Identifier>COND#_VALOR</ows:Identifier>
-				<ows:Title>Value of condition #</ows:Title>
-				<ows:Abstract>Value of # condition of selection. It may be made up to 100 simple queries and 100 values (COND#_VALOR) starting at index 1.</ows:Abstract>
+			<Input minOccurs="0" maxOccurs="99">
+				<ows:Identifier>COND#_PRIOR</ows:Identifier>
+				<ows:Title>Priority of the condition nexus #</ows:Title>
+				<ows:Abstract>Priority of the nexus to be used to link successive selection conditions. In this case, between condition # and condition #+1. There can be up to 100 conditions and, therefore, up to 99 priorities (COND#_PRIOR), starting from index 1. This is an optional parameter. If not specified, the priority is simply the order.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>1</ows:MinimumValue>
+							<ows:MaximumValue>99</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -143,13 +158,72 @@
 					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAPA_GDAL</ows:Identifier>
+				<ows:Title>Layer name</ows:Title>
+				<ows:Abstract>Name of the layer to be processed if the file is to be opened using the GDAL/OGR libraries (64-bit only).</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PUNTS</ows:Identifier>
+				<ows:Title>Points</ows:Title>
+				<ows:Abstract>For layers with undefined object types (which may contain points, arcs, polygons, or records without geometry), it is possible to specify which of the four types is/are desired. In this case, point-type entities will be selected. This modifier is compatible with other modifiers of the same type.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ARCS</ows:Identifier>
+				<ows:Title>Arcs</ows:Title>
+				<ows:Abstract>For layers with undefined object types (which may contain points, arcs, polygons, or records without geometry), it is possible to specify which of the four types is/are desired. In this case, line-type entities will be selected. This modifier is compatible with other modifiers of the same type.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLS</ows:Identifier>
+				<ows:Title>Polygons</ows:Title>
+				<ows:Abstract>For layers with undefined object types (which may contain points, arcs, polygons, or records without geometry), it is possible to specify which of the four types is/are desired. In this case, polygon-type entities will be selected. This modifier is compatible with other modifiers of the same type.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NO_GEO</ows:Identifier>
+				<ows:Title>Records</ows:Title>
+				<ows:Abstract>For layers with undefined object types (which may contain points, arcs, polygons, or records without geometry), it is possible to specify which of the four types is/are desired. In this case, record-with-no-geometry-type entities will be selected. This modifier is compatible with other modifiers of the same type.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerTOP</ows:Identifier>
 				<ows:Title>TOP file</ows:Title>
-				<ows:Abstract>Is the name of the topological file into which the selected objects are copied. The type of output file is dependent on the input file.
-				</ows:Abstract>
+				<ows:Abstract>Is the name of the topological file into which the selected objects are copied. The type of output file is dependent on the input file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:TOPFile"/>
 				<ComplexOutput>
@@ -184,7 +258,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:Vecselec:!COND1_CAMP</ows:Identifier>
 		<ows:Title>List Mode</ows:Title>
-		<ows:Abstract>A text file indicates which are the graphic entities and the database records  to be saved in the output file. </ows:Abstract>
+		<ows:Abstract>A text file indicates which are the graphic entities and the database records  to be saved in the output file.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerSEL</ows:Identifier>
@@ -264,8 +338,7 @@
 			<Output>
 				<ows:Identifier>FitxerTOP</ows:Identifier>
 				<ows:Title>TOP file</ows:Title>
-				<ows:Abstract>Is the name of the topological file into which the selected objects are copied. The type of output file is dependent on the input file.
-				</ows:Abstract>
+				<ows:Abstract>Is the name of the topological file into which the selected objects are copied. The type of output file is dependent on the input file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:TOPFile"/>
 				<ComplexOutput>
