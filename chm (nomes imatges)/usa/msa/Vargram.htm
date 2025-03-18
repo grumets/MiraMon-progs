@@ -1,0 +1,192 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 18-03-2025 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"/>
+  <meta content="Adobe GoLive" name="generator"/>
+
+  <title>wVargram: Variogram representation and modeling</title>
+</head>
+
+<body bgcolor="#FFFFFF">
+  <p><img src="vecras.gif"/><font size="+4"><b>wVargram: Variogram representation and modeling</b></font></p>
+
+  <p>wVargram is the MiraMon tool that represents and models the so-called
+  semivariogram, the spatial pattern describing the correspondence between
+  semivariance and distance. The semivariance (variance * .5) constitutes a
+  measure of the dispersion of the expected values for some variable, and is
+  calculated as the sum of of the squares of the deviations from the mean. The
+  semivariogram (or variogram, as it is often called, as they are basically
+  conceptual equivalents) permits the analysis of the spatial behavior of a
+  property or variable for a particular zone of study, and its modeling
+  constitutes a key element within the process of geostatistical interpolation
+  (<i>kriging</i>).</p>
+
+  <p>The essential functionality of this module is to build and analyze the
+  empirical variogram, as well as model it by means of generating the adjusted
+  variogram as a possible sum of the combination and implementation of various
+  of the elemental variograms: nugget, spherical, quadratic, linear, Gaussian
+  and exponential. The variable to model is introduced into the process as a
+  specific field from the database associated with the structured point file
+  (<b>PNT</b>) and the modeled variogram can be saved as an ASCII file in the
+  <b>VAM</b> format.</p>
+
+  <p>The variogram's construction consists in two stages organized into
+  two tabs in the <b>wVargram</b> interface.</p>
+
+  <p>In the first stage, the properties of the point sample are set, and the
+  geometric and grafic parameters of the empirical Variogram are defined:</p>
+
+  <p><img align="left" hspace="25" src="wvargrampestanya1.PNG"/></p>
+
+  <p>First, the user must define the point file corresponding to the data
+  sample to be analyzed. If necessary, is is possible to carry out a selection
+  from the data, in which case only the selected points will be used in the
+  process. The field from the database containing the variable to be
+  represented and/or modeled must also be chosen.</p>
+
+  <p>The user must also specify a file to which will be written: the results
+  report, a text file with information about the origin file, the geometric
+  and graphic parameters and a list of intervals with the names of point pairs
+  belonging to each interval as well as the mean and semivariance assigned to
+  the interval.</p>
+
+  <p>The geometric and graphic parameters to define are the following (if
+  required, the maximum distance between points can be requested at any time
+  by using the &quot;Calculate maximum&quot; button):</p>
+
+  <ul>
+    <li><b>Distance threshold:</b> is the variogram's maximum distance of
+    analysis in units of the horizontal reference system (HRS), typically
+    meters. Points separated by a distance greater than that specified remain
+    outside of the variogram area of study.</li>
+
+    <li><b>Number of intervals</b> (<i>lags</i>)<b>:</b> specifies the number
+    of groupings into which the area of analysis is divided. This will
+    determine the number of points in the empirical variogram's graphic
+    space.</li>
+
+    <li><b>Interval width</b> (<i>lags</i>)<b>:</b> specifies the width of
+    each of the previously defined groupings.</li>
+  </ul>
+
+  <p>In the graphic space, multiples of the HRS units can be used, for example
+  <b>km</b>, if the interval width is adequate.<br/>
+  The distance threshold, number of intervals and interval width are
+  interrelated such that the <b>distance threshold</b> corresponds to the
+  <b>number of intervals</b> multiplied by the <b>interval width</b>.</p>
+
+  <ul>
+    <li><b>% cut:</b> is the percentage representing the distance threshold
+    with respect to the maximum distance between points.</li>
+
+    <li><b>All directions:</b> indicates that the analysis will proceed in all
+    directions. Its absence implies that the analysis profile is reduced to
+    one single direction.</li>
+
+    <li><b>Azimuth and width:</b> in analyzing the distribution's possible
+    anisotropy, detail the central direction and the width in degrees of its
+    surrounding sector selection.</li>
+  </ul>
+
+  <p>By default, the system processes calculations with 10 intervals and a cut
+  of 50%, values that by default can be recuperated in any moment by pressing
+  the corresponding button.<br/>
+  It may also be useful to use the parameter refresh button to see how a
+  change in one parameter effects the others.</p>
+
+  <p>The last step in this first stage (once the adjustable parameters are set
+  and stable) is to <b>Generate the empirical variogram</b>. This draws one
+  point for each interval in a graphic where distances are depicted
+  horizontally and the semivariance of the point pairs assigned to each
+  corresponding interval are depicted vertically. Consulting the alphanumeric
+  point database, the user can obtain the specific values of the mean and
+  semivariance with a far superior precision than that graphically observed.
+  This graphic has three levels of visualization:</p>
+
+  <ul>
+    <li>Preliminary view in an independent interface</li>
+
+    <li>Zoomed-in view in a box specified by clicking on any point in the
+    preview</li>
+
+    <li>MirMon graphic map in a new session by pressing the button <b>Open
+    graphic in MiraMon</b>:</li>
+  </ul>
+
+  <div style="margin-left: 2em">
+    <p align="center"><img src="wvargramgraficempiric.PNG"/></p>
+  </div>
+
+  <div align="left">
+    <p>In summary, this initial setting of parameters creates, and is one of
+    the main objectives of, the empirical variogram.</p>
+
+    <p>The second stage has the main goal of generating the modeled variogram
+    as well as of determining the corresponding structural parameters of its
+    spatial pattern. In the first step, the user selects the elemental
+    variograms with the appropriate parameters that together will form the
+    composite adjusted variogram. The graphic representation of the parameters
+    that define these elemental variograms is seen in the following
+    figure:</p>
+
+    <p align="center"><img src="var_estruct.png"/></p>
+  </div>
+
+  <p>It is advisable to consult a few specialized references at this point in
+  order to understand some of the details of this structure: two significant
+  works at the introductory level are:<br/>
+  <b>Oliver, M. A., Webster, R. (1990)</b>, &quot;Kriging: a method of
+  interpolation for geographical information systems&quot;. <i>International
+  Journal of Geographical Information Science, 4:3, 313 - 332</i><br/>
+  <b>Kitanidis P.K. (1997)</b> <i>Introduction to geostatistics: applications
+  to hydrogeology</i>. Cambridge University Press.</p>
+
+  <p>This second modeling creates the adjusted modelled variogram, and, if
+  considered valid, will be used in the <a href="InterPnt.htm">InterPnt</a>
+  module for <i>kriging</i>.</p>
+
+  <table>
+    <tr>
+      <td width="588">
+        <p><img align="left" hspace="25" src="wvargrampestanya2.PNG"/></p>
+      </td>
+
+      <td width="350">
+        <p>The first part of the Modeling tab corresponds with the
+        construction of the adjusted variogram as the sum of a few implemented
+        elemental variograms: nugget, spherical, quadratic, linear, Gaussian
+        and exponential</p>
+
+        <p>The resulting variogram parameter file is a VAM file that can be
+        loaded from a file saved to disk, or else it can be generated newly
+        and saved at any time. The program saves it as well by generating the
+        adjusted variogram.</p>
+
+        <div align="center"><img src="fitxer_vam.png"/></div>
+
+        <p>The adjusted variogram's graphic directory can be a temporary
+        directory if the user only wishes to view the graphic, or likewise it
+        can be a specific directory if the user wishes to save it to disk for
+        future use.</p>
+
+        <p>In the same way, in the points and parameter view tab a preview of
+        the graphic is generated, which can be made larger by clicking on it
+        with the mouse pointer, thereby generating a MiraMon graphic that can
+        be consulted with the button <b>Open graphic in MiraMon:</b></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2">
+        <p align="center"><img src="wvargramgraficajustat.PNG"/></p>
+      </td>
+    </tr>
+  </table>
+
+  <div align="left">
+    <hr/>
+    MiraMon® is a program © by Xavier Pons.
+  </div>
+</body>
+</html>
