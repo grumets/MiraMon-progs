@@ -1,0 +1,164 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 18-03-2025 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+  <!--Traduït per Agustí Escobar-->
+
+  <title>Illum: Cálculo de la iluminación en cada punto de un Modelo Digital
+  de Elevaciones</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h1><a href="https://www.miramon.cat/Index_spa.htm" target="_blank"><img src="vecras.gif"></a>Illum: </h1>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+
+<p>Este programa calcula, a partir de un Modelo Digital de Elevaciones (MDE), la iluminación que recibe cada punto del terreno cuando el Sol ocupa una cierta posición en la bóveda celeste. Esta posición puede darse:</p>
+<ul>
+	<li>A partir de una elevación y azimut solares en grados (por ejemplo 74.82 y 170.34, el programa <a href="Astres.htm">Astres</a> le dará esta información si no la conoce) que son constantes en todo el ámbito del MDE. Corresponde a la opción 1 del programa.</li>
+	<li>A partir de unos archivos de elevación (o ángulo respecto al cenit) y azimut solares en grados o en unidades múltiples de grado (definiendo el factor correspondiente en la sintaxis), por ejemplo tal y como se proporciona en los productos de MODIS MOD09 (puede consultar Surface Reflectance User_s Guide). Corresponde a las opciones 2 y 3 del programa.
+</ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+
+
+  <p>El fichero resultante contiene los valores del coseno del ángulo de
+  incidencia, es decir, los cosenos del ángulo entre el vector normal al plano
+  de máxima pendiente en cada punto y el vector solar (dado por la elevación y
+  azimut solares). De los dos ángulos posibles (i&lt;180º y i'&gt;180º,
+  i+i'=360º) se da el coseno del menor.</p>
+
+  <p>El MDE puede estar en formato byte, (short) integer o real, comprimido o
+  no-comprimido.</p>
+
+  <p>
+  <!-- Aquest paràmetre ja es llegeix sempre de les metadades i no té sentit
+Si el parámetro "Conversor_altura->Unidades_mapa" es 'x', el programa intentará
+deducirlo del campo "value units" de la documentación del FicheroMDE; por ejemplo,
+si las unidades del sistema de referencia son metros ('m') y las unidades de los
+valores son decímetros ('dm'), el programa deducirá que debe aplicar un factor
+0.1 a las alturas para que sean comparables con la planimetría del MDE. Si se
+indica un conversor (por ejemplo 1 si el sistema de referencia y las alturas
+se expresan en las mismas unidades), este valor será utilizado, sin tener 
+en cuenta la documentación del fichero.
+<P>
+-->
+  El fichero resultante está siempre en formato byte y contiene los valores
+  'v' del coseno del ángulo de incidencia escalados de la siguiente
+  manera: v*100+100. De esta manera, los valores del coseno, que deberían
+  estar en el intervalo [-1,1], pasan a estar en el intervalo [0,200],
+  adecuado para el formato byte y que recoge el valor del coseno con 3 cifras
+  significativas, suficiente para la mayoría de aplicaciones. Así, un valor
+  resultante de 173 debe interpretarse como un valor de coseno de 0.73,
+  correspondiente a un ángulo de incidencia de 43º.</p>
+
+  <p>Si su MDE contiene áreas con valores de fondo y estos están correctamente
+  documentados, a los píxels afectados por un valor de fondo en el MDE
+  original se les asigna un valor final 255, que será documentado como sindatos.
+  Esto provocará una ligera reducción del área útil en las zonas fronterizas
+  entre los valores de fondo y los valores de elevación, precisamente porque
+  los valores de fondo impiden efectuar en rigor el cálculo de iluminación.
+  Una manera de paliar este problema es ejecutando una iteración de FAGOVAL
+  antes de ejecutar ILLUM. Esto permite ampliar suficientemente el área con
+  alturas con valores &quot;razonables&quot;. En esta ejecución se da el valor
+  de fondo como valor a fagocitar y se pide un criterio de media en la
+  sustitución.</p>
+
+  <p>El programa permite hacer el cálculo con los 4 vecinos más inmediatos en
+  cada punto o bien usar 8 vecinos, que son los 4 anteriores y los 4 vecinos
+  en diagonal. En este último caso, el peso de los 4 vecinos en diagonal es
+  inferior en proporción a la mayor distancia que los separa del punto central
+  a evaluar.</p>
+
+  <p>Si el MDE es un raster multibanda, con diferentes lados de píxel para
+  cada banda, hay que usar el parámetro <i>/MULTIBANDA</i> y generar como
+  resultado un raster multibanda con los modelos de iluminación
+  correspondientes. Hay que tener en cuenta que la posición solar se considera
+  única para todas las bandas, y que si los ámbitos estuvieran excesivamente
+  alejados habría que realizar una ejecución banda a banda con la posición
+  solar correspondiente al centro del ámbito.<br/>
+  Para el caso multibanda, el parámetro <i>/PREFIX=</i> indica el prefijo que
+  se añade a los nombres de los ficheros originales para determinar los
+  nombres de los ficheros corregidos para el caso multibanda. Por defecto este
+  prefijo es <i>i_</i>.</p>
+  <hr/>
+
+  <exclusiva>
+   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxis:</h3>
+<ul style="list-style-type:none;">
+<li>Illum                         [/Patro] [/MULTIBANDA] [/PREFIX] [/FACTOR]  </li>
+<li>Illum                                            [/MULTIBANDA] [/PREFIX] [/FACTOR]   </li>
+<li>Illum                                      [/MULTIBANDA] [/PREFIX] [/FACTOR]   </li>
+</ul>
+<h4>Opciones:</h4>
+<ul>
+<li></li>
+</ul>
+<h4>Parámetros:</h4>
+<ul style="list-style-type:none;">
+<li><b></b> 
+										(Modelo digital de elevaciones -
+										Parámetro de entrada): Modelo digital de elevaciones en formato raster IMG. También puede ser un fichero de texto que lista un conjunto de ficheros raster IMG en el caso de las opciones vinculadas al cálculo des de una superficie de tendencia.</li>
+<li><b></b> 
+										(IMG Resultat -
+										Parámetro de salida): modelo de iluminaciones resultado en formato raster IMG.</li>
+<li><b></b> (Parámetro de entrada): </li>
+<li><b></b> 
+										(Azimut Sol -
+										Parámetro de entrada): Valor o fichero que determina el azimut solar. En el caso de ser un fichero, ha de ser raster IMG y no necesariamente con la misma resolución del modelo de Iluminaciones que es desea generar.</li>
+<li><b></b> (Parámetro de entrada): </li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b></b> (Parámetro de entrada): </li>
+<li><b></b> 
+										(Opción -
+										Parámetro de entrada): Define las opciones principales del programa:<ul><li>1: Elevación y azimut son parámetros constantes para todo el ámbito.</li><li>2: Elevación y azimut son ficheros raster.</li><li>3: Variante de la opcion 2, donde se proporciona un fichero de angulos solares respeto del zenit en lugar de respeto el horizonte (elevaciones). El angulo zenital i el de elevación son angulos complementarios.</li></ul></li>
+<li><b></b> (Parámetro de salida): </li>
+<li><b></b> (Parámetro de entrada): </li>
+<li><b></b> 
+										(Elevación Sol -
+										Parámetro de entrada): Valor o fichero que determina la elevación solar (exceptuando en la opción 3, que es un fichero de ángulos cenitales). En el caso de ser un fichero, ha de ser raster IMG y no necessàriamente con la misma resolución del modelo de Iluminaciones que es desea generar.</li>
+<li><b></b> (Parámetro de entrada): </li>
+<li><b></b> (Parámetro de entrada): <ul><li>1: Se define una superficie de tendencia local de grado 1 para el cálculo de la normal a la superficie del terreno. En esta opción el MDE tiene una resolución espacial superior (lado de celda menor) al modelo de iluminaciones generado, el cual hereda el ámbito y el lado de celda de un archivo Patrón. </ Li > <li> 2: Se define una superficie de tendencia local de grado 2 para el cálculo de la normal a la superficie del terreno. Mismas condiciones que la opción 1. </ Li> <li> 3: Se define una superficie de tendencia local de grado 3 para el cálculo de la normal a la superficie del terreno. Mismas condiciones que la opción 1. </ Li> </ ul></li>
+<li><b></b> (Parámetro de entrada): </li>
+<li><b></b> 
+										(Patrón -
+										Parámetro de entrada): Parámetro obligatorio para las opciones 1, 2, 3 de el anterior parámetro N_veïns_o_grau, que indica el fichero raster patrón que sirve para definir el ámbito y el lado de la celda del modelo de iluminaciones resultado.</li>
+<li><b></b> (Parámetro de entrada): </li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b></b> (Parámetro de entrada): </li>
+<li><b></b> (Parámetro de entrada): </li>
+<li><b></b> (Parámetro de salida): </li>
+<li><b></b> (Parámetro de entrada): </li>
+<li><b></b> 
+										(Elevación Sol -
+										Parámetro de entrada): Valor o archivo que determina la elevación solar (excepto en la opción 3, que es un archivo de ángulos cenitales). En el caso de ser un archivo, debe ser ráster IMG y no necesariamente con la misma resolución del modelo de Iluminaciones que se desea generar.</li>
+<li><b></b> (Parámetro de entrada): </li>
+<li><b></b> 
+										(Numero de vecinos -
+										Parámetro de entrada): <ul><li> 4: Se usan 4 vecinos por cálculo de la normal a la superficie del terreno. En esta opción, el modelo de iluminaciones generado será de la misma resolución y ámbito que el MDE.</li><li>8: Se usan 8 vecinos para el cálculo de la normal a la superficie del terreno. Mismas condiciones que la opción 4.</li></ul></li>
+</ul>
+<h4>Modificadores:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>Patro</b>= 
+						()
+						   (Parámetro de entrada) <li></li>  <b>/</b><b>MULTIBANDA</b>= (Multibanda) Si el MDE es multibanda (habitualmente de ámbito similar y diferentes lados de celda entre las bandas), este parámetro indica que se desea un modelo de iluminaciones resultado también multibanda. Si el MDE es multibanda pero no s_indica este parámetro se efectua el cálculo de iluminacions sobre el archivo IMG indicado en la línea de comando.  (Parámetro de entrada) <li></li>  <b>/</b><b>PREFIX</b>= (Prefix) Define el prefijo que se añade a los nombres de los archivos originales para determinar los nombres de los ficheros corregidos para el caso / multibanda. Por defecto este prefijo es i_  (Parámetro de entrada) <li></li>  <b>/</b><b>FACTOR</b>= (Factor) Indica el factor multiplicativo para pasar de las unidades de los valores de los ficheros de elevaciones y azimuts en grados. Por ejemplo para un raster donde las unidades son décimas de grado (como en los ficheros proporcionados para MODIS), es necesario definir /FACTOR=0.01. Este parámetro es opcional (por defecto el factor será 1) y sólo tiene sentido para las opciones principales 2 y 3.  (Parámetro de entrada) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+    <p><!-- $$EXCLUSIVA$$
+
+Para obtener la ayuda completa escriba:
+Illum ?
+--></p>
+  </exclusiva>
+</body>
+</html>
