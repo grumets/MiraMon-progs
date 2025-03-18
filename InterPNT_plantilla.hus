@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 10-03-2025 */-->
+<!--/* Rev AA 18-03-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>InterPNT: Interpolation from point data, lidar</title>
@@ -76,7 +76,7 @@ Equations for the spline functions</font></div>
 
 <p>It is necessary to define the extent and cell size for the output raster by either giving the corner co-ordinates or by adjusting the extent to the area covered by the file with the points. It should be noted that the speed of the process is very sensitive to these values. A small cell size in a large interpolation area without any defined mask will give very precise values (that vary smoothly as a function of distance), but the number of calculations will be very large and the execution time will be long.</p>
 
-<p><b><u>Inverse distance options:</u></b></p>
+<p><b><u>Inverse distance options</u></b></p>
 
 <p>It is necessary to define, firstly, how to calculate distances; whether as a Euclidean distance, or as a 'Manhattan' distance (see previous section for the definitions of both distances). The value assigned to each cell is a weighted average of the values of the points under consideration. The weight given to each point is proportional to the inverse of an exponential power of the distance between the point and the center of the pixel. The default value of this exponential power is 2, but this parameter can be changed in the way that the user considers most appropriate. The bigger the value, the more weight given to the points nearest to the pixel and the less weight given to more distant points.</p>
 
@@ -84,7 +84,7 @@ Equations for the spline functions</font></div>
 
 <p>Another interesting criterion is to define a maximum number of points to use in the interpolation. Evidently these will always be the 'n' points nearest to the center of the pixel. The repeated ranking process needed to apply this criterion slows down the calculation considerably, but the use of this criterion assures that only the 'n' nearest points are taken into account. To make sure that the calculation is done with a sufficient sample it is also possible to define a minimum number of points for the interpolation at each cell. If this minimum is not reached the cell's value will be NoData.</p>
 
-<p><b><u>Spline options:</u></b></p>
+<p><b><u>Spline options</u></b></p>
 
 <p>Interpolation by splines can be very sensitive to the configuration parameters, depending on the sample points. The <b>tension</b> parameter modulates the smoothing of the function; its default value is 40 and excessively high or low tensions can lead to unexpected effects. The <b>flattening</b> parameter adjusts the noise of the sample, the default value is 0 which implies that the function passes exactly through the sample points (exact interpolation). The <b>analysis block size</b> parameter limits the fit by dividing the area into analysis blocks and restricting the solution of the spline functions to this region. This parameter speeds up the process considerably. It is recommended when there are many points available, but it can produce unwanted discontinuities if the block size is too small (analysis window too local).</p>
 
@@ -92,13 +92,17 @@ Equations for the spline functions</font></div>
 
 <p>If the analysis block size is not defined, a single solution is found for the whole region covered by the raster (the window is the same as the raster extent). If the size is small the area is divided into many independent regions.</p>
 
-<p><b><u>Options for trend surfaces:</u></b></p>
+<p><b><u>Options for trend surfaces</u></b></p>
 
 <p>The main parameter of this option is the degree that determines the order of the polynomial to adjust. In the current version it is possible to generate first-degree or linear, second-degree or quadratic and third-degree or cubic surfaces.</p>
 
 <p>In the same way that for spline, it is possible to generate different solutions, not strictly continuous, by dividing the global scope into more local sub-regions. These sub-regions are defined by the <b>side of the analysis block</b> parameter.</p>
+
+<p><b><u>Opciones para el <i>kriging</i></u></b></p>
   
-<p><b><u>Options for neighborhood statistics:</u></b></p>
+<p>The <i>kriging</i> interpolation method is based on the principles of geostatistics. In order to apply it, it is necessary to have previously generated an adjusted variogram file (with the extension "vam"). This file can be generated with the <a href="Vargram.htm">Vargram</a> application,  in which help instructions can be found about  how to model the spatial pattern of the variable to be analyzed that gives rise to the variogram that will be applied for interpolation with this method. In the advanced options of InterPNT, it is also possible to limit the number of points closest to each cell that participate in its resulting value, as well as obtain an auxiliary raster of the quality of the estimate, where the standard deviations for each cell will be stored. More information about <i>kriging</i> can be found at <a href="https://en.wikipedia.org/wiki/Kriging">https://en.wikipedia.org/wiki/Kriging</a>.</p>
+
+<p><b><u>Options for neighborhood statistics</u></b></p>
 
 <p>Two parameters must be defined: the statistical function to be used, and the maximum distance at which a point is considered to be part of the set of points that provide the values for the calculation of the statistics to be transferred to the cell of the raster output.</p>
 
@@ -106,7 +110,7 @@ Equations for the spline functions</font></div>
 
 <p>For the maximum distance there are two possible options: maximum distance as maximum radius of a circle, and maximum distance as half of the side of a square. This last option is typically used when it is desired that the lidar points with which the statistical value will be calculated are strictly located within the cell; note that, since the data is half of the square, if a 2-meter-side raster is desired, the distance to be indicated for the maximum distance will be 1 meter. When the calculated statistic value comes from a single point, as in the case of the minimum and maximum, it is possible to generate additional layers (with the same name as the output layer and an appropriate suffix): On one hand, if the lidar data provides, in separate fields, the day, month, and year of the capture of each point, it is possible to generate 3 additional rasters that will contain the day, month, and year of the point providing the value for each pixel. On the other hand, for educational and research purposes, it is possible to generate additional layers containing only the donor points or that connect the donor points with lines to the center of the cell that receives the value.</p> 
 
-<p><b><u>Advanced options:</u></b></p>
+<p><b><u>Advanced options</u></b></p>
 
 <p>The advanced options allow finer adjustment of the parameters of some of the global interpolation procedures.</p>
 

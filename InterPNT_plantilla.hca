@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 10-03-2025 */-->
+<!--/* Rev AA 18-03-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>InterPNT: Interpolació a partir de punts, lidar</title>
@@ -75,7 +75,7 @@ Expressions per a les funcions <i>spline</i></font></div>
 
 <p>Cal definir l'envolupant i costat de píxel d'aquest ràster de sortida, explicitant les coordenades o ajustant l'envolupant a l'àmbit del fitxer de punts. Cal notar que la velocitat del procés és molt sensible a aquests valors. Un costat petit en una regió a interpolar molt àmplia sense màscara definida, donarà uns valors molt precisos (suaument variables en funció de la distància), però el nombre de càlculs serà molt gran i el temps d'execució, llarg.</p>
 
-<p><b><u>Opcions per a l'invers de la distància:</u></b></p>
+<p><b><u>Opcions per a l'invers de la distància</u></b></p>
 
 <p>Cal definir en primer lloc, com es realitzarà el càlcul de la distància; de forma euclidiana o a l'estil 'Eixample' (vegeu en l'apartat anterior, ambdues definicions de distància). El càlcul del valor que s'assignarà a cada cel·la és una mitjana ponderada dels valors que prenen els punts a considerar. El pes que pren cada punt té una dependència potencial respecte l'invers de la distància entre el punt i el centre del píxel. El valor per defecte és 2, però pot parametritzar-se de la manera que l'usuari cregui més adequada. Com més alt és el valor, més pes té el punt en el seu entorn immediat, i menys pes la mitjana dels valors circumdants.</p>
 
@@ -83,7 +83,7 @@ Expressions per a les funcions <i>spline</i></font></div>
 
 <p>Un altre criteri interessant és definir el nombre màxim de punts del quals dependrà el càlcul. Evidentment sempre seran els 'n' més propers al centre del píxel. Els reiterats processos d'ordenació que requereix l'aplicació d'aquest criteri, fa allargar considerablement el procés de càlcul, però assegurem la intervenció només dels 'n' més propers. Per a assegurar que el càlcul es fa amb un mostreig suficient, també podem definir un nombre mínim de punts a participar en el càlcul de cada cel·la. Si no s'assoleix aquest mínim, el valor de la cel·la serà sensedades.</p>
 
-<p><b><u>Opcions per a <i>spline</i>:</u></b></p>
+<p><b><u>Opcions per a <i>spline</i></u></b></p>
 
 <p>La interpolació per <i>splines</i> pot ser segons la configuració dels punts de mostra, força sensible als paràmetres de configuració.<br/> El paràmetre <b>tensió</b> modula la suavització de la funció; el seu valor per defecte és 40 i tensions excessivament baixes o elevades poden donar lloc a artefactes inesperats.</p>
 
@@ -93,13 +93,16 @@ Expressions per a les funcions <i>spline</i></font></div>
 
 <p>Si no es defineix el costat d'anàlisi, la solució és única per tot l'àmbit (finestra igual a l'àmbit), si el costat d'anàlisi és petit, l'àmbit es dividirà en moltes regions independents.</p>
 
-<p><b><u>Opcions per a les superfícies de tendència:</u></b></p>
+<p><b><u>Opcions per a les superfícies de tendència</u></b></p>
 
 <p>El principal paràmetre d'aquesta opció és el grau que determina l'ordre del polinomi a ajustar. En l'actual versió és possible generar superfícies de primer grau o lineals, de segon grau o quadràtiques i de tercer grau o cúbiques.</p>
 
 <p>De la mateixa manera que per <i>spline</i>, és possible generar diferents solucions, no estrictament contínues, en dividir l'àmbit global en subregions més locals. Aquestes subregions queden definides pel paràmetre <b>costat de bloc d'anàlisis</b>.</p>
-  
-<p><b><u>Opcions per a les estadístiques de veïnatge:</u></b></p>
+
+<p><b><u>Opcions per al <i>kriging</i></u></b></p>
+<p>El mètode d'interpolació <i>kriging</i> està basat en els principis de la geoestadística. Per tal de poder-lo aplicar, cal prèviament haver generat un fitxer del variograma ajustat (amb extensió "vam"). Aquest fitxer es pot generar amb l'aplicació <a href="Vargram.htm">Vargram</a>, a l'ajuda de la qual trobareu indicacions sobre com modelitzar el patró espacial de la variable a analitzar que dóna lloc al variograma que s'aplicarà per a la interpolació amb aquest mètode. En les opcions avançades de l'InterPNT, es pot limitar el nombre de punts més propers a cada cel·la que participen en el seu valor resultant, així com obtenir un ràster auxiliar de la qualitat de la estimació, on s'emmagatzemaran les desviacions estàndard per a cada cel·la. Es pot ampliar informació sobre el <i>kriging</i> a <a href="https://en.wikipedia.org/wiki/Kriging">https://en.wikipedia.org/wiki/Kriging</a>. En català s'ha proposat el mot krigatge per a aquest mètode.</p>
+
+<p><b><u>Opcions per a les estadístiques de veïnatge</u></b></p>
 
 <p>Cal definir dos paràmetres: la funció estadística a utilitzar, i la distància màxima a la qual un punt es considera que ha de formar part del conjunt de punts que proporcionen  els valors per al càlcul de l'estadístic que es transferirà a la cel·la del ràster de sortida.<p>
 
@@ -107,7 +110,7 @@ Expressions per a les funcions <i>spline</i></font></div>
 
 <p>Per a la distància màxima hi ha dues opcions possibles: distància màxima com a radi màxim d'un cercle, i distància màxima com a meitat del costat d'un quadrat. Aquesta darrera opció és típicament utilitzada quan es vol que els punts lidar amb els quals es calcularà el valor de l'estadístic que s'escriurà a la cel·la estan ubicats estrictament al seu interior; cal notar que, com que la dada és la meitat del quadrat, si s'ha indicat que es vol obtenir un ràster de 2 m de costat, la distància a indicar per a la distància màxima serà 1 m. Quan el valor de l'estadístic calculat prové d'un sol punt, com en el cas del mínim i el màxim, és possible obtenir capes addicionals (de nom igual a la capa de sortida i amb un sufix apropiat): D'una banda, si les dades lidar proporcionen, en sengles camps, el dia, mes i any de captura de cada punt és possible generar 3 ràsters addicionals que contindran el dia, mes i any del punt que proporciona el valor a cada píxel. D'altra banda, i per a propòsits didàctics i de recerca, és possible generar capes addicionals que continguin només els punts donadors, o que uneixin amb línies els punts donadors amb el centre de la cel·la receptora del valor.</p>  
 
-<p><b><u>Opcions avançades:</u></b></p>
+<p><b><u>Opcions avançades</u></b></p>
 
 <p>Les opcions avançades ens permeten parametritzar de la forma més ajustada possible alguns procediments globals de la interpolació.</p>
 

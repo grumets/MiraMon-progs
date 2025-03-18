@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 10-03-2025 */-->
+<!--/* Rev AA 18-03-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>InterPNT: Interpolación a partir de puntos, lidar</title>
@@ -75,7 +75,7 @@ En primer lugar, hay que escoger si se quiere usar el valor de la tercera coorde
 
 <p>Hay que definir la envolvente y lado de píxel de este ráster de salida, explicitando las coordenadas o ajustando la envolvente en el ámbito del fichero de puntos. Hay que hacer notar que la velocidad del proceso es muy sensible a estos valores. Un lado pequeño en una región a interpolar muy amplia sin máscara definida, dará unos valores muy precisos (suavemente variables en función de la distancia), pero el número de cálculos será muy grande y el tiempo de ejecución, largo.</p>
 
-<p><b><u>Opciones para Inverso de la distancia:</u></b></p>
+<p><b><u>Opciones para Inverso de la distancia</u></b></p>
 
 <p>Hay que definir, en primer lugar, cómo se realizará el cálculo de la distancia; de forma euclidiana o al estilo 'Manhattan' (vea en el apartado anterior, ambas definiciones de distancia). El cálculo del valor que se asignará a cada celda es una media ponderada de los valores que toman los puntos a considerar. El peso que toma cada punto tiene una dependencia potencial respecto al inverso de la distancia entre el punto y el centro del píxel. El valor por defecto es 2, pero puede parametrizarse en la manera que el usuario juzgue más adecuada. Cuanto mayor el valor, más peso tiene el punto en su entorno inmediato, y menos peso la media de los valores circundantes.</p>
 
@@ -83,7 +83,7 @@ En primer lugar, hay que escoger si se quiere usar el valor de la tercera coorde
 
 <p>Otro criterio interesante es definir el número máximo de puntos de los cuales dependerá el cálculo. Evidentemente siempre serán los 'n' más cercanos al centro del píxel. El reiterado proceso de ordenación que requiere la aplicación de este criterio alarga considerablemente el proceso de cálculo, pero con ello aseguramos la intervención de solamente 'n' de los más próximos. Para asegurar que el cálculo se hace con un muestreo suficiente, también podemos definir un número mínimo de puntos a participar en el cálculo de cada celda. Si no se llega a este mínimo, el valor de la celda será sindatos.</p>
 
-<p><b><u>Opciones para <i>spline</i>:</u></b></p>
+<p><b><u>Opciones para <i>spline</i></u></b></p>
 
 <p>La interpolación por <i>splines</i> puede ser según la configuración de los puntos de muestra, bastante sensible a los parámetros de configuración. El parámetro <b>tensión</b> modula la suavización de la función; su valor por defecto es 40 y tensiones excesivamente bajas o elevadas pueden dar lugar a artefactos inesperados. El parámetro <b>desviación</b> ajusta el ruido de la muestra, el valor por defecto cero implica que la función pasa exactamente por los puntos de muestreo (interpolador exacto). El parámetro <b>lado de bloque de análisis</b> localiza el ajuste al dividir el ámbito en bloques de análisis en los que se restringe la solución de la función <i>spline</i> a esta región. Este parámetro acelera bastante los cálculos, es muy recomendable cuando disponemos de muchos puntos, pero puede llegar a producir discontinuidades no deseadas si su valor es demasiado pequeño (ventana demasiado local).</p>
 
@@ -91,13 +91,16 @@ En primer lugar, hay que escoger si se quiere usar el valor de la tercera coorde
 
 <p>Si no se define el lado de análisis, la solución es única para todo el ámbito (ventana igual al ámbito), si el lado de análisis es pequeño, el ámbito se dividirá en muchas regiones independientes.</p>
 
-<p><b><u>Opciones para las superficies de tendencia:</u></b></p>
+<p><b><u>Opciones para las superficies de tendencia</u></b></p>
 
 <p>El principal parámetro de esta opción es el grado que determina el orden  del polinomio a ajustar. En la actual versión es posible generar superficies  de primer grado o lineales, de segundo grado o cuadráticas y de tercer grado o  cúbicas.</p>
 
 <p>Del mismo modo que para <i>spline</i>, es posible generar diferentes soluciones,  no estrictamente continuas, en dividir el ámbito global en subregiones más locales.  Estas subregiones quedan definidas por el parámetro <b>lado de bloque de análisis</b>.</p>
+
+<p><b><u>Opciones para el <i>kriging</i></u></b></p>
+<p>El método de interpolación <i>kriging</i> está basado en los principios de la geoestadística. Para poder aplicarlo, es necesario haber generado previamente un archivo del variograma ajustado (con extensión "vam"). Este archivo se puede generar con la aplicación <a href="Vargram.htm">Vargram</a>, a cuya ayuda encontrará indicaciones sobre cómo modelizar el patrón espacial de la variable a analizar que da lugar al variograma que se aplicará para la interpolación con este método. En las opciones avanzadas de InterPNT, puede limitarse el número de puntos más cercanos a cada celda que participan en su valor resultante, así como obtener un ráster auxiliar de la calidad de la estimación, donde se almacenarán las desviaciones estándar para cada celda. Se puede ampliar información sobre <i>kriging</i> en <a href="https://en.wikipedia.org/wiki/Kriging">https://en.wikipedia.org/wiki/Kriging</a>. En castellano se ha propuesto la palabra krigeage para este método.</p>
   
-<p><b><u>Opciones para las estadísticas de vecindad:</u></b></p>
+<p><b><u>Opciones para las estadísticas de vecindad</u></b></p>
 
 <p>Hay que definir dos parámetros: la función estadística a utilizar, y la distancia máxima a la  que un punto se considera que debe formar parte del conjunto de puntos que proporcionan los  valores para el cálculo del estadístico que se transferirá a la celda del ráster de salida.</p>
 
@@ -105,7 +108,7 @@ En primer lugar, hay que escoger si se quiere usar el valor de la tercera coorde
 
 <p>Para la distancia máxima, hay dos opciones posibles: distancia máxima como radio máximo de un  círculo, y distancia máxima como mitad del lado de un cuadrado. Esta última opción es típicamente utilizada cuando se desea que los puntos lidar con los que se calculará el valor del estadístico que se escribirá en la celda están ubicados estrictamente en su interior; cabe notar que, dado que el dato es la mitad del cuadrado, si se ha indicado que se quiere obtener un ráster de 2 m de lado, la distancia a indicar para la distancia máxima será 1 m. Cuando el valor del estadístico calculado proviene de un solo punto, como en el caso del mínimo y el máximo, es posible obtener capas adicionales (de nombre igual a la capa de salida y con un sufijo apropiado): Por un lado, si los datos lidar proporcionan, en respectivos campos, el día, mes y año de captura de cada punto es posible generar 3 rásters adicionales que contendrán el día, mes y año del punto que proporciona el valor en cada píxel. Por otro lado, y para propósitos didácticos y de investigación, es posible generar capas adicionales que contengan sólo los puntos donadores, o que unan con líneas los puntos donadores con el centro de la celda receptora del valor.</p>
  
-<p><b><u>Opciones avanzadas:</u></b></p>
+<p><b><u>Opciones avanzadas</u></b></p>
 
 <p>Las opciones avanzadas nos permiten parametrizar de la forma más ajustada posible algunos procedimientos globales de la interpolación.</p>
 
