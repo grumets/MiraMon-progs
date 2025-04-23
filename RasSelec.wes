@@ -8,7 +8,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxOri</ows:Identifier>
 				<ows:Title>Fichero origen</ows:Title>
-				<ows:Abstract>Fichero origen para realizar la selecció</ows:Abstract>
+				<ows:Abstract>Fichero origen para realizar la selección.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
 				<ComplexData>
@@ -21,6 +21,10 @@
 					<Supported>
 						<Format>
 							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -65,7 +69,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MULTIBANDA</ows:Identifier>
 				<ows:Title>Salida multibanda</ows:Title>
-				<ows:Abstract>En caso de que se quiera salida multibanda.</ows:Abstract>
+				<ows:Abstract>En caso de que el fichero origen sea multibanda, se asigna que la salida sea también multibanda.</ows:Abstract>
 				<ows:Metadata xlink:title="Name:MULTIBANDA"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
@@ -78,7 +82,7 @@
 			<Input minOccurs="0" maxOccurs="50">
 				<ows:Identifier>COND#_OP</ows:Identifier>
 				<ows:Title>Condición o operador</ows:Title>
-				<ows:Abstract>Selección del operador lógico que actuará sobre /COND_CAMP(banda) para filtrar las celdas del fichero origen. Para más detalles de este y los siguientes parámetros optativos, vea el apartado "Selección de objetos gráficos por atributos de la base de datos" en "Aspectos de sintaxis de algunas Aplicaciones de Soporte en MiraMon (MSA)"</ows:Abstract>
+				<ows:Abstract>Selección del operador lógico que actuará sobre /COND_CAMP(banda) para filtrar las celdas del fichero origen. Para más detalles de este y los siguientes parámetros optativos, vea el apartado "Selección de objetos gráficos por atributos de la base de datos" en "Aspectos de sintaxis de algunas Aplicaciones de Soporte en MiraMon (MSA)".</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -120,6 +124,36 @@
 						<ows:Value>OR</ows:Value>
 						<ows:Value>AND</ows:Value>
 					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>BANDA</ows:Identifier>
+				<ows:Title>Banda</ows:Title>
+				<ows:Abstract>En el caso de un fichero leído a través de GDAL, es la banda de referencia a la que se desea aplicar la selección. En caso de que no se indique la banda, se utilizará la primera banda de referencia. Si se selecciona una salida multibanda, se escribirán todas las bandas del mismo subconjunto de datos que tengan el mismo paso de malla que la banda de referencia.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SDS</ows:Identifier>
+				<ows:Title>Subconjunto de datos</ows:Title>
+				<ows:Abstract>En caso de un fichero leído vía GDAL, es el subconjunto de datos del fichero de entrada sobre el que se desea aplicar la selección.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASC</ows:Identifier>
+				<ows:Title>Fichero destino como máscara</ows:Title>
+				<ows:Abstract>Se guardará el fichero de salida como una máscara, es decir, las celdas que cumplan las condiciones de la selección tendrán el valor 1, mientras que las celdas que no las cumplan tendrán el valor 0. El fichero de salida se guardará en formato byte comprimido e indexado.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 		</DataInputs>

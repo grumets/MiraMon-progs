@@ -8,7 +8,7 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxOri</ows:Identifier>
 				<ows:Title>Input file</ows:Title>
-				<ows:Abstract>Input file for selection</ows:Abstract>
+				<ows:Abstract>Input file for selection.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:InputFile"/>
 				<ComplexData>
@@ -21,6 +21,10 @@
 					<Supported>
 						<Format>
 							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/octet-stream</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -65,7 +69,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MULTIBANDA</ows:Identifier>
 				<ows:Title>Multiband output</ows:Title>
-				<ows:Abstract>In case you want multiband output.</ows:Abstract>
+				<ows:Abstract>In case the source file is multiband, the output is also set to be multiband.</ows:Abstract>
 				<ows:Metadata xlink:title="Name:MULTIBAND"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
@@ -78,7 +82,7 @@
 			<Input minOccurs="0" maxOccurs="50">
 				<ows:Identifier>COND#_OP</ows:Identifier>
 				<ows:Title>Conditions or operator</ows:Title>
-				<ows:Abstract>Selecting the logical operator acting on /COND_CAMP(band) to filter the pixels to filter the cells of the source file. For more details on this and the following optional parameters, see "Selecting graphic objects by database attributes" in "Syntax aspects of some MiraMon Support applications (MSA)"</ows:Abstract>
+				<ows:Abstract>Selecting the logical operator acting on /COND_CAMP(band) to filter the pixels to filter the cells of the source file. For more details on this and the following optional parameters, see "Selecting graphic objects by database attributes" in "Syntax aspects of some MiraMon Support applications (MSA)".</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -113,13 +117,43 @@
 			<Input minOccurs="0" maxOccurs="50">
 				<ows:Identifier>COND#_NEXE</ows:Identifier>
 				<ows:Title>Nexus between conditions</ows:Title>
-				<ows:Abstract>Nexus between conditions # y #+1. It can be AND o OR.</ows:Abstract>
+				<ows:Abstract>Nexus between conditions # and #+1. It can be AND or OR.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>OR</ows:Value>
 						<ows:Value>AND</ows:Value>
 					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>BANDA</ows:Identifier>
+				<ows:Title>Band</ows:Title>
+				<ows:Abstract>In the case of a file read via GDAL, it refers to the reference band to which the selection is to be applied. If the band is not indicated, the first reference band will be used. If multiband output is selected, all bands from the same data subset that have the same grid spacing as the reference band will be written.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SDS</ows:Identifier>
+				<ows:Title>Subdataset</ows:Title>
+				<ows:Abstract>In the case of a file read via GDAL, it is the subset of data from the input file on which the selection is to be applied.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MASC</ows:Identifier>
+				<ows:Title>Output file as a mask</ows:Title>
+				<ows:Abstract>The output file will be saved as a mask; that is, cells matching the selection conditions will have a value of 1, while cells that do not will have a value of 0. The output file will be saved in compressed and indexed byte format.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 		</DataInputs>
