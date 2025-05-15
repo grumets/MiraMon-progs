@@ -3,206 +3,36 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SurfMM:1</ows:Identifier>
 		<ows:Title>SurfMM</ows:Title>
-		<ows:Abstract><![CDATA[<ul><li>Import grids: Given a Surfer grid file (GRD), we can generate the corresponding MiraMon raster file (IMG) with its document file (DOC), based on the information in the GRD header. The Surfer grid should be in ASCII format (care should be taken when exporting from Surfer) and the resulting IMG is always real format. Although the MiraMon raster format requires the same resolution in both dimensions and, therefore, a square pixel size, nevertheless the program allows import Surfer grids with non-square pixel sides. In this case a bilinear geometric correction is performed to resample the original data to a net of equally spaced square pixels with the side equal to the smaller of the two dimensions of the original.</li><li>Export rasters: We can export any uncompressed MiraMon raster format to the Surfer grid format. When the input raster file is a compressed (RLE) file, it is necessary to use the program IMGIMG to decompress it. There is the option to apply a multiplication factor to the raster values when writting the corresponding 'z' coordinates to the GRD format file.</li><li>Export point files:Unstructured point 2D or 3D vector files (VEC) can be exported to Surfer data (DAT) format. The attribute of the VEC file must be numerical. Files in the corresponding Surfer format (DAT) can be imported using the program <a href="bdpnt.htm">BDPNT</a> which will produce a structured point file (PNT).</li></ul>]]></ows:Abstract>
+		<ows:Abstract><![CDATA[<ul><li>Import grids: given a Surfer grid file (GRD), it is possible to generate the corresponding MiraMon raster file (IMG) with its metadata file (I.REL), based on the information in the GRD header. The Surfer grid should be in ASCII format (care should be taken when exporting from Surfer) and the resulting IMG is always real format. Although MiraMon raster format requires the same resolution in both dimensions and, therefore, a square pixel size, the program allows importing Surfer grids with non-square pixel sides. In this case a bilinear geometric correction is performed to resample the original data to a net of equally spaced square pixels with the side equal to the smaller of the two dimensions of the original.</li><li>Export rasters: Allows exporting any uncompressed MiraMon raster format to the Surfer grid format. When the input raster file is a compressed (RLE) file, it is necessary to use the <a href="IMGIMG.htm">IMGIMG</a> application to uncompress it. It is also possible to apply a multiplication factor to the raster values when writing the corresponding 'Z' coordinates to the GRD format file.</li><li>Export point files: unstructured point 2D or 3D vector files (VEC) can be exported to Surfer data (DAT) format. The attribute of the VEC file must be numerical. Files in the corresponding Surfer format (DAT) can be imported using the <a href="bdpnt.htm">BDPNT</a> application which will produce a structured point file (PNT).</li></ul>]]></ows:Abstract>
 		<ows:Metadata xlink:title="Title:Import and export files in Surfer formats to MiraMon"/>
-		<ows:Metadata xlink:title="Abstract:This program permits the following transformations between Surfer formats and the formats of MiraMon."/>
+		<ows:Metadata xlink:title="Abstract:This application allows importing grids, exporting rasters and exporting point files between Surfer formats and MiraMon&apos;s own formats."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Option</ows:Title>
-				<ows:Abstract>Indicates the type of format transformation: GRD->IMG</ows:Abstract>
+				<ows:Abstract><![CDATA[Indicates the type of format transformation: <li>1. GRD->IMG</li><li>2. IMG->GRD</li><li>3. VEC->DAT</li>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>FitxerOrigen</ows:Identifier>
-				<ows:Title>Input File</ows:Title>
-				<ows:Abstract>The file we wish to import/export.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:InputFile"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/octet-stream</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-						<Format>
-							<MimeType>application/octet-stream</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-						<Format>
-							<MimeType>application/x-vec</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>FACTOR_Z</ows:Identifier>
-				<ows:Title>Factor Z</ows:Title>
-				<ows:Abstract>The scaling factor that multiplies the values of the IMG raster to generate the 'Z' coordinate of the Surfer DAT file. This factor is optional, if not specified the default is 1.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AnyValue/>
-					<DefaultValue>1</DefaultValue>
-				</LiteralData>
-			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
-				<ows:Identifier>FitxerDesti</ows:Identifier>
-				<ows:Title>Output File</ows:Title>
-				<ows:Abstract>Is the resulting file containing the data from the original file in the desired format</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:OuputFile"/>
-				<ComplexOutput>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-						<Format>
-							<MimeType>application/octet-stream</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>
-	</ProcessDescription>
-	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:SurfMM:2</ows:Identifier>
-		<ows:Title>SurfMM</ows:Title>
-		<ows:Abstract><![CDATA[<ul><li>Import grids: Given a Surfer grid file (GRD), we can generate the corresponding MiraMon raster file (IMG) with its document file (DOC), based on the information in the GRD header. The Surfer grid should be in ASCII format (care should be taken when exporting from Surfer) and the resulting IMG is always real format. Although the MiraMon raster format requires the same resolution in both dimensions and, therefore, a square pixel size, nevertheless the program allows import Surfer grids with non-square pixel sides. In this case a bilinear geometric correction is performed to resample the original data to a net of equally spaced square pixels with the side equal to the smaller of the two dimensions of the original.</li><li>Export rasters: We can export any uncompressed MiraMon raster format to the Surfer grid format. When the input raster file is a compressed (RLE) file, it is necessary to use the program IMGIMG to decompress it. There is the option to apply a multiplication factor to the raster values when writting the corresponding 'z' coordinates to the GRD format file.</li><li>Export point files:Unstructured point 2D or 3D vector files (VEC) can be exported to Surfer data (DAT) format. The attribute of the VEC file must be numerical. Files in the corresponding Surfer format (DAT) can be imported using the program <a href="bdpnt.htm">BDPNT</a> which will produce a structured point file (PNT).</li></ul>]]></ows:Abstract>
-		<DataInputs>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>Indicates the type of format transformation: IMG->GRD</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
-				<ows:Metadata xlink:title="Name:Option"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
 						<ows:Value>2</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>FitxerOrigen</ows:Identifier>
-				<ows:Title>Input File</ows:Title>
-				<ows:Abstract>The file we wish to import/export.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:InputFile"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>application/octet-stream</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-						<Format>
-							<MimeType>application/octet-stream</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-						<Format>
-							<MimeType>application/x-vec</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>FACTOR_Z</ows:Identifier>
-				<ows:Title>Factor Z</ows:Title>
-				<ows:Abstract>The scaling factor that multiplies the values of the IMG raster to generate the 'Z' coordinate of the Surfer DAT file. This factor is optional, if not specified the default is 1.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AnyValue/>
-					<DefaultValue>1</DefaultValue>
-				</LiteralData>
-			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
-				<ows:Identifier>FitxerDesti</ows:Identifier>
-				<ows:Title>Output File</ows:Title>
-				<ows:Abstract>Is the resulting file containing the data from the original file in the desired format</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:OuputFile"/>
-				<ComplexOutput>
-					<Default>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-img</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-						<Format>
-							<MimeType>application/octet-stream</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-					</Supported>
-				</ComplexOutput>
-			</Output>
-		</ProcessOutputs>
-	</ProcessDescription>
-	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:SurfMM:3</ows:Identifier>
-		<ows:Title>SurfMM</ows:Title>
-		<ows:Abstract><![CDATA[<ul><li>Import grids: Given a Surfer grid file (GRD), we can generate the corresponding MiraMon raster file (IMG) with its document file (DOC), based on the information in the GRD header. The Surfer grid should be in ASCII format (care should be taken when exporting from Surfer) and the resulting IMG is always real format. Although the MiraMon raster format requires the same resolution in both dimensions and, therefore, a square pixel size, nevertheless the program allows import Surfer grids with non-square pixel sides. In this case a bilinear geometric correction is performed to resample the original data to a net of equally spaced square pixels with the side equal to the smaller of the two dimensions of the original.</li><li>Export rasters: We can export any uncompressed MiraMon raster format to the Surfer grid format. When the input raster file is a compressed (RLE) file, it is necessary to use the program IMGIMG to decompress it. There is the option to apply a multiplication factor to the raster values when writting the corresponding 'z' coordinates to the GRD format file.</li><li>Export point files:Unstructured point 2D or 3D vector files (VEC) can be exported to Surfer data (DAT) format. The attribute of the VEC file must be numerical. Files in the corresponding Surfer format (DAT) can be imported using the program <a href="bdpnt.htm">BDPNT</a> which will produce a structured point file (PNT).</li></ul>]]></ows:Abstract>
-		<DataInputs>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>Indicates the type of format transformation: VEC->DAT</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
-				<ows:Metadata xlink:title="Name:Option"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
 						<ows:Value>3</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerOrigen</ows:Identifier>
-				<ows:Title>Input File</ows:Title>
-				<ows:Abstract>The file we wish to import/export.</ows:Abstract>
+				<ows:Title>Input file</ows:Title>
+				<ows:Abstract>File to import/export.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:InputFile"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/octet-stream</MimeType>
-							<Encoding>ascii</Encoding>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
@@ -224,7 +54,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FACTOR_Z</ows:Identifier>
 				<ows:Title>Factor Z</ows:Title>
-				<ows:Abstract>The scaling factor that multiplies the values of the IMG raster to generate the 'Z' coordinate of the Surfer DAT file. This factor is optional, if not specified the default is 1.</ows:Abstract>
+				<ows:Abstract>The scaling factor that multiplies the values of the IMG raster to generate the 'Z' coordinate of the Surfer DAT file. This factor is optional, if not specified the default value is 1.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
@@ -235,7 +65,7 @@
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerDesti</ows:Identifier>
-				<ows:Title>Output File</ows:Title>
+				<ows:Title>Output file</ows:Title>
 				<ows:Abstract>Is the resulting file containing the data from the original file in the desired format</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:OuputFile"/>
