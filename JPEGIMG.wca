@@ -10,11 +10,11 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opcio</ows:Title>
-				<ows:Abstract>Metadades</ows:Abstract>
+				<ows:Abstract>Mostra metadades</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcio"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>0</ows:Value>
 					</ows:AllowedValues>
@@ -67,7 +67,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:JPEGIMG:Param1:1&amp;!Param5</ows:Identifier>
 		<ows:Title>IMG/BMP a JPEG</ows:Title>
-		<ows:Abstract>(Opció 1) Pas de IMG/BMP a JPEG. En aquesta opció es transforma un BMP (FitxerIn), un IMG amb paleta de grisos (FitxerIn), un IMG amb paleta P25 (FitxerIn i FitxerP25) o una combinació RGB (FitxerR, FitxerG i FitxerB) a un unic fitxer JPEG (FitxerJPEG).</ows:Abstract>
+		<ows:Abstract>(Opció 1) Pas de IMG/BMP a JPEG. En aquesta opció es transforma un BMP, un IMG amb paleta de grisos, un IMG amb paleta P25 o una combinació RGB a un unic fitxer JPEG.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -83,25 +83,25 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>FitxerIn</ows:Identifier>
-				<ows:Title>Fitxer Entrada</ows:Title>
-				<ows:Abstract>És el nom del fitxer imatge que volem transformar.</ows:Abstract>
+				<ows:Identifier>FitxerIMGBMP</ows:Identifier>
+				<ows:Title>Fitxer IMG/BMP</ows:Title>
+				<ows:Abstract>És el nom del fitxer amb extensió IMG o BMP.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:FitxerIn"/>
+				<ows:Metadata xlink:title="Name:FitxerIMGBMP"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>image/bmp</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>image/bmp</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-img</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -227,7 +227,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:JPEGIMG:Param1:2&amp;!Param5</ows:Identifier>
 		<ows:Title>JPEG a IMG/BMP</ows:Title>
-		<ows:Abstract>(Opció 2) Pas de JPEG a IMG/BMP: En aquesta opció es transforma un JPEG (FitxerJPEGs) a BMP (FitxerIn), a un IMG amb paleta de grisos (FitxerIn), a un IMG amb paleta P25 predefinida (FitxerIn i FitxerP25), a un IMG amb paleta P25 optimitzada (FitxerIn i FitxerP25), o a una combinació RGB (FitxerR, FitxerG, i FitxerB).</ows:Abstract>
+		<ows:Abstract>(Opció 2) Pas de JPEG a IMG/BMP: En aquesta opció es transforma un JPEG a BMP, a un IMG amb paleta de grisos, a un IMG amb paleta P25 predefinida, a un IMG amb paleta P25 optimitzada, o a una combinació RGB.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -286,9 +286,9 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>NCOLORS</ows:Identifier>
 				<ows:Title>Nombre de colors</ows:Title>
-				<ows:Abstract>orça una reducció de l'espai de colors a un nombre de colors limitat a n. Aquest serà el nombre final de colors a la paleta si demaneu IMG+paleta optimitzada.</ows:Abstract>
+				<ows:Abstract>Força una reducció de l'espai de colors a un nombre de colors limitat a n. Aquest serà el nombre final de colors a la paleta si demaneu IMG+paleta optimitzada.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -351,18 +351,23 @@
 			<Output>
 				<ows:Identifier>FitxerIMGBMP</ows:Identifier>
 				<ows:Title>Fitxer IMG/BMP</ows:Title>
-				<ows:Abstract>És el nom del fitxer IMG que volem trasnformar a JPEG.</ows:Abstract>
+				<ows:Abstract>És el nom del fitxer amb extensió IMG o BMP.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerIMGBMP"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -373,7 +378,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:JPEGIMG:Param1:3&amp;!Param5</ows:Identifier>
 		<ows:Title>IMG/BMP a JPEG Indexat</ows:Title>
-		<ows:Abstract>(Opció 3)Pas de IMG/BMP a JPEG Indexat. En aquesta opció es transforma un BMP (FitxerIn), un IMG amb paleta de grisos (FitxerIn), un IMG amb paleta P25 (FitxerIn i FitxerP25) o una combinació RGB (FitxerR, FitxerG i FitxerB) a un unic fitxer JPEG Indexat (FitxerJPEG).</ows:Abstract>
+		<ows:Abstract>(Opció 3) Pas de IMG/BMP a JPEG Indexat. En aquesta opció es transforma un BMP, un IMG amb paleta de grisos, un IMG amb paleta P25 o una combinació RGB a un unic fitxer JPEG Indexat.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -391,18 +396,23 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMGBMP</ows:Identifier>
 				<ows:Title>Fitxer IMG/BMP</ows:Title>
-				<ows:Abstract>És el nom del fitxer IMG que volem trasnformar a JPEG.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Abstract>És el nom del fitxer amb extensió IMG o BMP.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerIMGBMP"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -488,7 +498,7 @@
 				<ows:Identifier>FitxerJPEG</ows:Identifier>
 				<ows:Title>Fitxer JPEG</ows:Title>
 				<ows:Abstract>És el nom del fitxer JPEG  del que es vol obtenir informació de les metadades.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG"/>
 				<ComplexOutput>
 					<Default>
@@ -510,7 +520,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:JPEGIMG:Param1:1&amp;Param5</ows:Identifier>
 		<ows:Title>IMG/BMP Multibanda a JPEG</ows:Title>
-		<ows:Abstract>(Opció 1) Pas de IMG/BMP a JPEG. En aquesta opció es transforma un BMP (FitxerIn), un IMG amb paleta de grisos (FitxerIn), un IMG amb paleta P25 (FitxerIn i FitxerP25) o una combinació RGB (FitxerR, FitxerG i FitxerB) a un unic fitxer JPEG (FitxerJPEG).</ows:Abstract>
+		<ows:Abstract>(Opció 1) Pas de IMG/BMP a JPEG. En aquesta opció es transforma un BMP, un IMG amb paleta de grisos, un IMG amb paleta P25 o una combinació RGB a un unic fitxer JPEG.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -530,20 +540,21 @@
 				<ows:Title>Fitxer Vermell</ows:Title>
 				<ows:Abstract>Fitxer de la banda del vermell</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerR"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -554,20 +565,21 @@
 				<ows:Title>Fitxer Verd</ows:Title>
 				<ows:Abstract>Fitxer de la banda del verd</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FitxerG"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -578,20 +590,21 @@
 				<ows:Title>Fitxer Blau</ows:Title>
 				<ows:Abstract>Fitxer de la banda del blau</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:FitxerB"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -697,7 +710,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:JPEGIMG:Param1:2&amp;Param5</ows:Identifier>
 		<ows:Title>JPEG a IMG/BMP MultiBanda</ows:Title>
-		<ows:Abstract>(Opció 2)Pas de JPEG a IMG/BMP: En aquesta opció es transforma un JPEG (FitxerJPEGs) a BMP (FitxerIn), a un IMG amb paleta de grisos (FitxerIn), a un IMG amb paleta P25 predefinida (FitxerIn i FitxerP25), a un IMG amb paleta P25 optimitzada (FitxerIn i FitxerP25), o a una combinació RGB (FitxerR, FitxerG, i FitxerB).</ows:Abstract>
+		<ows:Abstract>(Opció 2) Pas de JPEG a IMG/BMP: En aquesta opció es transforma un JPEG a BMP, a un IMG amb paleta de grisos, a un IMG amb paleta P25 predefinida, a un IMG amb paleta P25 optimitzada, o a una combinació RGB.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -736,9 +749,9 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>NCOLORS</ows:Identifier>
 				<ows:Title>Nombre de colors</ows:Title>
-				<ows:Abstract>orça una reducció de l'espai de colors a un nombre de colors limitat a n. Aquest serà el nombre final de colors a la paleta si demaneu IMG+paleta optimitzada.</ows:Abstract>
+				<ows:Abstract>Força una reducció de l'espai de colors a un nombre de colors limitat a n. Aquest serà el nombre final de colors a la paleta si demaneu IMG+paleta optimitzada.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -803,20 +816,21 @@
 				<ows:Title>Fitxer Vermell</ows:Title>
 				<ows:Abstract>Fitxer de la banda del vermell</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerR"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -827,20 +841,21 @@
 				<ows:Title>Fitxer Verd</ows:Title>
 				<ows:Abstract>Fitxer de la banda del verd</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FitxerG"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -851,20 +866,21 @@
 				<ows:Title>Fitxer Blau</ows:Title>
 				<ows:Abstract>Fitxer de la banda del blau</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:FitxerB"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -875,7 +891,7 @@
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:JPEGIMG:Param1:3&amp;Param5</ows:Identifier>
 		<ows:Title>IMG/BMP Multibanda JPEG Indexat</ows:Title>
-		<ows:Abstract>(Opció 3) Pas de IMG/BMP a JPEG Indexat. En aquesta opció es transforma un BMP (FitxerIn), un IMG amb paleta de grisos (FitxerIn), un IMG amb paleta P25 (FitxerIn i FitxerP25) o una combinació RGB (FitxerR, FitxerG i FitxerB) a un unic fitxer JPEG Indexat (FitxerJPEG).</ows:Abstract>
+		<ows:Abstract>(Opció 3) Pas de IMG/BMP a JPEG Indexat. En aquesta opció es transforma un BMP, un IMG amb paleta de grisos, un IMG amb paleta P25 o una combinació RGB a un unic fitxer JPEG Indexat.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -895,20 +911,21 @@
 				<ows:Title>Fitxer Vermell</ows:Title>
 				<ows:Abstract>Fitxer de la banda del vermell</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerR"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -919,20 +936,21 @@
 				<ows:Title>Fitxer Verd</ows:Title>
 				<ows:Abstract>Fitxer de la banda del verd</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FitxerG"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -943,20 +961,21 @@
 				<ows:Title>Fitxer Blau</ows:Title>
 				<ows:Abstract>Fitxer de la banda del blau</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:FitxerB"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-BMP</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 						<Format>
-							<MimeType>application/x-IMG</MimeType>
+							<MimeType>image/bmp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
