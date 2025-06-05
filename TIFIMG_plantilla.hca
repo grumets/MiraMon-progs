@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 28-01-2025 */-->
+<!--/* Revisió AA 05-06-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>TIFIMG: Conversió entre formats TIFF i IMG</title>
@@ -32,21 +32,334 @@
 
 <h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
 
-<p>Aquesta aplicació permet transformar bidireccionalment fitxers TIFF i IMG.</p>
+<p>Aquesta aplicació permet transformar bidireccionalment fitxers TIFF i IMG. A més d'aquest propòsit general, també permet la importació multibanda (bandes radiomètriques, qualitat, etc) de la Col·lecció 1 i 2 de les dades Landsat de l'USGS. Pel cas de la Col·lecció 2, es permet la importació tant de dades de nivell 1 de processament com de dades de nivell 2.</p>
 
 <p>Opcions de l'aplicació:</p>
+
+<p>L'ordre en què es presenten les opcions en aquesta explicació prèvia i a la <a href="#Caixa">caixa de diàleg de l'aplicació</a> correspon a la seva agrupació conceptual, per tipologia de transformació (informació, transformacions de TIFF als diversos tipus d'IMG i d'IMG als diversos tipus de TIFF). No obstant això, a la <a href="#Sintaxi">sintaxi</a>, es mostren en l'ordre en què s'han programat al llarg dels anys.</p>
 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->  
-  
-<p>En les importacions de TIFF a IMG se suporta la presència tant d'un  <i>fitxer World</i> (*.TFW o *.TIFW) com del format GeoTiff. En cas de  contradicció, preval la georeferència del <i>fitxer World</i>.<br/>  En les exportacions de IMG a TIFF, sempre es genera un format GeoTiff i un  TFW.</p>
+
+<p>En les importacions de TIFF a IMG se suporta la presència tant d'un  <i>fitxer World</i> (*.TFW o *.TIFW) com del format GeoTiff. En cas de  contradicció, preval la georeferència del <i>fitxer World</i>.<br/>  En les exportacions d'IMG a TIFF, sempre es genera un format GeoTiff i un  TFW.</p>
 
 <p>Tant el <i>fitxer World</i> com el format GeoTiff permeten georeferenciar  un fitxer TIFF donant-li un costat de píxel i unes coordenades extremes  (envolupant).</p>
   
 <p>En el cas que un fitxer TIFF contingui punts de control per a la seva georeferenciació, aquests es desen en una taula de nom igual al de l'IMG de sortida afegint-hi el sufix _GCP.</p>
 
-<p>Una possibilitat més rica en metadades és utilitzar el format DIMAP. En  aquest cas, les metadades es distribueixen en un fitxer en format XML  (d'extensió .dim). Se suporta un fitxer del mateix nom que el TIFF però  d'extensió .dim o directament un fitxer Metadata.dim tal com es  distribueix en una <i>DIMAP product folder</i> (llavors el fitxer TIFF es diu  Imagery.tif). Les imatges SPOT es distribueixen d'aquesta manera.<br/>  Més informació sobre el format DIMAP: <a href="http://www.spotimage.fr/spot5/ensavoirplus/eng/plus_dimap.html">http://www.spotimage.fr/spot5/ensavoirplus/eng/plus_dimap.html</a></p>
+<p>Una possibilitat més rica en metadades és utilitzar el format DIMAP. En  aquest cas, les metadades es distribueixen en un fitxer en format XML  (d'extensió .dim). Se suporta un fitxer del mateix nom que el TIFF però  d'extensió .dim o directament un fitxer Metadata.dim tal com es  distribueix en una <i>DIMAP product folder</i> (llavors el fitxer TIFF es diu  Imagery.tif). Les imatges SPOT es distribueixen d'aquesta manera.<br/>  Més informació sobre el format DIMAP: <a href="https://www.intelligence-airbusds.com/en/8722-the-dimap-format" target="_blank">https://www.intelligence-airbusds.com/en/8722-the-dimap-format</a></p>
+
+<p><b><a id="Notes_generals" name="Notes_generals"></a>Notes generals:</b></p>
+
+<ul>
+	<li>S'assumeixen les extensions TIFF i IMG en cada cas.</li>
+
+	<li>Hi ha dues maneres de determinar els noms dels fitxers IMG que resulten de convertir un TIFF multibanda: es pot especificar un nom de fitxer concret per cada banda, sempre que es conegui el nombre total de bandes; però també es pot especificar un directori de destí pels fitxers resultants, i l'aplicació generarà automàticament noms de fitxers numerats per a cada banda (en aquest cas es recomana especificar un prefix comú dels noms per evitar conflictes amb resultats d'altres execucions).</li>
+
+	<li>Per a conversions RGB s'assumeix que els noms dels fitxers es donen en l'ordre &quot;Red&quot; &quot;Green&quot; &quot;Blue&quot; (Vermell Verd Blau).</li>
+
+	<li>Per a conversions amb paleta cal afegir extensió PAL si es vol la paleta en escalat de 64 nivells d'intensitat per canal de color, extensió P25 si es vol la paleta en escalat de 256 nivells d'intensitat i extensió P65 si es vol la paleta en escalat de 65536 nivells d'intensitat. També es pot afegir d'extensió DBF. El format DBF és l'estàndard del MiraMon per a paletes i taules de simbolització. (El format P25 era l'estàndard a la versió 3 o inferior).</li>   
+</ul>
+
+<p><b><a id="Notes_especifiques" name="Notes_especifiques"></a>Notes específiques:</b></p>
+
+<ul>
+	<li>Les imatges Landsat poden haver estat sotmeses a processament NLAPS o LPGS:</li>
+	<ul>	
+		<li>NLAPS: imatges Landsat processades per NLAPS (<i>National Land Archive Production System</i>), típicament amb una extensió del fitxer de metadades com <b>WO.txt</b> (<i>Work Order</i>). D'acord amb la documentació de l'USGS, el processament NLAPS va deixar de ser utilitzat al 1999 i en imatges processades posteriorment cal seleccionar processament LPGS.</li> 
+		<li>LPGS: imatges Landsat processades per LPGS (Landsat Product Generation System) típicament amb una extensió del fitxer de metadades com <b>MTL.txt</b> (Metadata Text File). Més informació pot ser consultada a través del següent enllaç.</li>	
+	</ul>	
+	<p>Més informació sobre NLAPS i LPGS pot ser consultada a través del següent <a href="https://www.usgs.gov/landsat-missions/national-land-archive-production-system" target="_blank">enllaç</a>, així com a l'article:</p>
+	<ul>
+		<b>Cristóbal, J., Pons, X., Serra, P.</b> (2004) <i>Sobre el uso operativo de Landsat-7 ETM+ en Europa</i>. Revista de Teledetección, 21:55-59. <a href="http://www.aet.org.es/revistas/revista21/AET21-11.pdf" target="_blank">http://www.aet.org.es/revistas/revista21/AET21-11.pdf</a>
+	</ul>
+	<br>	
+	<li>Per a comprendre alguns dels conceptes comentats a continuació pot ser convenient llegir el següent article sobre la Col·lecció 2 de la sèrie Landsat:</li>
+	<ul>
+		<b>Pons, X., Cea, C., González-Guerrero, O., Cristóbal, J.</b> (2025) <i>Landsat Collection 2: Key Information and Recommendations for Data Users and Product Developers</i>. Revista de Teledetección, 66, e23510. <a href="https://doi.org/10.4995/raet.2025.23510" target="_blank">https://doi.org/10.4995/raet.2025.23510</a>
+	</ul>
+	<br>
+	<li>La importació de dades de la Col·lecció 2, (per a cada sensor MSS, TM, ETM+ i OLI/TIRS) genera les capes que s'especifiquen als següents fitxers:
+	<ul>
+		MSS:  <a href="https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/LSDS-1416_LandsatMSS-C2-L1-DFCB-v3.pdf" target="_blank">https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/LSDS-1416_LandsatMSS-C2-L1-DFCB-v3.pdf</a> <br>
+		TM: <a href="https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1415_Landsat4-5-TM-C2-L1-DFCB-v3.pdf" target="_blank"</a>https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1415_Landsat4-5-TM-C2-L1-DFCB-v3.pdf</a> <br>
+		ETM+:  <a href="https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1414_Landsat7ETM-C2-L1-DFCB-v3.pdf" target="_blank">https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1414_Landsat7ETM-C2-L1-DFCB-v3.pdf</a> <br>
+		OLI/TIRS: <a href=" https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1822_Landsat8-9-OLI-TIRS-C2-L1-DFCB-v6.pdf" target="_blank">https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1822_Landsat8-9-OLI-TIRS-C2-L1-DFCB-v6.pdf</a>
+	</ul>
+	<li>En la finestra de l'aplicació es pot activar la generació de noms de fitxers (i descriptors) en l'idioma del MiraMon.</li> 
+<p>
+	<div align="center"><img src="TIFIMG_finestra3.png"></div> 
+<p>
+
+<div align="center">	
+<table width="75%">
+<tr align="left" valign="middle">
+	<td colspan="3" align="center"><b><font size="+1">Exemples de sortida d'un fitxer Landsat 8 de la Col·lecció 2	i nivell 1 de processament, importat al MiraMon i generant els noms dels fitxers en l'idioma del MiraMon.</font></b></td>
+<tr align="left" valign="middle">
+	<td><b>En anglès o per defecte</b></td>
+	<td><b>En català</b></td>
+	<td><b>En castellà</b></td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B1-CA_RT.img</td>
+	<td>LC08_L1TP_20210116_B1-LA_RT.img</td>
+	<td>LC08_L1TP_20210116_B1-LA_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B2-B_RT.img</td>
+	<td>LC08_L1TP_20210116_B2-B_RT.img</td>
+	<td>LC08_L1TP_20210116_B2-A_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B3-G_RT.img</td>
+	<td>LC08_L1TP_20210116_B3-V_RT.img</td>
+	<td>LC08_L1TP_20210116_B3-V_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B4-R_RT.img</td>
+	<td>LC08_L1TP_20210116_B4-R_RT.img</td>
+	<td>LC08_L1TP_20210116_B4-R_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B5-NIR_RT.img</td>
+	<td>LC08_L1TP_20210116_B5-IRp_RT.img</td>
+	<td>LC08_L1TP_20210116_B5-IRp_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B6-SWIR1_RT.img</td>
+	<td>LC08_L1TP_20210116_B6-IRoc1_RT.img</td>
+	<td>LC08_L1TP_20210116_B6-IRoc1_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B7-SWIR2_RT.img</td>
+	<td>LC08_L1TP_20210116_B7-IRoc2_RT.img</td>
+	<td>LC08_L1TP_20210116_B7-IRoc2_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B8-PAN_RT.img</td>
+	<td>LC08_L1TP_20210116_B8-PAN_RT.img</td>
+	<td>LC08_L1TP_20210116_B8-PAN_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B9-Ci_RT.img</td>
+	<td>LC08_L1TP_20210116_B9-Ci_RT.img</td>
+	<td>LC08_L1TP_20210116_B9-Ci_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B10-LWIR1_RT.img</td>
+	<td>LC08_L1TP_20210116_B10-IRol1_RT.img</td>
+	<td>LC08_L1TP_20210116_B10-IRol1_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B11-LWIR2_RT.img</td>
+	<td>LC08_L1TP_20210116_B11-IRol2_RT.img</td>
+	<td>LC08_L1TP_20210116_B11-IRol2_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-DesignatedFill_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ForaDEscena_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-FueraDeEscena_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-DilatedCloud_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-NuvolDilatat_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-NubeDilatada_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Cirrus_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Cirrus_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Cirrus_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Cloud_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Nuvol_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Nube_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-CloudShadow_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-OmbraNuvol_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-SombraNube_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Snow_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Neu_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Nieve_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-ClearSky_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-CelClar_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-CieloClaro_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Water_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Aigua_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Agua_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-CloudConfidence_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfiancaNuvol_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfianzaNube_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-CloudShadowConfidence_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfiancaOmbra_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfianzaSombra_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-SnowIceConfidence_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfiancaNeuGel_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfianzaNieveHielo_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-CirrusConfidence_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfiancaCirrus_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfianzaCirrus_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-B6-SWIR1-RS_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-B6-IRoc1-RS_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-B6-IRoc1-RS_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-B7-SWIR2-RS_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-B7-IRoc2-RS_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-B7-IRoc2-RS_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Radiometric-TerrainOcclusion_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-OcultatPelTerreny_Radiometric_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-OcultadoPorElTerreno_Radiometrico_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_4-SAA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AIA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AAS_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_4-SZA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AIZ_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AAV_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_4-VAA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AVA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-ACS_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_4-VZA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AVZ_RT.img</td>
+	<td>LC08_L1TP_20210116_4-ACV_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_I.rel</td>
+	<td>LC08_L1TP_20210116_I.rel</td>
+	<td>LC08_L1TP_20210116_I.rel</td>
+</tr>
+</table>	
+</div>
+
+<p></p>
+	<li>Canvis aplicats als valors llegits d'algunes bandes: Totes les bandes d'angles originalment tenen un valor 0 en la part "exterior" de la imatge, però aquest valor es pot confondre amb el valor de l'angle 0, que pot ser plausible en les d'azimut a latituds mitjanes, i també en les d'angles zenitals a les latituds on el Sol pugui estar en aquesta posició (potser mai en el moment de pas del Landsat, però possible en certes zones de la Terra), per la qual cosa es canvia els 0 de la zona que en la imatge QA-ForaDEscena és 1 per un -32768 i es documenta que aquest és el valor del sensedades d'aquestes 4 bandes d'angles.<br> 
+	El mateix argument s'aplica a les altres bandes de qualitat, on per exemple el 0 que vol dir "no" al que informi la banda, passa a ser un "no" fora de l'escena, que torna a ser un valor problemàtic; com que aquestes bandes no són bit sinó byte, s'ha donat un valor 255 i s'ha marcat com a sensedades els valors fora d'escena.</li> 
+
+	<li>Lectura i emmagatzematge de claus concretes del fitxer de metadades del producte Landsat, MTL:
+	<ul>
+		<li>La clau "LANDSAT_PRODUCT_ID" s'assigna al títol alternatiu.</li>
+		<li>La clau "DIGITAL_OBJECT_IDENTIFIER" s'assigna a l'identificador únic de les dades.</li>		
+	</ul>	
+	<p>Els paràmetres de qualitat del sistema de referència horitzontal corresponents a les següents claus, es desen a les metadades:</p>
+	<ul>
+		<li>GROUND_CONTROL_POINTS_MODEL</li>
+		<li>GEOMETRIC_RMSE_MODEL</li>
+		<li>GEOMETRIC_RMSE_MODEL_Y</li>	
+		<li>GEOMETRIC_RMSE_MODEL_X</li>
+		<li>GROUND_CONTROL_POINTS_VERIFY</li>
+		<li>GEOMETRIC_RMSE_VERIFY</li>
+	</ul>
+	<p>Les constants tèrmiques s'afegeixen a la secció de comentaris.</p>
+	<p>GROUP = LEVEL1_THERMAL_CONSTANTS</p>
+	<ul>
+		<li>K1_CONSTANT_BAND_10</li>
+		<li>K2_CONSTANT_BAND_10</li>
+		<li>K1_CONSTANT_BAND_11</li>
+		<li>K2_CONSTANT_BAND_11</li>
+	</ul>
+	<p>Altres paràmetres incorporats a comentaris son els següents:</p>
+	<ul>
+		<li>COLLECTION_NUMER</li>
+		<li>COLLECTION_CATEGORY</li>
+		<li>PROCESSING_LEVEL</li>
+		<li>PROCESSING_SOFTWARE_VERSION (Processing Software)</li>
+		<li>DATE_PRODUCT_GENERATED</li>
+		<li>NADIR_OFFNADIR</li>
+		<li>CLOUD_COVER</li>
+		<li>CLOUD_COVER_LAND</li>
+		<li>IMAGE_QUALITY_OLI</li>
+		<li>IMAGE_QUALITY_TIRS</li>
+		<li>TIRS_SSM_MODEL</li>
+		<li>TIRS_SSM_POSITION_STATUS</li>
+		<li>DATA_SOURCE_TIRS_STRAY_LIGHT_CORRECTION</li>
+		<li>ROLL_ANGLE</li>
+		<li>SUN_AZIMUTH</li>
+		<li>SUN_ELEVATION</li>
+		<li>EARTH_SUN_DISTANCE</li>
+		<li>TRUNCATION_OLI</li>
+		<li>REFLECTANCE_MAXIMUM_BAND_X</li>
+		<li>REFLECTANCE_MINIMUM_BAND_X</li>
+		<li>RESAMPLING_OPTION</li>
+	</ul>
+<p>
+	<div align="center"><img src="TIFIMG_finestra4.png"></div>
+<p>
+	<li>Generació de Tesaurus: es generen només si el píxel de la banda pren tres o més valors. Si en pren només dos, la pròpia descripció conté el significat d'aquests valors. El programa genera una carpeta "Tesaurus" al propi directori de sortida amb els tesaurus necessaris.</li>
+<p>
+	<div align="center"><img src="TIFIMG_finestra5.png"></div>
+<p>
+	<li>En l'apartat de radiometria es comprova la coherència entre les claus RADIANCE_MINIMUM_BAND_# i RADIANCE_MAXIMUM_BAND_#, on # és el número de banda, i les claus QUANTIZE_CAL_MIN_BAND_# i QUANTIZE_CAL_MAX_BAND_#, i les claus RADIANCE_MULT_BAND_# i RADIANCE_ADD_BAND_#. Si es detecta una incoherència s'emet un missatge d'error. Aquestes dades són interdependents i, per tant, es comprova que tot sigui exacte i coherent. Es vetlla perquè si en un MTL no hi ha alguna de les dades es pugui fer el càlcul corresponent, o es pugui assumir els conversors en el cas de les dues darreres (RADIANCE_MULT_BAND_# i RADIANCE_ADD_BAND_#) si no existeixen les 4 primeres.</li>
+	
+	<p>En versions antigues, en què de vegades hi havia indeterminació en si el 0 actuava de sensedades o no, es podien produir situacions incertes que podien arribar a generar una petita imprecisió en els càlculs del pendent de transformació si l'assumpció era incorrecta. Aquestes imprecisions, eren, si existien, petites (clarament menors a la imprecisió en el calibratge absolut que ofereix el sensor), però sobre aquest aspecte també s'ha reforçat el control.</p>
+	
+	<p>A continuació es mostra un exemple amb els valors de l'MTL i els que s'afegeixen en la secció de Radiometria.</p>
+	
+	<ul>
+		<li>RADIANCE_MAXIMUM_BAND_4 = 225.200</li>
+		<li>RADIANCE_MINIMUM_BAND_4 = -17.600</li>
+		<li>QUANTIZE_CAL_MAX_BAND_4 = 255</li>
+		<li>QUANTIZE_CAL_MIN_BAND_4 = 1</li>
+		<li>RADIANCE_MULT_BAND_4 = 9.5591E-01</li>
+		<li>RADIANCE_ADD_BAND_4 = -18.55591</li>
+	</ul>
+<p>
+	<div align="center"><img src="TIFIMG_finestra6.png"></div>
+<p>
+	<p>Quan es fa la importació de dades Landsat amb nivell 2 de processament, es fa la lectura dels grups de paràmetres que permeten estimar els valors de "reflectàncies terreny" o reflectàncies BOA, i es deixa en blanc els camps dedicats al Calibratge a Radiàncies (o Radiàncies Espectrals) a la secció de radiometria.</p>
+
+	<ul>GROUP = LEVEL2_SURFACE_REFLECTANCE_PARAMETERS
+		<li>REFLECTANCE_MULT_BAND_# = 2.75e-05</li>
+		<li>REFLECTANCE_ADD_BAND_# = -0.2</li>	
+	</ul>
+	
+	<p>Els valors estimats de "reflectàncies terreny" es calculen en percentatges (%), i per tant difereixen de les unitats en DN (de fet, Qcal) proporcionades per dades amb nivell 1 de processament. En cada cas aquestes unitats es guarden a la secció corresponent de les metadades.</p>
+	
+	<p>Si no es vol aquesta transformació en les dades de nivell de processament 2, sinó que es volen les dades dels .img en els mateixos valors byte o <i>unsigned integer</i> (segons el sensor de la sèrie Landsat) de dintre el TIF podeu usar també el TIFIMG en el mode 2 (no el 9) per a bandes concretes, o el GDALMM (que importarà, però, menys metadades), o un cop obert el TIF al MiraMon, es pot seleccionar tot amb el botó "Seleccionar-ho tot" des de la caixa de seleccions d'objectes (botó dret del ratolí) i desant-ne la selecció com a .img. Cal tenir en compte, però, que aquest producte de nivell 2 tan "manipulat" és poc útil sense la conversió a % Reflectàncies per a la qual ha estat pre-calculat, i és per això que la importació per defecte del TIFIMG completa aquest pre-càlcul.</p>
+	
+	<p>Es mostra a continuació un exemple amb els valors que s'afegeixen en la secció de Radiometria pel cas de dades Landsat amb nivell 2 de processament.</p>
+<p>	
+	<div align="center"><img src="TIFIMG_finestra7.png"></div>
+<p>
+	<li>A la pestanya de distribució s'afegeixen dos distribuïdors (NASA-USGS i MiraMon) a més de dos formats (l'extret de l'MTL i el propi IMG RLE extracomprimit).</li>
+<p>	
+	<div align="center"><img src="TIFIMG_finestra8.png"></div>
+	<div align="center"><img src="TIFIMG_finestra9.png"></div>
+<p>	
+	<li>En la finestra de l'aplicació es disposa d'una opció de compressió dels fitxers IMG de sortida.</li> 
+<p>
+	<div align="center"><img src="TIFIMG_finestra10.png"></div>	
+<p>	
+	<p>Per defecte s'activa "Comprimir RLE extracomprimit indexat". Si es desactiva aquesta opció, apareix /NO_COMPRIMIR en línia de comanda.</p>
+	
+</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
@@ -85,19 +398,7 @@
  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
-
-<p><b>Notes:</b></p>
-
-<ul>
-	<li>S'assumeixen les extensions TIF i IMG en cada cas.</li>
-
-	<li>Hi ha dues maneres de determinar els noms dels fitxers IMG que resulten de convertir un TIFF multibanda: es pot especificar un nom de fitxer concret per cada banda, sempre que es conegui el nombre total de bandes; però també es pot especificar un directori de destí pels fitxers resultants, i l'aplicació generarà automàticament noms de fitxers numerats per a cada banda (en aquest cas es recomana especificar un prefix comú dels noms per evitar conflictes amb resultats d'altres execucions).</li>
-
-	<li>Per a conversions RGB s'assumeix que els noms dels fitxers es donen en l'ordre &quot;Red&quot; &quot;Green&quot; &quot;Blue&quot;</li>
-
-	<li>Per a conversions amb paleta afegiu extensió PAL si voleu la paleta en escalat de 64 nivells d'intensitat per canal de color, extensió P25 si voleu la paleta en escalat de 256 nivells d'intensitat i extensió P65 si voleu la paleta en escalat de 65536 nivells d'intensitat. També podeu afegir d'extensió DBF. El format DBF és l'estàndard de MiraMon per a paletes i taules de simbolització. (El format P25 era l'estàndard a la versió 3 o inferior).</li>   
-</ul>
-  
+		
 <p><!-- $$EXCLUSIVA$$
 Per a obtenir l'ajuda completa escriviu:
 TIFIMG ?
