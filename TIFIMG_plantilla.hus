@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 28-01-2025 */-->
+<!--/* Revisió AA 12-06-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>TIFIMG: TIFF-IMG format conversion</title>
@@ -32,9 +32,12 @@
 
 <h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
   
-<p>This application allows bidirectional transformation of TIFF and IMG files.</p>
+<p>This application allows bidirectional transformation of TIFF and IMG files. In addition to its general purpose, it also allows multiband import (radiometric bands, quality, etc.) of USGS Landsat data collections 1 and 2. In the case of collection 2, both Level 1 and Level 2 processing data can be imported.</p>
 
 <p>Application options:</p>
+
+<p>The order in which the options are presented in this previous explanation, in the <a href="#Caixa">application dialog box</a> and in the <a href="#Sintaxi">syntax</a> corresponds to their conceptual grouping, by type of transformation (information, transformations from TIFF to the several types of IMG and from IMG to the various types of TIFF). However, the numbering of the options is correlative according to the order in which they have been programmed over the years.</p>
+
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
@@ -45,7 +48,319 @@
   
 <p>In case that a TIFF file contains control points for its georeferencing,  these are stored in a table with the same name than the output IMG but adding  the "_GCP" suffix.</p>
 
-<p>Other richest possibility in metadata is to use the DIMAP format. In In this case, the metadata is distributed in a file in XML format (from extension .dim). A file of the same name as the TIFF is supported but of extension .dim or directly a file Metadata.dim such com is distributed in a <i> DIMAP product folder </i> (then the TIFF file is called Imagery.tif). SPOT images are distributed this way. <br/> More information about the DIMAP format: <a href="http://www.spotimage.fr/spot5/ensavoirplus/eng/plus_dimap.html">http://www.spotimage.fr/spot5/ensavoirplus/eng/plus_dimap.html</a></p>
+<p>Other richest possibility in metadata is to use the DIMAP format. In In this case, the metadata is distributed in a file in XML format (from extension .dim). A file of the same name as the TIFF is supported but of extension .dim or directly a file Metadata.dim such com is distributed in a <i> DIMAP product folder </i> (then the TIFF file is called Imagery.tif). SPOT images are distributed this way. <br/> More information about the DIMAP format: <a href="https://www.intelligence-airbusds.com/en/8722-the-dimap-format" target="_blank">https://www.intelligence-airbusds.com/en/8722-the-dimap-format</a></p>
+
+<p><b><a id="Notes_generals" name="Notes_generals"></a>General notes:</b></p>
+
+<ul>
+	<li>The TIFF and IMG extensions are assumed in each case.</li>
+
+	<li>There are two ways to determine the names of the IMG files resulting from converting a multiband TIFF: fixing a specific file name for each band, when the total number of bands is known; specifying a destination directory for the resulting files, and the application will automatically generate numbered file names for each band (in this case it is recommended to specify a common prefix for the names to avoid conflicts with results from other runs).</li>
+
+	<li>For RGB conversions it is assumed that the file names are given in the order &quot;Red&quot; &quot;Green&quot; &quot;Blue&quot;.</li>
+
+	<li>For conversions with palette, the PAL extension must be added in order to obtain the scaled palette with 64 intensity levels per color channel, the P25 extension if the scaled palette with 256 intensity levels is desired, and the P65 extension if the scaled palette with 65536 intensity levels is choosed. It is also possible to define the DBF extension. The DBF format is the MiraMon standard for palettes and symbolization tables. (The P25 format was the standard in version 3 or lower).</li>
+</ul>
+
+<p><b><a id="Notes_especifiques" name="Notes_especifiques"></a>Specific notes:</b></p>
+
+<ul>
+	<li>Landsat images may have undergone NLAPS or LPGS processing:</li>
+	<ul>
+		<li>NLAPS: Landsat images processed by NLAPS (National Land Archive Production System), typically with <b>WO.txt</b> (Work Order) metadata file extension. According to USGS documentation, NLAPS processing was discontinued in 1999 and LPGS processing should be selected for later processed images.</li>
+	<li>LPGS: Landsat images processed by LPGS (Landsat Product Generation System), typically with  <b>MTL.txt</b> (Metadata Text File) metadata file extension.</li>
+	</ul>
+	<p>More information about NLAPS and LPGS can be found through the following <a href="https://www.usgs.gov/landsat-missions/national-land-archive-production-system" target="_blank">link</a>, as well as in the article:</p>
+	<ul>
+		<b>Cristóbal, J., Pons, X., Serra, P.</b> (2004) <i>Sobre el uso operativo de Landsat-7 ETM+ en Europa</i>. Revista de Teledetección, 21:55-59. <a href="http://www.aet.org.es/revistas/revista21/AET21-11.pdf" target="_blank">http://www.aet.org.es/revistas/revista21/AET21-11.pdf</a>
+	</ul> 
+	<br> 
+	<li>To understand some of the concepts discussed below it may be convenient to read the following article on Collection 2 of the Landsat series:</li> 
+	<ul> 
+		<b>Pons, X., Cea, C., González-Guerrero, O., Cristóbal, J.</b> (2025) <i>Landsat Collection 2: Key Information and Recommendations for Data Users and Product Developers</i>. Revista de Teledetección, 66, e23510. <a href="https://doi.org/10.4995/raet.2025.23510" target="_blank">https://doi.org/10.4995/raet.2025.23510</a>
+	</ul>
+	<br>
+	<li>Importing data from Collection 2, (for each MSS, TM, ETM+ and OLI/TIRS sensor) generates the layers specified in the following files:
+	<ul>
+		MSS:  <a href="https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/LSDS-1416_LandsatMSS-C2-L1-DFCB-v3.pdf" target="_blank">https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/LSDS-1416_LandsatMSS-C2-L1-DFCB-v3.pdf</a> <br>
+		TM: <a href="https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1415_Landsat4-5-TM-C2-L1-DFCB-v3.pdf" target="_blank"</a>https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1415_Landsat4-5-TM-C2-L1-DFCB-v3.pdf</a> <br>
+		ETM+:  <a href="https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1414_Landsat7ETM-C2-L1-DFCB-v3.pdf" target="_blank">https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1414_Landsat7ETM-C2-L1-DFCB-v3.pdf</a> <br>
+		OLI/TIRS: <a href=" https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1822_Landsat8-9-OLI-TIRS-C2-L1-DFCB-v6.pdf" target="_blank">https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1822_Landsat8-9-OLI-TIRS-C2-L1-DFCB-v6.pdf</a>
+	</ul>
+	<li>In the application window it is possible to activate the generation of file names (and descriptors) in the MiraMon language if this does not match the language of the images. Otherwise, as is the case with Landsat images imported into the MiraMon english language version, the option is disabled by default.</li> 
+<p>
+	<div align="center"><img src="TIFIMG_finestra3.png"></div> 
+<p>
+
+<div align="center">	
+<table width="75%">
+<tr align="left" valign="middle">
+	<td colspan="3" align="center"><b><font size="+1">Examples of output files from a Landsat 8 Collection 2 and processing level 1, imported into MiraMon and generating file names in the MiraMon language.</font></b></td>
+<tr align="left" valign="middle">
+	<td><b>In English or by default</b></td>
+	<td><b>In Catalan</b></td>
+	<td><b>In Spanish</b></td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B1-CA_RT.img</td>
+	<td>LC08_L1TP_20210116_B1-LA_RT.img</td>
+	<td>LC08_L1TP_20210116_B1-LA_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B2-B_RT.img</td>
+	<td>LC08_L1TP_20210116_B2-B_RT.img</td>
+	<td>LC08_L1TP_20210116_B2-A_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B3-G_RT.img</td>
+	<td>LC08_L1TP_20210116_B3-V_RT.img</td>
+	<td>LC08_L1TP_20210116_B3-V_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B4-R_RT.img</td>
+	<td>LC08_L1TP_20210116_B4-R_RT.img</td>
+	<td>LC08_L1TP_20210116_B4-R_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B5-NIR_RT.img</td>
+	<td>LC08_L1TP_20210116_B5-IRp_RT.img</td>
+	<td>LC08_L1TP_20210116_B5-IRp_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B6-SWIR1_RT.img</td>
+	<td>LC08_L1TP_20210116_B6-IRoc1_RT.img</td>
+	<td>LC08_L1TP_20210116_B6-IRoc1_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B7-SWIR2_RT.img</td>
+	<td>LC08_L1TP_20210116_B7-IRoc2_RT.img</td>
+	<td>LC08_L1TP_20210116_B7-IRoc2_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B8-PAN_RT.img</td>
+	<td>LC08_L1TP_20210116_B8-PAN_RT.img</td>
+	<td>LC08_L1TP_20210116_B8-PAN_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B9-Ci_RT.img</td>
+	<td>LC08_L1TP_20210116_B9-Ci_RT.img</td>
+	<td>LC08_L1TP_20210116_B9-Ci_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B10-LWIR1_RT.img</td>
+	<td>LC08_L1TP_20210116_B10-IRol1_RT.img</td>
+	<td>LC08_L1TP_20210116_B10-IRol1_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_B11-LWIR2_RT.img</td>
+	<td>LC08_L1TP_20210116_B11-IRol2_RT.img</td>
+	<td>LC08_L1TP_20210116_B11-IRol2_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-DesignatedFill_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ForaDEscena_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-FueraDeEscena_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-DilatedCloud_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-NuvolDilatat_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-NubeDilatada_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Cirrus_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Cirrus_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Cirrus_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Cloud_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Nuvol_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Nube_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-CloudShadow_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-OmbraNuvol_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-SombraNube_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Snow_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Neu_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Nieve_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-ClearSky_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-CelClar_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-CieloClaro_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Water_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Aigua_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-Agua_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-CloudConfidence_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfiancaNuvol_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfianzaNube_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-CloudShadowConfidence_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfiancaOmbra_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfianzaSombra_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-SnowIceConfidence_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfiancaNeuGel_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfianzaNieveHielo_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-CirrusConfidence_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfiancaCirrus_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-ConfianzaCirrus_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-B6-SWIR1-RS_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-B6-IRoc1-RS_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-B6-IRoc1-RS_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-B7-SWIR2-RS_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-B7-IRoc2-RS_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-B7-IRoc2-RS_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_BQA-Radiometric-TerrainOcclusion_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-OcultatPelTerreny_Radiometric_RT.img</td>
+	<td>LC08_L1TP_20210116_BQA-OcultadoPorElTerreno_Radiometrico_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_4-SAA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AIA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AAS_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_4-SZA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AIZ_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AAV_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_4-VAA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AVA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-ACS_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_4-VZA_RT.img</td>
+	<td>LC08_L1TP_20210116_4-AVZ_RT.img</td>
+	<td>LC08_L1TP_20210116_4-ACV_RT.img</td>
+</tr>
+<tr align="left" valign="middle">
+	<td>LC08_L1TP_20210116_I.rel</td>
+	<td>LC08_L1TP_20210116_I.rel</td>
+	<td>LC08_L1TP_20210116_I.rel</td>
+</tr>
+</table>	
+</div>
+
+<p></p>
+<li>Changes applied to the values read from some bands: All angle bands originally have a value of 0 in the "outer" part of the image, but this value can be confused with the value of the angle 0, which may be plausible in the azimuth bands at mid-latitudes, and also in the zenith angles at latitudes where the Sun may be in this position (perhaps never at the time of Landsat passage, but possible in certain areas of the Earth), so the 0s in the area that in the QA-DesignatedFill image is 1 are changed to -32768 and it is documented that this is the value of the NoData of these 4 angle bands.<br>
+	The same argument applies to the other quality bands, where for example the 0 that means "no" to what the band reports, becomes a "no" outside the scene, which is again a problematic value; since these bands are not bits but bytes, a value of 255 has been given and values outside the scene have been marked as NoData.</li>
+
+<li>Reading and storing specific keys from the Landsat product metadata file, MTL:
+<ul>
+<li>The key "LANDSAT_PRODUCT_ID" is assigned to the alternative title.</li>
+<li>The key "DIGITAL_OBJECT_IDENTIFIER" is assigned to the unique identifier of the data.</li>
+</ul>
+<p>The horizontal reference system quality parameters corresponding to the following keys are stored in the metadata:</p>
+
+	<ul>
+		<li>GROUND_CONTROL_POINTS_MODEL</li>
+		<li>GEOMETRIC_RMSE_MODEL</li>
+		<li>GEOMETRIC_RMSE_MODEL_Y</li>	
+		<li>GEOMETRIC_RMSE_MODEL_X</li>
+		<li>GROUND_CONTROL_POINTS_VERIFY</li>
+		<li>GEOMETRIC_RMSE_VERIFY</li>
+	</ul>
+	<p>Thermal constants are added to the comments section.</p>
+	<p>GROUP = LEVEL1_THERMAL_CONSTANTS</p>
+	<ul>
+		<li>K1_CONSTANT_BAND_10</li>
+		<li>K2_CONSTANT_BAND_10</li>
+		<li>K1_CONSTANT_BAND_11</li>
+		<li>K2_CONSTANT_BAND_11</li>
+	</ul>
+	<p>Other parameters incorporated into comments are the following:</p>
+	<ul>
+		<li>COLLECTION_NUMER</li>
+		<li>COLLECTION_CATEGORY</li>
+		<li>PROCESSING_LEVEL</li>
+		<li>PROCESSING_SOFTWARE_VERSION (Processing Software)</li>
+		<li>DATE_PRODUCT_GENERATED</li>
+		<li>NADIR_OFFNADIR</li>
+		<li>CLOUD_COVER</li>
+		<li>CLOUD_COVER_LAND</li>
+		<li>IMAGE_QUALITY_OLI</li>
+		<li>IMAGE_QUALITY_TIRS</li>
+		<li>TIRS_SSM_MODEL</li>
+		<li>TIRS_SSM_POSITION_STATUS</li>
+		<li>DATA_SOURCE_TIRS_STRAY_LIGHT_CORRECTION</li>
+		<li>ROLL_ANGLE</li>
+		<li>SUN_AZIMUTH</li>
+		<li>SUN_ELEVATION</li>
+		<li>EARTH_SUN_DISTANCE</li>
+		<li>TRUNCATION_OLI</li>
+		<li>REFLECTANCE_MAXIMUM_BAND_X</li>
+		<li>REFLECTANCE_MINIMUM_BAND_X</li>
+		<li>RESAMPLING_OPTION</li>
+	</ul>
+<p>
+	<div align="center"><img src="TIFIMG_finestra4.png"></div>
+<p>
+	<li>Thesaurus generation: they are generated only if the pixel in the band takes three or more values. If it takes only two, the description itself contains the meaning of these values. The program generates a "Thesaurus" folder in the output directory itself with the necessary thesaurus.</li>
+<p>
+	<div align="center"><img src="TIFIMG_finestra5.png"></div>
+<p>
+	<li>In the radiometry section, the consistency between the keys RADIANCE_MINIMUM_BAND_# and RADIANCE_MAXIMUM_BAND_#, where # is the band number, and the keys QUANTIZE_CAL_MIN_BAND_# and QUANTIZE_CAL_MAX_BAND_#, and the keys RADIANCE_MULT_BAND_# and RADIANCE_ADD_BAND_# is checked. If an inconsistency is detected, an error message is issued. These data are interdependent and, therefore, everything is checked to be accurate and consistent. It is ensured that if any of the data is missing in an MTL, the corresponding calculation can be made, or the converters can be assumed in the case of the last two (RADIANCE_MULT_BAND_# and RADIANCE_ADD_BAND_#) if the first 4 do not exist.</li>
+
+<p>In old versions, in which there was sometimes indeterminacy in whether 0 acted as a NoData or not, uncertain situations could occur that could generate a small inaccuracy in the calculations of the transformation slope if the assumption was incorrect. These inaccuracies, if they existed, were small (clearly smaller than the inaccuracy in the absolute calibration offered by the sensor), but control has also been strengthened in this aspect.</p>
+	
+	<p>Below is an example with the MTL values and those added in the Radiometry section.</p>
+	
+	<ul>
+		<li>RADIANCE_MAXIMUM_BAND_4 = 225.200</li>
+		<li>RADIANCE_MINIMUM_BAND_4 = -17.600</li>
+		<li>QUANTIZE_CAL_MAX_BAND_4 = 255</li>
+		<li>QUANTIZE_CAL_MIN_BAND_4 = 1</li>
+		<li>RADIANCE_MULT_BAND_4 = 9.5591E-01</li>
+		<li>RADIANCE_ADD_BAND_4 = -18.55591</li>
+	</ul>
+<p>
+	<div align="center"><img src="TIFIMG_finestra6.png"></div>
+<p>
+	<p>When importing Landsat data with processing level 2, the parameter groups that allow estimating the values of "terrain reflectances" or BOA reflectances are read, and the fields related to Radiance Calibration (or Spectral Radiances) in the radiometry section are left blank.</p>
+
+	<ul>GROUP = LEVEL2_SURFACE_REFLECTANCE_PARAMETERS
+		<li>REFLECTANCE_MULT_BAND_# = 2.75e-05</li>
+		<li>REFLECTANCE_ADD_BAND_# = -0.2</li>	
+	</ul>
+	
+	<p>The estimated values of "ground reflectances" are calculated in percentages (%), and therefore differ from the units in DN (in fact, Qcal) provided by data with processing level 1. In each case these units are saved in the corresponding section of the metadata.</p>
+
+<p>If this transformation in the processing level 2 data is not desired, but the .img data in the same byte or <i>unsigned integer</i> values (depending on the Landsat series sensor) within the TIF is wanted, it is possible to use TIFIMG in mode 2 (not 9) for specific bands, or GDALMM (which will import, however, less metadata), or once the TIF is open in MiraMon, select everything with the "Select all" button from the object selection box (right mouse button) and save the selection as .img. It should be noted, however, that this "manipulated" level 2 product is of little use without the conversion to % Reflectances for which it has been pre-calculated, and that is why the default TIFIMG import completes this pre-calculation.</p>
+
+<p>An example is shown below with the values that are added in the Radiometry section for the case of Landsat data with level 2 processing.</p>
+<p>	
+	<div align="center"><img src="TIFIMG_finestra7.png"></div>
+<p>
+	<li>Two distributors (NASA-USGS and MiraMon) are added to the distribution tab, as well as two formats (the MTL extract and the extra-compressed IMG RLE itself).</li>
+<p>	
+	<div align="center"><img src="TIFIMG_finestra8.png"></div>
+	<div align="center"><img src="TIFIMG_finestra9.png"></div>
+<p>	
+	<li>In the application window there is an option to compress the output IMG files.</li>
+<p>
+	<div align="center"><img src="TIFIMG_finestra10.png"></div>	
+<p>	
+<p>By default, "Compress extracompressed indexed RLE" is enabled. If this option is disabled, /NO_COMPRESS appears on the command line.</p>
+	
+</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
@@ -84,18 +399,6 @@
  <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
- <p><b>Notes:</b></p>
-
-<ul>
-	<li>TIF and IMG extensions are assumed in each case.</li>
-
-	<li>There are two ways to determine the names of the IMG files that result of converting a multiband TIFF: you can specify a name of specific file for each part, provided that the total number of bands but you can also specify a destination directory for the files resulting, and the application will automatically generate file names numbered for each side (in this case it is recommended to specify a Common prefix of names to avoid conflicts with other results executions).</li>
-
-	<li>For RGB conversions it is assumed that the file names are given in the order &quot;Red&quot; &quot;Green&quot; &quot;Blue&quot;</li>
-
-	<li>For conversions with palette add PAL extension if you want the palette at 64 intensity levels scaling per color channel, extension P25 if you want the palette in 256 intensity level scaling and P65 extension if you want the 65536-level scaling palette of intensity You can also add DBF extension. DBF format It is the MiraMon standard for pallets and symbolizing tables. (The P25 format was the standard in version 3 or lower).</li>
-
-</ul>
 
 <!-- $$EXCLUSIVA
 To obtain the complete help, please type:
