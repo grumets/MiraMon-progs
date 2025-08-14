@@ -1,0 +1,166 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 13-07-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>BDGeomet: Obtenció de geometries des d’una base de dades(local o remota)</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Accés directe de l'<a href="https://www.miramon.cat/help/cat/" target="_blank">ajuda</a> a Internet: <a href="https://www.miramon.cat/help/cat/msa/BDPNT.htm" target="_blank"><font size="+2">BDGeomet</font></a></h4>
+<h4>Accés a l'aplicació des del menú: <br> 
+<i>"Fitxer | Importar | Vectors i/o bases de dades | DBF, Access, etc -> MMM (PNT, ARC/NOD, POL)"</i><br>
+<i>"Fitxer | Exportar | PNT -> DBF (x,y,z)"</i><br>
+<i>"Eines | Manteniment de fitxers | Obtenció de punts des de taula DBF, Access, etc"</i></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació<!-- i opcions--></a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació<!-- i opcions--></h2>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+  <p>Això és particularment útil quan es disposa d'una taula que
+  descriu per a cada registre la localització (X,Y) del punt i un o més
+  atributs (per exemple nivells de contaminants en pous). En aquest cas es pot
+  convertir la taula en una capa d'informació gràfica (PNT) amb la seva
+  informació alfanumèrica associada (mantenint el lligam a la base de dades
+  original o bé exportant les dades a una taula DBF associada al fitxer de
+  punts).</p>
+
+  <p>La taula pot residir en qualsevol base de dades, p.e. DBF, ACCESS,
+  ORACLE, DB2, EXCEL. Per a totes aquelles bases de dades diferents a DBF,
+  l'accés es realitza mitjançant ODBC (<i>Open DataBase Connectivity</i>).
+  És possible adreçar-s'hi  directament a aquelles bases de dades localitzades en un fitxer (p.e. fitxers MDB
+  d'ACCESS, fitxers XLS d'EXCEL, etc).
+  Per aquelles bases de dades residents en un servidor (p.e. ORACLE, INFORMIX,
+  DB2, etc) cal utilitzar un fitxer especial, el fitxer DSN (<i>Data Source
+  Name</i>), que es pot generar amb l'eina &quot;<i>Orígenes de Datos (ODBC)</i>&quot;
+  del mateix WINDOWS (es pot cercar ODBC a l'ajuda de WINDOWS per a més
+  informació). En els casos en què s'accedeix a una base de dades via ODBC
+  es pot optar per indicar qualsevol taula o vista (consulta predefinida)
+  existent a la base de dades o bé optar per utilitzar una sentència SQL que
+  generi dinàmicament la taula desitjada.</p>
+
+  <p>Un cas particular d'aplicació d'aquest programa és la recuperació
+  de les etiquetes que es van fer servir per a assignar atributs a una capa de
+  polígons, ja que la base de polígons (P.dbf) sovint conté, en els camps MAPX
+  i MAPY, les coordenades de les etiquetes. Cal recordar, però, que sempre es permet recuperar les etiquetes d'una capa de polígons a través d'<a href="Etiqueta.htm">Etiqueta</a>.</p>
+
+  <p>La taula origen, doncs, pot ser una taula en format DBF, una taula DBF
+  associada a una base de polígons (P.dbf), o una taula en qualsevol base de
+  dades (ACCESS, EXCEL, ORACLE, DB2, SQL-Server, etc). En qualsevol cas, la
+  taula origen ha de presentar dos camps que continguin, respectivament, les
+  coordenades X i Y del punt. Quan s'extreuen els punts d'una DBF o
+  d'una taula en qualsevol base de dades genèrica, aquests camps poden
+  tenir qualsevol nom; en canvi, s'han de dir MAPX i MAPY quan es tracta
+  de la DBF associada a una base de polígons (opció per defecte en el procés
+  d'estructuració topològica del MiraMon).</p>
+
+  <p>Quan s'extreuen els punts d'una DBF o d'una taula en una base
+  de dades genèrica qualsevol, s'exporten tots els camps cap a la base de
+  punts (T.dbf) només en aquells casos que s'ha indicat que no es vol
+  mantenir el lligam amb la base de dades original. En canvi, quan
+  s'extreuen les etiquetes d'un fitxer de polígons estructurat
+  topològicament (P.dbf), només s'incorporaran a la T.dbf aquells camps que NO
+  fan referència a les característiques geomètriques ni topològiques dels
+  polígons (els camps com AREA, PERIMETRE, N_VERTEXS, etc, no
+  s'exporten). Si és necessari escollir només alguns camps cal utilitzar una
+  sentència SQL via ODBC.</p>
+
+  <p>En el cas d'un camp de localitzacions geogràfiques de tipus punt,
+  els camps que contenen les coordenades X i Y dels punts poden ser de
+  tipus numèric (N) (p.e. contenir la coordenada Y en UTM-31N 4500120.0 o bé
+  en graus decimals 12.01 graus) o de tipus caràcter (C). En aquest darrer
+  cas, se suporta el format de graus, minuts i segons amb la següent forma: Gº
+  M' S&quot;.</p>
+
+  <p>També pel cas d'un camp de localitzacions geogràfiques de tipus punt,
+  per defecte, el programa estructura topològicament la capa de punts creada, és a dir, vetlla per la unicitat espacial de manera que dos punts situats a una distància inferior o igual a una tolerància indicada es consideren el mateix punt. Des del botó "Avançades" es permet indicar el valor d'aquesta tolerància (que tindrà valor zero si no se n'indica un altre). També des d'aquest botó "Avançades" es pot indicar que no es desitja estructurar topològicament, i en aquest cas dos o més punts situats al mateix lloc seran mantinguts com a punts independents.</p>
+<p>Com s'acaba d'explicar, el valor de la tolerància, que només aplica quan s'estructura topològicament, s'ha d'expressar en les mateixes unitats que les coordenades XY i serveix per tal de considerar iguals dos punts ubicats a una distància euclidiana inferior o igual a aquest valor. Quan això passa, si els atributs dels dos o més punts situats en un radi inferior o igual a la tolerància són diferents (en qualsevol dels camps temàtics de la base de dades), el punt passa a tenir, a la taula T.dbf, tants registres com punts originals tenien atributs diferents (situació que es descriu com a "registre múltiple"). En canvi, si els atributs són iguals (punts molt propers però amb informació repetida) es genera un registre únic, a la taula T.dbf, per al punt. En el cas de mantenir el lligam a la base de dades original via ODBC i d'haver-se de generar registre múltiple per l'estructuració topològica i la tolerància, aquest registre múltiple es crea de manera natural.</p>
+<p>A través del botó "Avançades" també es permet indicar el sistema de referència. Si no s'indica, s'aplica el sistema de referència per defecte (desat al MiraMon.par).</p>
+<p>Si en la darrera execució va definir-se una tolerància diferent de zero, o un sistema de referència diferent del sistema per defecte indicat al MiraMon.par, el símbol '!' al costat del botó "Avançades..."  avisarà que és molt convenient polsar el botó i revisar si encara es vol aplicar aquests paràmetres especials.</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2></div>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="BDPNT_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg del BDGeomet.</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img width="75%" src=".png"/><img width="75%"src=".png"/></div></td>
+</tr>
+<tr>
+<td align="center"></td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+  <hr/>-->
+
+  <exclusiva>
+  <h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<BR><BR>
+<B>NOTES:</B><BR>
+<B>En el cas de fitxers de tipus DBF:</B><BR>
+Els noms dels camps CAMPX, CAMPY, CAMPID han de seguir les especificacions del format DBF.<BR>
++ Els caràcters vàlids són: lletres majúscules [A-Z], xifres [0-9] i el caràcter '_', 
+però no a l'inici.<BR>
++ No es toleren espais en blanc.<BR>
++ El màxim nombre de caràcters és 10.<BR><BR>
+
+<B>En el cas de bases de dades via ODBC:</B><BR>
++ Si els noms dels camps CAMPX, CAMPY, CAMPID no compleixen els estàndards de dBase, 
+són modificats, i el nom original passa a ser el descriptor del camp en el REL.<BR>
++ En el cas que s'utilitzi una sentència SQL, es poden utilitzar àlies pels noms dels camps.<BR><BR>
+<B>Per exemple:</B><BR>
+/CAMPX=X<BR>
+/CAMPY=Y<BR>
+/SQL="SELECT Coordenada_X as X, Coordenada_Y as Y, IdentificadorEntitat AS IDE FROM FitxerAmbLesDades.txt"<BR><BR>
+
+   <!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+BDGeomet ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
+</body>
+</html>
