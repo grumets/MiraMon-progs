@@ -1,0 +1,124 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>SDOMM: Conversion from SDO spatial databases to MiraMon formats</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+ <!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h4><img src="vecras.gif">SDOMM: Conversion from SDO spatial databases to MiraMon formats</h4>
+</li>
+</ul>
+</h1>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+    <p>Oracle Spatial és un conjunt integrat de funcions i procediments que permet emmagatzemar, 
+   accedir i analitzar les dades espacials en una base de dades Oracle.</p>
+  
+  <p>L'SDOMM importa una capa emmagatzemada en una base de dades Spatial Oracle al format estructurat del MiraMon (PNT, ARC/NOD, POL); 
+  durant la transformació és possible, a més, generar estructura topològica explícita.</p>
+  
+  <p>A un servidor SDO s'hi accedeix a partir d'un fitxer DSN (Data Source Name). Aquest fitxer DSN es pot crear a través de l'administrador 
+  d'orígens de dades ODBC (opció DSN de fitxer), escollint el controlador d'Oracle instal·lat a l'ordinador. Un cop creat, 
+  si es vol evitar que estigui constantment demanant la contrasenya, es pot afegir una clau "PWD=" amb la contrasenya.</p>
+
+  <p>El programa permet importar del servidor SDO capes de punts, arcs/nodes o polígons. Si hi ha informació sobre la Z 
+  de cada vèrtex, és també incorporada. Els atributs dels objectes de la capa es converteixen en atributs dels objectes 
+  emmagatzemats en la taula principal dels fitxers MiraMon. L'SDO pot contenir objectes de tipus multipart o multilínia 
+  quan aquests comparteixen els mateixos atributs. En importar al MiraMon es generen diversos objectes punt o línia, 
+  respectivament, assignant a la taula principal els mateixos atributs temàtics.</p>
+<p> Per tal que una capa aparegui a la llista de capes disponibles cal que tingui definida la "columna de dades geomètriques" (camp COLUMN_NAME 
+a la taula USER_SDO_GEOM_METADATA o bé ALL_SDO_GEOM_METADATA de la capa) i l'envolupant (extret de SDO_DIMNAME, SDO_LB, SDO_UB 
+de DIM_INFO de la taula USER_SDO_GEOM_METADATA o ALL_SDO_GEOM_METADATA). <br/>
+Si la taula no té clau primària, s'usarà el ROWID com a tal. Si no té GType s'intentarà deduir del primer objecte de la capa. És 
+recomanable, però, tenir-lo definit; poseu-vos en contacte amb l'administrador del servidor SDO si convé. Si la capa no té entitats també sortirà a la llista. El sistema de referència tampoc 
+és necessari per tal que la capa surti a la llista, tot i que es recomana tenir-lo definit.</p>   
+
+  <p>Si apareix algun error en la importació, apareixerà un missatge indicant explícitament quin és l'error.</p>
+  
+  <p>Per tal d'afavorir la rapidesa en l'extracció de les dades del servidor SDO, la importació dels fitxers de punts, arcs/nodes o 
+  polígons es pot fer de diverses maneres:</p>
+  
+	<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<ul><b>Opció 0</b>: 
+						Crea una llista de les taules que conté la base de dades espacial SDO indicada.</ul>
+<ul><b>Opció 1 i 2</b>: 
+						Importació al format del MiraMon d'una capa emmagatzemada en una base de dades Spatial Oracle (amb i sense estructuració topològica, respectivament).</ul>
+<ul><b>Opció 3</b>: 
+						Generació d'un REL de capa.</ul>
+
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+   
+  <hr/>
+
+  <exclusiva>
+ <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="sintaxi" name="sintaxi"></a><h3>Sintaxi:</h3>
+<ul style="list-style-type:none;">
+<li>SDOMM        0 nomDSN fitxerInfo  [/ORDENAR_LLISTA] [/MOSTRA_TIPUS_CAPA]  </li>
+<li>SDOMM                           opcio nomDSN capaSDO capaMiraMon   [/ORDENAR_LLISTA] [/MOSTRA_TIPUS_CAPA] [/AREA_MIN] [/AREA_PERI_MIN] [/NEXE_CRITERIS] [/FONDRE] [/ATRIB_ELIM] [/ALGORISME] [/SIMPLIFICA_VERTEXS]  /NOM_REL_DE_CAPA /NOM_FITXER_LLISTA_CAPES </li>
+<li>SDOMM           3 nomDSN capaSDO relCapa   [/ORDENAR_LLISTA] [/MOSTRA_TIPUS_CAPA]  /NOM_FITXER_LLISTA_CAPES </li>
+</ul>
+<h4>Opcions:</h4>
+<ul>
+<li>0: 
+								Llista de les taules que conté la base de dades espacial SDO indicada.</li>
+				<li>1: Importació al format del MiraMon i estructuració topològica (recomanat, però més lent): importa una capa SDO de la mateixa manera que ho fa l'opció 2, però estructura el fitxer importat per tal que tingui la topologia verificada. Per al cas de capes SDO de polígons es genera topologia de polígons: el fitxer d'arcs no presenta vores duplicades (el fitxer d'arcs ocupa pràcticament la meitat) i el fitxer de polígons no presenta superposicions. També és possible eliminar els eventuals micropolígons. Com s'ha dit, aquesta opció és la recomanada. Per al cas de capes SDO de línies es genera topologia arc/node: s'eliminen interseccions i superposicions. En el cas de capes SDO de punts s'unifiquen en un sol punt tots aquells objectes situats pràcticament al mateix lloc (dintre d'una tolerància infinitesimal). En tots els casos, si els registres de la base de dades d'objectes originals que han estat unificats en una mateixa ubicació geogràfica per raons de tolerància són diferents, la taula principal creada conté registre múltiple per a cada objecte gràfic en què sigui necessari, de forma que es preserva tota la informació alfanumèrica associada.</li>
+				<li>2: Importació al format del MiraMon: realitza una simple importació del format sense modificar la geometria o la topologia de les entitats gràfiques: es generen fitxers que poden presentar punts en posicions semblants (tolerància infinitesimal) o idèntiques, interseccions entre línies que no expliciten un node en la intersecció, superposicions de polígons o altres situacions no desitjades en un model topològic convencional. Si desitgeu construir posteriorment la topologia sobre la capa resultant de la importació cal que feu un ús combinat de les eines d'estructuració topològica adequades segons es tracti d'estructurar punts (amb <a href="VECPNT.htm">VECPNT</a>), arcs (amb <a href="LinArc.htm">LinArc</a>) o polígons (fent un nou ciclat de polígons amb <a href="Ciclar.htm">Ciclar</a> i transferint els atributs entre polígons amb <a href="AtriTop.htm">AtriTop</a>).</li>
+<li>3: 
+								Generació d'un REL de capa: no realitza cap importació sinó que genera un REL de capa. Aquest REL pot ser modificat per tal que l'usuari hi introdueixi descripcions dels camps o qualsevol altra metadada referent a la capa SDO.</li>
+</ul>
+<h4>Paràmetres:</h4>
+<ul style="list-style-type:none;">
+<li><b>nomDSN</b> 
+										(Nom DSN -
+										Paràmetre d'entrada): Nom del fitxer DSN que conté la informació de la base de dades espacial (<i>geoadatabase</i>).</li>
+<li><b>fitxerInfo</b> 
+										(Fitxer informació -
+										Paràmetre de sortida): Fitxer informació de capes del servidor. Pren l'extensió '.ini' i contindrà la llista de capes disponibles en aquesta base de dades.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>capaSDO</b> 
+										(Capa SDO -
+										Paràmetre d'entrada): Nom de la capa o de la selecció de la capa (mitjançant una sentència en SQL) que es vol importar de la base de dades SDO.</li>
+<li><b>capaMiraMon</b> 
+										(Fitxer capa del MiraMon -
+										Paràmetre de sortida): Nom de fitxer de punts, arcs/nodes o polígons de sortida.</li>
+</ul>
+<ul style="list-style-type:none;">
+<li><b>relCapa</b> 
+										(Rel de capa -
+										Paràmetre de sortida): Nom del REL de capa que es genera i que vincula amb la capa capaSDO.</li>
+</ul>
+<h4>Modificadors:</h4>
+<ul style="list-style-type:none;"> <b>/</b><b>AREA_MIN</b>= 
+						(Àrea Mínima)
+						 Mínima àrea permesa a per a un polígon. Per sota d'aquest valor, el polígon no s'importa o, si s'ha creat durant l'estructuració, s'elimina.  (Paràmetre d'entrada) <li></li> <b>/</b><b>AREA_PERI_MIN</b>= 
+						(Àrea perímetre mínima)
+						 Mínima relació àrea/perímetre permesa per a un polígon. Per sota d'aquest valor, el polígon no s'importa o, si s'ha creat durant l'estructuració, s'elimina.  (Paràmetre d'entrada) <li></li> <b>/</b><b>NEXE_CRITERIS</b>= 
+						(Criteris de nexe)
+						 En cas d'indicar els dos criteris anteriors, no importar o eliminar els polígons que compleixen les dues condicions alhora (AND), o els que en compleixen com a mínim una (OR). El valor per defecte és AND.  (Paràmetre d'entrada) <li></li> <b>/</b><b>FONDRE</b>= 
+						(Fondre micropolígons)
+						  Indica a quin polígon s'assigna l'espai ocupat pel micropolígon que desapareix en els casos anteriorment descrits d'eliminació. Cal indicar POL_GRAN si voleu assignar l'espai al polígon contigu d'àrea més gran. El valor per defecte és FRONTERA_MES_LLARGA, que vol dir que s'elimina l'arc més llarg del micropolígon que desapareix.  (Paràmetre d'entrada) <li></li> <b>/</b><b>ATRIB_ELIM</b>= 
+						(Eliminar per atribut)
+						 El polígon que absorbeix al micropolígon hereta els seus atributs temàtics (no els geomètrico-topològics) si el valor és 1, generant registre múltiple si eren diferents dels del polígon gran. El valor per defecte és 0, que vol dir que els atributs del micropolígon es perden.  (Paràmetre d'entrada) <li></li> <b>/</b><b>ALGORISME</b>= 
+						(Algorisme d'estructuració topològica)
+						 Aquest modificador serveix per a determinar l'algorisme que l'aplicació emprarà per a detectar les possibles interseccions entre els segments dels elements lineals i de les vores de polígons durant l'estructuració topològica. Vegeu <a href="General.htm#Algorisme">Algorismes disponibles per a l'estructuració topològica (/ALGORISME)</a> per a una explicació més detallada i suggeriments sobre situacions en què és més adequat un o altre algorisme.<ul><li>ESCOMBRATGE: Basat en la intersecció de segments de Bentley-Ottmann. Per a línies que intersequen en nous vèrtexs.</li><li>DIRECTE: Basat en l'exploració de les interseccions de cada segment contra tots els altres. Per a polígons explícits o per a capes amb topologia implícita (interseccions ja convertides en vèrtexs)</li><li>AUTOMATIC: El programa decideix automàticament quin dels dos algorismes s'utilitzarà. De vegades resulta més lent que el més ràpid dels dos anteriors.</li></ul>  (Paràmetre d'entrada) <li></li> <b>/</b><b>SIMPLIFICA_VERTEXS</b>  
+						(Simplifica vèrtexs)
+						 Simplifica els vèrtexs intermedis dels arcs, sempre i quan això no signifiqui un canvi en la topologia.  (Paràmetre d'entrada) <li></li> <b>/</b><b>NOM_REL_DE_CAPA</b>= 
+						(Rel de capa)
+						 Opcionalment es pot afegir el nom del REL de capa que es genera i que vincula amb la capa capaSDO.  (Paràmetre de sortida) <li></li>  <b>/</b><b>ORDENAR_LLISTA</b>  (Ordenar la llista) Permet ordenar la llista de capes alfabèticament.  (Paràmetre d'entrada) <li></li> <b>/</b><b>MOSTRA_TIPUS_CAPA</b>  
+						(Tipus de capa)
+						 Opcionalment es pot fer que es mostri el tipus de cada una de les capes. Si això no es demana el procés serà molt més ràpid.  (Paràmetre d'entrada) <li></li>  <b>/</b><b>NOM_FITXER_LLISTA_CAPES</b>= (Fitxer informació) Opcionalment es pot afegir el nom del fitxer d'informació de capes del servidor. Pren l'extensió '.ini' i contindrà la llista de capes disponibles en aquesta base de dades.  (Paràmetre de sortida) <li></li>
+</ul>
+
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+    <p><!-- $$EXCLUSIVA$$
+Per a obtenir l'ajuda completa escriviu:
+SDOMM ?
+--></p>
+  </exclusiva>
+  <hr/>
+     <h4>Com saber quin tipus d'algorisme utilitzar en l'opció 1? (modificador opcional /ALGORISME=)</h4>
+Trobareu més informació a <a href="general.htm#Algorisme">sintaxi general</a>.
+</body>
+</html>
