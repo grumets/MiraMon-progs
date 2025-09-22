@@ -1,12 +1,19 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 06-05-2025 */-->
+<!--/* Rev AA 22-09-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>General syntax aspects in the MiraMon Support Applications (MSA)</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
 <a id="MENU" name="MENU"></a>
-<h1><img src="vecras.gif">General syntax aspects in the MiraMon Support Applications (MSA)</h1>
+<h1><ul style="list-style-type:none;">
+<li>
+<h1><a href="https://www.miramon.cat/Index_eng.htm" target="_blank"><img src="vecras.gif"></a>General syntax aspects in the MiraMon Support Applications (MSA)</h1>
+</li>
+</ul>
+</h1>
+<p><ul>
+<h4>Direct access to online <a href="https://www.miramon.cat/help/eng/" target="_blank">help</a>: <a href="https://www.miramon.cat/help/eng/msa/General.htm" target="_blank"><font size="+2">General syntax aspects in the MiraMon Support Applications (MSA)</font></a></h4>
 <hr>
 <table width="98%">
 <tr align="center" valign="middle">
@@ -24,7 +31,7 @@
 
 </tr>
 <tr align="center" valign="middle">
-	<td><span class="subtitol_h1_negreta"><a href="#Algorisme">How to know what type of structuration algorithm use in some MSA? (optional modifier /ALGORITME=)</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Algorisme">Available algorithms for topological structuring (/ALGORISME)</a></span></td>
 	<td><span class="subtitol_h1_negreta"><a href="#Quantils">Decision for quantiles (optional modifier /MEDIANA_EMPAT=)</a></span></td>
 </tr>
 </table>
@@ -113,21 +120,29 @@
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
  
-<a name="Algorisme"></a><h2>How to know what type of structuration algorithm use in some MSA? (optional modifier /ALGORITME=)</h2>
-<p>It is possible to choose between two algorithms for calculating the intersections between different vectorial elements: "direct algorithm" and "sweep algorithm".</p> 
+<a name="Algorisme"></a><h2>Available algorithms for topological structuring (/ALGORISME)</h2>
+
+<p>MiraMon allows vector information sets to be topologically structured. This topological structuring involves analyzing and, consequently, organizing vector entities so that their spatial relationships are explicitly described. The benefits of this topological structuring are multiple: guaranteeing spatial consistency, avoiding unwanted (total or partial) overlaps of entities, avoiding errors such as "gaps" between polygons, saving storage space and increasing the speed of data transmission, allowing network analysis, etc. These benefits allow to increase the possible range of geographic analyses (some of which are not possible without topological structuring) and to carry them out in a robust and reliable way.</p>
+
+<p>In the case of linear elements (e.g., rivers), or in the case of the edges of polygonal elements (e.g., cadastral parcels), the analysis to be carried out involves the detection of intersections between the segments that form the lines and the edges of polygons; these intersections can be along the segments or by contact of their ends and generate special vertices that are called nodes (just as the vertices of segments that do not intersect with any other segment are also nodes). In layers with many lines or polygons, this procedure can require considerable calculation time, which can increase exponentially depending on how the original entities are arranged (large lines that have many intersections with the others, explicit overlap by pairs of segments [as happens in explicit polygon layers of most GIS formats], etc). To perform this detection as efficiently as possible, it is possible to choose between two algorithms (procedures): "direct algorithm" and "sweeping algorithm" (<i>escombratge</i>). These algorithms are available in the different MiraMon applications that perform topological structuring (LinArc, BufDist, CombiCap, Retalla, SHPTop, etc.) and are indicated, on the command line, with the /ALGORISME= modifier. The different algorithms available are listed below.</p>
+
 <ul>
-	<li><b>/ALGORISME=DIRECTE</b>: The algorithm reviews all elements comparing every one with the rest of them, so that the intersections are found comparing pairwise.</li>
-	<li><b>/ALGORISME=ESCOMBRATGE</b>: The algorithm sorts the vectorial elements in a certain way in the plane and made a sweeping left to right calculating intersections between neighboring elements. This avoids comparing elements that are known to never cut, avoiding long computation time.</li>
-	<li><b>/ALGORISME=AUTOMATIC</b>: Leave program choice between the methods described above.</li>
+	<li><b>/ALGORISME=DIRECTE</b> (direct algorithm): The algorithm determines the intersection of each of the segments with the rest of the segments, analyzing them two by two. Each intersection found implies, except when it is at the end of the two segments, the partition of one segment or both, and the increase in the complexity of the pending analysis task until the topological structuring is concluded.</li>
+
+	<li><b>/ALGORISME=ESCOMBRATGE</b> (sweeping algorithm): It uses the <a href="https://en.wikipedia.org/wiki/Bentley%E2%80%93Ottmann_algorithm">Bentley-Ottmann</a> algorithm, which orders the vector elements in a certain way in the plane and performs a sweep from left to right that calculates the intersections between nearby elements. This avoids comparing elements that are known to never intersect, thus avoiding a lot of calculation time in a large number of situations.</li>
+
+	<li><b>/ALGORISME=AUTOMATIC (automatic algorithm)</b>: The choice between the methods described above is left to the program.</li>
 </ul>
 
 <p>Then,</p>
+
 <ul>
-	<li><b>/ALGORISME=DIRECTE</b> it is faster for a layers where structuration has been done before, or it is known that there are no intersections beyond the existing vertices (the topological structuration is implicit).</li>
-	<li><b>/ALGORISME=ESCOMBRATGE</b> it is faster in precisely the opposite case: layers where the elements intersect other elements causing intersections points that were not previously vertices end and, therefore, are new nodes in the output layer.</li>
+	<li><b>/ALGORISME=DIRECTE</b> it is faster for layers where structuration has been done before, or it is known that there are no intersections beyond the existing vertices (the topological structuration is implicit or is it an explicit polygon layer [edges repeated 2 times]).</li>
+	
+	<li><b>/ALGORISME=ESCOMBRATGE</b> it is faster in precisely the opposite case: layers where the elements intersect other elements causing intersections points that were not previously vertices at the end of lines and, therefore, are new nodes in the output layer.</li>
 </ul>
 
-<p>If at the time of structuring a layer it is know that structuration will generate new points (ie, intersections are detected) is better to choose "escombratge". Otherwise, you can choose to "directe".</p>
+<p>If at the time of structuring a layer it is known that the structuring will generate new vertices (that is, intersections will be detected) it is better to choose "escombratge" (sweep). Otherwise, "directe" (direct) can be chosen. If in doubt, indicate "automatic", but this mode may require more time than the fastest of the previous two (but less than the slowest), since if when it has done a percentage of the procedures it detects that the initial mode is not optimal it starts again with the other mode.</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>

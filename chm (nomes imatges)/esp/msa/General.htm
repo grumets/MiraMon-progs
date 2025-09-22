@@ -1,12 +1,19 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 06-05-2025 */-->
+<!--/* Rev AA 22-09-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>Aspectos generales de sintaxis en las Aplicaciones de Soporte a MiraMon</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
 <a id="MENU" name="MENU"></a>
-<h1><img src="vecras.gif">Aspectos generales de sintaxis en las Aplicaciones de Soporte a MiraMon</h1>
+<h1><ul style="list-style-type:none;">
+<li>
+<h1><a href="https://www.miramon.cat/Index_spa.htm" target="_blank"><img src="vecras.gif"></a>Aspectos generales de sintaxis en las Aplicaciones de Soporte a MiraMon</h1>
+</li>
+</ul>
+</h1>
+<p><ul>
+<h4>Acceso directo de la <a href="https://www.miramon.cat/help/spa/" target="_blank">ayuda</a> en Internet: <a href="https://www.miramon.cat/help/spa/msa/General.htm" target="_blank"><font size="+2">Aspectos generales de sintaxis en las Aplicaciones de Soporte a MiraMon</font></a></h4>
 <hr>
 <table width="98%">
 <tr align="center" valign="middle">
@@ -24,7 +31,7 @@
 
 </tr>
 <tr align="center" valign="middle">
-	<td><span class="subtitol_h1_negreta"><a href="#Algorisme">¿Cómo saber qué tipo de algoritmo de estructuración utilizar en algunas MSA? (modificador opcional /ALGORITMO=) </a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Algorisme">Algoritmos disponibles para la estructuración topológica (/ALGORISME)</a></span></td>
 	<td><span class="subtitol_h1_negreta"><a href="#Quantils">Desempate para los cuantiles (modificador opcional /MEDIANA_EMPAT=)</a></span></td>
 </tr>
 </table>
@@ -109,21 +116,29 @@
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
   
-<a name="Algorisme"></a><h2>¿Cómo saber qué tipo de algoritmo de estructuración utilizar en algunas MSA? (modificador opcional /ALGORITMO=) </h2>
-<p>Se puede elegir entre dos algoritmos para el cálculo de las intersecciones entre los diferentes elementos vectoriales: "algoritmo directo" y "algoritmo de barrido".</p> 
+<a name="Algorisme"></a><h2>Algoritmos disponibles para la estructuración topológica (/ALGORISME)</h2>
+
+<p>MiraMon permite estructurar topológicamente los conjuntos de información vectoriales. Esta estructuración topológica implica analizar y, consecuentemente organizar, a las entidades vectoriales de forma que sus relaciones espaciales estén explícitamente descritas. Los beneficios de esta estructuración topológica son múltiples: garantizar la consistencia espacial, evitar superposiciones indeseadas (totales o parciales) de entidades, evitar errores como "grietas" entre polígonos, ahorrar espacio de almacenamiento y aumentar la velocidad de transmisión de los datos, permitir análisis de redes, etc. Estos beneficios permiten incrementar el abanico posible de análisis geográficos (algunos de los cuales no son posibles sin estructuración topológica) y efectuarlos de forma robusta y fiable.</p>
+
+<p>En el caso de elementos lineales (<i>e.g.</i>, ríos), o en el caso de los bordes de los elementos poligonales (<i>e.g.</i>, parcelas catastrales), el análisis a efectuar comporta la detección de intersecciones entre los segmentos que forman las líneas y los bordes de polígonos; estas intersecciones pueden ser a lo largo de los segmentos o por contacto de sus extremos y generan vértices especiales que se llaman nodos (como también son nodos los vértices de los segmentos que no intersecan con ningún otro segmento). En capas con muchas líneas o polígonos, este procedimiento puede requerir un tiempo de cálculo considerable, que puede aumentar exponencialmente según estén dispuestas las entidades originales (grandes líneas que presentan muchas intersecciones con el resto, superposición explícita por parejas de segmentos [como ocurre en las capas de polígonos explícitos de la mayoría de formatos de SIG], etc). Para realizar esta detección de forma lo más eficaz posible, se puede escoger entre dos algoritmos (procedimientos): "algoritmo directo" y "algoritmo de barrido" (<i>escombratge</i>). Estos algoritmos están disponibles en las diferentes aplicaciones de MiraMon que realizan estructuración topológica (LinArc, BufDist, CombiCap, Retalla, SHPTop, etc) y se indican, en la línea de comando, con el modificador /ALGORISMO=. A continuación se consignan los distintos algoritmos disponibles.</p>
+
 <ul>
-	<li><b>/ALGORISME=DIRECTE</b>: El algoritmo hace un repaso por todos los elementos comparándolos con el resto, de forma que se encuentran las intersecciones por comparación dos a dos.</li>
-	<li><b>/ALGORISME=ESCOMBRATGE</b>: El algoritmo ordena los elementos vectoriales de una determinada manera en el plano y hace un barrido de izquierda a derecha que calculando las intersecciones entre elementos cercanos. Con ello se evita comparar elementos que se sabe que nunca se cortarán, evitando así mucho tiempo de cálculo.</li>
-	<li><b>/ALGORISME=AUTOMATIC</b>: Se deja en el programa la elección entre los métodos descritos anteriormente.</li>
+	<li><b>/ALGORISME=DIRECTE</b> (algoritmo directo): El algoritmo determina la intersección de cada uno de los segmentos con el resto de segmentos, analizándolos dos a dos. Cada intersección encontrada implica, excepto cuando es por el extremo de ambos segmentos, la partición de un segmento o de ambos, y el aumento de la complejidad de la tarea de análisis pendiente hasta concluir la estructuración topológica.</li> 
+
+	<li><b>/ALGORISME=ESCOMBRATGE</b> (algoritmo de barrido): Utiliza el algoritmo de <a href="https://en.wikipedia.org/wiki/Bentley%E2%80%93Ottmann_algorithm">Bentley-Ottmann</a>, el cual ordena los elementos vectoriales de una determinada manera en el plano y hace un barrido de izquierda a derecha que va calculando las intersecciones entre elementos cercanos. Con ello se evita comparar elementos que se sabe que nunca se van a cortar, evitando así mucho tiempo de cálculo en un gran número de situaciones.</li> 
+
+	<li><b>/ALGORISME=AUTOMATIC</b> (algoritmo automático): Se deja en el programa la elección entre los métodos descritos anteriormente.</li>
 </ul>
 
-<p>Entonces, </p>
+<p>Entonces,</p>
+
 <ul>
-	<li><b>/ALGORISME=DIRECTE</b> es más rápido para capas donde ya se haya realizado una estructuración previa, o bien se sepa que no hay intersecciones más allá de los vértices ya existentes (la estructuración topológica es implícita).</li>
-	<li><b>/ALGORISME=ESCOMBRATGE</b> es más rápido justamente en el caso contrario: capas donde los elementos cortan otros elementos provocando intersecciones en puntos que no eran previamente vértices finales y que, por tanto, son nuevos nodos de la capa de salida.</li>
+	<li><b>/ALGORISME=DIRECTE</b> es más rápido para capas donde ya se haya realizado una estructuración previa, o bien se sepa que no hay intersecciones más allá de los vértices ya existentes (la estructuración topológica es implícita o es una capa de polígonos explícitos [bordes repetidos 2 veces]).</li>
+
+	<li><b>/ALGORISME=ESCOMBRATGE</b> es más rápido justamente en el caso contrario: capas donde los elementos cortan otros elementos provocando intersecciones en puntos que no eran previamente vértices al final de línias y que, por tanto, son nuevos nodos de la capa de salida.</li>
 </ul>
 
-<p>Si en el momento de estructurar una capa se sabe que la estructuración generará nuevos puntos (es decir, se detectarán intersecciones) es mejor elegir "barrido". En caso contrario, se puede escoger "directo". </p>
+<p>Si en el momento de estructurar una capa se sabe que la estructuración generará nuevos vértices (es decir, se detectarán intersecciones) es mejor escoger "escombratge" (barrido). De lo contrario, se puede elegir "directo". En caso de duda, se puede indicar "automatic" (automático), pero este modo puede requerir más tiempo que el más rápido de los dos anteriores (pero menos que el más lento), ya que si cuando se ha realizado un porcentaje de los procedimientos se detecta que el modo inicial no es óptimo se vuelve a empezar con el otro modo.</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>

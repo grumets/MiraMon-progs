@@ -1,12 +1,20 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 06-05-2025 */-->
+<!--/* Rev AA 22-09-2025 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>Aspectes generals de sintaxi a les Aplicacions de Suport al MiraMon</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
 <a id="MENU" name="MENU"></a>
-<h1><img src="vecras.gif"> Aspectes generals de sintaxi a les Aplicacions de Suport al MiraMon</h1>
+<h1><ul style="list-style-type:none;">
+<li>
+<h1><a href="https://www.miramon.cat/Index.htm" target="_blank"><img src="vecras.gif"></a>Aspectes generals de sintaxi a les Aplicacions de Suport al MiraMon</h1>
+</li>
+</ul>
+</h1>
+<p><ul>
+<h4>Accés directe de l'<a href="https://www.miramon.cat/help/cat/" target="_blank">ajuda</a> a Internet: <a href="https://www.miramon.cat/help/cat/msa/General.htm" target="_blank"><font size="+2">Aspectes generals de sintaxi a les Aplicacions de Suport al MiraMon</font></a></h4>
+</ul></p>
 <hr>
 <table width="98%">
 <tr align="center" valign="middle">
@@ -24,7 +32,7 @@
 
 </tr>
 <tr align="center" valign="middle">
-	<td><span class="subtitol_h1_negreta"><a href="#Algorisme">Com saber quin tipus d'algorisme d'estucturació utilitzar en algunes MSA? (modificador opcional /ALGORISME=)</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Algorisme">Algorismes disponibles per a l'estructuració topològica (/ALGORISME)</a></span></td>
 	<td><span class="subtitol_h1_negreta"><a href="#Quantils">Desempat per als quantils (modificador opcional /MEDIANA_EMPAT=)</a></span></td>
 </tr>
 </table>
@@ -105,19 +113,30 @@
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
   
-<a name="Algorisme"></a><h2>Com saber quin tipus d'algorisme d'estructuració utilitzar en algunes MSA? (modificador opcional /ALGORISME=)</h2>
-<p>Es pot escollir entre dos algorismes per al càlcul de les interseccions entre els diferents elements vectorials:"algorisme directe" i "algorisme d'escombratge".</p> 
+<a name="Algorisme"></a><h2>Algorismes disponibles per a l'estructuració topològica (/ALGORISME)</h2>
+
+<p>El MiraMon permet estructurar topològicament els conjunts d'informació vectorials. Aquesta estructuració topològica implica analitzar i, conseqüentment organitzar, les entitats vectorials de manera que les seves relacions espacials estiguin explícitament descrites. Els beneficis d'aquesta estructuració topològica són múltiples: garantir la consistència espacial, evitar superposicions indesitjades (totals o parcials) d'entitats, evitar errors com ara "escletxes" entre polígons, estalviar espai d'emmagatzematge i augmentar la velocitat de transmissió de les dades, permetre anàlisis de xarxes, etc. Aquests beneficis permeten incrementar el ventall possible d'anàlisis geogràfiques (algunes de les quals no són possibles sense estructuració topològica) i efectuar-les de manera robusta i fiable.</p>
+
+<p>En el cas d'elements lineals (<i>e.g.</i>, rius), o en el cas de les vores dels elements poligonals (<i>e.g.</i>, parcel·les cadastrals), l'anàlisi a efectuar comporta la detecció d'interseccions entre els segments que formen les línies i les vores de polígons; aquestes interseccions poden ser al llarg dels segments o per contacte dels seus extrems i generen vèrtexs especials que s'anomenen nodes (com també són nodes els vèrtexs dels segments que no intersequen amb cap altre segment). En capes amb moltes línies o polígons, aquest procediment pot requerir un temps de càlcul considerable, que pot augmentar exponencialment segons com estiguin disposades les entitats originals (grans línies que presenten moltes interseccions amb la resta, superposició explícita per parelles de segments [com passa en les capes de polígons explícits de la majoria de formats de SIG], etc). Per a realitzar aquesta detecció de manera el més eficaç possible, es pot escollir entre dos algorismes (procediments): "algorisme directe" i "algorisme d'escombratge". Aquests algorismes estan disponibles en les diferents aplicacions del MiraMon que realitzen estructuració topològica (LinArc, BufDist, CombiCap, Retalla, SHPTop, etc) i s'indiquen, en la línia de comanda, amb el modificador /ALGORISME=. A continuació es consignen els diferents algorismes disponibles.</p>
+
 <ul>
- <li><b>/ALGORISME=DIRECTE</b>: L'algorisme fa un repàs per tots els elements comparant-los amb la resta, de forma que es troben les interseccions per comparació dos a dos.</li>
- <li><b>/ALGORISME=ESCOMBRATGE</b>: L'algorisme ordena els elements vectorials d'una determinada manera en el pla i fa un escombratge d'esquerra a dreta que va calculant les interseccions  entre elements propers. Amb això s'evita comparar elements que se sap que mai no es tallaran, evitant així molt de temps de càlcul.</li>
- <li><b>/ALGORISME=AUTOMATIC</b>: Es deixa al programa l'elecció entre els mètodes descrits anteriorment.</li>
+	<li><b>/ALGORISME=DIRECTE</b>: L'algorisme determina la intersecció de cadascun dels segments amb la resta de segments, analitzant-los dos a dos. Cada intersecció trobada implica, excepte quan és per l'extrem dels dos segments, la partició d'un segment o dels dos, i l'augment de la complexitat de la tasca d'anàlisi pendent fins a concloure l'estructuració topològica.</li>
+	
+	<li><b>/ALGORISME=ESCOMBRATGE</b>: Utilitza l'algorisme de <a href="https://en.wikipedia.org/wiki/Bentley%E2%80%93Ottmann_algorithm">Bentley-Ottmann</a>, el qual ordena els elements vectorials d'una determinada manera en el pla i fa un escombratge d'esquerra a dreta que va calculant les interseccions entre elements propers. Amb això s'evita comparar elements que se sap que mai no es tallaran, evitant així molt de temps de càlcul en un gran nombre de situacions.</li>
+	
+	<li><b>/ALGORISME=AUTOMATIC</b>: Es deixa al programa l'elecció entre els mètodes descrits anteriorment.</li>
 </ul>
+
 <p>Llavors,</p> 
+
 <ul>
- <li><b>/ALGORISME=DIRECTE</b> és més ràpid per a capes on ja s'hagi realitzat una estructuració prèvia, o bé se sàpiga que no hi ha interseccions més enllà dels vèrtexs ja existents (l'estructuració topològica és implícita).</li>
- <li><b>/ALGORISME=ESCOMBRATGE</b> és més ràpid justament en el cas contrari: capes on els elements tallen altres elements provocant interseccions en punts que no eren prèviament vèrtexs finals i que, per tant, són nous nodes de la capa de sortida.</li>
+	<li><b>/ALGORISME=DIRECTE</b> és més ràpid per a capes on ja s'hagi realitzat una estructuració prèvia, o bé se sàpiga que no hi ha interseccions més enllà dels vèrtexs ja existents (l'estructuració topològica és implícita o és una capa de polígons explícits [vores repetides 2 cops]).</li>
+
+	<li><b>/ALGORISME=ESCOMBRATGE</b> és més ràpid justament en el cas contrari: capes on els elements tallen altres elements provocant interseccions en punts que no eren prèviament vèrtexs al final de línies i que, per tant, són nous nodes de la capa de sortida.</li>
 </ul>
-<p>Si en el moment d'estructurar una capa se sap que l'estructuració generarà nous punts (és a dir, es detectaran interseccions) és millor escollir "escombratge". En cas contrari, es pot escollir "directe". </p>
+
+<p>Si en el moment d'estructurar una capa se sap que l'estructuració generarà nous vèrtexs (és a dir, es detectaran interseccions) és millor escollir "escombratge". En cas contrari, es pot escollir "directe". En cas de dubte, podeu indicar "automàtic", però aquest mode pot requerir més temps que el més ràpid dels dos anteriors (però menys que el més lent), ja que si quan ha fet un percentatge dels procediments detecta que el mode inicial no és òptim torna a començar amb l'altre mode.</p>
+
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
