@@ -1,305 +1,198 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 23-09-2025 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>LinArc: Estructuració topològica de línies i conversions entre fitxers ARC/NOD i VEC</title>
+<title>LinArc: Estructuració topològica de línies i conversions entre fitxers ARC/NOD i VEC</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<h1><span id="wpstitol"/></h1>
-<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h1><a href="https://www.miramon.cat/Index.htm" target="_blank"><img src="vecras.gif"></a>LinArc: Estructuració topològica de línies i conversions entre fitxers ARC/NOD i VEC</h1>
+</li>
+</ul>
+</h1>
+<p><ul>
+<h4>Accés directe de l'<a href="https://www.miramon.cat/help/cat/" target="_blank">ajuda</a> a Internet: <a href="https://www.miramon.cat/help/cat/msa/LinArc.htm" target="_blank"><font size="+2">LinArc</font></a></h4>
+<h4>Accés a l'aplicació des del menú: <i>"Edició | Estructuració topològica | Arcs/Nodes"</i></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
 
-  <p>Aquesta aplicació fa la transformació entre fitxers vectorials de línies de
-  tipus VEC i fitxers ARC i NOD del format vectorial estructurat Top-MM.
-  Ambdós formats són suportats pel MiraMon. Els fitxers VEC són un
-  superconjunt dels fitxers VEC ASCII d'Idrisi.</p>
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
 
-  <p>Els fitxers vectorials de línies de tipus VEC són fitxers ASCII que no
-  presenten topologia (com a mínim aquesta no està explicitada) i no estan
-  vinculats a bases de dades (cada objecte gràfic suporta un sol atribut). Els
-  acompanya un fitxer de documentació (DVC).</p>
+<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
 
-  <p>Els fitxers estructurats Top-MM de tipus ARC i NOD són fitxers binaris,
-  habitualment amb topologia arc-node i que estan vinculats a una base de
-  dades relacional (A.REL, A.DBF, N.REL i N.DBF). En la versió 3.x els
-  acompanya un fitxer de documentació (DVA i DVN), el qual queda integrat en
-  el corresponent fitxer REL en les versions posteriors.</p>
+<p>Aquesta aplicació permet transformar entre fitxers vectorials de línies de tipus VEC i fitxers ARC i NOD del format vectorial estructurat Top-MM. Ambdós formats són suportats pel MiraMon. Els fitxers VEC són un superconjunt dels fitxers VEC ASCII d'Idrisi.</p>
+ 
+<p>Disposa de les següents opcions:</h3>
 
-  <p>Si tenim una família de vectors estructurats com la descrita abans, es
-  pot convertir al format VEC de línies amb l'<u>opció 1</u> de l'aplicació
-  LinArc. Això és necessari per a poder modificar el fitxer gràfic des del
-  MiraMon o quan es vol el fitxer en un format de text.</p>
-
-  <p>Fins a la versió 3.x del MiraMon, la digitalització de línies es realitza
-  sobre fitxers no estructurats (VEC). L'estructuració topològica
-  d'arcs i nodes posterior a la digitalització és un procés tan complex
-  que resulta quasi impossible de fer-la manualment, tasca que duu a terme
-  l'<u>opció 2</u> de l'aplicació LinArc.</p>
-
-  <p>De vegades un fitxer VEC de línies pot contenir arcs i nodes de forma
-  implícita, per exemple quan prové d'una conversió d'una família de
-  fitxers arc-node cap a VEC a través de LinArc amb l'opció 1. En aquest
-  cas podem indicar a LinArc, a través de l'<u>opció 3</u>, que no
-  realitzi els càlculs d'estructuració topològica per generar els fitxers
-  ARC/NOD, la qual cosa és molt més ràpida. Aquesta opció només pot
-  utilitzar-se quan la estructura topològica no és essencial, com passa a
-  vegades en les capes de línies com p.ex. en les corbes de nivell. En una
-  capa sobre la qual s'hauran de construir polígons només es pot aplicar
-  aquesta opció quan el fitxer VEC conté estructura arc-node implícita, ja que
-  les relacions topològiques són essencials per poder <a href="ciclar.htm">ciclar</a> polígons. L'anàlisi de xarxes és un altre cas on
-  la topologia és essencial.</p>
-
-  <p>L'opció 2 de l'aplicació suporta un fitxer VEC de polígons com a fitxer
-  d'entrada, però l'opció 3 no. En el primer cas, les vores dels
-  polígons es tracten simplement com a línies.</p>
-
-  <p><a id="ellipsoide" name="ellipsoide">L'aplicació crea a la base de dades
-  el camp LONG_ARC, que indica la longitud de cada arc. Els valors del camp
-  LONG_ARC es calculen sobre les coordenades de la projecció (del mapa) i, per
-  tant, no donen distàncies sobre la Terra sinó sobre el mapa, calculades com
-  ho faria normalment un programa de dibuix assistit per ordinador (CAD). En
-  projeccions com la UTM, aquestes distàncies són suficientment precises per a
-  la major part de propòsits. Per exemple, dintre d'un fus UTM, una
-  distància sobre el mapa pot arribar a diferir de la distància sobre
-  l'el·lipsoide terrestre en un factor entre 0.9996 i 1.0009811009).
-
-  <p>Quan la projecció cartogràfica és coneguda (vegeu llistat de <a href="../mm32/ap6.htm">projeccions conegudes</a>), a més del camp LONG_ARC, l'aplicació també crea el camp LONG_ARCE, que indica la longitud real de cada
-  arc calculada sobre l'el·lipsoide terrestre amb criteris geodèsics
-  acurats. Aquest nou camp resulta especialment indicat en projeccions
-  cartogràfiques en què el càlcul sobre el mapa dóna valors clarament
-  diferents dels reals sobre la superfície terrestre (per exemple, la
-  projecció Mercator) o en projeccions en mapes en què la diferència és
-  petita, però on apareixen llargues línies que poden acumular errors
-  importants.</p>
-
-  <p>Segons la projecció cartogràfica utilitzada, l'aplicació declara visible
-  LONG_ARC o LONG_ARCE i deixa ocult l'altre camp, segons el més
-  comunament usat com a mesura de longitud en aquella projecció. Podeu canviar
-  aquests criteris de visibilitat en el fitxer REL.</p>
-  <hr/>
-
-  <exclusiva>
-    <!-- Aquí inicia la part corresponent a la sintaxi del miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<span id="wpssintaxi"/>
-<!-- Aquí acaba la part corresponent a la sintaxi del miramon editable de el WPS.-->
-      <!-- $$EXCLUSIVA$$
-
-Per a obtenir l'ajuda completa escriviu:
-LinArc ?
--->
-
-  </exclusiva>
-
-  <h3>Descripció detallada de les opcions:</h3>
-
-  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>Els fitxers vectorials de línies de tipus VEC són fitxers ASCII que no presenten topologia (com a mínim aquesta no està explicitada) i no estan vinculats a bases de dades (cada objecte gràfic suporta un sol atribut). Els acompanya un fitxer de documentació (DVC).</p>
+
+<p>Els fitxers estructurats Top-MM de tipus ARC i NOD són fitxers binaris, habitualment amb topologia arc-node i que estan vinculats a una base de dades relacional (A.REL, A.DBF, N.REL i N.DBF). En la versió 3.x els acompanya un fitxer de documentació (DVA i DVN), el qual queda integrat en el corresponent fitxer REL en les versions posteriors.</p>
+
+<p>Si tenim una família de vectors estructurats com la descrita abans, es pot convertir al format VEC de línies amb l'<u>opció 1</u> de l'aplicació LinArc. Això és necessari per a poder modificar el fitxer gràfic des del MiraMon o quan es vol el fitxer en un format de text.</p>
+
+<p>Fins a la versió 3.x del MiraMon, la digitalització de línies es realitza sobre fitxers no estructurats (VEC). L'estructuració topològica d'arcs i nodes posterior a la digitalització és un procés tan complex que resulta quasi impossible de fer-la manualment, tasca que duu a terme l'<u>opció 2</u> de l'aplicació LinArc.</p>
+
+<p>De vegades un fitxer VEC de línies pot contenir arcs i nodes de forma implícita, per exemple quan prové d'una conversió d'una família de fitxers arc-node cap a VEC a través de LinArc amb l'opció 1. En aquest cas podem indicar a LinArc, a través de l'<u>opció 3</u>, que no realitzi els càlculs d'estructuració topològica per generar els fitxers ARC/NOD, la qual cosa és molt més ràpida. Aquesta opció només pot utilitzar-se quan la estructura topològica no és essencial, com passa a vegades en les capes de línies com p.ex. en les corbes de nivell. En una capa sobre la qual s'hauran de construir polígons només es pot aplicar aquesta opció quan el fitxer VEC conté estructura arc-node implícita, ja que les relacions topològiques són essencials per poder <a href="ciclar.htm">ciclar</a> polígons. L'anàlisi de xarxes és un altre cas on la topologia és essencial.</p>
+
+<p>L'opció 2 de l'aplicació suporta un fitxer VEC de polígons com a fitxer d'entrada, però l'opció 3 no. En el primer cas, les vores dels polígons es tracten simplement com a línies.</p>
+
+<p><a id="ellipsoide" name="ellipsoide"></a>L'aplicació crea a la base de dades el camp LONG_ARC, que indica la longitud de cada arc. Els valors del camp LONG_ARC es calculen sobre les coordenades de la projecció (del mapa) i, per tant, no donen distàncies sobre la Terra sinó sobre el mapa, calculades com ho faria normalment un programa de dibuix assistit per ordinador (CAD). En projeccions com la UTM, aquestes distàncies són suficientment precises per a la major part de propòsits. Per exemple, dintre d'un fus UTM, una distància sobre el mapa pot arribar a diferir de la distància sobre l'el·lipsoide terrestre en un factor entre 0.9996 i 1.0009811009).
+
+<p>Quan la projecció cartogràfica és coneguda (vegeu llistat de <a href="../mm32/ap6.htm">projeccions conegudes</a>), a més del camp LONG_ARC, l'aplicació també crea el camp LONG_ARCE, que indica la longitud real de cada arc calculada sobre l'el·lipsoide terrestre amb criteris geodèsics acurats. Aquest nou camp resulta especialment indicat en projeccions cartogràfiques en què el càlcul sobre el mapa dóna valors clarament diferents dels reals sobre la superfície terrestre (per exemple, la projecció Mercator) o en projeccions en mapes en què la diferència és petita, però on apareixen llargues línies que poden acumular errors importants.</p>
+
+<p>Segons la projecció cartogràfica utilitzada, l'aplicació declara visible LONG_ARC o LONG_ARCE i deixa ocult l'altre camp, segons el més comunament usat com a mesura de longitud en aquella projecció. Podeu canviar aquests criteris de visibilitat en el fitxer REL.</p>
 	
-  <p>En les opcions 2 i 3, l'aplicació elimina les coordenades repetides
-  (només se'n conserva una). Per altra banda, les entitats formades per un
-  sol vèrtex són eliminades.</p>
-  <hr/>
+<p>En les opcions 2 i 3, l'aplicació elimina les coordenades repetides (només se'n conserva una). Per altra banda, les entitats formades per un sol vèrtex són eliminades.</p>
 
-  <h3>Tipus de tolerància i la seva aplicació en l'aplicació LinArc, opció
-  2.</h3>LinArc defineix 6 tipus de toleràncies diferents per 6 casos que hom
-  pot trobar en l'estructuració d'un fitxer vectorial. Aquesta secció
-  explica a quina situació geomètrica correspon cada tipus de tolerància i com
-  s'aplica dins l'aplicació LinArc (només en l'opció 2).
+<p><b>Tipus de tolerància i la seva aplicació en l'aplicació LinArc, opció 2.</b></p>
 
-  <p>Molt important: tots aquest tipus de toleràncies són habitualment
-  innecessàries si hom digitalitza utilitzant correctament les eines de
-  connexió del MiraMon. Tanmateix, quan un fitxer ha estat digitalitzat sense
-  seguir aquestes normes bàsiques de connexió, o bé ha estat generat amb un
-  altre <i>software</i> que no connecta correctament els elements, pot ser
-  necessari aplicar aquestes toleràncies.</p>
+LinArc defineix 6 tipus de toleràncies diferents per 6 casos que hom pot trobar en l'estructuració d'un fitxer vectorial. Aquesta secció explica a quina situació geomètrica correspon cada tipus de tolerància i com s'aplica dins l'aplicació LinArc (només en l'opció 2).
 
+<p>Molt important: tots aquest tipus de toleràncies són habitualment innecessàries si hom digitalitza utilitzant correctament les eines de connexió del MiraMon. Tanmateix, quan un fitxer ha estat digitalitzat sense seguir aquestes normes bàsiques de connexió, o bé ha estat generat amb un altre <i>software</i> que no connecta correctament els elements, pot ser necessari aplicar aquestes toleràncies.</p>
+
+<ul>
   <dl>
     <dt>Precisió (Tolerància borrosa/<i>Fuzzy tolerance)</i> [Prec]</dt>
 
-    <dd>Mínima distància entre vèrtexs. Ha de ser un valor molt petit,
-    pràcticament infinitesimal.</dd>
+    <dd>Mínima distància entre vèrtexs. Ha de ser un valor molt petit, pràcticament infinitesimal.</dd>
 
     <dt>Tolerància de pseudogeneralització. [T_Psgen]</dt>
 
-    <dd>Tolerància per eliminar vèrtexs situats sobre un mateix traçat
-    rectilini (fig 1.a). (És una definició local a cada arc.)</dd>
+    <dd>Tolerància per eliminar vèrtexs situats sobre un mateix traçat rectilini (fig 1.a). (És una definició local a cada arc.)</dd>
 
     <dt>Tolerància entre arcs<i>(Arc snap tolerance)</i> [T_Arc]</dt>
 
-    <dd>Distància que un vèrtex es pot moure (fig 1.b1) o un segment es pot
-    doblegar, generant-se un nou vèrtex (fig 1.b2) per connectar amb un altre.
-    (Implica una relació entre un arc i els altres.)</dd>
+    <dd>Distància que un vèrtex es pot moure (fig 1.b1) o un segment es pot doblegar, generant-se un nou vèrtex (fig 1.b2) per connectar amb un altre. (Implica una relació entre un arc i els altres.)</dd>
 
     <dt>Tolerància d'escurçades (fig 1.c)<i>(Undershoot tolerance)</i> [T_Esc]</dt>
 
-    <dd>Distància que es pot moure un node final per connectar-se amb un arc.
-    El moviment del node s'efectua de forma que el desplaçament sigui
-    mínim. (Implica una relació entre un node final i els arcs.)</dd>
+    <dd>Distància que es pot moure un node final per connectar-se amb un arc. El moviment del node s'efectua de forma que el desplaçament sigui mínim. (Implica una relació entre un node final i els arcs.)</dd>
 
     <dt>Tolerància entre nodes (fig 1.d) <i>(Node snap tolerance)</i> [T_Nod]</dt>
 
-    <dd>Distància mínima entre dos nodes. És la distància en què un node
-    absorbeix o és absorbit pels seus nodes veïns. (Implica una relació entre
-    un node i els altres.)</dd>
+    <dd>Distància mínima entre dos nodes. És la distància en què un node absorbeix o és absorbit pels seus nodes veïns. (Implica una relació entre un node i els altres.)</dd>
 
     <dt>Tolerància d'allargades (fig 1.e) <i>(Dangle tolerance)</i> [T_Allg]</dt>
 
-    <dd>Els arcs que són més curts que aquesta tolerància seran eliminats si
-    presenten un o dos nodes finals. (És una definició local a un sol
-    arc.)</dd>
+    <dd>Els arcs que són més curts que aquesta tolerància seran eliminats si presenten un o dos nodes finals. (És una definició local a un sol arc.)</dd>
   </dl>
+</ul>
 
-  <center>
-    <img alt="Diagrama de toleràcies" src="toleran1.gif"/><br/>
+<center>
+<img alt="Diagrama de toleràcies" src="toleran1.gif"/><br/>
+<table width="60%">
+<tr>
+	<td><small>Fig 1. La figura mostra els vectors originals en negre i el resultat del procés d'estructuració topològica en vermell.</small>
+	<ol type="a">
+		<li><small>La tolerància de pseudogeneralització redueix el nombre de vèrtexs dels vectors, eliminant alineacions.</small></li>
+		<li><small>La tolerància entre arcs tendeix a connectar vectors que estan pròxims. El vèrtex del vector digitalitzat amb posterioritat es mou per connectar-se sobre l'altre (1). El segment superior es doblega per connectar-se al vèrtex proper digitalitzat amb anterioritat (2).</small></li>
+		<li><small>La tolerància d'escurçades connecta un vèrtex final que ha quedat prop d'un altre arc. En la figura el vector superior ha estat digitalitzat abans que l'altre.</small></li>
+		<li><small>La tolerància entre nodes mou el node inferior per connectar-lo amb el superior, que havia estat generat anteriorment.</small></li>
+		<li><small>La tolerància d'allargades fa desaparèixer el tros de vector que sobresurt d'un altre vector sobre el qual es volia connectar.</small></li>
+	</ol>
+	</td>
+</tr>
+</table>
+ </center>
 
-    <table width="60%">
-      <tr>
-        <td>
-          <small>Fig 1. La figura mostra els vectors originals en negre i el
-          resultat del procés d'estructuració topològica en
-          vermell.</small>
+<center>
+<img src="toleran2.gif"/><br/>
+<table width="60%">
+<tr>
+	<td><small>Fig 2. Quan tres objectes estan a una distància inferior a la tolerància d'escurçades, no es busca un traçat intermedi entre ells, sinó que l'objecte que ha estat digitalitzat primer roman immòbil (en la figura el superior) mentre que el que ha estat digitalitzat en segon lloc (el de l'esquerra) es mou fins a trobar-se amb el primer, i el tercer, es mou fins a connectar amb els altres dos en el mateix punt.</small></td>
+</tr>
+</table>
+</center>
 
-          <ol type="a">
-            <li><small>La tolerància de pseudogeneralització redueix el nombre
-            de vèrtexs dels vectors, eliminant alineacions.</small></li>
+<p><b>Com es poden definir totes aquestes toleràncies?</p></b>
 
-            <li><small>La tolerància entre arcs tendeix a connectar vectors
-            que estan pròxims. El vèrtex del vector digitalitzat amb
-            posterioritat es mou per connectar-se sobre l'altre (1). El
-            segment superior es doblega per connectar-se al vèrtex proper
-            digitalitzat amb anterioritat (2).</small></li>
-
-            <li><small>La tolerància d'escurçades connecta un vèrtex final
-            que ha quedat prop d'un altre arc. En la figura el vector
-            superior ha estat digitalitzat abans que l'altre.</small></li>
-
-            <li><small>La tolerància entre nodes mou el node inferior per
-            connectar-lo amb el superior, que havia estat generat
-            anteriorment.</small></li>
-
-            <li><small>La tolerància d'allargades fa desaparèixer el tros
-            de vector que sobresurt d'un altre vector sobre el qual es
-            volia connectar.</small></li>
-          </ol>
-        </td>
-      </tr>
-    </table>
-  </center>
-
-  <center>
-    <img src="toleran2.gif"/><br/>
-
-    <table width="60%">
-      <tr>
-        <td><small>Fig 2. Quan tres objectes estan a una distància inferior a
-        la tolerància d'escurçades, no es busca un traçat intermedi entre
-        ells, sinó que l'objecte que ha estat digitalitzat primer roman
-        immòbil (en la figura el superior) mentre que el que ha estat
-        digitalitzat en segon lloc (el de l'esquerra) es mou fins a
-        trobar-se amb el primer, i el tercer, es mou fins a connectar amb els
-        altres dos en el mateix punt.</small></td>
-      </tr>
-    </table>
-  </center>
-
-  <h4>Com es poden definir totes aquestes toleràncies?</h4>
-  <pre>
+<pre>
 LinArc 2 F_Ori F_Arc T_Arc DescriptorCamp NomCamp Prec T_Psgen T_Esc T_Nod T_Allg
-</pre>Per tal de garantir un òptim resultat, és <u>molt recomanable</u> seguir
-les següents indicacions:
+</pre>
 
-  <ol>
+<p>Per tal de garantir un òptim resultat, és <u>molt recomanable</u> seguir les següents indicacions:</p>
+
+<ol>
     <li>Prec &lt;= T_Psgen &lt;= T_Arc &lt;= T_Esc &lt;= T_Nod &lt;=T_Allg</li>
-
     <li>Prec i T_Psgen infinitessimal (a la pràctica poseu-hi 0).</li>
-  </ol>Per a l'eliminació de nodes finals, es recomana fer servir:
+</ol>
 
-  <ol>
-    <li>Prec=T_Psgen=T_Arc=T_Nod=0</li>
+<p>Per a l'eliminació de nodes finals, es recomana fer servir:</p>
 
+<ol>
+	<li>Prec=T_Psgen=T_Arc=T_Nod=0</li>
     <li>T_Esc amb valor moderat i T_Allg de valor alt.</li>
-  </ol>En la sintaxi simplificada, el paràmetre <i>tolerància</i> és
-  equivalent a les toleràncies ampliades següents:
+</ol>
 
-  <ol>
-    <li>T_Arc=T_Nod=T_Esc=T_Allg=<i>tolerància</i></li>
+<p>En la sintaxi simplificada, el paràmetre <i>tolerància</i> és equivalent a les toleràncies ampliades següents:</p>
 
+<ol>
+	<li>T_Arc=T_Nod=T_Esc=T_Allg=<i>tolerància</i></li>
     <li>Prec=T_Psgen=1e-5</li>
-  </ol>Si en alguna de les toleràncies s'indica 0 (excepte en la
-  precisió), s'elimina el processat de l'aplicació referent a aquella
-  tolerància, el que resulta en una execució més ràpida. Això es recomana en
-  el cas de saber que el fitxer o fitxers a processar no presenten algun
-  determinat tipus de problema. En el cas de la precisió, 0 resulta en 1e-5.
-  Si en la notació simplificada s'indica <i>tolerància</i>=0 el resultat
-  és:
+</ol>
 
-  <ol>
-    <li>T_Arc=T_Nod=T_Esc=T_Allg=0</li>
+<p>Si en alguna de les toleràncies s'indica 0 (excepte en la precisió), s'elimina el processat de l'aplicació referent a aquella tolerància, el que resulta en una execució més ràpida. Això es recomana en el cas de saber que el fitxer o fitxers a processar no presenten algun determinat tipus de problema. En el cas de la precisió, 0 resulta en 1e-5. Si en la notació simplificada s'indica <i>tolerància</i>=0 el resultat és:
 
+<ol>
+	<li>T_Arc=T_Nod=T_Esc=T_Allg=0</li>
     <li>Prec=T_Psgen=1e-5</li>
-  </ol>IMPORTANT: Habitualment, aquestes toleràncies només calen en fitxers
-  digitalitzats en altres softwares o digitalitzats en el MiraMon sense utilitzar
-  adequadament les eines de connexió. Quan es digitalitza correctament amb el
-  MiraMon una tolerància simplificada i de valor 0 és l'elecció adequada,
-  resultant en processos ràpids i sense problemes:
-  <pre>
+</ol>
+
+<p>IMPORTANT: Habitualment, aquestes toleràncies només calen en fitxers digitalitzats en altres softwares o digitalitzats en el MiraMon sense utilitzar adequadament les eines de connexió. Quan es digitalitza correctament amb el MiraMon una tolerància simplificada i de valor 0 és l'elecció adequada, resultant en processos ràpids i sense problemes:</p>
+
+<pre>
 LinArc 2 F_Vec F_Arc 0
 </pre>
-  <hr/>
 
-  <h3>Format del fitxer llista (per a estructuració de diversos fitxers
-  alhora).</h3>
+<p><b>Format del fitxer llista (per a estructuració de diversos fitxers alhora).</p></b>
 
-  <h4>Format simple</h4>Aquest format és una llista de noms de fitxers escrits
-  un darrere l'altre separats per retorns de carro o espais (si algun nom
-  de fitxer conté espais cal posar-lo entre cometes dobles). Aquesta
-  possibilitat és simple però no permet el nivell de control ni les
-  possibilitats que permet el segon format.
+<ul>
+<li><b>Format simple</b></li>
 
-  <h5>Exemple de format simple</h5>
-  <pre>
+<p>Aquest format és una llista de noms de fitxers escrits un darrere l'altre separats per retorns de carro o espais (si algun nom de fitxer conté espais cal posar-lo entre cometes dobles). Aquesta possibilitat és simple però no permet el nivell de control ni les possibilitats que permet el segon format. Exemple de format simple:
+
+<pre>
 primer.arc
 segon.vec
 tercer.vec
 </pre>
 
-  <h4>Format avançat</h4>Aquest format es basa en el format INI del fitxers de
-  configuració de Windows o en els formats PAR del MiraMon. Està constituït per
-  una secció [FITXERS] i diverses seccions [FITXER_#] (# representa un valor
-  numèric). La secció [FITXERS] només te una clau 'Llista' que és
-  igual als valor numèrics '#' de cada una de les seccions [FITXER_#]
-  separats per una coma. La secció [FITXER_#] té 5 claus possibles:
+<li><b>Format avançat</b></li>
 
-  <ul>
-    <li>'NomFitxer' és el nom d'un fitxer VEC (extensió optativa)
-    o ARC (extensió obligatòria). Hi ha de ser sempre present.</li>
+<p>Aquest format es basa en el format INI del fitxers de configuració de Windows o en els formats PAR del MiraMon. Està constituït per una secció [FITXERS] i diverses seccions [FITXER_#] (# representa un valor numèric). La secció [FITXERS] només te una clau 'Llista' que és igual als valor numèrics '#' de cada una de les seccions [FITXER_#] separats per una coma. La secció [FITXER_#] té 5 claus possibles:</p>
 
-    <li>'NomCamp' és el nom del camp de la base de dades (A.DBF) a
-    crear on s'escriuran el atributs del fitxer VEC (obligatori per a
-    VEC's).</li>
+<ul>
+	<li>'NomFitxer' és el nom d'un fitxer VEC (extensió optativa) o ARC (extensió obligatòria). Hi ha de ser sempre present.</li>
+	<li>'NomCamp' és el nom del camp de la base de dades (A.DBF) a crear on s'escriuran el atributs del fitxer VEC (obligatori per a VEC's).</li>
+	<li>'DescriptorCamp' és el descriptor del 'NomCamp' anterior (obligatori per a VEC's).</li>
+	<li>'Marc' indica si el fitxer fa de marc de tall. Si val 1 un cop tallats s'ignoren tots els vectors d'altres fitxers que quedin fora del marc. En aquest cas, 'NomFitxer' ha de ser un fitxer VEC de polígons. Per defecte val 0.</li>
+	<li>'Incloure' indica si cal incloure aquest marc en el fitxer resultat. En cas de valer 0, el fitxer es fa servir com a límit de tall però els seus elements no s'inclouen a la sortida. Per defecte val 1.</li>
+</ul>
+  
+<p>Les seccions [FITXER_#] no cal que estigui ordenades (l'ordre s'estableix en la clau 'Llista') o poden no estar presents a la clau 'Llista' i en aquest cas els fitxers no s'usaran (compte, doncs, a no oblidar la inclusió a la llista).</p>
 
-    <li>'DescriptorCamp' és el descriptor del 'NomCamp'
-    anterior (obligatori per a VEC's).</li>
+<p>En el següent exemple presentem un fitxer llista, amb un fitxer VEC i un fitxer ARC. El fitxer ARC es processarà abans que el VEC. Exemple de format avançat</p>
 
-    <li>'Marc' indica si el fitxer fa de marc de tall. Si val 1 un cop
-    tallats s'ignoren tots els vectors d'altres fitxers que quedin
-    fora del marc. En aquest cas, 'NomFitxer' ha de ser un fitxer VEC
-    de polígons. Per defecte val 0.</li>
-
-    <li>'Incloure' indica si cal incloure aquest marc en el fitxer
-    resultat. En cas de valer 0, el fitxer es fa servir com a límit de tall
-    però els seus elements no s'inclouen a la sortida. Per defecte val
-    1.</li>
-  </ul>Les seccions [FITXER_#] no cal que estigui ordenades (l'ordre
-  s'estableix en la clau 'Llista') o poden no estar presents a la
-  clau 'Llista' i en aquest cas els fitxers no s'usaran (compte,
-  doncs, a no oblidar la inclusió a la llista).
-
-  <p>En el següent exemple presentem un fitxer llista, amb un fitxer VEC i un
-  fitxer ARC. El fitxer ARC es processarà abans que el VEC.</p>
-
-  <h5>Exemple de format avançat</h5>
-  <pre>
+<pre>
 [FITXERS]
 Llista=2,1,3
 
@@ -317,31 +210,72 @@ NomCamp=ATRIBUT
 DescriptorCamp=Atribut
 Marc=1
 Incloure=1
+</pre>
 
-</pre>Si la clau Llista de [FITXERS] supera els 255 caràcters, és possible
-escriure la llista en diverses línies fent:
-  <pre>
+<p>Si la clau Llista de [FITXERS] supera els 255 caràcters, és possible escriure la llista en diverses línies fent:</p>
+
+<pre>
 [FITXERS]
 Llista=1,2,3,4,5,6,7,8,9,10,11,12
 Llista2=13,14,15,16,17,18,19,20,21,22,23,24
 Llista3=25,26
 ...
 </pre>
-  <hr/>
-   <h4>Com saber quin tipus d'algorisme utilitzar en l'opció 2? (modificador opcional /ALGORISME=)</h4>
-Trobareu més informació a sintaxi general.
-  <hr/>
-  Aquest programa suporta format REL v.4 i format ARC v. 1.1 amb o sense
-  coordenades 3D.
 
-  <p>Idrisi és un programari © de J.Ronald Eastman and Clark University.<br/>
-  MiraMon® és programari © de Xavier Pons.<br/></p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <center>
-    <a href="vecpnt.htm"><img src="vecpnt.gif"/></a><a href="ciclar.htm"><img src="ciclar.gif"/></a>
-  </center><!--
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2></div>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="LinArc_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg del LinArc.</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!-- <h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img width="75%" src="LinArc.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Exemple gràfic de l'aplicació LinArc.</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+    <!-- Aquí inicia la part corresponent a la sintaxi del miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi del miramon editable de el WPS.-->
+      <!-- $$EXCLUSIVA$$
+
+Per a obtenir l'ajuda completa escriviu:
+LinArc ?
+-->
+<p>Aquest programa suporta format REL v.4 i format ARC v. 1.1 amb o sense coordenades 3D.</p>
+<!--
          1         2         3         4         5         6         7        
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 --></a></p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+<p>Idrisi és un programari © de J.Ronald Eastman and Clark University.<br/>
+MiraMon® és programari © de Xavier Pons.<br/></p>
+</exclusiva>
 </body>
 </html>
