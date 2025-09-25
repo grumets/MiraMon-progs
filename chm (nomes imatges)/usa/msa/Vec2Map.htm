@@ -1,0 +1,136 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 25-09-2025 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>Vec2Map: Create an HTML map</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h1><a href="https://www.miramon.cat/Index_eng.htm" target="_blank"><img src="vecras.gif"></a>Vec2Map: Create an HTML map</h1>
+</li>
+</ul>
+</h1>
+<p><ul>
+<h4>Direct access to online <a href="https://www.miramon.cat/help/eng/" target="_blank">help</a>: <a href="https://www.miramon.cat/help/eng/msa/Vec2Map.htm" target="_blank"><font size="+2">Vec2Map</font></a></h4>
+<h4>Access the application from the menu: <i>"File | Internet/Intranet map publishing | Create an HTML map"</i></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentation" name="Presentation"></a>Presentation</h2>
+
+<p>This application generates a web page with an interactive image map from a VEC file of polygons, POL or PNT, and a raster image in GIF or JPG format. If working with a POL or PNT file, you can define the properties of the map's sensitive areas using metadata information.</p>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>Option 1, <b>from raster file</b>, is designed to take advantage of MiraMon digitizing functions to define active regions inside an image that will be included in an HTML page.
+First, it is needed to have the GIF or JPG raster image in which the active regions have to be defined. This image may be a screenshot in MiraMon of a small map. To obtain it, display the map with MiraMon, set the desired size using the zoom level and the application window size, capture the MiraMon screen with Alt+Print Screen, and paste it into an image-editing program such as Corel PhotoPaint or Adobe Photoshop. Alternatively, the image can be generated from the MiraMon print module by printing directly to a JPEG file. For thematic images it is recommended to save in GIF format, and for continuous images in JPG format. Also, a version in BMP or JPEG format has to be saved so that it can be opened in MiraMon. Make a note of the number of rows and columns of the raster image.</p>
+
+<p>Open the printed file in MiraMon with the Open raster option and digitize the desired active areas into a VEC polygon file with string attributes. As an attribute of each active area, provide the HTML link text followed by a comma and the link descriptor. This descriptor will be visible in some browsers when the mouse pointer hovers over the active area.</p>
+
+<p>Once the VEC file is complete, use this application to generate the web page. Then edit the HTML page with the usual code editor and add any additional content.</p>
+
+<p>Option 2, <b>from polygon file</b>, allows to work with a structured polygon vector .pol directly in ground coordinates (the file does not need to be digitized over the printed image in pixel coordinates, as in option 1). In this case, a JPEG file with a number of rows and columns small enough to be displayed comfortably in HTML, and georeferenced, is needed. MiraMon print application produces low-resolution, georeferenced JPEG files if a small number of rows and columns is specified. Note that sensitive areas can be overlapped. To do this, first generate the larger sensitive areas and then the smaller ones, saving them in different output files.</p>
+
+<p>Option 3, <b>from point file</b>, allows  to generate an interactive HTML image map from a structured point vector .pnt. The sensitive areas will be rectangular, with the desired height and width passed in the execution parameters Height and Width. As with option 2, it is possible to work with a PNT file directly in ground coordinates if the JPEG file is low-resolution and georeferenced. The Orientation parameter specifies where these rectangles are drawn relative to each point.</p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Dialog" name="Dialog"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="Vec2Map_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Vec2Map dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Syntax" name="Syntax"></a>Syntax</h2>
+
+VEC2MAP 1 Image OutputName NCols NRows.<br>
+VEC2MAP 2 PolygonFile Image OutputName [OptionalParameters]<br>
+VEC2MAP 3 PointFile Image OutputName Width Height Orientation [OptionalParameters]<br>
+
+<UL>
+   <LI>Option - Program mode.
+   <UL>
+      <LI>1: Generate the HTML image map from a VEC file (in pixel coordinates) digitized over a non-georeferenced JPEG or GIF (no J.rel).
+      <LI>2: Generate the HTML image map from a POL file (in ground coordinates) and a georeferenced JPEG (with J.rel) but with a pixel count small enough to fit on a screen.
+      <LI>3: Generate the HTML image map from a PNT file that specifies the JPEG or GIF icons to place on the screen.
+   </UL>
+  <LI>General parameters.
+   <UL>
+   <LI>Image: Name of the GIF or JPG raster file (with extension) to embed in the HTML page (for option 1, it is assumed there is a VEC polygon file with the same name).
+   <LI>PolygonFile: Name of the structured vector POL file.
+   <LI>OutputName: Name of the output HTML file (include extension).
+  </UL>
+  <LI>Parameters exclusive to options 2 and 3:
+    <ul>
+      <li> /ID  Value for the <strong>id</strong> property of each sensitive area. Its value is CadenaAccésCampDB4.</li>
+      <li> /HREF  Value for the <strong>href</strong> property of each sensitive area. Its value is CadenaAccésCampDB4.</li>
+      <li> /TITLE  Value for the <strong>title</strong> property of each sensitive area. Its value is CadenaAccésCampDB4.</li>
+      <li> /ALT  Value for the <strong>alt</strong> property of each sensitive area. Its value is CadenaAccésCampDB4.</li>
+      <li> /ONCLICK  Value for the <strong>onclick</strong> property of each sensitive area. Its value is CadenaAccésCampDB4.</li>
+      <li> /ONDBLCLICK Value for the <strong>ondblclick</strong> property of each sensitive area. Its value is CadenaAccésCampDB4.</li>
+      <li> /ONMOUSEOVER  Value for the <strong>onmouseover</strong> property of each sensitive area. Its value is CadenaAccésCampDB4.</li>
+    </ul>
+  <LI>Parameter exclusive to option 2:
+  <ul>
+    <li> /TOLERANCIA  Tolerance is used to remove redundant nearby vertices and thus reduce the size of the HTML file (default value: 3).</li>
+  </ul>
+
+  <LI>Parameters exclusive to option 3:
+  <ul>
+    <LI>PointFile: Name of the structured vector PNT file.
+    <LI>Height: Height in pixels of the rectangular sensitive area.
+    <LI>Width: Width of the rectangular sensitive area.
+    <LI>Orientation:
+     <ul>
+      <li>1: NW</li>
+      <li>2: NE</li>
+      <li>3: SW</li>
+      <li>4: SE</li>
+      <li>5: Center</li>
+     </ul>
+  </UL>
+  <LI>Parameters exclusive to option 1:
+  <UL>
+   <LI>NCols: Number of columns in the image.
+   <LI>NRows: Number of rows in the image.    
+  </UL>
+</UL>
+<!-- $$EXCLUSIVA$$
+
+To obtain the complete help, please type:
+Vec2Map ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
+</body>
+</html>
