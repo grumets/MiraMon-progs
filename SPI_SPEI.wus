@@ -172,6 +172,116 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SPI_SPEI:Param2:RAS&amp;Param4&amp;Param7</ows:Identifier>
+		<ows:Title>Computing of SPEI drought indices (raster mode)</ows:Title>
+		<ows:Abstract>Computing of SPEI drought indices (raster mode)</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Metode</ows:Identifier>
+				<ows:Title>Method</ows:Title>
+				<ows:Abstract><![CDATA[Calculation method: <ul><li>SPI_GAMMA for SPI set to a gamma function.</li><li>SPI_PEARSON for SPI set based on Pearson III.</le><li>SPEI_LLOG for SPEI adjusted based on a Logistic Log distribution.</li></ul>You can ask the program to fill in the lost values with an average between the two previous and next values by adding "_FS" to the name of the index you want to calculate.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Method"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>SPI_GAMMA</ows:Value>
+						<ows:Value>SPEI_LLOG</ows:Value>
+						<ows:Value>SPI_GAMMA_FS</ows:Value>
+						<ows:Value>SPEI_LLOG_FS</ows:Value>
+						<ows:Value>SPI_PEARSON_FS</ows:Value>
+						<ows:Value>SPI_PEARSON</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>SPI</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Mode</ows:Identifier>
+				<ows:Title>Mode</ows:Title>
+				<ows:Abstract><![CDATA[Mode:<ul><li>EST for Station</li><li>RAS for Rasters</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Mode"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EST</ows:Value>
+						<ows:Value>RAS</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>EST</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Prec</ows:Identifier>
+				<ows:Title>Precipitation file</ows:Title>
+				<ows:Abstract>Precipitation file corresponding to a file with a list of precipitation rasters in raster mode or a precipitation text file (and temperatures by the SPEI method) in station mode.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:PrecipFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Temp_ET</ows:Identifier>
+				<ows:Title>Temperature file or evapotranspiration</ows:Title>
+				<ows:Abstract>Text file with a list of temperature or evapotranspiration rasters (for SPEI method and raster mode only).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:TemFilep_ET"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>OpcioEvapo</ows:Identifier>
+				<ows:Title>Evapotranspiration option</ows:Title>
+				<ows:Abstract>This parameter is only used in the case of SPEI and in RASTER mode, and it is used to specify how ET is computed.  If no value is specified, or if ET_THORN_1948 is specified, the program assumes that the file llista_temp_o_ET.txt contains the list of rasters with temperature data, and PET is computed using the Thornthwaite (1948) method.  If ET_RASTER is specified, the program assumes that llista_temp_o_ET.txt contains the list of rasters where each cell directly contains ET data (for example, from MODIS, etc.) in mm/month. If more flexibility in the units is required, please write to suport@miramon.uab.cat</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:EvapoOption"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ET_THORN_1948</ows:Value>
+						<ows:Value>ET_RASTER</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>ET_THORN_1948</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIR</ows:Identifier>
+				<ows:Title>Output folder</ows:Title>
+				<ows:Abstract>Output folder where the result files will be saved. If not specified, they will be saved in the input file directory.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:DIR"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SPI_SPEI:Param2:EST&amp;!Param4</ows:Identifier>
 		<ows:Title>Computing of SPI and SPEI drought indices (station mode)</ows:Title>
 		<ows:Abstract>Computing of SPI and SPEI drought indices (station mode)</ows:Abstract>

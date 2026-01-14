@@ -172,6 +172,116 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SPI_SPEI:Param2:RAS&amp;Param4&amp;Param7</ows:Identifier>
+		<ows:Title>Cálculo de los índices de sequía SPEI (modo ráster)</ows:Title>
+		<ows:Abstract>Cálculo de los índices de sequía SPEI (modo ráster)</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Metode</ows:Identifier>
+				<ows:Title>Método</ows:Title>
+				<ows:Abstract><![CDATA[Método a calcular: <ul><li>SPI_GAMMA para SPI ajustado a una función gamma.</li><li> SPI_PEARSON para SPI ajustado en base a Pearson III.</ le><li> SPEI_LLOG para SPEI ajustado en base a una distribución Log Logística.</li></ul>Se puede pedir al programa que llene los valores perdidos con una media entre los dos valores anterior y posterior añadiendo "_FS" al nombre del índice que se quiere calcular.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Método"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>SPI_GAMMA</ows:Value>
+						<ows:Value>SPEI_LLOG</ows:Value>
+						<ows:Value>SPI_GAMMA_FS</ows:Value>
+						<ows:Value>SPEI_LLOG_FS</ows:Value>
+						<ows:Value>SPI_PEARSON_FS</ows:Value>
+						<ows:Value>SPI_PEARSON</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>SPI</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Mode</ows:Identifier>
+				<ows:Title>Modo</ows:Title>
+				<ows:Abstract><![CDATA[Modo:<ul><li>EST para Estación</li><li>RAS para Rásters</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Modo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EST</ows:Value>
+						<ows:Value>RAS</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>EST</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Prec</ows:Identifier>
+				<ows:Title>Fichero de precipitaciones</ows:Title>
+				<ows:Abstract>Fichero de precipitaciones que corresponde a un fichero con un listado de rásters de precipitaciones en el modo ráster o a un fichero de texto de precipitaciones (y temperaturas en el método SPEI) en el modo estación.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FichPrecip"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Temp_ET</ows:Identifier>
+				<ows:Title>Fichero de temperatura  o evapotranspiración</ows:Title>
+				<ows:Abstract>Fichero de texto con un listado de rásters de temperatura o de evapotranspiración (solo para el método SPEI y modo ráster).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FichTemp_ET"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>OpcioEvapo</ows:Identifier>
+				<ows:Title>Opción de evapotranspiración</ows:Title>
+				<ows:Abstract>Este parámetro solo se utiliza en el caso del SPEI y en modo RASTER, y sirve para especificar cómo se calcula la ET.  Si no se indica ningún valor, o se indica ET_THORN_1948, el programa asume que el fichero llista_temp_o_ET.txt contiene el listado de rásteres con datos de temperatura, y se calcula la ETP mediante el método de Thornthwaite de 1948.  Si se indica ET_RASTER, el programa asume que llista_temp_o_ET.txt contiene el listado de rásteres en los que cada celda contiene directamente datos de ET (por ejemplo, procedentes de MODIS, etc.) en mm/mes. Si se necesita mayor flexibilidad en las unidades, por favor, escriba a suport@miramon.uab.cat</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:OpcionEvapo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ET_THORN_1948</ows:Value>
+						<ows:Value>ET_RASTER</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>ET_THORN_1948</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIR</ows:Identifier>
+				<ows:Title>Directorio de salida</ows:Title>
+				<ows:Abstract>Directorio de salida donde se guardará los ficheros de resultados. En caso de que no se indique, se guardarán en el directorio del fichero de entrada.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:DIR"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SPI_SPEI:Param2:EST&amp;!Param4</ows:Identifier>
 		<ows:Title>Cálculo de los índices de sequía SPI y SPEI (modo estación)</ows:Title>
 		<ows:Abstract>Cálculo de los índices de sequía SPI y SPEI (modo estación)</ows:Abstract>

@@ -172,6 +172,116 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:SPI_SPEI:Param2:RAS&amp;Param4&amp;Param7</ows:Identifier>
+		<ows:Title>Càlcul dels índexs de sequera SPEI (mode ràster)</ows:Title>
+		<ows:Abstract>Càlcul dels índexs de sequera SPEI (mode ràster)</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Metode</ows:Identifier>
+				<ows:Title>Mètode</ows:Title>
+				<ows:Abstract><![CDATA[Mètode a calcular: <ul><li>SPI_GAMMA per a SPI ajustat a una funció gamma.</li><li> SPI_PEARSON per a SPI ajustat en base a Pearson III.</li><li> SPEI_LLOG per a SPEI ajustat en base a una distribució Log Logística.</li></ul>Es pot demanar al programa que ompli els valors perduts amb una mitjana entre els dos valors anterior i posterior afegint "_FS" al nom del l'índex que es vol calcular.]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Mètode"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>SPI_GAMMA</ows:Value>
+						<ows:Value>SPEI_LLOG</ows:Value>
+						<ows:Value>SPI_GAMMA_FS</ows:Value>
+						<ows:Value>SPEI_LLOG_FS</ows:Value>
+						<ows:Value>SPI_PEARSON_FS</ows:Value>
+						<ows:Value>SPI_PEARSON</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>SPI</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Mode</ows:Identifier>
+				<ows:Title>Mode</ows:Title>
+				<ows:Abstract><![CDATA[Mode:<ul><li>EST per a Estació</li><li>RAS per a Ràster</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Mode"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>EST</ows:Value>
+						<ows:Value>RAS</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>EST</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Prec</ows:Identifier>
+				<ows:Title>Fitxer de precipitacions</ows:Title>
+				<ows:Abstract>Fitxer de precipitacions que correspont a un fitxer amb un llistat de ràsters de precipitacions al mode ràster o a un fitxer de text de precipitacions (i temperatures pel mètode SPEI) al mode estació.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxPrecip"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Temp_ET</ows:Identifier>
+				<ows:Title>Fitxer de temperatura o evapotranspiració</ows:Title>
+				<ows:Abstract>Fitxer de text amb un llistat de ràsters de temperatura o d'evapotranspiració (solament pel mètode SPEI i mode ràster)</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FitxTemp_ET"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>OpcioEvapo</ows:Identifier>
+				<ows:Title>Opció d'evapotranspiració</ows:Title>
+				<ows:Abstract>Aquest paràmetre només s’utilitza en el cas de l’SPEI i en mode RASTER i serveix per especificar com es calcula l’ET.   Si no s’indica cap valor, o s’indica ET_THORN_1948, el programa assumeix que el fitxer llista_temp_o_ET.txt conté el llistat de ràsters amb dades de temperatura, i es calcula l’ETP mitjançant el mètode de Thornthwaite de 1948.  Si s’indica ET_RASTER, el programa assumeix que llista_temp_o_ET.txt conté el llistat de ràsters on cada cel·la conté directament dades d’ET (per exemple, procedents de MODIS, etc.) en mm/mes. Si es necessita més flexibilitat en les unitats, si us plau, escriviu a suport@miramon.uab.cat</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:OpcioEvapo"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>ET_THORN_1948</ows:Value>
+						<ows:Value>ET_RASTER</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>ET_THORN_1948</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>DIR</ows:Identifier>
+				<ows:Title>Directori de sortida</ows:Title>
+				<ows:Abstract>Directori de sortida on es desarà els fitxers de resultats. En cas que no s'indiqui, es desaran al directori del fitxer d'entrada.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:DIR"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SPI_SPEI:Param2:EST&amp;!Param4</ows:Identifier>
 		<ows:Title>Càlcul dels índexs de sequera SPI i SPEI (mode estació)</ows:Title>
 		<ows:Abstract>Càlcul dels índexs de sequera SPI i SPEI (mode estació)</ows:Abstract>
