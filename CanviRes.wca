@@ -5,7 +5,7 @@
 		<ows:Title>EXPANSIÓ</ows:Title>
 		<ows:Abstract>Es realitza per repetició dels valors del píxel en files i en columnes. El paràmetre CostatFinestra (o factor d'expansió) serà un nombre enter i positiu; p. ex. un valor 3 indica triplicar el nombre de files i de columnes (i fer el fitxer 9 cops més gran en nombre de cel·les).</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Canvi de costat de píxel en ràsters (múltiples exactes)"/>
-		<ows:Metadata xlink:title="Abstract:Aquesta aplicació canvia el costat del píxel d&apos;un ràster sense canviar l&apos;origen de la malla."/>
+		<ows:Metadata xlink:title="Abstract:Aquesta aplicació canvia el costat del píxel d&apos;un ràster sense canviar l&apos;origen de la malla. El canvi de costat del píxel es pot efectuar per expansió o per contracció dels píxels originals."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerOrigen</ows:Identifier>
@@ -300,6 +300,66 @@
 						</Format>
 					</Supported>
 				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CanviRes:Param2</ows:Identifier>
+		<ows:Title>CREACIÓ DE PIRÀMIDE DE GENERALITZACIÓ</ows:Title>
+		<ows:Abstract><![CDATA[Al directori de sortida es generen diversos fitxers resultants de successives contraccions del ràster amb diferents nivells de generalització. D’aquesta manera, es creen diverses imatges derivades amb el nom del fitxer original i un prefix que identifica el nivell de generalització, des del nivell 0 fins que la imatge resultant té menys de 768 files o menys de 1024 columnes. Aquest procés es realitza automàticament utilitzant els paràmetres següents:    <ul>    <li>Per a dades categòriques: moda, seleccionant el valor més petit en cas d’empat.</li>    <li>Per a dades quantitatives contínues: mediana, calculada com la mitjana dels dos valors centrals quan correspon.</li>    <li>El valor <i>sensedades</i> s’assigna sempre que és majoritari.</li>  </ul>    <p>Aquests fitxers són utilitzats pel MiraMon per optimitzar la visualització de les imatges ràster. Quan el programa detecta el directori de generalització (amb el mateix nom que el fitxer original i el sufix <i>_General</i>), utilitza automàticament les imatges generades per representar el ràster amb una major rapidesa i eficiència.</p>]]></ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fitxer origen</ows:Title>
+				<ows:Abstract>Fitxer ràster origen.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:FitxerOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>image/jpeg</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CREA_PIRAMIDE</ows:Identifier>
+				<ows:Title>CREA_PIRAMIDE</ows:Title>
+				<ows:Abstract>Es genera una piràmide de generalitzacions en el directori de sortida.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>DirectoriDesti</ows:Identifier>
+				<ows:Title>Directori de destí</ows:Title>
+				<ows:Abstract>Directori on s'escriuen els diferents nivells de generalització</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:DirectoriDesti"/>
+				<LiteralOutput>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralOutput>
 			</Output>
 		</ProcessOutputs>
 	</ProcessDescription>
