@@ -1,43 +1,50 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió XX 00-00-0000 */-->
+<!--/* Revisió AA 30-07-2024 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-<title>GenVPnt: %TITOL%</title>
+<title>GenVPnt: Point generalization</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
 <a id="MENU" name="MENU"></a>
-<!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <p><ul>
-<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/GenVPnt.htm" target="_blank"><font size="+2">GenVPnt</font></a></h4>
+<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/GenVPnt.htm" target="_blank"><font size="+2">GenVPnt</font></a></h4>
+<h4>Access the application from the menu: <i>"Tools | Cartographic generalization | Vector | Point generalization"</i><br>
 </ul></p>
-<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
 <hr>
 <table width="98%">
 <tr align="center" valign="middle">
-	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
-	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
 </tr>
 <tr align="center" valign="middle">
-	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>
-	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
 </tr>
 </table>
 <hr>
 
-<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
-<p>[Omplir amb la introducció (català)]</p>
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+<p>This application allows the generalization of a point file. The following options are available:</p>
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-<p>[Omplir amb l'explicació de l'apartat Presentació i opcions(català)]</p>
+<p>For the point file generalization option, the input file, in PNT format, the desired point density for the generalized file, and the output file, which must also be in PNT format, must be specified. The specified point density must be lower than the point density of the input file.</p>
+
+<p>For the option to create a point file generalization pyramid, only the input file, in PNT format, needs to be specified. If a generalization pyramid is required, the application will create a folder named after the input file, without its extension, followed by the suffix T_General (T indicates that it corresponds to a point file and General identifies the generalization folder). Within this folder, one or more generalized files will be created using the prefix #_, where # is the pyramid level number, starting at 0. At each level, a generalization will be applied to produce a point density three times lower than that of the previous level.</p>
+
+<p>The process used to generate a generalized file is the same both for the point file generalization option and for the creation of each level of the pyramid. Based on the file extent and its point density, calculated from the file extent and the number of points, a virtual grid of geographic cells is created. The coordinates of each point are then read, and the corresponding grid cell is determined. If no point has yet been selected for that cell, the point is written to the output file. Otherwise, it is discarded and the process continues with the next point. The process ends when one point has been selected for every grid cell or when all points in the source file have been processed. As a result of the generalization process, the point density of the generalized file will generally be slightly lower than the desired point density.<br>
+The generated files retain the same metadata as the original file, including the coordinate reference system, symbology, and other associated information.
+</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
 
 <div align="center">
 <table>
@@ -45,7 +52,7 @@
 <td><div align="center"><img src="GenVPnt_finestra.png"></div></td>
 </tr>
 <tr>
-<td align="center">Caixa de diàleg de ...</td>
+<td align="center">GenVPnt dialog box</td>
 </tr>
 </table>
 </div>
@@ -53,22 +60,30 @@
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+<h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
 
-<p>[Omplir amb l'explicació de l'apartat d'exemples (català)]</p>
+<div align="center"><img id="_x0000_i1025" src="GenVPnt_captura1.png" width="800"/>
+<br>Example of point file generalization
+</div>
+
+<p>Examples of syntax:</p>
+
+<pre>GenVPnt 4 D:\FitxerOrigen.pnt /CREA_PIRAMIDE</pre>
+<pre>GenVPnt 4 D:\FitxerOrigen.pnt D:\FitxerOrigenT_General /CREA_PIRAMIDE</pre>
+<pre>GenVPnt 4 D:\FitxerOrigen.pnt D:\FitxerGeneralitzat.pnt 2.951</pre>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
   <hr/>
 
- <exclusiva>
-<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
 
- <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 <p>
 <!-- $$EXCLUSIVA$$
-Per a obtenir l'ajuda completa escriviu:
+To obtain the complete help, please type:
 GenVPnt ?
 -->
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
