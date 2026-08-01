@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:LinArc:Param01:1</ows:Identifier>
+		<ows:Identifier>MiraMon:LinArc:1</ows:Identifier>
 		<ows:Title>D'ARC a VEC (opció 1)</ows:Title>
-		<ows:Abstract>Converteix una família ARC, de fitxers d'arcs topològicament estructurats, a un fitxer VEC, que és un fitxer ASCII amb línies que no presenten relacions topològiques explícites. L'atribut del fitxer resultant pot ser l'identificador gràfic, un atribut constant o un camp de la base de dades del fitxer ARC (A.REL i A.DBF). El programa suporta que existeixi més d'un registre de la base de dades per cada element gràfic, i en aquest cas escriu tants vectors coincidents com registres existeixen per a aquell element gràfic; cada vector tindrà un dels múltiples atributs.</ows:Abstract>
+		<ows:Abstract>Converteix un fitxer ARC, topològicament estructurat, a un fitxer VEC, que és un fitxer ASCII amb línies que no presenten relacions topològiques explícites. L'atribut del fitxer resultant pot ser l'identificador gràfic, un atribut constant o un camp de la base de dades del fitxer ARC (A.REL i A.DBF). El programa suporta que existeixi més d'un registre de la base de dades per cada element gràfic, i en aquest cas escriu tants vectors coincidents com registres existeixen per a aquell element gràfic; cada vector tindrà un dels múltiples atributs.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Estructuració topològica de línies i conversions entre fitxers ARC/NOD i VEC"/>
 		<ows:Metadata xlink:title="Abstract:Aquesta aplicació fa la transformació entre fitxers vectorials de línies de tipus VEC i fitxers ARC i NOD del format vectorial estructurat Top-MM. Ambdós formats són suportats per MiraMon. Els fitxers VEC són un superconjunt dels fitxers VEC ASCII d&apos;Idrisi."/>
 		<DataInputs>
@@ -146,8 +146,8 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:LinArc:Param01:2</ows:Identifier>
-		<ows:Title>De VEC/ARC a ARC/NOD (opció 2)</ows:Title>
+		<ows:Identifier>MiraMon:LinArc:2</ows:Identifier>
+		<ows:Title>De VEC/ARC a ARC creant topologia (opció 2)</ows:Title>
 		<ows:Abstract>Estructura topològicament, creant nodes on intersequen els arcs i connectant aquells que estan per sota del límit de la tolerància. Posteriorment desa una família topològica ARC/NOD. Els fitxers origen poden ser un sol fitxer VEC, un sol fitxer ARC o un conjunt de fitxers VEC i ARC, explicitats en una fitxer llista. Aquesta darrera possibilitat permet la superposició (overlay) de capes d'arcs. Els camps de la base de dades originals es combinen en la taula de sortida A.dbf, fusionant-se en un de sol quan tenen el mateix nom (promocionant-se a un tipus i mida compatible entre ells) o restant com a camps separats en cas de tenir noms diferents. Els camps de les possibles bases de NODES originals no s'hereten a la de sortida. Un fitxer VEC és tractat com una base de dades d'un sol camp del tipus indicat en el seu fitxer de documentació o amb el nom del camp que figura en la línia de comanda o en la llista.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -196,12 +196,13 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>T_Arc</ows:Identifier>
 				<ows:Title>Tolerància entre arcs</ows:Title>
-				<ows:Abstract>Distància que un vèrtex es moure (fig 1.b1) o un segment es pot doblegar, generant-se un nou vèrtex (fig 2.b2) per connectar amb un altre. (Implica una relació entre un arc i els altres.)</ows:Abstract>
+				<ows:Abstract>Distància que un vèrtex es moure (fig 1.b1) o un segment es pot doblegar, generant-se un nou vèrtex (fig 2.b2) per connectar amb un altre. (Implica una relació entre un arc i els altres).</ows:Abstract>
 				<ows:Metadata xlink:title="Param04"/>
 				<ows:Metadata xlink:title="Name:T_Arc"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -213,6 +214,7 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+					<DefaultValue>Atribut</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -224,6 +226,7 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+					<DefaultValue>ATRIBUT</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -235,6 +238,7 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -246,6 +250,7 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -257,6 +262,7 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -268,6 +274,7 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -279,6 +286,7 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
+					<DefaultValue>0</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -333,9 +341,9 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:LinArc:Param01:3</ows:Identifier>
-		<ows:Title>De VEC a ARC/NOD (opció 3)</ows:Title>
-		<ows:Abstract>Converteix del format VEC a una família topològica ARC/NOD. Aquesta opció treballa igual que l'anterior excepte que no té lloc cap fase d'estructuració topològica. L'únic canvi en la geometria del fitxer original és el següent: donats dos nodes a distància inferior a la tolerància, es consideraran el mateix node; la posició del segon node coincident es modificarà igualant-la a la del primer.</ows:Abstract>
+		<ows:Identifier>MiraMon:LinArc:3</ows:Identifier>
+		<ows:Title>De VEC a ARC (opció 3)</ows:Title>
+		<ows:Abstract>Converteix del format VEC a un ARC (i NOD). Aquesta opció treballa igual que l'anterior excepte que no té lloc cap fase d'estructuració topològica. L'únic canvi en la geometria del fitxer original és el següent: donats dos nodes a distància inferior a la tolerància, es consideraran el mateix node; la posició del segon node coincident es modificarà igualant-la a la del primer.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -506,8 +514,8 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:LinArc:Param01:4</ows:Identifier>
-		<ows:Title>Fusiona (opció 4)</ows:Title>
+		<ows:Identifier>MiraMon:LinArc:4</ows:Identifier>
+		<ows:Title>Fusiona arcs (opció 4)</ows:Title>
 		<ows:Abstract>Fusiona parelles d'arcs amb els seus atributs temàtics iguals que comparteixen un node i, alhora, cap més arc no coincideix en el node. Aquesta operació no realitza cap estructuració topològica (no parteix arcs, ni realitza connexions, etc). Sol ser convenient en importar fitxers d'altres formats que presenten limitacions en el nombre de vèrtexs per objecte i es veuen obligats a fer més d'un objecte per tira de vèrtexs ja que en no haver-hi en MiraMon pràcticament cap limitació pel que fa al nombre de vèrtexs per arc, és conceptualment millor unir els arcs contigus; observeu que una estructuració convencional podria generar interseccions no desitjades (per exemple carreteres a dos nivells que passessin a tenir un encreuament a nivell).</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -571,8 +579,8 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:LinArc:Param01:5</ows:Identifier>
-		<ows:Title>Anáslisi de distàncies mínimes (opció 5)</ows:Title>
+		<ows:Identifier>MiraMon:LinArc:5</ows:Identifier>
+		<ows:Title>Anàlisi de distàncies mínimes (opció 5)</ows:Title>
 		<ows:Abstract>Analitza les distàncies mínimes locals entre arcs. Genera una taula que pot ser representada en forma d'histograma de freqüències de distàncies mínimes; útil per determinar els llindars de tolerància d'arcs que cal aplicar en l'opció 2. També genera un fitxer VEC de segments (línies) que uneixen els punts entre els diferents arcs que estan a distàncies mínimes compreses entre LlindarMinim i LlindarMaxim. Aquest fitxer permet veure representats tots el moviments que es produiran entre els arcs en aplicar l'opció 2 i determinar el percentatge d'errors resolts correctament de manera automàtica.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
