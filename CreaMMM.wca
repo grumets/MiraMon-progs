@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:CreaMMM:Param1:1</ows:Identifier>
-		<ows:Title>CreaMMM 1</ows:Title>
-		<ows:Abstract>Programa per a crear mapes de MiraMon (format MMM) de manera ràpida i en línia de comanda, on  el nombre i ordre de les capes és constant però canvien els noms de les capes.</ows:Abstract>
-<ows:Metadata xlink:title="Title:Creació automàtica de mapes i sèries cartogràfiques" />
-<ows:Metadata xlink:title="Abstract:Programa per a crear mapes de MiraMon (format MMM) de manera ràpida i en línia de comanda." />
+		<ows:Identifier>MiraMon:CreaMMM:1</ows:Identifier>
+		<ows:Title>Crear mapa (opció 1)</ows:Title>
+		<ows:Abstract>Programa per a crear un mapa de MiraMon (format MMM) de manera ràpida i en línia de comanda, on el nombre i ordre de les capes és constant però canvien els noms de les capes.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Creació automàtica de mapes i sèries cartogràfiques" />
+		<ows:Metadata xlink:title="Abstract:Programa per a crear mapes de MiraMon (format MMM) de manera ràpida i en línia de comanda." />
 		<DataInputs>
-	<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opció</ows:Title>
 				<ows:Abstract>1. Els noms de les capes i alguns paràmetres de visualització s'indiquen en línia de comanda.</ows:Abstract>
@@ -17,14 +17,15 @@
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
 						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>					
-	<Input minOccurs="0" maxOccurs="1">
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PlantillaMMM</ows:Identifier>
 				<ows:Title>Plantilla MMM</ows:Title>
 				<ows:Abstract>Mapa de MiraMon que serveix de plantilla per tot allò que no genera el programa. Si no es vol plantilla es pot indicar NUL (només a l'opció 1).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3" />
-			<ComplexData>
+				<ComplexData>
 					<Default>
 						<Format>
 							<MimeType>application/x-mmm</MimeType>
@@ -37,38 +38,20 @@
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
-		</ComplexData>
+				</ComplexData>
 			</Input>
-	<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>NUL</ows:Identifier>
-				<ows:Title>No Plantilla</ows:Title>
-				<ows:Abstract>Si no es vol plantilla es pot indicar NUL (només a l'opció 1).</ows:Abstract>
-			<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-			</Input>	
-	<Input minOccurs="1" maxOccurs="10">
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Capes</ows:Identifier>
 				<ows:Title>Capes</ows:Title>
-				<ows:Abstract>Representa la descripció de cada capa. Es situen una darrera l'altre. Tots els noms de fitxer de les capes van amb extensió.<![CDATA[ <ul><li>Per ràsters RGB cal indicar els noms dels 3 fitxers IMG un darrere l'altre.</li><li>Per ràsters amb paleta cal el nom del fitxer ràster seguit de la
-          paleta o NUL si no hi ha paleta.</li><li>Per ràsters JPEG cal el nom del fitxer ràster.</li><li>Per fitxers de punts o nodes cal indicar el nom del fitxer de
-          punts.</li><li>Per fitxers de línies o arcs cal indicar el nom del fitxer de
-          línies o arcs i la paleta o combinació RGB per a color constant
-          (p.ex 255,0,255).</li><li>Per fitxers de polígons cal indicar el nom del fitxer de
-          polígons seguit de la paleta o combinació RGB per l'interior o
-          NUL per a no omplir interiors seguit d'una combinació RGB per
-          les vores o NUL per indexar per la mateixa paleta que
-          l'interior.</li><li>Per a fitxers de sèries cartogràfiques cal indicar el nom del
-          fitxer gràfic i el nom del REL de la sèrie. (<a href="#SeriesCarto">Vegeu nota sobre sèries cartogràfiques</a>)</li></ul>]]></ows:Abstract>
-		<ComplexData>
-				<Default>
+				<ows:Abstract>Nom de la capa. El patró "Capa Paleta PaletaInterior" poy repetir-se tantes vegades como capes a incloure</ows:Abstract>
+				<ows:Metadata xlink:title="Param4" />
+				<ComplexData>
+					<Default>
 						<Format>
 							<MimeType>application/x-arc</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
-						</Default>
+					</Default>
 					<Supported>
 						<Format>
 							<MimeType>application/x-arc</MimeType>
@@ -91,58 +74,50 @@
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
-		</ComplexData>
-		</Input>
-	<Input minOccurs="0" maxOccurs="10">
-				<ows:Identifier>Paletes</ows:Identifier>
-				<ows:Title>Paletes</ows:Title>
-				<ows:Abstract>Per ràsters amb paleta cal el nom del fitxer ràster seguit de la paleta o NUL si no hi ha paleta.
-				</ows:Abstract>
-		<ComplexData>
-				<Default>
-						<Format>
-							<MimeType>application/x-pal</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-						</Default>
-					<Supported>
-						<Format>
-							<MimeType>application/x-pal</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-						<Format>
-							<MimeType>application/x-dbf</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-						<Format>
-							<MimeType>application/x-p25</MimeType>
-							<Encoding>Binary</Encoding>
-						</Format>
-					</Supported>
-		</ComplexData>
-		</Input>
-	<Input minOccurs="0" maxOccurs="1">
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Paleta</ows:Identifier>
+				<ows:Title>Paleta</ows:Title>
+				<ows:Abstract>Paleta de colors, un color RGB (3 números separats per coma sense espais) o NUL si no es requereix paleta.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<DefaultValue>NUL</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>PaletaInterior</ows:Identifier>
+				<ows:Title>Paleta per omplir interiors</ows:Title>
+				<ows:Abstract>Paleta de colors per omplir l'interior de polígons, un color RGB (3 números separats per coma sense espais) o NUL si no es requereix paleta.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6" />
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<DefaultValue>NUL</DefaultValue>
+				</LiteralData>			
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TITOL</ows:Identifier>
 				<ows:Title>Titol</ows:Title>
 				<ows:Abstract>És el títol del mapa. Si no s'indica, es pren del títol de la primera capa. 
 				</ows:Abstract>
-		<LiteralData>
-		<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
-		</Input>
-	<Input minOccurs="0" maxOccurs="1">
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VERIFICA</ows:Identifier>
 				<ows:Title>Verifica</ows:Title>
 				<ows:Abstract>Indica que cal verificar l'existència de la capa. En l'opció 1, i en cas de haver-hi plantilla, el programa plega; si no hi ha plantilla el programa es queixa però es deixa continuar; pels fitxers de tipus VEC, el programa verifica sempre l'existència del fitxer i plega si no el troba perquè necessita llegir el fitxer de documentació per identificar-ne el tipus.
 				</ows:Abstract>
-			<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
 					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
-		</Input>
-	</DataInputs>	
+			</Input>
+		</DataInputs>	
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>NouMMM</ows:Identifier>
@@ -168,11 +143,11 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:CreaMMM:Param1:2</ows:Identifier>
-		<ows:Title>CreaMMM 2</ows:Title>
+		<ows:Identifier>MiraMon:CreaMMM:2</ows:Identifier>
+		<ows:Title>Crear séries de mapes (opció 2)</ows:Title>
 		<ows:Abstract>Opció pensada per treballar amb cartogràfiques on els noms de fitxers són fixos (canviant el directori o les primeres lletres del nom, per exemple per a indicar el full de què es tracta) però poden faltar algunes capes per alguns mapes de la sèrie (per exemple un full petit on no apareix cap línia elèctrica).</ows:Abstract>
 		<DataInputs>
-<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opció 2</ows:Title>
 				<ows:Abstract>2. Els noms de les capes i alguns paràmetres de visualització s'indiquen en línia de comanda.</ows:Abstract>
@@ -182,6 +157,7 @@
 						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
 						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
 				</LiteralData>
 			</Input>		
 			<Input minOccurs="0" maxOccurs="1">
@@ -189,7 +165,7 @@
 				<ows:Title>Plantilla MMM</ows:Title>
 				<ows:Abstract>Mapa de MiraMon que serveix de plantilla per tot allò que no genera el programa. Si no es vol plantilla es pot indicar NUL (només a l'opció 1).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
-			<ComplexData>
+				<ComplexData>
 					<Default>
 						<Format>
 							<MimeType>application/x-mmm</MimeType>
@@ -202,57 +178,48 @@
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
-		</ComplexData>
+				</ComplexData>
 			</Input>
-				<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>NUL</ows:Identifier>
-				<ows:Title>No Plantilla</ows:Title>
-				<ows:Abstract>Si no es vol plantilla es pot indicar NUL (només a l'opció 1).</ows:Abstract>
-			<LiteralData>
-					<ows:AllowedValues>	<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType><ows:Value>##blank##</ows:Value></ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-			</Input>	
-		<Input minOccurs="0" maxOccurs="1">
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TextABuscar</ows:Identifier>
 				<ows:Title>Text a buscar</ows:Title>
 				<ows:Abstract>Text a buscar dins el path del nom de la capa en el mapa plantilla. Si no desitgeu buscar res, indiqueu una cadena impossible de trobar.
 				</ows:Abstract>
-		<LiteralData>
+				<LiteralData>
 					<ows:AnyValue/>
 				</LiteralData>
-		</Input>
-		<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>TextSubstituit </ows:Identifier>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>TextSubstituit</ows:Identifier>
 				<ows:Title>Text Substituït</ows:Title>
 				<ows:Abstract>Text substituït dins el path del nom de la capa en el nou mapa. 
 				</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
-		</Input>
-		<Input minOccurs="0" maxOccurs="1">
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TITOL</ows:Identifier>
 				<ows:Title>Titol</ows:Title>
 				<ows:Abstract>És el títol del mapa. Si no s'indica, es pren del títol de la primera capa. 
 				</ows:Abstract>
-		<LiteralData>
-			<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
-		</Input>
-		<Input minOccurs="0" maxOccurs="1">
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VERIFICA</ows:Identifier>
 				<ows:Title>Verifica</ows:Title>
 				<ows:Abstract>Indica que cal verificar l'existència de la capa. En l'opció 2, si la capa no existeix no s'inclou en el mapa i es continua. 
 				</ows:Abstract>
-		<LiteralData>
+				<LiteralData>
 					<ows:AllowedValues>	<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType><ows:Value>##blank##</ows:Value></ows:AllowedValues>
 					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
-		</Input>
-	</DataInputs>	
+			</Input>
+		</DataInputs>	
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>NouMMM</ows:Identifier>
