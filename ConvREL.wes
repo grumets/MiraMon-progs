@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:ConvREL:1:1</ows:Identifier>
-		<ows:Title>ConvREL 1</ows:Title>
-		<ows:Abstract>La  opción 1 transforma REL4 en doc/dv? + REL1.</ows:Abstract>
+		<ows:Identifier>MiraMon:ConvREL:1</ows:Identifier>
+		<ows:Title>De REL4 a DOC/DVC+REL1 (Opción 1)</ows:Title>
+		<ows:Abstract>Transforma REL4 en doc/dv? + REL1.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Conversión de capas entre formatos 1 y 4 de MiraMon"/>
 		<ows:Metadata xlink:title="Abstract:Este programa transforma las relaciones entre tablas, los metadatos y la simbolización a la versión 4/5 desde versiones anteriores. También permite el retorno a versiones anteriores con características limitadas. La opción 4 REQUIERE MM32.exe versión 4.0vt o superior para migrar la simbolización. Asimismo, permite la fusión de n bandas en un único ràster multibanda (de formato REL4), y su acción inversa, emancipar una o todas las bandas de un fichero multibanda (de formato REL4)."/>
 		<DataInputs>
@@ -18,6 +18,7 @@
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
@@ -147,8 +148,8 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:ConvREL:1:4</ows:Identifier>
-		<ows:Title>ConvREL 4</ows:Title>
+		<ows:Identifier>MiraMon:ConvREL:4</ows:Identifier>
+		<ows:Title>De DOC/DVC+REL1 a REL4 (Opción 4)</ows:Title>
 		<ows:Abstract>Transforma un doc/dv? + REL1 en un REL4 con metadatos versión 5. La opción 4 REQUEREIX de MM32.exe versión 4.0vt o superior para migrar la simbolitzación.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -158,16 +159,19 @@
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>4</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>4</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Fichero/Directorio</ows:Identifier>
-				<ows:Title>Fichero</ows:Title>
+				<ows:Identifier>FitxerDirectori</ows:Identifier>
+				<ows:Title>Fichero/Directorio</ows:Title>
 				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero que es necesario convertir.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDirectorio"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -237,14 +241,13 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMBOLITZACIO</ows:Identifier>
-				<ows:Title>Impedeix la transformació de la simbolització</ows:Title>
-				<ows:Abstract>Impide la transformación de la simbolización de un REL o la simbolización común a una serie cartográfica. Útil en algunos casos donde no sea posible la llamada interna al programa MiraMon. Solamente aplica en la opción 4.</ows:Abstract>
+				<ows:Title>Impide la transformación de la simbolitzación</ows:Title>
+				<ows:Abstract>SIMBOLITZACIO=0 impide la transformación de la simbolización de un REL o la simbolización común a una serie cartográfica. Útil en algunos casos donde no sea posible la llamada interna al programa MiraMon. Solamente aplica en la opción 4.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>##blank##</ows:Value>
+						<ows:Value>0</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -262,9 +265,11 @@
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>Fichero/Directorio</ows:Identifier>
+				<ows:Identifier>FitxerDirectori</ows:Identifier>
 				<ows:Title>Fichero/Directorio</ows:Title>
-				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero convertidos.</ows:Abstract>
+				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero que es necesario convertir.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDirectorio"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -299,8 +304,8 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:ConvREL:1:7</ows:Identifier>
-		<ows:Title>ConvREL 7</ows:Title>
+		<ows:Identifier>MiraMon:ConvREL:7</ows:Identifier>
+		<ows:Title>De REL5 a REL4.5 (opción 7)</ows:Title>
 		<ows:Abstract>Transformar un REL4 con metadatos versión 5.0 a REL4 con metadatos versión 4.5.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -314,13 +319,15 @@
 					<ows:AllowedValues>
 						<ows:Value>7</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>7</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Fichero/Directorio</ows:Identifier>
+				<ows:Identifier>FitxerDirectori</ows:Identifier>
 				<ows:Title>Fichero</ows:Title>
 				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero que es necesario convertir.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDirectorio"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -390,14 +397,13 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMBOLITZACIO</ows:Identifier>
-				<ows:Title>Impide la transformación de la simbolitzacion</ows:Title>
-				<ows:Abstract>Impide la transformación de la simbolización de un REL o la simbolización común a una serie cartográfica. Útil en algunos casos donde no sea posible la llamada interna al programa MiraMon. Solamente aplica en la opción 4.</ows:Abstract>
+				<ows:Title>Impide la transformación de la simbolitzación</ows:Title>
+				<ows:Abstract>SIMBOLITZACIO=0 impide la transformación de la simbolización de un REL o la simbolización común a una serie cartográfica. Útil en algunos casos donde no sea posible la llamada interna al programa MiraMon. Solamente aplica en la opción 4.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>##blank##</ows:Value>
+						<ows:Value>0</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -415,9 +421,11 @@
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>Ficher/Directorio</ows:Identifier>
-				<ows:Title>Fichero/Directorio</ows:Title>
-				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero convertidos.</ows:Abstract>
+				<ows:Identifier>FitxerDirectori</ows:Identifier>
+				<ows:Title>Fichero</ows:Title>
+				<ows:Abstract>Es el nombre de la capa (no del REL o el doc/dv?) o del fichero que es necesario convertir.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroDirectorio"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -452,7 +460,7 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:ConvREL:1:5</ows:Identifier>
+		<ows:Identifier>MiraMon:ConvREL:5</ows:Identifier>
 		<ows:Title> ConvREL 5</ows:Title>
 		<ows:Abstract>Une en un solo REL multibanda n ficheros ráster.</ows:Abstract>
 		<DataInputs>
@@ -467,23 +475,25 @@
 					<ows:AllowedValues>
 						<ows:Value>5</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>5</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>FicheroLista </ows:Identifier>
+				<ows:Identifier>FitxerLlista</ows:Identifier>
 				<ows:Title>Fichero Lista </ows:Title>
 				<ows:Abstract>Es un fichero de texto que contiene una lista de los nombres de ficheros de los rásters a fusionar.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroLista"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>text/txt</MimeType>
+							<MimeType>text/plain</MimeType>
 							<Encoding>text</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>text/txt</MimeType>
+							<MimeType>text/plain</MimeType>
 							<Encoding>text</Encoding>
 						</Format>
 					</Supported>
@@ -518,8 +528,9 @@
 			<Output>
 				<ows:Identifier>REL</ows:Identifier>
 				<ows:Title>REL</ows:Title>
-				<ows:Abstract>Nombre de fichero REL multibanda fijado por el usuario. Si no se indica el programa decide el nombre de forma automática en función de los nombres de bandas a fusionar.
-				</ows:Abstract>
+				<ows:Abstract>Nombre de fichero REL multibanda fijado por el usuario. Si no se indica el programa decide el nombre de forma automática en función de los nombres de bandas a fusionar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:REL"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -538,8 +549,8 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:ConvREL:1:6</ows:Identifier>
-		<ows:Title> ConvREL 6</ows:Title>
+		<ows:Identifier>MiraMon:ConvREL:6</ows:Identifier>
+		<ows:Title>Multibanda a n RELs (opción 6)</ows:Title>
 		<ows:Abstract>Emancipa todas les bandas de un REL multibanda.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -553,13 +564,15 @@
 					<ows:AllowedValues>
 						<ows:Value>6</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>6</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerREL</ows:Identifier>
 				<ows:Title>Fitxer REL</ows:Title>
 				<ows:Abstract>Es el nombre del rel multibanda a emancipar.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroREL"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -578,11 +591,12 @@
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FicheroREL</ows:Identifier>
+				<ows:Identifier>FitxerREL</ows:Identifier>
 				<ows:Title>Fichero REL</ows:Title>
 				<ows:Abstract>És el nombre del rel multibanda a emancipado.
 				</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroREL"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -601,8 +615,8 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:ConvREL:1:9</ows:Identifier>
-		<ows:Title> ConvREL 9</ows:Title>
+		<ows:Identifier>MiraMon:ConvREL:9</ows:Identifier>
+		<ows:Title>Emancipa una capa de un multibanda (opción 9)</ows:Title>
 		<ows:Abstract>Emancipa una de las bandas de un REL multibanda.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -616,24 +630,26 @@
 					<ows:AllowedValues>
 						<ows:Value>9</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>9</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>FicheroIMG</ows:Identifier>
+				<ows:Identifier>FitxerIMG</ows:Identifier>
 				<ows:Title>Fichero IMG</ows:Title>
 				<ows:Abstract>Nombre del fichero IMG multibanda fijado por el usuario.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroIMG"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/rel</MimeType>
-							<Encoding>text</Encoding>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binari</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/rel</MimeType>
-							<Encoding>text</Encoding>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binari</Encoding>
 						</Format>
 					</Supported>
 				</ComplexData>
@@ -641,22 +657,23 @@
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FicheroIMG </ows:Identifier>
+				<ows:Identifier>FitxerIMG</ows:Identifier>
 				<ows:Title>Fichero IMG</ows:Title>
 				<ows:Abstract>Nombre del fichero IMG multibanda fijado por el usuario.
 				</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroIMG"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>application/rel</MimeType>
-							<Encoding>text</Encoding>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binari</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/rel</MimeType>
-							<Encoding>text</Encoding>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binari</Encoding>
 						</Format>
 					</Supported>
 				</ComplexOutput>
@@ -664,8 +681,8 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:ConvREL:1:10</ows:Identifier>
-		<ows:Title> ConvREL 10</ows:Title>
+		<ows:Identifier>MiraMon:ConvREL:10</ows:Identifier>
+		<ows:Title>Emancipa una capa de una serie (opción 10)</ows:Title>
 		<ows:Abstract>Emancipa una capa de las series cartográficas a las que pertenece, heredando la información de la series.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -675,16 +692,19 @@
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>10</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>10</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>FicheroRELOrigen</ows:Identifier>
+				<ows:Identifier>FitxerRELorigen</ows:Identifier>
 				<ows:Title>Fichero REL Origen</ows:Title>
 				<ows:Abstract>Es la dirección y el nombre del REL a emancipar de la serie cartográfica.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroRELOrigen"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
 					<ows:AnyValue/>
@@ -693,10 +713,11 @@
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FicheroRELDestino</ows:Identifier>
+				<ows:Identifier>FitxerRELDesti</ows:Identifier>
 				<ows:Title>Fichero REL Destino</ows:Title>
 				<ows:Abstract>Es la dirección y el nombre de la capa emancipada de la serie. Es un parámetro optativo, en caso de no indicar ningún nombre del REL destino se sobrescribirá el REL de origen.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroRELOrigen"/>
 				<LiteralOutput>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#anyURI">anyURI</ows:DataType>
 				</LiteralOutput>

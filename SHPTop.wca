@@ -2,15 +2,15 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SHPTop:Param1:0</ows:Identifier>
-		<ows:Title>Informació SHP</ows:Title>
-		<ows:Abstract>L'opció 0 mostra informació sobre el fitxer SHP.</ows:Abstract>
-		<ows:Metadata xlink:title="Title:Conversió entre fitxers vectorials SHP i els formats del MiraMon"/>
+		<ows:Title>Informació sobre el Shapefile</ows:Title>
+		<ows:Abstract>Mostra informació sobre el fitxer SHP.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Conversió entre els fitxers Shapefile d'ESRI i els formats vectorials del MiraMon"/>
 		<ows:Metadata xlink:title="Abstract:Aquesta aplicació converteix un fitxer SHP (Shapefile) d&apos;ArcView al format topològic de MiraMon (PNT, ARC/NOD, POL) i vice-versa."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>Informació</ows:Abstract>
+				<ows:Abstract>Informació sobre el shapefile</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcio"/>
 				<LiteralData>
@@ -18,6 +18,7 @@
 					<ows:AllowedValues>
 						<ows:Value>0</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
@@ -29,13 +30,13 @@
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/octet-stream</MimeType>
+							<MimeType>application/vnd.shp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/octet-stream</MimeType>
+							<MimeType>application/vnd.shp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -66,7 +67,7 @@
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SHPTop:Param1:1</ows:Identifier>
-		<ows:Title>Importació i estructuració topològica</ows:Title>
+		<ows:Title>Importació i estructuració topològica (opció 1)</ows:Title>
 		<ows:Abstract>L'opció 1 del programa importa un fitxer SHP de polílínies i genera topologia arc/node, eliminant interseccions i superposicions. Per a fitxers SHP de polígons, es genera, a més, topologia de polígons; el fitxer d'arcs no presenta vores duplicades (el fitxer d'arcs és més petit) i el fitxer de polígons no presenta superposicions. També és possible eliminar els eventuals micropolígons. Aquesta opció és la recomanada.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -80,6 +81,7 @@
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
@@ -91,13 +93,13 @@
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/octet-stream</MimeType>
+							<MimeType>application/vnd.shp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/octet-stream</MimeType>
+							<MimeType>application/vnd.shp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -268,7 +270,7 @@
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SHPTop:Param1:2</ows:Identifier>
-		<ows:Title>Importació</ows:Title>
+		<ows:Title>Importació (opció 2)</ows:Title>
 		<ows:Abstract>L'opció 2 del programa realitza una simple importació del format sense modificar la geometria o la topologia de les entitats gràfiques. Per a fitxers SHP de polilínies, es generen fitxers ARC/NOD que poden presentar interseccions entre línies, superposicions i altres situacions no desitjades en un model topològic. Per a fitxers SHP de polígons, es genera un fitxer ARC on cada polígon SHP és representa per un arc tancat amb la vora del polígon (o més d'un arc si aquest polígon conté forats o enclavaments exteriors) i, per tant, les vores de polígons poden estar duplicades si els polígons són adjacents (tal com passa en el fitxer SHP). També es genera un fitxer de grups de polígons no topològics POL (polígons explícits) en el mateix ordre que estan en el fitxer SHP. En no realitzar cap transformació, aquest procés és més ràpid que el corresponent a l'opció 1 i pot ser igualment visualitzat amb MiraMon; tanmateix, en no contenir informació topològica, les eines d'anàlisi poden no acceptar-los com a entrada. Construir topologia sobre aquest fitxer implicaria l'ús combinat de les eines d'estructuració topològica: estructurar els arcs amb LINARC i, si el fitxer és de polígons, fer un nou ciclat de polígons amb CICLAR i transferir els atributs entre polígons amb ATRITOP.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -282,6 +284,7 @@
 					<ows:AllowedValues>
 						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
@@ -293,13 +296,13 @@
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/octet-stream</MimeType>
+							<MimeType>application/vnd.shp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/octet-stream</MimeType>
+							<MimeType>application/vnd.shp</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -389,7 +392,7 @@
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:SHPTop:Param1:3</ows:Identifier>
-		<ows:Title>Exportació al format d'ArcGIS/ArcView</ows:Title>
+		<ows:Title>Exportació al format Shapefile (opció 3)</ows:Title>
 		<ows:Abstract>L'opció 3 del programa exporta un fitxer MiraMon (PNT, ARC/NOD, POL) a un fitxer SHP (Shapefile) d'ArcGIS/ArcView tot generant tres fitxers amb el mateix nom i les extensions SHP, SHX i DBF. La taula principal es transforma en la taula associada al fitxer SHP, eliminant el multiregistre segons les especificacions de la DBF del format SHP i els camps geomètric-topològics, propis del format MiraMon.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
@@ -403,6 +406,7 @@
 					<ows:AllowedValues>
 						<ows:Value>3</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
@@ -499,13 +503,13 @@
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>application/octet-stream</MimeType>
+							<MimeType>application/vnd.shp</MimeType>
 							<Encoding>text</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/octet-stream</MimeType>
+							<MimeType>application/vnd.shp</MimeType>
 							<Encoding>text</Encoding>
 						</Format>
 					</Supported>

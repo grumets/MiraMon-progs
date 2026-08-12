@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
+<wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 https://schemas.opengis.net/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:CreaMMM:1</ows:Identifier>
 		<ows:Title>Create a map (option 1)</ows:Title>
@@ -13,12 +13,12 @@
 				<ows:Abstract>1. The names of the layers and some of the display parameters are entered in the command line.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1" />
 				<LiteralData>
-					<ows:AllowedValues>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
-				<DefaultValue>1</DefaultValue>
 			</Input>		
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PlantillaMMM</ows:Identifier>
@@ -41,15 +41,17 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Capa</ows:Identifier>
-				<ows:Title>Layers</ows:Title>
-				<ows:Abstract>Name of the layer. The pattern "Capa Paleta PaletaInterior" can be repeated as many times as layers to be included in the map.</ows:Abstract>
+			<Input minOccurs="1" maxOccurs="1000">
+				<ows:Identifier>CapaOPaleta</ows:Identifier>
+				<ows:Title>Layer, palette or color</ows:Title>
+				<ows:Abstract>This parameter is repeated as many times as necessary. The first time contains a name of a layer. Depending on the nature of the layer other other parameters may follow. For a JPG, there is no extra parameters. For a IMG, next parameter can be a palette or an IMG. In the second case another IMG is expected, forming a RGB combination. If the file contains Points no extra parameter is needed. If the file contains lines/arcs, a palette or a color follows. If the file contains polygons, a palette or a color follows for the border color and another palette or a color follows with the interior. This pattern can be repeated as many times as layers to be included in the map.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4" />
+				<ows:Metadata xlink:title="FillInValue:NUL"/>
+				<ows:Metadata xlink:title="AlternativeLiteralData:string" xlink:href="http://www.w3.org/TR/xmlschema-2/#string"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-arc</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
@@ -74,31 +76,20 @@
 							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
+						<Format>
+							<MimeType>image/jpeg</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-p25</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Supported>
 				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Paleta</ows:Identifier>
-				<ows:Title>Palette</ows:Title>
-				<ows:Abstract>Colour palette, an RGB colours (3 numbers separated by coma without spaces) or NUL if there is no palette.</ows:Abstract>
-				<ows:Metadata xlink:title="Param5" />
-				<ows:Metadata xlink:title="FillInValue:NUL"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<DefaultValue>NUL</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>PaletaInterior</ows:Identifier>
-				<ows:Title>Palette for interior</ows:Title>
-				<ows:Abstract>Colour palette for the interior of polygons, an RGB color (3 numbers separated by coma without spaces).
-				</ows:Abstract>
-				<ows:Metadata xlink:title="Param6" />
-				<ows:Metadata xlink:title="FillInValue:NUL"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<DefaultValue>NUL</DefaultValue>
-				</LiteralData>			
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TITOL</ows:Identifier>
@@ -107,6 +98,7 @@
 				</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue />
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -154,8 +146,8 @@
 				<ows:Abstract>2. The names of the layers are taken from the template and only the SearchText is changed for the SubstituteText in the layers' paths.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1" />
 				<LiteralData>
-					<ows:AllowedValues>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
 						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
 					<DefaultValue>2</DefaultValue>
