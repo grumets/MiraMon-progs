@@ -13,7 +13,7 @@
 				<ows:Abstract>1. Los nombres de las capas y algunos parámetros de visualización se indican en línea de comando.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1" />
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer"> integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
@@ -41,15 +41,17 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Capa</ows:Identifier>
-				<ows:Title>Capa</ows:Title>
-				<ows:Abstract>Nombre de la capa. El patrón "Capa Paleta PaletaInterior" puede repetirse tantas veces como capas a incluir</ows:Abstract>
+			<Input minOccurs="1" maxOccurs="1000">
+				<ows:Identifier>CapaPaletaOColor</ows:Identifier>
+				<ows:Title>Capa, paleta o color</ows:Title>
+				<ows:Abstract>Este parámetro se repite tantas veces como sea necesario. La primera vez contiene el nombre de la capa. Dependiendo de la naturaleza de la capa, hay que añadir otros parámetros. Para un JPG no se necessitan parámetros extra, Para un IMG, el siguiemte parámetro puede ser una paleta o un IMG, En el segundo caso, debe indicarse un tercer IMG formando una combinación RGB. Si el fichero contiene puntos, no se necesitan parametros adicionales, Si el fitxero contiene lineas/arcos, le segurá una paleta o un color. Si el fichero continen polígonos, le segurà una paleta o un color para el borde y otra paleta o color para el interior. Este patrón puede repetirse tantas veces como capas se quiera incluir en el mapa.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4" />
+				<ows:Metadata xlink:title="FillInValue:NUL"/>
+				<ows:Metadata xlink:title="AlternativeLiteralData:string" xlink:href="http://www.w3.org/TR/xmlschema-2/#string"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-arc</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
@@ -74,38 +76,25 @@
 							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
+						<Format>
+							<MimeType>image/jpeg</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-p25</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Supported>
 				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Paleta</ows:Identifier>
-				<ows:Title>Paleta</ows:Title>
-				<ows:Abstract>Paleta de colores, un color RGB (3 números separados por coma sin espacios) o NUL si no se requiere paleta.</ows:Abstract>
-				<ows:Metadata xlink:title="Param5" />
-				<ows:Metadata xlink:title="FillInValue:NUL"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue></ows:AnyValue>
-					<DefaultValue>NUL</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>PaletaInterior</ows:Identifier>
-				<ows:Title>Paleta para interior</ows:Title>
-				<ows:Abstract>Paleta de colores para el relleno interior de polígonos, un color RGB (3 números separados por coma sin espacios) o NUL si no se requiere paleta.</ows:Abstract>
-				<ows:Metadata xlink:title="Param6" />
-				<ows:Metadata xlink:title="FillInValue:NUL"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue />
-					<DefaultValue>NUL</DefaultValue>
-				</LiteralData>			
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TITOL</ows:Identifier>
 				<ows:Title>Titulo</ows:Title>
-				<ows:Abstract>Es el título del mapa. Si no se indica, se toma del título de la primera capa.
-				</ows:Abstract>
+				<ows:Abstract>Es el título del mapa. Si no se indica, se toma del título de la primera capa.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -156,7 +145,7 @@
 				<ows:Abstract>2. Los nombres de las capas se indican en la plantilla y solamente se cambia TextoABuscar por el TextoSubstituido en los paths de las capas.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1" />
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer ">integer</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
@@ -186,8 +175,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TextABuscar</ows:Identifier>
 				<ows:Title>Texto A Buscar</ows:Title>
-				<ows:Abstract>Texto a buscar en el path del nombre de la capa en el mapa plantilla. Si no desea buscar nada, indique una cadena imposible de encontrar.
-				</ows:Abstract>
+				<ows:Abstract>Texto a buscar en el path del nombre de la capa en el mapa plantilla. Si no desea buscar nada, indique una cadena imposible de encontrar.</ows:Abstract>
 				<LiteralData>
 					<ows:AnyValue/>
 				</LiteralData>
@@ -195,8 +183,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TextSubstituit</ows:Identifier>
 				<ows:Title>Texto Substituido</ows:Title>
-				<ows:Abstract>Texto substituido en el path del nombre de la capa en el nuevo mapa.
-				</ows:Abstract>
+				<ows:Abstract>Texto substituido en el path del nombre de la capa en el nuevo mapa.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>

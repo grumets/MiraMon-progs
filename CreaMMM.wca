@@ -13,7 +13,7 @@
 				<ows:Abstract>1. Els noms de les capes i alguns paràmetres de visualització s'indiquen en línia de comanda.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1" />
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer "> integer</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer"> integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
@@ -41,15 +41,17 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Capes</ows:Identifier>
+			<Input minOccurs="1" maxOccurs="1000">
+				<ows:Identifier>CapaPaletaOColor</ows:Identifier>
 				<ows:Title>Capes</ows:Title>
-				<ows:Abstract>Nom de la capa. El patró "Capa Paleta PaletaInterior" poy repetir-se tantes vegades como capes a incloure</ows:Abstract>
+				<ows:Abstract>Aquest paràmetre es repeteix tantes vegades com calgui. La primera vegada conté el nom de la capa. Depenent de la naturalesa de la capa, cal afegir-hi altres paràmetres. Per a un JPG no es necessiten paràmetres extra, Per a un IMG, el següent paràmetre pot ser una paleta o un IMG. En el segon cas, cal indicar un tercer IMG formant una combinació RGB. Si el fitxer conté punts, no es necessiten paràmetres addicionals. Si el fitxer conté línies/arcs, us assegurarà una paleta o un color. Si el fitxer contenen polígons, us assegurarà una paleta o un color per a la vora i una altra paleta o color per a l'interior. Aquest patró es pot repetir tantes vegades com capes es vulgui incloure al mapa.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4" />
+				<ows:Metadata xlink:title="FillInValue:NUL"/>
+				<ows:Metadata xlink:title="AlternativeLiteralData:string" xlink:href="http://www.w3.org/TR/xmlschema-2/#string"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-arc</MimeType>
+							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
@@ -74,38 +76,25 @@
 							<MimeType>application/x-img</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
+						<Format>
+							<MimeType>image/jpeg</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-p25</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
 					</Supported>
 				</ComplexData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Paleta</ows:Identifier>
-				<ows:Title>Paleta</ows:Title>
-				<ows:Abstract>Paleta de colors, un color RGB (3 números separats per coma sense espais) o NUL si no es requereix paleta.</ows:Abstract>
-				<ows:Metadata xlink:title="Param5" />
-				<ows:Metadata xlink:title="FillInValue:NUL"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue />
-					<DefaultValue>NUL</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>PaletaInterior</ows:Identifier>
-				<ows:Title>Paleta per omplir interiors</ows:Title>
-				<ows:Abstract>Paleta de colors per omplir l'interior de polígons, un color RGB (3 números separats per coma sense espais) o NUL si no es requereix paleta.</ows:Abstract>
-				<ows:Metadata xlink:title="Param6" />
-				<ows:Metadata xlink:title="FillInValue:NUL"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue />
-					<DefaultValue>NUL</DefaultValue>
-				</LiteralData>			
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TITOL</ows:Identifier>
 				<ows:Title>Titol</ows:Title>
-				<ows:Abstract>És el títol del mapa. Si no s'indica, es pren del títol de la primera capa. 
-				</ows:Abstract>
+				<ows:Abstract>És el títol del mapa. Si no s'indica, es pren del títol de la primera capa.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -114,8 +103,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VERIFICA</ows:Identifier>
 				<ows:Title>Verifica</ows:Title>
-				<ows:Abstract>Indica que cal verificar l'existència de la capa. En l'opció 1, i en cas de haver-hi plantilla, el programa plega; si no hi ha plantilla el programa es queixa però es deixa continuar; pels fitxers de tipus VEC, el programa verifica sempre l'existència del fitxer i plega si no el troba perquè necessita llegir el fitxer de documentació per identificar-ne el tipus.
-				</ows:Abstract>
+				<ows:Abstract>Indica que cal verificar l'existència de la capa. En l'opció 1, i en cas de haver-hi plantilla, el programa plega; si no hi ha plantilla el programa es queixa però es deixa continuar; pels fitxers de tipus VEC, el programa verifica sempre l'existència del fitxer i plega si no el troba perquè necessita llegir el fitxer de documentació per identificar-ne el tipus.</ows:Abstract>
 					<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues><ows:Value>##blank##</ows:Value></ows:AllowedValues>
@@ -127,11 +115,10 @@
 			<Output>
 				<ows:Identifier>NouMMM</ows:Identifier>
 				<ows:Title>Nou MMM</ows:Title>
-				<ows:Abstract>És el mapa de MiraMon a crear. 
-				</ows:Abstract>
+				<ows:Abstract>És el mapa de MiraMon a crear.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2" />
-						<ComplexOutput>
-							<Default>
+				<ComplexOutput>
+					<Default>
 						<Format>
 							<MimeType>application/x-mmm</MimeType>
 							<Encoding>Binary</Encoding>
@@ -158,7 +145,7 @@
 				<ows:Abstract>2. Els noms de les capes i alguns paràmetres de visualització s'indiquen en línia de comanda.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1" />
 				<LiteralData>
-						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer ">integer</ows:DataType>
+						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
@@ -188,8 +175,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TextABuscar</ows:Identifier>
 				<ows:Title>Text a buscar</ows:Title>
-				<ows:Abstract>Text a buscar dins el path del nom de la capa en el mapa plantilla. Si no desitgeu buscar res, indiqueu una cadena impossible de trobar.
-				</ows:Abstract>
+				<ows:Abstract>Text a buscar dins el path del nom de la capa en el mapa plantilla. Si no desitgeu buscar res, indiqueu una cadena impossible de trobar.</ows:Abstract>
 				<LiteralData>
 					<ows:AnyValue/>
 				</LiteralData>
@@ -197,8 +183,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TextSubstituit</ows:Identifier>
 				<ows:Title>Text Substituït</ows:Title>
-				<ows:Abstract>Text substituït dins el path del nom de la capa en el nou mapa. 
-				</ows:Abstract>
+				<ows:Abstract>Text substituït dins el path del nom de la capa en el nou mapa.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -207,8 +192,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TITOL</ows:Identifier>
 				<ows:Title>Titol</ows:Title>
-				<ows:Abstract>És el títol del mapa. Si no s'indica, es pren del títol de la primera capa. 
-				</ows:Abstract>
+				<ows:Abstract>És el títol del mapa. Si no s'indica, es pren del títol de la primera capa.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
@@ -217,8 +201,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VERIFICA</ows:Identifier>
 				<ows:Title>Verifica</ows:Title>
-				<ows:Abstract>Indica que cal verificar l'existència de la capa. En l'opció 2, si la capa no existeix no s'inclou en el mapa i es continua. 
-				</ows:Abstract>
+				<ows:Abstract>Indica que cal verificar l'existència de la capa. En l'opció 2, si la capa no existeix no s'inclou en el mapa i es continua.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -232,8 +215,7 @@
 			<Output>
 				<ows:Identifier>NouMMM</ows:Identifier>
 				<ows:Title>Nou MMM</ows:Title>
-				<ows:Abstract>És el mapa de MiraMon a crear. 
-				</ows:Abstract>
+				<ows:Abstract>És el mapa de MiraMon a crear.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2" />
 						<ComplexOutput>
 							<Default>
