@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 18-03-2025 */-->
+<!--/* Revisió AA 28-08-2026 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>InterPNT: Interpolació a partir de punts, lidar</title>
@@ -109,6 +109,45 @@ Expressions per a les funcions <i>spline</i></font></div>
 <p>Les funcions estadístiques disponibles són la mitjana, la mediana, el màxim, el mínim,  el rang, la desviació estàndard, la mitjana de les desviacions absolutes respecte de  la mediana i el nombre d'ocurrències.</p>
 
 <p>Per a la distància màxima hi ha dues opcions possibles: distància màxima com a radi màxim d'un cercle, i distància màxima com a meitat del costat d'un quadrat. Aquesta darrera opció és típicament utilitzada quan es vol que els punts lidar amb els quals es calcularà el valor de l'estadístic que s'escriurà a la cel·la estan ubicats estrictament al seu interior; cal notar que, com que la dada és la meitat del quadrat, si s'ha indicat que es vol obtenir un ràster de 2 m de costat, la distància a indicar per a la distància màxima serà 1 m. Quan el valor de l'estadístic calculat prové d'un sol punt, com en el cas del mínim i el màxim, és possible obtenir capes addicionals (de nom igual a la capa de sortida i amb un sufix apropiat): D'una banda, si les dades lidar proporcionen, en sengles camps, el dia, mes i any de captura de cada punt és possible generar 3 ràsters addicionals que contindran el dia, mes i any del punt que proporciona el valor a cada píxel. D'altra banda, i per a propòsits didàctics i de recerca, és possible generar capes addicionals que continguin només els punts donadors, o que uneixin amb línies els punts donadors amb el centre de la cel·la receptora del valor.</p>  
+
+<ul>
+<p><b>Com escull l'aplicació InterPNT el tipus numèric del ràster resultant i el seu tractament (quantitatiu continu o categòric) en el cas de les estadístiques de veïnatge.</b><p>
+
+<p><b>Cas 1. Interpolació a partir de la coordenada Z del fitxer gràfic de punts:</b></p> 
+
+<ul>
+<li>La capa resultant principal sempre serà de tipus real i tractament quantitatiu continu.</li>
+<li>Excepció: quan l'estadístic triat és el nombre d'ocurrències es generarà una capa d'enters i tractament quantitatiu continu.</li>
+</ul>
+
+<p><b>Cas 2. Interpolació a partir de camps de la base de dades:</b></p> 
+
+<p>Només es poden interpolar camps numèrics, ja que el resultat és una capa ràster, que sempre conté valors numèrics a les cel·les.</p> 
+
+<p>En general, aquests camps tenen documentat a les metadades un tractament quantitatiu continu (per exemple un valor d'altitud ortomètrica o un valor d'intensitat del retorn en una capa de punts lidar) i en aquests casos es generarà un ràster que també es documentarà, a les seves metadades, amb un tractament quantitatiu continu; en els casos de camps numèrics amb tractament categòric (per exemple un valor índex de categoria temàtica de cada punt en una capa de punts lidar) el tractament del ràster obtingut serà típicament també categòric perquè habitualment es demana un estadístic com la moda. El tipus numèric del ràster depèn de l'estadístic triat:</p>
+
+<ul>
+<li>Si el camp és de reals el resultat sempre serà un ràster de tipus real, excepte en el cas de l'estadístic de comptatge, que generarà un ràster d'enters; en tots aquests casos el tractament documentat serà quantitatiu continu.</li> 
+<li>Si el camp conté valors enters el tipus de ràster es decidirà en funció de l'estadístic escollit:</li>
+<ul> 
+<li>Quan el resultat no requereix valors reals (com quan s'escull el mínim, la moda, el rang, el comptatge, etc), el ràster es generarà amb un tipus enter i el tractament documentat serà el mateix que el del camp utilitzat per a obtenir les estadístiques de veïnatge.</li>
+<li>Quan s'efectua un càlcul que pot requerir valors reals (com la mitjana, etc), el ràster resultant es generarà amb un tipus real i el tractament documentat serà quantitatiu continu.</li>
+</ul>
+</ul>
+
+<p><b>Cas 3. Interpolació de camps de tipus text (cadenes de caràcters):</b></p> 
+
+<p>En aquests casos caldrà generar un altre camp que contingui, per a cada text, un codi numèric enter, i interpolar a partir d'aquest camp. En aquest cas l'estadístic que habitualment caldrà escollir serà la moda.</p> 
+</ul>
+
+<p><b>Altres consideracions:</b></p>
+
+<p>En l'estadístic de comptatge d'ocurrències el camp triat (o la Z del fitxer gràfic) només serveix per a poder tenir el recompte dels registres (o punts) amb valor (ja que si el camp no té contingut, o la Z gràfica és un valor sensedades s'exclou del comptatge).
+En algun dels estadístics disponibles en les estadístiques de veïnatge (per exemple quan s'escull el màxim), l'InterPNT permet generar capes ràster complementàries a la capa resultant principal i que contenen en cada cel·la el dia, mes i any del punt utilitzat per a generar el valor resultant en aquella cel·la. Aquestes capes complementàries sempre són de tipus enter i tractament quantitatiu continu.</p>
+
+<p>Si en algun cas el tipus de ràster generat per defecte per l'InterPNT no és el desitjat, es pot canviar utilitzant l'aplicació CalcImg o l'aplicació IMGIMG.</p> 
+
+<p>D'altra banda, si el tractament assignat per defecte a les dades ràster obtingudes no és el desitjat, podeu utilitzar l'aplicació GeM+ per a canviar-lo. No heu d'utilitzar mai el GeM+ per a canviar el tipus de ràster (ja que és una aplicació que documenta, no una aplicació que executa processos de modificació de les dades gràfiques).</p>
 
 <p><b><u>Opcions avançades</u></b></p>
 
