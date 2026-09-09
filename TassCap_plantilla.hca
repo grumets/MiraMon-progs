@@ -1,24 +1,111 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 29-07-2025 */-->
+<!--/* Revisió AA 26-09-2025 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>TassCap: Càlcul de la transformació tasseled-cap</title>
+<title>TassCap: Transformació tasseled-cap</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
- <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<h1><span id="wpstitol"/></h1>
-<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h1><a href="https://www.miramon.cat/Index.htm" target="_blank"><img src="vecras.gif"></a>TassCap: Transformació tasseled-cap</h1>
+</li>
+</ul>
+</h1>
+<p><ul>
+<h4>Accés directe de l'<a href="https://www.miramon.cat/help/cat/" target="_blank">ajuda</a> a Internet: <a href="https://www.miramon.cat/help/cat/msa/TassCap.htm" target="_blank"><font size="+2">TassCap</font></a></h4>
+<h4>Accés a l'aplicació des del menú: <i>"Eines | Processament d'imatges | Transformació tasseled-cap"</i></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
+
+<p>Amb l'objectiu de millorar la predicció de collites, Kauth i Thomas van proposar l'any 1976 una transformació que usava les quatre bandes del sensor MSS de Landsat en combinacions lineals per a produir quatre índexs anomenats: brillantor (<i>soil brightness index</i>, SBI), verdor (<i>green vegetative index</i>, GVI), grogor (<i>yellow stuff vegetation index</i>, YVI) i un quart sense significat aparent anomenat "nonsuch" (NSI). D'una imatge del sensor MSS (Landsat), van seleccionar clusters de píxels identificats com a sòl i uns altres identificats com a vegetació i van calcular, pel procés d'ortogonalització de Gram-Schmidt, els vectors propis que formarien els coeficients dels índexs. 
+
+<ul>
+<b>Kauth, R.J., Thomas, G.S.,</b> (1976) <i>The Tasseled Cap-A graphic description of the spectral-temporal development of agricultural crops as seen by Landsat</i>  Proc. Symp. On Machine Processing of Remote Sensed Data, Purdue Univ., West Lafayette, Indiana. Pages:41-51.<br>
+<a href="https://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp">https://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp</a>
+</ul>
+
+<p>Com l'<a href="ACP.htm" target="_blank">ACP (Anàlisi de Components Principals)</a>, aquesta transformació permet obtenir noves bandes per transformació lineal de les originals. Tanmateix, a diferència de l'ACP, aquestes noves bandes obtingudes tenen un significat físic concret: el SBI recull els canvis en la reflectància total de la escena; el GVI indica el contrast entre les bandes visibles i l'infraroig proper, relacionat amb l'activitat de la vegetació; el YVI es relaciona amb la quantitat d'aigua de la vegetació i del sòl, pel que se sol anomenar també índex d'humitat (<i>wetness</i>) o índex de maduresa (<i>maturity</i>), ja que s'ha trobat una clara relació entre aquest i la maduresa de la coberta vegetal (edat, densitat de la cobertura, etc); finalment, el NSI és sensible a l'absorció de vapor d'aigua, tot i que fonamentalment conté soroll.</p>
+
+<p>L'aplicació permet les següents opcions:</p>
 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
 
-  <p>Com l'ACP (Anàlisi de Components Principals), aquesta transformació permet obtenir noves bandes per transformació lineal de les originals. Tanmateix, a diferència de l'ACP, aquestes noves bandes obtingudes tenen un significat físic concret: el SBI recull els canvis en la reflectivitat total de la escena; el GVI indica el contrast entre les bandes visibles i l’infraroig proper, relacionat amb l'activitat de la vegetació; el YVI es relaciona amb la quantitat d'aigua de la vegetació i del sòl, pel que se sol anomenar també índex d'humitat (<i>wetness</i>) o índex de maduresa (<i>maturity</i>), ja que s'ha trobat una clara relació entre aquest i la maduresa de la coberta vegetal (edat, densitat de la cobertura, etc.); finalment, el NSI és sensitiu a l'absorció de vapor d'aigua, tot i que fonamentalment conté soroll.</p>
+<p>Per al sensor MSS exclusivament, permet fer el càlcul segons el clàssic de Kauth i Thomas, tal i com s'ha explicat prèviament, així com també seguint:
+<ul>
+<b>Thompson, D.R., Wehmanen, 0.A.</b> (1980) <i>Using Landsat digital data to detect moisture stress in corn-soybean growing regions</i> Photogrammetric Engineering and Remote Sensing, 46:1087-1093. <br>
+<a href="https://www.asprs.org/wp-content/uploads/pers/1980journal/aug/1980_aug_1087-1093.pdf">https://www.asprs.org/wp-content/uploads/pers/1980journal/aug/1980_aug_1087-1093.pdf</a>
+</ul>
 
-  <p>La tasseled-cap s'ha usat en un gran nombre d'aplicacions. Un punt en contra que presenta aquesta transformació és que es va extreure a partir de cultius del mig-oest americà i, per tant, no està optimitzat per a altres regions com per exemple la mediterrània, així com que sovint s'ha aplicat a altres sensors sense considerar-ne les seves característiques.</p>
+<p>Per a la resta de sensors de la sèrie Landsat s’utilitzen els coeficients publicats a les següents referències:</p>
+<ul>
+<b>Zanchetta, A., Bitelli, G., Karnieli, A.</b> (2015). <i>Tasselled Cap transform for change detection in the drylands: Findings for SPOT and Landsat satellites using FOSS tools</i> Proc. of SPIE - The International Society for Optical Engineering. 9535. <a href="https://doi.org/10.1117/12.2192597">https://doi.org/10.1117/12.2192597</a>. 
+<p>
+<b>Huang, C., Wylie, B., Yang, L., Homer, C., Zylstram, G.</b> (2002) <i>Derivation of a tasselled cap transformation based on landsat-7 at satellite reflectance.</i> International Journal of Remote Sensing, 23(8), 1741–1748. <a href="https://doi.org/10.1080/01431160110106113">https://doi.org/10.1080/01431160110106113</a>
+<p>
+<b>Bolun Li, Chaopu Ti,Yongqiang Zhao, and Xiaoyuan Yan</b> (2016) <i>Estimating Soil Moisture with Landsat Data and Its Application in Extracting the Spatial Distribution of Winter Flooded Paddies</i> Remote Sens, 8(1), 38  <a href="https://doi.org/10.3390/rs8010038">https://doi.org/10.3390/rs8010038</a>
+<p>
+<b>Baig, M.H.A., Zhang,L., Shuai,T., Tong, Q.</b> (2014). <i>Derivation of a tasselled cap transformation based on Landsat 8 at-satellite reflectance</i> Remote Sensing Letters, 5(5):423–431. <a href="https://doi.org/10.1080/2150704X.2014.915434">https://doi.org/10.1080/2150704X.2014.915434</a>
+</ul>
+
+<p>La transformació tasseled-cap s'ha usat en un gran nombre d'aplicacions. Un punt en contra que presenta aquesta transformació és que es va extreure a partir de cultius del mig-oest americà i, per tant, no està optimitzat per a altres regions com per exemple la mediterrània, així com que sovint s'ha aplicat a altres sensors sense considerar-ne les seves característiques.</p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="TassCap_finestra.png"><img src="TassCap_finestra2.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixes de diàleg de la transformació tasseled-cap</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+<p></p>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img width="25%" src="ACP_landsat.gif"/><img width="25%" src=""/></div></td>
+</tr>
+<tr>
+<td align="center"></td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
   <hr/>
 
-  <exclusiva>
+-->
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
@@ -26,8 +113,10 @@
 	<!-- $$EXCLUSIVA$$
 
 Per a obtenir l'ajuda completa escriviu:
-TASSCAP ?
---></p>
-  </exclusiva>
+TassCap ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
 </body>
 </html>
