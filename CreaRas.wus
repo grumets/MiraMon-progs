@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:CreaRas</ows:Identifier>
+		<ows:Identifier>MiraMon:CreaRas:1</ows:Identifier>
 		<ows:Title>Creating a new raster</ows:Title>
 		<ows:Abstract>Creates a new raster from a pre-existing pattern file or with given characteristics that are entered manually.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Create a new raster"/>
@@ -11,8 +11,9 @@
 				<ows:Identifier>FitxPatro</ows:Identifier>
 				<ows:Title>Pattern file</ows:Title>
 				<ows:Abstract>File that defines the geographical area of the map. It must be given with extension. If a pattern file is not provided, this parameter will be "NUL".</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param01"/>
 				<ows:Metadata xlink:title="Name:PattFile"/>
+				<ows:Metadata xlink:title="AlternativeLiteralData:string" xlink:href="http://www.w3.org/TR/xmlschema-2/#string"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -52,7 +53,7 @@
 				<ows:Identifier>TipusDada</ows:Identifier>
 				<ows:Title>Data type</ows:Title>
 				<ows:Abstract>Indicates the datatype of the new image. It can be any of the data types supported by MiraMon, for example "byte", "integer-RLE", etc.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Param03"/>
 				<ows:Metadata xlink:title="Name:DataType"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
@@ -64,7 +65,7 @@
 				<ows:Identifier>ValorFons</ows:Identifier>
 				<ows:Title>Flag value</ows:Title>
 				<ows:Abstract>Value that will be used to initialize the output raster file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Param04"/>
 				<ows:Metadata xlink:title="Name:FlagValue"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
@@ -75,7 +76,7 @@
 				<ows:Identifier>MarcarValorFons</ows:Identifier>
 				<ows:Title>Mark flag value</ows:Title>
 				<ows:Abstract>Indicates whether the initialization value will be marked as flag value in the documentation file (1) or not (0).</ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Param05"/>
 				<ows:Metadata xlink:title="Name:MarkFlagValue"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
@@ -89,9 +90,10 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CostatCella</ows:Identifier>
 				<ows:Title>Pixel Size</ows:Title>
-				<ows:Abstract>Size of the cell</ows:Abstract>
-				<ows:Metadata xlink:title="Param6"/>
+				<ows:Abstract>Size of the cell. If "x" is specified, it is not initialized from the command line.</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
 				<ows:Metadata xlink:title="Name:CellSize"/>
+				<ows:Metadata xlink:title="FillInValue:x"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
@@ -100,11 +102,65 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>Mult</ows:Identifier>
 				<ows:Title>Multiple</ows:Title>
-				<ows:Abstract>If PartternFile is a vector file, the program enlarges the geographical region so that the coordinates minX and minY of the new raster are multiple of Mult. In addition, in this case a minimum of one pixel will be included all around.</ows:Abstract>
-				<ows:Metadata xlink:title="Param7"/>
+				<ows:Abstract>If PartternFile is a vector file, the program enlarges the geographical region so that the coordinates minX and minY of the new raster are multiple of Mult. In addition, in this case a minimum of one pixel will be included all around. If "x" is specified, it is not initialized from the command line.</ows:Abstract>
+				<ows:Metadata xlink:title="Param07"/>
 				<ows:Metadata xlink:title="Name:Multiple"/>
+				<ows:Metadata xlink:title="FillInValue:x"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Xmin</ows:Identifier>
+				<ows:Title>X minimum</ows:Title>
+				<ows:Abstract>Minimum X coordinate of the output raster envelope. Required when FitxPatro is NUL; omit it when a pattern file is given.</ows:Abstract>
+				<ows:Metadata xlink:title="Param08"/>
+				<ows:Metadata xlink:title="Name:Xmin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Xmax</ows:Identifier>
+				<ows:Title>X maximum</ows:Title>
+				<ows:Abstract>Maximum X coordinate of the output raster envelope. Required when FitxPatro is NUL; omit it when a pattern file is given.</ows:Abstract>
+				<ows:Metadata xlink:title="Param09"/>
+				<ows:Metadata xlink:title="Name:Xmax"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ymin</ows:Identifier>
+				<ows:Title>Y minimum</ows:Title>
+				<ows:Abstract>Minimum Y coordinate of the output raster envelope. Required when FitxPatro is NUL; omit it when a pattern file is given.</ows:Abstract>
+				<ows:Metadata xlink:title="Param10"/>
+				<ows:Metadata xlink:title="Name:Ymin"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ymax</ows:Identifier>
+				<ows:Title>Y maximum</ows:Title>
+				<ows:Abstract>Maximum Y coordinate of the output raster envelope. Required when FitxPatro is NUL; omit it when a pattern file is given.</ows:Abstract>
+				<ows:Metadata xlink:title="Param11"/>
+				<ows:Metadata xlink:title="Name:Ymax"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SIST_DEST</ows:Identifier>
+				<ows:Title>Output reference system</ows:Title>
+				<ows:Abstract>Identifier of the output raster reference system when no pattern file is used. If omitted, a local reference system is created.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -124,7 +180,7 @@
 				<ows:Identifier>FitxSort</ows:Identifier>
 				<ows:Title>Output file</ows:Title>
 				<ows:Abstract>New output file IMG raster (or a grid within a VEC).</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param02"/>
 				<ows:Metadata xlink:title="Name:OutputFile"/>
 				<ComplexOutput>
 					<Default>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:CreaRas</ows:Identifier>
+		<ows:Identifier>MiraMon:CreaRas:1</ows:Identifier>
 		<ows:Title>Creación de un nuevo ráster</ows:Title>
 		<ows:Abstract>Crea un nuevo ráster a partir de un fichero patrón preexistente o de unas características dadas manualmente.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Creación de un nuevo ráster"/>
@@ -11,8 +11,9 @@
 				<ows:Identifier>FitxPatro</ows:Identifier>
 				<ows:Title>Fichero patrón</ows:Title>
 				<ows:Abstract>Fichero que define el área geográfica del mapa. Hay que indicar la extensión. En caso de que no se quiera dar un fichero patrón, este parámetro valdrá "NUL".</ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Param01"/>
 				<ows:Metadata xlink:title="Name:FichPatron"/>
+				<ows:Metadata xlink:title="AlternativeLiteralData:string" xlink:href="http://www.w3.org/TR/xmlschema-2/#string"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -52,7 +53,7 @@
 				<ows:Identifier>TipusDada</ows:Identifier>
 				<ows:Title>Tipo de dato</ows:Title>
 				<ows:Abstract>Se indica el tipo de dato de la nueva imagen. Puede ser cualquiera de los tipos soportados por MiraMon, por ejemplo "byte", "integer-RLE", etc.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Param03"/>
 				<ows:Metadata xlink:title="Name:TipoDato"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
@@ -64,7 +65,7 @@
 				<ows:Identifier>ValorFons</ows:Identifier>
 				<ows:Title>Valor de fondo</ows:Title>
 				<ows:Abstract>Valor que se utilizará para inicializar el fichero de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Param04"/>
 				<ows:Metadata xlink:title="Name:ValorFondo"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
@@ -75,7 +76,7 @@
 				<ows:Identifier>MarcarValorFons</ows:Identifier>
 				<ows:Title>Marcar valor de fondo</ows:Title>
 				<ows:Abstract>Bandera que puede valer 0 o 1 en función de si se quiere marcar el valor inicializado como valor de fondo en el fichero de documentación (1) o no (0).</ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Param05"/>
 				<ows:Metadata xlink:title="Name:MarcarValorFondo"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
@@ -89,9 +90,10 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CostatCella</ows:Identifier>
 				<ows:Title>Lado de celda</ows:Title>
-				<ows:Abstract>Tamaño del píxel de la imagen de salida.</ows:Abstract>
-				<ows:Metadata xlink:title="Param6"/>
+				<ows:Abstract>Tamaño del píxel de la imagen de salida. Si se indica "x", no se inicializa desde la línea de comandos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param06"/>
 				<ows:Metadata xlink:title="Name:LadoCelda"/>
+				<ows:Metadata xlink:title="FillInValue:x"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
 					<ows:AnyValue/>
@@ -100,11 +102,65 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>Mult</ows:Identifier>
 				<ows:Title>Múltiple</ows:Title>
-				<ows:Abstract>En el caso que FitxPatró sea tipo vector, el programa amplía el área geográfica para que así las coordenadas mínX y mínY del nuevo ráster sean múltiplos del factor Múlt y, además, haya como mínimo un píxel en exceso a lo largo de todo el borde.</ows:Abstract>
-				<ows:Metadata xlink:title="Param7"/>
+				<ows:Abstract>En el caso que FitxPatró sea tipo vector, el programa amplía el área geográfica para que así las coordenadas mínX y mínY del nuevo ráster sean múltiplos del factor Múlt y, además, haya como mínimo un píxel en exceso a lo largo de todo el borde. Si se indica "x", no se inicializa desde la línea de comandos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param07"/>
 				<ows:Metadata xlink:title="Name:Múltiple"/>
+				<ows:Metadata xlink:title="FillInValue:x"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#float">float</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Xmin</ows:Identifier>
+				<ows:Title>X mínima</ows:Title>
+				<ows:Abstract>Coordenada X mínima de la envolvente del ráster a crear. Obligatorio si FitxPatro es NUL; no se usa si hay fichero patrón.</ows:Abstract>
+				<ows:Metadata xlink:title="Param08"/>
+				<ows:Metadata xlink:title="Name:Xmín"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Xmax</ows:Identifier>
+				<ows:Title>X máxima</ows:Title>
+				<ows:Abstract>Coordenada X máxima de la envolvente del ráster a crear. Obligatorio si FitxPatro es NUL; no se usa si hay fichero patrón.</ows:Abstract>
+				<ows:Metadata xlink:title="Param09"/>
+				<ows:Metadata xlink:title="Name:Xmáx"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ymin</ows:Identifier>
+				<ows:Title>Y mínima</ows:Title>
+				<ows:Abstract>Coordenada Y mínima de la envolvente del ráster a crear. Obligatorio si FitxPatro es NUL; no se usa si hay fichero patrón.</ows:Abstract>
+				<ows:Metadata xlink:title="Param10"/>
+				<ows:Metadata xlink:title="Name:Ymín"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Ymax</ows:Identifier>
+				<ows:Title>Y máxima</ows:Title>
+				<ows:Abstract>Coordenada Y máxima de la envolvente del ráster a crear. Obligatorio si FitxPatro es NUL; no se usa si hay fichero patrón.</ows:Abstract>
+				<ows:Metadata xlink:title="Param11"/>
+				<ows:Metadata xlink:title="Name:Ymáx"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SIST_DEST</ows:Identifier>
+				<ows:Title>Sistema de referencia destino</ows:Title>
+				<ows:Abstract>Identificador del sistema de referencia del ráster de salida cuando no se usa fichero patrón. Si se omite, se crea un sistema de referencia local.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -124,7 +180,7 @@
 				<ows:Identifier>FitxSort</ows:Identifier>
 				<ows:Title>Fichero de salida</ows:Title>
 				<ows:Abstract>Fichero de salida del nuevo ráster IMG (o un grid dentro de un VEC).</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param02"/>
 				<ows:Metadata xlink:title="Name:FicheroSalida"/>
 				<ComplexOutput>
 					<Default>
