@@ -9,8 +9,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>Metadata</ows:Abstract>
+				<ows:Title>Option 0</ows:Title>
+				<ows:Abstract>Shows the metadata of the JPEG2000 file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -18,12 +18,13 @@
 					<ows:AllowedValues>
 						<ows:Value>0</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexData>
@@ -41,12 +42,44 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>If specified, the MrSID libraries are used (only for options 2..4); otherwise, the ER Mapper ones.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>Stdout</ows:Identifier>
+				<ows:Identifier>StdOut</ows:Identifier>
 				<ows:Title>Output standard</ows:Title>
 				<ows:Abstract>Metadata from the JPEG2000 File.</ows:Abstract>
+				<ows:Metadata xlink:title="Hide:noHelp"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -71,8 +104,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>JPEG from a JPEG2000</ows:Abstract>
+				<ows:Title>Option 1</ows:Title>
+				<ows:Abstract>This generates 1 JPEG file from a JPEG2000 image</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -80,12 +113,13 @@
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexData>
@@ -103,12 +137,67 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT</ows:Identifier>
+				<ows:Title>Quality</ows:Title>
+				<ows:Abstract>Quality of the compression in a range [0,100], where [5,95] is the useful range although in many cases a value will be between 70 and 75 (75 automatically). The low values indicate very few quality but great compression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>100</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>World File</ows:Title>
+				<ows:Abstract>It generates a world file of the stated extension. It is possible to indicate /FWORLD to generate it using the extension automatically. For JP2 files the extension is always J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>If specified, the MrSID libraries are used (only for options 2..4); otherwise, the ER Mapper ones.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG</ows:Identifier>
 				<ows:Title>JPEG File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG file.</ows:Abstract>
+				<ows:Abstract>Is the name of the JPEG file resulting from the transformation (option 1) or to transform (option 5).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:JPEGFile"/>
 				<ComplexOutput>
@@ -135,8 +224,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>IMG from a JPEG2000</ows:Abstract>
+				<ows:Title>Option 2</ows:Title>
+				<ows:Abstract>This generates one IMG file from a grey JPEG2000 file</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -144,12 +233,13 @@
 					<ows:AllowedValues>
 						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexData>
@@ -167,12 +257,52 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>If specified, the MrSID libraries are used (only for options 2..4); otherwise, the ER Mapper ones.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>Nodata value</ows:Title>
+				<ows:Abstract>Nodata value.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerIMG</ows:Identifier>
 				<ows:Title>IMG File</ows:Title>
-				<ows:Abstract>It is the name of the single channel (grey) IMG file.</ows:Abstract>
+				<ows:Abstract>Is the name of the IMG file resulting from the transformation of a single-channel JPEG2000 (grey, option 2) or to transform (option 6).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:IMGFile"/>
 				<ComplexOutput>
@@ -199,8 +329,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>IMG (RGB) from a 24 bit JPEG2000</ows:Abstract>
+				<ows:Title>Option 3</ows:Title>
+				<ows:Abstract>This generates three IMG files from a 24 bit JPEG2000 file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -208,12 +338,13 @@
 					<ows:AllowedValues>
 						<ows:Value>3</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexData>
@@ -231,14 +362,96 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>If specified, the MrSID libraries are used (only for options 2..4); otherwise, the ER Mapper ones.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>Nodata value</ows:Title>
+				<ows:Abstract>Nodata value.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerIMG</ows:Identifier>
-				<ows:Title>IMG File</ows:Title>
-				<ows:Abstract>It is the name of the single channel (grey) IMG file.</ows:Abstract>
+				<ows:Identifier>FitxerIMG_R</ows:Identifier>
+				<ows:Title>Red IMG File</ows:Title>
+				<ows:Abstract>Is the name of the IMG file resulting from the transformation of each band of the RGB triplet (option 3) or to transform (option 7).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:IMGFile"/>
+				<ows:Metadata xlink:title="Name:IMG_R_File"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>FitxerIMG_G</ows:Identifier>
+				<ows:Title>Green IMG File</ows:Title>
+				<ows:Abstract>Is the name of the IMG file resulting from the transformation of each band of the RGB triplet (option 3) or to transform (option 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FitxerIMG_G_File"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>FitxerIMG_B</ows:Identifier>
+				<ows:Title>Blue IMG File</ows:Title>
+				<ows:Abstract>Is the name of the IMG file resulting from the transformation of each band of the RGB triplet (option 3) or to transform (option 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:IMG_B_File"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -263,8 +476,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>IMG from a multiband JPEG2000</ows:Abstract>
+				<ows:Title>Option 4</ows:Title>
+				<ows:Abstract>Generates n files IMG from a JPEG2000 file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -272,12 +485,13 @@
 					<ows:AllowedValues>
 						<ows:Value>4</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>4</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexData>
@@ -295,43 +509,64 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>PatroFitxers</ows:Identifier>
-				<ows:Title>Pattern File</ows:Title>
-				<ows:Abstract>It is the name pattern of the IMG files resulting from the transformation of a multiband JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Name:PatternFile"/>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-JPEG2000</MimeType>
-							<Encoding>Binary</Encoding>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-JPEG2000</MimeType>
-							<Encoding>Binary</Encoding>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
 						</Format>
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>If specified, the MrSID libraries are used (only for options 2..4); otherwise, the ER Mapper ones.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>Nodata value</ows:Title>
+				<ows:Abstract>Nodata value.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerIMG</ows:Identifier>
-				<ows:Title>IMG File</ows:Title>
-				<ows:Abstract>It is the name of the single channel (grey) IMG file.</ows:Abstract>
-				<ows:Metadata xlink:title="Name:IMGFile"/>
+				<ows:Identifier>PatroFitxers</ows:Identifier>
+				<ows:Title>Pattern File</ows:Title>
+				<ows:Abstract>It is the name pattern of the IMG files resulting from the transformation of a multiband JPEG2000 file.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:PatternFile"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>application/x-img</MimeType>
+							<MimeType>application/x-JPEG2000</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-img</MimeType>
+							<MimeType>application/x-JPEG2000</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -346,8 +581,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>JPEG2000 from a JPEG</ows:Abstract>
+				<ows:Title>Option 5</ows:Title>
+				<ows:Abstract>Generate a JPEG2000 file from a JPEG file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -355,47 +590,86 @@
 					<ows:AllowedValues>
 						<ows:Value>5</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>5</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
-				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:JPEG2000File"/>
+				<ows:Identifier>FitxerJPEG</ows:Identifier>
+				<ows:Title>JPEG File</ows:Title>
+				<ows:Abstract>Is the name of the JPEG file resulting from the transformation (option 1) or to transform (option 5).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:JPEGFile"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>image/jp2</MimeType>
+							<MimeType>image/jpeg</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>image/jp2</MimeType>
+							<MimeType>image/jpeg</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>JPEG2000 quality</ows:Title>
+				<ows:Abstract>Compression quality of a JPG2000 file, in a supraunitary range (value 1 means lossless compression). Default is 20. High values mean less quality but more compression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>World File</ows:Title>
+				<ows:Abstract>It generates a world file of the stated extension. It is possible to indicate /FWORLD to generate it using the extension automatically. For JP2 files the extension is always J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerJPEG</ows:Identifier>
-				<ows:Title>JPEG File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:JPEGFile"/>
+				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
+				<ows:Title>JPEG2000 File</ows:Title>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -410,8 +684,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>JPEG2000 from a IMG</ows:Abstract>
+				<ows:Title>Option 6</ows:Title>
+				<ows:Abstract>Generate a Grey JPEG2000 file from 1 IMG file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -419,13 +693,14 @@
 					<ows:AllowedValues>
 						<ows:Value>6</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>6</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMG</ows:Identifier>
 				<ows:Title>IMG File</ows:Title>
-				<ows:Abstract>It is the name of the single channel (grey) IMG file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Abstract>Is the name of the IMG file resulting from the transformation of a single-channel JPEG2000 (grey, option 2) or to transform (option 6).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:IMGFile"/>
 				<ComplexData>
 					<Default>
@@ -442,24 +717,62 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>JPEG2000 quality</ows:Title>
+				<ows:Abstract>Compression quality of a JPG2000 file, in a supraunitary range (value 1 means lossless compression). Default is 20. High values mean less quality but more compression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>World File</ows:Title>
+				<ows:Abstract>It generates a world file of the stated extension. It is possible to indicate /FWORLD to generate it using the extension automatically. For JP2 files the extension is always J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerJPEG</ows:Identifier>
-				<ows:Title>JPEG File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:JPEGFile"/>
+				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
+				<ows:Title>JPEG2000 File</ows:Title>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -474,8 +787,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>24 bits JPEG2000 de 24 bits from 3 IMG</ows:Abstract>
+				<ows:Title>Option 7</ows:Title>
+				<ows:Abstract>Generates a 24 bits JPEG2000 from 3 IMG files.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -483,13 +796,14 @@
 					<ows:AllowedValues>
 						<ows:Value>7</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>7</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMG_R</ows:Identifier>
 				<ows:Title>Red IMG File</ows:Title>
-				<ows:Abstract>Is the file IMG name corresponding to the red band.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Abstract>Is the name of the IMG file resulting from the transformation of each band of the RGB triplet (option 3) or to transform (option 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:IMG_R_File"/>
 				<ComplexData>
 					<Default>
@@ -509,8 +823,8 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMG_G</ows:Identifier>
 				<ows:Title>Green IMG File</ows:Title>
-				<ows:Abstract>Is the file IMG name corresponding to the green band.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Abstract>Is the name of the IMG file resulting from the transformation of each band of the RGB triplet (option 3) or to transform (option 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:FitxerIMG_G_File"/>
 				<ComplexData>
 					<Default>
@@ -530,8 +844,8 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMG_B</ows:Identifier>
 				<ows:Title>Blue IMG File</ows:Title>
-				<ows:Abstract>Is the file IMG name corresponding to the blue band.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Abstract>Is the name of the IMG file resulting from the transformation of each band of the RGB triplet (option 3) or to transform (option 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:IMG_B_File"/>
 				<ComplexData>
 					<Default>
@@ -548,13 +862,51 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>JPEG2000 quality</ows:Title>
+				<ows:Abstract>Compression quality of a JPG2000 file, in a supraunitary range (value 1 means lossless compression). Default is 20. High values mean less quality but more compression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>World File</ows:Title>
+				<ows:Abstract>It generates a world file of the stated extension. It is possible to indicate /FWORLD to generate it using the extension automatically. For JP2 files the extension is always J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexOutput>
 					<Default>
@@ -580,8 +932,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>JPEG2000 from n IMGs</ows:Abstract>
+				<ows:Title>Option 8</ows:Title>
+				<ows:Abstract>Generates a multiband JPEG2000 file from n IMG files.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -589,13 +941,14 @@
 					<ows:AllowedValues>
 						<ows:Value>8</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>8</DefaultValue>
 				</LiteralData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="99">
 				<ows:Identifier>FitxerLlista</ows:Identifier>
 				<ows:Title>List File</ows:Title>
-				<ows:Abstract>The name of the text file with the list of the  n IMG files to generate the JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Abstract>Is the name of the list file that stores the names of the IMG files to transform to a multiband JPEG2000 file.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:ListFile"/>
 				<ComplexData>
 					<Default>
@@ -616,24 +969,62 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>JPEG2000 quality</ows:Title>
+				<ows:Abstract>Compression quality of a JPG2000 file, in a supraunitary range (value 1 means lossless compression). Default is 20. High values mean less quality but more compression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>World File</ows:Title>
+				<ows:Abstract>It generates a world file of the stated extension. It is possible to indicate /FWORLD to generate it using the extension automatically. For JP2 files the extension is always J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerJPEG</ows:Identifier>
-				<ows:Title>JPEG File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:JPEGFile"/>
+				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
+				<ows:Title>JPEG2000 File</ows:Title>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -648,8 +1039,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>JPEG2000 from a REL</ows:Abstract>
+				<ows:Title>Option 9</ows:Title>
+				<ows:Abstract>Generates a JPEG2000 file from a REL file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -657,13 +1048,14 @@
 					<ows:AllowedValues>
 						<ows:Value>9</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>9</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerREL</ows:Identifier>
 				<ows:Title>File Name</ows:Title>
 				<ows:Abstract>Is the REL file name of the IMG file to transform to a  JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:REL_File"/>
 				<ComplexData>
 					<Default>
@@ -680,13 +1072,51 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>JPEG2000 quality</ows:Title>
+				<ows:Abstract>Compression quality of a JPG2000 file, in a supraunitary range (value 1 means lossless compression). Default is 20. High values mean less quality but more compression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>World File</ows:Title>
+				<ows:Abstract>It generates a world file of the stated extension. It is possible to indicate /FWORLD to generate it using the extension automatically. For JP2 files the extension is always J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexOutput>
 					<Default>
@@ -712,8 +1142,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>JPEG2000 from a SID</ows:Abstract>
+				<ows:Title>Option 10</ows:Title>
+				<ows:Abstract>Generates a JPEG2000 file from a SID file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -721,13 +1151,14 @@
 					<ows:AllowedValues>
 						<ows:Value>10</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>10</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerSID</ows:Identifier>
 				<ows:Title>SID File</ows:Title>
 				<ows:Abstract>The SID file name to transform to JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:SIDFile"/>
 				<ComplexData>
 					<Default>
@@ -744,13 +1175,51 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>JPEG2000 quality</ows:Title>
+				<ows:Abstract>Compression quality of a JPG2000 file, in a supraunitary range (value 1 means lossless compression). Default is 20. High values mean less quality but more compression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>World File</ows:Title>
+				<ows:Abstract>It generates a world file of the stated extension. It is possible to indicate /FWORLD to generate it using the extension automatically. For JP2 files the extension is always J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexOutput>
 					<Default>
@@ -776,8 +1245,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Option</ows:Title>
-				<ows:Abstract>JPEG2000 from an ECW</ows:Abstract>
+				<ows:Title>Option 11</ows:Title>
+				<ows:Abstract>Generates a JPEG2000 file from an ECW file.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -785,13 +1254,14 @@
 					<ows:AllowedValues>
 						<ows:Value>11</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>11</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerECW</ows:Identifier>
 				<ows:Title>ECW File</ows:Title>
 				<ows:Abstract>Is the name of ECW file to transform to a JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:ECWFile"/>
 				<ComplexData>
 					<Default>
@@ -808,13 +1278,51 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>JPEG2000 quality</ows:Title>
+				<ows:Abstract>Compression quality of a JPG2000 file, in a supraunitary range (value 1 means lossless compression). Default is 20. High values mean less quality but more compression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Name of the GML file that for options 0..4 will store the GML information present in the JPEG2000 file, and for options 5..11 will contain the GML information to write into the JPEG2000 file.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>World File</ows:Title>
+				<ows:Abstract>It generates a world file of the stated extension. It is possible to indicate /FWORLD to generate it using the extension automatically. For JP2 files the extension is always J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>JPEG2000 File</ows:Title>
-				<ows:Abstract>Is the name of the JPEG2000 file.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Abstract>Is the name of the JPEG2000 file to transform (for options 1..4) or the result of the transformation (options 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:JPEG2000File"/>
 				<ComplexOutput>
 					<Default>

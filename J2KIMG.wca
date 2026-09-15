@@ -9,8 +9,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>Metadades</ows:Abstract>
+				<ows:Title>Opció 0</ows:Title>
+				<ows:Abstract>Mostra les metadades internes que hi ha desades dins del fitxer JPEG2000.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -18,12 +18,13 @@
 					<ows:AllowedValues>
 						<ows:Value>0</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexData>
@@ -41,12 +42,44 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>Si s'indica, es fan servir les biblioteques de MrSID (només per a les opcions 2..4), si no, les d'ER Mapper.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>Stdout</ows:Identifier>
+				<ows:Identifier>StdOut</ows:Identifier>
 				<ows:Title>Estandar de sortida</ows:Title>
 				<ows:Abstract>Metadades desades del fitxer JPEG2000.</ows:Abstract>
+				<ows:Metadata xlink:title="Hide:noHelp"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -71,8 +104,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>JPEG a partir d'un JPEG2000</ows:Abstract>
+				<ows:Title>Opció 1</ows:Title>
+				<ows:Abstract>Genera un fitxer JPEG a partir d'una imatge JPEG2000</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -80,12 +113,13 @@
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexData>
@@ -103,12 +137,67 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT</ows:Identifier>
+				<ows:Title>Qualitat</ows:Title>
+				<ows:Abstract>Qualitat de compressió d'un fitxer JPEG en un rang [0,100], on [5,95] és el rang útil encara que en molts casos introduirem un valor entre 70 i 75 (per defecte és 75). Els valors baixos indiquen molt poca qualitat però molta compressió.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Range>
+							<ows:MinimumValue>0</ows:MinimumValue>
+							<ows:MaximumValue>100</ows:MaximumValue>
+							<ows:Spacing>1</ows:Spacing>
+						</ows:Range>
+					</ows:AllowedValues>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>Fitxer World</ows:Title>
+				<ows:Abstract>Genera un fitxer world de l'extensió indicada. Podeu indicar /FWORLD per generar-lo usant l'extensió per defecte. Per als arxius JP2 es considera sempre l'extensió J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>Si s'indica, es fan servir les biblioteques de MrSID (només per a les opcions 2..4), si no, les d'ER Mapper.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG</ows:Identifier>
 				<ows:Title>Fitxer JPEG</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG.</ows:Abstract>
+				<ows:Abstract>És el nom del fitxer JPEG resultat de la transformació (opció 1) o a transformar (opció 5).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG"/>
 				<ComplexOutput>
@@ -135,8 +224,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>IMG a partir d'un JPEG2000</ows:Abstract>
+				<ows:Title>Opció 2</ows:Title>
+				<ows:Abstract>Genera un fitxer IMG a partir d'un fitxer JPEG2000 de grisos</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -144,12 +233,13 @@
 					<ows:AllowedValues>
 						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexData>
@@ -167,12 +257,52 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>Si s'indica, es fan servir les biblioteques de MrSID (només per a les opcions 2..4), si no, les d'ER Mapper.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>Valor sensedades</ows:Title>
+				<ows:Abstract>Valor del sensedades.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerIMG</ows:Identifier>
 				<ows:Title>Fitxer IMG</ows:Title>
-				<ows:Abstract>És el nom del fitxer IMG de un sol canal (grisos).</ows:Abstract>
+				<ows:Abstract>És el nom del fitxer IMG resultat de la transformació per a JPEG2000 d'un sol canal (grisos, opció 2) o a transformar (opció 6).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerIMG"/>
 				<ComplexOutput>
@@ -199,8 +329,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>IMG (RGB) a partir d'un JPEG2000 de 24 bits</ows:Abstract>
+				<ows:Title>Opció 3</ows:Title>
+				<ows:Abstract>Genera tres fitxers IMG a partir d'un fitxer JPEG2000 de 24 bits</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -208,12 +338,13 @@
 					<ows:AllowedValues>
 						<ows:Value>3</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexData>
@@ -231,14 +362,96 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>Si s'indica, es fan servir les biblioteques de MrSID (només per a les opcions 2..4), si no, les d'ER Mapper.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>Valor sensedades</ows:Title>
+				<ows:Abstract>Valor del sensedades.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerIMG</ows:Identifier>
-				<ows:Title>Fitxer IMG</ows:Title>
-				<ows:Abstract>És el nom del fitxer IMG de un sol canal (grisos).</ows:Abstract>
+				<ows:Identifier>FitxerIMG_R</ows:Identifier>
+				<ows:Title>Fitxer IMG_R</ows:Title>
+				<ows:Abstract>És el nom del fitxer IMG resultat de la transformació de cada banda del triplet RGB (opció 3) o a transformar (opció 7).</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:FitxerIMG"/>
+				<ows:Metadata xlink:title="Name:FitxerIMG_R"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>FitxerIMG_G</ows:Identifier>
+				<ows:Title>Fitxer IMG_G</ows:Title>
+				<ows:Abstract>És el nom del fitxer IMG resultat de la transformació de cada banda del triplet RGB (opció 3) o a transformar (opció 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:FitxerIMG_G"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>FitxerIMG_B</ows:Identifier>
+				<ows:Title>Fitxer IMG_B</ows:Title>
+				<ows:Abstract>És el nom del fitxer IMG resultat de la transformació de cada banda del triplet RGB (opció 3) o a transformar (opció 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:FitxerIMG_B"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
@@ -263,8 +476,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>IMG a partir d'un JPEG2000 multibanda</ows:Abstract>
+				<ows:Title>Opció 4</ows:Title>
+				<ows:Abstract>Genera n fitxers IMG (amb el nom derivat de PatroFitxers) a partir d'un fitxer JPEG2000 multibanda</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -272,12 +485,13 @@
 					<ows:AllowedValues>
 						<ows:Value>4</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>4</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexData>
@@ -295,43 +509,64 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>PatroFitxers</ows:Identifier>
-				<ows:Title>Patro Fitxers</ows:Title>
-				<ows:Abstract>És el patró dels noms dels fitxers IMG resultats de la transformació d'un fitxer JPEG2000 multibanda.</ows:Abstract>
-				<ows:Metadata xlink:title="Name:PatroFitxers"/>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>application/x-JPEG2000</MimeType>
-							<Encoding>Binary</Encoding>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-JPEG2000</MimeType>
-							<Encoding>Binary</Encoding>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
 						</Format>
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MRSID</ows:Identifier>
+				<ows:Title>MRSID</ows:Title>
+				<ows:Abstract>Si s'indica, es fan servir les biblioteques de MrSID (només per a les opcions 2..4), si no, les d'ER Mapper.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA</ows:Identifier>
+				<ows:Title>Valor sensedades</ows:Title>
+				<ows:Abstract>Valor del sensedades.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerIMG</ows:Identifier>
-				<ows:Title>Fitxer IMG</ows:Title>
-				<ows:Abstract>És el nom del fitxer IMG de un sol canal (grisos).</ows:Abstract>
-				<ows:Metadata xlink:title="Name:FitxerIMG"/>
+				<ows:Identifier>PatroFitxers</ows:Identifier>
+				<ows:Title>Patro Fitxers</ows:Title>
+				<ows:Abstract>És el patró dels noms dels fitxers IMG resultats de la transformació d'un fitxer JPEG2000 multibanda.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:PatroFitxers"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>application/x-img</MimeType>
+							<MimeType>application/x-JPEG2000</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>application/x-img</MimeType>
+							<MimeType>application/x-JPEG2000</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -346,8 +581,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>JPEG2000 a partir d'un JPEG</ows:Abstract>
+				<ows:Title>Opció 5</ows:Title>
+				<ows:Abstract>Genera un fitxer JPEG2000 a partir d'un fitxer JPEG.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -355,47 +590,86 @@
 					<ows:AllowedValues>
 						<ows:Value>5</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>5</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
-				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
+				<ows:Identifier>FitxerJPEG</ows:Identifier>
+				<ows:Title>Fitxer JPEG</ows:Title>
+				<ows:Abstract>És el nom del fitxer JPEG resultat de la transformació (opció 1) o a transformar (opció 5).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerJPEG"/>
 				<ComplexData>
 					<Default>
 						<Format>
-							<MimeType>image/jp2</MimeType>
+							<MimeType>image/jpeg</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>image/jp2</MimeType>
+							<MimeType>image/jpeg</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>Qualitat JPEG2000</ows:Title>
+				<ows:Abstract>Qualitat de compressió d'un fitxer JPG2000, en un rang supraunitari (el valor 1 representa una compressió sense pèrdua). El valor per defecte és 20. Els valors alts indiquen menys qualitat però més compressió.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>Fitxer World</ows:Title>
+				<ows:Abstract>Genera un fitxer world de l'extensió indicada. Podeu indicar /FWORLD per generar-lo usant l'extensió per defecte. Per als arxius JP2 es considera sempre l'extensió J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerJPEG</ows:Identifier>
-				<ows:Title>Fitxer JPEG</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:FitxerJPEG"/>
+				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
+				<ows:Title>Fitxer JPEG2000</ows:Title>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -410,8 +684,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>JPEG2000 a partir d'un IMG</ows:Abstract>
+				<ows:Title>Opció 6</ows:Title>
+				<ows:Abstract>Genera un fitxer JPEG2000 de grisos a partir d'1 fitxer IMG</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -419,13 +693,14 @@
 					<ows:AllowedValues>
 						<ows:Value>6</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>6</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMG</ows:Identifier>
 				<ows:Title>Fitxer IMG</ows:Title>
-				<ows:Abstract>És el nom del fitxer IMG de un sol canal (grisos).</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Abstract>És el nom del fitxer IMG resultat de la transformació per a JPEG2000 d'un sol canal (grisos, opció 2) o a transformar (opció 6).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerIMG"/>
 				<ComplexData>
 					<Default>
@@ -442,24 +717,62 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>Qualitat JPEG2000</ows:Title>
+				<ows:Abstract>Qualitat de compressió d'un fitxer JPG2000, en un rang supraunitari (el valor 1 representa una compressió sense pèrdua). El valor per defecte és 20. Els valors alts indiquen menys qualitat però més compressió.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>Fitxer World</ows:Title>
+				<ows:Abstract>Genera un fitxer world de l'extensió indicada. Podeu indicar /FWORLD per generar-lo usant l'extensió per defecte. Per als arxius JP2 es considera sempre l'extensió J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerJPEG</ows:Identifier>
-				<ows:Title>Fitxer JPEG</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:FitxerJPEG"/>
+				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
+				<ows:Title>Fitxer JPEG2000</ows:Title>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -474,8 +787,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>JPEG2000 de 24 bits a partir de tres IMGs</ows:Abstract>
+				<ows:Title>Opció 7</ows:Title>
+				<ows:Abstract>Genera un fitxer JPEG2000 de 24 bits a partir de 3 fitxers IMG.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -483,13 +796,14 @@
 					<ows:AllowedValues>
 						<ows:Value>7</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>7</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMG_R</ows:Identifier>
 				<ows:Title>Fitxer IMG_R</ows:Title>
-				<ows:Abstract>És el nom del fitxer IMG corresponent a la banda vermella.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Abstract>És el nom del fitxer IMG resultat de la transformació de cada banda del triplet RGB (opció 3) o a transformar (opció 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerIMG_R"/>
 				<ComplexData>
 					<Default>
@@ -509,8 +823,8 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMG_G</ows:Identifier>
 				<ows:Title>Fitxer IMG_G</ows:Title>
-				<ows:Abstract>És el nom del fitxer IMG corresponent a la banda verda</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Abstract>És el nom del fitxer IMG resultat de la transformació de cada banda del triplet RGB (opció 3) o a transformar (opció 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:FitxerIMG_G"/>
 				<ComplexData>
 					<Default>
@@ -530,8 +844,8 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMG_B</ows:Identifier>
 				<ows:Title>Fitxer IMG_B</ows:Title>
-				<ows:Abstract>És el nom del fitxer IMG corresponent a la banda blava.</ows:Abstract>
-				<ows:Metadata xlink:title="Param4"/>
+				<ows:Abstract>És el nom del fitxer IMG resultat de la transformació de cada banda del triplet RGB (opció 3) o a transformar (opció 7).</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:FitxerIMG_B"/>
 				<ComplexData>
 					<Default>
@@ -548,13 +862,51 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>Qualitat JPEG2000</ows:Title>
+				<ows:Abstract>Qualitat de compressió d'un fitxer JPG2000, en un rang supraunitari (el valor 1 representa una compressió sense pèrdua). El valor per defecte és 20. Els valors alts indiquen menys qualitat però més compressió.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>Fitxer World</ows:Title>
+				<ows:Abstract>Genera un fitxer world de l'extensió indicada. Podeu indicar /FWORLD per generar-lo usant l'extensió per defecte. Per als arxius JP2 es considera sempre l'extensió J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexOutput>
 					<Default>
@@ -580,8 +932,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>JPEG2000 a partir de n IMGs</ows:Abstract>
+				<ows:Title>Opció 8</ows:Title>
+				<ows:Abstract>Genera un fitxer JPEG2000 multibanda a partir d'n fitxers IMG els noms dels quals es donen en un fitxer llista.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -589,13 +941,14 @@
 					<ows:AllowedValues>
 						<ows:Value>8</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>8</DefaultValue>
 				</LiteralData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="99">
 				<ows:Identifier>FitxerLlista</ows:Identifier>
 				<ows:Title>Fitxer Llista</ows:Title>
-				<ows:Abstract>Es el nom del fitxer amb la llista dels n fitxers IMG per generar el fitxer JPEG2000.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Abstract>És el nom del fitxer llista que guarda els noms dels dels fitxers IMG a transformar a un fitxer JPEG2000 multibanda.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerLlista"/>
 				<ComplexData>
 					<Default>
@@ -616,24 +969,62 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>Qualitat JPEG2000</ows:Title>
+				<ows:Abstract>Qualitat de compressió d'un fitxer JPG2000, en un rang supraunitari (el valor 1 representa una compressió sense pèrdua). El valor per defecte és 20. Els valors alts indiquen menys qualitat però més compressió.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>Fitxer World</ows:Title>
+				<ows:Abstract>Genera un fitxer world de l'extensió indicada. Podeu indicar /FWORLD per generar-lo usant l'extensió per defecte. Per als arxius JP2 es considera sempre l'extensió J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>FitxerJPEG</ows:Identifier>
-				<ows:Title>Fitxer JPEG</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:FitxerJPEG"/>
+				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
+				<ows:Title>Fitxer JPEG2000</ows:Title>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Default>
 					<Supported>
 						<Format>
-							<MimeType>image/jpeg</MimeType>
+							<MimeType>image/jp2</MimeType>
 							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
@@ -648,8 +1039,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>JPEG2000 a partir d'un REL</ows:Abstract>
+				<ows:Title>Opció 9</ows:Title>
+				<ows:Abstract>Genera un fitxer JPEG2000 a partir d'un fitxer REL.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -657,13 +1048,14 @@
 					<ows:AllowedValues>
 						<ows:Value>9</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>9</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerREL</ows:Identifier>
 				<ows:Title>Fitxer REL</ows:Title>
 				<ows:Abstract>És el nom del fitxer REL dels fitxers IMG a transformar a un fitxer JPEG2000.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerREL"/>
 				<ComplexData>
 					<Default>
@@ -680,13 +1072,51 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>Qualitat JPEG2000</ows:Title>
+				<ows:Abstract>Qualitat de compressió d'un fitxer JPG2000, en un rang supraunitari (el valor 1 representa una compressió sense pèrdua). El valor per defecte és 20. Els valors alts indiquen menys qualitat però més compressió.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>Fitxer World</ows:Title>
+				<ows:Abstract>Genera un fitxer world de l'extensió indicada. Podeu indicar /FWORLD per generar-lo usant l'extensió per defecte. Per als arxius JP2 es considera sempre l'extensió J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexOutput>
 					<Default>
@@ -712,8 +1142,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>JPEG2000 a partir d'un SID</ows:Abstract>
+				<ows:Title>Opció 10</ows:Title>
+				<ows:Abstract>Genera un fitxer JPEG2000 a partir d'un fitxer SID.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -721,13 +1151,14 @@
 					<ows:AllowedValues>
 						<ows:Value>10</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>10</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerSID</ows:Identifier>
 				<ows:Title>Fitxer SID</ows:Title>
 				<ows:Abstract>És el nom del fitxer SID a transformar a un fitxer JPEG2000.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerSID"/>
 				<ComplexData>
 					<Default>
@@ -744,13 +1175,51 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>Qualitat JPEG2000</ows:Title>
+				<ows:Abstract>Qualitat de compressió d'un fitxer JPG2000, en un rang supraunitari (el valor 1 representa una compressió sense pèrdua). El valor per defecte és 20. Els valors alts indiquen menys qualitat però més compressió.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>Fitxer World</ows:Title>
+				<ows:Abstract>Genera un fitxer world de l'extensió indicada. Podeu indicar /FWORLD per generar-lo usant l'extensió per defecte. Per als arxius JP2 es considera sempre l'extensió J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexOutput>
 					<Default>
@@ -776,8 +1245,8 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>JPEG2000 a partir d'un ECW</ows:Abstract>
+				<ows:Title>Opció 11</ows:Title>
+				<ows:Abstract>Genera un fitxer JPEG2000 a partir d'un fitxer ECW.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
@@ -785,13 +1254,14 @@
 					<ows:AllowedValues>
 						<ows:Value>11</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>11</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerECW</ows:Identifier>
 				<ows:Title>Fitxer ECW</ows:Title>
 				<ows:Abstract>És el nom del fitxer ECW a transformar a un fitxer JPEG2000.</ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerECW"/>
 				<ComplexData>
 					<Default>
@@ -808,13 +1278,51 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>QUALITAT_J2K</ows:Identifier>
+				<ows:Title>Qualitat JPEG2000</ows:Title>
+				<ows:Abstract>Qualitat de compressió d'un fitxer JPG2000, en un rang supraunitari (el valor 1 representa una compressió sense pèrdua). El valor per defecte és 20. Els valors alts indiquen menys qualitat però més compressió.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+					<DefaultValue>1</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>GMLBOX</ows:Identifier>
+				<ows:Title>GMLBOX</ows:Title>
+				<ows:Abstract>Indica el nom de l'arxiu GML que per a les opcions 0..4 guardarà la informació GML present a l'arxiu JPEG2000, i per a les opcions 5..11 contindrà la informació GML que es vulgui escriure a l'arxiu JPEG2000.</ows:Abstract>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/gml+xml</MimeType>
+							<Encoding>utf-8</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>FWORLD</ows:Identifier>
+				<ows:Title>Fitxer World</ows:Title>
+				<ows:Abstract>Genera un fitxer world de l'extensió indicada. Podeu indicar /FWORLD per generar-lo usant l'extensió per defecte. Per als arxius JP2 es considera sempre l'extensió J2W.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 		</DataInputs>
 		<ProcessOutputs>
 			<Output>
 				<ows:Identifier>FitxerJPEG2000</ows:Identifier>
 				<ows:Title>Fitxer JPEG2000</ows:Title>
-				<ows:Abstract>És el nom del fitxer JPEG2000.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
+				<ows:Abstract>És el nom del fitxer JPEG2000 a transformar (per a les opcions 1..4) o el resultat de la transformació (opcions 5..11).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerJPEG2000"/>
 				<ComplexOutput>
 					<Default>
