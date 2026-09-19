@@ -1,122 +1,121 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 19-09-2026 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>IdrMM: Importación y exportación entre formatos ráster de Idrisi y MiraMon</title>
+<title>IdrMM: Importación y exportación entre formatos ráster de Idrisi y MiraMon</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
-<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<p><ul>
+<h4>Acceso directo de la <a href="https://www.miramon.cat/help/spa/" target="_blank">ayuda</a> en Internet: <a href="https://www.miramon.cat/help/spa/msa/IdrMM.htm" target="_blank"><font size="+2">IdrMM</font></a></h4>
+<h4>Acceso a la aplicación desde el menú:<br>
+<i>"Fichero | Importar | Rásters | RST (Idrisi-32) -> IMG"</i><br>
+<i>"Fichero | Exportar | Rásters | IMG -> RST (Idrisi-32)" </i></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+
+<p>Este programa permite transformar una familia de ficheros ráster de MiraMon al formato RST de Idrisi-32 y viceversa. Los tipos de transformaciones implementadas son:</p>
 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
-<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->    
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>Los tipos de transformaciones implementadas son:</p>
+<p>Ambos archivos, IMG y RST, son binarios, pero MiraMon acepta más tipos que Idrisi-32. Idrisi-32 soporta los tipos byte, <i>integer</i> y <i>real</i>, mientras que MiraMon acepta además, los tipos bit y long y las correspondientes compresiones <a href="../mm32/AP1.htm">RLE</a> (byte-RLE, <i>integer</i>-RLE...). Como Idrisi-32 no soporta el tipo long se puede decidir que los datos del archivo de Idrisi-32 transformado sean <b><i>integer</i></b> o <b><i>real</i></b> mediante un parámetro optativo. En el caso de una exportación de un ráster MiraMon de tipo long a Idrisi-32 de tipo <i>integer</i>, el parámetro optativo a utilizar es <i>/long_SHORT</i> y en el caso de una exportación a Idrisi-32 de tipo <i>real</i> el parámetro optativo a utilizar es <i>/long_real</i>. Por defecto (si no se especifica el parámetro optativo) el programa aplica <i>/long_real</i></i>.</p>
 
-  <ul>
-    <li>Exportación de una banda de cualquier formato IMG de MiraMon a formato
-    RST de Idrisi-32.</li>
+<p>En el caso de una transformación de MiraMon a Idrisi-32 con el parámetro optativo <i>/long_SHORT</i> la aplicación satura los valores del ráster origen superiores a 32767 o inferiores a -32768. La saturación se <i>real</i>iza siguiendo el siguiente protocolo:</p>
 
-    <li>Importación de Idrisi-32 en formato RST monobanda a IMG de
-    MiraMon.</li>
+<ul>
+	<li>Si el ráster origen contiene valores sindatos superiores a 32766 o inferiores a -32767, la aplicación definirá el valor sindatos en 32767 en el primer caso y en -32768 en el segundo. El resto de valores del ráster origen superiores a 32766 o inferiores a -32767 se asignan a 32766 o a -32767 respectivamente.</li>
+	<li>Si el ráster origen no contiene valores sindatos, los valores superiores a 32766 o inferiores a -32767 se asignan a 32767 o a -32768, respectivamente.</li>
+ </ul>
 
-    <li>Exportación de JPEG georreferenciados (<i>J.rel</i>) de MiraMon a un
-    archivo RST de tres bandas RGB de Idrisi-32.</li>
-  </ul>
+<p>Cabe destacar que esta aplicación no <i>real</i>iza exportaciones de archivos con datos de tipo <i>bit</i>; para ello deben transformarse los datos a tipo <i>byte</i> con la aplicación <a href="IMGIMG.htm">IMGIMG</a> y posteriormente exportar a RST. Tampoco importa a formato MiraMon archivos RST de 24 <i>bit</i>s (composiciones de tres bandas) de Idrisi-32; en este caso se aconseja usar un formato TIFF (georreferenciado como GeoTiff) como intermediario y entonces usar la aplicación <a href="TIFIMG.htm">TIFIMG</a> para obtener el correspondiente IMG de 24 <i>bit</i>s.</p>
 
-  <p>Ambos archivos, IMG y RST, son binarios, pero MiraMon acepta más tipos
-  que Idrisi-32. Idrisi-32 soporta los tipos byte, integer y real, mientras
-  que MiraMon acepta además, los tipos bit y long y las correspondientes
-  compresiones <a href="../mm32/AP1.htm">RLE</a> (byte-RLE, integer-RLE...).
-  Como Idrisi-32 no soporta el tipo long se puede decidir que los datos del
-  archivo de Idrisi-32 transformado sean <b>integer</b> o <b>real</b> mediante
-  un parámetro optativo. En el caso de una exportación de un ráster MiraMon de
-  tipo long a Idrisi-32 de tipo integer, el parámetro optativo a utilizar es
-  <i>/LONG_SHORT</i> y en el caso de una exportación a Idrisi-32 de tipo real
-  el parámetro optativo a utilizar es <i>/LONG_REAL</i>. Por defecto (si no se
-  especifica el parámetro optativo) el programa aplica <i>/LONG_REAL</i>.</p>
+<p>Sobre los archivos ráster de Idrisi-16 cabe indicar que tienen el mismo formato que los archivos de MiraMon; por tanto todos los archivos ráster de Idrisi-16 RST que sean binarios y no comprimidos se pueden leer directamente con MiraMon con la opción &quot;Archivo | Abrir ráster&quot;. Aún así, existen algunas situaciones especiales que se detallan a continuación:</p>
 
-  <p>En el caso de una transformación de MiraMon a Idrisi-32 con el parámetro
-  optativo <i>/LONG_SHORT</i> la aplicación satura los valores del raster
-  origen superiores a 32767 o inferiores a -32768. La saturación se realiza
-  siguiendo el siguiente protocolo:</p>
+<p>De Idrisi-16 a MiraMon:</p>
 
-  <ul>
-    <li>Si el raster origen contiene valores sindatos superiores a 32766 o
-    inferiores a -32767, la aplicación definirá el valor sindatos en 32767 en el
-    primer caso y en -32768 en el segundo. El resto de valores del raster
-    origen superiores a 32766 o inferiores a -32767 se asignan a 32766 o a
-    -32767 respectivamente.</li>
+<ul>
+	<li>Si el archivo es ASCII o comprimido (&quot;packed&quot;) se debe convertir a binario no comprimido con la utilidad CONVERT de Idrisi-16 (para los ASCII también se puede utilizar, desde MiraMon, &quot;Archivo | Importar | ASCII-&gt;IMG&quot;).</li>
+	<li>Si se desea ampliar el modelo de metadatos del archivo DOC de Idrisi-16, debe hacerse con GeM+, con la posibilidad de mantener los dos formatos (DOC i REL).</li>
+</ul>
 
-    <li>Si el raster origen no contiene valores sindatos, los valores superiores
-    a 32766 o inferiores a -32767 se asignan a 32767 o a -32768,
-    respectivamente.</li>
-  </ul>
+<p>De MiraMon a Idrisi-16:</p>
 
-  <p>Cabe destacar que esta aplicación no realiza exportaciones de archivos con
-  datos de tipo bit; para ello deben transformarse los datos a tipo byte con
-  la aplicación <a href="IMGIMG.htm">IMGIMG</a> y posteriomente exportar a
-  RST. Tampoco importa a formato MiraMon archivos RST de 24 bits
-  (composiciones de tres bandas) de Idrisi-32; en este caso se aconseja usar
-  un formato TIFF (georreferenciado como GeoTiff) como intermediario y
-  entonces usar la aplicación <a href="TIFIMG.htm">TIFIMG</a> para obtener el
-  correspondiente IMG de 24 bits.</p>
+<ul>
+	<li>Si el archivo ráster de MiraMon es <i>byte</i> y RLE se debe verificar que no sea extracomprimido y que no sea indexado (<a href="IMGIMG.htm">IMGIMG</a>) y cambiar la documentación que figura en el DOC ya que MiraMon especifica que los datos están comprimidos (RLE) en el mismo campo tipo datos (p.ej. <i>byte</i>-RLE) e Idrisi-16 escribe el RLE en otro campo.</li>
+	<li>En el caso de que el archivo ráster de MiraMon tenga metadatos en formato REL, debe utilizarse el Gestor de Metadatos Geoespaciales (GeM+) para transformarlos a formato DOC.</li
+    <li>En el caso de que el archivo ráster de MiraMon sea de tipo <i><i>long</i></i> o <i><i>long</i></i>-RLE, se deben tener en cuenta las consideraciones de las transformaciones entre MiraMon e Idrisi-32.</li>
+    <li>En el caso de que el archivo ráster de MiraMon sea de tipo <i>short</i>o <i><i>long</i></i> con categorías (con valores superiores a 255), no se puede transformar a Idrisi-16.</li>
+</ul>
 
-  <p>Sobre los archivos raster de Idrisi-16 cabe indicar que tienen el mismo
-  formato que los archivos de MiraMon; por tanto todos los archivos raster de
-  Idrisi-16 RST que sean binarios y no comprimidos se pueden leer directamente
-  con MiraMon con la opción &quot;Archivo | Abrir ráster&quot;. Aún así,
-  existen algunas situaciones especiales que se detallan a continuación:</p>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <p>De Idrisi-16 a MiraMon:</p>
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
 
-  <ul>
-    <li>Si el archivo es ASCII o comprimido (&quot;packed&quot;) se debe
-    convertir a binario no comprimido con la utilidad CONVERT de Idrisi-16
-    (para los ASCII tambien se puede utilizar, desde MiraMon, &quot;Archivo |
-    Importar | ASCII-&gt;IMG&quot;).</li>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="IdrMM_finestra.png">	<img src="IdrMM_finestra2.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de IdrMM</td>
+</tr>
+</table>
+</div>
 
-    <li>Si se desea ampliar el modelo de metadatos del archivo DOC de
-    Idrisi-16, debe hacerse con GeM+, con la posibilidad de mantener los dos
-    formatos (DOC i REL).</li>
-  </ul>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <p>De MiraMon a Idrisi-16:</p>
+<!--<h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
 
-  <ul>
-    <li>Si el archivo raster de MiraMon es byte y RLE se debe verificar que no
-    sea extracomprimido y que no sea indexado (<a href="IMGIMG.htm">IMGIMG</a>) y cambiar la documentación que figura en el DOC
-    ya que MiraMon especifica que los datos están comprimidos (RLE) en el
-    mismo campo tipo datos (p.ex. byte-RLE) e Idrisi-16 escribe el RLE en otro
-    campo.
-    </li>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="XXX.png"/><img src="XXX.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Text explicatiu de l'exemple.</td>
+</tr>
+</table>
+</div>
 
-    <li>En el caso de que el archivo ráster de MiraMon tenga metadatos en
-    formato REL, debe utilizarse el Gestor de Metadatos Geoespaciales (GeM+) para
-    transformarlos a formato DOC.</li>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
 
-    <li>En el caso de que el archivo raster de MiraMon sea de tipo long o
-    long-RLE, se deben tener en cuenta las consideraciones de las
-    transformciones entre MiraMon e Idrisi-32.</li>
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
 
-    <li>En el caso de que el archivo raster de MiraMon sea de tipo short o
-    long con categorías (con valores superiores a 255), no se puede
-    transformar a Idrisi-16.</li>
-  </ul>
-  <hr/>
-
-  <exclusiva>
-    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
-<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.--><!-- $$EXCLUSIVA$$
-<p><!-- $$EXCLUSIVA$$
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p>
+<!-- $$EXCLUSIVA$$
 Para obtener la ayuda completa escriba:
 IdrMM ?
---></p>
-  </exclusiva>
-  <hr/>
-  MiraMon es un programa registrado por Xavier Pons<br/>
-  Idrisi es un programa © de J.Ronald Eastman and Clark University
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
+MiraMon es un programa registrado por Xavier Pons<br/>
+Idrisi es un programa © de J.Ronald Eastman and Clark University
 </body>
 </html>
