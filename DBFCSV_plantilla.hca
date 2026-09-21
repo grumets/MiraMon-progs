@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 6-12-2024 */-->
+<!--/* Revisió AA 19-09-2026 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>DBFCSV: Conversió entre fitxers DBF i CSV</title>
@@ -9,9 +9,12 @@
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <p><ul>
-<h4>Accés a aquest text d'ajuda com a pàgina web: <a href="https://www.miramon.cat/help/cat/msa/DBFCSV.htm"><font size="+2">DBFCSV</font></a></h4>
+<h4>Accés directe de l'<a href="https://www.miramon.cat/help/cat/" target="_blank">ajuda</a> a Internet: <a href="https://www.miramon.cat/help/cat/msa/DBFCSV.htm" target="_blank"><font size="+2">DBFCSV</font></a></h4>
+<h4>Accés a l'aplicació des del menú:<br>
+<i>"Fitxer | Importar | Vectors i/o bases de dades"</i><br>
+<i>"Fitxer | Exportar"</i></h4>
 </ul></p>
-<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
 
 <hr>
 <table width="98%">
@@ -20,7 +23,7 @@
 	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
 </tr>
 <tr align="center" valign="middle">
-	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples</a></span></td>
 	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
 </tr>
 </table>
@@ -28,21 +31,52 @@
 
 <h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
 
-  <p>Aquesta aplicació converteix fitxers des del format DBF (taules dBASE en format DBF clàssica o en DBF estesa) al format CSV (exportació de taules de l'Excel), i a l'inrevés. </p>
+<p>Aquesta aplicació converteix fitxers des del format DBF al format CSV i a l'inrevés. Els fitxers TXT també són compatibles com a format de dades tabulars, tant per a la lectura com per a l'escriptura. Les opcions possibles són:<br/></p>
 
-  <p>En la conversió de DBF a CSV es pot escollir el separador de llistes, que usualment és un punt i coma (";"). Accepta també la paraula especial "TAB" (sense cometes) per a escollir el tabulador com a 
-  separador de llistes.</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--></p>
 
-  <p>La primera fila del CSV generat contindrà els noms dels camps, que esdevindran les columnes del fitxer CSV.</p>
+<p>En la <b>conversió de DBF a CSV/TXT</b>, les dades de la taula original es transformen en un fitxer de text. En aquest fitxer, els textos apareixen en una mateixa línia i les diferents columnes o camps es distingeixen mitjançant un caràcter separador, el qual es pot escollir. En molts països d'Europa el separador preferit és el punt i coma (;), i la coma (,) als Estats Units i molts altres països. Aquest modificador accepta també la paraula especial TAB per a indicar que el caràcter tabulador (de valor binari 9 al fitxer CSV) serà el caràcter separador de llistes. El caràcter tabulador és una elecció excel·lent (recomanada) perquè la lectura de fitxers CSV en altres programes (com el propi MS-Excel) és molt menys problemàtica quan els camps contenen comes, punts i comes, cometes, apòstrofs, etc. També s'accepten les paraules especials SPA, per indicar que l'espai serà el caràcter separador de llistes, i CAP, per indicar que no hi ha cap separador de llistes.</p> 
 
-  <p>En la conversió inversa, de CSV a DBF, cal escollir el separador que s'ha usat en el CSV per a generar les diferents columnes (si teniu dubtes, podeu obrir el fitxer amb un editor de text i mirar quin separador es fa servir; tingueu en compte que si hi ha cometes, normalment delimiten un text que conté un separador de camps que no s'ha d'interpretar com a tal, o serveixen, si van doblades, per indicar unes cometes simples que han de constar com a caràcter de text).</p>
-  
-  <p>La primera fila del CSV pot contenir els noms de les columnes i, en tal cas, es pot adoptar aquests 
-  noms com a noms dels camps de la DBF que es generi.</p>
+<p>La primera fila del CSV generat contindrà els noms dels camps, que esdevindran les columnes del fitxer CSV i en les files successives, s'escriuran els valors de cada registre, separats entre ells pel delimitador seleccionat.</p>
 
-  <p>En el MiraMon les taules principals associades a fitxers que són capes amb continguts geogràfics o geomètrics (capes de gràfics, etc) són en format DBF o DBF estesa, i sempre tenen una primera columna utilitzada per a guardar el que s'anomena identificador gràfic (ID_GRAFIC). Aquest s'utilitza per a donar a cada objecte gràfic una sèrie d'atributs, geomètrico-topològics o temàtics. En cas que el CSV no tingui una primera columna d'identificadors gràfics, aquesta es pot generar de forma automàtica.</p>
+<p>En la <b>conversió inversa, de CSV/TXT a DBF</b>, cal escollir el separador que s'ha usat en el CSV per a generar les diferents columnes (en cas de dubte, es pot obrir el fitxer per consultar quin separador es fa servir a través de la icona <img src="DBFCSV_mostrar_csv.png"/> o bé obrir-lo amb qualsevol editor de text; cal tenir en compte que, si  hi ha cometes, normalment delimiten un text que anirà a parar a un mateix camp, o serveixen, si van doblades (""), per indicar unes cometes simples que han de constar com a caràcter de text, habitualment per a marcar el signe dels segons d'arc, o dels segons com 1/60 d’un minut).</p>  
 
-  <p>En el MiraMon les taules DBF poden anar més enllà de les limitacions del format dBASE IV (que anomenem DBF clàssica, vegeu el document dedicat a la <a href="http://www.miramon.cat/new_note/cat/notes/DBF_estesa_v1_5.pdf" target="_blank">DBF estesa</a>) però en altres casos, com per exemple en les taules corresponents a capes en format Shape, no. Per tant, l'aplicació ofereix la possibilitat de restringir la conversió de CSV a DBF dins els límits del format d'una DBF clàssica; tingueu present que en aquest cas, com és lògic, pot ser que es perdin camps, o parts de continguts de camps, o que els noms dels camps s'hagin de simplificar, etc, perquè no és possible encabir aquesta informació en una DBF clàssica.</p>
+<p>La primera fila del CSV pot contenir els noms de les columnes (quan se selecciona Primera línia amb capçalera); en aquest cas, es pot adoptar aquests noms com a noms dels camps de la DBF que es generi. En aquesta primera fila el separador dels noms dels camps és el mateix que en la resta de files que donaran lloc als registres. En el cas que el fitxer CSV contingui línies en blanc al final, particularment degudes a un retorn final, aquestes files no són incorporades a la DBF com a registres buits. En cas que es desitgin aquests registres sense informació, s'han d'escriure tants separadors com camps en la línia.</p>  
+
+<p>Cal tenir present que en el cas dels fitxers CSV el programa analitza el fitxer prèviament per tal de determinar el <a href="../mm32/MAjuda.htm#joc">joc de caràcters</a> i determinar si el fitxer és ANSI, OEM o UTF-8. La taula DBF de sortida s'escriu en el codi de caràcters indicat a la clau JocCaracDBFPerDefecte= del MiraMon.par, la qual es pot modificar des d'un editor de text pla, o des del menú "Ajuda | Configurar paràmetres", a la pestanya "Zoom i Aspectes generals".
+
+<p>En el MiraMon les taules principals associades a fitxers que són capes amb continguts geogràfics o geomètrics (capes de gràfics, etc) són en format DBF o DBF estesa, i sempre tenen una primera columna utilitzada per a guardar el que s'anomena identificador gràfic (ID_GRAFIC). Aquest s'utilitza per a donar a cada objecte gràfic una sèrie d'atributs, geomètrico-topològics o temàtics. En cas que el CSV no tingui una primera columna d'identificadors gràfics, aquesta es pot generar activant la casella "Afegir columna d'identificador gràfic".</p>
+
+<p>A més, en el MiraMon les taules DBF poden anar més enllà de les limitacions del format dBASE IV (que s'anomena DBF clàssica, es pot consultar el document dedicat a la <a href="http://www.miramon.cat/new_note/cat/notes/DBF_estesa_v1_5.pdf" target="_blank">DBF estesa</a>) però en altres casos, com per exemple en les taules corresponents a capes en format Shape, no és així. Per tant, l'aplicació ofereix la possibilitat de restringir la conversió de CSV a DBF dins els límits del format d'una DBF clàssica (no estesa); cal tenir present que en aquest cas, com és lògic, pot ser que es perdin camps, o parts de continguts de camps, o que els noms dels camps s'hagin de simplificar, etc, perquè no és possible encabir aquesta informació en una DBF clàssica.</p>
+
+<p>Per altra banda, també es permet determinar quin és el caràcter que actua com a qualificador de text. En un fitxer CSV, el qualificador de text es fa servir per a delimitar l'inici i el final d'un text que s’ha de considerar pertanyent a un columna (que esdevindrà un camp a la DBF). És a dir, serveix per indicar que tot el que hi ha entre dos qualificadors (per exemple cometes o apòstrofs), forma part del mateix camp, encara que a dins hi hagi el caràcter que s'utilitza per separar les columnes. Això permet, per exemple, que, si s'ha indicat que el separador és una coma, un camp de text pugui contenir una coma si el conjunt del camp està escrit entre qualificadors que són cometes sense que aquesta s'interpreti com el final del camp. Per aconseguir-ho, el contingut del camp s'escriu entre dos caràcters que són denominats qualificadors.<p>
+
+<p>El MiraMon permet seleccionar entre 5 possibles qualificadors: 
+
+<ul>
+<li Type=circle>Apòstrof (<i>'</i>)</li> 
+<li Type=circle>Cometes (<i>"</i>): és el qualificador més habitual</li>
+<li Type=circle>Apòstrof (excepte si el separador és TAB): quan el separador de columnes és el tabulador, permet tractar els apòstrofs que puguin aparèixer dins del text com a caràcters normals i no com a qualificadors de text</li>
+<li Type=circle>Cometes (excepte si el separador és TAB): anàlogament al cas anterior en cas de trobar cometes dins el text. És el valor per defecte</li>
+<li Type=circle>Cap: es considera que no hi ha cap caràcter que actuï com a delimitador de text</li>
+</ul>
+
+<p>Per exemple, en un registre que conté tres camps: un camp numèric (<i>1</i>), un camp de text (<i>Pinus, Abies, etc</i>) i un altre camp numèric (<i>28</i>) i se selecciona com a qualificador les cometes:</p>
+
+<pre>1,"Pinus, Abies, etc",28</pre> 
+
+<p>les comes que hi ha dins del text <i>"Pinus, Abies, etc"</i> no es consideren separadors, ja que s'ha indicat que el text està delimitat pel qualificador, que en aquest cas són les cometes.</p>
+</ul>
+
+<p>En darrer lloc, el MiraMon també permet determinar l'opció desitjada en cas de doble qualificador. Quan en un fitxer CSV es troba un doble qualificador (o sigui, dos qualificadors seguits: "") pot ser que es vulgui fer referència a un camp que és buit de contingut, però també pot ser que vulgui fer referència al caràcter " en si, com quan el camp conté unes coordenades en graus-minuts-segons, i el valor dels segons va seguit del símbol ". En aquests casos pot ser que en l'escriptura del fitxer CSV s'hagi optat per escriure un doble qualificador "" per tal d'evitar que el símbol dels segons es consideri que obre un text nou amb un qualificador. Aquesta opció de doble qualificador permet indicar amb quin criteri s'ha d'interpretar la presència d'un doble qualificador: 
+<ul>
+<li Type=circle>Caràcter normal: si el qualificador és, per exemple, COMETES ("), i el programa troba "" al fitxer CSV, considerarà que s'ha de convertir, en el camp DBF, en un simple símbol de cometes ("), cosa que és útil per a suportar segons d'arc en una cadena i, alhora, que hi hagi cadenes amb qualificadors que siguin cometes. És el valor per defecte</li>
+<li Type=circle>Qualificador: el programa considerarà que el doble qualificador té el caràcter de qualificador i que, per tant, "" defineix una cadena buida (un camp buit a la DBF).</li>
+</ul>
+
+<p>L'aplicació també permet la lectura i l'escriptura de fitxers de metadades en format CSVW (JSON) per a documentar propietats de les columnes com el nom del camp, tipus de dades, amplada màxima, unitats (si s'han indicat), etc. En la conversió d'un fitxer CSV/TXT a DBF, en seleccionar el fitxer CSV/TXT, l'aplicació intenta localitzar automàticament el fitxer CSVW corresponent i, si el troba, l'assigna al recurs corresponent i actualitza les opcions que es poden escollir a la caixa (separador de llistes, presència de capçalera, etc). Si no troba cap fitxer CSVW o la persona usuària no l'indica, l'aplicació intenta estimar automàticament el separador de llistes i la presència de capçalera del fitxer CSV/TXT.</p> 
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
@@ -52,10 +86,11 @@
 <div align="center">
 <table>
 <tr>
-<td><div align="center"><img src="DBFCSV_finestra.png"><img src="DBFCSV_finestra2.png"></div></td>
+<td><div align="center"><img src="DBFCSV_finestra.png"><br>
+<img src="DBFCSV_finestra2.png"></div></td>
 </tr>
 <tr>
-<td align="center">Caixa de diàleg del DBFCSV</td>
+<td align="center">Caixes de diàleg del DBFCSV</td>
 </tr>
 </table>
 </div>
@@ -63,10 +98,51 @@
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+<h2><a id="Exemples" name="Exemples"></a>Exemples</h2>
+
+<p>En el següent exemple es mostra la conversió d'un fitxer DBF que conté informació dels arbres monumentals d'un país.</p>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="DBFCSV_exemple_taula.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Taula DBF origen</td>
+</tr>
+</table>
+</div>
+
+<p>Si s'utilitza el punt i coma (;) com a separador, la capçalera i la primera fila amb dades de la taula DBF original que recull els arbres monumentals s'escriuen:</p>
+
+<pre>ID_GRAFIC;MENA_DECLA;NOM_DECLAR;ESPECIE;INE;TERME_MUNI;COMARCA;MATRICULA;ESTAT_DETA;ESTAT_RESU;URL;COORX;COORY;OBJECTID
+0;AM;Pi Vell de l'Arp II;Pinus uncinata;25909;Vansa i Fórnols, La;Alt Urgell, l';AM 04.909.01b;N;Viu;http://mediambient.gencat.cat/ca/05_ambits_dactuacio/patrimoni_natural/arbres-monumentals/am_arbres_monumentals_fitxes/alt-urgell-6/pins-vells-de-larp-l-ll-lll/;377432.00;4673067.00;26 
+</pre>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="DBFCSV_exemple_csv.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Fitxer CSV resultant</td>
+</tr>
+</table>
+</div>
+<p><p>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="DBFCSV_exemple_metadades_json.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Fitxer de metadades en format CSVW (JSON)</td>
+</tr>
+</table>
+</div>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
-<hr/>-->
+<hr/>
 
  <exclusiva>
 <h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>

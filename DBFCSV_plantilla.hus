@@ -1,15 +1,18 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 6-12-2024 */-->
+<!--/* Revisió AA 19-09-2026 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>DBFCSV: Conversion between DBF and CSV files</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
 <a id="MENU" name="MENU"></a>
-  <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
 <p><ul>
-<h4>Access this help text as a web page: <a href="https://www.miramon.cat/help/eng/msa/DBFCSV.htm"><font size="+2">DBFCSV</font></a></h4>
+<h4>Direct access to online <a href="https://www.miramon.cat/help/eng/" target="_blank">help</a>: <a href="https://www.miramon.cat/help/eng/msa/DBFCSV.htm" target="_blank"><font size="+2">DBFCSV</font></a></h4>
+<h4>Access the application from the menu: <br>
+<i>"File | Import | Vectors and/or databases"</i><br>
+<i>"File | Export"</i></h4>
 </ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
@@ -20,7 +23,7 @@
 	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
 </tr>
 <tr align="center" valign="middle">
-	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Examples</a></span></td>
 	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
 </tr>
 </table>
@@ -28,19 +31,52 @@
 
 <h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
 
-  <p>This application converts files from the DBF format (dBASE tables in classic DBF format or in extended DBF) to the CSV format (export of Excel tables) and vice versa.</p>
+<p>This application converts files from DBF format to CSV format and vice versa. TXT files are also supported as a tabular data format, both for reading and writing. The available options are:<br/></p>
 
-  <p>In the conversion from DBF to CSV the list separator can be chosen, which is usually a semicolon (";"). Also, it accepts the special word "TAB" (without quotes) to choose the tabulator as a list separator.</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--></p>
 
-  <p>The first row of the generated CSV will contain the names of the fields, which will be converted into the columns of the CSV file.</p>
+<p>In the <b>DBF to CSV/TXT conversion</b>, the data from the original table are transformed into a text file. In this file, the text appears on the same line, and the different columns or fields are distinguished by a separator character, which can be selected. In many European countries, the preferred separator is the semicolon (;), while the comma (,) is commonly used in the United States and many other countries. This separator can also be a tab character; in this case, the text <i>TAB</i> must be entered as the list separator. The tab character is an excellent (recommended) choice because reading CSV files in other programs (such as MS Excel itself) is much less problematic when fields contain commas, semicolons, quotation marks, apostrophes, etc. The special words SPA, to indicate that a space will be used as the list separator, and CAP, to indicate that there is no list separator, are also accepted.</p>
 
-  <p>In the inverse conversion, from CSV to DBF, the separator that has been used in the CSV to generate the different columns must be chosen (any doubts, the file with a text editor can be opened and check which separator is being used; Note that if there are quotation marks (double: "), they usually delimit a text that contains a field separator that should not be interpreted as such, or serve, if they are duplicated, to indicate a simple quote that should consist of a text character).</p>
-  
-  <p>The first row of the CSV can contain the names of the columns and, in such case, these names can be adopted as names of the fields of the DBF that is generated.</p>
+<p>The first row of the generated CSV will contain the field names, which will become the columns of the CSV file. The subsequent rows will contain the values of each record, separated by the selected delimiter.</p>
 
-  <p>In MiraMon the main tables associated with files that are layers with geographic or geometric contents (graphics layers, etc) are in DBF or extended DBF format, and always have a column (typically the first) used to store what is called graphic identifier (ID_GRAFIC). This is used to give each graphic object a set of attributes, geometric-topological or thematic. In case the CSV does not have this column of graphic identifiers, it can be indicated that it is generated automatically during the import to DBF</p>
+<p>In the <b>reverse conversion, from CSV/TXT to DBF</b>, you must select the separator used in the CSV to generate the different columns (if in doubt, you can open the file to check which separator is being used through the icon <img src="DBFCSV_mostrar_csv.png"/> or open it with any text editor; keep in mind that, if quotation marks are present, they normally delimit text that will be placed in the same field, or, when doubled (<i>""</i>), they indicate a single quotation mark that should be retained as a text character, typically to represent the arc-second symbol, or seconds as 1/60 of a minute).</p>
 
-  <p>In MiraMon the DBF tables can go beyond the limitations of the dBASE IV format (which it is call classic DBF, see the document dedicated to the <a href="http://www.miramon.cat/new_note/cat/notes/DBF_estesa_v1_5.pdf" target="_blank">extended DBF</a> -available in catalan-) but this is not possible in other cases, such as in the tables corresponding to layers in Shape format. Therefore, the application offers the possibility of restricting the conversion of CSV to DBF within the limits of the format of a classical DBF; note that in this case, as is logical, fields may be lost, or parts of field content, or the field names may need to be simplified, etc, because it is not possible to incorporate this information into a classical DBF.</p>
+<p>The first row of the CSV may contain the column names (when First line with header is selected); in this case, these names can be used as the field names of the generated DBF. In this first row, the separator between the field names is the same as in the remaining rows that will become records. If the CSV file contains blank lines at the end, particularly due to a final line break, these lines are not added to the DBF as empty records. If these records without information are desired, as many separators as there are fields in the line must be written.</p>
+
+<p>It should be noted that, in the case of CSV files, the program analyzes the file beforehand to determine the <a href="../mm32/MAjuda.htm#joc">character set</a> and determine whether the file is ANSI, OEM, or UTF-8. The output DBF table is written using the character encoding specified by the JocCaracDBFPerDefecte= key in MiraMon.par, which can be modified using a plain text editor or from the "Help | Configure parameters" menu, in the "Zoom and General aspects" tab.</p>
+
+<p>In MiraMon, the main tables associated with files that are layers containing geographic or geometric content (graphic layers, etc.) are in DBF or extended DBF format, and always have a first column used to store what is known as the graphic identifier (ID_GRAFIC). This is used to provide each graphic object with a series of geometric-topological or thematic attributes. If the CSV does not have a first column of graphic identifiers, one can be generated by activating the "Add graphic identifier column" checkbox.</p>
+
+<p>In addition, in MiraMon, DBF tables can exceed the limitations of the dBASE IV format (known as classic DBF; see the document dedicated to <a href="http://www.miramon.cat/new_note/cat/notes/DBF_estesa_v1_5.pdf" target="_blank">extended DBF</a> -available in Catalan-), but this is not the case in other cases, such as tables corresponding to layers in Shape format. Therefore, the application provides the option to restrict the conversion from CSV to DBF to the limits of the classic DBF format (not extended); note that in this case, as expected, fields or parts of field contents may be lost, field names may need to be simplified, etc, because this information cannot be accommodated into a classic DBF.</p>
+
+<p>It is also possible to specify which character is used as the text qualifier. In a CSV file, the text qualifier is used to delimit the beginning and end of text that is considered part of a column (which will become a field in the DBF). In other words, it indicates that everything between two qualifiers (for example, quotation marks or apostrophes) is part of the same field, even if it contains the character used to separate columns. This allows, for example, a text field to contain a comma when a comma has been specified as the separator, provided that the entire field content is enclosed in quotation marks, without the comma being interpreted as a column separator. For this purpose, the field content is enclosed between two characters known as text qualifiers.</p>
+
+<p>MiraMon allows to select from 5 possible qualifiers:</p>
+
+<ul> 
+<li Type=circle>Apostrophe (<i>'</i>)</li>  
+<li Type=circle>Quotation marks (<i>"</i>): this is the most common qualifier</li> 
+<li Type=circle>Apostrophe (except if the separator is TAB): when the column separator is the tab character, allows apostrophes that may appear within the text to be treated as normal characters rather than text qualifiers</li> 
+<li Type=circle>Quotation marks (except if the separator is TAB): similarly to the previous case, when quotation marks are found within the text. This is the default value</li> 
+<li Type=circle>None: no character is considered to act as a text delimiter</li> 
+</ul> 
+
+<p>For example, in a record containing three fields: a numeric field (<i>1</i>), a text field (<i>Pinus, Abies, etc</i>), and another numeric field (<i>28</i>), with quotation marks selected as the qualifier:</p> 
+
+<pre>1,"Pinus, Abies, etc",28</pre>  
+
+<p>the commas within the text <i>"Pinus, Abies, etc"</i> are not considered separators, since the text has been specified as being delimited by the qualifier, which in this case is the quotation mark.</p> 
+</ul>
+
+<p>Finally, MiraMon also allows you to specify how a double qualifier should be interpreted. When a CSV file contains a double qualifier (that is, two consecutive qualifiers: ""), it may refer to a field with no content, but it may also refer to the <i>"</i> character itself, as when a field contains coordinates in degrees-minutes-seconds and the seconds value is followed by the <i>"</i> symbol. In these cases, the CSV file may have been written using a double qualifier <i>""</i> to prevent the seconds symbol from being interpreted as the beginning of new text marked by a qualifier. This option allows you to specify how the presence of a double qualifier should be interpreted:</p>  
+<ul> 
+<li Type=circle>Normal character: if the qualifier is, for example, QUOTATION MARKS (<i>"</i>), and the program finds <i>""</i> in the CSV file, it will convert it to a single quotation mark (<i>"</i>) in the DBF field. This is useful for supporting arc seconds in a string while also allowing strings with quotation marks as qualifiers. This is the default value</li> 
+<li Type=circle>Qualifier: the program will treat the double qualifier as a qualifier and, therefore, <i>""</i> defines an empty string (an empty field in the DBF).</li> 
+</ul> 
+
+<p>The application also supports reading and writing metadata files in CSVW (JSON) format to document column properties, such as field name, data type, maximum width, units (if specified), etc. When converting a CSV/TXT file to DBF, after selecting the CSV/TXT file, the application automatically attempts to locate the corresponding CSVW file and, if found, assigns it to the corresponding resource and updates the options available in the dialog box (list separator, presence of a header, etc.). If no CSVW file is found, or the user does not specify one, the application automatically attempts to determine the list separator and whether the CSV/TXT file contains a header.</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
@@ -50,10 +86,11 @@
 <div align="center">
 <table>
 <tr>
-<td><div align="center"><img src="DBFCSV_finestra.png"><img src="DBFCSV_finestra2.png"></div></td>
+<td><div align="center"><img src="DBFCSV_finestra.png"><br>
+<img src="DBFCSV_finestra2.png"></div></td>
 </tr>
 <tr>
-<td align="center">DBFCSV dialog box</td>
+<td align="center">DBFCSV dialog boxes</td>
 </tr>
 </table>
 </div>
@@ -61,10 +98,50 @@
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<!-- <h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
- 
+<h2><a id="Exemples" name="Exemples"></a>Examples</h2>
+
+<p>The following example shows the conversion of a DBF file containing information about a country's monumental trees.</p>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="DBFCSV_exemple_taula.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Tabla DBF origen</td>
+</tr>
+</table>
+</div>
+
+<p>If the semicolon (;) is used as the separator, the header and the first row of data from the original DBF table containing the monumental trees are written as follows:</p>
+
+<pre>ID_GRAFIC;MENA_DECLA;NOM_DECLAR;ESPECIE;INE;TERME_MUNI;COMARCA;MATRICULA;ESTAT_DETA;ESTAT_RESU;URL;COORX;COORY;OBJECTID
+0;AM;Pi Vell de l'Arp II;Pinus uncinata;25909;Vansa i Fórnols, La;Alt Urgell, l';AM 04.909.01b;N;Viu;http://mediambient.gencat.cat/ca/05_ambits_dactuacio/patrimoni_natural/arbres-monumentals/am_arbres_monumentals_fitxes/alt-urgell-6/pins-vells-de-larp-l-ll-lll/;377432.00;4673067.00;26 
+</pre>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="DBFCSV_exemple_csv.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Output CSV file</td>
+</tr>
+</table>
+</div>
+<p><p>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="DBFCSV_exemple_metadades_json.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Metadata file in CSVW (JSON) format</td>
+</tr>
+</table>
+</div>
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
-  <hr/>-->
+  <hr/>
 
 <exclusiva>
 <h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
