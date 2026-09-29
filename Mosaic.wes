@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:1</ows:Identifier>
+		<ows:Identifier>MiraMon:Mosaic:Param1:1</ows:Identifier>
 		<ows:Title>Opción 1</ows:Title>
 		<ows:Abstract>El ámbito a mosaicar incluye todo el ámbito de todos los FicherosFuente indicados.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Mosaico y unión de capas"/>
@@ -9,7 +9,7 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
+				<ows:Title>Opción 1</ows:Title>
 				<ows:Abstract>El ámbito a mosaicar incluye todo el ámbito de todos los FicherosFuente indicados.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcion"/>
@@ -21,7 +21,7 @@
 					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1000">
 				<ows:Identifier>FitxersFont</ows:Identifier>
 				<ows:Title>Ficheros fuente</ows:Title>
 				<ows:Abstract>Es una lista de ficheros escritos uno tras otro en línea de comandos o un fichero de texto que contenga los nombres de los ficheros preexistentes a utilizar.</ows:Abstract>
@@ -51,7 +51,7 @@
 				<ows:Title>Sindatos</ows:Title>
 				<ows:Abstract>Es el valor que se usará para rellenar zonas sin datos en ninguno de los ficheros preexistentes; debe ser un entero (p. ej. 0). En caso de no indicarse, se usa el valor del primer fichero de la lista.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -108,9 +108,33 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VERIFICA_TOPOLOGIA</ows:Identifier>
+				<ows:Title>Verifica topología</ows:Title>
+				<ows:Abstract>Fuerza la estructuración topológica verificada en mosaicos de arcos o polígonos. Si no se indica, el mosaico vectorial no verifica topología (comportamiento por defecto). /ALGORISME= y /SIMPLIFICA_VERTEXS requieren topología verificada para tener efecto.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
 				<ows:Title>Simplifica vértices intermedios</ows:Title>
 				<ows:Abstract>Simplifica los vértices intermedios de los arcos, siempre que esto no signifique un cambio en la topología.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLIGONS_SENSE_FORATS</ows:Identifier>
+				<ows:Title>Polígonos sin agujeros</ows:Title>
+				<ows:Abstract>Evita que queden agujeros en los polígonos después del mosaico.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -130,7 +154,6 @@
 						<ows:Value>DIRECTE</ows:Value>
 						<ows:Value>AUTOMATIC</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -140,6 +163,18 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Mosaico multibanda</ows:Title>
+				<ows:Abstract>Activa el mosaico de ráster multibanda (IMG). Hay que indicarlo para usar /PATRO_DEST=; si no se indica el patrón, se deduce del nombre del fichero lista o del primer fichero.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -201,13 +236,13 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:2</ows:Identifier>
+		<ows:Identifier>MiraMon:Mosaic:Param1:2</ows:Identifier>
 		<ows:Title>Opción 2</ows:Title>
 		<ows:Abstract>El ámbito a mosaicar se indica con los parámetros Xmínima Xmáxima Ymínima Ymáxima.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
+				<ows:Title>Opción 2</ows:Title>
 				<ows:Abstract>El ámbito a mosaicar se indica con los parámetros Xmínima  Xmáxima Ymínima Ymáxima.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcion"/>
@@ -263,7 +298,7 @@
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1000">
 				<ows:Identifier>FitxersFont</ows:Identifier>
 				<ows:Title>Ficheros fuente</ows:Title>
 				<ows:Abstract>Es una lista de ficheros escritos uno tras otro en línea de comandos o un fichero de texto que contenga los nombres de los ficheros preexistentes a utilizar.</ows:Abstract>
@@ -293,7 +328,7 @@
 				<ows:Title>Sindatos</ows:Title>
 				<ows:Abstract>Es el valor que se usará para rellenar zonas sin datos en ninguno de los ficheros preexistentes; debe ser un entero (p. ej. 0). En caso de no indicarse, se usa el valor del primer fichero de la lista.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -350,9 +385,33 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VERIFICA_TOPOLOGIA</ows:Identifier>
+				<ows:Title>Verifica topología</ows:Title>
+				<ows:Abstract>Fuerza la estructuración topológica verificada en mosaicos de arcos o polígonos. Si no se indica, el mosaico vectorial no verifica topología (comportamiento por defecto). /ALGORISME= y /SIMPLIFICA_VERTEXS requieren topología verificada para tener efecto.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
 				<ows:Title>Simplifica vértices intermedios</ows:Title>
 				<ows:Abstract>Simplifica los vértices intermedios de los arcos, siempre que esto no signifique un cambio en la topología.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLIGONS_SENSE_FORATS</ows:Identifier>
+				<ows:Title>Polígonos sin agujeros</ows:Title>
+				<ows:Abstract>Evita que queden agujeros en los polígonos después del mosaico.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -372,7 +431,6 @@
 						<ows:Value>DIRECTE</ows:Value>
 						<ows:Value>AUTOMATIC</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -382,6 +440,18 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Mosaico multibanda</ows:Title>
+				<ows:Abstract>Activa el mosaico de ráster multibanda (IMG). Hay que indicarlo para usar /PATRO_DEST=; si no se indica el patrón, se deduce del nombre del fichero lista o del primer fichero.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -443,13 +513,13 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:3</ows:Identifier>
+		<ows:Identifier>MiraMon:Mosaic:Param1:3</ows:Identifier>
 		<ows:Title>Opción 3</ows:Title>
 		<ows:Abstract>El ámbito a mosaicar se indica a partir de una máscara irregular FicheroMáscara (solo para ficheros vectoriales). Los objetos fuera de la máscara son eliminados.</ows:Abstract>
 		<DataInputs>
-			<Input minOccurs="0" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
+				<ows:Title>Opción 3</ows:Title>
 				<ows:Abstract>El ámbito a mosaicar se indica a partir de una máscara irregular FicheroMáscara (solo para ficheros vectoriales). Los objetos fuera de la máscara son eliminados.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcion"/>
@@ -494,7 +564,7 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1000">
 				<ows:Identifier>FitxersFont</ows:Identifier>
 				<ows:Title>Ficheros fuente</ows:Title>
 				<ows:Abstract>Es una lista de ficheros escritos uno tras otro en línea de comandos o un fichero de texto que contenga los nombres de los ficheros preexistentes a utilizar.</ows:Abstract>
@@ -524,7 +594,7 @@
 				<ows:Title>Sindatos</ows:Title>
 				<ows:Abstract>Es el valor que se usará para rellenar zonas sin datos en ninguno de los ficheros preexistentes; debe ser un entero (p. ej. 0). En caso de no indicarse, se usa el valor del primer fichero de la lista.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -581,9 +651,33 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VERIFICA_TOPOLOGIA</ows:Identifier>
+				<ows:Title>Verifica topología</ows:Title>
+				<ows:Abstract>Fuerza la estructuración topológica verificada en mosaicos de arcos o polígonos. Si no se indica, el mosaico vectorial no verifica topología (comportamiento por defecto). /ALGORISME= y /SIMPLIFICA_VERTEXS requieren topología verificada para tener efecto.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
 				<ows:Title>Simplifica vértices intermedios</ows:Title>
 				<ows:Abstract>Simplifica los vértices intermedios de los arcos, siempre que esto no signifique un cambio en la topología.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLIGONS_SENSE_FORATS</ows:Identifier>
+				<ows:Title>Polígonos sin agujeros</ows:Title>
+				<ows:Abstract>Evita que queden agujeros en los polígonos después del mosaico.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -603,7 +697,6 @@
 						<ows:Value>DIRECTE</ows:Value>
 						<ows:Value>AUTOMATIC</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -613,6 +706,18 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Mosaico multibanda</ows:Title>
+				<ows:Abstract>Activa el mosaico de ráster multibanda (IMG). Hay que indicarlo para usar /PATRO_DEST=; si no se indica el patrón, se deduce del nombre del fichero lista o del primer fichero.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -674,13 +779,13 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:4</ows:Identifier>
+		<ows:Identifier>MiraMon:Mosaic:Param1:4</ows:Identifier>
 		<ows:Title>Opción 4</ows:Title>
 		<ows:Abstract>El ámbito a mosaicar se indica a partir del ámbito del FicheroEnv.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
+				<ows:Title>Opción 4</ows:Title>
 				<ows:Abstract>El ámbito a mosaicar se indica a partir del ámbito del FicheroEnv</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcion"/>
@@ -725,7 +830,7 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1000">
 				<ows:Identifier>FitxersFont</ows:Identifier>
 				<ows:Title>Ficheros fuente</ows:Title>
 				<ows:Abstract>Es una lista de ficheros escritos uno tras otro en línea de comandos o un fichero de texto que contenga los nombres de los ficheros preexistentes a utilizar.</ows:Abstract>
@@ -755,7 +860,7 @@
 				<ows:Title>Sindatos</ows:Title>
 				<ows:Abstract>Es el valor que se usará para rellenar zonas sin datos en ninguno de los ficheros preexistentes; debe ser un entero (p. ej. 0). En caso de no indicarse, se usa el valor del primer fichero de la lista.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -812,9 +917,33 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VERIFICA_TOPOLOGIA</ows:Identifier>
+				<ows:Title>Verifica topología</ows:Title>
+				<ows:Abstract>Fuerza la estructuración topológica verificada en mosaicos de arcos o polígonos. Si no se indica, el mosaico vectorial no verifica topología (comportamiento por defecto). /ALGORISME= y /SIMPLIFICA_VERTEXS requieren topología verificada para tener efecto.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
 				<ows:Title>Simplifica vértices intermedios</ows:Title>
 				<ows:Abstract>Simplifica los vértices intermedios de los arcos, siempre que esto no signifique un cambio en la topología.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLIGONS_SENSE_FORATS</ows:Identifier>
+				<ows:Title>Polígonos sin agujeros</ows:Title>
+				<ows:Abstract>Evita que queden agujeros en los polígonos después del mosaico.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -834,7 +963,6 @@
 						<ows:Value>DIRECTE</ows:Value>
 						<ows:Value>AUTOMATIC</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -844,6 +972,18 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Mosaico multibanda</ows:Title>
+				<ows:Abstract>Activa el mosaico de ráster multibanda (IMG). Hay que indicarlo para usar /PATRO_DEST=; si no se indica el patrón, se deduce del nombre del fichero lista o del primer fichero.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -905,138 +1045,31 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:9</ows:Identifier>
-		<ows:Title>Opción 9</ows:Title>
-		<ows:Abstract>Genera una lista binaria (fichero '{') a partir de una lista de texto. Una lista binaria es útil para acelerar los mosaicos.</ows:Abstract>
+		<ows:Identifier>MiraMon:Mosaic:Param1:8</ows:Identifier>
+		<ows:Title>Opción 8</ows:Title>
+		<ows:Abstract>Genera un fichero VEC (y el DVC asociado) con el envolvente rectangular de cada fichero de una lista de texto.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opción</ows:Title>
-				<ows:Abstract>Genera una lista binaria (fichero '{') a partir de una lista de texto. Una lista binaria es útil para acelerar los mosaicos.</ows:Abstract>
+				<ows:Title>Opción 8</ows:Title>
+				<ows:Abstract>Genera un fichero VEC (y el DVC asociado) con el envolvente rectangular de cada fichero de una lista de texto.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcion"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>9</ows:Value>
+						<ows:Value>8</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>9</DefaultValue>
+					<DefaultValue>8</DefaultValue>
 				</LiteralData>
 			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>NODATA</ows:Identifier>
-				<ows:Title>Sindatos</ows:Title>
-				<ows:Abstract>Es el valor que se usará para rellenar zonas sin datos en ninguno de los ficheros preexistentes; debe ser un entero (p. ej. 0). En caso de no indicarse, se usa el valor del primer fichero de la lista.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>TOLERANCIA</ows:Identifier>
-				<ows:Title>Tolerancia</ows:Title>
-				<ows:Abstract>Es el factor de tolerancia en la adaptación de las coordenadas de las matrices de celdas definidas para cada ráster, a las de la primera imagen.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>IMATGE_BUIDA</ows:Identifier>
-				<ows:Title>Imagen vacía</ows:Title>
-				<ows:Abstract><![CDATA[El programa genera una "imagen vacía" cuando el resultado del mosaico toma valor constante y diferente de sindatos, valor sindatos, o el resultado queda totalmente fuera del ámbito especificado. Los siguientes valores determinan la acción del programa:<ul><li>0: borra la imagen si todos los valores son iguales (y diferentes de sindatos) o si son sindatos.</li><li>1: borra la imagen si todos los valores son sindatos o si está totalmente fuera del ámbito.</li><li>2: genera la imagen vacía incluso si es enteramente sindatos o si está fuera del ámbito.</li><li>si no se indica este parámetro, no se generan imágenes fuera del ámbito ni imágenes vacías.</li></ul>]]></ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>0</ows:Value>
-						<ows:Value>1</ows:Value>
-						<ows:Value>2</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>VORA</ows:Identifier>
-				<ows:Title>Límite</ows:Title>
-				<ows:Abstract>En el mosaico de rásters indica que hay que ignorar un límite de 'n' celdas de cada una de les imágenes originales.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>RLE</ows:Identifier>
-				<ows:Title>Comprimir e indexar IMG</ows:Title>
-				<ows:Abstract>Cuando el ráster destino sea un IMG se comprimirá e indexará.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>##blank##</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>LLINATGE</ows:Identifier>
-				<ows:Title>Linage</ows:Title>
-				<ows:Abstract>Patrón para el nombre de un fichero ráster adicional (uno por cada banda) que indica el índice de fichero origen (empezando desde 0) que ha contribuido a cada píxel de la imagen de salida. Este fichero puede ayudar a entender el origen de los datos de cada pixel de la imagen de salida.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
-				<ows:Title>Simplifica vértices intermedios</ows:Title>
-				<ows:Abstract>Simplifica los vértices intermedios de los arcos, siempre que esto no signifique un cambio en la topología.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>##blank##</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>ALGORISME</ows:Identifier>
-				<ows:Title>Algoritmo de estructuración topológica</ows:Title>
-				<ows:Abstract><![CDATA[Este modificador sirve para determinar el algoritmo que la aplicación utilizará para detectar las posibles intersecciones entre los segmentos de los elementos lineales y de los bordes de polígonos durante la estructuración topológica. Véase <a href="General.htm#Algorisme">Algoritmos disponibles para la estructuración topológica (/ALGORISME)</a> para una explicación más detallada y sugerencias sobre situaciones en las que es más adecuado uno u otro algoritmo.<ul><li>ESCOMBRATGE (barrido): Basado en la intersección de segmentos de Bentley-Ottmann. Para líneas que intersecan en nuevos vértices.</li><li>DIRECTE (directo): Basado en la exploración de las intersecciones de cada segmento contra todos los demás. Para polígonos explícitos o para capas con topología implícita (intersecciones ya convertidas en vértices).</li><li>AUTOMATIC (automático): El programa decide automáticamente cuál de los dos algoritmos se utilizará. En ocasiones resulta más lento que el más rápido de los dos anteriores.</li></ul>]]></ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>ESCOMBRATGE</ows:Value>
-						<ows:Value>DIRECTE</ows:Value>
-						<ows:Value>AUTOMATIC</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>TITOL</ows:Identifier>
-				<ows:Title>Título</ows:Title>
-				<ows:Abstract>Título del fichero de salida</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>PATRO_DEST</ows:Identifier>
-				<ows:Title>Patrón ficheros resultado</ows:Title>
-				<ows:Abstract>Patrón común para los ficheros resultado en caso de ficheros multibanda.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Fitxer</ows:Identifier>
 				<ows:Title>Fichero lista</ows:Title>
-				<ows:Abstract>Fichero que contiene una lista de ficheros.</ows:Abstract>
+				<ows:Abstract>Nombre del fichero de texto con la lista de capas (un nombre por línea). El programa escribe un fichero VEC con el mismo nombre base y el sufijo _list (polígonos envolventes) y el DVC correspondiente.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Fichero"/>
-				<ComplexOutput>
+				<ComplexData>
 					<Default>
 						<Format>
 							<MimeType>text/plain</MimeType>
@@ -1053,8 +1086,56 @@
 							<Encoding>ascii</Encoding>
 						</Format>
 					</Supported>
-				</ComplexOutput>
-			</Output>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Mosaic:Param1:9</ows:Identifier>
+		<ows:Title>Opción 9</ows:Title>
+		<ows:Abstract>Genera una lista binaria (fichero con llave «{») a partir de una lista de texto. Una lista binaria es útil para acelerar los mosaicos.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción 9</ows:Title>
+				<ows:Abstract>Genera una lista binaria (fichero con llave «{») a partir de una lista de texto. Una lista binaria es útil para acelerar los mosaicos.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>9</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>9</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fitxer</ows:Identifier>
+				<ows:Title>Fichero lista</ows:Title>
+				<ows:Abstract>Nombre del fichero de texto con la lista de capas (un nombre por línea). El programa escribe un fichero binario asociado (extensión con llave «{») en el mismo directorio.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Fichero"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
 		</ProcessOutputs>
 	</ProcessDescription>
 </wps:ProcessDescriptions>

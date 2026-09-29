@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:1</ows:Identifier>
+		<ows:Identifier>MiraMon:Mosaic:Param1:1</ows:Identifier>
 		<ows:Title>Opció 1</ows:Title>
 		<ows:Abstract>L'àmbit a mosaicar inclou tot l'àmbit de tots els FitxersFont indicats.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Mosaic i unió de capes"/>
@@ -9,7 +9,7 @@
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
+				<ows:Title>Opció 1</ows:Title>
 				<ows:Abstract>L'àmbit a mosaicar inclou tot l'àmbit de tots els FitxersFont indicats.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcio"/>
@@ -21,7 +21,7 @@
 					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1000">
 				<ows:Identifier>FitxersFont</ows:Identifier>
 				<ows:Title>Fitxers font</ows:Title>
 				<ows:Abstract>És una llista de fitxers escrits un darrere l'altre en línia de comanda o un fitxer de text que conté els noms dels fitxers preexistents a utilitzar.</ows:Abstract>
@@ -51,7 +51,7 @@
 				<ows:Title>Sensedades</ows:Title>
 				<ows:Abstract>És el valor que s'usarà per omplir zones sense dades a cap dels fitxers preexistents; ha de ser un enter (p.ex. 0). En cas de no indicar-se, es fa servir el valor del primer fitxer de la llista.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -108,9 +108,33 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VERIFICA_TOPOLOGIA</ows:Identifier>
+				<ows:Title>Verifica topologia</ows:Title>
+				<ows:Abstract>Força l'estructuració topològica verificada en mosaics d'arcs o polígons. Si no s'indica, el mosaic vectorial no verifica topologia (comportament per defecte). /ALGORISME= i /SIMPLIFICA_VERTEXS requereixen topologia verificada per tenir efecte.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
 				<ows:Title>Simplifica vèrtexs intermedis</ows:Title>
 				<ows:Abstract>Simplifica els vèrtexs intermedis dels arcs, sempre i quan això no signifiqui un canvi en la topologia.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLIGONS_SENSE_FORATS</ows:Identifier>
+				<ows:Title>Polígons sense forats</ows:Title>
+				<ows:Abstract>Evita que quedin forats als polígons després del mosaic.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -130,7 +154,6 @@
 						<ows:Value>DIRECTE</ows:Value>
 						<ows:Value>AUTOMATIC</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -140,6 +163,18 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Mosaic multibanda</ows:Title>
+				<ows:Abstract>Activa el mosaic de ràster multibanda (IMG). Cal indicar-lo per usar /PATRO_DEST=; si no s'indica el patró, es dedueix del nom del fitxer llista o del primer fitxer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -201,13 +236,13 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:2</ows:Identifier>
+		<ows:Identifier>MiraMon:Mosaic:Param1:2</ows:Identifier>
 		<ows:Title>Opció 2</ows:Title>
 		<ows:Abstract>L'àmbit a mosaicar s'indica amb els paràmetres Xmínima Xmàxima Ymínima Ymàxima.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
+				<ows:Title>Opció 2</ows:Title>
 				<ows:Abstract>L'àmbit a mosaicar s'indica amb els paràmetres Xmínima Xmàxima Ymínima Ymàxima.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcio"/>
@@ -263,7 +298,7 @@
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1000">
 				<ows:Identifier>FitxersFont</ows:Identifier>
 				<ows:Title>Fitxers font</ows:Title>
 				<ows:Abstract>És una llista de fitxers escrits un darrere l'altre en línia de comanda o un fitxer de text que conté els noms dels fitxers preexistents a utilitzar.</ows:Abstract>
@@ -293,7 +328,7 @@
 				<ows:Title>Sensedades</ows:Title>
 				<ows:Abstract>És el valor que s'usarà per omplir zones sense dades a cap dels fitxers preexistents; ha de ser un enter (p.ex. 0). En cas de no indicar-se, es fa servir el valor del primer fitxer de la llista.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -350,9 +385,33 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VERIFICA_TOPOLOGIA</ows:Identifier>
+				<ows:Title>Verifica topologia</ows:Title>
+				<ows:Abstract>Força l'estructuració topològica verificada en mosaics d'arcs o polígons. Si no s'indica, el mosaic vectorial no verifica topologia (comportament per defecte). /ALGORISME= i /SIMPLIFICA_VERTEXS requereixen topologia verificada per tenir efecte.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
 				<ows:Title>Simplifica vèrtexs intermedis</ows:Title>
 				<ows:Abstract>Simplifica els vèrtexs intermedis dels arcs, sempre i quan això no signifiqui un canvi en la topologia.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLIGONS_SENSE_FORATS</ows:Identifier>
+				<ows:Title>Polígons sense forats</ows:Title>
+				<ows:Abstract>Evita que quedin forats als polígons després del mosaic.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -372,7 +431,6 @@
 						<ows:Value>DIRECTE</ows:Value>
 						<ows:Value>AUTOMATIC</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -382,6 +440,18 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Mosaic multibanda</ows:Title>
+				<ows:Abstract>Activa el mosaic de ràster multibanda (IMG). Cal indicar-lo per usar /PATRO_DEST=; si no s'indica el patró, es dedueix del nom del fitxer llista o del primer fitxer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -443,13 +513,13 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:3</ows:Identifier>
+		<ows:Identifier>MiraMon:Mosaic:Param1:3</ows:Identifier>
 		<ows:Title>Opció 3</ows:Title>
 		<ows:Abstract>L'àmbit a mosaicar s'indica a partir d'una màscara irregular FitxerMascara (només per a fitxers vectorials). Els objectes fora de la màscara són eliminats.</ows:Abstract>
 		<DataInputs>
-			<Input minOccurs="0" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
+				<ows:Title>Opció 3</ows:Title>
 				<ows:Abstract>L'àmbit a mosaicar s'indica a partir d'una màscara irregular FitxerMascara (només per a fitxers vectorials). Els objectes fora de la màscara són eliminats.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcio"/>
@@ -494,7 +564,7 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1000">
 				<ows:Identifier>FitxersFont</ows:Identifier>
 				<ows:Title>Fitxers font</ows:Title>
 				<ows:Abstract>És una llista de fitxers escrits un darrere l'altre en línia de comanda o un fitxer de text que conté els noms dels fitxers preexistents a utilitzar.</ows:Abstract>
@@ -524,7 +594,7 @@
 				<ows:Title>Sensedades</ows:Title>
 				<ows:Abstract>És el valor que s'usarà per omplir zones sense dades a cap dels fitxers preexistents; ha de ser un enter (p.ex. 0). En cas de no indicar-se, es fa servir el valor del primer fitxer de la llista.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -581,9 +651,33 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VERIFICA_TOPOLOGIA</ows:Identifier>
+				<ows:Title>Verifica topologia</ows:Title>
+				<ows:Abstract>Força l'estructuració topològica verificada en mosaics d'arcs o polígons. Si no s'indica, el mosaic vectorial no verifica topologia (comportament per defecte). /ALGORISME= i /SIMPLIFICA_VERTEXS requereixen topologia verificada per tenir efecte.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
 				<ows:Title>Simplifica vèrtexs intermedis</ows:Title>
 				<ows:Abstract>Simplifica els vèrtexs intermedis dels arcs, sempre i quan això no signifiqui un canvi en la topologia.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLIGONS_SENSE_FORATS</ows:Identifier>
+				<ows:Title>Polígons sense forats</ows:Title>
+				<ows:Abstract>Evita que quedin forats als polígons després del mosaic.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -603,7 +697,6 @@
 						<ows:Value>DIRECTE</ows:Value>
 						<ows:Value>AUTOMATIC</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -613,6 +706,18 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Mosaic multibanda</ows:Title>
+				<ows:Abstract>Activa el mosaic de ràster multibanda (IMG). Cal indicar-lo per usar /PATRO_DEST=; si no s'indica el patró, es dedueix del nom del fitxer llista o del primer fitxer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -674,13 +779,13 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:4</ows:Identifier>
+		<ows:Identifier>MiraMon:Mosaic:Param1:4</ows:Identifier>
 		<ows:Title>Opció 4</ows:Title>
 		<ows:Abstract>L'àmbit a mosaicar s'indica a partir de l'envolupant del FitxerEnv.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
+				<ows:Title>Opció 4</ows:Title>
 				<ows:Abstract>L'àmbit a mosaicar s'indica a partir de l'envolupant del FitxerEnv.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcio"/>
@@ -725,7 +830,7 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-			<Input minOccurs="1" maxOccurs="1">
+			<Input minOccurs="1" maxOccurs="1000">
 				<ows:Identifier>FitxersFont</ows:Identifier>
 				<ows:Title>Fitxers font</ows:Title>
 				<ows:Abstract>És una llista de fitxers escrits un darrere l'altre en línia de comanda o un fitxer de text que conté els noms dels fitxers preexistents a utilitzar.</ows:Abstract>
@@ -755,7 +860,7 @@
 				<ows:Title>Sensedades</ows:Title>
 				<ows:Abstract>És el valor que s'usarà per omplir zones sense dades a cap dels fitxers preexistents; ha de ser un enter (p.ex. 0). En cas de no indicar-se, es fa servir el valor del primer fitxer de la llista.</ows:Abstract>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -812,9 +917,33 @@
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>VERIFICA_TOPOLOGIA</ows:Identifier>
+				<ows:Title>Verifica topologia</ows:Title>
+				<ows:Abstract>Força l'estructuració topològica verificada en mosaics d'arcs o polígons. Si no s'indica, el mosaic vectorial no verifica topologia (comportament per defecte). /ALGORISME= i /SIMPLIFICA_VERTEXS requereixen topologia verificada per tenir efecte.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
 				<ows:Title>Simplifica vèrtexs intermedis</ows:Title>
 				<ows:Abstract>Simplifica els vèrtexs intermedis dels arcs, sempre i quan això no signifiqui un canvi en la topologia.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>POLIGONS_SENSE_FORATS</ows:Identifier>
+				<ows:Title>Polígons sense forats</ows:Title>
+				<ows:Abstract>Evita que quedin forats als polígons després del mosaic.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -834,7 +963,6 @@
 						<ows:Value>DIRECTE</ows:Value>
 						<ows:Value>AUTOMATIC</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -844,6 +972,18 @@
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>MULTIBANDA</ows:Identifier>
+				<ows:Title>Mosaic multibanda</ows:Title>
+				<ows:Abstract>Activa el mosaic de ràster multibanda (IMG). Cal indicar-lo per usar /PATRO_DEST=; si no s'indica el patró, es dedueix del nom del fitxer llista o del primer fitxer.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
@@ -905,138 +1045,31 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:Mosaic:9</ows:Identifier>
-		<ows:Title>Opció 9</ows:Title>
-		<ows:Abstract>Genera una llista binària (fitxer '{') a partir d'una llista de text. Una llista binària és útil per accelerar els mosaics.</ows:Abstract>
+		<ows:Identifier>MiraMon:Mosaic:Param1:8</ows:Identifier>
+		<ows:Title>Opció 8</ows:Title>
+		<ows:Abstract>Genera un fitxer VEC (i el DVC associat) amb l'envolupant rectangular de cada fitxer d'una llista de text.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
-				<ows:Title>Opció</ows:Title>
-				<ows:Abstract>Genera una llista binària (fitxer '{') a partir d'una llista de text. Una llista binària és útil per accelerar els mosaics.</ows:Abstract>
+				<ows:Title>Opció 8</ows:Title>
+				<ows:Abstract>Genera un fitxer VEC (i el DVC associat) amb l'envolupant rectangular de cada fitxer d'una llista de text.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Opcio"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>9</ows:Value>
+						<ows:Value>8</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>9</DefaultValue>
+					<DefaultValue>8</DefaultValue>
 				</LiteralData>
 			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>NODATA</ows:Identifier>
-				<ows:Title>Sensedades</ows:Title>
-				<ows:Abstract>És el valor que s'usarà per omplir zones sense dades a cap dels fitxers preexistents; ha de ser un enter (p.ex. 0). En cas de no indicar-se, es fa servir el valor del primer fitxer de la llista.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>TOLERANCIA</ows:Identifier>
-				<ows:Title>Tolerància</ows:Title>
-				<ows:Abstract>És el factor de tolerància en l'adaptació de les coordenades de les matrius de cel·les definides per a cada ràster, a les de la primera imatge.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>IMATGE_BUIDA</ows:Identifier>
-				<ows:Title>Imatge buida</ows:Title>
-				<ows:Abstract><![CDATA[El programa genera una "imatge buida" quan el resultat del Mosaic pren valor constant i diferent de sensedades, valor sensedades, o el resultat queda totalment fora de l'àmbit especificat. Els següents valors determinen l'acció del programa:<ul><li>0: esborra la imatge si tots els valors són iguals (i diferents de sensedades) o si són sensedades.</li><li>1: esborra la imatge si tots els valors són sensedades o si està totalment fora de l'àmbit.</li><li>2: genera la imatge buida fins i tot si és enterament sensedades o si està fora d'àmbit.</li><li>si no s'indica aquest paràmetre, no es generen imatges fora d'àmbit ni imatges buides.</li></ul>]]></ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>0</ows:Value>
-						<ows:Value>1</ows:Value>
-						<ows:Value>2</ows:Value>
-					</ows:AllowedValues>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>VORA</ows:Identifier>
-				<ows:Title>Vora</ows:Title>
-				<ows:Abstract>En el mosaic de ràsters indica que cal ignorar una vora de 'n' cel·les de cadascuna de les imatges originals.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>RLE</ows:Identifier>
-				<ows:Title>Comprimir i indexar IMG</ows:Title>
-				<ows:Abstract>Quan el ràster de sortida sigui un IMG es comprimirà i s'indexarà.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>##blank##</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>LLINATGE</ows:Identifier>
-				<ows:Title>Llinatge</ows:Title>
-				<ows:Abstract>Patró per al nom d'un fitxer ràster addicional (de fet un per a cada banda) que indica l'índex de fitxer origen (començant des de 0) que ha contribuït a cada píxel de la imatge de sortida. Aquest fitxer pot ajudar a entendre l'origen de les dades de cada píxel de la imatge de sortida.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>SIMPLIFICA_VERTEXS</ows:Identifier>
-				<ows:Title>Simplifica vèrtexs intermedis</ows:Title>
-				<ows:Abstract>Simplifica els vèrtexs intermedis dels arcs, sempre i quan això no signifiqui un canvi en la topologia.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>##blank##</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>##blank##</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>ALGORISME</ows:Identifier>
-				<ows:Title>Algorisme d'estructuració topològica</ows:Title>
-				<ows:Abstract><![CDATA[Aquest modificador serveix per a determinar l'algorisme que l'aplicació emprarà per a detectar les possibles interseccions entre els segments dels elements lineals i de les vores de polígons durant l'estructuració topològica. Vegeu <a href="General.htm#Algorisme">Algorismes disponibles per a l'estructuració topològica (/ALGORISME)</a> per a una explicació més detallada i suggeriments sobre situacions en què és més adequat un o altre algorisme.<ul><li>ESCOMBRATGE: Basat en la intersecció de segments de Bentley-Ottmann. Per a línies que intersequen en nous vèrtexs.</li><li>DIRECTE: Basat en l'exploració de les interseccions de cada segment contra tots els altres. Per a polígons explícits o per a capes amb topologia implícita (interseccions ja convertides en vèrtexs)</li><li>AUTOMATIC: El programa decideix automàticament quin dels dos algorismes s'utilitzarà. De vegades resulta més lent que el més ràpid dels dos anteriors.</li></ul>]]></ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>ESCOMBRATGE</ows:Value>
-						<ows:Value>DIRECTE</ows:Value>
-						<ows:Value>AUTOMATIC</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>AUTOMATIC</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>TITOL</ows:Identifier>
-				<ows:Title>Títol</ows:Title>
-				<ows:Abstract>Títol del fitxer de sortida</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="0" maxOccurs="1">
-				<ows:Identifier>PATRO_DEST</ows:Identifier>
-				<ows:Title>Patró fitxers resultat</ows:Title>
-				<ows:Abstract>Patró comú pels fitxers resultat en cas de fitxers multibanda.</ows:Abstract>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralData>
-			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Fitxer</ows:Identifier>
 				<ows:Title>Fitxer llista</ows:Title>
-				<ows:Abstract>Fitxer que conté una llista de fitxers</ows:Abstract>
+				<ows:Abstract>Nom del fitxer de text amb la llista de capes (un nom per línia). El programa escriu un fitxer VEC amb el mateix nom base i el sufix _list (polígons envolupants) i el DVC corresponent.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Fitxer"/>
-				<ComplexOutput>
+				<ComplexData>
 					<Default>
 						<Format>
 							<MimeType>text/plain</MimeType>
@@ -1053,8 +1086,56 @@
 							<Encoding>ascii</Encoding>
 						</Format>
 					</Supported>
-				</ComplexOutput>
-			</Output>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:Mosaic:Param1:9</ows:Identifier>
+		<ows:Title>Opció 9</ows:Title>
+		<ows:Abstract>Genera una llista binària (fitxer amb clau «{») a partir d'una llista de text. Una llista binària és útil per accelerar els mosaics.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció 9</ows:Title>
+				<ows:Abstract>Genera una llista binària (fitxer amb clau «{») a partir d'una llista de text. Una llista binària és útil per accelerar els mosaics.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>9</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>9</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fitxer</ows:Identifier>
+				<ows:Title>Fitxer llista</ows:Title>
+				<ows:Abstract>Nom del fitxer de text amb la llista de capes (un nom per línia). El programa escriu un fitxer binari associat (extensió amb clau «{») al mateix directori.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:Fitxer"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-lst</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
 		</ProcessOutputs>
 	</ProcessDescription>
 </wps:ProcessDescriptions>
