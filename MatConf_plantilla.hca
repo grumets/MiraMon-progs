@@ -1,69 +1,102 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 07-10-2026 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>MatConf: Generació de matrius de confusions per a l'avaluació de cartografia temàtica categòrica</title>
+<title>MatConf: Generació de matrius de confusions per a l'avaluació de cartografia temàtica categòrica</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
-<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<p><ul>
+<h4>Accés directe de l'<a href="https://www.miramon.cat/help/cat/" target="_blank">ajuda</a> a Internet: <a href="https://www.miramon.cat/help/cat/msa/MatConf.htm" target="_blank"><font size="+2">MatConf</font></a></h4>
+<h4>Accés a l'aplicació des del menú:<br>
+<i>"Eines | Classificació d'imatges | Generació de matrius de confusió"</i><br>
+<i>"Eines | Processament d'imatges | Generació de matrius de confusió"</i></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació i opcions</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
+
 <p>Aquest programa construeix la 'Matriu de Confusions', taula bidimensional de comparació de les dades de la imatge classificada amb les dades de referència o veritat-terreny. El format de sortida pot ser un fitxer de text o un fitxer en format de full de càlcul (CSV).</p>
-  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
-<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>Els ràster de classificació i el de referència han de correspondre al
-  mateix àmbit geogràfic, han de tenir la mateixa resolució les mateixes
-  unitats referides al mateix sistema de referència. Exceptuant el valor de
-  fons, el rang de valors del fitxer a classificar ha d'estar inclòs dins
-  el rang del fitxer veritat-terreny i han de tenir el mateix nombre de
-  categories definides. Aquesta última restricció pot evitar-se definint el
-  paràmetre /CATEG_FIXAT, on el nombre de columnes quedarà fixat per les
-  categories de la imatge veritat-terreny. En canvi, poden ser de diferent
-  tipus (s'exclou el tipus real que no representa dades categòriques) i no
-  importa el grau de compressió.</p>
+<p>Els ràster de classificació i el de referència han de correspondre al  mateix àmbit geogràfic, han de tenir la mateixa resolució les mateixes  unitats referides al mateix sistema de referència. Exceptuant el valor de  fons, el rang de valors del fitxer a classificar ha d'estar inclòs dins  el rang del fitxer veritat-terreny i han de tenir el mateix nombre de  categories definides. Aquesta última restricció pot evitar-se definint el  paràmetre /CATEG_FIXAT, on el nombre de columnes quedarà fixat per les  categories de la imatge veritat-terreny. En canvi, poden ser de diferent  tipus (s'exclou el tipus real que no representa dades categòriques) i no  importa el grau de compressió.</p>
 
-  <p>El fitxer de sortida conté la 'Matriu de Confusions', a les
-  columnes hi ha representats els valors del ràster veritat-terreny i a les
-  files els valors del ràster classificat. En la diagonal de la matriu obtenim
-  els encerts, i els elements no-diagonals són encreuaments no-coincidents
-  entre els dos ràsters. La relació entre uns elements i els altres determina
-  els diferents tipus d'error i exactitud percentuals: error omissió i
-  exactitud del productor per columnes, i error de comissió i exactitud de
-  l'usuari per files.</p>
+<p>El fitxer de sortida conté la 'Matriu de Confusions', a les  columnes hi ha representats els valors del ràster veritat-terreny i a les  files els valors del ràster classificat. En la diagonal de la matriu obtenim  els encerts, i els elements no-diagonals són encreuaments no-coincidents  entre els dos ràsters. La relació entre uns elements i els altres determina  els diferents tipus d'error i exactitud percentuals: error omissió i  exactitud del productor per columnes, i error de comissió i exactitud de  l'usuari per files.</p>
 
-  <p>Al final es realitzen diferents recomptes, s'indica l'encert
-  global, l'encert global ponderat per superfície amb diferents criteris,
-  i el paràmetre Kappa per a quantificar l'ajust entre els dos
-  ràsters.</p>
+<p>Al final es realitzen diferents recomptes, s'indica l'encert  global, l'encert global ponderat per superfície amb diferents criteris,  i el paràmetre Kappa per a quantificar l'ajust entre els dos  ràsters.</p>
 
-  <p>A continuació, de la matriu de confusions i respectius recomptes, hi ha la matriu de freqüència d'ocurrències (cel·les) considerant que la superfície de cada categoria en la capa de veritat terreny sigui proporcional a la superfície de cada categoria en la capa a avaluar (cosa que evita que categories de veritat terreny molt abundants mostrin confusions amb altres categories molt menys abundants en la capa de veritat terreny; aquestes confusions típicament són de pocs píxels en relació a la categoria abundant però en un nombre que és proporcionalment molt important quan es compara amb el total de píxels de la categoria amb la qual mostra la confusió, cosa que desvirtua el càlcul de l'error de comissió i de l'exactitud de l'usuari en la categoria poc representada en la capa de veritat terreny).</p>
+<p>A continuació, de la matriu de confusions i respectius recomptes, hi ha la matriu de freqüència d'ocurrències (cel·les) considerant que la superfície de cada categoria en la capa de veritat terreny sigui proporcional a la superfície de cada categoria en la capa a avaluar (cosa que evita que categories de veritat terreny molt abundants mostrin confusions amb altres categories molt menys abundants en la capa de veritat terreny; aquestes confusions típicament són de pocs píxels en relació a la categoria abundant però en un nombre que és proporcionalment molt important quan es compara amb el total de píxels de la categoria amb la qual mostra la confusió, cosa que desvirtua el càlcul de l'error de comissió i de l'exactitud de l'usuari en la categoria poc representada en la capa de veritat terreny).</p>
+  
+<p>Tota aquesta informació pot recollir-se en dos formats: un format de  fitxer de text que pot paginar-se escollint el nombre màxim de columnes que  caben en l'amplada de l'informe, o un format anomenat CSV, que està  preparat per a ser llegit per un full de càlcul. És un format de text on un  caràcter determinat actua de separador de columnes. Aquest separador pot  especificar-se en les opcions avançades, sent el seu valor per defecte el  configurat com a separador de llistes en el Panel de Control de Windows. De  la mateixa manera que pel format TXT, pel format CSV és possible limitar  l'amplada de l'informe, i així evitar sobrepassar el nombre màxim de  columnes suportat pel full de càlcul, quan el nombre de categories en joc és  força elevat.</p>
 
-  <p>Tota aquesta informació pot recollir-se en dos formats: un format de
-  fitxer de text que pot paginar-se escollint el nombre màxim de columnes que
-  caben en l'amplada de l'informe, o un format anomenat CSV, que està
-  preparat per a ser llegit per un full de càlcul. És un format de text on un
-  caràcter determinat actua de separador de columnes. Aquest separador pot
-  especificar-se en les opcions avançades, sent el seu valor per defecte el
-  configurat com a separador de llistes en el Panel de Control de Windows. De
-  la mateixa manera que pel format TXT, pel format CSV és possible limitar
-  l'amplada de l'informe, i així evitar sobrepassar el nombre màxim de
-  columnes suportat pel full de càlcul, quan el nombre de categories en joc és
-  força elevat.</p>
-  <p>
-  A les opcions de sortida cal escollir com a mínim un dels dos formats de sortida.
-  </p>
-  <hr/>
+<p>A les opcions de sortida cal escollir com a mínim un dels dos formats de sortida.</p>
+  
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <exclusiva>
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="MatConf_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg de MatConf</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="XXX.pnd"/><img src="XXX.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Text explicatiu de l'exemple.</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
+
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
-   <!-- $$EXCLUSIVA$$
-
+<p>
+<!-- $$EXCLUSIVA$$
 Per a obtenir l'ajuda completa escriviu:
-MATCONF ?
+MatConf ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
 </body>
 </html>

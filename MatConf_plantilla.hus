@@ -1,70 +1,102 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 07-10-2026 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>MatConf: Generation of confusion matrices for the evaluation of categorical thematic cartography</title>
+<title>MatConf: Generation of confusion matrices for the evaluation of categorical thematic cartography</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
+<a id="MENU" name="MENU"></a>
 <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Direct access to online <a href="https://www.miramon.cat/help/eng/" target="_blank">help</a>: <a href="https://www.miramon.cat/help/eng/msa/MatConf.htm" target="_blank"><font size="+2">MatConf</font></a></h4>
+<h4>Access the application from the menu: <br>
+<i>"Tools | Image classification | Generation of error matrices"</i><br>
+<i>"Tools | Image processing | Generation of error matrices"</i></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
-  <p>This program creates a 'Confusion Matrix', a two dimensional
-  table comparing the classified image data with reference to ground truth
-  data. The program have two options depending on the output format:</p>
-   <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+
+<p>This program creates a 'Confusion Matrix', a two-dimensional table comparing the classified image data with reference to ground truth data. The program has two options depending on the output format:</p>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
-<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.--> 
-  <p>The classification raster and the reference raster must correspond to the
-  same geographic area, have the same resolution and have the same units
-  related to the geographic reference system. Except for the background value,
-  the range of values in the classified file must be within the range of the
-  values in the ground truth file and they should have the same number of
-  categories defined. This last restriction can be avoided using
-  <i>/CATEG_FIXAT</i> parameter, when the number of columns will be fixed by
-  ground truth raster categories. However they may be different types of files
-  (excluding real type files that cannot represent category data) and the
-  degree of compression is not important.</p>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-  <p>The output file contains the 'Confusion Matrix', in which the
-  columns represent the values of the ground truth raster and the rows the
-  values of the classified raster. The diagonal of the matrix shows the
-  correctly classified pixels, and the off-diagonal elements of the table show
-  the number of pixels in which the two rasters do not coincide for each
-  combination of ground truth / classified image categories. The relations
-  between the different elements of the table determine the types of error,
-  the percent accuracies; omission errors and producer errors by column and
-  commission errors and user accuracy by row.</p>
+<p>The classification raster and the reference raster must correspond to the same geographic area, have the same resolution and have the same units related to the geographic reference system. Except for the background value, the range of values in the classified file must be within the range of the values in the ground truth file and they should have the same number of categories defined. This last restriction can be avoided using <i>/CATEG_FIXAT</i> parameter, when the number of columns will be fixed by ground truth raster categories. However they may be different types of files (excluding real type files that cannot represent category data) and the degree of compression is not important.</p>
 
-  <p>At the end of the file there are various sums, indicating the global
-  accuracy, the global accuracy weighted by surface area with different
-  criteria, and the Kappa parameter to quantify the fit between the two
-  rasters.</p>
+<p>The output file contains the 'Confusion Matrix', in which the columns represent the values of the ground truth raster and the rows the values of the classified raster. The diagonal of the matrix shows the correctly classified pixels, and the off-diagonal elements of the table show the number of pixels in which the two rasters do not coincide for each combination of ground truth / classified image categories. The relations between the different elements of the table determine the types of error, the percent accuracies; omission errors and producer errors by column and commission errors and user accuracy by row.</p>
+
+<p>At the end of the file there are various sums, indicating the global accuracy, the global accuracy weighted by surface area with different criteria, and the Kappa parameter to quantify the fit between the two rasters.</p>
 
 <p>Following the confusion matrix and respective counts, there is the frequency of occurrence matrix (cells) considering that the surface of each category in the ground truth layer is proportional to the surface of each category in the layer a evaluate (which prevents very abundant ground truth categories from showing confusions with other much less abundant categories in the ground truth layer; these confusions are typically few pixels relative to the abundant category but in a number that is proportionally very important when it is compared to the total pixels of the category with which it shows the confusion, which biases the calculation of the error of commission and the accuracy of the user in the underrepresented category in the ground truth layer).<p>
 
-  <p>All this information can be saved in either of two formats: a text file
-  format which can be paginated by choosing the maximum number of columns that
-  fit in the report width, or the CSV format that has been designed to be read
-  by a spreadsheet program. The CSV format is just a text format in which a
-  specified character is used as a column separator. This separator can be
-  specified in the advanced options. The default value is that value set as
-  the list separator in the Windows Control Panel. As for the TXT format it is
-  also possible to limit the report width when using CSV and so avoid going
-  over the maximum number of columns supported by the spreadsheet application
-  when the number of categories being considered is very large.</p>
+<p>All this information can be saved in either of two formats: a text file format which can be paginated by choosing the maximum number of columns that fit in the report width, or the CSV format that has been designed to be read by a spreadsheet program. The CSV format is just a text format in which a specified character is used as a column separator. This separator can be specified in the advanced options. The default value is that value set as the list separator in the Windows Control Panel. As for the TXT format it is also possible to limit the report width when using CSV and so avoid going over the maximum number of columns supported by the spreadsheet application when the number of categories being considered is very large.</p>
 
-	<p>In the output options, at least one of the two output formats must be selected.</p>
+<p>In the output options, at least one of the two output formats must be selected.</p>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-  <exclusiva>
- <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="MatConf_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">MatConf dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="XXX.png"/><img src="XXX.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Text explicatiu de l'exemple.</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
-<p><!-- $$EXCLUSIVA$$
+<p>
+<!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
-MATCONF ?
---></p>
-
-  </exclusiva>
+MatConf ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
 </body>
 </html>
