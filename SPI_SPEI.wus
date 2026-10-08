@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:SPI_SPEI:Param2:RAS&amp;!Param4</ows:Identifier>
-		<ows:Title>Computing of SPI drought indices (raster mode)</ows:Title>
-		<ows:Abstract>Computing of SPI drought indices (raster mode)</ows:Abstract>
+		<ows:Identifier>MiraMon:SPI_SPEI:Param4&amp;!Param5</ows:Identifier>
+		<ows:Title>SPI adjusted to a gamma function</ows:Title>
+		<ows:Abstract><![CDATA[Calculate the SPI index, defined by <b>McKee et al.</b> (1993), adjusted to a gamma function in the form described by <b>Lloyd-Hughes and Saunders</b> (2002). The reference implementation can be consulted at:<a href="http://ccc.atmos.colostate.edu/standardizedprecipitation.php" target="_blank">http://ccc.atmos.colostate.edu/standardizedprecipitation.php</a>.]]></ows:Abstract>
 		<ows:Metadata xlink:title="Title:Compute SPI and SPEI drought indices"/>
 		<ows:Metadata xlink:title="Abstract:Compute SPI and SPEI drought indices"/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Metode</ows:Identifier>
 				<ows:Title>Method</ows:Title>
-				<ows:Abstract><![CDATA[Calculation method: <ul><li>SPI_GAMMA for SPI set to a gamma function.</li><li>SPI_PEARSON for SPI set based on Pearson III.</le><li>SPEI_LLOG for SPEI adjusted based on a Logistic Log distribution.</li></ul>You can ask the program to fill in the lost values with an average between the two previous and next values by adding "_FS" to the name of the index you want to calculate.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Calculation method: <ul><li>SPI_GAMMA for SPI set to a gamma function.</li><li>SPI_PEARSON for SPI set based on Pearson III.</li><li>SPEI_LLOG for SPEI adjusted based on a Logistic Log distribution.</li></ul>You can ask the program to fill in the lost values with an average between the two previous and next values by adding "_FS" to the name of the index you want to calculate.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Method"/>
 				<LiteralData>
@@ -23,28 +23,27 @@
 						<ows:Value>SPI_PEARSON_FS</ows:Value>
 						<ows:Value>SPI_PEARSON</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>SPI</DefaultValue>
+					<DefaultValue>SPI_GAMMA</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Mode</ows:Identifier>
 				<ows:Title>Mode</ows:Title>
-				<ows:Abstract><![CDATA[Mode:<ul><li>EST for Station</li><li>RAS for Rasters</li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Mode:<ul><li>ESTACIO for Station</li><li>RASTER for Raster</li></ul>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Mode"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>EST</ows:Value>
-						<ows:Value>RAS</ows:Value>
+						<ows:Value>ESTACIO</ows:Value>
+						<ows:Value>RASTER</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>EST</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Prec</ows:Identifier>
 				<ows:Title>Precipitation file</ows:Title>
-				<ows:Abstract>Precipitation file corresponding to a file with a list of precipitation rasters in raster mode or a precipitation text file (and temperatures by the SPEI method) in station mode.</ows:Abstract>
+				<ows:Abstract>Precipitation file corresponding to a file with a list of precipitation rasters in raster mode or a precipitation text file (and temperatures for the SPEI method) in station mode.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:PrecipFile"/>
 				<ComplexData>
@@ -62,29 +61,40 @@
 					</Supported>
 				</ComplexData>
 			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>IntervalTemps</ows:Identifier>
+				<ows:Title>Time interval</ows:Title>
+				<ows:Abstract>Time interval, in months, for which the index is calculated. Typical values: 1, 3, 6, 12, 24 and 48 months.</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:IntervalTemps"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>DIR</ows:Identifier>
-				<ows:Title>Output folder</ows:Title>
-				<ows:Abstract>Output folder where the result files will be saved. If not specified, they will be saved in the input file directory.</ows:Abstract>
+				<ows:Title>Output directory</ows:Title>
+				<ows:Abstract>Output directory where result files will be saved. If not indicated, they will be saved in the input file directory.</ows:Abstract>
 				<ows:Metadata xlink:title="Name:DIR"/>
-				<LiteralOutput>
+				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
-				</LiteralOutput>
-			</Output>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:SPI_SPEI:Param2:RAS&amp;Param4</ows:Identifier>
-		<ows:Title>Computing of SPEI drought indices (raster mode)</ows:Title>
-		<ows:Abstract>Computing of SPEI drought indices (raster mode)</ows:Abstract>
+		<ows:Identifier>MiraMon:SPI_SPEI:Param2:RASTER&amp;Param4&amp;Param5&amp;!Param6</ows:Identifier>
+		<ows:Title>SPI adjusted to Pearson III</ows:Title>
+		<ows:Abstract><![CDATA[Calculate the SPI index, defined by <b>McKee et al.</b> (1993), adjusted based on Pearson III, etc, in the form described by <b>Vicente_Serrano et al.</b> (2009). The reference implementation can be consulted at: <a href="http://digital.csic.es" target="_blank">http://digital.csic.es</a>.]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Metode</ows:Identifier>
 				<ows:Title>Method</ows:Title>
-				<ows:Abstract><![CDATA[Calculation method: <ul><li>SPI_GAMMA for SPI set to a gamma function.</li><li>SPI_PEARSON for SPI set based on Pearson III.</le><li>SPEI_LLOG for SPEI adjusted based on a Logistic Log distribution.</li></ul>You can ask the program to fill in the lost values with an average between the two previous and next values by adding "_FS" to the name of the index you want to calculate.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Calculation method: <ul><li>SPI_GAMMA for SPI set to a gamma function.</li><li>SPI_PEARSON for SPI set based on Pearson III.</li><li>SPEI_LLOG for SPEI adjusted based on a Logistic Log distribution.</li></ul>You can ask the program to fill in the lost values with an average between the two previous and next values by adding "_FS" to the name of the index you want to calculate.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Method"/>
 				<LiteralData>
@@ -97,28 +107,27 @@
 						<ows:Value>SPI_PEARSON_FS</ows:Value>
 						<ows:Value>SPI_PEARSON</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>SPI</DefaultValue>
+					<DefaultValue>SPI_GAMMA</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Mode</ows:Identifier>
 				<ows:Title>Mode</ows:Title>
-				<ows:Abstract><![CDATA[Mode:<ul><li>EST for Station</li><li>RAS for Rasters</li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Mode:<ul><li>ESTACIO for Station</li><li>RASTER for Raster</li></ul>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Mode"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>EST</ows:Value>
-						<ows:Value>RAS</ows:Value>
+						<ows:Value>ESTACIO</ows:Value>
+						<ows:Value>RASTER</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>EST</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Prec</ows:Identifier>
 				<ows:Title>Precipitation file</ows:Title>
-				<ows:Abstract>Precipitation file corresponding to a file with a list of precipitation rasters in raster mode or a precipitation text file (and temperatures by the SPEI method) in station mode.</ows:Abstract>
+				<ows:Abstract>Precipitation file corresponding to a file with a list of precipitation rasters in raster mode or a precipitation text file (and temperatures for the SPEI method) in station mode.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:PrecipFile"/>
 				<ComplexData>
@@ -139,9 +148,9 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Tem</ows:Identifier>
 				<ows:Title>Temperature file</ows:Title>
-				<ows:Abstract>Text file with a list of temperature rasters (for SPEI method and raster mode only).</ows:Abstract>
+				<ows:Abstract>Text file with a list of temperature rasters (SPEI method and raster mode only).</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:TemFile"/>
+				<ows:Metadata xlink:title="Name:TempFile"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -157,10 +166,21 @@
 					</Supported>
 				</ComplexData>
 			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>IntervalTemps</ows:Identifier>
+				<ows:Title>Time interval</ows:Title>
+				<ows:Abstract>Time interval, in months, for which the index is calculated. Typical values: 1, 3, 6, 12, 24 and 48 months.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:IntervalTemps"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>DIR</ows:Identifier>
-				<ows:Title>Output folder</ows:Title>
-				<ows:Abstract>Output folder where the result files will be saved. If not specified, they will be saved in the input file directory.</ows:Abstract>
+				<ows:Title>Output directory</ows:Title>
+				<ows:Abstract>Output directory where result files will be saved. If not indicated, they will be saved in the input file directory.</ows:Abstract>
 				<ows:Metadata xlink:title="Name:DIR"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
@@ -172,14 +192,14 @@
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:SPI_SPEI:Param2:RAS&amp;Param4&amp;Param7</ows:Identifier>
-		<ows:Title>Computing of SPEI drought indices (raster mode)</ows:Title>
-		<ows:Abstract>Computing of SPEI drought indices (raster mode)</ows:Abstract>
+		<ows:Identifier>MiraMon:SPI_SPEI:Param2:RASTER&amp;Param4&amp;Param5&amp;Param6</ows:Identifier>
+		<ows:Title>PEI adjusted based on a Log Logistic distribution</ows:Title>
+		<ows:Abstract><![CDATA[Calcula l'índex SPEI, Calculate the SPI index, defined by <b>McKee et al.</b> (1993), adjusted based on a Log Logistic distribution, in the form described by <b>Vicente_Serrano et al.</b> (2009).  The reference implementation can be consulted at: <a href="http://digital.csic.es" target="_blank">http://digital.csic.es</a>.]]></ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Metode</ows:Identifier>
 				<ows:Title>Method</ows:Title>
-				<ows:Abstract><![CDATA[Calculation method: <ul><li>SPI_GAMMA for SPI set to a gamma function.</li><li>SPI_PEARSON for SPI set based on Pearson III.</le><li>SPEI_LLOG for SPEI adjusted based on a Logistic Log distribution.</li></ul>You can ask the program to fill in the lost values with an average between the two previous and next values by adding "_FS" to the name of the index you want to calculate.]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Calculation method: <ul><li>SPI_GAMMA for SPI set to a gamma function.</li><li>SPI_PEARSON for SPI set based on Pearson III.</li><li>SPEI_LLOG for SPEI adjusted based on a Logistic Log distribution.</li></ul>You can ask the program to fill in the lost values with an average between the two previous and next values by adding "_FS" to the name of the index you want to calculate.]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Method"/>
 				<LiteralData>
@@ -192,28 +212,27 @@
 						<ows:Value>SPI_PEARSON_FS</ows:Value>
 						<ows:Value>SPI_PEARSON</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>SPI</DefaultValue>
+					<DefaultValue>SPI_GAMMA</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Mode</ows:Identifier>
 				<ows:Title>Mode</ows:Title>
-				<ows:Abstract><![CDATA[Mode:<ul><li>EST for Station</li><li>RAS for Rasters</li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[Mode:<ul><li>ESTACIO for Station</li><li>RASTER for Raster</li></ul>]]></ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Mode"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
-						<ows:Value>EST</ows:Value>
-						<ows:Value>RAS</ows:Value>
+						<ows:Value>ESTACIO</ows:Value>
+						<ows:Value>RASTER</ows:Value>
 					</ows:AllowedValues>
-					<DefaultValue>EST</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Prec</ows:Identifier>
 				<ows:Title>Precipitation file</ows:Title>
-				<ows:Abstract>Precipitation file corresponding to a file with a list of precipitation rasters in raster mode or a precipitation text file (and temperatures by the SPEI method) in station mode.</ows:Abstract>
+				<ows:Abstract>Precipitation file corresponding to a file with a list of precipitation rasters in raster mode or a precipitation text file (and temperatures for the SPEI method) in station mode.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:PrecipFile"/>
 				<ComplexData>
@@ -233,10 +252,10 @@
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Temp_ET</ows:Identifier>
-				<ows:Title>Temperature file or evapotranspiration</ows:Title>
-				<ows:Abstract>Text file with a list of temperature or evapotranspiration rasters (for SPEI method and raster mode only).</ows:Abstract>
+				<ows:Title>Temperature or evapotranspiration file</ows:Title>
+				<ows:Abstract>Text file with a list of temperature or evapotranspiration rasters (SPEI method and raster mode only)</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
-				<ows:Metadata xlink:title="Name:TemFilep_ET"/>
+				<ows:Metadata xlink:title="Name:FitxTemp_ET"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -253,11 +272,22 @@
 				</ComplexData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>IntervalTemps</ows:Identifier>
+				<ows:Title>Time interval</ows:Title>
+				<ows:Abstract>Time interval, in months, for which the index is calculated. Typical values: 1, 3, 6, 12, 24 and 48 months.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:IntervalTemps"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>OpcioEvapo</ows:Identifier>
 				<ows:Title>Evapotranspiration option</ows:Title>
-				<ows:Abstract>This parameter is only used in the case of SPEI and in RASTER mode, and it is used to specify how ET is computed. If no value is specified, or if ET_THORN_1948 is specified, the program assumes that the file TemFilep_ET contains the list of rasters with temperature data, and PET is computed using the Thornthwaite (1948) method. If ET_RASTER is specified, the program assumes that TemFilep_ET contains the list of rasters where each cell directly contains ET data (for example, from MODIS, etc.) in mm/month. If more flexibility in the units is required, please write to suport@miramon.uab.cat</ows:Abstract>
-				<ows:Metadata xlink:title="Param5"/>
-				<ows:Metadata xlink:title="Name:EvapoOption"/>
+				<ows:Abstract>This parameter is only used for SPEI in RASTER mode and specifies how ET is calculated. If no value is indicated, or ET_THORN_1948 is indicated, the program assumes that TemFilep_ET contains the list of rasters with temperature data, and ETP is calculated using the Thornthwaite 1948 method. If ET_RASTER is indicated, the program assumes that TemFilep_ET contains rasters where each cell directly contains ET data (e.g. from MODIS, etc.) in mm/month. If you need more flexibility in units, please write to suport@miramon.uab.cat</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:OpcioEvapo"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -269,8 +299,8 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>DIR</ows:Identifier>
-				<ows:Title>Output folder</ows:Title>
-				<ows:Abstract>Output folder where the result files will be saved. If not specified, they will be saved in the input file directory.</ows:Abstract>
+				<ows:Title>Output directory</ows:Title>
+				<ows:Abstract>Output directory where result files will be saved. If not indicated, they will be saved in the input file directory.</ows:Abstract>
 				<ows:Metadata xlink:title="Name:DIR"/>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
@@ -279,80 +309,6 @@
 			</Input>
 		</DataInputs>
 		<ProcessOutputs>
-		</ProcessOutputs>
-	</ProcessDescription>
-	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:SPI_SPEI:Param2:EST&amp;!Param4</ows:Identifier>
-		<ows:Title>Computing of SPI and SPEI drought indices (station mode)</ows:Title>
-		<ows:Abstract>Computing of SPI and SPEI drought indices (station mode)</ows:Abstract>
-		<DataInputs>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Metode</ows:Identifier>
-				<ows:Title>Method</ows:Title>
-				<ows:Abstract><![CDATA[Calculation method: <ul><li>SPI_GAMMA for SPI set to a gamma function.</li><li>SPI_PEARSON for SPI set based on Pearson III.</le><li>SPEI_LLOG for SPEI adjusted based on a Logistic Log distribution.</li></ul>You can ask the program to fill in the lost values with an average between the two previous and next values by adding "_FS" to the name of the index you want to calculate.]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param1"/>
-				<ows:Metadata xlink:title="Name:Method"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>SPI_GAMMA</ows:Value>
-						<ows:Value>SPEI_LLOG</ows:Value>
-						<ows:Value>SPI_GAMMA_FS</ows:Value>
-						<ows:Value>SPEI_LLOG_FS</ows:Value>
-						<ows:Value>SPI_PEARSON_FS</ows:Value>
-						<ows:Value>SPI_PEARSON</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>SPI</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Mode</ows:Identifier>
-				<ows:Title>Mode</ows:Title>
-				<ows:Abstract><![CDATA[Mode:<ul><li>EST for Station</li><li>RAS for Rasters</li></ul>]]></ows:Abstract>
-				<ows:Metadata xlink:title="Param2"/>
-				<ows:Metadata xlink:title="Name:Mode"/>
-				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AllowedValues>
-						<ows:Value>EST</ows:Value>
-						<ows:Value>RAS</ows:Value>
-					</ows:AllowedValues>
-					<DefaultValue>EST</DefaultValue>
-				</LiteralData>
-			</Input>
-			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Prec</ows:Identifier>
-				<ows:Title>Precipitation file</ows:Title>
-				<ows:Abstract>Precipitation file corresponding to a file with a list of precipitation rasters in raster mode or a precipitation text file (and temperatures by the SPEI method) in station mode.</ows:Abstract>
-				<ows:Metadata xlink:title="Param3"/>
-				<ows:Metadata xlink:title="Name:PrecipFile"/>
-				<ComplexData>
-					<Default>
-						<Format>
-							<MimeType>text/plain</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-					</Default>
-					<Supported>
-						<Format>
-							<MimeType>text/plain</MimeType>
-							<Encoding>ascii</Encoding>
-						</Format>
-					</Supported>
-				</ComplexData>
-			</Input>
-		</DataInputs>
-		<ProcessOutputs>
-			<Output>
-				<ows:Identifier>DIR</ows:Identifier>
-				<ows:Title>Output folder</ows:Title>
-				<ows:Abstract>Output folder where the result files will be saved. If not specified, they will be saved in the input file directory.</ows:Abstract>
-				<ows:Metadata xlink:title="Name:DIR"/>
-				<LiteralOutput>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
-					<ows:AnyValue/>
-				</LiteralOutput>
-			</Output>
 		</ProcessOutputs>
 	</ProcessDescription>
 </wps:ProcessDescriptions>
