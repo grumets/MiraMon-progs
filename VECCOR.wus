@@ -1,54 +1,77 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:veccor:Param1:1</ows:Identifier>
+		<ows:Identifier>MiraMon:VECCOR:Param1:1</ows:Identifier>
 		<ows:Title>VECCOR 2D</ows:Title>
-		<ows:Abstract>This option transforms VEC files of point to  COR files without Z dimension</ows:Abstract>
-<ows:Metadata xlink:title="Title:Transformation of VEC files of points to COR files used by CorrGeom" />
-<ows:Metadata xlink:title="Abstract:This program transforms VEC files of point to the working format of CORRGEOM program." />
+		<ows:Abstract>This option transforms VEC point files to COR format without incorporating heights.</ows:Abstract>
+		<ows:Metadata xlink:title="Title:Transformation of point VEC files to COR files used by CorrGeom"/>
+		<ows:Metadata xlink:title="Abstract:This program transforms VEC point files to the working format of the CORRGEOM program."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Mode</ows:Identifier>
-				<ows:Title>Mode</ows:Title>
-				<ows:Abstract>1.Conversion from VEC format to COR format.</ows:Abstract>
-				<ows:Metadata xlink:title="Param1" />
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option 1</ows:Title>
+				<ows:Abstract>Conversion from VEC format to COR format without heights.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
-						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>VECFileName</ows:Identifier>
-				<ows:Title>VEC File Name</ows:Title>
-				<ows:Abstract>Input file containing the ground control points VEC format.</ows:Abstract>
-						<ows:Metadata xlink:title="Param2" />
-					<ComplexData>
-						<Default>
-							<Format>
-								<MimeType>application/x-VEC</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Default>
-						<Supported>
-							<Format>
-								<MimeType>application/x-VEC</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Supported>
-					</ComplexData>
-			</Input>	
-			</DataInputs>	
+				<ows:Identifier>NomFitxerVEC</ows:Identifier>
+				<ows:Title>NomFitxerVEC</ows:Title>
+				<ows:Abstract>Input file containing the ground control points in VEC format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:NomFitxerVEC"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SRH_COORD_VEC</ows:Identifier>
+				<ows:Title>Input reference system</ows:Title>
+				<ows:Abstract>Reference system of the coordinates in the VEC file attribute. If not specified, no transformation is applied and the same reference system is assumed.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:SRH_COORD_VEC"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SRH_COORD_COR</ows:Identifier>
+				<ows:Title>Output reference system</ows:Title>
+				<ows:Abstract>Destination reference system of the points in the COR file.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:SRH_COORD_COR"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>CORFileName</ows:Identifier>
-				<ows:Title>COR File Name</ows:Title>
-				<ows:Abstract>Output file containing the ground control points COR format.
-				</ows:Abstract>
-				<ows:Metadata xlink:title="Param3" />
-						<ComplexOutput>
-							<Default>
+				<ows:Identifier>NomFitxerCOR</ows:Identifier>
+				<ows:Title>NomFitxerCOR</ows:Title>
+				<ows:Abstract>Output file containing the ground control points in COR format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NomFitxerCOR"/>
+				<ComplexOutput>
+					<Default>
 						<Format>
 							<MimeType>application/x-COR</MimeType>
 							<Encoding>Text</Encoding>
@@ -59,110 +82,124 @@
 							<MimeType>application/x-COR</MimeType>
 							<Encoding>Text</Encoding>
 						</Format>
-							</Supported>
-						</ComplexOutput>
+					</Supported>
+				</ComplexOutput>
 			</Output>
 		</ProcessOutputs>
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:veccor:Param1:2</ows:Identifier>
+		<ows:Identifier>MiraMon:VECCOR:Param1:2</ows:Identifier>
 		<ows:Title>VECCOR 3D</ows:Title>
-		<ows:Abstract>This option transforms VEC files of point to  COR files incorporating Z  dimension extracted from the the Digital Elevation Model (MDE).</ows:Abstract>
+		<ows:Abstract>This option transforms VEC point files to COR format incorporating heights extracted from a Digital Elevation Model (DEM).</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>Mode</ows:Identifier>
-				<ows:Title>Mode</ows:Title>
-				<ows:Abstract>2. Conversion from VEC format to COR format with heights that will be extracted from a Digital Elevation Model (DEM).</ows:Abstract>
-				<ows:Metadata xlink:title="Param1" />
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option 2</ows:Title>
+				<ows:Abstract>Conversion from VEC format to COR format with heights extracted from a Digital Elevation Model (DEM).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opcio"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>2</ows:Value>
-						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>VECFileName</ows:Identifier>
-				<ows:Title>VEC File Name</ows:Title>
-				<ows:Abstract>Input file containing the ground control points VEC format.</ows:Abstract>
-						<ows:Metadata xlink:title="Param2" />
-					<ComplexData>
-						<Default>
-							<Format>
-								<MimeType>application/x-VEC</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Default>
-						<Supported>
-							<Format>
-								<MimeType>application/x-VEC</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Supported>
-					</ComplexData>
-			</Input>	
+				<ows:Identifier>NomFitxerVEC</ows:Identifier>
+				<ows:Title>NomFitxerVEC</ows:Title>
+				<ows:Abstract>Input file containing the ground control points in VEC format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:NomFitxerVEC"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-VEC</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>DEM File Name</ows:Identifier>
-				<ows:Title>DEMFileName</ows:Title>
+				<ows:Identifier>NomFitxerMDE</ows:Identifier>
+				<ows:Title>NomFitxerMDE</ows:Title>
 				<ows:Abstract>IMG file containing the Digital Elevation Model of the region of interest (only option 2).</ows:Abstract>
-						<ows:Metadata xlink:title="Param4" />
-					<ComplexData>
-						<Default>
-							<Format>
-								<MimeType>application/x-IMG</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Default>
-						<Supported>
-							<Format>
-								<MimeType>application/x-IMG</MimeType>
-								<Encoding>Binary</Encoding>
-							</Format>
-						</Supported>
-					</ComplexData>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:NomFitxerMDE"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-IMG</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
-				<ows:Identifier>InterpolMode</ows:Identifier>
-				<ows:Title>Interpol Mode</ows:Title>
-				<ows:Abstract><![CDATA[<ul><li>0: Nearest neighbour</li><li>1: Bilinear interpolation</li><li>2: Bicubic interpolation</li></ul>]]> 
-</ows:Abstract>
-				<ows:Metadata xlink:title="Param5" />
+				<ows:Identifier>ModeInterpol</ows:Identifier>
+				<ows:Title>Interpolation mode</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0: Nearest neighbour</li><li>1: Bilinear interpolation</li><li>2: Bicubic interpolation</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:ModeInterpol"/>
 				<LiteralData>
-					<ows:AllowedValues>                                                                                            
-					<ows:Value>0</ows:Value>
-					<ows:Value>1</ows:Value>
-					<ows:Value>2</ows:Value>
-						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
-			</Input>				
+			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>UNITATSXY</ows:Identifier>
-				<ows:Title>Unitats XY</ows:Title>
-				<ows:Abstract>Units from the VEC file attribute, that correspond to coordinates from output horitzontal reference system, usually 'm' (only option 2).
-</ows:Abstract>
+				<ows:Title>XY units</ows:Title>
+				<ows:Abstract>Units of the VEC file attribute, corresponding to coordinates in the output horizontal reference system, usually m (only option 2).</ows:Abstract>
+				<ows:Metadata xlink:title="Name:UNITATSXY"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
-					<ows:Value>mm</ows:Value>
-					<ows:Value>dm</ows:Value>
-					<ows:Value>cm</ows:Value>
-					<ows:Value>m</ows:Value>
-					<ows:Value>km</ows:Value>
-					<ows:Value>graus</ows:Value>
-						<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+						<ows:Value>mm</ows:Value>
+						<ows:Value>dm</ows:Value>
+						<ows:Value>cm</ows:Value>
+						<ows:Value>m</ows:Value>
+						<ows:Value>km</ows:Value>
+						<ows:Value>graus</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
-			</Input>				
-			</DataInputs>	
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SRH_COORD_VEC</ows:Identifier>
+				<ows:Title>Input reference system</ows:Title>
+				<ows:Abstract>Reference system of the coordinates in the VEC file attribute. If not specified, no transformation is applied and the same reference system is assumed.</ows:Abstract>
+				<ows:Metadata xlink:title="Name:SRH_COORD_VEC"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
 		<ProcessOutputs>
 			<Output>
-				<ows:Identifier>CORFileName</ows:Identifier>
-				<ows:Title>COR File Name</ows:Title>
-				<ows:Abstract>Output file containing the ground control points COR format.
-				</ows:Abstract>
-				<ows:Metadata xlink:title="Param3" />
-						<ComplexOutput>
-							<Default>
+				<ows:Identifier>NomFitxerCOR</ows:Identifier>
+				<ows:Title>NomFitxerCOR</ows:Title>
+				<ows:Abstract>Output file containing the ground control points in COR format.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:NomFitxerCOR"/>
+				<ComplexOutput>
+					<Default>
 						<Format>
 							<MimeType>application/x-COR</MimeType>
 							<Encoding>Text</Encoding>
@@ -173,8 +210,8 @@
 							<MimeType>application/x-COR</MimeType>
 							<Encoding>Text</Encoding>
 						</Format>
-							</Supported>
-						</ComplexOutput>
+					</Supported>
+				</ComplexOutput>
 			</Output>
 		</ProcessOutputs>
 	</ProcessDescription>
