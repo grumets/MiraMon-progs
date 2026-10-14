@@ -1,8 +1,8 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 30-07-2024 */-->
+<!--/* Revisió AA 14-10-2026 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-<title>Rutes: Network analysis and optimal route determination</title>
+<title>Rutes: Network analysis and identification of the optimal route</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
 <body>
 <a id="MENU" name="MENU"></a>
@@ -10,6 +10,7 @@
 <h1><span id="wpstitol"/></h1>
 <p><ul>
 <h4>Direct access to online <a href="https://www.miramon.cat/help/eng/" target="_blank">help</a>: <a href="https://www.miramon.cat/help/eng/msa/Rutes.htm" target="_blank"><font size="+2">Rutes</font></a></h4>
+<h4>Access the application from the menu: <i>"Tools | Distance and network analysis | Network analysis (paths)"</i></h4>
 </ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
@@ -20,42 +21,40 @@
 	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
 </tr>
 <tr align="center" valign="middle">
-	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
 	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
 </tr>
 </table>
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
-<p>This program determines the optimum routes between a set of origin locations and a set of possible destination locations. The optimum route between a pair of origin-destination locations will be the that which minimizes the movement necessary to go from the origin to the destination, whether this be in time, distance or through the numerical field defined by the user that represents any other other variable that calculates the cost of the movement.</p>
 
-<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
-<span id="wpsopcions"/>
-<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+<p>This program determines the optimal routes between a set of origin locations and a set of possible destination locations. The optimal route between a pair of origin-destination locations will be the one that minimizes the displacement to go from the origin to the destination, either in time, distance or by a numeric field defined by the user that represents any other variable that weighs the cost of the displacement. The program has several options:</p>
 
-  <p>The origin locations and the possible destination locations should be connected to the network that defines the set of possible routes. This means that they correspond to nodes of the MiraMon arc/node topology. The type of location is determined by the values of a field of the node database (*N.dbf) that the user must create and fill out (if this information is in a point layer it can be transferred to the node layer using the PNT-&gt;NOD mode of the <a href="AtriTop.htm">AtriTop</a> application). The values accepted in this field are:</p>
+<!--Here begins the part corresponding to the MSA options. This part must be edited from the WPS document (aplication.mps).-->
+<span id="wpsoptions"/>
+<!--Here ends the part corresponding to the options of the editable MSA of the WPS.-->
 
-  <ul>
-    <li>&quot;O&quot;, for the origin nodes.</li>
+<p>The origin locations and the possible destination locations must be connected to the network that defines the set of possible routes. This means that they correspond to nodes of the arco/node topology of MiraMon. The type of location is determined by the values of a field in the node database (*N.dbf) that the user must create and fill in (if this information is in a point layer, it can be transferred to the node layer using the PNT-&gt;NOD mode of the <a href="AtriTop.htm">AtriTop</a> application). The accepted values in this field are:</p>
 
-    <li>&quot;D&quot;, for the destination nodes.</li>
+<ul> 
+	<li>&quot;O&quot;, for the origin nodes.</li> 
+	<li>&quot;D&quot;, for destination nodes.</li> 
+	<li>&quot;A&quot;, in both cases, that is, for the origin and destination nodes at the same time.</li> 
+	<li>&quot;&quot;, blank for nodes that are not origin or destination.</li>
+</ul>
 
-    <li style="list-style: none"></li>
+<p>On the other hand, the arcs determine the direct connections between nodes and in their database (*A.dbf) there must be fields that define the costs associated with each connection (for example, if you want to apply time optimization, a field that defines the speed in each section would be necessary). Regarding the distance, the topological field of ellipsoidal length will be used whenever it exists and the user does not specify an alternative field. If it did not exist, the topological field of planimetric length would be used (both are created by default when generating line-type vectors). If, on the contrary, the user provides an own field, it will be checked that the values ??are valid, that is, numerical and greater than zero. In case of invalid values, the program will stop its execution.</p>
 
-    <li>&quot;A&quot;, in both cases, in other words, for the origin and destination nodes at the same time.</li>
+<p>The resulting file is a table in <b>DBF</b> format that allows establishing a relationship between each source node and a destination node that optimizes its path (as long as there is at least one sequence of arcs that connects the source node with the destination node and its cumulative cost is lower than the maximum cost specified in the command line). It must be considered that the same destination node can be the end of several optimal routes or not at all.</p>
 
-    <li>&quot;&quot;, blank for the nodes that are neither origin nor destination.</li>
-  </ul>
-  <p>On the other hand, the arches determine the direct connections between nodes and their database (*A.dbf) must include fields that define the costs associated with each connection (e.g. if one wished to apply time optimization, one would need a field that defines the speed at each stage). Regarding distance, the topological field of ellipsoid longitude will be used provided that it exists and the user does not specify an alternative field. If it does not exist, the topological field of planimetric longitude will be used (both are default created by generating line vectors). If, on the other hand, the user provides his/her own field, the validity of its values (numerical values and values above zero) will be verified. If non-valid values are detected, the program will interrupt execution.</p>
-
-  <p>The resulting file is a table in <b>DBF</b> format which allows the user to establish a relationship between each origin node and a destination node that optimizes its path (provided there is at least one succession of arches that connects the origin node with the destination node and its accumulated cost is less than the maximum cost specified in the command line). One should bear in mind that the same destination node may be the end of several optimum routes or of none.</p>
-
-  <p>The costs of each optimum route found are displayed on the screen and are saved to the DBF table that has been specified. The resulting values are expressed in the same units as the fields involved (e.g. when a speed field is used in <i>km/h</i> the accumulated distances are given in <i>km</i> and the accumulated times in hours. In order to be able to carry out the calculations correctly, the fields involved should have the units described in the metadata and they should be recognized by MiraMon. If the user wishes to use units which are not recognized by MiraMon, s/he should contact the programming team.</p>
+<p>The costs of each optimal route found are displayed on the screen and saved in the specified DBF table. The resulting values are expressed in the same units as the fields involved (for example, when a speed field is used in <i>km/h</i> the accumulated distances are given in <i>km</i> and the accumulated times in hours. To be able to perform the calculations correctly the fields involved should have the units described in the metadata and these must be recognized by MiraMon. In case of using units not recognized by MiraMon, the user must contact the programming.</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
-<!--
+
 <h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
 <div align="center">
 <table>
 <tr>
@@ -70,14 +69,21 @@
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+<!--<h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
 
-<p>No specific graphic examples are provided for this application.</p>
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="XXX.png"/><img src="XXX.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Text explicatiu de l'exemple.</td>
+</tr>
+</table>
+</div>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
-  <hr/>
-
-!-->
+<hr/>-->
 
 <exclusiva>
 <h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>

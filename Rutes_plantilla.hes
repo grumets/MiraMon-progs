@@ -1,82 +1,103 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 14-10-2026 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>Rutas: Análisis de redes y determinación de la ruta óptima</title>
+<title>Rutas: Análisis de redes y determinación de la ruta óptima</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
- <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso directo de la <a href="https://www.miramon.cat/help/spa/" target="_blank">ayuda</a> en Internet: <a href="https://www.miramon.cat/help/spa/msa/Rutes.htm" target="_blank"><font size="+2">Rutes</font></a></h4>
+<h4>Acceso a la aplicación desde el menú: <i>"Herramientas | Análisis de distancias y rutas | Análisis de redes (ruta)"</i></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
 
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caja de diálogo de la aplicación</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Ejemplos gráficos</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
 
-  <p>Este programa determina las rutas óptimas entre un conjunto de
-  localizaciones origen y un conjunto de posibles localizaciones destino. La
-  ruta óptima entre un par de localizaciones origen-destino será aquella que
-  minimice el desplazamiento para ir del origen al destino, ya sea en tiempo,
-  distancia o por un campo numérico definido por el usuario que represente
-  cualquier otra variable que pondere el coste del desplazamiento.El programa tiene diversas opciones:</p>
-  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+
+<p>Este programa determina las rutas óptimas entre un conjunto de  localizaciones origen y un conjunto de posibles localizaciones destino. La  ruta óptima entre un par de localizaciones origen-destino será aquella que  minimice el desplazamiento para ir del origen al destino, ya sea en tiempo,  distancia o por un campo numérico definido por el usuario que represente  cualquier otra variable que pondere el coste del desplazamiento. cEl programa tiene diversas opciones:</p>
+
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-  <p>Las localizaciones origen y las posibles localizaciones destino deben
-  estar conectadas a la red que define el conjunto de las posibles rutas. Ésto
-  quiere decir que corresponden a nodos de la topología arco/nodo de MiraMon.
-  El tipo de localización viene determinado por los valores de un campo de la
-  base de datos de nodos (*N.dbf) que el usuario debe crear y rellenar (en
-  caso de que esta información esté en una capa de puntos ésta se puede
-  traspasar a la capa de nodos utilizando el modo PNT-&gt;NOD de la aplicación
-  <a href="AtriTop.htm">AtriTop</a>). Los valores aceptados en este campo
-  son:</p>
 
-  <ul>
-    <li>&quot;O&quot;, para los nodos origen.</li>
+<p>Las localizaciones origen y las posibles localizaciones destino deben  estar conectadas a la red que define el conjunto de las posibles rutas. Esto  quiere decir que corresponden a nodos de la topología arco/nodo de MiraMon.  El tipo de localización viene determinado por los valores de un campo de la  base de datos de nodos (*N.dbf) que el usuario debe crear y rellenar (en  caso de que esta información esté en una capa de puntos ésta se puede  traspasar a la capa de nodos utilizando el modo PNT-&gt;NOD de la aplicación  <a href="AtriTop.htm">AtriTop</a>). Los valores aceptados en este campo  son:</p>
 
+<ul>
+	<li>&quot;O&quot;, para los nodos origen.</li>
     <li>&quot;D&quot;, para los nodos destino.</li>
+    <li>&quot;A&quot;, en ambos casos, o sea, para los nodos origen y destino a la vez.</li>
+    <li>&quot;&quot;, en blanco para los nodos que no sean origen ni destino.</li>
+</ul>
 
-    <li>&quot;A&quot;, en ambos casos, o sea, para los nodos origen y destino
-    a la vez.</li>
+<p>Por otra parte, los arcos determinan las conexiones directas entre  nodos y en su base de datos (*A.dbf) deben existir campos que definan los  costes asociados a cada conexión (por ejemplo, si se quiere aplicar la  optimización por tiempo, sería necesario un campo que defina la velocidad en  cada tramo). Respecto a la distancia, se utilizará el campo topológico de  longitud elipsoidal siempre y cuando éste exista y el usuario no especifique  un campo alternativo. Si no existiera se utilizaría el campo topológico de  longitud planimétrica (ambos se crean por defecto al generar vectores de  tipo línea). Si, por el contrario, el usuario facilita un campo propio se  comprobará que los valores sean válidos, es decir, numéricos y mayores de  cero. En caso de valores no válidos el programa detendrá su ejecución.</p>
 
-    <li>&quot;&quot;, en blanco para los nodos que no sean origen ni
-    destino.</li>
-  </ul>Por otra parte, los arcos determinan las conexiones directas entre
-  nodos y en su base de datos (*A.dbf) deben existir campos que definan los
-  costes asociados a cada conexión (por ejemplo, si se quiere aplicar la
-  optimización por tiempo, sería necesario un campo que defina la velocidad en
-  cada tramo). Respecto a la distancia, se utilizará el campo topológico de
-  longitud elipsoidal siempre y cuando éste exista y el usuario no especifique
-  un campo alternativo. Si no existiera se utilizaría el campo topológico de
-  longitud planimétrica (ambos se crean por defecto al generar vectores de
-  tipo línea). Si, por el contrario, el usuario facilita un campo propio se
-  comprobará que los valores sean válidos, es decir, numéricos y mayores de
-  cero. En caso de valores no válidos el programa detendrá su ejecución.
+<p>El fichero resultante es una tabla en formato <b>DBF</b> que permite  establecer una relación entre cada nodo origen y un nodo destino que  optimiza su recorrido (siempre que exista como mínimo una sucesión de arcos  que conecte el nodo origen con el de destino y su coste acumulado sea  inferior al coste máximo especificado en línea de comando). Debe  considerarse que un mismo nodo destino puede ser el final de diversas rutas  óptimas o bien no serlo de ninguna.</p>
 
-  <p>El archivo resultante es una tabla en formato <b>DBF</b> que permite
-  establecer una relación entre cada nodo origen y un nodo destino que
-  optimiza su recorrido (siempre que exista como mínimo una sucesión de arcos
-  que conecte el nodo origen con el de destino y su coste scumulado sea
-  inferior al coste máximo especificado en línea de comando). Debe
-  considerarse que un mismo nodo destino puede ser el final de diversas rutas
-  óptimas o bien no serlo de ninguna.</p>
+<p>Los costes de cada ruta óptima encontrada se presentan por pantalla y se  guardan en la tabla DBF especificada. Los valores resultantes se expresan en  las mismas unidades que los campos implicados (por ejemplo, cuando se  utiliza un campo velocidad en <i>km/h</i> las distancias acumuladas se dan  en <i>km</i> i los tiempos acumulados en horas. Para poder realizar  correctamente los cálculos los campos implicados deberían tener descritas en  los metadatos las unidades y éstas deben ser reconocidas por MiraMon. En  caso de utilizar unidades no reconocidas por MiraMon, el usuario debe  ponerse en contacto con el equipo de programación.</p>
 
-  <p>Los costes de cada ruta óptima encontrada se presentan por pantalla y se
-  guardan en la tabla DBF especificada. Los valores resultantes se expresan en
-  las mismas unidades que los campos implicados (por ejemplo, cuando se
-  utiliza un campo velocidad en <i>km/h</i> las distancias acumuladas se dan
-  en <i>km</i> i los tiempos acumulados en horas. Para poder realizar
-  correctamente los cálculos los campos implicados deberían tener descritas en
-  los metadatos las unidades y éstas deben ser reconocidas por MiraMon. En
-  caso de utilizar unidades no reconocidas por MiraMon, el usuario debe
-  ponerse en contacto con el equipo de programación.</p>
-  <hr/>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
 
-  <exclusiva>
-    <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h2><a id="Caixa" name="Caixa"></a>Caja de diálogo de la aplicación</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="Rutes_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caja de diálogo de Rutes</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Ejemplos gráficos</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="XXX.png"/><img src="XXX.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Text explicatiu de l'exemple.</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p>
 <!-- $$EXCLUSIVA$$
 Para obtener la ayuda completa escriba:
-RUTES ?
+Rutes ?
 -->
-  </exclusiva>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
 </body>
 </html>
