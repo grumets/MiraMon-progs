@@ -1,0 +1,292 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 30-07-2024 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>CreaMMS: Preparation of layers for publication on the MiraMon WMS</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Direct access to online <a href="https://www.miramon.cat/help/eng/" target="_blank">help</a>: <a href="https://www.miramon.cat/help/eng/msa/CreaMMS.htm" target="_blank"><font size="+2">CreaMMS</font></a></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+<p>This program prepares a point layer to be displayed as a raster zoom level on the MiraMon map server. Option 2 prepares a zoom level for display in the browser. Because pre-built zoom levels are faster than those interpolated directly by the program, you should prepare all zoom levels the browser is most likely to request. Usually zoom levels that are multiples of 1, 2 and 5 are prepared. Preparing a zoom level creates a folder with a set of JPEG, IMG or GIF files. Because JPEG is a lossy format, the program generates IMG files when the input file is vector (and therefore thematic) or when the raster file has a palette. When you want to prepare a zoom level for an 8-bit orthophoto (with palette), specify /FORMAT=JPEG to improve the default behaviour. For an IMG raster without a palette or for an RGB combination, the program generates greyscale and colour JPEG respectively.</p>
+<p>In option 1 all GIFs must share the same palette to avoid colour changes.</p>
+<p>This program only supports REL4 files.</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>The following detail supplements the option list (parameters by source type, WMTS, partial tessellation, etc.).</p>
+<ul>
+<li>Option 1: Prepares a point layer for display.
+<ul>
+   <li>Directori: Directory where all files that form the generated zoom level will be created.
+   <li>FitxerLST: File where the list of file names that form the zoom level will be written. 
+	It is usually best to place it in the parent directory.
+   <li>costat: Pixel size of the raster for the zoom level being generated.
+   <li>FitxerPNT: Source PNT file to prepare as an mms zoom level.
+   <li>/TRACTAMENT=S for points as symbols (GIF icons). Default is S.
+   <ul>
+       <li>/VALOR_CONSTANT= Name of the GIF symbol file to represent all points. Do not use together with /CAMP.
+       <li>/CAMP= Database field in BD4 style. Do not use together with /VALOR_CONSTANT.
+	For more information on the values of these parameters, follow 
+	the considerations in the <a href="general.htm#TaulaCamp">general syntax</a>.
+       <li>/TAULA_SIMBOLS= Name of the dbf file used as a symbol table containing 
+		the link key field, GIF/PNG symbol file names to represent each point and 
+		an optional description (not used by this program) . Do not use together with /VALOR_CONSTANT.
+   </ul>
+   <li>/TRACTAMENT=T for points as text. 
+   <ul>
+       <li>/CAMP_TEXT_MOSTRAR= Database field in BD4 style containing the texts to show, the texts that will appear at each point of the layer.</li>
+       <li>/VALOR_CONSTANT= Font format used to render all rasterized texts. Do not use together with /CAMP.
+       <li>/CAMP= Database field in BD4 style indicating the font format for each rasterized text value. Do not use together with /VALOR_CONSTANT.
+	For more information on the values of these parameters, follow 
+	the considerations in the <a href="general.htm#TaulaCamp">general syntax</a>.
+       <li>/TAULA_SIMBOLS= Name of the dbf file used as a text symbol table containing 
+       the field linking to the field above and the font format for each field value. Do not use together with /VALOR_CONSTANT.
+   </ul>
+</ul>
+
+<li>Option 2: Prepares a thematic, continuous raster layer or a vector layer for display. In 
+	any of these cases, the layer may consist of a list of files.
+<ul>
+   <li>Directori: Directory where all files that form the generated zoom level will be created.
+   <li>FitxerLST: File where the list of file names that form the zoom level is written. 
+	It is usually best to place it in the parent directory.
+   <li>ncol: Number of columns in each generated tile. The value 800 is commonly used.
+   <li>nfil: Number of rows in each generated tile. The value 800 is commonly used (or 48000 when the format is indexed JPEG).
+   <li>Some parameters depend on the type of layer or list of source layers.
+   <ul>
+       <li>Raster source
+       <ul>
+           <li><i>/CANVI_COSTAT=</i> Integer factor for expanding/contracting images. Follows the 
+		criteris de <a href="canvires.htm">CanviRes</a>. In this context only a negative value makes sense.
+		The default is not to expand/contract and to keep the original cell size.
+		The program uses a mean criterion for RGB or greyscale images and a mode for 
+		paletted images.
+       <ul>
+           <li><i>/CRITERI_INTERPOL</i> Uses the same syntax as CanviRes. Supports
+		'C' for central value, 'm' for mean, 'M' for mode and 'd' for median. The program uses
+		mean for RGB images and mode for paletted images. When paletted images 
+		represent linear objects, mode is a poor choice because 
+		it produces broken lines; it is also poor for continuous variation with a palette. 
+		This parameter lets you force mean in those cases or use median
+		for better interpolation when the costat change is large. Replaces the 
+		/IMPOSA_CANVIRES_MITJANA parameter, which is obsolete.
+       </ul>	
+           <li>Reading the original images needed for a pixel size change greater
+		than 5 is high enough to justify storing intermediate results for reuse when generating
+		even larger costat changes. The program stores intermediate results
+		even if not requested, when the pixel costat change is greater than 5.
+		Unoptimized intermediate images are stored in directories whose names begin with the letter i
+	   <ul>
+               <li><i>/INTERMEDI=</i> Value 1 forces storing intermediate results for later generation
+		of larger pixel costat zooms, even when the requested costat change is less than 5. 
+		Value 0 means 
+		intermediate results are never kept, even for costat changes greater
+		than 5. When the input is a JPEG or a list of JPEGs this parameter does not apply because
+		any smaller costat zoom can be used to generate any larger tile
+                level.
+	   </ul>
+	   <li><i>/VORA=</i> Ignore a border of n cells on each original image. 
+		Useful to remove a possible black or white border on the originals or any other
+		edge effect on sheet-processed images. This has been seen on some 25k orthophotos
+		in some versions.
+           <li>Photographic or remote-sensing raster source.
+           <ul>
+               <li><i>/QUALITAT=</i> Same as the <a href="jpegimg.htm">JPEGIMG</a> and 
+		only applies to JPEG output (usually used for continuous rasters). A value is recommended 
+		between 75 and 85 for quality.
+	       <li>When pixel costat changes greater than 5 are generated, chromatic degradation of images 
+		can be excessive, yielding low-contrast, brownish (colour) or grey (for 
+		greyscale images). This can be corrected with contrast optimization on
+		stored intermediate results so that larger costat changes 
+		can be generated with better quality. Optimizations apply to
+		stored intermediate results, not to the tessellation built in this run.
+		The following parameters control optimization. Optimized intermediate images 
+		are stored in directories whose names begin with the letter o.
+	       <ul>
+                 <li><i>/OPCIO_OPTI=</i> Apply optimization and choose the optimization type 
+		for the histogram applied to stored intermediate results: 1 for global 
+		histogram, 2 for floating-window histogram (recommended) and 
+		0 for none. Default is 0.
+                 <li><i>/COSTAT_OPTI=</i> Side length of the optimization window for optimization option 2. 
+		Default is 301. Does not apply for optimizations 1 or 0.
+	         <li><i>/PERCENT_BAIX=</i> Percentage of the low histogram tail to ignore for optimization. 
+		Values in this range are saturated to the minimum. Default is 1.5.
+                 <li><i>/PERCENT_ALT=</i> Percentage of the high histogram tail to ignore for optimization. 
+		Values in this range are saturated to the maximum. Default is 1.5.
+                 <li><i>/IGNOR_NODATA=</i> Ignore NODATA definitions during optimization. 0 to 
+		honour background value in image metadata, 1 to treat 
+		0 as background and 2 to treat 255. Default is 0.
+	       </ul>
+	       <li>Some parameters depend on the image format
+	       <ul>
+	          <li>Colour raster source from 3 IMG channels (24 bits) (e.g. colour orthophoto).
+	          <ul>
+                      <li>FitxerR, FitxerG, FitxerB: The three IMG byte channels to build a true-colour JPEG.
+	          </ul>
+	          <li>Colour raster source from an 8-bit paletted IMG file (usually optimized).
+	          <ul>
+	             <li>Fitxer: IMG file (or list of IMG files).
+                     <li>NomPaleta: Colour palette name.
+                     <li><i>/FORMAT=JPEG</i> In any option 2 mode you may specify the output format 
+	            you want, as GIF or JPEG. You usually need not set this parameter because the
+		    format is chosen automatically, but it is useful in this mode because the program would choose 
+		    GIF and categorical treatment, whereas JPEG and continuous treatment work better.
+                  </ul>
+	          <li>Greyscale raster source (e.g. B/W orthophoto) or JPEG image (colour or greyscale).
+	          <ul>
+	             <li>FitxerIMG: byte IMG image (or list of byte IMG files)
+	          </ul>
+	          <li>JPEG raster source (true colour or greyscale).
+	          <ul>
+	             <li>FitxerIMG: Colour or greyscale JPEG image (or list of JPEG files).
+	          </ul>
+              </ul>
+           </ul>
+           <li>Thematic/categorical raster source (e.g. land use) with palette, or continuous with palette (e.g. elevation model).
+           <ul>
+               <li>Fitxer: IMG file (or list of IMG files).
+               <li>NomPaleta: Colour palette name.
+               <li><i>/VALOR_MIN=</i> Minimum value used to stretch the colour palette. By default the minimum of each sheet is used. Only useful for continuous paletted images.
+               <li><i>/VALOR_MAX=</i> Maximum value used to stretch the colour palette. By default the maximum of each sheet is used. Only useful for continuous paletted images.
+	       <li><i>/EXAGERACIO=</i> Exaggeration or thickening factor. For a point file, point radius is (exageracio+0.5)*costat. For a line file, line width is (2*exageracio+1)*costat. 
+           </ul>
+       </ul>
+       <li>Line or polygon vector source (for points use option 1).
+       <ul>
+           <li>Fitxer: Structured line or polygon vector file.
+           <li>NomPaleta: Colour palette name. Must be specified if using /CAMP= and not when using /COLOR_CONSTANT=.
+           <li><i>/COSTAT=</i> Pixel size to rasterize.
+           <li><i>/COLOR_CONSTANT=</i> For line files, rasterize a constant colour. 
+	   For polygon files, rasterize a constant fill colour.
+           The value must be a colour written as (r,g,b) (where r, g and b are red,
+           green and blue intensity from 0 to 255). Do not use together with <i>/CAMP</i>.
+           <li><i>/CAMP=</i> Database field in BD4 style. Contains the field that indexes colour, i.e. the
+	   palette index values used to paint each line object or polygon interiors.
+	   Do not use together with <i>/VALOR_CONSTANT</i>
+	    For more information on the values of these parameters, follow 
+	    the considerations in the <a href="general.htm#TaulaCamp">general syntax</a>.
+	    <li><i>/COLOR_CONSTANT_VORA=</i> Polygon files only: rasterize a constant colour on the polygon border.
+           The value must be a colour written as (r,g,b) (where r, g and b are red,
+           green and blue intensity from 0 to 255). Do not use together with <i>/CAMP_VORA</i>
+           <li><i>/CAMP_VORA=</i> Polygon files only: BD4-style database field indexing the colour used to paint
+	   polygon borders.
+	   Do not use together with <i>/VALOR_CONSTANT_VORA</i>
+	    For more information on the values of these parameters, follow 
+	    the considerations in the <a href="general.htm#TaulaCamp">general syntax</a>.
+	    <li>For polygon files, if neither <i>/COLOR_CONSTANT</i> nor <i>/CAMP</i> is set, the polygon interior is not filled. The same for borders: if neither <i>/COLOR_CONSTANT_VORA</i> nor <i>/CAMP_VORA</i> is set, polygon borders are not drawn. You must specify at least one of the two.
+	    <li>For line files you must specify either <i>/COLOR_CONSTANT</i> or <i>/CAMP</i>.
+           <li><i>/MANTENIR_VECTORS</i> Vectors that were needed are kept in memory until the end. This makes 
+		runs slightly faster but uses more memory.
+           <li><i>/EXAGERACIO=</i> Line exaggeration or thickening factor; line width is (2*exageracio+1)*costat.
+       </ul>
+       <li>MiraMon map or layer source.
+       <ul>
+           <li>Fitxer: Map or layer name (preferably with symbology defined from MiraMon in the map or layer rel).
+           <li><i>/MM32</i> Treat the layer with MiraMon symbology. If the layer is a map, the map is always treated with MiraMon symbology and this option is not needed.
+           <li><i>/COSTAT=</i> Pixel size to rasterize.
+           <li>Note: this option has some restrictions on other parameters. Thus:
+           <ul>
+               <li>/IMATGE_BUIDA= is ignored and tiles are always created even when empty.
+               <li>ncol and nfil cannot exceed the screen size and ncol cannot be smaller than 150.
+           </ul>
+       </ul>
+   <li><i>/IMATGE_BUIDA=</i> Same as the <a href="mosaic.htm">Mosaic</a> parameter; removes
+		empty tiles that carry no information. Useful values delete the tile when:
+   <ul>
+       <li>0: all values are equal. 
+       <li>1: all values are NODATA. 
+       <li>2: tiles are not deleted even if all values are equal or NODATA.
+       <li>if this parameter is omitted, empty images are not generated.
+   </ul>
+   <li><i>/TESSELLA_SENCERA</i> If set, all tiles have the same size even if they exceed the original layer extent; areas without data are filled with NODATA. By default tiles fit the layer extent; because tiling starts at the top left, right or bottom margin tiles may be smaller than specified.
+   <li><i>/ORIGEN_INFERIOR_ESQUERRA</i> By default tessellation starts at the top left. If set, tessellation starts at the bottom left.
+   <li>Tile names
+   <ul>
+       <li>Default behaviour: tessellation file names run from 0 to n-1 matching the linear cell index. For n>500, files are grouped in subdirectories of 500 for easier file management. 
+       <li><i>/INDEXA_J_I</i> Tile names use subdirectories indexed by row and file names indexed by column.
+       <li><i>/INDEXA_I_J</i> Tile names use subdirectories indexed by column and file names indexed by row.
+   </ul>
+   <li><i>/MINX=,/MAXX=,/MINY=,/MAXY=</i> By default the tile index origin is computed from the extent of the source images. These parameters force indexing from the given envelope, useful to regenerate part of a prior build or when indices matter (e.g. WMTS).
+<li><i>/METATILE=</i> Number of tiles generated at once in an n×n matrix. If you specify 4, 16 tiles are generated at a time. Useful to speed up preparation from JPEG files. Default is 1.
+   <li><i>/REVISIO</i> Reviews layer preparation. This mode checks existing tiles and regenerates missing ones, rebuilding the final lists. It is especially useful when preparing a very large layer if you must interrupt and resume later; when a preparation is split across machines (to ensure a complete unified product and rebuild the list) or when some tiles were built incorrectly due to source defects (after fixing the source and deleting affected tiles you can run a review). It can be combined with partial tessellation generation but is not recommended.
+   <li>Parameters to set to generate files according to the WMTS standard
+   <ul>
+       <li>/IMATGE_BUIDA=2 /TESSELLA_SENCERA /FORMAT=PNG /INDEXA_J_I
+   </ul>
+   If you prefer, you can use /WMTS, equivalent to /IMATGE_BUIDA=2 /TESSELLA_SENCERA /INDEXA_J_I without /ORIGEN_INFERIOR_ESQUERRA. You can also use /WMTS_I_J to swap I and J indices, useful for "simple WMTS".
+   <li>Partial tessellation generation.
+   <ul>
+       <li>Partial generation by extent. The program regenerates at least the given envelope. Because space is tessellated, the regenerated envelope may be larger (especially with metatiles). The main advantage is that if you regenerate
+an area at different zoom levels, the extent is independent of zoom level.
+       <ul>
+	   <li><i>/MINX_TROS=, /MAXX_TROS=, /MINY_TROS=, /MAXY_TROS=</i> Defines the minimum envelope to regenerate. You need not set all four parameters. If omitted, the usual rule applies.
+       </ul>
+       <li>By default tessellation covers the space from the top left to the bottom right of 
+	   the extent covered by all source images (this changes if you use /ORIGEN_INFERIOR_ESQUERRA). Each tile has a row-column index and a linear cell index.
+       <li>Partial generation of a few linear rows from an origin to a destination given by row and column indices.
+       <ul>
+	   <li><i>/COL_MIN_TROS=</i> Column index of tessellation chunks to start cutting. Default is 0.
+	   <li><i>/FIL_MIN_TROS=</i> Row index of tessellation chunks to start cutting. Default is 0.
+	   <li><i>/COL_MAX_TROS=</i> Column index where cutting ends. Default is the number of column chunks minus 1.
+	   <li><i>/FIL_MAX_TROS=</i> Row index where cutting ends. Default is the number of row chunks minus 1.
+       </ul>
+       <li>Partial generation of tiles inside a rectangle given by minimum and maximum row and column indices.
+       <ul>
+	   <li><i>/MIN_MAX_TROS_RECTANGLE</i> Indicates that the next four parameters define a rectangle. Changes the meanorng of /COL_MIN_TROS as described below.
+	   <li><i>/COL_MIN_TROS=</i> Minormum column index of tessellation chunks to regenerate. Default is 0.
+	   <li><i>/COL_MAX_TROS=</i> Maximum column index of tessellation chunks to regenerate. Default is the number of column chunks minus 1.
+	   <li><i>/FIL_MIN_TROS=</i> Minormum row index of tessellation chunks to regenerate. Default is 0.
+	   <li><i>/FIL_MAX_TROS=</i> Maximum row index of tessellation chunks to regenerate. Default is the number of row chunks minus 1.
+       </ul>
+       <li>Partial generation of rows from an origin to a destination by tile index (matching the file name if /INDEXA_J_I was not set).
+       <ul>
+	   <li><i>/I_MIN_TROS=</i> Chunk index where cutting starts. Not used if /MIN_MAX_TROS_RECTANGLE is set. Default is 0.
+	   <li><i>/I_MAX_TROS=</i> Chunk index where cutting ends. Not used if /MIN_MAX_TROS_RECTANGLE is set. Default is the number of chunks minus 1.
+       </ul>
+    </ul>
+</ul>
+<li>Option 3: Prepares a point/line or polygon layer for location-based query.
+<ul>
+   <li>FitxerIMGSortida: Thematic raster file of graphic identifiers.
+   <li>costat: Pixel size of the raster for the zoom level being generated.
+   <li>exageracio: Exaggeration factor. For a point file, point radius is (exageracio+0.5)*costat. For a line file, line width is (2*exageracio+1)*costat. For a polygon file it does not apply. Specify 0.
+   <li>FitxerTop: Topological file to prepare for server zoom-level query.
+</ul>
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p>
+<!-- $$EXCLUSIVA$$
+To obtain the complete help, please type:
+CreaMMS ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
+</body>
+</html>

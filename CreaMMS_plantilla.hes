@@ -1,0 +1,292 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió XX 00-00-0000 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>CreaMMS: Preparación de capas para su publicación en el WMS de MiraMon</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Acceso directo de la <a href="https://www.miramon.cat/help/spa/" target="_blank">ayuda</a> en Internet: <a href="https://www.miramon.cat/help/spa/msa/CreaMMS.htm" target="_blank"><font size="+2">CreaMMS</font></a></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentación y opciones</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxis</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+<p>Este programa sirve para preparar una capa de puntos para ser visualizada como un nivel de zoom ráster en el servidor de mapas de MiraMon. La opción 2 sirve para preparar un nivel de zoom para la visualización en el navegador. Dado que los zoom preparados de antemano son más rápidos que los interpolados directamente por el programa, conviene preparar todos los niveles de zoom que sea más probable que el navegador solicite. Generalmente se preparan los niveles de zoom múltiplos de 1, 2 y 5. La preparación de un nivel de zoom genera una carpeta con un conjunto de ficheros JPEG, IMG o GIF. Como el formato JPEG es un formato con degradación, el programa decide generar IMG cuando el fichero de entrada es vectorial (o por tanto temático) o cuando el fichero ráster va acompañado de una paleta. Cuando deseemos preparar un nivel de zoom para una ortofoto de 8 bits (con paleta), habrá que especificar /FORMAT=JPEG para mejorar el comportamiento por defecto. En el caso de un ráster IMG sin paleta o de una combinación RGB, el programa decide generar JPEG en escala de grises y en color respectivamente.</p>
+<p>En la opción 1 todos los gif deben compartir la misma paleta para evitar cambios de color.</p>
+<p>Este programa solo admite ficheros REL4.</p>
+<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpsopcions"/>
+<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
+
+<p>El detalle siguiente complementa la lista de opciones (parámetros según tipo de origen, WMTS, teselación parcial, etc.).</p>
+<ul>
+<li>Opción 1: Prepara una capa de puntos para ser visualizada.
+<ul>
+   <li>Directorio: Directorio donde se crearán todos los ficheros que forman el nivel de zoom generado.
+   <li>FitxerLST: Fichero donde se escribirá la lista de nombres de fichero que forman el nivel de zoom 
+	generado. Generalmente conviene colocarlo en el directorio anterior.
+   <li>costat: Es el tamaño de píxel del ráster del nivel de zoom que estamos generando.
+   <li>FitxerPNT: Fichero PNT origen a preparar como un nivel de zoom del mms.
+   <li>/TRACTAMENT=S para puntos como símbolos (iconos GIF). Por defecto vale S.
+   <ul>
+       <li>/VALOR_CONSTANT= Nombre del fichero del símbolo GIF para representar todos los puntos. No use junto con /CAMP.
+       <li>/CAMP= Campo de la base de datos al estilo BD4. No use junto con /VALOR_CONSTANT.
+	Para saber más sobre los valores de estos parámetros siga 
+	las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.
+       <li>/TAULA_SIMBOLS= Es el nombre del fichero dbf que actúa como tabla de simbolización donde están 
+		el campo clave de enlace, los nombres de fichero símbolo GIF/PNG para representar cada punto y 
+		una eventual descripción (no usada por este programa) . No use junto con /VALOR_CONSTANT.
+   </ul>
+   <li>/TRACTAMENT=T para puntos como textos. 
+   <ul>
+       <li>/CAMP_TEXT_MOSTRAR= Campo de la base de datos al estilo BD4 que contiene los textos que queremos mostrar, los textos que aparecerán en cada punto de la capa.</li>
+       <li>/VALOR_CONSTANT= Formato de la fuente en que se representarán todos los textos rasterizados. No use junto con /CAMP.
+       <li>/CAMP= Campo de la base de datos al estilo BD4 que indica el formato de la fuente para cada valor de texto rasterizado. No use junto con /VALOR_CONSTANT.
+	Para saber más sobre los valores de estos parámetros siga 
+	las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.
+       <li>/TAULA_SIMBOLS= Es el nombre del fichero dbf que actúa como tabla de simbolización de textos donde están 
+       el campo que enlaza con el campo indicado anteriormente y el formato de la fuente para cada uno de los valores del campo. No use junto con /VALOR_CONSTANT.
+   </ul>
+</ul>
+
+<li>Opción 2: Prepara una capa ráster temática, continua o un vector para ser visualizada. En 
+	cualquiera de estos casos, la capa puede estar formada por una lista de ficheros.
+<ul>
+   <li>Directorio: Directorio donde se crearán todos los ficheros que forman el nivel de zoom generado.
+   <li>FitxerLST: Fichero donde escribo la lista de nombres de fichero que forman el nivel de zoom generado. 
+	Generalmente conviene colocarlo en el directorio anterior.
+   <li>ncol: Número de columnas de cada tesela generada. Generalmente se usa el valor 800.
+   <li>nfil: Número de filas de cada tesela generada. Generalmente se usa el valor 800 (o 48000 cuando el formato es JPEG indexado).
+   <li>Algunos parámetros dependen del tipo de capa o lista de capas de origen.
+   <ul>
+       <li>Origen ráster
+       <ul>
+           <li><i>/CANVI_COSTAT=</i> Es el factor entero de expansión/contracción de las imágenes. Sigue los 
+		criterios de <a href="canvires.htm">CanviRes</a>. En este contexto solo tiene sentido un valor negativo.
+		El valor por defecto es no aplicar ninguna expansión/contracción y respetar el tamaño de celda original.
+		El programa aplica un criterio de media para imágenes RGB o grises o una moda en 
+		para las imágenes con paleta.
+       <ul>
+           <li><i>/CRITERI_INTERPOL</i> Usa la misma sintaxis del programa CanviRes. Se admite
+		'C' para valor central, 'm' para media, 'M' para moda y 'd' para mediana. El programa toma
+		el criterio de media para imágenes RGB y moda para imágenes con paleta. Cuando las imágenes 
+		con paleta representan objetos lineales, el criterio de moda es poco adecuado dado que 
+		genera líneas rotas; tampoco lo es para imágenes de variación continua con paleta. 
+		Este parámetro permite imponer un criterio de media en estos casos o usar la mediana
+		que da mejores interpolaciones cuando el cambio de costado es grande. Reemplaza el parámetro 
+		/IMPOSA_CANVIRES_MITJANA que desaparece.
+       </ul>	
+           <li>El trabajo de lectura de imágenes originales necesario para un cambio de píxel superior
+		a 5 es bastante alto como para justificar guardar los resultados intermedios para reaprovecharlos en la
+		generación de cambios de costado aún más grandes. El programa decide guardar los resultados
+		intermedios, aunque no se le indique, a partir de un cambio de costado de píxel mayor que 5.
+		Las imágenes no optimizadas intermedias guardadas residen en directorios que comienzan por la letra i
+	   <ul>
+               <li><i>/INTERMEDI=</i> El valor 1 fuerza a guardar resultados intermedios para posterior generación
+		de zooms de costado de píxel más grandes, aunque el cambio de costado solicitado sea inferior a 5. 
+		El valor 0 indica 
+		que los resultados intermedios no se quieren guardar nunca, incluso para cambios de costado mayores
+		a 5. Cuando la entrada es un JPEG o una lista de JPEG's este parámetro no aplica dado que
+		se puede usar cualquier zoom de costado inferior para generar cualquier nivel de hoja
+                superior.
+	   </ul>
+	   <li><i>/VORA=</i> Indica que hay que ignorar un borde de n celdas de cada una de las imágenes originales. 
+		Sirve para eliminar un posible borde negro o blanco de las imágenes originales o cualquier otro
+		efecto de borde de una imagen tratada por hojas. Este problema se ha observado en las ortofotos 25k
+		de algunas versiones.
+           <li>Origen ráster de imagen fotográfica o imagen de teledetección.
+           <ul>
+               <li><i>/QUALITAT=</i> Coincide con el parámetro de <a href="jpegimg.htm">JPEGIMG</a> y 
+		solo aplica para una salida JPEG (generalmente la usada en rásteres continuos). Se recomienda un valor 
+		de calidad entre 75 y 85.
+	       <li>Cuando se generan cambios de costado de píxel mayores que 5 la degradación cromática de las imágenes 
+		puede ser excesiva, dando imágenes poco contrastadas, marronáceas (en imágenes de color) o grises (en 
+		imágenes de grisos). Esta degradación puede corregirse aplicando optimizaciones de contraste sobre
+		las imágenes de los resultados intermedios guardados, para que la generación de cambios de costado 
+		mayores se pueda hacer con mejor calidad. Cabe insistir en que las optimizaciones se aplican sobre
+		los resultados intermedios guardados y no sobre la teselación generada durante esta ejecución.
+		Los parámetros siguientes gobiernan este grado de optimización. Las imágenes optimizadas intermedias 
+		guardadas residen en directorios que comienzan por la letra o.
+	       <ul>
+                 <li><i>/OPCIO_OPTI=</i> Indica que se desea aplicar la optimización y el tipo de optimización 
+		del histograma aplicado a los resultados intermedios guardados. 1 para optimización global del 
+		histograma, 2 para optimización del histograma de ventanas flotantes (recomendado) y 
+		0 para no optimizar. El valor por defecto es 0.
+                 <li><i>/COSTAT_OPTI=</i> Lado de la ventana de optimización en la opción de optimización 2. 
+		El valor por defecto es 301. No aplica para optimizaciones 1 o 0.
+	         <li><i>/PERCENT_BAIX=</i> Porcentaje a ignorar de la cola baja del histograma de optimización. 
+		Los valores dentro de este porcentaje se saturan al valor mínimo. Por defecto vale 1.5.
+                 <li><i>/PERCENT_ALT=</i> Porcentaje a ignorar de la cola alta del histograma de optimización. 
+		Los valores dentro de este porcentaje se saturan al valor máximo. Por defecto vale 1.5.
+                 <li><i>/IGNOR_NODATA=</i> Ignorar la definición de NODATA durante las optimizaciones. 0 para 
+		hacer caso a la definición de valor de fondo indicada en los metadatos de las imágenes, 1 para considerar 
+		el valor 0 y 2 para considerar 255. El valor por defecto es 0.
+	       </ul>
+	       <li>Algunos parámetros dependen del formato de la imagen
+	       <ul>
+	          <li>Origen ráster color a partir de 3 canales IMG (24 bits) (p. ej. ortofoto en color).
+	          <ul>
+                      <li>FitxerR, FitxerG, FitxerB: Los tres canales IMG byte para construir un JPEG de color real.
+	          </ul>
+	          <li>Origen ráster color a partir de un fichero IMG de 8 bits con paleta (generalmente optimizada).
+	          <ul>
+	             <li>Fitxer: fichero IMG (o lista de ficheros IMG).
+                     <li>NomPaleta: Nombre de la paleta de color.
+                     <li><i>/FORMAT=JPEG</i> En cualquier modo de la opción 2 puede indicar el formato de salida 
+	            que desee, indicando GIF o JPEG. En general, no hay que indicar este parámetro, dado que el
+		    formato se decide automáticamente, pero es útil en este modo, dado que el programa decidiría
+		    una salida GIF y un tratamiento categórico pero resulta mejor un formato JPEG y un tratamiento continuo.
+                  </ul>
+	          <li>Origen ráster de grisos (p. ej. ortofoto B/N) o imagen JPEG (ya sea en color o en grisos).
+	          <ul>
+	             <li>FitxerIMG: Imagen IMG byte (o lista de ficheros IMG byte)
+	          </ul>
+	          <li>Origen ráster JPEG (ya sea en color real o en grisos).
+	          <ul>
+	             <li>FitxerIMG: Imagen JPEG de color o de grisos (o lista de ficheros JPEG).
+	          </ul>
+              </ul>
+           </ul>
+           <li>Origen ráster categórico/temático (p. ej. un ráster de usos del suelo) con paleta o continuo con paleta (p. ej. un modelo digital del terreno como podría ser un mapa de temperaturas).
+           <ul>
+               <li>Fitxer: fichero IMG (o lista de ficheros IMG).
+               <li>NomPaleta: Nombre de la paleta de color.
+               <li><i>/VALOR_MIN=</i> Valor mínimo que se usa para estirar la paleta de colores. Por defecto se usa el valor mínimo de cada hoja. Solo resulta útil para imágenes continuas con paleta.
+               <li><i>/VALOR_MAX=</i> Valor máximo que se usa para estirar la paleta de colores. Por defecto se usa el valor máximo de cada hoja. Solo resulta útil para imágenes continuas con paleta.
+	       <li><i>/EXAGERACIO=</i> Es el factor de exageración o engrosamiento. Para un fichero que represente puntos, el radio de punto es (exageracio+0.5)*costat. Para un fichero que represente líneas, el grosor de la línea es (2*exageracio+1)*costat.
+           </ul>
+       </ul>
+       <li>Origen vector de líneas o polígonos (Si desea puntos use la opción 1).
+       <ul>
+           <li>Fitxer: Nombre del fichero vectorial estructurado de líneas o polígonos.
+           <li>NomPaleta: Nombre de la paleta de color. Debe indicarse si se usa /CAMP= y no si se usa /COLOR_CONSTANT=.
+           <li><i>/COSTAT=</i> Es el tamaño de píxel a rasterizar.
+           <li><i>/COLOR_CONSTANT=</i> Para ficheros de líneas rasterizar un color constante. 
+	   Para ficheros de polígonos rasterizar un color constante en el interior del polígono.
+           El valor debe ser un color escrito como (r,g,b) (donde r, g y b representan la intensidad de rojo,
+           verde y azul respectivamente de 0 a 255). No use junto con <i>/CAMP</i>.
+           <li><i>/CAMP=</i> Campo de la base de datos al estilo BD4. Contiene el campo que indexa el color, es decir, los
+	   valores de los índices de la paleta que se usan para pintar cada objeto de tipo línea o los interiores de los objetos de tipo polígonos.
+	   No use junto con <i>/VALOR_CONSTANT</i>
+	    Para saber más sobre los valores de estos parámetros siga 
+	    las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.
+	    <li><i>/COLOR_CONSTANT_VORA=</i> Solo para ficheros de polígonos: rasterizar un color constante en el borde del polígono.
+           El valor debe ser un color escrito como (r,g,b) (donde r, g y b representan la intensidad de rojo,
+           verde y azul respectivamente de 0 a 255). No use junto con <i>/CAMP_VORA</i>
+           <li><i>/CAMP_VORA=</i> Solo para ficheros de polígonos: campo de la base de datos al estilo BD4 que indexa el color usado para pintar
+	   los bordes de los polígonos.
+	   No use junto con <i>/VALOR_CONSTANT_VORA</i>
+	    Para saber más sobre los valores de estos parámetros siga 
+	    las consideraciones del documento de <a href="general.htm#TaulaCamp">sintaxis general</a>.
+	    <li>En el caso de ficheros de polígonos si no se indica <i>/COLOR_CONSTANT</i> ni <i>/CAMP</i> el interior del polígono no se pintará. Y lo mismo para los bordes, si no se indica ni <i>/COLOR_CONSTANT_VORA</i> ni <i>/CAMP_VORA</i> no se pintará el borde de los polígonos. Pero es obligatorio indicar al menos una de las dos cosas.
+	    <li>En el caso de ficheros de líneas se debe indicar o bien <i>/COLOR_CONSTANT</i> o bien <i>/CAMP</i>.
+           <li><i>/MANTENIR_VECTORS</i> Los vectores necesarios se mantienen en memoria hasta el final. Esto hace 
+		las ejecuciones algo más rápidas pero requieren más memoria.
+           <li><i>/EXAGERACIO=</i> Es el factor de exageración o engrosamiento de líneas; el grosor de la línea es (2*exageracio+1)*costat.
+       </ul>
+       <li>Origen mapa o capa de MiraMon.
+       <ul>
+           <li>Fitxer: Nombre del mapa o capa (preferiblemente con la simbolización definida desde MiraMon dentro del mapa o el rel de la capa).
+           <li><i>/MM32</i> Indica que la capa debe ser tratada con la simbolización de MiraMon. Si la capa es un mapa siempre se trata el mapa con la simbolización de MiraMon y no hace falta esta opción.
+           <li><i>/COSTAT=</i> Es el tamaño de píxel a rasterizar.
+           <li>Nota: esta opción presenta algunas restricciones sobre otros parámetros. Así:
+           <ul>
+               <li>/IMATGE_BUIDA= se ignora y siempre se crean las teselas aunque estén vacías.
+               <li>ncol y nfil no pueden superar el tamaño de la pantalla y ncol no puede ser menor de 150.
+           </ul>
+       </ul>
+   <li><i>/IMATGE_BUIDA=</i> Coincide con el parámetro de <a href="mosaic.htm">Mosaic</a> y sirve para eliminar
+		las teselas vacías que no aportan información. Los valores más útiles provocan que se borre la tesela si:
+   <ul>
+       <li>0: todos los valores son iguales. 
+       <li>1: todos los valores son NODATA. 
+       <li>2: no se borran las teselas aunque todos los valores sean iguales o NODATA.
+       <li>si no se indica este parámetro, no se generan imágenes vacías.
+   </ul>
+   <li><i>/TESSELLA_SENCERA</i> Si se indica este parámetro todas las teselas tendrán el mismo tamaño, aunque superen el ámbito de la capa original, donde no haya datos se rellenará con NODATA. Por defecto (sin este parámetro) las teselas se ajustan al ámbito de la capa, como la división comienza arriba y a la izquierda, las teselas del margen derecho o del margen inferior pueden tener un tamaño inferior al indicado.
+   <li><i>/ORIGEN_INFERIOR_ESQUERRA</i> Por defecto la teselación comienza por la parte superior izquierda. Si se indica este parámetro la teselación comienza por la parte inferior izquierda.
+   <li>Nombres de las teselas
+   <ul>
+       <li>Comportamiento por defecto: Los nombres de fichero de la teselación tienen un nombre ascendente de 0 a n-1 que se corresponde con el índice de celda lineal. A partir de n>500 los ficheros se acumulan en subdirectorios de 500 ficheros para facilitar la gestión de ficheros. 
+       <li><i>/INDEXA_J_I</i> Los nombres de teselación se estructuran con subdirectorios que tienen índices de filas y nombres que son índice de columnas.
+       <li><i>/INDEXA_I_J</i> Los nombres de teselación se estructuran con subdirectorios que tienen índices de columnas y nombres que son índice de filas.
+   </ul>
+   <li><i>/MINX=,/MAXX=,/MINY=,/MAXY=</i> Por defecto el origen de la indexación se calcula a partir del ámbito de las imágenes originales. Con estos parámetros se fuerza una indexación en base al envolvente dado. Resulta especialmente indicado para permitir regenerar una parte de una preparación previa o cuando los índices son importantes, como en el caso del WMTS.
+   <li><i>/METATILE=</i> El número de teselas que se generan al mismo tiempo en una matriz de n*n. Así si indica 4 se generan 16 tiles a la vez. Resultado útil para acelerar las preparaciones que se hacen desde ficheros JPEG. Por defecto vale 1.
+   <li><i>/REVISIO</i> Permite revisar la preparación de capas. Este modo revisa las teselas ya creadas y regenera las teselas que puedan faltar, creando las listas finales de nuevo. Es particularmente útil cuando se prepara una capa muy grande si hay que interrumpir el proceso y reanudarlo más tarde; cuando se distribuye una preparación entre varias máquinas (para asegurarse de que el producto unificado es completo y regenerar la lista) o cuando se descubre que algunas teselas se han creado mal por algún defecto de las capas originales (una vez corregido el defecto y borradas las teselas afectadas se puede ejecutar una revisión). Es posible combinarlo con un proceso de generación de teselados parciales pero no se recomienda.
+   <li>Parámetros que hay que indicar para generar ficheros según el estándar WMTS
+   <ul>
+       <li>/IMATGE_BUIDA=2 /TESSELLA_SENCERA /FORMAT=PNG /INDEXA_J_I
+   </ul>
+   Si lo prefiere, puede usar el parámetro /WMTS que es equivalente a /IMATGE_BUIDA=2 /TESSELLA_SENCERA /INDEXA_J_I y deja sin poner /ORIGEN_INFERIOR_ESQUERRA. También puede usar /WMTS_I_J para intercambiar los índices I y J, lo cual es útil para el "WMTS simple".
+   <li>Generación de teselados parciales.
+   <ul>
+       <li>Generación parcial en base a un ámbito. El programa regenerará como mínimo el envolvente indicado. Como el espacio está teselado, el envolvente finalmente regenerado puede ser más grande (particularmente si se usan metatiles). La principal ventaja de esta alternativa es que si se desea regenerar
+un área a diferentes niveles de zoom, el ámbito es independiente del nivel de zoom.
+       <ul>
+	   <li><i>/MINX_TROS=, /MAXX_TROS=, /MINY_TROS=, /MAXY_TROS=</i> Define el envolvente mínimo que está regenerado. No hace falta indicar los 4 parámetros. En caso de no indicarse se usa el criterio habitual para determinar esta frontera.
+       </ul>
+       <li>Por defecto se genera una teselación del espacio desde la parte superior izquierda hasta la parte inferior derecha de 
+	   el ámbito cubierto por todas las imágenes de origen (Este criterio cambia si usa /ORIGEN_INFERIOR_ESQUERRA). Además, cada tesela tiene un índice de fila-columna y un índice de celda lineal.
+       <li>Generación parcial de unas cuantas filas lineales desde un origen a un destino determinado por índices de fila y columna.
+       <ul>
+	   <li><i>/COL_MIN_TROS=</i> Índice de columna de los trozos de la teselación por donde iniciar a cortar. Por defecto vale 0.
+	   <li><i>/FIL_MIN_TROS=</i> Índice de fila de los trozos de la teselación por donde iniciar a cortar. Por defecto vale 0.
+	   <li><i>/COL_MAX_TROS=</i> Índice de columna de los trozos de la teselación por donde acabar de cortar. Por defecto vale el número de trozos por columna menos 1.
+	   <li><i>/FIL_MAX_TROS=</i> Índice de fila de los trozos de la teselación por donde acabar de cortar. Por defecto vale el número de trozos por fila menos 1.
+       </ul>
+       <li>Generación parcial de unas cuantas teselas de dentro de un rectángulo determinado por índices de fila y columna mínimos y máximos.
+       <ul>
+	   <li><i>/MIN_MAX_TROS_RECTANGLE</i> Indica que los 4 parámetros posteriores definen un rectángulo. Cambia el significado de /COL_MIN_TROS por lo que se describe a continuación.
+	   <li><i>/COL_MIN_TROS=</i> Índice de columna mínimo de los trozos de la teselación que se regenerarán. Por defecto vale 0.
+	   <li><i>/COL_MAX_TROS=</i> Índice de columna máximo de los trozos de la teselación que se regenerarán. Por defecto vale el número de trozos por columna menos 1.
+	   <li><i>/FIL_MIN_TROS=</i> Índice de fila mínimo de los trozos de la teselación que se regenerarán. Por defecto vale 0.
+	   <li><i>/FIL_MAX_TROS=</i> Índice de fila máximo de los trozos de la teselación que se regenerarán. Por defecto vale el número de trozos por fila menos 1.
+       </ul>
+       <li>Generación parcial de unas cuantas filas desde un origen a un destino determinado por índices de tesela (que se corresponde con el nombre de fichero si no se ha indicado /INDEXA_J_I).
+       <ul>
+	   <li><i>/I_MIN_TROS=</i> Índice de trozo de los trozos de la teselación por donde iniciar a cortar. No aplica si se indica /MIN_MAX_TROS_RECTANGLE. Por defecto vale 0.
+	   <li><i>/I_MAX_TROS=</i> Índice de trozo de los trozos de la teselación por donde acabar de cortar. No aplica si se indica /MIN_MAX_TROS_RECTANGLE. Por defecto vale el número de trozos menos 1.
+       </ul>
+    </ul>
+</ul>
+<li>Opción 3: Prepara una capa de puntos/líneas o polígonos para ser consultada por localización.
+<ul>
+   <li>FitxerIMGSortida: Es un fichero ráster temático de identificadores gráficos.
+   <li>costat: Es el tamaño de píxel del ráster del nivel de zoom que estamos generando.
+   <li>exageracio: Es el factor de exageración. Para un fichero de puntos, el radio de punto es (exageracio+0.5)*costat. Para un fichero de líneas, el grosor de la línea es (2*exageracio+1)*costat. Para un fichero de polígonos no aplica. Indique 0.
+   <li>FitxerTop: Fichero topológico a preparar para la consulta de un nivel de zoom del servidor.
+</ul>
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
+
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<span id="wpssintaxi"/>
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p>
+<!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa escriba:
+CreaMMS ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
+</body>
+</html>
