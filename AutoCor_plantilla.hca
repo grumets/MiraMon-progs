@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Revisió AA 21-10-2024 */-->
+<!--/* Revisió AA 08-11-2026 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>AutoCor: Anàlisi d'autocorrelació espacial (Moran)</title>
@@ -21,14 +21,14 @@
 	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
 </tr>
 <tr align="center" valign="middle">
-	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>
 	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>
 </tr>
 </table>
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentació <!--i opcions--></h2>
-<p>Aquesta aplicació permet quantificar el grau d'autocorrelació espacial d'una variable en un fitxer ràster mitjançat el càlcul d'un indicador, en aquest cas a través de l'índex <i>I</i>(i) de Moran.</p> 
+<p>Aquesta aplicació permet quantificar el grau d'autocorrelació espacial d'una variable quantitativa en un fitxer ràster mitjançat el càlcul d'un indicador, en aquest cas a través de l'índex <i>I</i> (i) de Moran. La contigüitat es calcula en ordre 1 (primera corona de veïns de cada cel·la, equivalent a una finestra de 3x3 cel·les).</p> 
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
@@ -39,10 +39,23 @@
 <p>on:</p>
 <p><img src="AutoCor1.png"/> és el nombre d'unitats espacials, indexades per <i>i</i> i <i>j</i>;  <img src="AutoCor3.png"/> és la variable d'interès; <img src="AutoCor4.png"/> és la mitjana de la variable d'interès; <img src="AutoCor5.png"/> és un element d'una matriu de pesos espacials amb zeros a la diagonal; <img src="AutoCor6.png"/> és la suma de tots els elements de la matriu de pesos, és a dir:<br><img src="AutoCor7.png"/>.
 
-<p>La matriu de pesos formada pel conjunt de <img src="AutoCor5.png"/> es pot definir seguint el moviment de les torres dels escacs (<i>rook</i> en anglès), o bé seguint el moviment de la reina dels escacs (<i>queen</i> en anglès). En ambdós casos la matriu assigna un pes 1 a les cel·les veïnes en les direccions nord, sud, est i oest. En el primer cas s'assigna un pes 0 a les altres direccions (diagonals), mentre que en el segon cas s'assigna un pes 0.70711 (=0.5·&#8730;2) a les altres direccions.</p>
+<p>La matriu de pesos formada pel conjunt de <img src="AutoCor5.png"/> es pot definir seguint el moviment de les torres dels escacs (<i>rook</i> en anglès), o bé seguint el moviment de la reina dels escacs (<i>queen</i> en anglès). En ambdós casos la matriu assigna un pes 1 a les cel·les veïnes en les direccions nord, sud, est i oest. En el primer cas s'assigna un pes 0 a les altres direccions (diagonals), mentre que en el segon cas s'assigna un pes 0.70711 (=1/&#8730;2) a les altres direccions.</p>
 
 <p>L'autocorrelació espacial permet identificar patrons espacials diferents de patrons purament aleatoris i de patrons regulars, com un tauler d'escacs. En l'exemple del tauler d'escacs, i aplicant el criteri de pesos de 4 veïns en creu, l'índex obtingut té un valor -1; en canvi si els escacs (quadrats) blancs s'apilen a una meitat del tauler i els negres a l'altra, l'índex s'acosta a +1 a mesura que N augmenta; finalment, en una disposició aleatòria dels escacs l'índex retornat serà un valor proper a 0. Valors més petits que -1 o més grans que +1 són possibles, però habitualment corresponen a situacions molt esbiaixades de l'histograma i amb alguns valors que tenen molt pocs veïns en relació a la distància analitzada.</p> 
 
+<p>NOTES:</p>
+<ul>
+<li>El càlcul de l'índex de Moran requereix que hi hagi variació en les dades. Si s'aplica a una capa amb tots els valors idèntics s'obtindrà un índex 0, però en aquest cas no té sentit concloure que aquesta distribució espacial és aleatòria.</li>
+<li>L'autocorrelació espacial presenta dependència d'escala. Per tant, és esperable que una capa generalitzada (per exemple amb l'aplicació <a href="CanviRes.htm">CanviRes</a> en mode contracció per a obtenir un píxel més gran amb un criteri de mediana) proporcioni valors diferents.</li>
+<li>No s'ha de calcular aquest índex en capes que provinguin de ràsters de costats de cel·les més grans i que han estat convertits en ràsters de cel·les menors simplement subdividint les cel·les amb els mateixos valors (per exemple amb l'aplicació <a href="CanviRes.htm">CanviRes</a> en mode expansió) ja que la capa subdividida presenta una contigüitat fictícia entre cel·les.</li>
+<li>El càlcul en mode 4 veïns en una imatge que sigui un tauler d'escacs dóna un valor -1, com és esperable. En canvi, en mode 8 veïns augmenta molt l'autocorrelació pel contacte amb els 4 veïns en diagonal, cosa que fa que l'índex acabi presentant un valor de -0.202709 en una imatge de 16x16 cel·les (el fet que les cel·les en diagonal tinguin un pes menor fa que el valor no sigui més proper a zero).</li>
+<li>Una alternativa a l'índex de Moran és aplicar l'opció de Variabilitat de l'aplicació <a href="Filtres.htm">Filtres</a>, que proporciona un indicador local de variabilitat a cada finestra de convolució. A més d'obtenir un indicador sensible a les diferents àrees segons la seva variació, si se seleccionen tots els valors del ràster resultat de Filtres amb una consulta per atributs, la mediana o la mitjana del resultat donarà un valor general de la capa.</li>
+<li>Per a obtenir un indicador semblant a l'autocorrelació en imatges de variables categòriques es pot optar per:</li>
+	<ul>
+	<li>Proporcionar una malla de polígons regulars que facin una tessel·lació de l'espai i, amb <a href="CombiCap.htm">CombiCap</a> en mode de transferència de camps estadístics, s'obtindrà, entre altres, l'índex de Shannon en cada polígon. L'índex de Shannon té un valor 0 per a regions homogènies i creix com més diversa és la regió. En la capa de polígons resultant, aquest índex proporciona un indicador local de diversitat a cada polígon. Si se seleccionen tots amb una consulta per atributs la mediana o la mitjana del resultat donarà un valor general de la capa.</li>
+	<li>A través de l'aplicació <a href="RasSelec.htm">RasSelec</a>, seleccionar la categoria d'interès i demanar que el resultat sigui una màscara (les cel·les seleccionades quedaran marcades amb 1) i que no es marqui el 0 com a sensedades (les cel·les no seleccionades quedaran marcades amb 0). A continuació, executar l'AutoCor.htm a partir del resultat. Si es desitja, es pot fer sobre totes les categories i fer una mediana o una mitjana dels diferents valors obtinguts.</li>
+	</ul>
+</ul>
 <p>Per a més informació es pot consultar la següent referència:</p> 
 <b> Goodchild, M.F.</b> (1986) <i> Spatial Autocorrelation</i>. Concepts and Techniques in Modern Geography (CATMOG) n. 47, Geo Books, Norwich. 56 p. <a href="https://alexsingleton.files.wordpress.com/2014/09/47-spatial-aurocorrelation.pdf">https://alexsingleton.files.wordpress.com/2014/09/47-spatial-aurocorrelation.pdf</a> 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
@@ -64,10 +77,21 @@
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
-<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="AutoCor_exemple.png"></div></td>
+</tr>
+<tr>
+<td align="center">Autocorrelació negativa (competència entre individus, màxima dispersió), propera a zero (pràcticament aleatòria), i positiva (en grups o conglomerat [<i>clustered</i>])</td>
+</tr>
+</table>
+</div>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
-  <hr/>-->
+<hr/>
 
  <exclusiva>
 <h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
