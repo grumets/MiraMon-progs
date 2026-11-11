@@ -1,67 +1,128 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 10-11-2026 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
-  <title>VECDXF: Export MiraMon vector layers to DXF files</title>
+<title>VECDXF: Export MiraMon vector layers to DXF files</title>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
-
 <body>
-   <!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <h1><span id="wpstitol"/></h1>
+<p><ul>
+<h4>Direct access to online <a href="https://www.miramon.cat/help/eng/" target="_blank">help</a>: <a href="https://www.miramon.cat/help/eng/msa/VECDXF.htm" target="_blank"><font size="+2">VECDXF</font></a></h4>
+<h4>Access the application from the menu: <i>"File | Export | PNT, ARC, NOD, POL, VEC -> DXF"</i></h4>
+</ul></p>
 <!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
-<!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentation and options</a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Dialog box of the application</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Graphic examples</a></span></td>-->
+	<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Syntax</a></span></td>
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+
+<p>This application converts structured vector files containing points, arcs, polygons, or nodes (PNT, ARC, POL, or NOD formats) and unstructured vector files containing points, lines, or polygons (VEC format) to DXF format, which can be imported into AutoCAD (see the DXFIN command in the AutoCAD manual) and other applications, such as MicroStation, CorelDraw, or MS Word. The application also exports the third dimension (Z coordinate), if present in the source formats.</p>
+
+<p>The application provides two options:</p>
+
+<!--This section contains the MSA options and must be edited in the WPS document (aplicacio.mps).-->
 <span id="wpsopcions"/>
-<!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
-  <p>ASCII polygons are converted to closed polylines; lines are converted to
-  opened polylines; points can be converted to points or to texts. The maximum
-  number of vertices in each line or polygon is 4.2 milion.<br/>
-  The output DXF file contains a short header with its geographic
-  boundaries.</p>
+<!--End of the MSA options section editable in WPS.-->
 
-  <p>The application allows introducing terrain coordinates of the lower left
-  corner to let DXF file to have map coordinates if it had not before, or to
-  shift the whole drawing to a lower range of coordinates (for ex., some
-  programs have problems while opening DXF files with UTM coordinates in
-  m).<br/></p>
+<p>Polygons are converted to closed polylines; lines and arcs are converted to open polylines; and points and nodes can be converted to either points or text. The maximum number of vertices per line or polygon is 4.2 million.</p>
 
-  <ul>
-    <li style="list-style: none">Notes:</li>
+<p>The generated DXF file contains a header specifying the geographic extent of the file and the layer definitions.</p>
 
-    <li>Attributes become the names of the DXF layers.</li>
+<p>When exporting attributes as DXF text, point attributes may contain accented characters. However, the appropriate character encoding must be selected according to the application that will read the DXF file:</p>
 
-    <li>According to the DXF format, names of layers are transformed to
-    capital letters and are truncated at 31 characters of length.</li>
+<ul>
+    <li>For AutoCAD 2000, FreeHand 8, and MicroStation 95, select ANSI-1252.</li>
+    <li>For MS Word 2000 and CorelDraw 8, select OEM-850.</li>
+</ul>
 
-    <li>Negative number attributes (for ex. holes) keep the sign in the
-    name.</li>
+<p>In MicroStation 95, accented characters appear as asterisks after importing the DXF file. To correct this, change the font. One possible procedure is:</p>
 
-    <li>Real attributes are only supported by option 3 of the application, because
-    names of layers cannot contain decimal points.</li>
+<ul>
+    <li>Zoom out to display the entire drawing.</li>
+    <li>Use the "Fence" tool to select all the text.</li>
+    <li>In the Text Tools window, click "Change Text Attributes".</li>
+    <li>Select a font that supports Windows-ANSI accented characters, such as 105-INTL_ISO.</li>
+    <li>Select "Use Fence".</li>
+    <li>Click within the area selected by the Fence tool.</li>
+</ul>
 
-    <li>Range of numeric integer attributes allowed: -2147483648 to 2147483647
-    (long).</li>
-  </ul>
-  <hr/>
+<p>The application allows you to apply scaling and coordinate offsets. This makes it possible to assign ground coordinates to a DXF file that does not already have them or to shift the entire drawing to a smaller coordinate range (for example, some applications may have difficulty opening DXF files containing UTM coordinates expressed in meters).</p>
 
-  <exclusiva>
-   <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<p>Notes:</p>
+
+<ul>
+    <li>Numeric or alphanumeric attribute values become layer names in the DXF file. In accordance with the DXF format specified by Autodesk, layer names are converted to uppercase and truncated to 31 characters. Characters not supported by the DXF format are replaced as appropriate (for example, 'À' becomes 'A', and '$' becomes '_').</li>
+    <li>For files linked to a database, only one attribute can be exported. We recommend exporting the ID_GRAFIC field if the file is intended to be imported back into MiraMon. This allows all attributes to be restored using the "Physical Join" command in MiraDades.</li>
+    <li>Negative numeric attribute values retain their minus sign in the layer name.</li>
+    <li>Supported range for integer numeric attributes: -2147483648 to 2147483647 (long).</li>
+    <li>Real-number attributes can only be exported as text because layer names cannot contain decimal points. If export as a layer name is forced, the decimal point is replaced with an underscore.</li>
+    <li>Attributes can be omitted, placing all elements on a single layer. When exporting as text, all DXF text elements are placed on a single layer, and the attribute value becomes the text content.</li>
+</ul>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Dialog box of the application</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="VecDXF_finestra.png">   <img src="VecDXF_finestra2.png"></div></td>
+</tr>
+<tr>
+<td align="center">VECDXF dialog box</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Graphic examples</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="XXX.png"/><img src="XXX.png"/></div></td>
+</tr>
+<tr>
+<td align="center">Text explicatiu de l'exemple.</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>-->
+
+<exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
+
+<!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
-<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.--> 
-        <!-- $$EXCLUSIVA$$
-
+<!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
+<p>
+<!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
 VECDXF ?
 -->
-      </li>
-    </ul>
-  </exclusiva>
-  <hr/>
-  AutoCAD, CorelDraw, MS-Word, Idrisi and MiraMon are registered trade marks
-  of their owners. MiraMon is a registered trade mark of Xavier Pons.
-
-  <center>
-    Import/Export tools for vector files:<br/>
-    <a href="dxfvec.htm"><img src="dxfvec.gif"/></a> 
-    <!-- <a href="vecdxf.htm"><img src="vecdxf.gif"></a>  -->
-     <a href="arcinfmm.htm"><img src="arcinfmm.gif"/></a> <a href="bdpnt.htm"><img src="bdpnt.gif"/></a> <a href="mmemf.htm"><img src="mmemf.gif"/></a>
-  </center>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
+<hr/>
+AutoCAD, CorelDraw, FreeHand, MicroStation, MS-Word, are registered trade marks of their owners. MiraMon is a registered trade mark of Xavier Pons.
+<hr/>
 </body>
 </html>
