@@ -2,10 +2,10 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:CreaMMS:1</ows:Identifier>
-		<ows:Title>Point layer (option 1)</ows:Title>
-		<ows:Abstract>Prepares a point layer for display.</ows:Abstract>
+		<ows:Title>Point vector layer (option 1)</ows:Title>
+		<ows:Abstract>Prepare a point layer to be represented using graphic symbols (GIFs) or text. The symbology can be the same for all points or vary based on a field in the database. When using GIF symbols, all files must share the same color palette to avoid distortions in the representation.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Preparation of layers for publication on the MiraMon WMS"/>
-		<ows:Metadata xlink:title="Abstract:Builds map-server zoom levels. Source-type details: help template."/>
+		<ows:Metadata xlink:title="Abstract:This application allows the preparation of raster layers (thematic or continuous), three-band RGB IMG compositions, and vector layers (points, lines, or polygons) for display on the MiraMon map server, with the option to define the desired zoom level. It also enables the preparation of vector layers for location-based queries via the MiraMon browser."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -24,80 +24,89 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Directori</ows:Identifier>
 				<ows:Title>Directory</ows:Title>
-				<ows:Abstract>Output zoom directory.</ows:Abstract>
+				<ows:Abstract>Directory where all files that make up the generated zoom level will be created.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Directori"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerLST</ows:Identifier>
 				<ows:Title>List file</ows:Title>
-				<ows:Abstract>Generated tile list.</ows:Abstract>
+				<ows:Abstract>LST file containing the list of filenames corresponding to the tiles generated for the zoom level. It is recommended to save it in the same directory where the tiles are generated.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerLST"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>costat</ows:Identifier>
 				<ows:Title>Pixel size</ows:Title>
-				<ows:Abstract>Raster pixel size.</ows:Abstract>
+				<ows:Abstract>Pixel size of the raster for the zoom level being generated.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:costat"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerPNT</ows:Identifier>
 				<ows:Title>PNT file</ows:Title>
-				<ows:Abstract>Source PNT.</ows:Abstract>
+				<ows:Abstract>Source PNT file to be prepared as an MMS zoom level.</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:FitxerPNT"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TRACTAMENT</ows:Identifier>
 				<ows:Title>Treatment</ows:Title>
-				<ows:Abstract>S or T (symbols or text).</ows:Abstract>
+				<ows:Abstract>When the value is S, the layer's points are represented using graphic symbols (GIF icons); this can be done via a constant value (/VALOR_CONSTANT), a value indexed by a database field (/CAMP), or a symbol table (/TAULA_SIMBOLS). When the value is T, the representation is performed using text. The default value is S.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VALOR_CONSTANT</ows:Identifier>
 				<ows:Title>Constant value</ows:Title>
-				<ows:Abstract>Symbol or font; not with /CAMP.</ows:Abstract>
+				<ows:Abstract>Filename of the GIF symbol used to represent all points, or the font used to represent all rasterized text. Must not be used with /CAMP.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAMP</ows:Identifier>
 				<ows:Title>Field</ows:Title>
-				<ows:Abstract>BD4 field; not with /VALOR_CONSTANT.</ows:Abstract>
+				<ows:Abstract><![CDATA[A BD4-style database field that indicates—for a point layer—the symbol used to represent the points (if the selected processing mode is 'S'), or the font format for each rasterized text value (if the selected processing mode is 'T'). For a vector layer consisting of lines or polygons, it specifies the field that indexes the color—that is, the palette index values ??used to color each line feature or the interior of each polygon feature. This should not be used in conjunction with /VALOR_CONSTANT. For further information regarding the values for these parameters, please refer to the notes in the <a href="general.htm#TaulaCamp">general syntax</a> document.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TAULA_SIMBOLS</ows:Identifier>
 				<ows:Title>Symbol table</ows:Title>
-				<ows:Abstract>dbf unless /VALOR_CONSTANT.</ows:Abstract>
+				<ows:Abstract>Name of the DBF file that serves as a symbolization table, containing the key link field, the filenames of the GIF/PNG symbols used to represent each point, and an optional description (not used by this application). Must not be used with /VALOR_CONSTANT.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAMP_TEXT_MOSTRAR</ows:Identifier>
 				<ows:Title>Text field</ows:Title>
-				<ows:Abstract>Labels if treatment T.</ows:Abstract>
+				<ows:Abstract>Fild of the BD4-style database containing the texts to be displayed at each point on the layer when the processing has been defined using texts (T).</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -107,8 +116,8 @@
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:CreaMMS:2</ows:Identifier>
-		<ows:Title>Raster or vector layer (option 2)</ows:Title>
-		<ows:Abstract>Prepares thematic, continuous raster or vector (may be a list).</ows:Abstract>
+		<ows:Title>Raster or vector layer of lines or polygons (option 2)</ows:Title>
+		<ows:Abstract>Prepares thematic or continuous raster layers, as well as vector layers consisting of lines or polygons, for visualization in the map browser. It also allows for the processing of sets of layers defined via a list of files.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -127,206 +136,230 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Directori</ows:Identifier>
 				<ows:Title>Directory</ows:Title>
-				<ows:Abstract>Output zoom directory.</ows:Abstract>
+				<ows:Abstract>Directory where all files that make up the generated zoom level will be created.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Directori"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerLST</ows:Identifier>
 				<ows:Title>List file</ows:Title>
-				<ows:Abstract>Generated tile list.</ows:Abstract>
+				<ows:Abstract>LST file containing the list of filenames corresponding to the tiles generated for the zoom level. It is recommended to save it in the same directory where the tiles are generated.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerLST"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>ncol</ows:Identifier>
 				<ows:Title>Columns</ows:Title>
-				<ows:Abstract>Columns per tile (often 800).</ows:Abstract>
+				<ows:Abstract>Number of columns for each generated tile. A value of 800 is typically used. When the source is a MiraMon map or layer, ncol cannot exceed the screen size, nor can it be less than 150.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:ncol"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>nfil</ows:Identifier>
 				<ows:Title>Rows</ows:Title>
-				<ows:Abstract>Rows per tile (800 or 48000).</ows:Abstract>
+				<ows:Abstract>Number of rows in each generated tile. Typically, a value of 800 is used (or 48,000 when the format is indexed JPEG).</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:nfil"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Fitxer</ows:Identifier>
 				<ows:Title>Source file</ows:Title>
-				<ows:Abstract>Input. See help template by source type.</ows:Abstract>
+				<ows:Abstract>When the source layer—or list of layers—consists of vector lines or polygons, it corresponds to the name of the structured vector file containing those lines or polygons. When the source is a MiraMon map or layer, it refers to that specific map or layer (ideally including the symbology defined within the MiraMon map or the layer's metadata/definition file). When the source is a color raster derived from an 8-bit, palette-based IMG file (typically with an optimized palette), it corresponds to that IMG file (or list of IMG files). When the source is a grayscale raster (e.g., a BW orthophoto) or a JPEG image (whether color or grayscale), it corresponds to a byte-type IMG image (or a list of such IMG files). When the source is a JPEG raster (whether true-color or grayscale), it corresponds to the color or grayscale JPEG image (or a list of JPEG files). When the source is a categorical/thematic raster (e.g., a land-use raster) with a palette, or a continuous raster with a palette (e.g., a digital terrain model or a temperature map), it corresponds to the IMG file (or list of IMG files).</ows:Abstract>
 				<ows:Metadata xlink:title="Param6"/>
 				<ows:Metadata xlink:title="Name:Fitxer"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>NomPaleta</ows:Identifier>
 				<ows:Title>Palette</ows:Title>
-				<ows:Abstract>Palette file.</ows:Abstract>
+				<ows:Abstract>Corresponds to the name of the color palette. When the source layer or list of layers is of the line or polygon vector type. It must be specified if /CAMP= is used, but not if /COLOR_CONSTANT= is used.</ows:Abstract>
 				<ows:Metadata xlink:title="Param7"/>
 				<ows:Metadata xlink:title="Name:NomPaleta"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CANVI_COSTAT</ows:Identifier>
 				<ows:Title>CANVI COSTAT</ows:Title>
-				<ows:Abstract>Pixel size change (CanviRes); negative value.</ows:Abstract>
+				<ows:Abstract><![CDATA[When the source layer or list of layers is of the raster type, the parameter acts as an integer expansion/contraction factor for the images. It follows the criteria defined for <a href="canvires.htm">CanviRes</a>. In this context, only a negative value is meaningful. The default behavior is to apply no expansion or contraction, preserving the original cell size. The program uses an averaging method for RGB or grayscale images, and a mode-based method for images with palette.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CRITERI_INTERPOL</ows:Identifier>
 				<ows:Title>CRITERI INTERPOL</ows:Title>
-				<ows:Abstract>CanviRes criterion (C/m/M/d).</ows:Abstract>
+				<ows:Abstract>When the source layer or list of layers is of the raster type, this parameter uses the same syntax as the CanviRes program. Supported options are 'C' for central value, 'm' for mean, 'M' for mode, and 'd' for median. The program defaults to the mean criterion for RGB images and the mode criterion for paletted images. For paletted images representing linear features, the mode criterion is unsuitable as it results in broken lines; it is also inappropriate for paletted images with continuous variation. This parameter allows for the enforcement of a mean criterion in such cases, or the use of the median, which provides better interpolation when the change in cell size is significant. It replaces the /IMPOSA_CANVIRES_MITJANA parameter, which is now deprecated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>INTERMEDI</ows:Identifier>
 				<ows:Title>INTERMEDI</ows:Title>
-				<ows:Abstract>1 keep intermediates; 0 never.</ows:Abstract>
+				<ows:Abstract>The processing required to read the original images for a pixel shift greater than 5 is significant enough to justify saving intermediate results, which can then be reused to generate even larger pixel shifts. The program automatically saves these intermediate results—even without explicit instruction—whenever the pixel shift exceeds 5. These saved, non-optimized intermediate images are stored in directories whose names begin with the letter 'i'. A value of 1 forces the storage of intermediate results for the subsequent generation of larger-scale zooms (in terms of pixel dimensions), even if the requested change in scale is less than a factor of 5. A value of 0 indicates that intermediate results should never be stored, even for scale changes greater than a factor of 5. When the input is a JPEG file or a list of JPEG files, this parameter does not apply, as any lower-resolution (smaller-scale) zoom can be used to generate any higher-resolution (larger-scale) level.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VORA</ows:Identifier>
 				<ows:Title>VORA</ows:Title>
-				<ows:Abstract>Border cells to ignore.</ows:Abstract>
+				<ows:Abstract>When the layer is of the raster type, this parameter indicates that a border of *n* cells must be ignored in each of the original images. This is used to remove potential black or white borders from the original images, or any other edge effects resulting from image processing in tiles. This issue has been observed in the 25k orthophotos from certain versions.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>QUALITAT</ows:Identifier>
 				<ows:Title>QUALITAT</ows:Title>
-				<ows:Abstract>JPEG quality.</ows:Abstract>
+				<ows:Abstract><![CDATA[When the layer consists of a photographic or remote-sensing raster image, this parameter corresponds to the <a href="jpegimg.htm">JPEGIMG</a> parameter and applies only to JPEG output (typically used for continuous rasters). A quality value between 75 and 85 is recommended. When generating pixel-side adjustments greater than 5, the resulting color degradation can be excessive, leading to images with poor contrast—appearing brownish (for color images) or grayish (for grayscale images). This degradation can be mitigated by applying contrast optimizations to the saved intermediate result images, ensuring that the generation of larger-scale adjustments yields higher quality. It should be noted that these optimizations are applied to the saved intermediate results, not to the tiling generated during the current execution. The parameters /OPCIO_OPTI, /COSTAT_OPTI, /PERCENT_BAIX, /PERCENT_ALT, and /IGNOR_NODATA control the level of this optimization. The saved, optimized intermediate images are stored in directories whose names begin with the letter 'o'.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>OPCIO_OPTI</ows:Identifier>
-				<ows:Title>OPCIO OPTI</ows:Title>
-				<ows:Abstract>Intermediate optimization: 0, 1 or 2.</ows:Abstract>
+				<ows:Title>OPTI OPTION</ows:Title>
+				<ows:Abstract>Specifies whether histogram optimization should be applied to the saved intermediate results, and the type of optimization to use. Use 1 for global histogram optimization, 2 for sliding-window histogram optimization (recommended), and 0 for no optimization. The default value is 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COSTAT_OPTI</ows:Identifier>
 				<ows:Title>COSTAT OPTI</ows:Title>
-				<ows:Abstract>Opt. window (type 2); default 301.</ows:Abstract>
+				<ows:Abstract>Located in the optimization window under optimization option 2. The default value is 301. It does not apply to optimization 1 or 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PERCENT_BAIX</ows:Identifier>
 				<ows:Title>PERCENT BAIX</ows:Title>
-				<ows:Abstract>Low tail; default 1.5.</ows:Abstract>
+				<ows:Abstract>Percentage to ignore from the lower tail of the optimization histogram. Values within this percentage are saturated to the minimum value. The default value is 1.5.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PERCENT_ALT</ows:Identifier>
 				<ows:Title>PERCENT ALT</ows:Title>
-				<ows:Abstract>High tail; default 1.5.</ows:Abstract>
+				<ows:Abstract>Percentage of the upper tail of the optimization histogram to be ignored. Values within this percentage are saturated to the maximum value. The default value is 1.5.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>IGNOR_NODATA</ows:Identifier>
 				<ows:Title>IGNOR NODATA</ows:Title>
-				<ows:Abstract>NODATA in optimization.</ows:Abstract>
+				<ows:Abstract>Ignore the definition of no-data values ??during optimizations. Use 0 to respect the background value definition specified in the image metadata, 1 to treat 0 as the no-data value, and 2 to treat 255 as the no-data value. The default value is 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VALOR_MIN</ows:Identifier>
 				<ows:Title>VALOR MIN</ows:Title>
-				<ows:Abstract>Palette minimum.</ows:Abstract>
+				<ows:Abstract>Minimum value used to stretch the color palette. By default, the minimum value from each sheet is used. This is only useful for continuous images with a palette.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VALOR_MAX</ows:Identifier>
 				<ows:Title>VALOR MAX</ows:Title>
-				<ows:Abstract>Palette maximum.</ows:Abstract>
+				<ows:Abstract>Maximum value used to stretch the color palette. By default, the maximum value from each sheet is used. This is only useful for continuous images with a palette.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>EXAGERACIO</ows:Identifier>
 				<ows:Title>EXAGERACIO</ows:Title>
-				<ows:Abstract>Line/point exaggeration.</ows:Abstract>
+				<ows:Abstract>This is the exaggeration or thickening factor. For a point file, the point radius is (exaggeration + 0.5) * side. For line or polygon vectors, the line thickness is (2 * exaggeration + 1) * side. This does not apply to polygon files; therefore, 0 must be specified.</ows:Abstract>
 				<ows:Metadata xlink:title="Name:exageracio"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>costat</ows:Identifier>
 				<ows:Title>Pixel size</ows:Title>
-				<ows:Abstract>Raster pixel size.</ows:Abstract>
+				<ows:Abstract>Pixel size of the raster for the zoom level being generated.</ows:Abstract>
 				<ows:Metadata xlink:title="Name:costat"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COLOR_CONSTANT</ows:Identifier>
 				<ows:Title>COLOR CONSTANT</ows:Title>
-				<ows:Abstract>Constant (r,g,b).</ows:Abstract>
+				<ows:Abstract><![CDATA[For line files, this specifies that they should be rasterized using a constant color. For polygon files, it specifies that they should be rasterized using a constant color for the interior of the polygon. The value must be a color expressed as (r,g,b), where r, g, and b represent the intensity of red, green, and blue, respectively, on a scale from 0 to 255. This cannot be used in conjunction with <i>/CAMP</i>.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAMP</ows:Identifier>
 				<ows:Title>Field</ows:Title>
-				<ows:Abstract>BD4 field; not with /VALOR_CONSTANT.</ows:Abstract>
+				<ows:Abstract><![CDATA[A BD4-style database field that indicates—for a point layer—the symbol used to represent the points (if the selected processing mode is 'S'), or the font format for each rasterized text value (if the selected processing mode is 'T'). For a vector layer consisting of lines or polygons, it specifies the field that indexes the color—that is, the palette index values ??used to color each line feature or the interior of each polygon feature. This should not be used in conjunction with /VALOR_CONSTANT. For further information regarding the values for these parameters, please refer to the notes in the <a href="general.htm#TaulaCamp">general syntax</a> document.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COLOR_CONSTANT_VORA</ows:Identifier>
 				<ows:Title>COLOR CONSTANT VORA</ows:Title>
-				<ows:Abstract>Polygon outline colour.</ows:Abstract>
+				<ows:Abstract><![CDATA[For polygon files, this specifies that their edges must be rasterized using a solid color. The value must be a color expressed as (r,g,b), where r, g, and b represent the intensity of red, green, and blue, respectively (from 0 to 255). Do not use in conjunction with <i>/CAMP_VORA</i>.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAMP_VORA</ows:Identifier>
 				<ows:Title>CAMP VORA</ows:Title>
-				<ows:Abstract>Polygon outline field.</ows:Abstract>
+				<ows:Abstract><![CDATA[For polygon files, specify the BD4-style database field that indexes the color used to render the polygon edges. This should not be used in conjunction with <i>/VALOR_CONSTANT_VORA</i>. For polygon files, if neither <i>/COLOR_CONSTANT</i> nor <i>/CAMP</i> is specified, the interior of the polygon will not be rendered; similarly, if neither <i>/COLOR_CONSTANT_VORA</i> nor <i>/CAMP_VORA</i> is specified, the polygon edges will not be rendered. It is mandatory to specify at least one of these. For line files, either <i>/COLOR_CONSTANT</i> or <i>/CAMP</i> must be specified.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -335,126 +368,142 @@
 				<ows:Title>IMATGE BUIDA</ows:Title>
 				<ows:Abstract>0, 1 or 2 (empty tile).</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FORMAT</ows:Identifier>
 				<ows:Title>FORMAT</ows:Title>
-				<ows:Abstract>GIF, JPEG or PNG.</ows:Abstract>
+				<ows:Abstract>For any mode under option 2, you can specify the desired output format—either GIF or JPEG. In general, it is not necessary to specify this parameter, as the format is determined automatically; however, it is useful in this mode, since the program might otherwise default to GIF output and categorical processing, whereas a JPEG format and continuous processing would yield better results.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>METATILE</ows:Identifier>
 				<ows:Title>METATILE</ows:Title>
-				<ows:Abstract>Batch tile matrix n×n.</ows:Abstract>
+				<ows:Abstract>The number of tiles generated simultaneously in an n×n matrix. For instance, if set to 4, 16 tiles are generated at once. This parameter is useful for speeding up the preparation process when working with JPEG files. The default value is 1.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MINX</ows:Identifier>
 				<ows:Title>MINX</ows:Title>
-				<ows:Abstract>Indexing: xmin.</ows:Abstract>
+				<ows:Abstract>By default, the indexing origin is calculated based on the extent of the original images. The /MINX parameter forces indexing to be based on a specified bounding box. This is particularly useful for regenerating a portion of a previously prepared dataset, or in cases where the indices are significant—such as with WMTS.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAXX</ows:Identifier>
 				<ows:Title>MAXX</ows:Title>
-				<ows:Abstract>xmax.</ows:Abstract>
+				<ows:Abstract>By default, the indexing origin is calculated based on the extent of the original images. The MAXX parameter forces indexing to be based on a specified bounding box. This is particularly useful for regenerating a portion of a previously prepared dataset, or in cases where the indices are significant—such as with WMTS.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MINY</ows:Identifier>
 				<ows:Title>MINY</ows:Title>
-				<ows:Abstract>ymin.</ows:Abstract>
+				<ows:Abstract>By default, the indexing origin is calculated based on the extent of the original images. The /MINY parameter forces indexing to be based on a specified bounding box. This is particularly useful for regenerating a portion of a previously prepared dataset, or in cases where the indices are significant—such as with WMTS.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAXY</ows:Identifier>
 				<ows:Title>MAXY</ows:Title>
-				<ows:Abstract>ymax.</ows:Abstract>
+				<ows:Abstract>By default, the indexing origin is calculated based on the extent of the original images. The /MAXY parameter forces indexing to be based on a specified bounding box. This is particularly useful for regenerating a portion of a previously prepared dataset, or in cases where the indices are significant—such as with WMTS.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MINX_TROS</ows:Identifier>
 				<ows:Title>MINX TROS</ows:Title>
-				<ows:Abstract>Partial: xmin.</ows:Abstract>
+				<ows:Abstract>Define the xmin of the envelope that is being regenerated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAXX_TROS</ows:Identifier>
 				<ows:Title>MAXX TROS</ows:Title>
-				<ows:Abstract>xmax.</ows:Abstract>
+				<ows:Abstract>Define the  xmax of the envelope that is being regenerated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MINY_TROS</ows:Identifier>
 				<ows:Title>MINY TROS</ows:Title>
-				<ows:Abstract>ymin.</ows:Abstract>
+				<ows:Abstract>Define the ymin of the envelope that is being regenerated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAXY_TROS</ows:Identifier>
 				<ows:Title>MAXY TROS</ows:Title>
-				<ows:Abstract>ymax.</ows:Abstract>
+				<ows:Abstract>Define the ymax of the envelope that is being regenerated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COL_MIN_TROS</ows:Identifier>
 				<ows:Title>COL MIN TROS</ows:Title>
-				<ows:Abstract>Start column.</ows:Abstract>
+				<ows:Abstract>Column index of the tessellation pieces where cutting should begin. Defaults to 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COL_MAX_TROS</ows:Identifier>
 				<ows:Title>COL MAX TROS</ows:Title>
-				<ows:Abstract>End column.</ows:Abstract>
+				<ows:Abstract>Column index of the tessellation pieces at which to finish cutting. By default, it is the number of pieces per column minus 1.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FIL_MIN_TROS</ows:Identifier>
 				<ows:Title>FIL MIN TROS</ows:Title>
-				<ows:Abstract>Start row.</ows:Abstract>
+				<ows:Abstract>Row index of the tessellation pieces at which to start cutting. Defaults to 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FIL_MAX_TROS</ows:Identifier>
 				<ows:Title>FIL MAX TROS</ows:Title>
-				<ows:Abstract>End row.</ows:Abstract>
+				<ows:Abstract>Row index of the tessellation pieces where the cutting should end. By default, it is the number of pieces per row minus 1.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>I_MIN_TROS</ows:Identifier>
 				<ows:Title>I MIN TROS</ows:Title>
-				<ows:Abstract>Start linear index.</ows:Abstract>
+				<ows:Abstract>Index of the fragment of the pieces of the tessellation where to start cutting. Does not apply if /MIN_MAX_TROS_RECTANGLE is specified. Default is 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -469,7 +518,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MM32</ows:Identifier>
 				<ows:Title>MM32</ows:Title>
-				<ows:Abstract>MiraMon symbology (/COSTAT=).</ows:Abstract>
+				<ows:Abstract>Indicates that the layer should be processed using MiraMon symbolization. If the layer is a map, it is always processed using MiraMon symbolization, and this option is not necessary.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -481,7 +530,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>REVISIO</ows:Identifier>
 				<ows:Title>REVISIO</ows:Title>
-				<ows:Abstract>Review and fill tiles.</ows:Abstract>
+				<ows:Abstract>This allows for the review of layer preparation. This parameter checks the already created tiles and regenerates any missing ones, rebuilding the final lists. It is particularly useful when preparing a very large layer—for instance, if the process needs to be interrupted and resumed later—or when distributing the preparation across multiple machines (to ensure the unified output is complete and to regenerate the list). It is also helpful if it is discovered that some tiles were created incorrectly due to a defect in the original layers; once the defect has been corrected and the affected tiles deleted, a review can be run. While it is possible to combine this with a partial tiling generation process, it is not recommended.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -493,7 +542,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TESSELLA_SENCERA</ows:Identifier>
 				<ows:Title>TESSELLA SENCERA</ows:Title>
-				<ows:Abstract>Fixed tile size.</ows:Abstract>
+				<ows:Abstract>If this parameter is specified, all tiles will have the same size; even if they extend beyond the extent of the original layer, areas without data will be filled with NoData. By default (without this parameter), the tiles are adjusted to the layer's extent; since the division begins from the top-left, tiles along the right or bottom edges may be smaller than the specified size.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -505,7 +554,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>ORIGEN_INFERIOR_ESQUERRA</ows:Identifier>
 				<ows:Title>ORIGEN INFERIOR ESQUERRA</ows:Title>
-				<ows:Abstract>Bottom-left origin.</ows:Abstract>
+				<ows:Abstract>By default, the tessellation begins at the top left. If this parameter is specified, the tessellation begins at the bottom left.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -517,7 +566,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>INDEXA_J_I</ows:Identifier>
 				<ows:Title>INDEXA J I</ows:Title>
-				<ows:Abstract>Row subdirs (J/I).</ows:Abstract>
+				<ows:Abstract>By default, the files for the various tiles are named using an ascending sequence from 0 to n-1, corresponding to the linear cell index. For n > 500, the files are organized into subdirectories, each containing 500 files, to facilitate file management. Using the /INDEXA_J_I parameter, the tile naming structure is organized into subdirectories based on row indices, with the filenames themselves representing column indices.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -529,7 +578,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>INDEXA_I_J</ows:Identifier>
 				<ows:Title>INDEXA I J</ows:Title>
-				<ows:Abstract>Column subdirs (I/J).</ows:Abstract>
+				<ows:Abstract>By default, the files for the various tiles are named using an ascending sequence from 0 to n-1, corresponding to the linear cell index. For n > 500, the files are organized into subdirectories, each containing 500 files, to facilitate file management. Using the /INDEXA_I_J parameter, the tile naming structure is organized into subdirectories based on column indices, with the filenames themselves representing row indices.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -565,7 +614,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MIN_MAX_TROS_RECTANGLE</ows:Identifier>
 				<ows:Title>MIN MAX TROS RECTANGLE</ows:Title>
-				<ows:Abstract>Rectangle by COL/FIL.</ows:Abstract>
+				<ows:Abstract>Indicates that the 4 subsequent parameters define a rectangle. Changes the meaning of /COL_MIN_TROS to what is described below.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -577,7 +626,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MANTENIR_VECTORS</ows:Identifier>
 				<ows:Title>MANTENIR VECTORS</ows:Title>
-				<ows:Abstract>Keep vectors in RAM.</ows:Abstract>
+				<ows:Abstract>It allows the vectors that have been used to remain in memory until the end. This makes executions somewhat faster, but requires more memory.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -592,8 +641,8 @@
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:CreaMMS:2&amp;Param08</ows:Identifier>
-		<ows:Title>RGB (option 2)</ows:Title>
-		<ows:Abstract>Prepares from three IMG bands (R, G, B).</ows:Abstract>
+		<ows:Title>Raster layer from 3 RGB bands (opción 2)</ows:Title>
+		<ows:Abstract>Prepare a color image from three IMG files, corresponding to the red (R), green (G), and blue (B) bands. This option allows for the generation of a color representation of the images for visualization on the map server.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
@@ -612,216 +661,241 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Directori</ows:Identifier>
 				<ows:Title>Directory</ows:Title>
-				<ows:Abstract>Output zoom directory.</ows:Abstract>
+				<ows:Abstract>Directory where all files that make up the generated zoom level will be created.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:Directori"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerLST</ows:Identifier>
 				<ows:Title>List file</ows:Title>
-				<ows:Abstract>Generated tile list.</ows:Abstract>
+				<ows:Abstract>LST file containing the list of filenames corresponding to the tiles generated for the zoom level. It is recommended to save it in the same directory where the tiles are generated.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:FitxerLST"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>ncol</ows:Identifier>
 				<ows:Title>Columns</ows:Title>
-				<ows:Abstract>Columns per tile (often 800).</ows:Abstract>
+				<ows:Abstract>Number of columns for each generated tile. A value of 800 is typically used. When the source is a MiraMon map or layer, ncol cannot exceed the screen size, nor can it be less than 150.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:ncol"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>nfil</ows:Identifier>
 				<ows:Title>Rows</ows:Title>
-				<ows:Abstract>Rows per tile (800 or 48000).</ows:Abstract>
+				<ows:Abstract>Number of rows in each generated tile. Typically, a value of 800 is used (or 48,000 when the format is indexed JPEG).</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:nfil"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerR</ows:Identifier>
 				<ows:Title>Red band</ows:Title>
-				<ows:Abstract>Red IMG channel.</ows:Abstract>
+				<ows:Abstract>When the source of the color raster consists of 3 IMG bands (24-bit) (e.g., a color orthophoto), it corresponds to the red band.</ows:Abstract>
 				<ows:Metadata xlink:title="Param6"/>
 				<ows:Metadata xlink:title="Name:FitxerR"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerG</ows:Identifier>
 				<ows:Title>Green band</ows:Title>
-				<ows:Abstract>Green IMG channel.</ows:Abstract>
+				<ows:Abstract>When the source of the color raster consists of 3 IMG bands (24-bit) (e.g., a color orthophoto), the green band (byte) is used to construct a true-color JPEG.</ows:Abstract>
 				<ows:Metadata xlink:title="Param7"/>
 				<ows:Metadata xlink:title="Name:FitxerG"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerB</ows:Identifier>
 				<ows:Title>Blue band</ows:Title>
-				<ows:Abstract>Blue IMG channel.</ows:Abstract>
+				<ows:Abstract>When the source of the color raster consists of 3 IMG bands (24-bit) (e.g., a color orthophoto), the blue band (byte) is used to construct a true-color JPEG.</ows:Abstract>
 				<ows:Metadata xlink:title="Param8"/>
 				<ows:Metadata xlink:title="Name:FitxerB"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CANVI_COSTAT</ows:Identifier>
 				<ows:Title>CANVI COSTAT</ows:Title>
-				<ows:Abstract>Pixel size change (CanviRes); negative value.</ows:Abstract>
+				<ows:Abstract><![CDATA[When the source layer or list of layers is of the raster type, the parameter acts as an integer expansion/contraction factor for the images. It follows the criteria defined for <a href="canvires.htm">CanviRes</a>. In this context, only a negative value is meaningful. The default behavior is to apply no expansion or contraction, preserving the original cell size. The program uses an averaging method for RGB or grayscale images, and a mode-based method for images with palette.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CRITERI_INTERPOL</ows:Identifier>
 				<ows:Title>CRITERI INTERPOL</ows:Title>
-				<ows:Abstract>CanviRes criterion (C/m/M/d).</ows:Abstract>
+				<ows:Abstract>When the source layer or list of layers is of the raster type, this parameter uses the same syntax as the CanviRes program. Supported options are 'C' for central value, 'm' for mean, 'M' for mode, and 'd' for median. The program defaults to the mean criterion for RGB images and the mode criterion for paletted images. For paletted images representing linear features, the mode criterion is unsuitable as it results in broken lines; it is also inappropriate for paletted images with continuous variation. This parameter allows for the enforcement of a mean criterion in such cases, or the use of the median, which provides better interpolation when the change in cell size is significant. It replaces the /IMPOSA_CANVIRES_MITJANA parameter, which is now deprecated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>INTERMEDI</ows:Identifier>
 				<ows:Title>INTERMEDI</ows:Title>
-				<ows:Abstract>1 keep intermediates; 0 never.</ows:Abstract>
+				<ows:Abstract>The processing required to read the original images for a pixel shift greater than 5 is significant enough to justify saving intermediate results, which can then be reused to generate even larger pixel shifts. The program automatically saves these intermediate results—even without explicit instruction—whenever the pixel shift exceeds 5. These saved, non-optimized intermediate images are stored in directories whose names begin with the letter 'i'. A value of 1 forces the storage of intermediate results for the subsequent generation of larger-scale zooms (in terms of pixel dimensions), even if the requested change in scale is less than a factor of 5. A value of 0 indicates that intermediate results should never be stored, even for scale changes greater than a factor of 5. When the input is a JPEG file or a list of JPEG files, this parameter does not apply, as any lower-resolution (smaller-scale) zoom can be used to generate any higher-resolution (larger-scale) level.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VORA</ows:Identifier>
 				<ows:Title>VORA</ows:Title>
-				<ows:Abstract>Border cells to ignore.</ows:Abstract>
+				<ows:Abstract>When the layer is of the raster type, this parameter indicates that a border of *n* cells must be ignored in each of the original images. This is used to remove potential black or white borders from the original images, or any other edge effects resulting from image processing in tiles. This issue has been observed in the 25k orthophotos from certain versions.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>QUALITAT</ows:Identifier>
 				<ows:Title>QUALITAT</ows:Title>
-				<ows:Abstract>JPEG quality.</ows:Abstract>
+				<ows:Abstract><![CDATA[When the layer consists of a photographic or remote-sensing raster image, this parameter corresponds to the <a href="jpegimg.htm">JPEGIMG</a> parameter and applies only to JPEG output (typically used for continuous rasters). A quality value between 75 and 85 is recommended. When generating pixel-side adjustments greater than 5, the resulting color degradation can be excessive, leading to images with poor contrast—appearing brownish (for color images) or grayish (for grayscale images). This degradation can be mitigated by applying contrast optimizations to the saved intermediate result images, ensuring that the generation of larger-scale adjustments yields higher quality. It should be noted that these optimizations are applied to the saved intermediate results, not to the tiling generated during the current execution. The parameters /OPCIO_OPTI, /COSTAT_OPTI, /PERCENT_BAIX, /PERCENT_ALT, and /IGNOR_NODATA control the level of this optimization. The saved, optimized intermediate images are stored in directories whose names begin with the letter 'o'.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>OPCIO_OPTI</ows:Identifier>
-				<ows:Title>OPCIO OPTI</ows:Title>
-				<ows:Abstract>Intermediate optimization: 0, 1 or 2.</ows:Abstract>
+				<ows:Title>OPTI OPTION</ows:Title>
+				<ows:Abstract>Specifies whether histogram optimization should be applied to the saved intermediate results, and the type of optimization to use. Use 1 for global histogram optimization, 2 for sliding-window histogram optimization (recommended), and 0 for no optimization. The default value is 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COSTAT_OPTI</ows:Identifier>
 				<ows:Title>COSTAT OPTI</ows:Title>
-				<ows:Abstract>Opt. window (type 2); default 301.</ows:Abstract>
+				<ows:Abstract>Located in the optimization window under optimization option 2. The default value is 301. It does not apply to optimization 1 or 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PERCENT_BAIX</ows:Identifier>
 				<ows:Title>PERCENT BAIX</ows:Title>
-				<ows:Abstract>Low tail; default 1.5.</ows:Abstract>
+				<ows:Abstract>Percentage to ignore from the lower tail of the optimization histogram. Values within this percentage are saturated to the minimum value. The default value is 1.5.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>PERCENT_ALT</ows:Identifier>
 				<ows:Title>PERCENT ALT</ows:Title>
-				<ows:Abstract>High tail; default 1.5.</ows:Abstract>
+				<ows:Abstract>Percentage of the upper tail of the optimization histogram to be ignored. Values within this percentage are saturated to the maximum value. The default value is 1.5.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>IGNOR_NODATA</ows:Identifier>
 				<ows:Title>IGNOR NODATA</ows:Title>
-				<ows:Abstract>NODATA in optimization.</ows:Abstract>
+				<ows:Abstract>Ignore the definition of no-data values ??during optimizations. Use 0 to respect the background value definition specified in the image metadata, 1 to treat 0 as the no-data value, and 2 to treat 255 as the no-data value. The default value is 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VALOR_MIN</ows:Identifier>
 				<ows:Title>VALOR MIN</ows:Title>
-				<ows:Abstract>Palette minimum.</ows:Abstract>
+				<ows:Abstract>Minimum value used to stretch the color palette. By default, the minimum value from each sheet is used. This is only useful for continuous images with a palette.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>VALOR_MAX</ows:Identifier>
 				<ows:Title>VALOR MAX</ows:Title>
-				<ows:Abstract>Palette maximum.</ows:Abstract>
+				<ows:Abstract>Maximum value used to stretch the color palette. By default, the maximum value from each sheet is used. This is only useful for continuous images with a palette.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>EXAGERACIO</ows:Identifier>
 				<ows:Title>EXAGERACIO</ows:Title>
-				<ows:Abstract>Line/point exaggeration.</ows:Abstract>
+				<ows:Abstract>This is the exaggeration or thickening factor. For a point file, the point radius is (exaggeration + 0.5) * side. For line or polygon vectors, the line thickness is (2 * exaggeration + 1) * side. This does not apply to polygon files; therefore, 0 must be specified.</ows:Abstract>
 				<ows:Metadata xlink:title="Name:exageracio"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>costat</ows:Identifier>
 				<ows:Title>Pixel size</ows:Title>
-				<ows:Abstract>Raster pixel size.</ows:Abstract>
+				<ows:Abstract>Pixel size of the raster for the zoom level being generated.</ows:Abstract>
 				<ows:Metadata xlink:title="Name:costat"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COLOR_CONSTANT</ows:Identifier>
 				<ows:Title>COLOR CONSTANT</ows:Title>
-				<ows:Abstract>Constant (r,g,b).</ows:Abstract>
+				<ows:Abstract><![CDATA[For line files, this specifies that they should be rasterized using a constant color. For polygon files, it specifies that they should be rasterized using a constant color for the interior of the polygon. The value must be a color expressed as (r,g,b), where r, g, and b represent the intensity of red, green, and blue, respectively, on a scale from 0 to 255. This cannot be used in conjunction with <i>/CAMP</i>.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAMP</ows:Identifier>
 				<ows:Title>Field</ows:Title>
-				<ows:Abstract>BD4 field; not with /VALOR_CONSTANT.</ows:Abstract>
+				<ows:Abstract><![CDATA[A BD4-style database field that indicates—for a point layer—the symbol used to represent the points (if the selected processing mode is 'S'), or the font format for each rasterized text value (if the selected processing mode is 'T'). For a vector layer consisting of lines or polygons, it specifies the field that indexes the color—that is, the palette index values ??used to color each line feature or the interior of each polygon feature. This should not be used in conjunction with /VALOR_CONSTANT. For further information regarding the values for these parameters, please refer to the notes in the <a href="general.htm#TaulaCamp">general syntax</a> document.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COLOR_CONSTANT_VORA</ows:Identifier>
 				<ows:Title>COLOR CONSTANT VORA</ows:Title>
-				<ows:Abstract>Polygon outline colour.</ows:Abstract>
+				<ows:Abstract><![CDATA[For polygon files, this specifies that their edges must be rasterized using a solid color. The value must be a color expressed as (r,g,b), where r, g, and b represent the intensity of red, green, and blue, respectively (from 0 to 255). Do not use in conjunction with <i>/CAMP_VORA</i>.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAMP_VORA</ows:Identifier>
 				<ows:Title>CAMP VORA</ows:Title>
-				<ows:Abstract>Polygon outline field.</ows:Abstract>
+				<ows:Abstract><![CDATA[For polygon files, specify the BD4-style database field that indexes the color used to render the polygon edges. This should not be used in conjunction with <i>/VALOR_CONSTANT_VORA</i>. For polygon files, if neither <i>/COLOR_CONSTANT</i> nor <i>/CAMP</i> is specified, the interior of the polygon will not be rendered; similarly, if neither <i>/COLOR_CONSTANT_VORA</i> nor <i>/CAMP_VORA</i> is specified, the polygon edges will not be rendered. It is mandatory to specify at least one of these. For line files, either <i>/COLOR_CONSTANT</i> or <i>/CAMP</i> must be specified.]]></ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -830,126 +904,142 @@
 				<ows:Title>IMATGE BUIDA</ows:Title>
 				<ows:Abstract>0, 1 or 2 (empty tile).</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FORMAT</ows:Identifier>
 				<ows:Title>FORMAT</ows:Title>
-				<ows:Abstract>GIF, JPEG or PNG.</ows:Abstract>
+				<ows:Abstract>For any mode under option 2, you can specify the desired output format—either GIF or JPEG. In general, it is not necessary to specify this parameter, as the format is determined automatically; however, it is useful in this mode, since the program might otherwise default to GIF output and categorical processing, whereas a JPEG format and continuous processing would yield better results.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>METATILE</ows:Identifier>
 				<ows:Title>METATILE</ows:Title>
-				<ows:Abstract>Batch tile matrix n×n.</ows:Abstract>
+				<ows:Abstract>The number of tiles generated simultaneously in an n×n matrix. For instance, if set to 4, 16 tiles are generated at once. This parameter is useful for speeding up the preparation process when working with JPEG files. The default value is 1.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MINX</ows:Identifier>
 				<ows:Title>MINX</ows:Title>
-				<ows:Abstract>Indexing: xmin.</ows:Abstract>
+				<ows:Abstract>By default, the indexing origin is calculated based on the extent of the original images. The /MINX parameter forces indexing to be based on a specified bounding box. This is particularly useful for regenerating a portion of a previously prepared dataset, or in cases where the indices are significant—such as with WMTS.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAXX</ows:Identifier>
 				<ows:Title>MAXX</ows:Title>
-				<ows:Abstract>xmax.</ows:Abstract>
+				<ows:Abstract>By default, the indexing origin is calculated based on the extent of the original images. The MAXX parameter forces indexing to be based on a specified bounding box. This is particularly useful for regenerating a portion of a previously prepared dataset, or in cases where the indices are significant—such as with WMTS.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MINY</ows:Identifier>
 				<ows:Title>MINY</ows:Title>
-				<ows:Abstract>ymin.</ows:Abstract>
+				<ows:Abstract>By default, the indexing origin is calculated based on the extent of the original images. The /MINY parameter forces indexing to be based on a specified bounding box. This is particularly useful for regenerating a portion of a previously prepared dataset, or in cases where the indices are significant—such as with WMTS.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAXY</ows:Identifier>
 				<ows:Title>MAXY</ows:Title>
-				<ows:Abstract>ymax.</ows:Abstract>
+				<ows:Abstract>By default, the indexing origin is calculated based on the extent of the original images. The /MAXY parameter forces indexing to be based on a specified bounding box. This is particularly useful for regenerating a portion of a previously prepared dataset, or in cases where the indices are significant—such as with WMTS.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MINX_TROS</ows:Identifier>
 				<ows:Title>MINX TROS</ows:Title>
-				<ows:Abstract>Partial: xmin.</ows:Abstract>
+				<ows:Abstract>Define the xmin of the envelope that is being regenerated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAXX_TROS</ows:Identifier>
 				<ows:Title>MAXX TROS</ows:Title>
-				<ows:Abstract>xmax.</ows:Abstract>
+				<ows:Abstract>Define the  xmax of the envelope that is being regenerated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MINY_TROS</ows:Identifier>
 				<ows:Title>MINY TROS</ows:Title>
-				<ows:Abstract>ymin.</ows:Abstract>
+				<ows:Abstract>Define the ymin of the envelope that is being regenerated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MAXY_TROS</ows:Identifier>
 				<ows:Title>MAXY TROS</ows:Title>
-				<ows:Abstract>ymax.</ows:Abstract>
+				<ows:Abstract>Define the ymax of the envelope that is being regenerated.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COL_MIN_TROS</ows:Identifier>
 				<ows:Title>COL MIN TROS</ows:Title>
-				<ows:Abstract>Start column.</ows:Abstract>
+				<ows:Abstract>Column index of the tessellation pieces where cutting should begin. Defaults to 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>COL_MAX_TROS</ows:Identifier>
 				<ows:Title>COL MAX TROS</ows:Title>
-				<ows:Abstract>End column.</ows:Abstract>
+				<ows:Abstract>Column index of the tessellation pieces at which to finish cutting. By default, it is the number of pieces per column minus 1.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FIL_MIN_TROS</ows:Identifier>
 				<ows:Title>FIL MIN TROS</ows:Title>
-				<ows:Abstract>Start row.</ows:Abstract>
+				<ows:Abstract>Row index of the tessellation pieces at which to start cutting. Defaults to 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>FIL_MAX_TROS</ows:Identifier>
 				<ows:Title>FIL MAX TROS</ows:Title>
-				<ows:Abstract>End row.</ows:Abstract>
+				<ows:Abstract>Row index of the tessellation pieces where the cutting should end. By default, it is the number of pieces per row minus 1.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>I_MIN_TROS</ows:Identifier>
 				<ows:Title>I MIN TROS</ows:Title>
-				<ows:Abstract>Start linear index.</ows:Abstract>
+				<ows:Abstract>Index of the fragment of the pieces of the tessellation where to start cutting. Does not apply if /MIN_MAX_TROS_RECTANGLE is specified. Default is 0.</ows:Abstract>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
@@ -964,7 +1054,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MM32</ows:Identifier>
 				<ows:Title>MM32</ows:Title>
-				<ows:Abstract>MiraMon symbology (/COSTAT=).</ows:Abstract>
+				<ows:Abstract>Indicates that the layer should be processed using MiraMon symbolization. If the layer is a map, it is always processed using MiraMon symbolization, and this option is not necessary.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -976,7 +1066,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>REVISIO</ows:Identifier>
 				<ows:Title>REVISIO</ows:Title>
-				<ows:Abstract>Review and fill tiles.</ows:Abstract>
+				<ows:Abstract>This allows for the review of layer preparation. This parameter checks the already created tiles and regenerates any missing ones, rebuilding the final lists. It is particularly useful when preparing a very large layer—for instance, if the process needs to be interrupted and resumed later—or when distributing the preparation across multiple machines (to ensure the unified output is complete and to regenerate the list). It is also helpful if it is discovered that some tiles were created incorrectly due to a defect in the original layers; once the defect has been corrected and the affected tiles deleted, a review can be run. While it is possible to combine this with a partial tiling generation process, it is not recommended.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -988,7 +1078,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>TESSELLA_SENCERA</ows:Identifier>
 				<ows:Title>TESSELLA SENCERA</ows:Title>
-				<ows:Abstract>Fixed tile size.</ows:Abstract>
+				<ows:Abstract>If this parameter is specified, all tiles will have the same size; even if they extend beyond the extent of the original layer, areas without data will be filled with NoData. By default (without this parameter), the tiles are adjusted to the layer's extent; since the division begins from the top-left, tiles along the right or bottom edges may be smaller than the specified size.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -1000,7 +1090,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>ORIGEN_INFERIOR_ESQUERRA</ows:Identifier>
 				<ows:Title>ORIGEN INFERIOR ESQUERRA</ows:Title>
-				<ows:Abstract>Bottom-left origin.</ows:Abstract>
+				<ows:Abstract>By default, the tessellation begins at the top left. If this parameter is specified, the tessellation begins at the bottom left.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -1012,7 +1102,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>INDEXA_J_I</ows:Identifier>
 				<ows:Title>INDEXA J I</ows:Title>
-				<ows:Abstract>Row subdirs (J/I).</ows:Abstract>
+				<ows:Abstract>By default, the files for the various tiles are named using an ascending sequence from 0 to n-1, corresponding to the linear cell index. For n > 500, the files are organized into subdirectories, each containing 500 files, to facilitate file management. Using the /INDEXA_J_I parameter, the tile naming structure is organized into subdirectories based on row indices, with the filenames themselves representing column indices.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -1024,7 +1114,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>INDEXA_I_J</ows:Identifier>
 				<ows:Title>INDEXA I J</ows:Title>
-				<ows:Abstract>Column subdirs (I/J).</ows:Abstract>
+				<ows:Abstract>By default, the files for the various tiles are named using an ascending sequence from 0 to n-1, corresponding to the linear cell index. For n > 500, the files are organized into subdirectories, each containing 500 files, to facilitate file management. Using the /INDEXA_I_J parameter, the tile naming structure is organized into subdirectories based on column indices, with the filenames themselves representing row indices.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -1060,7 +1150,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MIN_MAX_TROS_RECTANGLE</ows:Identifier>
 				<ows:Title>MIN MAX TROS RECTANGLE</ows:Title>
-				<ows:Abstract>Rectangle by COL/FIL.</ows:Abstract>
+				<ows:Abstract>Indicates that the 4 subsequent parameters define a rectangle. Changes the meaning of /COL_MIN_TROS to what is described below.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -1072,7 +1162,7 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>MANTENIR_VECTORS</ows:Identifier>
 				<ows:Title>MANTENIR VECTORS</ows:Title>
-				<ows:Abstract>Keep vectors in RAM.</ows:Abstract>
+				<ows:Abstract>It allows the vectors that have been used to remain in memory until the end. This makes executions somewhat faster, but requires more memory.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AllowedValues>
@@ -1087,13 +1177,13 @@
 	</ProcessDescription>
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:CreaMMS:3</ows:Identifier>
-		<ows:Title>Topographic query (option 3)</ows:Title>
-		<ows:Abstract>Prepares identify-by-location layer.</ows:Abstract>
+		<ows:Title>Vector layer for topographic query (option 3)</ows:Title>
+		<ows:Abstract>Prepares a vector layer of points, lines, or polygons to enable the identification of its features via location-based queries within the MiraMon browser. To do this, it generates a thematic raster containing the graphical identifiers of the features.</ows:Abstract>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Option 3</ows:Title>
-				<ows:Abstract>Prepares identify-by-location layer.</ows:Abstract>
+				<ows:Abstract>Prepares a layer of points/lines or polygons to be queried by location.</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
 				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
@@ -1107,40 +1197,44 @@
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerIMGSortida</ows:Identifier>
 				<ows:Title>Output IMG</ows:Title>
-				<ows:Abstract>Thematic ID raster.</ows:Abstract>
+				<ows:Abstract>Thematic raster file of graphic identifiers.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
 				<ows:Metadata xlink:title="Name:FitxerIMGSortida"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>costat</ows:Identifier>
 				<ows:Title>Pixel size</ows:Title>
-				<ows:Abstract>Raster pixel size.</ows:Abstract>
+				<ows:Abstract>Pixel size of the raster for the zoom level being generated.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
 				<ows:Metadata xlink:title="Name:costat"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>EXAGERACIO</ows:Identifier>
 				<ows:Title>EXAGERACIO</ows:Title>
-				<ows:Abstract>Line/point exaggeration.</ows:Abstract>
+				<ows:Abstract>This is the exaggeration or thickening factor. For a point file, the point radius is (exaggeration + 0.5) * side. For line or polygon vectors, the line thickness is (2 * exaggeration + 1) * side. This does not apply to polygon files; therefore, 0 must be specified.</ows:Abstract>
 				<ows:Metadata xlink:title="Param4"/>
 				<ows:Metadata xlink:title="Name:exageracio"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>FitxerTop</ows:Identifier>
 				<ows:Title>Topo file</ows:Title>
-				<ows:Abstract>Source topology.</ows:Abstract>
+				<ows:Abstract>Topological file to be prepared for querying a server zoom level.</ows:Abstract>
 				<ows:Metadata xlink:title="Param5"/>
 				<ows:Metadata xlink:title="Name:FitxerTop"/>
 				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
 					<ows:AnyValue/>
 				</LiteralData>
 			</Input>
