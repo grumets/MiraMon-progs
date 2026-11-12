@@ -28,6 +28,7 @@
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentación y opciones</h2>
+<p>Antes de noviembre de 2026 el programa funcionaba con un fichero MMC. Actualmente, además de aceptar este fichero, también permite una sintaxis por línea de comandos, como se explica a continuación.</p>
  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
@@ -260,6 +261,7 @@ donde se ha definido 'Valor exterior al vector'=0
 <h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxis</h2>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
+<p>Línea de comandos: <code>CalcImg &lt;Expresión&gt; &lt;FicheroSalida&gt; [/NomSeccio_NomClau=valor ...]</code>. La expresión y el fichero de salida son los dos únicos argumentos obligatorios, en este orden. El resto de parámetros son modificadores. Algunos tienen que aparecer para que la fórmula tenga sentido: si la expresión usa un alias, hay que indicar su fichero, por ejemplo <code>/Variables_NDVI=ndvi.img</code> cuando hay <code>[NDVI]</code>. Los demás se pueden omitir. Si no hay <code>/Sortida_Tipus=</code> se toma <code>auto</code>, o <code>double-string</code> si hay <code>/Sortida_CampResultat=</code>. Se sigue aceptando un único fichero <code>.mmc</code>. <code>/Formula_Expressio=</code> y <code>/Sortida_Fitxer=</code> no son modificadores válidos.</p>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
 <h3>Descripción del fichero de parámetros (*.MMC) y de la sintaxis matemática y lógica:</h3>(no es necesario leerlo si usamos la interfaz Windows)<br/>
@@ -299,6 +301,7 @@ donde se ha definido 'Valor exterior al vector'=0
 	<b>CONSIDER_NODATA:</b> Para vectores considera el valor sindatos.<br/>
 </ul>
 
+<p><a href="#mmc-comanda">Véase un ejemplo de correspondencia entre un fichero MMC y su sintaxis en línea de comandos.</a></p>
 <h3>Operadores y funciones implementados</h3>
 
 <ul>
@@ -462,5 +465,43 @@ CalcImg ?
 -->
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 </exclusiva>
+<h2><a id="mmc-comanda" name="mmc-comanda"></a>Correspondencia entre un fichero MMC y la línea de comandos</h2>
+<p>El fichero MMC y la línea de comandos siguientes hacen el mismo cálculo. <code>Expressio</code> y <code>Fitxer</code> son los dos argumentos obligatorios, en este orden, y no se escriben como <code>/Formula_Expressio=</code> ni <code>/Sortida_Fitxer=</code>. Cualquier otra clave pasa a un modificador <code>/Seccio_Clau=valor</code>. La sección <code>[MUNI]</code> tiene por nombre el alias del vector, y por eso sus modificadores empiezan por <code>MUNI_</code>. Las claves que no aparecen aquí siguen la misma correspondencia.</p>
+<p>En el MMC, una dirección relativa se resuelve desde el directorio del fichero. En la línea de comandos, desde el directorio de trabajo.</p>
+<p><b>Fichero MMC:</b></p>
+<blockquote>
+<pre>
+[Formula]
+Expressio=RECL([RECL1],[NDVI])*([MUNI]&gt;100)
+
+[Sortida]
+Fitxer=resultat.img
+Tipus=byte
+Titol=NDVI municipal
+Valor_Fons=NODATA
+TractamentVariable=3
+
+[Variables]
+NDVI=ndvi.img
+MUNI=municipis.pnt
+
+[Reclassificadors]
+RECL1=grups.mrc
+
+[MUNI]
+base=-1
+camp=3
+repeticio=1
+CONSIDER_NODATA=0
+valor_exterior=NODATA
+</pre>
+</blockquote>
+<p><b>Línea de comandos:</b></p>
+<blockquote>
+<pre>
+CalcImg "RECL([RECL1],[NDVI])*([MUNI]&gt;100)" resultat.img /Sortida_Tipus=byte /Sortida_Titol="NDVI municipal" /Sortida_Valor_Fons=NODATA /Sortida_TractamentVariable=3 /Variables_NDVI=ndvi.img /Variables_MUNI=municipis.pnt /Reclassificadors_RECL1=grups.mrc /MUNI_base=-1 /MUNI_camp=3 /MUNI_repeticio=1 /MUNI_CONSIDER_NODATA=0 /MUNI_valor_exterior=NODATA
+</pre>
+</blockquote>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
 </body>
 </html>

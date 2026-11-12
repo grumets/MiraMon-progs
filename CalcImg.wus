@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:CalcImg:1</ows:Identifier>
-		<ows:Title>CalcImg</ows:Title>
-		<ows:Abstract>This program allows performing reclassifications and mathematical and logical operations, simultaneously, on layers of any type (rasters, structured vectors and unstructured vectors), in any number and in any directory. The logical operations return 1 in the true case and 0 in the false case.</ows:Abstract>
+		<ows:Identifier>MiraMon:CalcImg:!Param2</ows:Identifier>
+		<ows:Title>Parameter file</ows:Title>
+		<ows:Abstract>The calculation is done from a single .mmc parameter file, which is the only command line argument.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Layers and fields Calculator/Reclassifier:
   Mathematical and Logical Analysis"/>
 		<ows:Metadata xlink:title="Abstract:This program allows performing reclassifications and mathematical and logical operations, simultaneously, on layers of any type (raster, structured vectors and unstructured vectors), in any number and in any directory. The logical operations return 1 in the true case and 0 in the false case."/>
@@ -48,6 +48,341 @@
 						<Format>
 							<MimeType>application/x-mmc</MimeType>
 							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CalcImg:Param2</ows:Identifier>
+		<ows:Title>Command line</ows:Title>
+		<ows:Abstract>The calculation is done from the expression and the output file, which are the two mandatory arguments. The other parameters are modifiers. Some must appear for the formula to make sense, such as the file of each alias used in the expression; the others may be omitted.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Expressio</ows:Identifier>
+				<ows:Title>Expression</ows:Title>
+				<ows:Abstract>String that represents the logical-mathematical operation to be executed. It is composed of numbers, images, operands and functions. Image names are aliases of the corresponding files and are given between claudators ('[' and ']'). Implemented operands and functions are described below. Function arguments need to be within parenthesis; e.g: SING(30). If the function contains more than argument these will be separated by commas; e.g: MAX([IMG1],[IMG2]). When not sure it is recommended to use the syntax that is constructed by clicking onto the corresponding buttons and menus of the Windows application without editing them, or at most, adding the needed parameters</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Expression"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Tipus</ows:Identifier>
+				<ows:Title>Output type</ows:Title>
+				<ows:Abstract>Data type of the resulting file (auto, bit, byte, byte-RLE, integer, integer-RLE, uinteger, uinteger-RLE, long, long-RLE, real, real-RLE, double-string). Automatic means that the program has adjusted the final data type with respect to the range and integer or real data type of the values of the resulting file and of its degree of compression. Automatic will not compress when at least one of the images in the expression is compressed, except for the case of the resulting image being of 0 and 1 values. In this case, the resulting image will be byte-RLE. Bit data are generated only when specified because, usually, a byte-RLE format will result in files smaller in size.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>auto</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>uinteger</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>uinteger-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>double-string</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>auto</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Titol</ows:Identifier>
+				<ows:Title>Title</ows:Title>
+				<ows:Abstract>Descriptive title of the resulting image. When left blank, by default, the title will be the mathematical formula.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Desc_valors</ows:Identifier>
+				<ows:Title>Value description</ows:Title>
+				<ows:Abstract>Descriptive string of the type of values that will result.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_TractamentVariable</ows:Identifier>
+				<ows:Title>Variable treatment</ows:Title>
+				<ows:Abstract>Treatment of the output file variable: 1 categorical, 2 ordinal and 3 quantitative continuous. If it is omitted, or the value is not one of these, quantitative continuous is used.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Fitxer_categories</ows:Identifier>
+				<ows:Title>Category file</ows:Title>
+				<ows:Abstract>In the case of categorical results, it is the IMG file from which categories are imported. A relative path is resolved from the working directory.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Valor_Fons</ows:Identifier>
+				<ows:Title>Background value</ows:Title>
+				<ows:Abstract>Value given to the flag value or "NODATA" in the resulting file. The literal "NODATA" indicates that the program itself will decide which value will be chosen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Reservar_V_Fons</ows:Identifier>
+				<ows:Title>Reserve the background value</ows:Title>
+				<ows:Abstract>0 implies that no value for NoData is reserved from start. 1 implies that a value is reserved for possible NoData values in the result. Its default value is 0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Stretch</ows:Identifier>
+				<ows:Title>Display stretch</ows:Title>
+				<ows:Abstract>0 means that no stretching will be applied and that values beyond the range of the chosen domain will be saturated. 1 means that values are linearly scalated to the range in-between the minimum and maximum stretch. 0 is the default value, which corresponds to saturation.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Minim_Stretch</ows:Identifier>
+				<ows:Title>Stretch minimum</ows:Title>
+				<ows:Abstract>Minimum is activated with Stretch=1. X is the default value according to the chosen data type.</ows:Abstract>
+				<ows:Metadata xlink:title="FillInValue:x"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Maxim_Stretch</ows:Identifier>
+				<ows:Title>Stretch maximum</ows:Title>
+				<ows:Abstract>Maximum is activated with Stretch=1. X is the default value according to the chosen data type.</ows:Abstract>
+				<ows:Metadata xlink:title="FillInValue:x"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Truncar</ows:Identifier>
+				<ows:Title>Truncate decimals</ows:Title>
+				<ows:Abstract>If real values are not chosen, any resulting image will be rounded when Truncar=0 or will be truncated when Truncar=1. 0 is the default value.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Multibanda</ows:Identifier>
+				<ows:Title>Multiband alias</ows:Title>
+				<ows:Abstract>Alias, within the formula, of the multiband layer. The calculation is done for each band and the output file is the directory where they are written.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Patro</ows:Identifier>
+				<ows:Title>Multiband pattern</ows:Title>
+				<ows:Abstract>Prefix of each output band name. The band number and the extension are appended to it. If it is omitted, the input band name is kept.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_ID_WND</ows:Identifier>
+				<ows:Title>MiraDades window</ows:Title>
+				<ows:Abstract>Identifier of the MiraDades window that started the calculation. It is used when the calculation is on a DBF table.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_CampResultat</ows:Identifier>
+				<ows:Title>Result field</ows:Title>
+				<ows:Abstract>Name of the DBF table field where the result is written. The output file is this same table. If the type is omitted, double-string is used.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_X_minima</ows:Identifier>
+				<ows:Title>Minimum X of the extent</ows:Title>
+				<ows:Abstract>Minimum X of the geographical extent of the resulting raster when there is no raster in the mathematical expression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_X_maxima</ows:Identifier>
+				<ows:Title>Maximum X of the extent</ows:Title>
+				<ows:Abstract>Maximum X of the geographical extent of the resulting raster when there is no raster in the mathematical expression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Y_minima</ows:Identifier>
+				<ows:Title>Minimum Y of the extent</ows:Title>
+				<ows:Abstract>Minimum Y of the geographical extent of the resulting raster when there is no raster in the mathematical expression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Y_maxima</ows:Identifier>
+				<ows:Title>Maximum Y of the extent</ows:Title>
+				<ows:Abstract>Maximum Y of the geographical extent of the resulting raster when there is no raster in the mathematical expression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Costat_pixel</ows:Identifier>
+				<ows:Title>Pixel side</ows:Title>
+				<ows:Abstract>Pixel size of the resulting raster when there is no raster in the mathematical expression.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Variables_ALIAS</ows:Identifier>
+				<ows:Title>File of the alias</ows:Title>
+				<ows:Abstract>File of the layer named in the expression by the alias written in place of ALIAS. For example, /Variables_NDVI=ndvi.img when the expression contains [NDVI]. A relative path is resolved from the working directory.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Reclassificadors_ALIAS</ows:Identifier>
+				<ows:Title>Reclassifier</ows:Title>
+				<ows:Abstract>Reclassification file of the alias written in place of ALIAS. For example, /Reclassificadors_R=pendent.mrc when the expression contains [R]. A relative path is resolved from the working directory.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_camp</ows:Identifier>
+				<ows:Title>Vector field</ows:Title>
+				<ows:Abstract>Index, from 0, of the field of the structured vector of this alias on which the calculation is performed. Alias_vector is that alias, for example /VEC_camp=0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_nom_camp</ows:Identifier>
+				<ows:Title>Field name</ows:Title>
+				<ows:Abstract>Name of the DBF field of this alias used in the calculation. If it is not found, the index given in camp is used. Alias_vector is that alias, for example /TAULA_nom_camp=AREA.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_base</ows:Identifier>
+				<ows:Title>Field base</ows:Title>
+				<ows:Abstract>For the structured vector of this alias, -1 is the main table and any other value is the index of the field that links it to the associated table. Alias_vector is that alias, for example /VEC_base=-1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_repeticio</ows:Identifier>
+				<ows:Title>Record repetition</ows:Title>
+				<ows:Abstract>Record of the structured vector of this alias when the field has multiple records: 1, 2... from the first, or -1, -2... from the last. Alias_vector is that alias, for example /VEC_repeticio=1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_CONSIDER_NODATA</ows:Identifier>
+				<ows:Title>NODATA treatment</ows:Title>
+				<ows:Abstract>For the vector of this alias, 0 does not consider the NoData value and 1 considers it. The default is 0. Alias_vector is that alias, for example /VEC_CONSIDER_NODATA=0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_valor_exterior</ows:Identifier>
+				<ows:Title>Exterior value</ows:Title>
+				<ows:Abstract>Value of the emulated raster outside the vector of this alias and inside the extent. It can be a number or NODATA, which is the default. Alias_vector is that alias, for example /VEC_valor_exterior=NODATA.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Fitxer</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Name of the resulting file. A relative path is resolved from the working directory.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
 				</ComplexOutput>

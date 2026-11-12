@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:CalcImg:1</ows:Identifier>
-		<ows:Title>CalcImg</ows:Title>
-		<ows:Abstract>Aquest programa permet realitzar reclassificacions, operacions matemàtiques i lògiques, simultàniament, sobre capes de qualsevol tipus (ràsters, vectors estructurats i vectors no estructurats), en qualsevol nombre i en qualsevol directori. Les operacions lògiques retornen 1 en cas vertader i 0 en cas fals.</ows:Abstract>
+		<ows:Identifier>MiraMon:CalcImg:!Param2</ows:Identifier>
+		<ows:Title>Fitxer de paràmetres</ows:Title>
+		<ows:Abstract>El càlcul es fa a partir d'un únic fitxer de paràmetres .mmc, que és l'únic argument de la línia de comanda.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Calculadora/Reclassificadora de capes i camps: Anàlisi matemàtica i lògica"/>
 		<ows:Metadata xlink:title="Abstract:Aquest programa permet realitzar reclassificacions, operacions matemàtiques i lògiques, simultàniament, sobre capes de qualsevol tipus (ràsters, vectors estructurats i vectors no estructurats), en qualsevol nombre i en qualsevol directori. Les operacions lògiques retornen 1 en cas vertader i 0 en cas fals."/>
 		<DataInputs>
@@ -47,6 +47,347 @@
 						<Format>
 							<MimeType>application/x-mmc</MimeType>
 							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:CalcImg:Param2</ows:Identifier>
+		<ows:Title>Línia de comanda</ows:Title>
+		<ows:Abstract>El càlcul es fa a partir de l'expressió i del fitxer de sortida, que són els dos arguments obligatoris. La resta de paràmetres són modificadors. Alguns han d'aparèixer perquè la fórmula tingui sentit, com el fitxer de cada àlies que l'expressió utilitza; els altres es poden ometre.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Expressio</ows:Identifier>
+				<ows:Title>Expressió</ows:Title>
+				<ows:Abstract>És la cadena que representa l'operació matemàtico-lògica a executar. En formen part nombres, capes, operadors i funcions . Els noms de les capes que formen part de l'expressió matemàtica són àlies dels fitxers corresponents i s'indiquen entre claudàtors ('[' i ']') . Els operadors i funcions implementats són els descrits posteriorment. Els arguments de les funcions han d'estar tancats entre parèntesis; p. ex.: SING(30). Si la funció té més d'un argument cal separar-los per comes; p. ex. :MAX([IMG1],[IMG2]). En cas de dubte, recomanem utilitzar la sintaxi construïda a partir d'anar polsant els botons i menús corresponents de l'aplicació Windows sense editar-los posteriorment, o com a mínim, afegint els paràmetres que calgui.</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Expressio"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Tipus</ows:Identifier>
+				<ows:Title>Tipus de sortida</ows:Title>
+				<ows:Abstract>Tipus de dades del fitxer de sortida (auto, bit, byte, byte-RLE, integer, integer-RLE, uinteger, uinteger-RLE, long, long-RLE, real, real-RLE, double-string). Automàtic fa referència al fet que el propi programa ajusta el tipus (enter o real) de dada final en funció del rang i tipus enter o real dels valors del fitxer de sortida, i del seu nivell de compressió. Automàtic no comprimirà si tan sols una de les imatges que formen l'expressió està descomprimida, llevat del cas de resultats amb valors 0 o 1, en què s'opta per byte-RLE; el cas bit només es genera quan se li especifica expressament, ja que habitualment un format byte-RLE dona fitxers de mida menor.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>auto</ows:Value>
+						<ows:Value>byte</ows:Value>
+						<ows:Value>integer</ows:Value>
+						<ows:Value>uinteger</ows:Value>
+						<ows:Value>long</ows:Value>
+						<ows:Value>real</ows:Value>
+						<ows:Value>byte-RLE</ows:Value>
+						<ows:Value>integer-RLE</ows:Value>
+						<ows:Value>uinteger-RLE</ows:Value>
+						<ows:Value>long-RLE</ows:Value>
+						<ows:Value>real-RLE</ows:Value>
+						<ows:Value>bit</ows:Value>
+						<ows:Value>double-string</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>auto</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Titol</ows:Identifier>
+				<ows:Title>Títol</ows:Title>
+				<ows:Abstract>Títol descriptiu del fitxer resultant. Pot deixar-se en blanc si es vol que el programa utilitzi la fórmula matematico-lògica.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Desc_valors</ows:Identifier>
+				<ows:Title>Descripció dels valors</ows:Title>
+				<ows:Abstract>Cadena descriptiva del tipus de valors que s'obtindran.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_TractamentVariable</ows:Identifier>
+				<ows:Title>Tractament de la variable</ows:Title>
+				<ows:Abstract>Tractament de la variable del fitxer de sortida: 1 categòric, 2 ordinal i 3 quantitatiu continu. Si no s'indica, o el valor no és un d'aquests, es pren el quantitatiu continu.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>3</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Fitxer_categories</ows:Identifier>
+				<ows:Title>Fitxer de categories</ows:Title>
+				<ows:Abstract>En el cas de resultats categòrics, fitxer IMG d'on s'importen les categories. Una adreça relativa es resol des del directori de treball.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Valor_Fons</ows:Identifier>
+				<ows:Title>Valor de fons</ows:Title>
+				<ows:Abstract>Valor que pren el valor de fons ("sensedades" o "NODATA") en el fitxer resultat. El literal NODATA (sensedades) és el valor per defecte i indica que serà el programa qui decidirà quin és aquest valor.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Reservar_V_Fons</ows:Identifier>
+				<ows:Title>Reservar el valor de fons</ows:Title>
+				<ows:Abstract>0 implica que d'entrada no es reserva un valor per a sensedades i 1 implica que reservem un valor per a possibles valors sensedades en el fitxer resultat. El seu valor per defecte és 0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Stretch</ows:Identifier>
+				<ows:Title>Escala de visualització</ows:Title>
+				<ows:Abstract>0 implica que no fa escalat i satura els valors que surtin del rang corresponent al domini triat. 1 reescala linealment els valors resultants a l'interval indicat entre mínim i màxim d'escalat. El valor per defecte és 0 que correspon a la saturació.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Minim_Stretch</ows:Identifier>
+				<ows:Title>Mínim de l'escala</ows:Title>
+				<ows:Abstract>El mínim s'activa amb Stretch=1; x és el valor per defecte segons el tipus triat.</ows:Abstract>
+				<ows:Metadata xlink:title="FillInValue:x"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Maxim_Stretch</ows:Identifier>
+				<ows:Title>Màxim de l'escala</ows:Title>
+				<ows:Abstract>El màxim s'activa amb Stretch=1; x és el valor per defecte segons el tipus triat.</ows:Abstract>
+				<ows:Metadata xlink:title="FillInValue:x"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Truncar</ows:Identifier>
+				<ows:Title>Truncar els decimals</ows:Title>
+				<ows:Abstract>En cas que no es triïn valors reals, qualsevol resultat s'arrodonirà quan Truncar=0 o es truncarà quan Truncar=1. 0 és el valor per defecte.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Multibanda</ows:Identifier>
+				<ows:Title>Alias multibanda</ows:Title>
+				<ows:Abstract>Àlies, dins la fórmula, de la capa multibanda. El càlcul es fa per a cada banda i el fitxer de sortida és el directori on s'escriuen.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Patro</ows:Identifier>
+				<ows:Title>Patró multibanda</ows:Title>
+				<ows:Abstract>Prefix del nom de cada banda de sortida. S'hi afegeix el número de banda i l'extensió. Si no s'indica, es conserva el nom de la banda d'entrada.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_ID_WND</ows:Identifier>
+				<ows:Title>Finestra de MiraDades</ows:Title>
+				<ows:Abstract>Identificador de la finestra de MiraDades que ha originat el càlcul. S'utilitza quan el càlcul és sobre una taula DBF.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_CampResultat</ows:Identifier>
+				<ows:Title>Camp resultat</ows:Title>
+				<ows:Abstract>Nom del camp de la taula DBF on s'escriu el resultat. El fitxer de sortida és aquesta mateixa taula. Si no s'indica el tipus, es pren double-string.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_X_minima</ows:Identifier>
+				<ows:Title>X mínima de l'àmbit</ows:Title>
+				<ows:Abstract>X mínima de l'envolupant del ràster de sortida quan no hi ha cap ràster en l'expressió matemàtica.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_X_maxima</ows:Identifier>
+				<ows:Title>X màxima de l'àmbit</ows:Title>
+				<ows:Abstract>X màxima de l'envolupant del ràster de sortida quan no hi ha cap ràster en l'expressió matemàtica.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Y_minima</ows:Identifier>
+				<ows:Title>Y mínima de l'àmbit</ows:Title>
+				<ows:Abstract>Y mínima de l'envolupant del ràster de sortida quan no hi ha cap ràster en l'expressió matemàtica.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Y_maxima</ows:Identifier>
+				<ows:Title>Y màxima de l'àmbit</ows:Title>
+				<ows:Abstract>Y màxima de l'envolupant del ràster de sortida quan no hi ha cap ràster en l'expressió matemàtica.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>Sortida_Costat_pixel</ows:Identifier>
+				<ows:Title>Costat de píxel</ows:Title>
+				<ows:Abstract>Mida del píxel del ràster de sortida quan no hi ha cap ràster en l'expressió matemàtica.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Variables_ALIAS</ows:Identifier>
+				<ows:Title>Fitxer de l'àlies</ows:Title>
+				<ows:Abstract>Fitxer de la capa que l'expressió anomena amb l'àlies indicat en lloc d'ALIAS. Per exemple, /Variables_NDVI=ndvi.img si a l'expressió hi ha [NDVI]. Una adreça relativa es resol des del directori de treball.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Reclassificadors_ALIAS</ows:Identifier>
+				<ows:Title>Reclassificador</ows:Title>
+				<ows:Abstract>Fitxer de reclassificació de l'àlies indicat en lloc d'ALIAS. Per exemple, /Reclassificadors_R=pendent.mrc si a l'expressió hi ha [R]. Una adreça relativa es resol des del directori de treball.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_camp</ows:Identifier>
+				<ows:Metadata xlink:title="Name:Àlies_vector_camp"/>
+				<ows:Title>Camp del vector</ows:Title>
+				<ows:Abstract>Índex, des de 0, del camp del vector estructurat d'aquest àlies sobre el qual es calcula. Àlies_vector és aquest àlies, per exemple /VEC_camp=0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_nom_camp</ows:Identifier>
+				<ows:Metadata xlink:title="Name:Àlies_vector_nom_camp"/>
+				<ows:Title>Nom del camp</ows:Title>
+				<ows:Abstract>Nom del camp de la taula DBF d'aquest àlies sobre el qual es calcula. Si no es troba, s'utilitza l'índex indicat a camp. Àlies_vector és aquest àlies, per exemple /TAULA_nom_camp=AREA.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_base</ows:Identifier>
+				<ows:Metadata xlink:title="Name:Àlies_vector_base"/>
+				<ows:Title>Base del camp</ows:Title>
+				<ows:Abstract>Per al vector estructurat d'aquest àlies, -1 és la taula principal i un altre valor és l'índex del camp que el relaciona amb la taula associada. Àlies_vector és aquest àlies, per exemple /VEC_base=-1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_repeticio</ows:Identifier>
+				<ows:Metadata xlink:title="Name:Àlies_vector_repeticio"/>
+				<ows:Title>Repetició del registre</ows:Title>
+				<ows:Abstract>Registre del vector estructurat d'aquest àlies quan el camp té registre múltiple: 1, 2... des del primer, o -1, -2... des del darrer. Àlies_vector és aquest àlies, per exemple /VEC_repeticio=1.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_CONSIDER_NODATA</ows:Identifier>
+				<ows:Metadata xlink:title="Name:Àlies_vector_CONSIDER_NODATA"/>
+				<ows:Title>Tractament NODATA</ows:Title>
+				<ows:Abstract>Per al vector d'aquest àlies, 0 no considera el valor sensedades i 1 el considera. El valor per defecte és 0. Àlies_vector és aquest àlies, per exemple /VEC_CONSIDER_NODATA=0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1000">
+				<ows:Identifier>Alias_vector_valor_exterior</ows:Identifier>
+				<ows:Metadata xlink:title="Name:Àlies_vector_valor_exterior"/>
+				<ows:Title>Valor exterior</ows:Title>
+				<ows:Abstract>Valor del ràster emulat a l'exterior del vector d'aquest àlies i dins l'àmbit. Pot ser un nombre o NODATA, que és el valor per defecte. Àlies_vector és aquest àlies, per exemple /VEC_valor_exterior=NODATA.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>Fitxer</ows:Identifier>
+				<ows:Title>Fitxer de sortida</ows:Title>
+				<ows:Abstract>Nom del fitxer de sortida. Una adreça relativa es resol des del directori de treball.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerSortida"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+						<Format>
+							<MimeType>application/x-dbf</MimeType>
+							<Encoding>Binary</Encoding>
 						</Format>
 					</Supported>
 				</ComplexOutput>

@@ -28,6 +28,7 @@
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentació i opcions</h2>
+<p>Abans del novembre del 2026 el programa funcionava amb un fitxer MMC. Actualment, a part d'acceptar aquest fitxer, també permet una sintaxi per línia de comanda, com s'explica a continuació.</p>
 <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->  
@@ -259,6 +260,7 @@ on hem definit Valor exterior al vector=0
 <h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
+<p>Línia de comanda: <code>CalcImg &lt;Expressió&gt; &lt;FitxerSortida&gt; [/NomSeccio_NomClau=valor ...]</code>. L'expressió i el fitxer de sortida són els dos únics arguments obligatoris, en aquest ordre. La resta de paràmetres són modificadors. Alguns han d'aparèixer perquè la fórmula tingui sentit: si l'expressió usa un àlies, cal indicar-ne el fitxer, per exemple <code>/Variables_NDVI=ndvi.img</code> quan hi ha <code>[NDVI]</code>. Els altres es poden ometre. Si no hi ha <code>/Sortida_Tipus=</code> es pren <code>auto</code>, o <code>double-string</code> si hi ha <code>/Sortida_CampResultat=</code>. Un sol fitxer <code>.mmc</code> es continua acceptant. <code>/Formula_Expressio=</code> i <code>/Sortida_Fitxer=</code> no són modificadors vàlids.</p>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
 <h3>Descripció del fitxer de paràmetres (*.MMC) i de la sintaxi matemàtica i lògica:</h3>(no cal llegir-ho si utilitzeu la interfície Windows)<br/>
@@ -274,7 +276,7 @@ on hem definit Valor exterior al vector=0
 	<b>Titol:</b> Títol descriptiu del fitxer resultant. Pot deixar-se en blanc si es vol que el programa utilitzi la fórmula matematico-lògica.<br/>
 	<b>Desc_valors:</b> Cadena descriptiva del tipus de valors que s'obtindran.<br/>
 	<b>Fitxer_categories:</b> En el cas de resultats categòrics, fitxer IMG d'on s'importen les categories. La seva adreça és relativa al fitxer de paràmetres.<br/>
-	b>Valor_Fons:</b> Valor que pren el valor de fons (&quot;sensedades&quot; o &quot;NODATA&quot;) en el fitxer resultat. El literal NODATA (sensedades) és el valor per defecte i indica que serà el programa qui decidirà quin és aquest valor.<br/>
+	<b>Valor_Fons:</b> Valor que pren el valor de fons (&quot;sensedades&quot; o &quot;NODATA&quot;) en el fitxer resultat. El literal NODATA (sensedades) és el valor per defecte i indica que serà el programa qui decidirà quin és aquest valor.<br/>
 	<b>Stretch:</b> 0 implica que no fa escalat i satura els valors que surtin del rang corresponent al domini triat. 1 reescala linealment els valors resultants a l'interval indicat entre mínim i màxim d'escalat. El valor per defecte és 0 que correspon a la saturació.<br/>
 	<b>Minim_Stretch:</b> S'activa amb Stretch=1; x és el valor per defecte segons el tipus triat.<br/>
 	<b>Maxim_Stretch:</b> S'activa amb Stretch=1; x és el valor per defecte segons el tipus triat.<br/>
@@ -298,6 +300,7 @@ on hem definit Valor exterior al vector=0
 	<b>CONSIDER_NODATA:</b> Per a vectors considera el valor sensedades.<br/>
 </ul>
 
+<p><a href="#mmc-comanda">Vegeu un exemple de correspondència entre un fitxer MMC i la seva sintaxi en línia de comanda.</a></p>
 <h3>Operadors i funcions implementats</h3>
 
 <ul>
@@ -461,5 +464,43 @@ CalcImg ?
 -->
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 </exclusiva>
+<h2><a id="mmc-comanda" name="mmc-comanda"></a>Correspondència entre un fitxer MMC i la línia de comanda</h2>
+<p>El fitxer MMC i la línia de comanda següents fan el mateix càlcul. <code>Expressio</code> i <code>Fitxer</code> són els dos arguments obligatoris, en aquest ordre, i no s'escriuen com a <code>/Formula_Expressio=</code> ni <code>/Sortida_Fitxer=</code>. Qualsevol altra clau passa a un modificador <code>/Seccio_Clau=valor</code>. La secció <code>[MUNI]</code> té per nom l'àlies del vector, i per això els seus modificadors comencen per <code>MUNI_</code>. Les claus que no surten aquí segueixen la mateixa correspondència.</p>
+<p>A l'MMC, una adreça relativa es resol des del directori del fitxer. A la línia de comanda, des del directori de treball.</p>
+<p><b>Fitxer MMC:</b></p>
+<blockquote>
+<pre>
+[Formula]
+Expressio=RECL([RECL1],[NDVI])*([MUNI]&gt;100)
+
+[Sortida]
+Fitxer=resultat.img
+Tipus=byte
+Titol=NDVI municipal
+Valor_Fons=NODATA
+TractamentVariable=3
+
+[Variables]
+NDVI=ndvi.img
+MUNI=municipis.pnt
+
+[Reclassificadors]
+RECL1=grups.mrc
+
+[MUNI]
+base=-1
+camp=3
+repeticio=1
+CONSIDER_NODATA=0
+valor_exterior=NODATA
+</pre>
+</blockquote>
+<p><b>Línia de comanda:</b></p>
+<blockquote>
+<pre>
+CalcImg "RECL([RECL1],[NDVI])*([MUNI]&gt;100)" resultat.img /Sortida_Tipus=byte /Sortida_Titol="NDVI municipal" /Sortida_Valor_Fons=NODATA /Sortida_TractamentVariable=3 /Variables_NDVI=ndvi.img /Variables_MUNI=municipis.pnt /Reclassificadors_RECL1=grups.mrc /MUNI_base=-1 /MUNI_camp=3 /MUNI_repeticio=1 /MUNI_CONSIDER_NODATA=0 /MUNI_valor_exterior=NODATA
+</pre>
+</blockquote>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
 </body>
 </html>

@@ -28,6 +28,7 @@
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
+<p>Before November 2026 the program worked with an MMC file. Currently, besides accepting that file, it also allows a command-line syntax, as explained below.</p>
  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
@@ -259,6 +260,7 @@ where we have defined 'Value external to the vector'=0
 <h2><a id="Sintaxi" name="Sintaxi"></a>Syntax</h2>
 <!-- Aquí inicia la part corresponent a la sintaxi de miramon. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpssintaxi"/>
+<p>Command line: <code>CalcImg &lt;Expression&gt; &lt;OutputFile&gt; [/NomSeccio_NomClau=value ...]</code>. The expression and the output file are the only two mandatory arguments, in that order. Every other parameter is a modifier. Some must appear for the formula to make sense: if the expression uses an alias, its file has to be given, for example <code>/Variables_NDVI=ndvi.img</code> when there is <code>[NDVI]</code>. The others may be omitted. If <code>/Sortida_Tipus=</code> is omitted the type is <code>auto</code>, or <code>double-string</code> when <code>/Sortida_CampResultat=</code> is present. A single <code>.mmc</code> file is still accepted. <code>/Formula_Expressio=</code> and <code>/Sortida_Fitxer=</code> are not valid modifiers.</p>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
 <h3>Description of the parameters file (*.MMC) and the mathematical and logical syntax:</h3>(you need not to read it when using the windows interface)<br/><br/>
@@ -299,6 +301,7 @@ where we have defined 'Value external to the vector'=0
 	</li> 
 </ul>
 
+<p><a href="#mmc-comanda">See an example of the correspondence between an MMC file and its command-line syntax.</a></p>
 <h3>Implemented operands and functions</h3>
 
 <ul>
@@ -462,5 +465,43 @@ CalcImg ?
 -->
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 </exclusiva>
+<h2><a id="mmc-comanda" name="mmc-comanda"></a>Correspondence between an MMC file and the command line</h2>
+<p>The MMC file and the command line below perform the same calculation. <code>Expressio</code> and <code>Fitxer</code> are the two mandatory arguments, in this order, and they are not written as <code>/Formula_Expressio=</code> or <code>/Sortida_Fitxer=</code>. Every other key becomes a modifier <code>/Seccio_Clau=valor</code>. The <code>[MUNI]</code> section is named after the vector alias, so its modifiers start with <code>MUNI_</code>. Keys that do not appear here follow the same correspondence.</p>
+<p>In the MMC, a relative path is resolved from the file directory. On the command line, from the working directory.</p>
+<p><b>MMC file:</b></p>
+<blockquote>
+<pre>
+[Formula]
+Expressio=RECL([RECL1],[NDVI])*([MUNI]&gt;100)
+
+[Sortida]
+Fitxer=resultat.img
+Tipus=byte
+Titol=NDVI municipal
+Valor_Fons=NODATA
+TractamentVariable=3
+
+[Variables]
+NDVI=ndvi.img
+MUNI=municipis.pnt
+
+[Reclassificadors]
+RECL1=grups.mrc
+
+[MUNI]
+base=-1
+camp=3
+repeticio=1
+CONSIDER_NODATA=0
+valor_exterior=NODATA
+</pre>
+</blockquote>
+<p><b>Command line:</b></p>
+<blockquote>
+<pre>
+CalcImg "RECL([RECL1],[NDVI])*([MUNI]&gt;100)" resultat.img /Sortida_Tipus=byte /Sortida_Titol="NDVI municipal" /Sortida_Valor_Fons=NODATA /Sortida_TractamentVariable=3 /Variables_NDVI=ndvi.img /Variables_MUNI=municipis.pnt /Reclassificadors_RECL1=grups.mrc /MUNI_base=-1 /MUNI_camp=3 /MUNI_repeticio=1 /MUNI_CONSIDER_NODATA=0 /MUNI_valor_exterior=NODATA
+</pre>
+</blockquote>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
 </body>
 </html>
