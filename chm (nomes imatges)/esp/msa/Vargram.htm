@@ -1,0 +1,93 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisión AA 16-11-2026 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>wVargram: Representación y modelización del variograma</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<a id="MENU" name="MENU"></a>
+<!--Aquí comienza la parte correspondiente al título de la MSA. Esta parte debe editarse desde el documento WPS (aplicacio.mps).-->
+<h1><img src="vecras.gif"/>wVargram: Representación y modelización del variograma</h1>
+<p><ul>
+<h4>Acceso directo de la <a href="https://www.miramon.cat/help/spa/" target="_blank">ayuda</a> en Internet: <a href="https://www.miramon.cat/help/spa/msa/Vargram.htm" target="_blank"><font size="+2">Vargram</font></a></h4>
+</ul></p>
+<!--Aquí termina la parte correspondiente al título de la MSA editable desde el WPS.-->
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentación</h2>
+
+<p>wVargram es la herramienta de MiraMon que representa y modeliza el denominado semivariograma, patrón espacial que describe la correspondencia entre la semivarianza y la distancia. La semivarianza, mitad de la varianza, constituye una medida de la dispersión de la variable respecto a su valor esperado y se calcula como la suma de los cuadrados de las desviaciones respecto a la media. El semivariograma (o variograma, de forma más general y conceptualmente equivalente) permite analizar el comportamiento espacial de una propiedad o variable en la zona de estudio y su modelización constituye un elemento clave en el proceso de interpolación geoestadística (<i>kriging</i>).</p>
+
+<p>La funcionalidad esencial de este módulo es construir y analizar el variograma empírico y modelizarlo mediante la generación del variograma ajustado como posible suma de algunos de los variogramas elementales implementados: <i>nugget</i>, esférico, cuadrático, lineal, gaussiano y exponencial. La variable que se desea modelizar se introduce en la modelización como un campo específico de la base de datos asociada al archivo estructurado de puntos (<b>PNT</b>) y el variograma modelizado puede guardarse como archivo ASCII, en formato <b>VAM.</b></p>
+
+<p>La construcción del variograma consta de dos etapas organizadas en dos pestañas de la interfaz de <b>wVargram.</b></p>
+
+<p>En la primera etapa se establecen las propiedades de la muestra de puntos y se definen los parámetros geométricos y gráficos del variograma empírico:</p>
+
+<p><img align="left" hspace="25" src="wvargrampestanya1.PNG"/></p>
+
+<p>En primer lugar, debe definirse el archivo de puntos correspondiente a la muestra de datos que se desea analizar. Si es necesario, puede realizarse una selección en el conjunto de datos, en cuyo caso solo intervendrán en el proceso los puntos seleccionados. También debe elegirse el campo de la base de datos que contiene la información de la variable que se desea representar y/o modelizar.</p>
+
+<p>Debe especificarse un archivo para escribir el informe de resultados, un archivo de texto con información sobre el archivo de origen, los parámetros geométricos y gráficos y una lista de intervalos con el número de pares de puntos que pertenecen a cada intervalo y la media y semivarianza asignadas al intervalo.</p>
+
+<p>Los parámetros geométricos y gráficos que deben definirse son los siguientes (si es necesario determinar la distancia máxima entre puntos, puede solicitarse en cualquier momento mediante el botón &quot;Calcula el máximo&quot;):</p>
+
+<ul>
+    <li><b>Distancia umbral</b>: Es la distancia máxima de análisis del variograma en las unidades del sistema de referencia horizontal (SRH), normalmente metros. Los puntos separados por una distancia superior a la especificada quedan, por tanto, fuera del ámbito de estudio del variograma.</li>
+    <li><b>Número de intervalos</b> <i>(lags)</i>: Especifica el número de agrupaciones en las que se divide el ámbito de análisis. Determina el número de puntos en el espacio gráfico del variograma empírico.</li>
+    <li><b>Anchura de los intervalos</b> <i>(lags)</i>: Especifica la anchura de cada una de las agrupaciones definidas anteriormente.</li>
+</ul>
+  
+<p>En el espacio gráfico pueden utilizarse múltiplos de las unidades del SRH, por ejemplo <b>km</b>, si la anchura de los intervalos es la adecuada.</p>
+<p> La distancia umbral, el número de intervalos y la anchura de los intervalos están interrelacionados, de modo que la <b>distancia umbral</b> corresponde al <b>número de intervalos</b> multiplicado por la <b>anchura de los intervalos</b>. <ul>
+    <li><b>% corte</b>: Es el porcentaje que representa la distancia umbral respecto a la distancia máxima entre los puntos.</li>
+    <li><b>Todas dir</b>: Indica que el análisis se realiza en todas las direcciones. Si no se selecciona esta opción, el análisis se limita al entorno de una única dirección.</li>
+    <li><b>Acimut y amplitud</b>: En el análisis de la posible anisotropía de la distribución, especifica la dirección central y la amplitud de la selección sectorial a su alrededor, en grados.</li>
+  </ul>
+
+<p>Por defecto, el sistema realiza los cálculos con 10 intervalos y un 50% de corte. Estos valores pueden recuperarse en cualquier momento al pulsar el botón correspondiente.<br/> También puede resultar útil utilizar el botón de actualización de parámetros para conocer cómo repercute en el resto de los parámetros el cambio de uno de ellos.</p>
+
+<p>El último paso de esta primera etapa (una vez estabilizados los parámetros ajustables) consiste en <b>Generar el variograma empírico.</b> Este representa un punto por cada intervalo en un gráfico en el que horizontalmente se muestran las distancias y verticalmente la semivarianza de los pares de puntos que se han asignado al intervalo correspondiente. Al consultar la base de datos alfanumérica de los puntos, se obtienen los valores específicos de la media y la semivarianza, por tanto, con una precisión muy superior a la que puede apreciarse gráficamente. Este gráfico tiene 3 niveles de visualización:</p>
+
+<ul>
+    <li>Vista preliminar en la propia interfaz</li>
+    <li>Vista ampliada en un cuadro específico al que se accede haciendo clic en cualquier punto de la vista previa.</li>
+    <li>Mapa gráfico de MiraMon en una nueva sesión mediante el botón <b>Abrir gráfico en MiraMon</b>:</li>
+</ul>
+
+<p align="center"><img src="wvargramgraficempiric.PNG"/></p>
+
+<p>En resumen, esta primera parametrización da lugar, como uno de sus principales objetivos, al variograma empírico.</p>
+
+<p>La segunda etapa tiene como principal objetivo generar el variograma modelizado y, al mismo tiempo, determinar los correspondientes parámetros estructurales de su patrón espacial. En primer lugar, se eligen los variogramas elementales con sus parámetros adecuados, que conjuntamente formarán el variograma ajustado compuesto. El significado gráfico de los parámetros que definen estos variogramas elementales puede identificarse en la siguiente figura:</p>
+
+<p align="center"><img src="var_estruct.png"/></p>
+
+<p>En este punto, es aconsejable consultar algunas referencias especializadas para comprender algunos detalles de esta estructura. Dos referencias significativas de carácter introductorio son:</p>
+<ul>
+<p><b>Oliver, M. A., Webster, R. (1990)</b>, &quot;Kriging: a method of interpolation for geographical information systems&quot;. <i>International Journal of Geographical Information Science, 4:3, 313 - 332</i></p>  
+<p><b>Kitanidis P.K. (1997)</b> <i>Introduction to geostatistics: applications to hydrogeology</i>. Cambridge University Press.</p>
+</ul>
+
+<p>Esta segunda modelización da lugar al variograma ajustado o modelizado, que, si se considera válido, se utilizará en el módulo <a href="InterPNT.htm">InterPNT</a> para la interpolación mediante el método <i>kriging</i>.</p><br clear="all" style="page-break-before:right;mso-break-type:section-break"/>
+
+<table>
+<tr>
+	<td width="588"><p><img align="left" hspace="25" src="wvargrampestanya2.PNG"/></p></td>
+	<td width="350"><p>La primera parte de la pestaña de Modelización corresponde a la construcción del variograma ajustado como suma de algunos de los variogramas elementales implementados: <i>nugget</i>, esférico, cuadrático, lineal, gaussiano y exponencial.</p>        
+	<p>El archivo de parámetros del variograma resultante es un archivo VAM que puede cargarse a partir de un archivo guardado en disco o generarse de nuevo y guardarse en cualquier momento. El programa lo guarda igualmente al generar el variograma ajustado.</p>
+	<div align="center"><img src="fitxer_vam.png"/></div>
+	<p>El directorio gráfico del variograma ajustado puede ser un directorio temporal, si solo se desea visualizar el gráfico, o bien un directorio específico, si se desea guardarlo en disco para usos futuros.</p>
+	<p>De forma análoga a la pestaña de lectura de puntos y parámetros, se genera una vista previa del gráfico que puede ampliarse haciendo clic sobre ella con el ratón. También se genera un gráfico en MiraMon que puede consultarse mediante el botón <b>Abrir gráfico en MiraMon:</b></p></td>
+</tr>
+<tr>
+	<td colspan="2"><p align="center"><img src="wvargramgraficajustat.PNG"/></p></td>
+<!-- $$EXCLUSIVA$$
+Para obtener la ayuda completa, escriba:
+Vargram ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
+</body>
+</html>

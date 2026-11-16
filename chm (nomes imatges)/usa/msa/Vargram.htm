@@ -1,0 +1,91 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 16-11-2026 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al titol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><img src="vecras.gif"/>wVargram: Variogram representation and modeling</h1>
+<p><ul>
+<h4>Direct access to online <a href="https://www.miramon.cat/help/eng/" target="_blank">help</a>: <a href="https://www.miramon.cat/help/eng/msa/Vargram.htm" target="_blank"><font size="+2">Vargram</font></a></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent titol de la MSA editable de el WPS.-->
+<hr>
+
+<p>wVargram is the MiraMon tool that represents and models the semivariogram, a spatial pattern describing the relationship between semivariance and distance. Semivariance, which is half the variance, is a measure of the dispersion of a variable around its expected value and is calculated as the sum of the squared deviations from the mean. The semivariogram (or variogram, as it is often called, since the two concepts are essentially equivalent) makes it possible to analyze the spatial behavior of a property or variable within the study area. Its modeling is a key element in the process of geostatistical interpolation (<i>kriging</i>).</p>
+
+<p>The main function of this module is to build and analyze the empirical variogram and model it by generating a fitted variogram as a possible sum of the supported elementary variogram models: <i>nugget</i>, spherical, quadratic, linear, Gaussian, and exponential. The variable to be modeled is specified as a field in the database associated with the structured point file (<b>PNT</b>), and the modeled variogram can be saved as an ASCII file in <b>VAM.</b></p>
+
+<p>The variogram construction process consists of two stages, organized into two tabs in the interface of <b>wVargram.</b></p>
+
+<p>In the first stage, the properties of the point sample are set, and the geometric and graphical parameters of the empirical variogram are defined:</p>
+
+<p><img align="left" hspace="25" src="wvargrampestanya1.PNG"/></p>
+
+<p>First, the point file corresponding to the data sample to be analyzed must be specified. If necessary, a subset of the data can be selected, in which case only the selected points will be used in the process. The database field containing the variable to be represented and/or modeled must also be selected.</p>
+
+<p>A file must be specified for the results report. This text file contains information about the source file, the geometric and graphical parameters, and a list of intervals with the number of point pairs belonging to each interval, along with the mean and semivariance assigned to that interval.</p>
+
+<p>The geometric and graphical parameters to be defined are listed below. If necessary, the maximum distance between points can be calculated at any time using the &quot;Calculate maximum&quot; button:</p>
+
+<ul>
+    <li><b>Distance threshold</b>: The maximum distance for variogram analysis, expressed in units of the horizontal reference system (HRS), typically meters. Point pairs separated by a distance greater than the specified threshold are excluded from the variogram analysis.</li>
+    <li><b>Number of intervals</b> <i>(lags)</i>: Specifies the number of groups into which the analysis range is divided. This determines the number of points plotted in the empirical variogram.</li>
+    <li><b>Interval width</b> <i>(lags)</i>: Specifies the width of each of the previously defined groups.</li>
+</ul>
+  
+<p>Multiples of the HRS units, such as <b>km</b>, can be used on the plot if the interval width is appropriate.</p>
+<p>The distance threshold, number of intervals, and interval width are interrelated such that the <b>distance threshold</b> corresponds to the <b>number of intervals</b> multiplied by the <b>interval width</b>.<ul>
+    <li><b>% cut</b>: The percentage of the maximum distance between points represented by the distance threshold.</li>
+    <li><b>All directions</b>: Indicates that the analysis is performed in all directions. If this option is not selected, the analysis is restricted to the vicinity of a single direction.</li>
+    <li><b>Azimuth and width</b>: When analyzing possible anisotropy in the distribution, these parameters specify the central direction and the angular width of the surrounding sector, in degrees.</li>
+  </ul>
+
+<p>By default, the system performs calculations using 10 intervals and a cut of 50%. These default values can be restored at any time by clicking the corresponding button.<br/>The parameter refresh button can also be used to see how a change in one parameter affects the others.</p>
+
+<p>The final step of this first stage, once the adjustable parameters have been set, is to <b>Generate the empirical variogram.</b> The resulting plot displays one point for each interval, with distance on the horizontal axis and the semivariance of the point pairs assigned to the corresponding interval on the vertical axis. The specific mean and semivariance values can be obtained from the alphanumeric point database with much greater precision than can be read from the plot. Three levels of visualization are available:</p>
+
+<ul>
+    <li>Preview within the interface itself</li>
+    <li>Enlarged view in a separate window, accessed by clicking anywhere in the preview.</li>
+    <li>MiraMon graph opened in a new session using the <b>Open graphic in MiraMon</b> button:</li>
+</ul>
+
+<p align="center"><img src="wvargramgraficempiric.PNG"/></p>
+
+<p>In summary, one of the main objectives of this initial parameter setup is to generate the empirical variogram.</p>
+
+<p>The main goal of the second stage is to generate the modeled variogram and determine the corresponding structural parameters of its spatial pattern. First, the elementary variogram models and their appropriate parameters are selected to form the composite fitted variogram. The graphical meaning of the parameters defining these elementary variogram models can be seen in the following figure:</p>
+
+<p align="center"><img src="var_estruct.png"/></p>
+
+<p>It is advisable to consult specialized references to understand some of the details of this structure. Two useful introductory references are:</p>
+<ul>
+<p><b>Oliver, M. A., Webster, R. (1990)</b>, &quot;Kriging: a method of interpolation for geographical information systems&quot;. <i>International Journal of Geographical Information Science, 4:3, 313 - 332</i></p>  
+<p><b>Kitanidis P.K. (1997)</b> <i>Introduction to geostatistics: applications to hydrogeology</i>. Cambridge University Press.</p>
+</ul>
+
+<p>This second modeling stage produces the fitted or modeled variogram, which, if considered valid, will be used in the <a href="InterPNT.htm">InterPNT</a> module for interpolation using <i>kriging</i>.</p><br clear="all" style="page-break-before:right;mso-break-type:section-break"/>
+
+<table>
+<tr>
+	<td width="588"><p><img align="left" hspace="25" src="wvargrampestanya2.PNG"/></p></td>
+	<td width="350"><p>The first part of the Modeling tab corresponds to the construction of the fitted variogram as the sum of some of the supported elementary variogram models: <i>nugget</i>, spherical, quadratic, linear, Gaussian, and exponential.</p>        
+	<p>The resulting variogram parameter file is a VAM file that can be loaded from a file saved to disk or generated from scratch and saved at any time. The program also saves it when generating the fitted variogram.</p>
+	<div align="center"><img src="fitxer_vam.png"/></div>
+	<p>The fitted variogram's graphic directory can be a temporary directory if the plot is only to be viewed, or a specific directory if the plot is to be saved to disk for future use.</p>
+	<p>As in the point and parameter input tab, a preview of the plot is generated and can be enlarged by clicking on it. A MiraMon graph is also generated and can be viewed using the <b>Open graphic in MiraMon:</b></p></td>
+</tr>
+<tr>
+	<td colspan="2"><p align="center"><img src="wvargramgraficajustat.PNG"/></p></td>
+<!-- $$EXCLUSIVA$$
+To obtain the complete help documentation, enter:
+Vargram ?
+-->
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+</p>
+</exclusiva>
+</body>
+</html>
