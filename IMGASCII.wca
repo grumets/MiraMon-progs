@@ -2,22 +2,23 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="ca-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:IMGASCII:1</ows:Identifier>
-		<ows:Title>IMGASCII</ows:Title>
-		<ows:Abstract>Aquesta aplicació genera un fitxer de text ASCII a partir del format ràster del MiraMon: img+i.rel en versió 4 o img+doc en versions anteriors.</ows:Abstract>
+		<ows:Title>Només valors</ows:Title>
+		<ows:Abstract>La seqüència de valors corresponents a cada píxel del ràster origen, escrits a partir dels píxels llegits d'esquerra a dreta i de dalt a baix.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Exportació de ràsters IMG a format ASCII "/>
 		<ows:Metadata xlink:title="Abstract:Aquesta aplicació genera un fitxer de text ASCII a partir del format ràster de MiraMon: img+i.rel en versió 4 o img+doc en versions anteriors."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opció</ows:Title>
-				<ows:Abstract><![CDATA[Indica el format del fitxer ASCII generat<li>1. [Valors ...].</li><li>2. [Coordenada_X Coordenada_Y Valor_raster ...].</li></ul>]]></ows:Abstract>
+				<ows:Abstract>[Valors ...]</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
-						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
@@ -25,6 +26,7 @@
 				<ows:Title>Fitxer origen</ows:Title>
 				<ows:Abstract>És el fitxer img que es desitja exportar.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerOrigen"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -61,14 +63,85 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAPCALERA</ows:Identifier>
 				<ows:Title>Capçalera</ows:Title>
-				<ows:Abstract><![CDATA[<ul><li>1 si s'exporta l'àmbit del ràster origen (envolupant i costat de píxel) al fitxer resultat.</li><li>2 si s'exporta tota la documentació del ràster origen.</li><li>3 permet exportar els ràsters IMG al format ASCII adequat per a ArcView, ArcCatalog i ArcMap.</li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[<ul><li>0 si no s'exporta cap capçalera (valor per defecte).</li><li>1 si s'exporta l'àmbit del ràster origen (envolupant i costat de píxel) al fitxer resultat.</li><li>2 si s'exporta tota la documentació del ràster origen.</li><li>3 permet exportar els ràsters IMG al format ASCII adequat per a ArcView, ArcCatalog i ArcMap.</li></ul>]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
 						<ows:Value>1</ows:Value>
 						<ows:Value>2</ows:Value>
 						<ows:Value>3</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_FORCAT</ows:Identifier>
+				<ows:Title>NODATA forçat</ows:Title>
+				<ows:Abstract>Valor que s'escriu a les cel·les sense dades (NODATA) en comptes del valor NODATA del ràster origen; per exemple, -9999 quan un -3.4E+38 no és compatible amb el programari de destí. El valor s'escriu literalment i no s'hi aplica el nombre de decimals indicat; si es volen decimals, cal escriure'ls (per exemple /NODATA_FORCAT=-1.0). Només s'aplica si el ràster origen té valor NODATA definit.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SEPARADOR_COMA</ows:Identifier>
+				<ows:Title>Separador decimal coma</ows:Title>
+				<ows:Abstract>Substitueix el punt decimal per una coma en els valors escrits (útil, per exemple, per a versions de SPSS en castellà). No s'aplica a la capçalera.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SEPARA_TABULADOR</ows:Identifier>
+				<ows:Title>Separació amb tabulador</ows:Title>
+				<ows:Abstract>Separa amb un tabulador, en comptes d'un espai, les columnes de valors (amb /ASPECTE_MATRIU o /AFEGIR_COLUMNA). No s'aplica a la capçalera.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ASPECTE_MATRIU</ows:Identifier>
+				<ows:Title>Aspecte de matriu</ows:Title>
+				<ows:Abstract>Els valors s'escriuen en files (separades per retorns) i columnes (separades per un espai o un tabulador), imitant la matriu del ràster. Per defecte (sense /ASPECTE_MATRIU ni /ASPECTE_COLUMNA_UNICA) tots els valors s'escriuen en una única fila separats per un espai. No és compatible amb /ASPECTE_COLUMNA_UNICA ni amb /AFEGIR_COLUMNA.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ASPECTE_COLUMNA_UNICA</ows:Identifier>
+				<ows:Title>Aspecte de columna única</ows:Title>
+				<ows:Abstract>Els valors s'escriuen en una única columna (un valor per línia) en comptes d'una única fila separats per un espai. No és compatible amb /ASPECTE_MATRIU.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AFEGIR_COLUMNA</ows:Identifier>
+				<ows:Title>Afegir columna</ows:Title>
+				<ows:Abstract>Si el fitxer destí ja existeix, s'hi afegeix una nova columna amb els valors d'aquest ràster. Les columnes se separen per un espai o, si s'indica /SEPARA_TABULADOR, per un tabulador. Cal indicar també /ASPECTE_COLUMNA_UNICA i només és compatible amb /CAPCALERA=0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 		</DataInputs>
@@ -78,6 +151,126 @@
 				<ows:Title>Fitxer destí</ows:Title>
 				<ows:Abstract>És el fitxer ASCII resultat. Si es vol extensió cal indicar-la</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerDesti"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-ASCII</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ASCII</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:IMGASCII:2</ows:Identifier>
+		<ows:Title>Coordenades i valors</ows:Title>
+		<ows:Abstract>La seqüència: coordenada_X coordenada_Y valor retorn_nova_línia corresponents a cada centre de píxel del ràster origen. L'ordre d'escriptura és el mateix que en l'opció 1.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opció</ows:Title>
+				<ows:Abstract>[Coordenada_X Coordenada_Y Valor_raster ...]</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opció"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fitxer origen</ows:Title>
+				<ows:Abstract>És el fitxer img que es desitja exportar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FitxerOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DEC_VAL</ows:Identifier>
+				<ows:Title>Nombre de decimals</ows:Title>
+				<ows:Abstract>Defineix el nombre de decimals desitjat pels valors en el cas que sigui un ràster amb dades reals. El seu valor per defecte és el definit per la clau DigitsDecimals= de la secció [MiraMon] del fitxer de configuració MiraMon.par.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DEC_POS</ows:Identifier>
+				<ows:Title>Nombre de decimals coordenades</ows:Title>
+				<ows:Abstract>Defineix el nombre de decimals desitjat per a les coordenades quan cal explicitar-les. El seu valor per defecte és el definit a per la clau DigitsDecimals= de la secció [MiraMon] del fitxer de configuració MiraMon.par.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAPCALERA</ows:Identifier>
+				<ows:Title>Capçalera</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0 si no s'exporta cap capçalera (valor per defecte).</li><li>1 si s'exporta l'àmbit del ràster origen (envolupant i costat de píxel) al fitxer resultat.</li><li>2 si s'exporta tota la documentació del ràster origen.</li><li>3 permet exportar els ràsters IMG al format ASCII adequat per a ArcView, ArcCatalog i ArcMap.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_FORCAT</ows:Identifier>
+				<ows:Title>NODATA forçat</ows:Title>
+				<ows:Abstract>Valor que s'escriu a les cel·les sense dades (NODATA) en comptes del valor NODATA del ràster origen; per exemple, -9999 quan un -3.4E+38 no és compatible amb el programari de destí. El valor s'escriu literalment i no s'hi aplica el nombre de decimals indicat; si es volen decimals, cal escriure'ls (per exemple /NODATA_FORCAT=-1.0). Només s'aplica si el ràster origen té valor NODATA definit.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SEPARA_TABULADOR</ows:Identifier>
+				<ows:Title>Separació amb tabulador</ows:Title>
+				<ows:Abstract>Separa amb un tabulador, en comptes d'un espai, les coordenades i el valor del ràster. No s'aplica a la capçalera.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDesti</ows:Identifier>
+				<ows:Title>Fitxer destí</ows:Title>
+				<ows:Abstract>És el fitxer ASCII resultat. Si es vol extensió cal indicar-la</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FitxerDesti"/>
 				<ComplexOutput>
 					<Default>
 						<Format>

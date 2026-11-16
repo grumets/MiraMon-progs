@@ -2,22 +2,23 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:IMGASCII:1</ows:Identifier>
-		<ows:Title>IMGASCII</ows:Title>
-		<ows:Abstract>Esta aplicación genera un fichero de texto ASCII a partir del formato ráster de MiraMon: img+i.rel en versión 4 o img+doc en versiones anteriores.</ows:Abstract>
+		<ows:Title>Solo valores</ows:Title>
+		<ows:Abstract>La secuencia de valores correspondientes a cada píxel del ráster origen, escritos a partir de los píxels leídos de izquierda a derecha y de arriba a abajo.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Exportación de rásters IMG a formato ASCII "/>
 		<ows:Metadata xlink:title="Abstract:Esta aplicación genera un fichero de texto ASCII a partir del formato raster de MiraMon: img+i.rel en versión 4 o img+doc en versiones anteriores."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Opción</ows:Title>
-				<ows:Abstract><![CDATA[Indica el formato del fichero ASCII generado<ul><li>1: [Valores ...]</li><li>2: [Coordenada_X Coordenada_Y Valor_raster ...].</li></ul>]]></ows:Abstract>
+				<ows:Abstract>[Valores ...]</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
-						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
@@ -25,6 +26,7 @@
 				<ows:Title>Fichero origen</ows:Title>
 				<ows:Abstract>Es el fichero img que se desea exportar.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -51,7 +53,7 @@
 			</Input>
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>N_DEC_POS</ows:Identifier>
-				<ows:Title>Numero de decimales coordenadas</ows:Title>
+				<ows:Title>Número de decimales coordenadas</ows:Title>
 				<ows:Abstract>Define el número de decimales deseado para las coordenadas cuando hay que explicitarlas. Su valor por defecto está definido en la clave DigitsDecimals= de la sección [MiraMon] del fichero de configuración MiraMon.par.</ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
@@ -61,14 +63,85 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAPCALERA</ows:Identifier>
 				<ows:Title>Cabecera</ows:Title>
-				<ows:Abstract><![CDATA[<ul><li>1 si se exporta el ámbito del ráster origen (envolvente y lado de píxel) al fichero resultado</li><li>2 si se exporta toda la documentación del ráster origen.</li><li>3 permite exportar los rásters IMG al formato ASCII adecuado para ArcView, ArcCatalog y ArcMap.</li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[<ul><li>0 si no se exporta ninguna cabecera (valor por defecto).</li><li>1 si se exporta el ámbito del ráster origen (envolvente y lado de píxel) al fichero resultado</li><li>2 si se exporta toda la documentación del ráster origen.</li><li>3 permite exportar los rásters IMG al formato ASCII adecuado para ArcView, ArcCatalog y ArcMap.</li></ul>]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
 						<ows:Value>1</ows:Value>
 						<ows:Value>2</ows:Value>
 						<ows:Value>3</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_FORCAT</ows:Identifier>
+				<ows:Title>NODATA forzado</ows:Title>
+				<ows:Abstract>Valor que se escribe en las celdas sin datos (NODATA) en lugar del valor NODATA del ráster origen; por ejemplo, -9999 cuando un -3.4E+38 no es compatible con el software de destino. El valor se escribe literalmente y no se le aplica el número de decimales indicado; si se desean decimales, hay que escribirlos (por ejemplo /NODATA_FORCAT=-1.0). Solo se aplica si el ráster origen tiene valor NODATA definido.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SEPARADOR_COMA</ows:Identifier>
+				<ows:Title>Separador decimal coma</ows:Title>
+				<ows:Abstract>Sustituye el punto decimal por una coma en los valores escritos (útil, por ejemplo, para versiones de SPSS en castellano). No se aplica a la cabecera.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SEPARA_TABULADOR</ows:Identifier>
+				<ows:Title>Separación con tabulador</ows:Title>
+				<ows:Abstract>Separa con un tabulador, en lugar de un espacio, las columnas de valores (con /ASPECTE_MATRIU o /AFEGIR_COLUMNA). No se aplica a la cabecera.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ASPECTE_MATRIU</ows:Identifier>
+				<ows:Title>Aspecto de matriz</ows:Title>
+				<ows:Abstract>Los valores se escriben en filas (separadas por retornos) y columnas (separadas por un espacio o un tabulador), imitando la matriz del ráster. Por defecto (sin /ASPECTE_MATRIU ni /ASPECTE_COLUMNA_UNICA) todos los valores se escriben en una única fila separados por un espacio. No es compatible con /ASPECTE_COLUMNA_UNICA ni con /AFEGIR_COLUMNA.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ASPECTE_COLUMNA_UNICA</ows:Identifier>
+				<ows:Title>Aspecto de columna única</ows:Title>
+				<ows:Abstract>Los valores se escriben en una única columna (un valor por línea) en lugar de una única fila separados por un espacio. No es compatible con /ASPECTE_MATRIU.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AFEGIR_COLUMNA</ows:Identifier>
+				<ows:Title>Añadir columna</ows:Title>
+				<ows:Abstract>Si el fichero destino ya existe, se le añade una nueva columna con los valores de este ráster. Las columnas se separan por un espacio o, si se indica /SEPARA_TABULADOR, por un tabulador. Hay que indicar también /ASPECTE_COLUMNA_UNICA y solo es compatible con /CAPCALERA=0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 		</DataInputs>
@@ -78,6 +151,126 @@
 				<ows:Title>Fichero destino</ows:Title>
 				<ows:Abstract>Es el fichero ASCII resultado. Si se desea extensión debe indicarse.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroDestino"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-ASCII</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ASCII</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:IMGASCII:2</ows:Identifier>
+		<ows:Title>Coordenadas y valores</ows:Title>
+		<ows:Abstract>La secuencia: coordenada_X coordenada_Y valor retorno_nueva_línea correspondientes a cada centro de píxel del ráster origen. El orden de escritura es el mismo que en la opción 1.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Opción</ows:Title>
+				<ows:Abstract>[Coordenada_X Coordenada_Y Valor_raster ...]</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Opción"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Fichero origen</ows:Title>
+				<ows:Abstract>Es el fichero img que se desea exportar.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:FicheroOrigen"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DEC_VAL</ows:Identifier>
+				<ows:Title>Número de decimales</ows:Title>
+				<ows:Abstract>Define el número de decimales deseado para los valores en el caso de un ráster con datos reales. Su valor por defecto está definido por la clave DigitsDecimals= de la sección [MiraMon] del fichero de configuración MiraMon.par.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DEC_POS</ows:Identifier>
+				<ows:Title>Número de decimales coordenadas</ows:Title>
+				<ows:Abstract>Define el número de decimales deseado para las coordenadas cuando hay que explicitarlas. Su valor por defecto está definido en la clave DigitsDecimals= de la sección [MiraMon] del fichero de configuración MiraMon.par.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAPCALERA</ows:Identifier>
+				<ows:Title>Cabecera</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0 si no se exporta ninguna cabecera (valor por defecto).</li><li>1 si se exporta el ámbito del ráster origen (envolvente y lado de píxel) al fichero resultado</li><li>2 si se exporta toda la documentación del ráster origen.</li><li>3 permite exportar los rásters IMG al formato ASCII adecuado para ArcView, ArcCatalog y ArcMap.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_FORCAT</ows:Identifier>
+				<ows:Title>NODATA forzado</ows:Title>
+				<ows:Abstract>Valor que se escribe en las celdas sin datos (NODATA) en lugar del valor NODATA del ráster origen; por ejemplo, -9999 cuando un -3.4E+38 no es compatible con el software de destino. El valor se escribe literalmente y no se le aplica el número de decimales indicado; si se desean decimales, hay que escribirlos (por ejemplo /NODATA_FORCAT=-1.0). Solo se aplica si el ráster origen tiene valor NODATA definido.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SEPARA_TABULADOR</ows:Identifier>
+				<ows:Title>Separación con tabulador</ows:Title>
+				<ows:Abstract>Separa con un tabulador, en lugar de un espacio, las coordenadas y el valor del ráster. No se aplica a la cabecera.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDesti</ows:Identifier>
+				<ows:Title>Fichero destino</ows:Title>
+				<ows:Abstract>Es el fichero ASCII resultado. Si se desea extensión debe indicarse.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:FicheroDestino"/>
 				<ComplexOutput>
 					<Default>
 						<Format>

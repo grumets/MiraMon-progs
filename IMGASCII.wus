@@ -2,22 +2,23 @@
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
 		<ows:Identifier>MiraMon:IMGASCII:1</ows:Identifier>
-		<ows:Title>IMGASCII</ows:Title>
-		<ows:Abstract>This application generates an ASCII text file from a MiraMon raster format file: img+i.rel in version 4 or img+doc in previous versions.</ows:Abstract>
+		<ows:Title>Values only</ows:Title>
+		<ows:Abstract>The sequence of values corresponding to each pixel in the input raster, written from the pixels read from left to right and from top to bottom.</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Export from IMG raster files to ASCII format "/>
 		<ows:Metadata xlink:title="Abstract:This application generates an ASCII text file from a MiraMon raster format file: img+i.rel in version 4 or img+doc in previous versions."/>
 		<DataInputs>
 			<Input minOccurs="1" maxOccurs="1">
 				<ows:Identifier>Opcio</ows:Identifier>
 				<ows:Title>Option</ows:Title>
-				<ows:Abstract><![CDATA[Indicates the format of the ASCII file to be generated:<ul><li>1: [Values ...]</li><li>2: [X_Coordinate Y_Coordinate Raster_value ...].</li></ul>]]></ows:Abstract>
+				<ows:Abstract>[Values ...]</ows:Abstract>
 				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
 				<LiteralData>
-					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
 					<ows:AllowedValues>
 						<ows:Value>1</ows:Value>
-						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>1</DefaultValue>
 				</LiteralData>
 			</Input>
 			<Input minOccurs="1" maxOccurs="1">
@@ -25,6 +26,7 @@
 				<ows:Title>Input File</ows:Title>
 				<ows:Abstract>Is the IMG file to be exported.</ows:Abstract>
 				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:InputFile"/>
 				<ComplexData>
 					<Default>
 						<Format>
@@ -61,14 +63,85 @@
 			<Input minOccurs="0" maxOccurs="1">
 				<ows:Identifier>CAPCALERA</ows:Identifier>
 				<ows:Title>Header</ows:Title>
-				<ows:Abstract><![CDATA[<ul><li>1 if the extent of the input raster (bounding box and pixel size) is exported to the output file.</li><li>2 if all documentation from the input raster is exported.</li><li>3 allows IMG rasters to be exported to the ASCII format compatible with ArcView, ArcCatalog, and ArcMap.</li></ul>]]></ows:Abstract>
+				<ows:Abstract><![CDATA[<ul><li>0 if no header is exported (default).</li><li>1 if the extent of the input raster (bounding box and pixel size) is exported to the output file.</li><li>2 if all documentation from the input raster is exported.</li><li>3 allows IMG rasters to be exported to the ASCII format compatible with ArcView, ArcCatalog, and ArcMap.</li></ul>]]></ows:Abstract>
 				<LiteralData>
 					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
 					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
 						<ows:Value>1</ows:Value>
 						<ows:Value>2</ows:Value>
 						<ows:Value>3</ows:Value>
 					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_FORCAT</ows:Identifier>
+				<ows:Title>Forced NODATA</ows:Title>
+				<ows:Abstract>Value written to cells without data (NODATA) instead of the NODATA value of the input raster; for example, -9999 when -3.4E+38 is not supported by the target software. The value is written literally and the requested number of decimal places is not applied; if decimals are wanted, write them (for example /NODATA_FORCAT=-1.0). Only applies if the input raster has a NODATA value defined.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SEPARADOR_COMA</ows:Identifier>
+				<ows:Title>Comma decimal separator</ows:Title>
+				<ows:Abstract>Replaces the decimal point with a comma in the values written (useful, for example, for Spanish versions of SPSS). It does not apply to the header.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SEPARA_TABULADOR</ows:Identifier>
+				<ows:Title>Tab separator</ows:Title>
+				<ows:Abstract>Separates the columns of values (with /ASPECTE_MATRIU or /AFEGIR_COLUMNA) with a tab instead of a space. It does not apply to the header.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ASPECTE_MATRIU</ows:Identifier>
+				<ows:Title>Matrix layout</ows:Title>
+				<ows:Abstract>Values are written in rows (separated by line breaks) and columns (separated by a space or a tab), mimicking the raster matrix. By default (without /ASPECTE_MATRIU or /ASPECTE_COLUMNA_UNICA) all values are written in a single row separated by a space. Not compatible with /ASPECTE_COLUMNA_UNICA or /AFEGIR_COLUMNA.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>ASPECTE_COLUMNA_UNICA</ows:Identifier>
+				<ows:Title>Single-column layout</ows:Title>
+				<ows:Abstract>Values are written in a single column (one value per line) instead of a single row separated by spaces. Not compatible with /ASPECTE_MATRIU.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>AFEGIR_COLUMNA</ows:Identifier>
+				<ows:Title>Append column</ows:Title>
+				<ows:Abstract>If the output file already exists, a new column with the values of this raster is appended to it. Columns are separated by a space or, if /SEPARA_TABULADOR is given, by a tab. /ASPECTE_COLUMNA_UNICA must also be given, and it is only compatible with /CAPCALERA=0.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
 				</LiteralData>
 			</Input>
 		</DataInputs>
@@ -78,6 +151,126 @@
 				<ows:Title>Output file</ows:Title>
 				<ows:Abstract>Is the output ASCII file. If an extension is desired this must be specified.</ows:Abstract>
 				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-ASCII</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-ASCII</MimeType>
+							<Encoding>text</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:IMGASCII:2</ows:Identifier>
+		<ows:Title>Coordinates and values</ows:Title>
+		<ows:Abstract>The sequence: X_coordinate Y_coordinate value carriage_return corresponding to each pixel centre in the input raster. The order is the same as for option 1.</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Opcio</ows:Identifier>
+				<ows:Title>Option</ows:Title>
+				<ows:Abstract>[X_Coordinate Y_Coordinate Raster_value ...]</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:Option"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#positiveInteger">positiveInteger</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerOrigen</ows:Identifier>
+				<ows:Title>Input File</ows:Title>
+				<ows:Abstract>Is the IMG file to be exported.</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:InputFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DEC_VAL</ows:Identifier>
+				<ows:Title>Decimal places</ows:Title>
+				<ows:Abstract>Defines the number of decimal places for the raster values when these are real data. The default value is defined by the DigitsDecimals= key of the [MiraMon] section of the MiraMon.par configuration file.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>N_DEC_POS</ows:Identifier>
+				<ows:Title>Coordinates decimal places</ows:Title>
+				<ows:Abstract>Defines the number of decimal places for the coordinates when this needs to be defined. The default value is defined by the DigitsDecimals= key of the [MiraMon] section of the MiraMon.par configuration file.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>CAPCALERA</ows:Identifier>
+				<ows:Title>Header</ows:Title>
+				<ows:Abstract><![CDATA[<ul><li>0 if no header is exported (default).</li><li>1 if the extent of the input raster (bounding box and pixel size) is exported to the output file.</li><li>2 if all documentation from the input raster is exported.</li><li>3 allows IMG rasters to be exported to the ASCII format compatible with ArcView, ArcCatalog, and ArcMap.</li></ul>]]></ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>0</ows:Value>
+						<ows:Value>1</ows:Value>
+						<ows:Value>2</ows:Value>
+						<ows:Value>3</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>0</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>NODATA_FORCAT</ows:Identifier>
+				<ows:Title>Forced NODATA</ows:Title>
+				<ows:Abstract>Value written to cells without data (NODATA) instead of the NODATA value of the input raster; for example, -9999 when -3.4E+38 is not supported by the target software. The value is written literally and the requested number of decimal places is not applied; if decimals are wanted, write them (for example /NODATA_FORCAT=-1.0). Only applies if the input raster has a NODATA value defined.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="0" maxOccurs="1">
+				<ows:Identifier>SEPARA_TABULADOR</ows:Identifier>
+				<ows:Title>Tab separator</ows:Title>
+				<ows:Abstract>Separates the coordinates and the raster value with a tab instead of a space. It does not apply to the header.</ows:Abstract>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#string">string</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>##blank##</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>##blank##</DefaultValue>
+				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>FitxerDesti</ows:Identifier>
+				<ows:Title>Output file</ows:Title>
+				<ows:Abstract>Is the output ASCII file. If an extension is desired this must be specified.</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:OutputFile"/>
 				<ComplexOutput>
 					<Default>
 						<Format>
