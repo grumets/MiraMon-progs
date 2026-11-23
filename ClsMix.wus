@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-US">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:ClsMix:Param1:1</ows:Identifier>
+		<ows:Identifier>MiraMon:ClsMix:!Param8</ows:Identifier>
 		<ows:Title>ClsMix</ows:Title>
 		<ows:Abstract>ClsMix is an application for the hybrid (or mixed) classification of remote sensing images. The adjective hybrid (or mixed) is used because the classification method combines elements of a supervised classification (the training areas) with elements of an unsupervised classification (the results of the latter).</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Hybrid (or mixed) classification of images"/>
@@ -82,9 +82,158 @@
 					<ows:AllowedValues>
 						<ows:Value>0</ows:Value>
 						<ows:Value>1</ows:Value>
-						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>ImatgeResultat</ows:Identifier>
+				<ows:Title>Resulting image</ows:Title>
+				<ows:Abstract>Name of the image to be created (without extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:ResultingImage"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>TextResultats</ows:Identifier>
+				<ows:Title>Text results</ows:Title>
+				<ows:Abstract>Name of the text file with the results (with extension, if desired; .txt is commonly used).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:TextResultats"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>text/x-txt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/x-txt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ClsMix:Param7:2&amp;Param8</ows:Identifier>
+		<ows:Title>Weighting by conditioned probabilities</ows:Title>
+		<ows:Abstract>ClsMix is an application for the hybrid (or mixed) classification of remote sensing images. The adjective hybrid (or mixed) is used because the classification method combines elements of a supervised classification (the training areas) with elements of an unsupervised classification (the results of the latter).</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ImatgeEntrenament</ows:Identifier>
+				<ows:Title>Training image</ows:Title>
+				<ows:Abstract>Name of the image with the training areas (without extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:TrainingImage"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ImatgeClsNoSupervisada</ows:Identifier>
+				<ows:Title>Unsupervised Cls image</ows:Title>
+				<ows:Abstract>Name of the image produced by unsupervised classification (without extension).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:UnsupervisedClsImage"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fidel</ows:Identifier>
+				<ows:Title>Fidelity</ows:Title>
+				<ows:Abstract>Fidelity of the spectral class to a thematic class, in per one percentage.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Fidelity"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Represent</ows:Identifier>
+				<ows:Title>Representativity</ows:Title>
+				<ows:Abstract>Representativity of the spectral class in the thematic class, in per one percentage.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Representativity"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ponderacio</ows:Identifier>
+				<ows:Title>Weighting</ows:Title>
+				<ows:Abstract><![CDATA[Possible frequency weighting of the thematic classes according to the number of pixels of each training area. Options:<ul><li>0: Without weighting</li><li>1: With weighting</li><li>2: Weighting by conditioned probabilities, which should be in a text file which will be passed as an argument in the command line (2 columns, the first with the code of the thematic class, and the second with the frequency)</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:Weighting"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPonderacio</ows:Identifier>
+				<ows:Title>File with the a priori weights</ows:Title>
+				<ows:Abstract>Name of the text file with the values of the Bayesian probabilities for each one of the thematic classes (2 columns, the first with the code of the thematic class, and the second with the frequency). The sum of all Bayesian probabilities of the file must be 1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:WeightingFile"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
 		</DataInputs>
 		<ProcessOutputs>

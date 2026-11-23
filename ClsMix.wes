@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 schemas/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="es-ES">
 	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
-		<ows:Identifier>MiraMon:ClsMix:Param1:1</ows:Identifier>
+		<ows:Identifier>MiraMon:ClsMix:!Param8</ows:Identifier>
 		<ows:Title>ClsMix</ows:Title>
 		<ows:Abstract>ClsMix es una aplicación de clasificación híbrida (o mixta) de imágenes de teledetección. El adjetivo híbrida (o mixta) se aplica porque el método de clasificación combina elementos de una clasificación supervisada (las áreas de entrenamiento) con elementos de una clasificación no supervisada (el resultado de ésta).</ows:Abstract>
 		<ows:Metadata xlink:title="Title:Clasificación híbrida (o mixta) de imágenes"/>
@@ -82,9 +82,158 @@
 					<ows:AllowedValues>
 						<ows:Value>0</ows:Value>
 						<ows:Value>1</ows:Value>
-						<ows:Value>2</ows:Value>
 					</ows:AllowedValues>
 				</LiteralData>
+			</Input>
+		</DataInputs>
+		<ProcessOutputs>
+			<Output>
+				<ows:Identifier>ImatgeResultat</ows:Identifier>
+				<ows:Title>Imagen resultado</ows:Title>
+				<ows:Abstract>Nombre de la imagen a crear (sin extensión).</ows:Abstract>
+				<ows:Metadata xlink:title="Param3"/>
+				<ows:Metadata xlink:title="Name:ImagenResultado"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+			<Output>
+				<ows:Identifier>TextResultats</ows:Identifier>
+				<ows:Title>Texto resultados</ows:Title>
+				<ows:Abstract>Nombre del fichero de texto con los resultados (con extensión si se desea; típicamente se usa .txt).</ows:Abstract>
+				<ows:Metadata xlink:title="Param4"/>
+				<ows:Metadata xlink:title="Name:TextoResultados"/>
+				<ComplexOutput>
+					<Default>
+						<Format>
+							<MimeType>text/x-txt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/x-txt</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexOutput>
+			</Output>
+		</ProcessOutputs>
+	</ProcessDescription>
+	<ProcessDescription wps:processVersion="1" storeSupported="true" statusSupported="false">
+		<ows:Identifier>MiraMon:ClsMix:Param7:2&amp;Param8</ows:Identifier>
+		<ows:Title>Ponderación mediante probabilidades condicionadas</ows:Title>
+		<ows:Abstract>ClsMix es una aplicación de clasificación híbrida (o mixta) de imágenes de teledetección. El adjetivo híbrida (o mixta) se aplica porque el método de clasificación combina elementos de una clasificación supervisada (las áreas de entrenamiento) con elementos de una clasificación no supervisada (el resultado de ésta).</ows:Abstract>
+		<DataInputs>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ImatgeEntrenament</ows:Identifier>
+				<ows:Title>Imagen entrenamiento</ows:Title>
+				<ows:Abstract>Nombre de la imagen con las áreas de entrenamiento (sin extensión).</ows:Abstract>
+				<ows:Metadata xlink:title="Param1"/>
+				<ows:Metadata xlink:title="Name:ImagenEntrenamiento"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>ImatgeClsNoSupervisada</ows:Identifier>
+				<ows:Title>Imagen Cls no supervisada</ows:Title>
+				<ows:Abstract>Nombre de la imagen producida mediante una clasificación no supervisada (sin extensión).</ows:Abstract>
+				<ows:Metadata xlink:title="Param2"/>
+				<ows:Metadata xlink:title="Name:ImagenClsNoSupervisada"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>application/x-img</MimeType>
+							<Encoding>Binary</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Fidel</ows:Identifier>
+				<ows:Title>Fidelidad</ows:Title>
+				<ows:Abstract>Fidelidad de la clase espectral a la clase temática, en tanto por 1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param5"/>
+				<ows:Metadata xlink:title="Name:Fidelidad"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Represent</ows:Identifier>
+				<ows:Title>Representatividad</ows:Title>
+				<ows:Abstract>Representatividad de la clase espectral en la clase temática, en tanto por 1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param6"/>
+				<ows:Metadata xlink:title="Name:Representatividad"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#double">double</ows:DataType>
+					<ows:AnyValue/>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>Ponderacio</ows:Identifier>
+				<ows:Title>Ponderación</ows:Title>
+				<ows:Abstract><![CDATA[Posible ponderación de frecuencias de las clases temáticas según el número de píxeles de cada área de entrenamiento. Opciones:<ul><li>0: sin ponderación.</li><li>1: con ponderación</li><li>2: ponderación mediante probabilidades condicionadas, que deberán estar en un fichero de texto que se pasará como argumento en la línea de comando (2 columnas -separadas por espacios o tabuladores-, la primera con el código de la clase temática y la segunda con la frecuencia en tanto por uno). El programa exige que la suma total de las frecuencias sea 1.</li></ul>]]></ows:Abstract>
+				<ows:Metadata xlink:title="Param7"/>
+				<ows:Metadata xlink:title="Name:Ponderacion"/>
+				<LiteralData>
+					<ows:DataType ows:reference="http://www.w3.org/TR/xmlschema-2/#integer">integer</ows:DataType>
+					<ows:AllowedValues>
+						<ows:Value>2</ows:Value>
+					</ows:AllowedValues>
+					<DefaultValue>2</DefaultValue>
+				</LiteralData>
+			</Input>
+			<Input minOccurs="1" maxOccurs="1">
+				<ows:Identifier>FitxerPonderacio</ows:Identifier>
+				<ows:Title>Fichero con las ponderaciones a priori</ows:Title>
+				<ows:Abstract>Nombre del fichero de texto con los valores de las probabilidades bayesianas para cada una de las clases temáticas (2 columnas -separadas por espacios o tabuladores-, la primera con el código de la clase temática y la segunda con la frecuencia en tanto por uno). La suma de todas las probabilidades bayesianas del fichero debe ser 1.</ows:Abstract>
+				<ows:Metadata xlink:title="Param8"/>
+				<ows:Metadata xlink:title="Name:FicheroPonderacion"/>
+				<ComplexData>
+					<Default>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Default>
+					<Supported>
+						<Format>
+							<MimeType>text/plain</MimeType>
+							<Encoding>ascii</Encoding>
+						</Format>
+					</Supported>
+				</ComplexData>
 			</Input>
 		</DataInputs>
 		<ProcessOutputs>
