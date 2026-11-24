@@ -1,5 +1,5 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-<!--/* Rev AA 08-11-2026 */-->
+<!--/* Rev AA 22-11-2026 */-->
 <link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
 <head>
 <title>CalcImg: Layers and fields Calculator/Reclassifier: Mathematical and logical analysis</title>
@@ -28,93 +28,389 @@
 <hr>
 
 <h2><a id="Presentació" name="Presentació"></a>Presentation and options</h2>
-<p>Before November 2026 the program worked with an MMC file. Currently, besides accepting that file, it also allows a command-line syntax, as explained below.</p>
+
+<p>This application performs reclassification, mathematical operations, and logical operations on any number of layers of any type (raster, structured vector and non-structured vector layers), regardless of the directories in which they are stored. These operations are based on a mathematical or logical expression involving input layers, constant values, operators, and functions. The result is a raster layer containing the values obtained by evaluating the mathematical or logical expression for each pixel within the geographic extent of the working area.</p>
+
+<p>The application provides the following options for documenting the mathematical or logical expression and the calculation parameters:</p>
+
  <!--Aquí inicia la part corresponent a les opcions de de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
 <span id="wpsopcions"/>
 <!--Aquí acaba la part corresponent a les opcions de de la MSA editable de el WPS.-->
 
-<p>The mathematical expression must contain at least one layer but can have no operator or function defined, in which case it can be utilized in order to saturate or scale the layer, change its flag value, transform the format of a raster layer, rasterize a vector layer..., even though MiraMon comes with specific applications to perform these transformations.(see <a href="IMGIMG.HTM">IMGIMG</a>, <a href="TiraVec.HTM">TiraVec</a>).</p>
+<p>For more information about the structure and contents of MMC files, see <a href="#mmc">Description of the parameter file (*.MMC) and mathematical and logical syntax</a>. The section <a href="#mmc-comanda">Correspondence between an MMC file and its command-line syntax</a> provides an example of how the same operation can be expressed using either execution method.</p>
 
-<p>All rasters contained in the expression must have the same geographical extent, resolution and reference units in the same reference system. However, they can be of different types (byte, real, etc) and degrees of compression. It does need not to be said that the geographical extent of vector layers is defined by the extent of the raster layers in the expression, if present. For expression with only vector layers it will be necessary to define the geographical extent through the Options button. <b>Advanced</b>. Singularities in the used operations or functions (e.g.: division by zero, negative square root...) will always result in the <b>NODATA</b> value at that particular geographical position. This value is established by the program as a function of the data type in the resulting layer (255 for data of byte type, 0 for bit type, and the most negative value for the rest of the data types), except when the value is explicitly indicated in the advanced options box. In this case, it is necessary to accurately choose the flag value so that it lies outside the possible range of values of the resulting raster file. In case of doubt, it is better to let the program decide it.</p>
+<h3>Input data requirements</h3>
 
-<p>All calculations are made with <b>double precision</b> (15-16 significative digits, approx. range 1.7E-308 to 1.7E+308). There is <b>no limit</b> to the <b>length</b> and complexity of the expression (it will only depend on the user's <i>hardware</i> and operating system).</p>
+<p>The mathematical expression must contain at least one file, but it does not necessarily need to include any operators or functions. This occurs when the application is used to perform transformations on a layer, such as clipping or scaling its values, modifying the NoData value, changing the data type or format of a raster, or rasterizing a vector layer. In these cases, the mathematical or logical expression must contain at least one input layer, but no operators or functions are required. However, MiraMon provides specific applications for performing these transformations, such as <a href="IMGIMG.htm">IMGIMG</a> and <a href="TiraVec.htm">TiraVec</a>, without using CalcImg.</p>
 
-<p>The logical-mathematical formula to be calculated is entered in the first entry field and is formed by numbers, layers (raster and vector), operators and functions. The names of the images that form part of the expression are aliases of the corresponding files and are indicator between claudators ('[' and ']'). Claudators are automatically inserted when using the <b>&quot;New...&quot;</b> button. For expression clarity the name of the file does not include its path (the program already knows the path since it has obtained it from the string returned by the file search box. When files have the same name but are located in different directories the program inserts a differentiating character that allows a correct evaluation of the expression). When the inserted layer in the expression is a vector layer it will be necessary to define some additional parameters:</p>
+<p>All rasters included in the expression:</p>
 
-<blockquote>
 <ul>
-<li>External value for the vector: This is the value, that though within the defined geographical extent, it lies outside the outermost part of the graphical objects and that an emulating raster layer would have. For instance, if the layer is of polygon type this value will correspond to the value of the universal polygon. If it does not have one (e.g: empty field, missing record or non-labelled universal polygon). If the layer is of line or point type the value will be the value assigned to the matrix over which the lines or points lie.</li>
-
-<li>Field: For topologically-structured vector layers, it is necessary to indicate the field in the layer's main table or associated table according to which the calculations will be done. Alphanumerical fields will be treated as numeric except in the case where there is a logical expression indicating equalness or non-equalness with respect a constant string of characters. Example: [Inv_for;Municipi;]=&quot;Olot&quot;.</li>
-
-<li>Position in multiple records: For databases with multiple records for the same graphical identifier it is necessary to indicate which one of them is the one used for the calculation.<br/>
-The program automatically inserts the field descriptor (or the name of the field in its absence) as a comment, along with the file alias. <b>Comments</b> are specified between <b>';'</b> and may be included at any given position in the formula, provided they are correctly opened and closed. </li>
+    <li>must cover the <b>same geographic extent</b></li>
+    <li>must have the <b>same spatial resolution</b></li>
+    <li>must use the <b>same units</b> and the <b>same reference system</b></li>
 </ul>
-</blockquote>Example of a commented expression so that it is easier to remember and use:
+
+<p>However, they may have different data types (byte, real, etc), regardless of their compression level.</p>
+
+<p>For vector input layers, their processing extent is defined by the extent of the raster layers included in the expression, if any. For expressions involving only vector layers, the geographic extent must be specified using the <b>Advanced</b> options button.</p>
+
+<p>Undefined operations or functions (e.g., division by zero, the square root of a negative number, etc) always return the <b>NoData</b> value at the corresponding geographic location. The application determines this value according to the data type of the output file (255 for byte, 0 for bit, and the most negative possible value for all other data types), unless it is explicitly specified in the advanced options dialog box. In the latter case, make sure to select a NoData value outside the range of possible values in the output raster. When in doubt, it is recommended to let the application determine this value.</p>
+
+<p>All calculations are performed using <b>double precision</b> (15-16 significant digits and an approximate magnitude range from 1.7E-308 to 1.7E+308). The <b>length</b> or complexity of the expression is <b>unlimited</b> (subject only to the limitations of the hardware and operating system).</p>
+
+<a id="operadors" name="operadors"></a><h3>Supported operators and functions</h3>
+
+<div align="center">
+<TABLE border="1" width="30%">
+<tr bgcolor="#ABC8FE">
+<td align="center"><div align="center"><b>Operator type</b></div></td>
+<td align="center"><div align="center"><b>Operator</b></div></td>
+<td align="center"><div align="center"><b>Operator description</b></div></td>
+</tr>
+<tr>
+<td rowspan="5"><div align="center"><b>Arithmetic operators</b></div></td>
+</tr>
+<tr>
+<td><div align="center">+</div></td>
+<td>Addition or unary plus</td>
+</tr>
+<tr>
+<td><div align="center">-</div></td>
+<td>Subtraction or unary minus</td>
+</tr>
+<tr>
+<td><div align="center">*</div></td>
+<td>Multiplication</td>
+</tr>
+<tr>
+<td><div align="center">/</div></td>
+<td>Division</td>
+</tr>
+<tr>
+<td rowspan="11"><div align="center"><b>Logical and comparison operators (return 1 if true and 0 if false)</b></div></td>
+</tr>
+<tr>
+<td><div align="center">AND</div></td>
+<td>Logical AND</td>
+</tr>
+<tr>
+<td><div align="center">OR</div></td>
+<td>Logical OR</td>
+</tr>
+<tr>
+<td><div align="center">NOT</div></td>
+<td>Logical negation</td>
+</tr>
+<tr>
+<td><div align="center">XOR</div></td>
+<td>Exclusive OR</td>
+</tr>
+<tr>
+<td><div align="center">&gt;</div></td>
+<td>Strictly greater than</td>
+</tr>
+<tr>
+<td><div align="center">&gt;=</div></td>
+<td>Greater than or equal to</td>
+</tr>
+<tr>
+<td><div align="center">&lt;</div></td>
+<td>Strictly less than</td>
+</tr>
+<tr>
+<td><div align="center">&lt;=</div></td>
+<td>Less than or equal to</td>
+</tr>
+<tr>
+<td><div align="center">=</div></td>
+<td>Equal to</td>
+</tr>
+<tr>
+<td><div align="center">=/=</div></td>
+<td>Different</td>
+</tr>
+<tr>
+<td rowspan="9"><div align="center"><b>Single-argument mathematical functions</b></div></td>
+</tr>
+<tr>
+<td><div align="center">SQRT</div></td>
+<td>Square root</td>
+</tr>
+<tr>
+<td><div align="center">LOG</div></td>
+<td>Base-10 logarithm</td>
+</tr>
+<tr>
+<td><div align="center">LN</div></td>
+<td>Natural logarithm</td>
+</tr>
+<tr>
+<td><div align="center">EXP</div></td>
+<td>Exponential</td>
+</tr>
+<tr>
+<td><div align="center">INV</div></td>
+<td>Inverse</td>
+</tr>
+<tr>
+<td><div align="center">ENT</div></td>
+<td>Truncation</td>
+</tr>
+<tr>
+<td><div align="center">ABS</div></td>
+<td>Absolute value</td>
+</tr>
+<tr>
+<td><div align="center">RND</div></td>
+<td>Random value between 0 and the argument</td>
+</tr>
+<tr>
+<td rowspan="2"><div align="center"><b>Single-argument logical functions</b></div></td>
+</tr>
+<tr>
+<td><div align="center">BOL</div></td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td rowspan="4"><div align="center"><b>Two-argument mathematical functions</b></div></td>
+</tr>
+<tr>
+<td><div align="center">POW</div></td>
+<td>Power</td>
+</tr>
+<tr>
+<td><div align="center">NR</div></td>
+<td>Normalized ratio</td>
+</tr>
+<tr>
+<td><div align="center">MOD</div></td>
+<td>Remainder of division</td>
+</tr>
+<tr>
+<td rowspan="3"><div align="center"><b>Two-argument comparison functions</b></div></td>
+</tr>
+<tr>
+<td><div align="center">MAX</div></td>
+<td>Maximum of two values</td>
+</tr>
+<tr>
+<td><div align="center">MIN</div></td>
+<td>Minimum of two values</td>
+</tr>
+<tr>
+<td rowspan="2"><div align="center"><b>Reclassification and category grouping</b></div></td>
+</tr>
+<tr>
+<td><div align="center">RECL</div></td>
+<td>Reclassification</td>
+</tr>
+<tr>
+<td rowspan="2"><div align="center"><b>Layer overlay</b></div></td>
+</tr>
+<tr>
+<td><div align="center">CVR</div></td>
+<td>Cover<sup>*</sup></td>
+</tr>
+<tr>
+<td rowspan="10"><div align="center"><b>Trigonometric functions with angles expressed in radians</b></div></td>
+</tr>
+<tr>
+<td><div align="center">SIN</div></td>
+<td>Sine</td>
+</tr>
+<tr>
+<td><div align="center">COS</div></td>
+<td>Cosine</td>
+</tr>
+<tr>
+<td><div align="center">TAN</div></td>
+<td>Tangent</td>
+</tr>
+<tr>
+<td><div align="center">ASIN</div></td>
+<td>Arcsine</td>
+</tr>
+<tr>
+<td><div align="center">ACOS</div></td>
+<td>Arccosine</td>
+</tr>
+<tr>
+<td><div align="center">ATANG</div></td>
+<td>Arctangent</td>
+</tr>
+<tr>
+<td><div align="center">COSEC</div></td>
+<td>Cosecant</td>
+</tr>
+<tr>
+<td><div align="center">SEC</div></td>
+<td>Secant</td>
+</tr>
+<tr>
+<td><div align="center">CTG</div></td>
+<td>Cotangent</td>
+</tr>
+<tr>
+<td rowspan="10"><div align="center"><b>Trigonometric functions with angles expressed in degrees</b></div></td>
+</tr>
+<tr>
+<td><div align="center">SING</div></td>
+<td>Sine</td>
+</tr>
+<tr>
+<td><div align="center">COSG</div></td>
+<td>Cosine</td>
+</tr>
+<tr>
+<td><div align="center">TANG</div></td>
+<td>Tangent</td>
+</tr>
+<tr>
+<td><div align="center">ASING</div></td>
+<td>Arcsine</td>
+</tr>
+<tr>
+<td><div align="center">ACOSG</div></td>
+<td>Arccosine</td>
+</tr>
+<tr>
+<td><div align="center">ATANG</div></td>
+<td>Arctangent</td>
+</tr>
+<tr>
+<td><div align="center">COSECG</div></td>
+<td>Cosecant</td>
+</tr>
+<tr>
+<td><div align="center">SECG</div></td>
+<td>Secant</td>
+</tr>
+<tr>
+<td><div align="center">CTGG</div></td>
+<td>Cotangent</td>
+</tr>
+</table>
+</div>
+
+<div align="center">
+<TABLE border="0" width="50%">
+<tr>
+<td><font size="-1"><sup>*</sup> The <i>Cover</i> function returns the value of the second argument when the first argument equals the flag value (the NoData value defined in the metadata of the first file, if it is a raster). Otherwise, it returns the value of the first argument. In this way, the values of the second file are visible through the NoData areas of the first layer. As with other functions, either argument of the Cover function may be an intermediate result of other operations involving layers and scalar values.</font></td>
+</tr>
+</table>
+</div>
+
+<p>The conditional function ?(condicio, funcio_TRUE, funcio_FALSE) has not been implemented because it can be reproduced using a combination of logical operations as follows:</p>
 <pre>
-;difference in absolute value;ABS([model];theoretical model;-[dat0299];sample data for February 1999;)
+(condicio)*(funcio_TRUE)+(NOT condicio)*(funcio_FALSE)
 </pre>
 
-<p>The <b>List</b> button will inform us of the properties of the layers that form the expression and of the relation between real filenames (with path) and aliases.</p>
+<h3>Order of precedence</h3>
 
-<p>The implemented <b>operators</b> and <b>functions</b> are described below. The function arguments must be enclosed within parenthesis. Parenthesis are automatically inserted when using the <b>&quot;Functions library...&quot;</b> button; e.g. SING(30). In functions with more than argument commas are used to separate them; e.g. MAX([IMG1]),[IMG2]).</p>
+<p>The order of precedence determines the sequence in which operators and functions in an expression are evaluated. Operators and functions are grouped into six categories, listed from highest to lowest precedence. Those with higher precedence are evaluated before those with lower precedence. Within the same category, operations are evaluated from left to right.</p>
 
-<p>All operators can be used both with images and numerical values.<br/>
-As an example, when writing an expression such as:</p>
+<ul>
+    <li>1: ()</li>
+    <li>2: + , - [as unary plus and minus], single-argument functions [e.g., SIN, LOG...]</li>
+    <li>3: Two-argument functions [e.g., POW, CVR, MAX...]</li>
+    <li>4: * , /</li>
+    <li>5: + , - [as addition and subtraction operators]</li>
+    <li>6: Logical operators [e.g., AND, &gt;=...]</li>
+</ul>
+
+<a id="mmc" name="mmc"></a><h3>Description of the parameter file (*.MMC) and mathematical and logical syntax</h3>
+
+<p>The MMC file (.mmc) is a text file that stores the parameters of a mathematical or logical operation performed using the MiraMon layer and field calculator/reclassifier. It contains, among other elements, the following:</p>
+
+<ul>
+    <li><b>[Formula]:</b> This section contains information about the mathematical formula to be evaluated.<br/>
+    <ul>
+        <b>Expressio:</b> A character string representing the mathematical or logical operation to be performed. It consists of numbers, layers, operators, and functions. The layer names included in the mathematical expression are aliases for the corresponding files and are enclosed in square brackets ('[' and ']'). The supported operators and functions are described above. Function arguments must be enclosed in parentheses (e.g., SING(30)). If a function has more than one argument, the arguments must be separated by commas (e.g., MAX([IMG1],[IMG2])). When in doubt, it is recommended to use the syntax generated by clicking the corresponding buttons and selecting the menu options in the Windows application, without subsequently editing it or adding only the necessary parameters.
+    </ul>
+    <li><b>[Variables]:</b> This section associates the layer aliases used in the formula with the actual file names. The paths to these files are relative to the parameter file.</li>
+    <li><b>[Result]:</b> This section contains information about the characteristics of the output file generated by the mathematical operation.<br/>
+    <ul>
+        <b>Fitxer:</b> Output file name. Its path is relative to the parameter file.<br/>
+        <b>Tipus:</b> Output file data type (automatic, byte, byte-RLE, etc). <u>Automatic</u> indicates that the application automatically determines the output data type (integer or real) based on the range and type of the output values, as well as the compression level. In automatic mode, the output is not compressed if at least one of the images included in the expression is uncompressed, except when the output contains only 0 and 1 values, in which case byte-RLE is used. The bit format is generated only when explicitly specified, since the byte-RLE format typically produces smaller files.<br/>
+        <b>Titol:</b> Descriptive title of the output file. This field may be left blank if the mathematical or logical formula is to be used as the title.<br/>
+        <b>Desc_valors:</b> Character string describing the type of values that will be obtained.<br/>
+        <b>Fitxer_categories:</b> For categorical results, the IMG file from which the categories are imported. Its path is relative to the parameter file.<br/>
+        <b>Valor_Fons:</b> Background (NoData) value of the output file. The literal NODATA is the default value and indicates that the application will determine the appropriate NoData value.<br/>
+        <b>Stretch:</b> A value of 0 indicates that no scaling is applied and that values outside the range of the selected data type are clipped. A value of 1 indicates that the resulting values are linearly rescaled to the interval defined by the minimum and maximum scaling values. The default value is 0, corresponding to clipping.<br/>
+        <b>Minim_Stretch:</b> Enabled when Stretch=1; x is the default value for the selected data type.<br/>
+        <b>Maxim_Stretch:</b> Enabled when Stretch=1; x is the default value for the selected data type.<br/>
+        <b>Truncar:</b> If a real data type is not selected, the results are rounded when Truncar=0 or truncated when Truncar=1. The default value is 0.<br/>
+        <b>Reservar_V_Fons:</b> A value of 0 indicates that no value is initially reserved for NoData, whereas a value of 1 indicates that a value is reserved for possible NoData values in the output file. The default value is 0.<br/>
+        <b>X_minima, X_maxima, Y_minima, Y_maxima:</b> Define the bounding box of the output raster when no raster layers are included in the mathematical expression.<br/>
+        <b>Costat_pixel:</b> Pixel size of the output raster when no raster layers are included in the mathematical expression.<br/></li>
+    </ul>
+    <li><b>[Reclassificadors]:</b> This section associates the aliases of the reclassification files used in the formula with their actual file names. The paths to these files are relative to the parameter file.</li>
+    <li><b>[Alias_vector]:</b> Each vector layer in the variables section has its own section, named after its alias, containing the following elements:<br/>
+    <ul>
+        <b>base:</b> For structured vector layers, -1 refers to the main table. Otherwise, it specifies the index of the field that establishes the relationship with the related table.<br/>
+        <b>camp:</b> For structured vector layers, the index of the field on which calculations are performed (zero-based indexing).<br/>
+        <b>repeticio:</b> For structured vector layers with multiple records, the index specifying which record is used: 1, 2... starting from the first record; -1, -2... starting from the last record.<br/>
+        <b>valor_exterior:</b> Value assigned to the emulated raster outside the vector features but within the specified geographic extent.<br/>
+        <b>CONSIDER_NODATA:</b> For vector layers, specifies that the NoData value is taken into account.<br/>
+    </ul>
+    </li>
+</ul>
+
+<a id="mmc-comanda" name="mmc-comanda"></a><h3>Example of the correspondence between an MMC file and its command-line syntax:</h3>
+
+<p>The following MMC file and command line perform the same calculation. <code>Expressio</code> and <code>Fitxer</code> are the two required arguments, in that order, and are not specified as <code>/Formula_Expressio=</code> or <code>/Sortida_Fitxer=</code>. Any other key is converted into a command-line modifier using the <code>/Seccio_Clau=valor</code> syntax. The <code>[MUNI]</code> section is named after the vector layer alias, so its modifiers begin with <code>MUNI_</code>. Keys not included in this example follow the same mapping.</p>
+
+<p>In an MMC file, a relative path is resolved relative to the directory containing the file. On the command line, it is resolved relative to the current working directory.</p>
+
+<p><b>MMC file:</b></p>
+<blockquote>
 <pre>
- MAX([IMG1], SING(30))
-</pre>the maximum value with respect to the cell value in the image and the sine of 30º will be obtained. The following expressions can also be written:
-<pre>
- MAX([IMG1], 100)
- 100*SING([IMG1])
- MAX( MIN([IMG1],[IMG2]), 100)
- etc.
+[Formula]
+Expressio=RECL([RECL1],[NDVI])*([MUNI]&gt;100)
+
+[Sortida]
+Fitxer=resultat.img
+Tipus=byte
+Titol=NDVI municipal
+Valor_Fons=NODATA
+TractamentVariable=3
+
+[Variables]
+NDVI=ndvi.img
+MUNI=municipis.pnt
+
+[Reclassificadors]
+RECL1=grups.mrc
+
+[MUNI]
+base=-1
+camp=3
+repeticio=1
+CONSIDER_NODATA=0
+valor_exterior=NODATA
 </pre>
+</blockquote>
 
-<p>When dubious, it is recommended to use the syntax that is constructed by the program itself by pressing the corresponding buttons and menus of the Windows application without editing them afterwards. It is also advisable to always use parenthesis when doubting on the operator's precedence rules.</p>
-
-<p>The resulting <b>data type</b> can be controlled with the corresponding listbox. It is recommended to use the &quot;Automatic&quot; option since the program adapts the resulting data type to the range and type (integer or real) of the resulting file. The program also compresses the resulting file when adequate (for instance, when the result is boolean (0,1), the file is compressed to the format byte-RLE, which results in very small files). &quot;Automatic&quot; will not compress any of the images if only one of the images is uncompressed (except for the case with boolean results (0,1), in which case the byte-RLE compression is used). Bit data type is only generated when explicitly expressed since the byte-RLE format usually results in smaller files. Although the automatic mode is easier, calculations are performed substantially faster if the resulting data type is defined. Besides, automatic needs to create a temporary file in with data as <u>doubles</u>, which normally consumes a lot of disk space. There is an information button which is associated with the data type and which allows to know the needs of the program in terms of disk space to generate the result. In the case of compressed files, when automatic is chosen or when &quot;stretch&quot; is activated, the program informs on the maximum disk space that would be necessary if the file(s) could not be compressed at all. For automatic and &quot;stretch&quot; it should be taken into account that the program generates an additional temporary file.</p>
-
-<p>When the option <b>&quot;Saturation&quot;</b> is selected, all values above or below the range corresponding to the resulting data type are assigned the maximum and minimum values of the range, respectively. On the other hand, if the option <b>&quot;Stretching&quot;</b> is selected, the values are linearly distributed between the values indicated in the <b>&quot;Minimum&quot;</b> and <b>&quot;Maximum&quot;</b> entryfields of the stretching. Example: Suppose that a file with values comprised between 0 and 200 is multiplied by 2 and that the resulting data type chosen is byte. If &quot;Saturation&quot; is selected, all values between 256 and 400 will be assigned to 255. If &quot;Stretching&quot; is selected, the numerical range [0,400] will be stretched to the range [0,255].</p>
-
-<p>When the resulting data is not of real type the program allows to either <b>round</b> (recommended) or <b>truncate</b> the results. This process is only applied in the final writing phase of the file, not during the calculations. If you need to truncate the data in an intermediate phase of the expression, you can use the function ENT() (integral part) which is available when pressing the button &quot;Functions library&quot;.</p>
-
-<p>The &quot;Title&quot; entrybox allows to introduce a title for the resulting image (when left blank the logical-mathematical expression will be used as a title).</p>
-
-<p>The button &quot;Reclassify&quot; allows to define the function for reclassification: RECL([reclassification file],[file to be reclassified]). This function will change 'old' values of the layer to be reclassified into 'new' values as specified in the correspondences in the reclassification file (*.mrc). The format of this file is composed by lines of numbers where these changes are specified. A line with two numbers means that pixels with the first value will be assigned the second value (see line 2 in the example below, where a previousvalue, 10, will be converted into 20). A line with three numbers means that a previous value that isbetween the first and second number (equal or bigger than the first and strictly smaller than the second) will be assigned the value of the third number in the reclassificationchain (see line 2 in the example below). This format allows to leave blank lines and to put comments when the first character of the line is a <b>&quot;;&quot;</b> (see line 1 in the example below). Please note that the comment in the reclassification format does not necessarily have to be closed with a second <b>';'.</b><br/>
-The reclassification format also has special formats that allow to change a value (as 1, example in line 5) or a numerical range (as [2,3), example in line 6) to the &quot;flag value&quot; or &quot;NoData&quot;. The new value is assigned through the literal value &quot;NoData&quot;. The flag value can also be reclassified as any other value (see example in line 4) and assign a new value to it, thus losing its condition as flag value.<br/> 
-The argument &quot;layer to be reclassified&quot; should be taken in its widest general sense, that is, it can effectively correspond to one of the selected layers, or to the result of any defined operation between layers and scalars. Also, the result of the reclassification can be saved as a final result or it can be simply one of the intermediate calculations in the logico-mathematical expression. <br/>
-Examples of correct formats for reclassification:</p>
+<p><b>Command line:</b></p>
+<blockquote>
 <pre>
-;This line is a comment
-10 20
-1 5 8
-NODATA 1
-1 NODATA
-2 3 NODATA 
-</pre>Examples of incorrect formats for reclassification
-<pre>
-This line is an incorrect comment 
-10 
-1 5 8 9
-NODATA 1 2
-1 NODATA 2
-NODATA NODATA
-</pre>Example of an expression in which an intermediate format is
-reclassified:<br/>
-RECL([altitudinal_levels], [MDE]*10)<br/>
-In this example, a Digital Elevation Model (MDE), in decimeters, is transformed to meter units and then is reclassified in altitudinal levels according to the file &quot;altitudinal_levels.MRC&quot;.
+CalcImg "RECL([RECL1],[NDVI])*([MUNI]&gt;100)" resultat.img /Sortida_Tipus=byte /Sortida_Titol="NDVI municipal" /Sortida_Valor_Fons=NODATA /Sortida_TractamentVariable=3 /Variables_NDVI=ndvi.img /Variables_MUNI=municipis.pnt /Reclassificadors_RECL1=grups.mrc /MUNI_base=-1 /MUNI_camp=3 /MUNI_repeticio=1 /MUNI_CONSIDER_NODATA=0 /MUNI_valor_exterior=NODATA
+</pre>
+</blockquote>
 
-<p>By pressing the button <b>&quot;Advanced&quot;</b> you can introduce a description of the values that will be obtained in the entryfield <b>&quot;Values description&quot;</b>. This descriptor will be shown between parenthesis when querying by location the resulting image. You can leave it blank for categorical results (e.g. thematic maps) and specify the corresponding units in the case of images with continuous values (e.g. ºC for a map that is the result of a regression model which approximates the temperature in Celsius degrees). In the case of categorical results, the resulting file can import the categories associated with any layer, which are described in the DOC file or DBF associated table for raster cases, in particular, of any of the images that form part of the logical-mathematical expression. In this case, the IMG file must be indicated in the <b>&quot;Categories file&quot;</b> entryfield. This way, it is easy to get a resulting file of categorical type which automatically has its categories correctly described if we have a reference IMG.<br/>
-The NoData value  can also be defined in the resulting file. It is recommended to always use the parameter automatic, except in cases where the user needs to assign a specific value to the NoData value.<br/> 
-The advanced option <b>&quot;Preserve the NoData value from start&quot;</b> is useful when we want to anticipate the program, that is, when we know beforehand that a NoData value will be generated in the resulting file. In any case, if we leave this parameter not active, the program will perform the necessary modifications in order to add the parameter NoData if the program detects it must be added.<br/> 
-When there is no raster in the formula, the geographical extent of the resulting file must be specified. Its coordinates must be given along with pixel size, in the corresponding entryfields.</p>
+<h3>Lineage</h3>
 
-<p>As in any of the MiraMon Support Applications that is launched from within the corresponding windows interface, the calculator saves the parameters that are used in each execution in a text file so that the parameters of the last execution can always be recovered. Also, if you need to save a specific expression for a later moment, independently of intermediate calculations you may have made, you can press the button <b>&quot;Save...&quot;</b> and the formula will be saved in the PAR file that you specify. To recover it you only need to press the button <b>&quot;Load&quot;</b>. If a value NoData was explicitly defined in the last execution, a symbol <b>&quot;!&quot;</b> will appear by the button &quot;Advanced...&quot;. This will warn us that it is <u>very convenient</u> to restore the automatic value if the new execution does not have the particularities that caused the change in the definition of the flag value.<br/></p>
+<p>When a layer has been reclassified, all the parameters applied during reclassification are recorded in its lineage metadata.</p>
 
-<p>More information can be consulted at the following reference:</p>
+<div align="center"><img src="CalcImg_llinatge.png">   <img src="CalcImg_llinatge2.png"></div>
 
-<p><b>Pesquer L, Masó J, Pons X </b>(2000) <i>Herramientas de análisis combinado ráster/vector en un entorno SIG</i>. Aguado I, Gómez M (eds.) Tecnologías Geográficas para el Desarrollo Sostenible. Departamento de Geografía. Universidad de Alcalá, 2000: 53-73. IX congreso del Grupo de Métodos Cuantitativos, Teledetección y SIG de la Asociación de Geógrafos Españoles, Alcalá de Henares.</p>
+<p>For more information about CalcImg, see the following reference:</p>
+
+<ul>
+    <p><b>Pesquer L, Masó J, Pons X </b>(2000) <i>Herramientas de análisis combinado ráster/vector en un entorno SIG</i>. Aguado I, Gómez M (eds.) Tecnologías Geográficas para el Desarrollo Sostenible. Departamento de Geografía. Universidad de Alcalá, 2000: 53-73. IX congreso del Grupo de Métodos Cuantitativos, Teledetección y SIG de la Asociación de Geógrafos Españoles, Alcalá de Henares.</p>
+</ul>
+
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
 
@@ -123,13 +419,104 @@ When there is no raster in the formula, the geographical extent of the resulting
 <div align="center">
 <table>
 <tr>
-<td><div align="center"><img src="CalcImg_finestra.png"><img src="CalcImg_finestra2.png"><img src="CalcImg_finestra2.png"></div></td>
+<td><div align="center"><img src="CalcImg_finestra.png">   <img src="CalcImg_finestra2.png">   <img src="CalcImg_finestra2.png"></div></td>
 </tr>
 <tr>
 <td align="center">CalcImg dialog box</td>
 </tr>
 </table>
 </div>
+
+<p>Enter the mathematical or logical formula to be evaluated in the first field of the dialog box. The formula consists of numbers, layers (rasters and vectors), operators, and functions. The layer names included in the mathematical expression are aliases for the corresponding files and are enclosed in square brackets ('[' and ']'). These brackets are automatically inserted when a layer is added using the <img src="CalcImg_obrir.png"> buttons.</p>
+
+<p>The layer name displayed in the field corresponds to the file name, without its path, to improve the readability of the expression. The application retains the file path selected in the file browsing dialog box. If files with identical names are located in different directories, the application adds a distinguishing character to ensure that the expression can be evaluated correctly.</p>
+
+<p>When a vector layer is added to the expression, some additional parameters must be specified:</p>
+
+<ul>
+    <li><b>External value for the vector:</b> Value that a raster emulating the vector layer would have in areas outside the vector features or in features that do not have a valid attribute. For polygon files, this corresponds to the value of the universal polygon and the value assigned to features with an empty attribute field or a missing corresponding record. For line or point files, this corresponds to the background value of the raster grid on which the lines or points are located, as well as the value assigned to features with an empty attribute field or a missing corresponding record.</li>
+    <li><b>Field:</b> For topologically-structured vector layers, specify the field in the main or related database table on which the calculations will be performed. If the field is alphanumeric, it is treated as numeric unless a logical equality or inequality operation involving a constant string is specified. Example: [Inv_for;Municipi;]=&quot;Olot&quot;.</li>
+    <li><b>Multiple-record position:</b> For databases with multiple records associated with the same graphic identifier, specifies which record is used in the calculations.<br/>
+    After a structured vector layer is selected, the application automatically inserts the field descriptor (or the field name if no descriptor is available) as a comment alongside the alias. <b>Comments</b> are enclosed between two <b>';'</b> characters and may be inserted anywhere in the formula, provided they are properly opened and closed.</li>
+</ul>
+
+<p>The <img src="CalcImg_llistat.png"> button displays information about the properties of the layers included in the expression, as well as the correspondence between their aliases and actual file names.</p>
+
+<p>The supported <b>operators</b> and <b>functions</b> are described in the <a href="#operadors">Supported operators and functions</a> section. Function arguments must be enclosed in parentheses, which are automatically inserted when a function is added using the <img src="CalcImg_llibreria.png"> button (e.g., SING(30)). If a function has more than one argument, the arguments must be separated by commas (e.g., MAX([IMG1],[IMG2])).</p>
+
+<p>All operators can be used with both layers and numeric values.<br/>
+For example, the following expression can be used:</p>
+
+<pre>
+ MAX([IMG1], SING(30))
+</pre>
+
+<p>For each cell in the IMG1 layer, the result is the maximum of the cell value and the sine of 30°. Other expressions can also be used, such as:</p>
+
+<pre>
+ MAX([IMG1], 100)
+ 100*SING([IMG1])
+ MAX( MIN([IMG1],[IMG2]), 100)
+ etc.
+</pre>
+
+<p>When in doubt, it is recommended to use the syntax generated by clicking the corresponding buttons and selecting the menu options in the Windows application, without subsequently editing it. It is also recommended to use parentheses whenever there is uncertainty about operator precedence.</p>
+
+<p>The application allows to <b>save the formula</b> to an MMC file. When a BAT file is generated or the OK button is clicked, the dialog box constructs the command line with all the parameters. If the formula has already been saved, the application does not prompt the user to save it again until the expression or one of its parameters is modified. The prompt is displayed only once. When the application is launched from MiraDades, this prompt is not displayed.</p>
+
+<p>The <b>data type</b> of the output file is selected from the corresponding drop-down list. In &quot;Automatic&quot; mode, the application automatically determines the output data type based on the range and type (integer or real) of the output values, as well as the compression level, applying compression whenever appropriate. For example, when the result is Boolean (0, 1), the byte-RLE format is selected, resulting in very small files. &quot;Automatic&quot; mode does not apply compression if at least one of the images included in the expression is uncompressed, except when the results are Boolean (0 or 1), in which case byte-RLE is used. The bit format is generated only when explicitly specified, since the byte-RLE format typically produces smaller files. Although automatic mode is more convenient, calculations are performed considerably faster when the output data type is explicitly specified. In addition, &quot;Automatic&quot; mode requires a temporary file in <i>double</i> format to be created during processing, which may require considerable disk space. The information button associated with the data type displays the amount of disk space required to generate the result. For compressed files, when automatic mode is selected or when the Scale option is enabled, the application displays the maximum disk space that would be required if the files could not be compressed at all. Note that both automatic mode and the Scale option require an additional temporary file.</p>
+
+<p>When <b>&quot;Clip&quot;</b> is selected, if the range of output values exceeds the range of the selected domain (data type), values outside that range are set to the maximum or minimum value of the domain, as appropriate. Alternatively, when <b>scaling</b> is selected, the application linearly rescales the resulting values to the interval specified in the scaling <b>&quot;Minimum&quot;</b> and <b>&quot;Maximum&quot;</b> fields. For example, if a file with values ranging from 0 to 200 is multiplied by 2 and byte is selected as the output data type, selecting Clip assigns a value of 255 to all values between 256 and 400. Selecting Scale instead rescales the range [0,400] to the range [0,255].</p>
+
+<p>When the output data type is not a real-number data type, the application allows you to choose between <b>truncating</b> or <b>rounding</b> (recommended) the result. This operation is applied only during the final stage of writing the output file, not during the calculations. To truncate values at an intermediate stage of the expression, use the ENT() function (integer part), available by clicking the &quot;Function Library&quot; button.</p>
+
+<p>The <b>Title</b> field allows you to enter a descriptive title for the output file. If left blank, the mathematical or logical formula is used as the title.</p>
+
+<p>The <img src="CalcImg_reclassifica.png"> button allows you to define the reclassification function: RECL([reclassification file], [layer to be reclassified]). This function replaces the original values of the layer with new values according to the mappings specified in the reclassification file (*.MRC). This file consists of lines of numeric values specifying these mappings. A line containing two numbers indicates that the first value will be replaced with the second (line 2 in the following example). A line containing three numbers indicates that any value within the interval defined by the first and second numbers (greater than or equal to the first and strictly less than the second) will be replaced with the third (line 3 in the example). This format supports blank lines and comments when the first character of the line is <b>';'</b> (line 1 in the example). Note that the reclassification file format does not require a second ';' character to close a comment.</p>
+
+<p>The reclassification format also supports special syntax for assigning an individual value (line 5 in the example) or a range of values (line 6 in the example) to the background or NoData value by specifying the literal &quot;NODATA&quot; as the new value. The background value can also be reclassified like any other pixel value (line 4 in the example), assigning it a new value so that it is no longer treated as NoData.</p>
+
+<p>The &quot;layer to be reclassified&quot; argument should be interpreted in its broadest sense. It may correspond to one of the selected files or to the result of any operation involving layers and scalar values. Similarly, the reclassification result may be saved as the final output or used as an intermediate result within the mathematical or logical expression.</p>
+
+<p>Examples of valid reclassification formats:</p>
+
+<pre>
+;This line is a comment
+10 20
+1 5 8
+NODATA 1
+1 NODATA
+2 3 NODATA
+</pre>
+
+<p>Examples of invalid reclassification formats:</p>
+
+<pre>
+This line is an incorrectly defined comment
+10
+1 5 8 9
+NODATA 1 2
+1 NODATA 2
+NODATA NODATA
+</pre>
+
+<p>Example of an expression that reclassifies an intermediate result:</p>
+
+<pre>
+RECL([nivells_altimetrics], [MDE]*10)
+</pre>
+
+<p>In this example, a Digital Elevation Model (DEM) expressed in decimeters is converted to meters and then reclassified into elevation zones using the &quot;nivells_altimetrics.MRC&quot; file.</p>
+
+<p>When the <img src="CalcImg_avancades.png"> button is clicked, the <b>&quot;Value description&quot;</b> field allows you to enter a descriptive string specifying the type of values that will be obtained. This descriptor is displayed in parentheses when a query by location is performed on the output file. Generally, this field should be left blank for categorical results (e.g., thematic maps), while the appropriate units should be specified for maps containing continuous values (e.g., &quot;°C&quot; for a map generated using a regression model that estimates temperature in degrees Celsius). For categorical results, the output file can import the categories associated with any layer (described in the DOC file or the associated DBF table for raster images), particularly from one of the images included in the mathematical or logical expression. If a category file is required, it must be specified in the <b>&quot;Category file&quot;</b> field. This makes it easy to automatically document the categories of a categorical output file when a reference IMG file is available.</p>
+
+<p>The advanced options also allow you to specify the NoData value of the output file. It is recommended to always use automatic mode, except in special cases where a specific NoData value must be assigned.</p>
+
+<p>The <b>&quot;Reserve the NoData value from the start&quot;</b> advanced option is useful when it is known in advance that the output file will contain NoData values. Even if this option is not enabled, should the application detect that a NoData value needs to be written to the output file, it will make the necessary adjustments to accommodate it.</p>
+
+<p>When no raster layers are included in the formula, the geographic extent of the output raster must be defined by specifying its bounding box coordinates and pixel size in the corresponding fields.</p>
+
+<p>Like all MiraMon Support Applications launched from their corresponding Windows interfaces, the calculator saves the parameters of each execution to a text file, allowing the parameters of the most recent execution to be retrieved. However, to save a specific expression for later use, regardless of any calculations performed in the meantime, click the <b>&quot;Save...&quot;</b> button. The formula is saved to the specified MMC file, except for the reserved file name (_PARCLMM.MMC), which is used internally by the application to store the most recent execution. To retrieve a previously saved formula, simply click the <b>&quot;Load&quot;</b> button. If a NoData value was explicitly specified during the most recent execution, the <b>'!'</b> symbol next to the &quot;Advanced...&quot; button indicates that it is <u>strongly recommended</u> to restore automatic mode if the new execution does not require the specific background value previously defined.</p>
 
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 <hr/>
@@ -264,245 +651,13 @@ where we have defined 'Value external to the vector'=0
 <p>A command-line parameter cannot contain the character <code>&quot;</code>, because these quotes delimit the argument. When the value contains one, a dieresis <code>¨</code> is written and CalcImg converts it back to <code>&quot;</code>. The quotes that surround a whole argument are not part of the value: they only group the text when there are spaces or special characters, as in <code>&quot;RECL([RECL1],[NDVI])*([MUNI]&gt;100)&quot;</code> or <code>/Sortida_Titol=&quot;NDVI municipal&quot;</code>. If the title is to be <code>NDVI &quot;municipal&quot;</code>, the line is written <code>/Sortida_Titol=&quot;NDVI ¨municipal¨&quot;</code> and CalcImg reads <code>NDVI &quot;municipal&quot;</code>. The same applies to the expression, a file name or any other parameter. The window already does this when generating the BAT or when running with OK. In an MMC file, quotes are stored as they are.</p>
 <!-- Aquí acaba la part corresponent a la sintaxi de miramon editable de el WPS.-->
 
-<h3>Description of the parameters file (*.MMC) and the mathematical and logical syntax:</h3>(you need not to read it when using the windows interface)<br/><br/>
-<ul>
-	<li><b>[Formula]:</b> Section which contains information on the mathematical formula which is to be calculated.<br/> 
-	<b>Expressio:</b> String that represents the logical-mathematical operation to be executed. It is composed of numbers, images, operands and functions. Image names are aliases of the corresponding files and are given between claudators ('[' and ']'). Implemented operands and functions are described below. Function arguments need to be within parenthesis; e.g: SING(30). If the function contains more than argument these will be separated by commas; e.g: MAX([IMG1],[IMG2]). When not sure it is recommended to use the syntax that is constructed by clicking onto the corresponding buttons and menus of the Windows application without editing them, or at most, adding the needed parameters<br/></li>
-</ul>
-
-<ul>
-	<li><b>[Result]:</b> Characteristics of the resulting file of the mathematical expression.<br/>
-	<b>Fitxer:</b> Name of the resulting file. Its path is relative to the location of the parameters file.<br/>
-	<b>Tipus:</b> Data type of the resulting file (auto, byte, byte-RLE, etc.). Automatic means that the program has adjusted the final data type with respect to the range and integer or real data type of the values of the resulting file and of its degree of compression. Automatic will not compress when at least one of the images in the expression is compressed, except for the case of the resulting image being of 0 and 1 values. In this case, the resulting image will be byte-RLE. Bit data are generated only when specified because, usually, a byte-RLE format will result in files smaller in size.<br/>
-	<b>Titol:</b> Descriptive title of the resulting image. When left blank, by default, the title will be the mathematical formula.<br/>
-	<b>Desc_valors:</b> Descriptive string of the type of values that will result.<br/>
-	<b>Fitxer_categories:</b> In the case of categorical results, it is the IMG file from which categories are imported. Its address is relative to the parameters file.<br/>
-	<b>Valor_Fons:</b> Value given to the flag value or &quot;NODATA&quot; in the resulting file. The literal &quot;NODATA&quot; indicates that the program itself will decide which value will be chosen.<br/>
-	<b>Stretch:</b> 0 means that no stretching will be applied and that values beyond the range of the chosen domain will be saturated. 1 means that values are linearly scalated to the range in-between the minimum and maximum stretch. 0 is the default value, which corresponds to saturation.<br/>
-	<b>Minim_Stretch:</b> It is activated with Stretch=1. X is the default value according to the chosen data type.<br/>
-	<b>Maxim_Stretch:</b> It is activated with Stretch=1. X is the default value according to the chosen data type.<br/>
-	<b>Truncar:</b>If real values are not chosen, any resulting image will be rounded when Truncar=0 or will be truncated when Truncar=1. 0 is the default value.<br/>
-	<b>Reservar_V_Fons:</b> 0 implies that no value for NoData is reserved from start. 1 implies that a value is reserved for possible NoData values in the result. Its default value is 0. 
-	<b>X_minima, X_maxima, Y_minima, Y_maxima:</b> Definition of the geographical extent of the resulting raster when there is no raster in the mathematical expression.<br/>
-	<b>Costat_pixel:</b> Pixel size of the resulting raster when there is no raster in the mathematical expression.<br/></li>
-</ul>
-
-<ul>
-	<li><b>[Variables]: </b>In this section the correspondences between the aliases of the images that appear in the formula and the actual files are specified. Paths are relative to the location of the parameters file.<br/>
-</ul>
-
-<ul>
-	<li><b>[Reclassificadors]: </b>This is the section where the aliases that appear in the formula for the reclassification files are related to their full real names. The paths of these files are relative to the parameters file.</li><br/> 
-	<li><b>[Alias_vector]:</b> Each vector in the [Variables] section will have its own section named after its alias and with the following contents:<br/> 
-	<b>base:</b> For topologically-structured vectors, -1 when referred to the main table or the index of the field with which the relation with the associated table is established (starting from 0).<br/> 
-	<b>camp:</b> For topologically-structured vectors, the index on which calculations are performed (indexed from 0).<br/> 
-	<b>repeticio:</b> For topologically-structured vectors with multiple records, it is the index of the record to be taken into account: 1,2.. (starting from the first record), -1,-2... (starting from the last record).<br/> 
-	<b>valor_exterior:</b> Value that will take the emulated raster, external to the vector and inside the defined geographical extent.
-	<b>CONSIDER_NODATA:</b> For vectors considers NoData value.<br/>
-	</li> 
-</ul>
-
-<p><a href="#mmc-comanda">See an example of the correspondence between an MMC file and its command-line syntax.</a></p>
-<h3>Implemented operands and functions</h3>
-
-<ul>
-	<li><b>Arithmetical operators:</b></li>
-</ul>
-
-<blockquote>
-<pre>
-+ Sum or positive sign.
--Substraction or negative sign.
-*Multiplication.
-/Division.
-</pre>
-</blockquote>
-
-<ul>
-	<li><b>Logical and Comparison operators (when true the result is 1, when false the result is 0):</b></li>
-</ul>
-
-<blockquote>
-<pre>
-ANDI. 
-OR Or.
-NOTNegation
-XORExclusive Or.
-&gt;Strictly bigger.
-&gt;= Equal or bigger.
-&lt;Strictly smaller.
-&lt;= Equal or smaller. 
-=Equal.
-=/=Different.
-</pre>
-</blockquote>
-
-<ul>
-	<li><b>Mathematical functions of only one argument:</b></li>
-</ul>
-
-<blockquote>
-<pre>
-SQRT Square root.
-LOGBase 10 logarithm.
-LN Natural logarithm.
-EXPExponential.
-INVInverse.
-ENTTruncation.
-ABSAbsolute value.
-RNDRandom value between 0 and the argument. 
-</pre>
-</blockquote>
-
-<ul>
-	<li><b>Logical functions of only one argument:</b></li>
-</ul>
-
-<blockquote>
-<pre>
-BOLBoolean.
-</pre>
-</blockquote>
-
-<ul>
-	<li><b>Mathematical functions of two arguments:</b></li>
-</ul>
-
-<blockquote>
-<pre>
-POWPower. 
-NR Normalized ratio.
-MODDivision remainder.
-</pre>
-</blockquote>
-
-<ul>
-	<li><b>Comparison functions of two arguments:</b></li>
-</ul>
-
-<blockquote>
-<pre>
-MAXthe Bigger of two values.
-MINthe Smaller of two values.
-</pre>
-</blockquote>
-
-<ul>
-	<li><b>Reclassification functions and category grouping:</b></li>
-</ul>
-
-<blockquote>
-<pre>
-RECL Reclassification.
-</pre>
-</blockquote>
-
-<ul>
-	li><b>Layer overlay functions:</b></li>
-</ul>
-
-<blockquote>
-<pre>
-CVRTransparent (*).
-</pre>
-</blockquote>(*) Transparent function (also named <i>Cover</i>) returns the value of the second argument when the first argument is equal to the flag value (value defined by NoData in the documentation of the first file in case of rasters) and returns the first argument when it is different to this value. This way, values of the second file can be seen through NoData zones of the first layer. As in the other cases, any of the arguments of Transparent can be the partial results of other operations between layers and scalars.
-
-<ul>
-<li><b>Trigonometric functions with the angle expressed in radiants:</b></li>
-</ul>
-
-<blockquote>
-<pre>
-SINSine.
-COSCosine.
-TANTangent.
-ASIN Arc sine.
-ACOS Arc cosine.
-ATAN Arc tangent.
-COSECCosecant.
-SECSecant.
-CTGCotangent.
-</pre>
-</blockquote>
-
-<ul>
-<li><b>Trigonometric functions with the angle expressed in degrees:</b></li>
-</ul>
-
-<blockquote>
-<pre>
-SING Sine.
-COSG Cosine.
-TANG Tangent.
-ASINGArc sine.
-ACOSGArc cosine.
-ATANGArc tangent.
-COSECG Cosecant.
-SECG Secant.
-CTGG Cotangent.
-</pre>
-</blockquote>
-
-<p>The order of precedence is governed by the six categories of operands and functions ordered from bigger to smaller precedence. Within the same category the operations are carried out from left to right. The different categories are:<br/></p>
-
-<ul>
-	<li>1: ()</li>
-	<li>2: + , - [as positive and negative signs] and functions of only one argument [e.g.: SIN, LOG...]</li>
-	<li>3: Functions of two arguments [e.g.: POW, CVR, MAX, ...]</li>
-	<li>4: * , /</li>
-	<li>5: + , - [as sum and substraction operations]</li>
-	<li>6: logical [p. ex.: AND, &gt;=...]</li>
-</ul>
-
-<p>The conditional function has not been implemented <br/>
-? (condition, function_TRUE, function_FALSE) since it can be simulated with a combination of logical operations in the form:</p>
-<pre>
-(condition)*(function_TRUE)+(NOT condition)*(function_FALSE) 
-</pre>
 </exclusiva>
- <!-- $$EXCLUSIVA$$
+<!-- $$EXCLUSIVA$$
 To obtain the complete help, please type:
-CalcImg ?
+CalcImg  ?
 -->
 <p><a href="#MENU"><img src="back.jpg"/></a></p>
 </exclusiva>
-<h2><a id="mmc-comanda" name="mmc-comanda"></a>Correspondence between an MMC file and the command line</h2>
-<p>The MMC file and the command line below perform the same calculation. <code>Expressio</code> and <code>Fitxer</code> are the two mandatory arguments, in this order, and they are not written as <code>/Formula_Expressio=</code> or <code>/Sortida_Fitxer=</code>. Every other key becomes a modifier <code>/Seccio_Clau=valor</code>. The <code>[MUNI]</code> section is named after the vector alias, so its modifiers start with <code>MUNI_</code>. Keys that do not appear here follow the same correspondence.</p>
-<p>In the MMC, a relative path is resolved from the file directory. On the command line, from the working directory.</p>
-<p><b>MMC file:</b></p>
-<blockquote>
-<pre>
-[Formula]
-Expressio=RECL([RECL1],[NDVI])*([MUNI]&gt;100)
 
-[Sortida]
-Fitxer=resultat.img
-Tipus=byte
-Titol=NDVI municipal
-Valor_Fons=NODATA
-TractamentVariable=3
-
-[Variables]
-NDVI=ndvi.img
-MUNI=municipis.pnt
-
-[Reclassificadors]
-RECL1=grups.mrc
-
-[MUNI]
-base=-1
-camp=3
-repeticio=1
-CONSIDER_NODATA=0
-valor_exterior=NODATA
-</pre>
-</blockquote>
-<p><b>Command line:</b></p>
-<blockquote>
-<pre>
-CalcImg "RECL([RECL1],[NDVI])*([MUNI]&gt;100)" resultat.img /Sortida_Tipus=byte /Sortida_Titol="NDVI municipal" /Sortida_Valor_Fons=NODATA /Sortida_TractamentVariable=3 /Variables_NDVI=ndvi.img /Variables_MUNI=municipis.pnt /Reclassificadors_RECL1=grups.mrc /MUNI_base=-1 /MUNI_camp=3 /MUNI_repeticio=1 /MUNI_CONSIDER_NODATA=0 /MUNI_valor_exterior=NODATA
-</pre>
-</blockquote>
-<p><a href="#MENU"><img src="back.jpg"/></a></p>
 </body>
 </html>
