@@ -1,0 +1,101 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Revisió AA 01-10-2025 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>GPSMM: Captura de dades GPS en temps real</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+<body>
+<a id="MENU" name="MENU"></a>
+<!--Aquí inicia la part corresponent al títol de la MSA. Aquesta part s'ha d'editar desde el document WPS (aplicacio.mps).-->
+<h1><ul style="list-style-type:none;">
+<li>
+<h1><a href="https://www.miramon.cat/Index.htm" target="_blank"><img src="vecras.gif"></a>GPSMM: Captura de dades GPS en temps real</h1>
+</li>
+</ul>
+</h1>
+<p><ul>
+<h4>Accés directe de l'<a href="https://www.miramon.cat/help/cat/" target="_blank">ajuda</a> a Internet: <a href="https://www.miramon.cat/help/cat/msa/GPSMM.htm" target="_blank"><font size="+2">GPSMM</font></a></h4>
+<h4>Accés a l'aplicació des del menú: <i>"Eines | GPS | Captura de dades GPS en temps real"</i></h4>
+</ul></p>
+<!--Aquí acaba la part corresponent títol de la MSA editable de el WPS.-->
+
+<hr>
+<table width="98%">
+<tr align="center" valign="middle">
+	<td width="55%"><span class="subtitol_h1_negreta"><a href="#Presentació">Presentació <!--i opcions--></a></span></td>
+	<td><span class="subtitol_h1_negreta"><a href="#Caixa">Caixa de diàleg de l'aplicació</a></span></td>
+</tr>
+<tr align="center" valign="middle">
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Exemples">Exemples gràfics</a></span></td>-->
+	<!--<td><span class="subtitol_h1_negreta"><a href="#Sintaxi">Sintaxi</a></span></td>-->
+</tr>
+</table>
+<hr>
+
+<h2><a id="Presentació" name="Presentació"></a>Presentació<!--i opcions--> </h2>
+
+<p>Aquesta aplicació està destinada a la visualització en pantalla, a la finestra principal del MiraMon, de dades enviades per un dispositiu GPS/GNSS en temps real. Si no es té necessitat d'obtenir les dades en temps real, sol ser més pràctic descarregar-les posteriorment a la seva adquisició des del format del dispositiu receptor. Aquest format sol ser el format propietari de Garmin (en els dispositius d'aquesta marca), que es pot descarregar des del receptor (en post-procés, no en temps real) amb l'aplicació <a href="GarminMM.htm">GarminMM</a>, o el format obert GPX, disponible actualment en molts receptors, telèfons mòbils, etc. La importació del format GPX es pot efectuar amb l'aplicació <a href="GPXMM.htm">GPXMM</a> o amb l'aplicació <a href="GDALMM.htm">GDALMM</a>; en aquest darrer cas, es pot ampliar la informació sobre les particularitats del tractament que fan les llibreries GDAL en la gestió de fitxers GPX a <a href="https://gdal.org/en/stable/drivers/vector/gpx.html">https://gdal.org/en/stable/drivers/vector/gpx.html</a>.</p>
+
+<p>Cal recordar que des de la pestanya "Gestió obertura fitxers" de la caixa de diàleg que es permet obrir des del menú "Ajuda | Configurar paràmetres" es pot seleccionar per quina via (codi intern [codi del GPXMM] o GDAL) es vol realitzar l'obertura de fitxers GPX en cas que, en comptes d'importar-los es vulguin visualitzar directament a l'aplicació principal del MiraMon.</p>
+
+<p>La majoria de receptors GPS/GNSS suporten el protocol de comunicacions estàndard <a href="https://www.nmea.org/" target="_blank">NMEA</a>. A partir d'aquest protocol el GPS envia un flux constant de dades a l'ordinador. El MiraMon captura aquestes dades i les converteix a un fitxer de línies que es representa a temps real sobre la cartografia que tinguem en pantalla (ortofoto, mapes topogràfics, etc). El MiraMon posiciona la vista de manera adient en funció la posició i del moment de l'estació (<i>map moving</i>). També mostra en tot moment informació de l'estat del seguiment GPS.</p>
+
+<p>Les coordenades són enviades pel GPS en longitud,latitud, i sovint l'aparell està configurat per subministrar les dades en el dàtum WGS84. No obstant, alguns aparells permeten a l'usuari triar un altre dàtum. El MiraMon es pot configurar per a treballar amb els dàtums més habituals que ofereixen aquests GPS; així i tot es recomana, si més no durant l'execució de l'aplicació, de configurar el GPS per treballar amb WGS84, i deixar que el MiraMon transformi les coordenades al sistema de referència (projecció, dàtum, etc) de la cartografia de sortida, un procés que duu a terme amb més exactitud que el que és habitual en els receptors GPS ja que, gràcies a l'acurat model geodèsic del programa, pot usar les transformacions òptimes a cada zona.</p>
+
+<p>L'aplicació també pot generar un punt d'interès (<i>waypoint</i>) com a mitjana d'un cert nombre d'adquisicions o núvol de punts, tot reduint progressivament l'error i estimant l'RMS del conjunt d'adquisicions.</p>
+
+<p>Gairebé tots els models de les diferents marques de GPS tenen el protocol de transmissió NMEA. Consulteu la documentació tècnica del receptor emprat per a confirmar-ho.</p>
+
+<p>Per a llegir les coordenades a temps real cal tenir en compte els següents detalls:</p>
+
+<ol>
+	<li>Per a una correcta comunicació cal configurar les opcions de comunicació del GPS (Menú de sistema, <i>Interface</i> en determinats models Garmin) com a <strong>NMEA</strong>, versió 0183.</li>
+
+	<li>Cal confirmar que la configuració del port sèrie al GPS coincideix amb la configuració especificada des del MiraMon (<i>baud rate</i>, paritat, etc).</li>
+
+	<li>Si el GPS permet triar el dàtum per menú, cal comprovar que en definir el "Sistema de referència d'entrada" al programa el dàtum coincideix amb el seleccionat al GPS.</li>
+</ol><br/>
+
+<p>Com que aquesta aplicació només permet la connexió d'un dispositiu simultani, no s'ha considerat necessària l'existència d'una aplicació consola per a automatitzar descàrregues massives, ni l'existència d'una sintaxi en línia de comanda. En conseqüència, la caixa de diàleg actua d'aplicació única (i també per això no existeix una aplicació wGPSMM.exe).</p>
+
+<hr/>
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<h2><a id="Caixa" name="Caixa"></a>Caixa de diàleg de l'aplicació</h2>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img src="GPSMM_finestra.png"></div></td>
+</tr>
+<tr>
+<td align="center">Caixa de diàleg del GPSMM</td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+<!--<h2><a id="Exemples" name="Exemples"></a>Exemples gràfics</h2>
+<p></p>
+
+<div align="center">
+<table>
+<tr>
+<td><div align="center"><img width="25%" src=""/><img width="25%" src=""/></div></td>
+</tr>
+<tr>
+<td align="center"></td>
+</tr>
+</table>
+</div>
+
+<p><a href="#MENU"><img src="back.jpg"/></a></p>
+<hr/>
+
+ <exclusiva>
+<h2><a id="Sintaxi" name="Sintaxi"></a>Sintaxi</h2>-->
+</body>
+</html>
