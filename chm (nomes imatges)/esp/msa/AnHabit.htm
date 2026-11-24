@@ -1,0 +1,438 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!--/* Rev AA 21-06-2023 */-->
+<link rel="stylesheet" type="text/css" href="../../estilsMSA.css">
+<head>
+<title>wAnHabit:  Análisis de hábitats</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type"/></head>
+
+<body>
+<h1><img src="vecras.gif"/>wAnHabit: Análisis de hábitats</h1>
+
+<p>wAnHabit es un módulo de MiraMon que permite analizar capas de hábitats en una región
+biogeográfica y determinar el nivel de representación (en tanto por ciento) de una
+selección de estos hábitats en un conjunto de zonas de interés diferenciadas por
+un código (áreas de interés). Se trata de una aplicación que se desarrolló para
+facilitar la realización de los informes que periódicamente hace el <i>Govern de
+Catalunya</i> para el Estado Español y la Comisión Europea, pero que se ha programado
+de manera flexible para que, a través de un archivo de configuración (AnHabConfig.ini),
+puedan realizarse análisis similares en otros espacios
+de Europa u otros lugares del mundo.</p>
+
+<h2>
+Datos de entrada y configuración del módulo</h2>
+
+<p>En el directorio de configuración del módulo debe existir el fichero <b>AnHabConfig.ini</b>.<br>
+Este es un archivo de tipo INI que permite, mediante la definición de secciones y claves, configurar cada uno de los parámetros que el programa necesita para funcionar y que se describen en este documento. Se hará referencia a cada elemento con su sección y clave: “<i>[SECCIO]Clau</i>”. Se debe recordar que, en un archivo INI, el orden de las secciones es irrelevante y también lo es el orden de las claves dentro de una sección. Se debe tener en cuenta, también, que las líneas comenzadas con punto y coma (;) son comentarios que el programa ignora. Entre paréntesis aparece un ejemplo para facilitar la comprensión de la ayuda aplicándola a un caso concreto.</p>
+
+<p>El resultado final del análisis se genera en dos tablas:</p>
+
+<ul>
+<li>[RESULTATS]Fitxer1 <b>(h_atr.dbf)</b>: Contiene la superficie (en ha) del/de los
+hábitat/s que se quiere/n analizar en la región biogeográfica especificada.
+</li>
+
+<li>[RESULTATS]Fitxer2 <b>(e_h_atr.dbf)</b>: Contiene la superficie (en ha)
+y el nivel de representación del/de los hábitat/s en la región por código único, y en
+tanto por 100, de la capa a analizar.
+</li>
+</ul>
+
+<p>Todos los archivos "capa" a los que se hace referencia en este documento son de tipo
+"polígono" y pueden venir expresados en ficheros estructurados (POL) de MiraMon o bien
+en ficheros REL que apuntan a capas de un servidor Oracle SDO (al que se accede
+a través de <i>drivers</i> ODBC instalados en Windows) de
+tipo polígono o grupos de polígonos (llamados multipolígons en SDO). Los nombres de
+los ficheros son relativos a un directorio de referencia (o espacio de trabajo) que
+se puede escoger desde la ventana del programa.</p>
+
+<p>Los parámetros que se puede elegir en la interfaz son:</p>
+
+<ul>
+<li>
+<b>Sobreescribir tablas de salida:</b>
+Esta opción permite, o bien sobrescribir
+las tablas resultado existentes,
+o bien añadir los resultados del análisis en las tablas preexistentes.  Por defecto esta opción está seleccionada
+para que se sobrescriban las tablas o se
+creen si no existían previamente.</li>
+
+<li><b>Eliminar capas y tablas intermedias:</b></li>
+Esta opción permite,
+o bien eliminar, al final del procedimiento, todas
+las capas y tablas creadas durante el análisis (a excepción de las tablas con los
+resultados), o bien mantenerlas. Por defecto esta opción está seleccionada
+para que sean eliminadas.
+
+<li><b>Tipo de hábitat:</b> Desplegable con el tipo de hábitat que se desea analizar, que es leído del fichero AnHabConfig.ini, en el cual aparecen siguiendo el esquema: <i>[TIPUS_HABITATS] HAB1, HAB2,...</i> 
+(por ejemplo HAB1=HIC para los hábitats de interés comunitario, HAB2=HC para los hábitats de Catalunya,
+etc). Cada hábitat que aparece en la lista anterior tiene su correspondiente
+sección en el propio archivo AnHabConfig.ini. Siguiendo con el ejemplo anterior
+se encontraría la sección <i>[TIPUS_HABITATS:HIC]</i>
+que describir&iacute;a otras cosas que se ir&aacute;n viendo en este documento con respecto a los h&aacute;bitats de inter&eacute;s comunitario, <i>[TIPUS_HABITATS:HC]</i>
+que describiría otras cosas que se irán viendo en este documento con respecto a los hábitats de Catalunya, etc.</li>
+
+<li><b>Región biogeogr&aacute;fica:</b> Desplegable con los
+valores de la región biogeográfica para la que se quiere hacer el análisis,
+que se leen del archivo AnHabConfig.ini. La sección <i>[REGIO_BIOGEOGRAFICA]</i> contiene las claves <i>Fitxer, REGIO1, REGIO2, REGIO3, ...</i> que determinan el archivo
+que contiene las diversas regiones (por ejemplo, alpina, mediterránea o toda
+Catalunya) que pueden someterse a análisis (que se restringirá a la región
+deseada). Cada hábitat tiene su sección <i>REGIO_BIOGEOGRAFICA:VALOR_REGIO]</i>
+que describe otras cosas de la región que se irán viendo en este documento, donde
+<i>VALOR_REGIO</i> tomará los valores que se habrán escrito en las
+claves <i>REGIO1, REGIO2, etc, </i>previamente comentadas.</li>
+
+<li><b>Directorio de referencia (espacio de trabajo): </b>Directorio donde se encuentra la capa con las
+regiones biogeográficas, la capa a analizar y el archivo que contiene la lista
+de hábitats a analizar (por ejemplo habitats.txt, nombre que se indica en la clave
+NomFitxerSeleccio de la sección correspondiente a la tipología de hábitats de interés
+(Por ejemplo los HIC) del archivo AnHabConfig.ini). También será el directorio donde
+se generen las tablas con los resultados del análisis.</li>
+</ul>
+
+<p>Para que el procedimiento funcione correctamente es imprescindible que
+estos archivos mencionados tengan las siguientes características, algunas de las
+cuales son configurables (así se indica en cada caso):</p>
+
+<ul>
+<li><b>Capa de regiones biogeográficas</b>: En la sección <i>[REGIO_BIOGEOGRAFICA]</i>
+se puede indicar el archivo que contiene las regiones biogeográficas de interés y tantas claves como tipo de regiones se quiera analizar. Cada clave da lugar a una sección <i>[REGIO_BIOGEOGRAFICA:VALOR_REGIO]</i> en que sus claves son, por un lado, <i>Nom</i> (nombre) i <i>Descripció</i> (descripción) y, por otra parte, un paquete de tres claves que permiten determinar la región biogeográfica deseada:
+
+<p><i>Nom</i>: Clave el valor de la cual actúa de identificador de esta región. Por
+ejemplo "Alpina".</p>
+
+<p><i>Descripció</i>: Clave el valor de la cual aparece en el
+desplegable y permite una descripción más completa (más humana si se desea) o incluso
+en otro idioma. Por ejemplo, "Región Alpina".</p>
+
+<p><i>COND1_CAMP, COND1_OP y COND1_VALOR</i>: Claves que permiten definir la condición que debe cumplir el tipo de región. Por ejemplo, si el triplete anterior toma, respectivamente, los valores CODI_REGIO, EQ, alp el módulo interpretará que la región alpina queda definida por aquellos polígonos que cumplen la condición de que el campo CODI_REGIO es igual (EQ) en "alp".</p>
+</li>
+
+<li><b>Capa a analizar</b>: En la sección [COBERTURA_ANALISI]</i>
+se puede indicar el archivo que contiene las capas a analizar. Cada capa tiene un código sobre el que se calculará el nivel de representación en superficie. Hay tres claves a llenar:</p>
+
+<p><i>Fitxer</i>: Nombre del archivo que contiene las capas a analizar.</p>
+
+<p><i>Camp</i>: Nombre del campo que permite distinguir entre
+tipo de zonas a analizar; en este campo las zonas pueden ser un descriptor
+literal, un código (por ejemplo, ES5130029), etc.</p>
+
+<p><i>ValorAExcloure</i>: Valor del campo anterior que indica al programa que aquel registro (polígono) será excluido del análisis. Es, de hecho, una etiqueta equivalente a un sindatos.</p>
+</li>
+
+<li><b>Hábitats: </b>Los hábitats se configuran en la sección
+[TIPUS_HABITATS]. Las claves HAB1, HAB2, ... determinan los diferentes hábitats
+que se quiere analizar y que aparecerán en el desplegable de la interfaz del
+programa. Ejemplos: hábitats de Catalunya, hábitats de Interés Comunitario, ...
+
+<p>
+Para cada hábitat deberá indicar las siguientes claves:</p>
+
+<p><i>Nom</i>: Identificador que se da al tipo de hábitat.</p>
+
+<p><i>Descripció</i>: Descripción textual que aparecerá en el
+desplegable de la interfaz de la aplicación.</p>
+
+<p><i>Fitxer</i>: Nombre del archivo que contiene la capa de hábitats
+a analizar. Recuérdese que, como se ha dicho, puede ser un archivo vectorial de tipo
+"Polígono" en formato de MiraMon o un REL que apunte a una capa SDO.</p>
+
+<p><i>NomFitxerSeleccio</i>: nombre del archivo (relativo a el directorio de referencia) que contiene todos los c&oacute;digos de los h&aacute;bitats que se quieren tener en cuenta. Cada l&iacute;nea del archivo debe tener un c&oacute;digo. Si hay l&iacute;neas en blanco son ignoradas. Ejemplos de nombre: <u>Archivo HIC.txt, Archivo HC.txt</u></p>
+
+<p><i>CampAreaOri</i>: Campo numérico que contiene el cálculo de área sobre el que se quiere hacer los cálculos de proporciones de área; resulta útil si se desea emplear un cálculo en unas unidades especiales, etc. Si no existe esta clave se utilizará el campo "AREA" de MiraMon, que es en las unidades del Sistema de Referencia, típicamente metros cuadrados (o grados cuadrados en capas en longitud / latitud).</p>
+
+<p><i>FactorHa</i>: Dado que los resultados de áreas se facilitan en hectáreas, esta clave permite especificar el nombre entre el cual el valor del área se debe dividir para obtener hectáreas. Por ejemplo, si se dispone del valor de metros cuadrados en metros, este factor debe ser 10000.</p>
+
+<p><i>CampSeleccio1, CampSeleccio2, ...</i>: Considerando que en un mismo polígono puede existir más de un hábitat, con estas claves se habilita la posibilidad de diversos nombres de campos para que cada campo contenga el código del hábitat (y su recubrimiento dentro del polígono, especificado a continuación).   </p>
+
+<p><i>CampRecobriment1, CampRecobriment2, ...</i>: Valor numérico que indica el recubrimiento del hábitat en el polígono. Este valor ha sido calculado previamente por el usuario de forma que esté escrito en este campo o campos de la capa de entrada. </p>
+
+<p><i>IndexRecobriment</i>: Valor en relación al cual los valores de  
+CampRecobriment est&aacute;n expresados.
+Por ejemplo, en una zona puede haber pinar de pino blanco mezclada con pinar de pino pi&ntilde;onero. Una observaci&oacute;n podr&iacute;a haber determinado que existe la mitad de cada. En tal caso, se considerar&aacute; 50% de recubrimiento para cada especie. Habr&iacute;a llenos dos campos, con un 5 de recubrimiento en cada uno de los dos, y IndexRecobriment deber&iacute;a valer 10. N&oacute;tese que es posible que IndexRecobriment sea mayor que la suma de los diferentes valores CampRecobriment si consideramos que hay casos no contemplados pero que ocupan la proporci&oacute;n que falta.</p>
+
+<p>Si hubiera un tercer hábitat se llenarían tres campos con recubrimientos
+que sumaran máximo 10.</p>
+</li>
+</ul>
+
+<p>Todos los cálculos intermedios se pueden consultar en unos ficheros temporales
+que se indican en la sección [TEMPORALS]:</p>
+
+<ul>
+<li><i>Directori1</i>: Indica el directorio donde se guardan las capas
+creadas durante el análisis.</li>
+
+<li><i>Directori2</i>: Indica el directorio intermedio usado por
+MiraMon durante los cálculos. Si la clave no existe será un directorio llamado
+"TEMPMM" en el directorio de referencia.</li>
+</ul>
+
+<p>Los pasos que se hagan durante el proceso quedarán
+registrados en un fichero de tipo "txt" que se podrá configurar en la sección <i>[PROCEDIMENT] </i> en la
+clave Fitxer1.</p>
+
+<h2>
+Ejemplo de uso del módulo</h2>
+
+<p>Supongamos que se desea efectuar el análisis de los hábitats de
+Catalunya y de Interés Comunitario en las áreas biogeográficas mediterránea y
+alpina y, por otra parte, en toda Catalunya.</p>
+
+<p>Para ello se habilita una carpeta llamada directorio de
+referencia y un servidor SDO. Se dispone de:</p>
+
+<ul>
+<li>En el servidor SDO existe una
+capa con las regiones biogeográficas y en el directorio de referencia hay un REL
+de MiraMon que apunta a esta capa (regions_bio3_etrs89.rel). El campo que
+determina la región es CODI_REGIO y toma el valor "alp" cuando es alpina y "med"
+cuando es mediterránea. Se ha habilitado otro campo CODI_REG_1 que determina
+"Toda Catalunya" cuando vale "todo".</li>
+
+<li>En el servidor SDO existe una
+capa con los hábitats de interés comunitario y en el directorio de referencia hay
+un REL de MiraMon que apunta a esta capa (CAT_CHIC2012V2ATR.rel). Los campos
+que determinan la presencia de un hábitat en una región son "HICi" con un
+recubrimiento expresado en el campo "RHICi" para i de 1 a 10. El recubrimiento es
+sobre 10. No hay ningún campo específico para el área. MiraMon expresa las
+áreas en metros cuadrados o en grados cuadrados para los sistemas de referencia de
+tipo cartográfico.</li>
+
+<li>En el directorio de referencia hay
+un fichero de tipo texto con la lista de los hábitats que se desean analizar:
+Habitats_HIC.txt. Los códigos son los que aparece en alguno de los campos "HICi".</li>
+
+<li>En el servidor SDO existe una
+capa de los hábitats de Catalunya y en el directorio de referencia hay un REL de
+MiraMon que apunta a esta capa (CAT_CHC2012V2ATR.rel). Los campos que
+determinan la presencia de un hábitat en una región son "Hi" con un recubrimiento
+expresado en el campo "REC10_Hi" para y de 1 a 3. El recubrimiento es sobre 10. No hay ningún campo específico para
+el área.</li>
+
+<li>En el directorio de referencia hay
+un fichero de tipo texto con la lista de los hábitats que se desean analizar:
+Habitats_HC.txt. Los códigos son los que aparece en alguno de los campos "Hi".</li>
+
+<li>En el servidor SDO existe una
+capa de las áreas de interés sobre las que se quiere saber el nivel de
+representación de cada hábitat y el directorio de referencia hay un REL del
+MiraMon que apunta a esta capa (Arees_etrs89.rel). El campo con el código de la
+región es CODI_A, que toma valor ES-EXCLOS si no se quiere incluir en el análisis.</li>
+</ul>
+
+<p> Los resultados se quieren en el mismo directorio de referencia y
+se quiere:</p>
+
+<ul>
+<li>Un archivo que se llame
+"Procediment.txt" con un registro de todo lo que se ha hecho.</li>
+
+<li>El resultado del área que ocupa
+el hábitat dentro de la región biogeográfica en el fichero llamado "h_atr.dbf".</li>
+
+<li>El resultado del área que ocupa
+el hábitat dentro de cada una de las áreas de interés y su nivel de representación
+respeto su área en la región biogeográfica en tanto por 100 y con dos
+decimales (áreas y nivel de representación).</li>
+
+<li>Dejar todos los archivos intermedios
+en un directorio llamado "taules_intermedies" dentro del directorio de referencia.</li>
+</ul>
+
+<p>Para configurar todo esto hay que tener los archivos en el directorio
+de referencia especificado en la interfaz y el fichero AnHabitConfig.ini en la
+carpeta del directorio de referencia.</p>
+
+<p>El archivo AnHabitConfig.ini que refleja las
+especificaciones descritas hasta ahora es:</p>
+
+; El archivo AnHabitConfig.ini que reflejo las
+especificaciones descritas Hasta ahora es:</p>
+
+<p>[REGIO_BIOGEOGRAFICA]<br>
+Fitxer=regions_bio3_etrs89.rel<br>
+REGIO1=ALPINA<br>
+REGIO2=MEDITERRANIA<br>
+REGIO3=CATALUNYA</p>
+
+<p>[REGIO_BIOGEOGRAFICA:ALPINA]<br>
+Nom=Alpina<br>
+Descripcio=Región alpina<br>
+COND1_CAMP=CODI_REGIO<br>
+COND1_OP=EQ<br>
+COND1_VALOR=alp</p>
+
+<p>[REGIO_BIOGEOGRAFICA:MEDITERRANIA]<br>
+Nom=Mediterr&aacute;nea<br>
+Descripcio=Región mediterr&aacute;nea<br>
+COND1_CAMP=CODI_REGIO<br>
+COND1_OP=EQ<br>
+COND1_VALOR=med</p>
+
+<p>[REGIO_BIOGEOGRAFICA:CATALUNYA]<br>
+Nom=Catalunya<br>
+Descripcio=Región para toda Catalunya<br>
+COND1_CAMP=CODI_REG_1<br>
+COND1_OP=EQ<br>
+COND1_VALOR=todo</p>
+
+<p>[TIPUS_HABITATS]<br>
+HAB1=HIC<br>
+HAB2=HC</p>
+
+<p>[TIPUS_HABITATS:HIC]<br>
+Nom=HIC<br>
+Descripcio=H&aacute;bitats de inter&eacute;s comunitario<br>
+Fitxer=CAT_CHIC2012V2ATR.rel<br>
+NomFitxerSeleccio=Habitats_HIC.txt<br>
+FactorHa=10000<br>
+CampSeleccio1=HIC1<br>
+CampSeleccio2=HIC2<br>
+CampSeleccio3=HIC3<br>
+CampSeleccio4=HIC4<br>
+CampSeleccio5=HIC5<br>
+CampSeleccio6=HIC6<br>
+CampSeleccio7=HIC7<br>
+CampSeleccio8=HIC8<br>
+CampSeleccio9=HIC9<br>
+CampSeleccio10=HIC10<br>
+IndexRecobriment=10<br>
+CampRecobriment1=RHIC1<br>
+CampRecobriment2=RHIC2<br>
+CampRecobriment3=RHIC3<br>
+CampRecobriment4=RHIC4<br>
+CampRecobriment5=RHIC5<br>
+CampRecobriment6=RHIC6<br>
+CampRecobriment7=RHIC7<br>
+CampRecobriment8=RHIC8<br>
+CampRecobriment9=RHIC9<br>
+CampRecobriment10=RHIC10</p>
+
+<p>[TIPUS_HABITATS:HC]<br>
+Nom=HC<br>
+Descripcio=H&aacute;bitats de Catalunya<br>
+Fitxer=CAT_CHC2012V2ATR.rel<br>
+NomFitxerSeleccio=Habitats_HC.txt<br>
+FactorHa=10000<br>
+CampSeleccio1=H1<br>
+CampSeleccio2=H2<br>
+CampSeleccio3=H3<br>
+IndexRecobriment=10<br>
+CampRecobriment1=REC10_H1<br>
+CampRecobriment2=REC10_H2<br>
+CampRecobriment3=REC10_H3</p>
+
+<p>[COBERTURA_ANALISI]<br>
+Fitxer=Arees_etrs89.rel<br>
+Camp=CODI_A<br>
+ValorAExcloure=ES-EXCLOS</p>
+
+<p>[PROCEDIMENT]<br>
+Fitxer1=procediment.txt</p>
+
+<p>[RESULTATS]<br>
+Fitxer1=h_atr.dbf<br>
+Fitxer2=e_h_atr.dbf<br>
+DecimalsDeSortida=2</p>
+
+<p>[TEMPORALS]<br>
+Directori1=taules_intermedies<br>
+Directori2=TEMPMM<br>
+<br>
+</p>
+
+<h2>Ejemplo de procedimiento</h2>
+
+<p>Se quiere
+analizar el nivel de representación del hábitat de interés comunitario en el área
+biogeográfica alpina para las áreas determinadas en el fichero Arees_etrs89.rel.
+Las tablas resultado se crean de nuevo. En este ejemplo trataremos sólo el código de hábitat
+9530.</p>
+
+<p>El código
+lleva a cabo una serie de procesos, que pueden verse en la figura del final
+y que resumidamente consisten en:</p>
+
+<ul>
+<li>Generar un fichero de polígonos con
+la región biogeográfica elegida (color azulado con tramas horizontales parcialmente
+tapado).</li>
+
+<li>Generar un archivo de polígonos
+ que contenga los polígonos que tienen alguna representación del hábitat 9530 (polígonos en blanco y sin trama y polígonos de tonos
+naranja / rojo con tramas vertical y diagonal, respectivamente).</li>
+
+<li>Realizar la intersección
+geométrica de la región biogeográfica con los polígonos del hábitat, conservando
+sólo la parte donde coinciden ambas características (polígonos de tonos
+naranja/rojo con tramas vertical y diagonal respectivamente).</li>
+
+<li>Comprobar si el hábitat está presente
+en la región biogeográfica. Si no lo está,
+se añade a la tabla h_atr.dbf un registro para el hábitat en cuestión con valor
+-1 por SUP_H (superficie del hábitat en la región biogeográfica) y se termina
+el análisis. No es el caso.</li>
+
+<li>Añadir a la capa intersección el
+campo SUP_H donde se calculará la superficie del hábitat en la región biogeográfica,
+y el campo HIC para contener el código de hábitat hic.</li>
+
+<li>Calcular los campos añadidos SUP_H y
+HC/HIC y añadir un registro en la tabla resultante h_atr.dbf.</li>
+
+<li>Realizar la intersección
+geométrica de la capa a analizar (Arees_etrs89.rel) con el vector del hábitat
+en la región, conservando sólo la parte donde coinciden ambas características
+(Polígonos rojos con tramas diagonales).</li>
+
+<li>Comprobar si el hábitat en la región
+biogeográfica también está presente en la capa a analizar.</li>
+
+<li>Si no está no es necesario seguir
+con el análisis sobre la capa a analizar: añadir a la tabla h_atr.dbf los
+registros de la tabla con los resultados del análisis para el hábitat.
+e_h_atr.dbf no recibe ningún registro para este hábitat. Salir del procedimiento para
+este hábitat.</li>
+
+<li>Si el hábitat está presente en la capa
+a analizar, crear y calcular el campo AREA_H con la superficie de cada polígono
+la capa resultante de la intersección.</li>
+
+<li>Recalcular el campo SUP_H según la
+parte de área ocupada ahora respecto al anterior (polígonos de color naranja de
+tramas verticales).</li>
+
+<li>Eliminar de la tabla resultante los
+registros con código de espacio 'ES-EXCLOS' (para el caso de Red Natura 2000).</li>
+
+<li>Crear y calcular el nivel de
+representación en la tabla resultante (área en rojo/área en
+naranja+rojo)*100.</li>
+
+<li>Añadir a la tabla e_h_atr.dbf los
+registros de las tablas con los resultados del análisis para el hábitat para
+cada código.</li>
+
+<li>Borrar las capas y tablas
+generadas durante el proceso si el usuario así lo ha indicado.</li>
+
+</ul>
+
+<p>Consideraciones:</p>
+
+<p>Para diferenciar el caso de un hábitat
+presente en la región biogeográfica con recubrimiento cero a todas sus
+localizaciones y el caso de un hábitat que ni siquiera se encuentra en la región, el
+primer caso recibe, como superficie en la tabla h_atr.dbf, un valor cero, mientras
+que en el último caso recibe un valor -1. De esta manera al hacer el análisis el
+procedimiento devuelve un resultado a pesar de que el hábitat no se encuentre en la región.</p>
+
+<p>En cambio, si un hábitat presente en la
+región biogeográfica no se encuentra en la capa a analizar, este hábitat no
+aparecerá en la tabla e_h_atr.dbf. </p>
+
+<p><center><img width=562 height=318 src="AnHabit.png"></center></p>
+
+</body>
+
+</html>
